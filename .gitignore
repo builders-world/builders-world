@@ -25,6 +25,6 @@ supabase/.temp/
 supabase/.branches/
 
 # Local Blender access check and backup files
-/Blender Access Test/
+/tools/blender/access-test/
 *.blend1
 *.blend2

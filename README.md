@@ -4,15 +4,40 @@ Working title for a browser-based world where builders' verified work shapes the
 
 ## Project status
 
-Planning and repository setup. This repository contains the product brief and team information; application implementation has not started here yet.
+Planning and repository setup. This repository contains the product brief, team information, and a proposed directory layout; application implementation has not started here yet. Empty implementation areas use `.gitkeep` placeholders so their folders can be shared through Git.
 
 Phase 1 focuses on the flat site: GitHub, Stripe, and Product Hunt connections, profiles, verified metrics, and league leaderboards. The 3D world follows in Phase 2. See the PRD for the full scope and open decisions.
 
 ## Product requirements
 
-- [PRD v1.0 — Markdown](builders-world-prd.md)
-- [PRD v1.0 — HTML](<Builders World PRD v1.0.html>)
-- [PRD v1.0 — PDF](builders-world-prd.pdf)
+- [PRD v1.0 — Markdown](docs/product/builders-world-prd.md)
+- [PRD v1.0 — HTML](docs/product/exports/builders-world-prd-v1.0.html)
+- [PRD v1.0 — PDF](docs/product/exports/builders-world-prd-v1.0.pdf)
+
+## Start here
+
+- [Project handoff for Claude and the team](PROJECT_HANDOFF.md)
+- [Directory layout and architecture boundaries](docs/architecture/repository-layout.md)
+- [Collaboration workflow](docs/collaboration/README.md)
+- [Technical decision records](docs/decisions/README.md)
+
+Repository: [builders-world/builders-world](https://github.com/builders-world/builders-world), private and owned by the `builders-world` organization.
+
+## Folder layout
+
+| Directory | Intended contents |
+| --- | --- |
+| `apps/` | Flat website, internal admin, later 3D client and presence agent |
+| `services/` | API, ingestion, background jobs, later realtime server |
+| `packages/` | Shared contracts, domain rules, UI, and platform integrations |
+| `database/` | Versioned migrations, synthetic seeds, and access policies |
+| `assets/` | Original art sources, references, and intentional export assets |
+| `docs/` | Product brief, architecture, design, operations, and collaboration |
+| `infra/` | Local and hosted environment configuration |
+| `tests/` | Synthetic fixtures, integration, replay, load, and visual checks |
+| `tools/` | Development/deployment utilities and local Blender access test |
+
+These are logical areas reserved for the planned architecture. They do not imply separate deployments, an installed framework, or completed features. See the directory guide for phase boundaries.
 
 ## Team
 
