@@ -1,0 +1,4 @@
+# sqlx checks every `query!` against the database schema. Build against the committed `.sqlx/` metadata by default, so
+# a build never needs (or accidentally reaches) a database. After changing SQL, run `tools/sqlx-prepare.sh`.
+[env]
+SQLX_OFFLINE = { value = "true", force = false }
