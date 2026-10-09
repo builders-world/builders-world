@@ -67,7 +67,7 @@ Every request Elvis has made, with where it stands. Updated 9 October 2026, 17:4
 | 38 | Sound, music and a music toggle (licence-free) | Done, pushed: all synthesised in the browser; Settings app, music button, N | yaba-scene `src/look/audio.js` | `8984f7a` |
 | 39 | Mapping and path management; movement rules | Done, pushed: walkable grid, A*, rules as costs (world bible 7.6) | yaba-scene `src/look/navgrid.js` | latest |
 | 41 | Level design skills; fix every overlap and impossible placement (billboard on a house, footbridge with no stairs) | Done, pushed: level-design and procedural-gen linked, estate-layout skill written; audit 159 issues to 0; walkable footbridge | yaba-scene `src/world.js`, `src/look/houses.js` | `db85ba6` |
-| 42 | NPC chat bubbles: greetings in English and pidgin by class, reactions to you, moods and emoji | In progress | | |
+| 42 | NPC chat bubbles: greetings in English and pidgin by class, reactions to you, moods and emoji | Done, pushed: register by lifestyle, greetings by time and weather, E to say hi, 1-6 emotes, waves | yaba-scene `src/look/chat.js` | `2f930d6` |
 | 40 | Live site updates itself on every push | Waiting on Elvis: install the Vercel GitHub app on the builders-world org, then Claude connects the project | Vercel | |
 | 24a | Help panel still says V is street or aerial | Proposed to Codex (its file `index.html`): change to V camera, B aerial | live handoff | |
 

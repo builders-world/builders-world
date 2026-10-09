@@ -445,6 +445,10 @@ Decided by Elvis, 9 October 2026, from the references he shared (the island map,
 - **Menus are places.** The map is an illustrated island with a folded banner, a grid, black badges for facilities and little houses for plots. The bag puts you in the middle, wearing what you equip, with items in a ring of scalloped tiles.
 - **Controls as chips.** Key prompts are cream pills with an ink key cap, bottom right.
 
+### 11.2 People talk (chat bubbles)
+
+Everyone on the street has a name, a mood and a register by lifestyle (`src/look/chat.js`). Well-off people (tier 0) speak mostly English, working-class people (tier 2) mostly Nigerian Pidgin, the middle mixes freely; clothes hint at it (smart jacket, hoodie, tee). People greet each other in passing and greet you; greetings follow the real time of day and weather. Moods show as a short line or an emoji. You say hi with E and emote with 1-6; the nearest person answers in their register. Bubbles are paper with a tail, yours in teal, never overlapping, never in the cinematic view. Lines are warm and everyday: no slurs, no mockery of any accent or class.
+
 ## 12. Writing
 
 - Plain, warm, short. Write like a person from the city talking to another builder. No hype.
