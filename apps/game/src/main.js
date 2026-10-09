@@ -21,7 +21,7 @@ const place = {
   lat: +(q.get('lat') ?? DEFAULT_PLACE.lat),
   lon: +(q.get('lon') ?? DEFAULT_PLACE.lon),
   radius: +(q.get('r') ?? DEFAULT_PLACE.radius),
-  city: 'Lagos',
+  city: q.get('city') || 'Lagos',
 };
 const store = {
   get: (k) => { try { return localStorage.getItem(k); } catch { return null; } },
@@ -74,6 +74,19 @@ function disposeTree(root) {
 }
 
 async function main() {
+  // the city sheet: every city as an isometric diorama; picking one loads its district
+  if (q.get('view') === 'cities') {
+    const { runCitySheet } = await import('./look/cities.js');
+    document.getElementById('loader')?.classList.add('gone');
+    document.getElementById('fade')?.classList.add('out');
+    document.body.classList.add('nohud', 'bw-cities');
+    await runCitySheet({
+      renderer, reduced,
+      onBack: () => { location.search = '?world=1'; },
+      onEnter: (c) => { location.search = `?world=1&name=${encodeURIComponent(c.district)}&city=${encodeURIComponent(c.city)}&lat=${c.lat}&lon=${c.lon}&r=${c.r}`; },
+    });
+    return;
+  }
   const { manifest, via } = resident
     ? { manifest: await (await fetch('./data/sample.json')).json(), via: 'sample' }
     : await loadManifest(place);
@@ -139,6 +152,7 @@ async function main() {
     if (world) { scene.remove(world.scene); disposeTree(world.scene); }
     if (sky) { scene.remove(sky); disposeTree(sky); }
     world = buildWorld(manifest, via, name, kit);
+    world.place = { name: place.name, city: place.city };
     sky = world.env.wet ? blueHourSky() : buildSky(name);
     scene.add(sky, world.scene);
     const E = world.env;

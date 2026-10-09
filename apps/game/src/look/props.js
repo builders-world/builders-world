@@ -22,7 +22,7 @@ function colorize(geo, hex) {
 const glowMat = (r, g, b) => new THREE.MeshBasicMaterial({ color: new THREE.Color(r, g, b) });
 
 // One material set for every prop, so a street of props stays a handful of programs.
-export function propMaterials() {
+export function propMaterials(city) {
   return {
     concrete: wallMaterial(),
     yellow: new THREE.MeshStandardMaterial({ color: 0xe9b21c, roughness: 0.42, metalness: 0.05 }),
@@ -36,7 +36,7 @@ export function propMaterials() {
     frond: new THREE.MeshStandardMaterial({ map: frondTexture(), alphaTest: 0.4, side: THREE.DoubleSide, roughness: 0.6 }),
     leaf: new THREE.MeshStandardMaterial({ map: leafTexture(), alphaTest: 0.4, side: THREE.DoubleSide, roughness: 0.55 }),
     board: new THREE.MeshStandardMaterial({ map: boardTexture(), roughness: 0.8 }),
-    mural: new THREE.MeshStandardMaterial({ map: muralTexture(), roughness: 0.7 }),
+    mural: new THREE.MeshStandardMaterial({ map: muralTexture(city), roughness: 0.7 }),
     buildSign: new THREE.MeshStandardMaterial({ map: buildSignTexture(), emissive: 0xffffff, emissiveMap: buildSignTexture(), emissiveIntensity: 0.35, roughness: 0.6 }),
     hubSign: new THREE.MeshStandardMaterial({ map: hubSignTexture(), emissive: 0xffffff, emissiveMap: hubSignTexture(), emissiveIntensity: 0.9, roughness: 0.6 }),
     warm: glowMat(2.0, 1.15, 0.45),
@@ -215,7 +215,7 @@ function stringLights(a, b, sag, n) {
 export function buildProps(world, scene, { lowQuality = false, reduced = false } = {}) {
   const kit = world.kit;
   const kitPlaced = {}; // asset id -> spots, for the handoff report
-  const M = propMaterials();
+  const M = propMaterials(world.place?.city);
   addSway(M.frond, 0.03);
   addSway(M.leaf, 0.05);
   const root = new THREE.Group();

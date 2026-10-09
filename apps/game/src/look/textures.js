@@ -194,7 +194,7 @@ export function boardTexture() {
 }
 
 // The mural: skyline, bridge and sun, with the line from the reference image.
-export function muralTexture() {
+export function muralTexture(city = 'Lagos') {
   return once('mural', () => {
     const [c, g] = canvas(1536, 384);
     const rng = mulberry32(3);
@@ -237,7 +237,7 @@ export function muralTexture() {
     g.font = '900 104px "Arial Black", Impact, sans-serif';
     g.lineWidth = 14; g.strokeStyle = '#173e52';
     g.fillStyle = '#f2e6c8';
-    ['BUILD TOGETHER', 'A BRIGHTER LAGOS'].forEach((t, i) => {
+    ['BUILD TOGETHER', `A BRIGHTER ${city.toUpperCase()}`].forEach((t, i) => {
       g.strokeText(t, 0, i * 118);
       g.fillText(t, 0, i * 118);
     });

@@ -133,7 +133,7 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState 
     const places = props.places || [];
     const kinds = choice.from.app ? ['taxi', 'danfo', 'keke'] : [choice.kind];
     body.innerHTML = `<h3>Hire a ride</h3><div class="sub">Rides are free. ${choice.from.app ? 'A driver comes to you.' : TYPES[choice.kind].name + ' from this stop.'}</div>
-      ${choice.from.app ? `<div class="lbl">Vehicle</div><div class="row">${kinds.map((k) => `<button data-k="${k}" class="${choice.kind === k ? 'sel' : ''}">${TYPES[k].name}</button>`).join('')}<button disabled>Okada: not allowed in Yaba</button></div>` : ''}
+      ${choice.from.app ? `<div class="lbl">Vehicle</div><div class="row">${kinds.map((k) => `<button data-k="${k}" class="${choice.kind === k ? 'sel' : ''}">${TYPES[k].name}</button>`).join('')}${(world.place?.city ?? 'Lagos') === 'Lagos' ? '<button disabled>Okada: not allowed in Yaba</button>' : ''}</div>` : ''}
       <div class="lbl">Where to</div><div class="opts">${places.map((p, i) => `<button data-d="${i}" class="${choice.dest === p ? 'sel' : ''}">${p.name}</button>`).join('')}</div>
       <div class="lbl">How</div><div class="row"><button data-m="passenger" class="${choice.mode === 'passenger' ? 'sel' : ''}">Ride as passenger</button><button data-m="drive" class="${choice.mode === 'drive' ? 'sel' : ''}">Drive yourself</button></div>
       <button class="go">${choice.mode === 'drive' ? 'Get the keys' : 'Call the ride'}</button>

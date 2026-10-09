@@ -119,6 +119,7 @@ const ICON = {
   people: ic('<circle cx="18" cy="17" r="6"/><circle cx="33" cy="19" r="5"/><path d="M7 38c1-7 6-11 11-11s10 4 11 11M28 30c5-1 11 2 12 8"/>'),
   camera: ic('<rect x="7" y="14" width="34" height="24" rx="5"/><circle cx="24" cy="26" r="7"/><path d="M17 14l3-5h8l3 5"/>'),
   build: ic('<path d="M8 34h32M12 34v6M36 34v6M10 27h28M14 27v7M34 27v7"/><path d="M24 8v12M18 14l6-6 6 6"/>'),
+  cities: ic('<path d="M24 6l16 9-16 9-16-9z"/><path d="M8 24l16 9 16-9M8 33l16 9 16-9"/>'),
   weather: ic('<path d="M14 32a8 8 0 1 1 3-15 10 10 0 0 1 19 4 6 6 0 0 1-1 11z"/><path d="M18 38l-2 4M26 38l-2 4M34 38l-2 4"/>'),
   settings: ic('<circle cx="24" cy="24" r="6"/><path d="M24 6v6M24 36v6M6 24h6M36 24h6M11 11l4 4M33 33l4 4M37 11l-4 4M15 33l-4 4"/>'),
   car: ic('<path d="M8 30l3-10a4 4 0 0 1 4-3h18a4 4 0 0 1 4 3l3 10"/><rect x="6" y="28" width="36" height="9" rx="3"/><circle cx="14" cy="38" r="3"/><circle cx="34" cy="38" r="3"/>'),
@@ -169,13 +170,14 @@ const store = {
 };
 const COLORS = ['#7fd3b0', '#9cb3ff', '#f6a8a0', '#f7e27a', '#c9a7f5', '#8fd0f0', '#f2b33d', '#a8e0d0'];
 
+const placeName = (world) => world.place?.name ?? 'Yaba';
 export function createMenus({ world, props, weatherFeed, getPlayer, getPath, snapToStreet, onRoute, onEquip, onPhoto, onRide, toast }) {
   const style = document.createElement('style');
   style.textContent = CSS;
   document.head.appendChild(style);
   const root = document.createElement('div');
   root.innerHTML = `<div id="lkm-dim"></div><div id="lkm-phone" role="dialog" aria-label="Phone"><div class="scr"></div></div>
-    <div id="lkm-map" role="dialog" aria-label="Map of Yaba"></div><div id="lkm-bag" role="dialog" aria-label="Bag"></div>
+    <div id="lkm-map" role="dialog" aria-label="Map of ${placeName(world)}"></div><div id="lkm-bag" role="dialog" aria-label="Bag"></div>
     <div class="lkm-hints" hidden></div><div id="lkm-guide" role="dialog" aria-label="Controls"></div>
     <div id="lkm-tip"><span><b>Tab</b>Phone</span><span><b>M</b>Map</span><span><b>I</b>Bag</span><span><b>E</b>Interact</span></div>`;
   document.body.appendChild(root);
@@ -213,6 +215,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     ['Camera', 'camera', '#c9a7f5', () => { close(); onPhoto?.(); }],
     ['Ride', 'car', '#f2b33d', () => { close(); onRide?.(); }],
     ['Build', 'build', '#8fd0f0', () => { close(); onRoute?.(props.area, 'Community build area'); }],
+    ['Cities', 'cities', '#f6c66e', () => { close(); location.search = '?world=1&view=cities'; }],
     ['Weather', 'weather', '#9cb3ff', () => { const w = weatherFeed?.state; toast(w ? `${w.loc.label}: ${w.label}${w.tempC != null ? `, ${Math.round(w.tempC)}°C` : ''}. Updated every 10 minutes.` : 'Weather is loading.'); }],
     ['Settings', 'settings', '#cfc6b4', () => toast('Quality, sound and accessibility settings land here next.')],
     ['Help', 'help', '#f4ead2', () => { close(); showGuide(); }],
@@ -221,7 +224,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     const w = weatherFeed?.state;
     const time = weatherFeed ? weatherFeed.localTime() : new Date().toTimeString().slice(0, 5);
     phone.querySelector('.scr').innerHTML = `
-      <div class="bar"><span>${w?.tempC != null ? `${Math.round(w.tempC)}° ${w.label}` : 'Yaba'}</span><span>${time}</span><span>${world.via === 'sample' ? 'Sample' : 'Yaba'}</span></div>
+      <div class="bar"><span>${w?.tempC != null ? `${Math.round(w.tempC)}° ${w.label}` : placeName(world)}</span><span>${time}</span><span>${world.via === 'sample' ? 'Sample' : placeName(world)}</span></div>
       <h2>Builders</h2>
       <div class="grid">${APPS.map(([n, i, c], k) => `<button class="app" data-k="${k}"><i style="background:${c}">${ICON[i].replace('currentColor', '#2b2420')}</i><span>${n}</span></button>`).join('')}</div>
       <div class="foot">Your phone. Tab opens and closes it.</div>`;
@@ -233,8 +236,8 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   // ---------- map ----------
   const places = [
     props.interact.find((i) => i.id === 'board') && { id: 'board', name: 'Community board', sub: 'Notes and neighbours', icon: 'board', color: '#f6a8a0', at: props.interact.find((i) => i.id === 'board') },
-    props.area && { id: 'build', name: 'Community build area', sub: 'Add a bench for Yaba', icon: 'build', color: '#3ad1c0', at: props.area },
-    props.hubAt && { id: 'hub', name: 'Yaba Creative Hub', sub: 'Desks, wifi, people', icon: 'hub', color: '#f2b33d', at: props.hubAt },
+    props.area && { id: 'build', name: 'Community build area', sub: `Add a bench for ${placeName(world)}`, icon: 'build', color: '#3ad1c0', at: props.area },
+    props.hubAt && { id: 'hub', name: `${placeName(world)} Creative Hub`, sub: 'Desks, wifi, people', icon: 'hub', color: '#f2b33d', at: props.hubAt },
     (() => { const p = world.plots.find((pl) => pl.b.id === 'you'); return p && { id: 'home', name: 'Your plot', sub: 'Grows with your verified work', icon: 'home', color: '#f7e27a', at: { x: p.center.x, z: p.center.z } }; })(),
   ].filter(Boolean);
   let selRes = null, selPlace = null;
@@ -312,7 +315,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     mapEl.innerHTML = `
       <div class="col"><h3>Residents</h3><div class="res">${BUILDERS.map((b, i) => `<button data-id="${b.id}" class="${selRes === b.id ? 'sel' : ''}">
         <span class="av ${b.live ? 'live' : ''}" style="background:${b.id === 'you' ? '#f7e27a' : COLORS[i % COLORS.length]}">${b.name.split(' ').map((w) => w[0]).join('').slice(0, 2)}</span>${b.name.split(' ')[0]}</button>`).join('')}</div></div>
-      <div class="mid"><div class="ribbon">Yaba<small>Lagos</small></div><div class="bubble"></div></div>
+      <div class="mid"><div class="ribbon">${placeName(world)}<small>${world.place?.city ?? 'Lagos'}</small></div><div class="bubble"></div></div>
       <div class="col"><h3>Places</h3><div class="places">${places.map((p) => `<button data-p="${p.id}" class="${selPlace === p.id ? 'sel' : ''}"><i style="background:${p.color}">${ICON[p.icon].replace('currentColor', '#10131c')}</i><span>${p.name}<small>${p.sub}</small></span></button>`).join('')}</div>
         <p style="color:#a3afd0;font-size:12px;line-height:1.5;margin-top:16px">Pick a place or a resident, or click any street, to set a destination. The trail follows the streets.</p></div>`;
     mapEl.querySelector('.mid').prepend(mapCanvas);
@@ -364,7 +367,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     const it = ITEMS.find((i) => i.id === bagSel);
     const isOn = equipped.includes(it.id);
     bagEl.innerHTML = `
-      <div class="main"><h3>Bag</h3><div class="sub">What you carry around Yaba. Linking your real gadgets comes later.</div>
+      <div class="main"><h3>Bag</h3><div class="sub">What you carry around ${placeName(world)}. Linking your real gadgets comes later.</div>
         <div class="tabs">${[['gadgets', 'Gadgets'], ['wear', 'Wearables'], ['badges', 'Badges']].map(([k, n]) => `<button data-t="${k}" class="${bagTab === k ? 'on' : ''}">${n}</button>`).join('')}</div>
         <div class="items">${list.map((i) => `<button class="it ${i.id === bagSel ? 'sel' : ''} ${i.locked ? 'locked' : ''}" data-i="${i.id}">${equipped.includes(i.id) ? '<span class="eq"></span>' : ''}${ICON[i.icon]}<span>${i.name}</span></button>`).join('')}</div></div>
       <div class="side"><div class="big">${ICON[it.icon].replace('currentColor', '#f2b33d')}</div><h4>${it.name}</h4><span class="tag">${it.tag}</span><p>${it.desc}</p>

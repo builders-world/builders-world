@@ -7,7 +7,7 @@ import { createGear } from './gear.js';
 import { createLife } from './life.js';
 import { dressDistrict } from './district.js';
 import { createRides } from './rides.js';
-import { createInteriors, PLACES } from './interior.js';
+import { createInteriors, PLACES, namePlaces } from './interior.js';
 import { sunPosition, sunDirection } from './sun.js';
 import { shared } from '../shaders.js';
 
@@ -49,6 +49,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   scene.add(group);
   const off = new Set((new URLSearchParams(location.search).get('no') || '').split(','));
 
+  namePlaces(world.place?.name, world.place?.city);
   const props = buildProps(world, group, { lowQuality: quality === 'low', reduced });
   // the expanded kit: shops, stalls, landmarks, poles and wires, gutters, tanks, danfos
   const dressing = world.kit ? dressDistrict(world, group, { kit: world.kit, lowQuality: quality === 'low', reduced, spawn: world.spawn }) : null;
@@ -78,7 +79,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   props.places = [
     props.interact.find((i) => i.id === 'board') && { name: 'Community board', at: props.interact.find((i) => i.id === 'board') },
     props.area && { name: 'Community build area', at: props.area },
-    props.hubAt && { name: 'Yaba Creative Hub', at: props.hubAt },
+    props.hubAt && { name: PLACES.hub.name, at: props.hubAt },
     you && { name: 'Your plot', at: world.frontOf([you.center.x, you.center.z]) },
     ...props.interact.filter((i) => i.id.startsWith('shop:')).map((i) => ({ name: i.name, at: i })),
   ].filter(Boolean);

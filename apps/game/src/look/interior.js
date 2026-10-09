@@ -18,6 +18,14 @@ export const PLACES = {
   studio: { name: 'Eko Design Studio', kind: 'Design and media studio', accent: 0xf2b33d, floor: 0x6a707c, seed: 11 },
 };
 
+// the three places take the district's name, so Wuse gets a Wuse hub, not a Yaba one
+export function namePlaces(district = 'Yaba', city = 'Lagos') {
+  if (district === 'Yaba') return;
+  PLACES.hub.name = `${district} Creative Hub`;
+  PLACES.loft.name = `${city} Builders Loft`;
+  PLACES.studio.name = `${district} Design Studio`;
+}
+
 function canvasTex(w, h, draw) {
   const c = document.createElement('canvas'); c.width = w; c.height = h;
   draw(c.getContext('2d'), w, h);

@@ -101,7 +101,7 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
   const el = document.createElement('div');
   el.id = 'lk';
   el.innerHTML = `
-    <div id="lk-obj" class="pane" aria-live="polite"><div class="d">${PIN}<span>Yaba District</span></div><ul></ul></div>
+    <div id="lk-obj" class="pane" aria-live="polite"><div class="d">${PIN}<span>${world.place?.name ?? 'Yaba'} District</span></div><ul></ul></div>
     <div id="lk-map"><canvas width="312" height="312" aria-label="Minimap"></canvas></div>
     <div id="lk-prompt" class="pane"><kbd>E</kbd><span></span></div>
     <div id="lk-tags"></div>
@@ -119,7 +119,7 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
   const steps = [
     { text: 'Meet the builders at the community board', target: props.interact.find((i) => i.id === 'board'), done: false },
     { text: 'Find the community build area', target: props.area, done: false, near: true },
-    { text: 'Add a bench for Yaba', target: props.area, done: false },
+    { text: `Add a bench for ${world.place?.name ?? 'Yaba'}`, target: props.area, done: false },
   ].filter((s) => s.target);
   let current = 0;
   let custom = null; // a route the player set from the map
@@ -156,7 +156,7 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     const notes = [...posted.map((t) => ['#f9f3e3', t]), ...NOTES];
     boardEl.innerHTML = `
       <button class="x" aria-label="Close">✕</button>
-      <h2>Yaba Builders</h2>
+      <h2>${world.place?.name ?? 'Yaba'} Builders</h2>
       <div class="sub">Ideas, people and places. Sample residents for this preview.</div>
       <h3>Builders nearby</h3>
       ${NEARBY.map(([n, s, c, talking]) => `<div class="who"><div class="av" style="background:${c}">${n[0]}</div>
