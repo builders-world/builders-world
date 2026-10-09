@@ -68,6 +68,11 @@ const CSS = `${KIT_CSS}
 #lkm-map .places button small { display: block; color: ${C.ink2}; font-size: 11.5px; font-weight: 600; }
 #lkm-map .places button:hover, #lkm-map .places button.sel, #lkm-map .places button:focus-visible { transform: translateY(-3px) scale(1.04); outline: none; }
 #lkm-map .places button.sel span { background: ${C.amber}; }
+#lkm-map .zoom { position: absolute; right: 10px; bottom: 60px; display: grid; gap: 6px; }
+#lkm-map .zoom button { width: 40px; height: 40px; border: 0; border-radius: 50%; background: ${C.paper}; color: ${C.ink}; font: 800 20px/1 ${FONT}; cursor: pointer; box-shadow: 0 3px 0 rgba(59,42,32,.2); }
+#lkm-map .legend { position: absolute; left: 50%; bottom: 6px; transform: translateX(-50%); display: flex; gap: 10px; padding: 6px 12px; border-radius: 999px; background: ${C.paper}; font: 700 12px/1 ${FONT}; box-shadow: 0 3px 0 rgba(59,42,32,.15); white-space: nowrap; }
+#lkm-map .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 4px; margin-right: 5px; vertical-align: -1px; }
+#lkm-map canvas { touch-action: none; }
 #lkm-map .kinds { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 #lkm-map .kinds button { display: flex; align-items: center; gap: 6px; padding: 5px 8px 5px 5px; border-radius: 999px; background: ${C.paper}; font: 700 12px/1.1 ${FONT}; text-align: left; box-shadow: 0 2px 0 rgba(59,42,32,.15); }
 #lkm-map .kinds button.sel { background: #fff; box-shadow: inset 0 0 0 3px ${C.teal}; }
@@ -322,11 +327,40 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     badges[pl.id] = img;
   });
   const people = BUILDERS.map((b, i) => ({ b, look: personFor((b.seed ?? 1) * 31 + i * 5, b.id === 'you' ? { shirt: me.color } : {}) }));
-  let selRes = null, selPlace = null;
+  let selRes = null, selPlace = null, panMoved = 0;
   const mapCanvas = document.createElement('canvas');
   mapCanvas.width = mapCanvas.height = 900;
   const MAPR = world.radius * 1.12;
-  const toPx = (x, z) => [(x / MAPR) * 360 + 450, (z / MAPR) * 360 + 450];
+  // the view: zoom and pan (world bible 11.3). base() is the whole-district map; toPx() is the screen
+  const view = { z: 1, cx: 450, cy: 450 };
+  const base = (x, z) => [(x / MAPR) * 360 + 450, (z / MAPR) * 360 + 450];
+  const toPx = (x, z) => { const [bx, by] = base(x, z); return [(bx - view.cx) * view.z + 450, (by - view.cy) * view.z + 450]; };
+  const fromPx = (px, py) => { const bx = (px - 450) / view.z + view.cx, by = (py - 450) / view.z + view.cy; return [((bx - 450) / 360) * MAPR, ((by - 450) / 360) * MAPR]; };
+  const clampView = () => { view.z = Math.max(1, Math.min(6, view.z)); const lim = 450 - 450 / view.z; view.cx = Math.max(450 - lim, Math.min(450 + lim, view.cx)); view.cy = Math.max(450 - lim, Math.min(450 + lim, view.cy)); };
+  // addresses and zones, worked out once: every garden gets a number on its nearest named street, and
+  // gardens on the same street make an estate; services make commercial strips; the pond is a park
+  let zoning = null;
+  function zones() {
+    if (zoning) return zoning;
+    const named = world.roads.filter((r) => r.name && !['footway', 'path', 'cycleway', 'pedestrian'].includes(r.cls));
+    const nearestRoad = (x, z) => { let best = null, bd = Infinity, along = 0, side = 1; named.forEach((r) => { let acc = 0; for (let i = 0; i < r.pts.length - 1; i++) { const [ax, az] = r.pts[i], [bx, bz] = r.pts[i + 1], dx = bx - ax, dz = bz - az, L = Math.hypot(dx, dz) || 1, u = Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / (L * L))), d = Math.hypot(x - ax - dx * u, z - az - dz * u); if (d < bd) { bd = d; best = r; along = acc + u * L; side = (dx * (z - az) - dz * (x - ax)) > 0 ? 1 : 0; } acc += L; } }); return { r: best, d: bd, along, side }; };
+    const lots = (world.lots || []).map((pts) => { const c = pts.reduce((a, [x, z]) => [a[0] + x / pts.length, a[1] + z / pts.length], [0, 0]); return { pts, c, ...nearestRoad(c[0], c[1]) }; }).filter((l) => l.r && l.d < 60);
+    const estates = new Map();
+    lots.forEach((l) => { const k = l.r.name; if (!estates.has(k)) estates.set(k, []); estates.get(k).push(l); });
+    const PAL = ['#f6e7b8', '#e8f0c8', '#f6d6c2', '#dcecdc', '#efe0f2', '#e2eef4', '#f4e8d0'];
+    let ei = 0;
+    estates.forEach((list, name) => {
+      // odd numbers on one side, even on the other, counting up along the street
+      [0, 1].forEach((sd) => list.filter((l) => l.side === sd).sort((a, b) => a.along - b.along).forEach((l, i) => { l.no = 2 * i + 1 + sd; }));
+      const short = name.replace(/ Street$/, ' St').replace(/ Road$/, ' Rd').replace(/ Avenue$/, ' Ave').replace(/ Way$/, ' Way');
+      list.forEach((l) => { l.addr = `${l.no} ${short}`; l.tint = PAL[ei % PAL.length]; });
+      ei++;
+    });
+    const estateLabels = [...estates.entries()].filter(([, list]) => list.length >= 4).map(([name, list]) => ({ name: `${name.replace(/ (Street|Road|Avenue|Way)$/, '')} Estate`, x: list.reduce((a, l) => a + l.c[0], 0) / list.length, z: list.reduce((a, l) => a + l.c[1], 0) / list.length, n: list.length }));
+    const COMM = ['shop', 'food', 'cafe', 'fuel'], CIVIC = ['atm', 'work', 'board', 'build'];
+    zoning = { lots, estateLabels, comm: (props.pois || []).filter((q) => COMM.includes(q.kind)), civic: (props.pois || []).filter((q) => CIVIC.includes(q.kind)) };
+    return zoning;
+  }
   // the island's edge: a hand-drawn wobble around the district
   const edge = (a, pad = 0) => 382 + pad + Math.sin(a * 3 + 1.2) * 10 + Math.sin(a * 7 + 0.4) * 6 + Math.sin(a * 13) * 3;
   const blob = (g, pad) => { g.beginPath(); for (let i = 0; i <= 128; i++) { const a = (i / 128) * Math.PI * 2, r = edge(a, pad); i ? g.lineTo(450 + Math.cos(a) * r, 450 + Math.sin(a) * r) : g.moveTo(450 + Math.cos(a) * r, 450 + Math.sin(a) * r); } g.closePath(); };
@@ -342,6 +376,8 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     g.fillStyle = 'rgba(59,42,32,.45)'; g.font = `700 24px ${FONT}`; g.textAlign = 'center'; g.textBaseline = 'middle';
     'ABCDEFG'.split('').forEach((l, i) => g.fillText(l, 20, 102 + i * 115));
     for (let i = 0; i < 7; i++) g.fillText(String(i + 1), 102 + i * 115, 884);
+    // everything on the ground is drawn in district coordinates under the zoom; labels and icons stay crisp
+    g.save(); g.setTransform(view.z, 0, 0, view.z, 450 - view.cx * view.z, 450 - view.cy * view.z);
     // sand rim, then land
     g.fillStyle = '#f1dfaa'; blob(g, 16); g.fill();
     g.fillStyle = '#e5cd92'; blob(g, 7); g.fill();
@@ -351,31 +387,55 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     for (let i = 0; i < 26; i++) { const a = i * 2.4, r = (i * 53) % 330; g.beginPath(); g.arc(450 + Math.cos(a) * r, 450 + Math.sin(a) * r, 40 + (i % 5) * 12, 0, 7); g.fill(); }
     // trees as little triangles, where the street trees really are
     g.fillStyle = '#4f8a3a';
-    (world.trees || []).forEach((t) => { const [x, y] = toPx(t.x, t.z); g.beginPath(); g.moveTo(x, y - 7); g.lineTo(x + 6, y + 4); g.lineTo(x - 6, y + 4); g.closePath(); g.fill(); });
+    // zones: estates in soft tints by street, commercial strips in coral, civic in teal, the pond in water blue
+    const Z = zones();
+    Z.lots.forEach((l) => { g.fillStyle = l.tint; g.beginPath(); l.pts.forEach(([x, z], i) => { const [px, py] = base(x, z); i ? g.lineTo(px, py) : g.moveTo(px, py); }); g.closePath(); g.fill(); });
+    Z.comm.forEach((q) => { const [x, y] = base(q.x, q.z); g.fillStyle = 'rgba(228,111,79,.16)'; g.beginPath(); g.arc(x, y, (16 / MAPR) * 360, 0, 7); g.fill(); });
+    Z.civic.forEach((q) => { const [x, y] = base(q.x, q.z); g.fillStyle = 'rgba(42,157,148,.16)'; g.beginPath(); g.arc(x, y, (12 / MAPR) * 360, 0, 7); g.fill(); });
+    if (props.pond) { const pd = props.pond, [x, y] = base(pd.x, pd.z); g.fillStyle = '#7fc4c4'; g.beginPath(); g.ellipse(x, y, (pd.rx / MAPR) * 360, (pd.rz / MAPR) * 360, 0, 0, 7); g.fill(); }
+    const ts = 1 / Math.sqrt(view.z);
+    (world.trees || []).forEach((t) => { const [x, y] = base(t.x, t.z); g.beginPath(); g.moveTo(x, y - 7 * ts); g.lineTo(x + 6 * ts, y + 4 * ts); g.lineTo(x - 6 * ts, y + 4 * ts); g.closePath(); g.fill(); });
     // roads: a darker casing under a cream surface
     g.lineCap = 'round'; g.lineJoin = 'round';
     const roads = world.roads.filter((r) => !['footway', 'path', 'cycleway', 'pedestrian'].includes(r.cls));
-    const line = (r) => { g.beginPath(); r.pts.forEach(([x, z], i) => { const [px, py] = toPx(x, z); i ? g.lineTo(px, py) : g.moveTo(px, py); }); };
-    roads.forEach((r) => { g.strokeStyle = '#c4a46c'; g.lineWidth = Math.max(9, r.w * 1.5) + 6; line(r); g.stroke(); });
-    roads.forEach((r) => { g.strokeStyle = '#f0deb0'; g.lineWidth = Math.max(9, r.w * 1.5); line(r); g.stroke(); });
-    world.roads.filter((r) => !roads.includes(r)).forEach((r) => { g.strokeStyle = 'rgba(240,222,176,.8)'; g.lineWidth = 3; g.setLineDash([2, 7]); line(r); g.stroke(); g.setLineDash([]); });
+    const line = (r) => { g.beginPath(); r.pts.forEach(([x, z], i) => { const [px, py] = base(x, z); i ? g.lineTo(px, py) : g.moveTo(px, py); }); };
+    // true road width once zoomed in; a readable minimum when the whole district is in view
+    const rw = (r) => Math.max(9 / view.z, r.w * (360 / MAPR));
+    roads.forEach((r) => { g.strokeStyle = '#c4a46c'; g.lineWidth = rw(r) + 6 / view.z; line(r); g.stroke(); });
+    roads.forEach((r) => { g.strokeStyle = '#f0deb0'; g.lineWidth = rw(r); line(r); g.stroke(); });
+    world.roads.filter((r) => !roads.includes(r)).forEach((r) => { g.strokeStyle = 'rgba(240,222,176,.8)'; g.lineWidth = 3 / view.z; g.setLineDash([2 / view.z, 7 / view.z]); line(r); g.stroke(); g.setLineDash([]); });
     // buildings: coloured roofs with a soft shadow, like blocks on a model
     (world.footprints || []).forEach((pts) => {
-      const path = () => { g.beginPath(); pts.forEach(([x, z], i) => { const [px, py] = toPx(x, z); i ? g.lineTo(px, py) : g.moveTo(px, py); }); g.closePath(); };
-      g.save(); g.translate(2.5, 3.5); g.fillStyle = 'rgba(59,42,32,.28)'; path(); g.fill(); g.restore();
+      const path = () => { g.beginPath(); pts.forEach(([x, z], i) => { const [px, py] = base(x, z); i ? g.lineTo(px, py) : g.moveTo(px, py); }); g.closePath(); };
+      g.save(); g.translate(2.5 / view.z, 3.5 / view.z); g.fillStyle = 'rgba(59,42,32,.28)'; path(); g.fill(); g.restore();
       g.fillStyle = ROOF[hash(pts) % ROOF.length]; path(); g.fill();
-      g.strokeStyle = 'rgba(59,42,32,.4)'; g.lineWidth = 1.4; g.stroke();
+      g.strokeStyle = 'rgba(59,42,32,.4)'; g.lineWidth = 1.4 / view.z; g.stroke();
     });
     g.restore();
+    g.restore();
+    // estate names, faint and large, while the whole district is in view
+    if (view.z < 2.2) {
+      g.font = `800 ${Math.round(20 * Math.min(1.4, view.z))}px ${FONT}`; g.textAlign = 'center'; g.textBaseline = 'middle';
+      const placed = [];
+      Z.estateLabels.sort((a, b) => b.n - a.n).forEach((e) => { const [x, y] = toPx(e.x, e.z); const w = g.measureText(e.name).width; if (x < 40 || x > 860 || y < 40 || y > 860 || placed.some((p) => Math.abs(p.x - x) < (p.w + w) / 2 && Math.abs(p.y - y) < 34)) return; placed.push({ x, y, w }); g.lineWidth = 6; g.strokeStyle = 'rgba(255,255,255,.75)'; g.strokeText(e.name, x, y); g.fillStyle = 'rgba(59,42,32,.55)'; g.fillText(e.name, x, y); });
+    }
+    // zoomed in: house numbers, then full addresses
+    if (view.z >= 2.2) {
+      g.font = `800 ${view.z >= 3.4 ? 12 : 11}px ${FONT}`; g.textAlign = 'center'; g.textBaseline = 'middle';
+      Z.lots.forEach((l) => { const [x, y] = toPx(l.c[0], l.c[1]); if (x < 0 || x > 900 || y < 0 || y > 900) return; const t = view.z >= 3.4 ? l.addr : String(l.no); const w = g.measureText(t).width + 10; g.fillStyle = 'rgba(247,239,220,.92)'; g.beginPath(); g.roundRect(x - w / 2, y - 9, w, 18, 9); g.fill(); g.fillStyle = C.ink; g.fillText(t, x, y + 1); });
+    }
     // street names: once per street, on its longest stretch, never on top of another
-    g.font = `800 15px ${FONT}`;
+    g.font = `800 ${view.z > 1.5 ? 17 : 15}px ${FONT}`; g.textAlign = 'center'; g.textBaseline = 'middle';
     const taken = [];
     const byName = new Map();
-    roads.forEach((r) => { if (!r.name) return; const L = r.pts.reduce((a, p, i) => (i ? a + Math.hypot(p[0] - r.pts[i - 1][0], p[1] - r.pts[i - 1][1]) : 0), 0); if (L > 70 && (!byName.has(r.name) || byName.get(r.name).L < L)) byName.set(r.name, { r, L }); });
+    roads.forEach((r) => { if (!r.name) return; const L = r.pts.reduce((a, p, i) => (i ? a + Math.hypot(p[0] - r.pts[i - 1][0], p[1] - r.pts[i - 1][1]) : 0), 0); if (L > 70 / view.z && (!byName.has(r.name) || byName.get(r.name).L < L)) byName.set(r.name, { r, L }); });
     [...byName.values()].sort((a, b) => b.L - a.L).forEach(({ r }) => {
-      const k = Math.floor(r.pts.length / 2), m = r.pts[Math.max(0, k - 1)], n = r.pts[k];
+      // the stretch of this street nearest the middle of the view that is long enough to carry the name
+      let k = Math.floor(r.pts.length / 2), bd = Infinity;
+      for (let i = 1; i < r.pts.length; i++) { const [x1, y1] = toPx(r.pts[i - 1][0], r.pts[i - 1][1]), [x2, y2] = toPx(r.pts[i][0], r.pts[i][1]), mx = (x1 + x2) / 2, my = (y1 + y2) / 2; if (Math.hypot(x2 - x1, y2 - y1) < 60) continue; const d = Math.hypot(mx - 450, my - 450); if (d < bd) { bd = d; k = i; } }
+      const m = r.pts[Math.max(0, k - 1)], n = r.pts[k];
       const [px, py] = toPx((m[0] + n[0]) / 2, (m[1] + n[1]) / 2), [ax, ay] = toPx(m[0], m[1]), [bx, by] = toPx(n[0], n[1]);
-      if (Math.hypot(px - 450, py - 450) > 340) return;
+      if (px < 30 || px > 870 || py < 30 || py > 870) return;
       const w = g.measureText(r.name).width;
       if (taken.some((t) => Math.abs(t.x - px) < (t.w + w) / 2 + 6 && Math.abs(t.y - py) < 30)) return;
       taken.push({ x: px, y: py, w });
@@ -405,6 +465,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
       if (!KINDS[q.kind] || !poiIcon[q.kind]?.complete) return;
       const [x, y] = toPx(q.x, q.z), on = !poiFilter || poiFilter === q.kind, r = poiFilter === q.kind ? 20 : 14;
       g.globalAlpha = on ? 1 : 0.3; g.drawImage(poiIcon[q.kind], x - r, y - r, r * 2, r * 2); g.globalAlpha = 1;
+      if (view.z >= 2.6 && x > 0 && x < 900 && y > 0 && y < 900) { g.font = `800 12px ${FONT}`; g.textAlign = 'center'; const w = g.measureText(q.name).width + 12; g.fillStyle = C.paper; g.beginPath(); g.roundRect(x - w / 2, y + r + 2, w, 18, 9); g.fill(); g.fillStyle = C.ink; g.textBaseline = 'middle'; g.fillText(q.name, x, y + r + 11); }
     });
     // the route: white footsteps over a teal line
     const route = getPath?.();
@@ -430,6 +491,27 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
         <div class="kinds">${Object.entries(KINDS).filter(([k]) => poisOf(k).length).map(([k, d]) => `<button data-kind="${k}" class="${poiFilter === k ? 'sel' : ''}"><i style="background:${d.color}">${appIcon(d.glyph)}</i><span>${d.label}<small>${poisOf(k).length}</small></span></button>`).join('')}</div>
         <p class="hint">Pick a resident, a place or a service, or tap any street, and a trail will lead you there.</p></div>`;
     mapEl.querySelector('.mid').prepend(mapCanvas);
+    // zoom: wheel or pinch about the pointer, + and - buttons; pan: drag
+    const zbox = document.createElement('div'); zbox.className = 'zoom';
+    zbox.innerHTML = '<button data-z="1" aria-label="Zoom in">+</button><button data-z="-1" aria-label="Zoom out">−</button><button data-z="0" aria-label="Whole district">⤢</button>';
+    mapEl.querySelector('.mid').appendChild(zbox);
+    const legend = document.createElement('div'); legend.className = 'legend';
+    legend.innerHTML = '<span><i style="background:#f6e7b8"></i>Homes</span><span><i style="background:rgba(228,111,79,.45)"></i>Shops and food</span><span><i style="background:rgba(42,157,148,.45)"></i>Civic and work</span><span><i style="background:#7fc4c4"></i>Park</span>';
+    mapEl.querySelector('.mid').appendChild(legend);
+    const zoomAt = (f, px = 450, py = 450) => { const bx = (px - 450) / view.z + view.cx, by = (py - 450) / view.z + view.cy; view.z *= f; clampView(); view.cx = bx - (px - 450) / view.z; view.cy = by - (py - 450) / view.z; clampView(); bubble.style.display = 'none'; drawBigMap(); };
+    zbox.querySelectorAll('button').forEach((b) => { b.onclick = () => { const z = +b.dataset.z; if (z === 0) { view.z = 1; view.cx = view.cy = 450; bubble.style.display = 'none'; drawBigMap(); } else zoomAt(z > 0 ? 1.6 : 1 / 1.6); }; });
+    const toCanvas = (e) => { const r = mapCanvas.getBoundingClientRect(); return [((e.clientX - r.left) / r.width) * 900, ((e.clientY - r.top) / r.height) * 900]; };
+    mapCanvas.onwheel = (e) => { e.preventDefault(); const [px, py] = toCanvas(e); zoomAt(Math.exp(-e.deltaY * 0.0022), px, py); };
+    const ptrs = new Map(); let pinch0 = 0;
+    mapCanvas.onpointerdown = (e) => { ptrs.set(e.pointerId, toCanvas(e)); panMoved = 0; mapCanvas.setPointerCapture(e.pointerId); if (ptrs.size === 2) { const [a, b] = [...ptrs.values()]; pinch0 = Math.hypot(a[0] - b[0], a[1] - b[1]); } };
+    mapCanvas.onpointermove = (e) => {
+      if (!ptrs.has(e.pointerId)) return;
+      const prev = ptrs.get(e.pointerId), cur = toCanvas(e); ptrs.set(e.pointerId, cur);
+      if (ptrs.size === 2) { const [a, b] = [...ptrs.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]); if (pinch0) zoomAt(d / pinch0, (a[0] + b[0]) / 2, (a[1] + b[1]) / 2); pinch0 = d; panMoved = 99; return; }
+      const dx = cur[0] - prev[0], dy = cur[1] - prev[1]; panMoved += Math.abs(dx) + Math.abs(dy);
+      if (view.z > 1 && panMoved > 6) { view.cx -= dx / view.z; view.cy -= dy / view.z; clampView(); bubble.style.display = 'none'; drawBigMap(); }
+    };
+    mapCanvas.onpointerup = mapCanvas.onpointercancel = (e) => { ptrs.delete(e.pointerId); pinch0 = 0; };
     drawBigMap();
     const bubble = mapEl.querySelector('.bubble');
     const showBubble = (x, z, text) => {
@@ -440,8 +522,9 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     };
     mapCanvas.onclick = (ev) => {
       const r = mapCanvas.getBoundingClientRect();
+      if (panMoved > 6) return; // that was a drag, not a tap
       const px = ((ev.clientX - r.left) / r.width) * 900, py = ((ev.clientY - r.top) / r.height) * 900;
-      const wx = ((px - 450) / 360) * MAPR, wz = ((py - 450) / 360) * MAPR;
+      const [wx, wz] = fromPx(px, py);
       const s = snapToStreet?.(wx, wz);
       if (!s || s.d > 25) { toast('Pick a point on or near a street.'); return; }
       selPlace = null; selRes = null;

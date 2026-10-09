@@ -303,6 +303,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   group.add(flashLight);
 
   const life = off.has('life') ? null : createLife({ world, scene: group, camera, getEnv: () => live, reduced, lowQuality: quality === 'low', uTime: shared.uTime });
+  props.pond = life?.birds?.pond || null; // for the map's park zone
 
   function update(dt, t, player, yaw, arrival) {
     if (night && !interiors?.active) environment(dt);
