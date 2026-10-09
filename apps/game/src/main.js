@@ -317,7 +317,7 @@ async function main() {
   }
 
   let riding = false, savedDist = cam.distT, seated = false, savedOutside = null;
-  let jumpQueued = false, jumpV = 0, jumpY = 0, stepAcc = 0;
+  let jumpQueued = false, jumpV = 0, jumpY = 0, stepAcc = 0, groundY = 0;
   const audio = audioEngine();
 
   // ---- cinematic travel (C): walk the route on your own while the camera shoots it like a film,
@@ -453,7 +453,8 @@ async function main() {
       last.copy(player);
       player.addScaledVector(mv, pace * dt);
       // static world first (a jump clears low fences), then everything that moves
-      if (inside) C.resolve(player); else { world.resolve(player, PLAYER_R, jumpY); pushOutDynamic(player, 0.4, street?.bodies?.() || []); world.resolve(player, PLAYER_R, jumpY); }
+      // static world first (a jump clears low fences; on a bridge you are above what is below), then everything that moves
+      if (inside) C.resolve(player); else { world.resolve(player, PLAYER_R, groundY + jumpY); if (groundY < 1) pushOutDynamic(player, 0.4, street?.bodies?.() || []); world.resolve(player, PLAYER_R, groundY + jumpY); }
       if (walkTarget) {
         stuck = player.distanceTo(last) < pace * dt * 0.25 ? stuck + dt : 0;
         // blocked by someone walking past: plan again from here, twice, then give up politely
@@ -476,7 +477,16 @@ async function main() {
       jumpV -= 13 * dt; jumpY += jumpV * dt;
       if (jumpY <= 0) { if (jumpV < -1) { rig?.landed(jumpV); sfx('land', Math.min(1, -jumpV / 6)); } jumpY = 0; jumpV = 0; }
     }
-    avatar.position.y = jumpY;
+    // the ground under your feet: steps, landings and the bridge deck; walk off an edge and you fall
+    if (!inside && !riding && world.groundAt) {
+      const g = world.groundAt(player.x, player.z, groundY + jumpY);
+      if (g > groundY) { jumpY = Math.max(0, jumpY - (g - groundY)); groundY = g; }
+      else if (g < groundY - 0.01) {
+        if (groundY - g <= 0.45 && jumpY === 0) groundY = g; // down a step: no hop
+        else { jumpY += groundY - g; groundY = g; if (jumpV === 0) jumpV = -0.01; } // off an edge: fall
+      }
+    } else if (inside || riding) { groundY = 0; }
+    avatar.position.y = groundY + jumpY;
     const groundSpeed = moving ? player.distanceTo(last) / Math.max(dt, 1e-4) : 0;
     if (rig && !reduced) rig.update(dt, { speed: Math.min(groundSpeed, 8), running, air: jumpY > 0.02, t, seated });
     else body.position.y = seated ? -0.42 : 0;
@@ -485,7 +495,7 @@ async function main() {
     audio.update(dt, { day: shared.uDay.value, rain: wx.uRain.value, inside, riding, speed: street?.rides?.()?.debug?.v ?? 0 });
 
     // damped third-person follow; district-to-district is a cut, never a flight
-    if (cam.aerial) focus.set(0, 6, 0); else focus.set(player.x, 1.75, player.z);
+    if (cam.aerial) focus.set(0, 6, 0); else focus.set(player.x, 1.75 + groundY, player.z);
     const cp = Math.cos(cam.pitch);
     desired.set(
       focus.x - Math.sin(cam.yaw) * cp * cam.dist,
@@ -582,7 +592,7 @@ async function main() {
 
   window.__bw = {
     get world() { return world; }, camera, cam, player, renderer, scene, via,
-    get theme() { return themeName; }, setTheme, get look() { return street; }, quality, composer, weather: weatherFeed, get kit() { return kit; }, goto, setAerial, cycleView, setTravel, get travel() { return travel.on; }, audio, get view() { return (riding ? 'ride:' : 'foot:') + (riding ? viewOf('ride') : viewOf('foot')).id; }, get walkTarget() { return walkTarget; }, get walkPath() { return walkPath; }, walkTo,
+    get theme() { return themeName; }, setTheme, get look() { return street; }, quality, composer, weather: weatherFeed, get kit() { return kit; }, goto, setAerial, cycleView, setTravel, get travel() { return travel.on; }, audio, get view() { return (riding ? 'ride:' : 'foot:') + (riding ? viewOf('ride') : viewOf('foot')).id; }, get walkTarget() { return walkTarget; }, get walkPath() { return walkPath; }, walkTo, get groundY() { return groundY; },
     ready: true,
   };
 }

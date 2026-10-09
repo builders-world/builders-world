@@ -136,7 +136,8 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
         if (pave < 0.7) { prev = null; continue; }
         const off = half[i] + pave - 0.35; // building side of the pavement, away from the lamps at the kerb
         const x = pts[i][0] + nrm[i][0] * off * side, z = pts[i][1] + nrm[i][1] * off * side;
-        if (Math.hypot(x, z) > R * 0.95 || world.kitColliders.some((c) => Math.hypot(c.cx - x, c.cz - z) < 1.6)) { prev = null; continue; }
+        // verge or pavement only: never on any carriageway, never in a plot (estate-layout skill)
+        if (Math.hypot(x, z) > R * 0.95 || world.onCarriageway?.(x, z, 0.6) || world.inPlot?.(x, z, 0.5) || world.kitColliders.some((c) => Math.hypot(c.cx - x, c.cz - z) < 1.6)) { prev = null; continue; }
         acc = 0;
         const tx = -nrm[i][1], tz = nrm[i][0];
         const pole = { x, z, ry: Math.atan2(-tz, tx) };
@@ -207,6 +208,7 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
           if ([0, 1, -1].some((e) => onRoad(x + tx * halfLen * e, z + tz * halfLen * e, ri))) return;
           // sunk into the verge: the walls stand a kerb's height proud and the slabs sit near flush
           spots.push({ x, z, y: -0.24, ry: Math.atan2(-tz, tx) }); // covers 9 cm above the pavement, never level with it
+          world.claim?.({ kind: 'drain', cx: x, cz: z, hx: halfLen, hz: 0.55, ry: Math.atan2(-tz, tx) });
         });
       }
     });

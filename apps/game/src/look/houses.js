@@ -126,13 +126,33 @@ export const ESTATE = { lawn: ['#9cc163', '#93bb5c', '#a3c76b'], picket: '#f7f1d
  * A house on its own lot, California-suburb style: the map footprint is the lot.
  * Returns { pts (the house), top, door, tree } or null when the lot is too small to build on.
  */
-export function dressEstate(mb, lot, c, levels, o) {
+export function dressEstate(mb, lot, c0, levels, o) {
+  let c = c0;
   const { rng, detail = 1 } = o;
   const side = Math.sqrt(Math.abs(area(lot)));
   if (side < 5) return null;
   let k = Math.max(0.45, Math.min(0.72, 1 - 7.5 / side));
   if (side * k < 4.8) k = Math.min(0.82, 4.8 / side);
-  const pts = scaleAbout(lot, c, k);
+  // the house must sit inside its own garden with 0.8 m to spare; an L-shaped plot scaled toward its
+  // centre can push the house through the inner corner, so shrink it, and failing that, place a
+  // rectangle at the widest point of the garden
+  const inner = grow(lot, -0.8);
+  const fits = (h) => !h.some(([x, z]) => !inPoly(x, z, inner)) && !inner.some(([x, z]) => inPoly(x, z, h));
+  let pts = scaleAbout(lot, c, k);
+  for (let kk = k; !fits(pts) && kk > 0.3; kk -= 0.06) pts = scaleAbout(lot, c, kk);
+  if (!fits(pts)) {
+    const bb = lot.reduce((a, [x, z]) => [Math.min(a[0], x), Math.min(a[1], z), Math.max(a[2], x), Math.max(a[3], z)], [1e9, 1e9, -1e9, -1e9]);
+    let best = null, bd = 0;
+    for (let x = bb[0]; x <= bb[2]; x += 0.5) for (let z = bb[1]; z <= bb[3]; z += 0.5) {
+      if (!inPoly(x, z, inner)) continue;
+      let d = Infinity; for (let i = 0; i < inner.length; i++) { const [ax, az] = inner[i], [bx, bz] = inner[(i + 1) % inner.length], dx = bx - ax, dz = bz - az, L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / L2)); d = Math.min(d, Math.hypot(x - ax - dx * u, z - az - dz * u)); }
+      if (d > bd) { bd = d; best = [x, z]; }
+    }
+    if (!best || bd < 2.2) return null; // no room for a house: leave the footprint as open ground
+    const e = facades(lot).sort((p, q) => q.len - p.len)[0], hw = Math.min(bd * 0.7, 4), ux = e.tx * hw, uz = e.tz * hw, vx = e.nx * hw, vz = e.nz * hw;
+    pts = [[best[0] - ux - vx, best[1] - uz - vz], [best[0] + ux - vx, best[1] + uz - vz], [best[0] + ux + vx, best[1] + uz + vz], [best[0] - ux + vx, best[1] - uz + vz]];
+    c = best;
+  }
   // lawn over the whole lot
   // one lawn colour with no variation: where map footprints overlap, the lawns are identical and cannot shimmer
   mb.extrude(grow(lot, -0.05), 0, 0.03, ESTATE.lawn[0], { grad: 0, vary: 0 });
@@ -158,13 +178,33 @@ export function dressEstate(mb, lot, c, levels, o) {
       if (L > 0.3) mb.box((sx + gate.x) / 2, 0, (sz + gate.z) / 2, 1.2, 0.07, L + 0.3, ESTATE.path, { grad: 0, vary: 0.02 }, Math.atan2(gate.x - sx, gate.z - sz));
     }
   }
-  // white picket fence on the lot line, open at the gate; each run is also a collider
-  const fences = [];
+  // white picket fence on the lot line, open at the gate; each run is also a collider.
+  // Neighbours share one fence: a stretch already fenced by the plot next door is not fenced again.
+  const fences = [], shared = o.fenceIndex;
+  const fencedAlready = (x, z, tx, tz) => {
+    if (!shared) return false;
+    const key = (i, j) => `${i},${j}`, ci = Math.floor(x / 2), cj = Math.floor(z / 2);
+    for (let di = -1; di <= 1; di++) for (let dj = -1; dj <= 1; dj++) for (const q of shared.get(key(ci + di, cj + dj)) || []) {
+      if (Math.abs(tx * q.tz - tz * q.tx) < 0.25 && Math.hypot(x - q.x, z - q.z) < 1.3) return true;
+    }
+    return false;
+  };
+  const remember = (x, z, tx, tz) => { if (!shared) return; const k = `${Math.floor(x / 2)},${Math.floor(z / 2)}`; let a = shared.get(k); if (!a) shared.set(k, (a = [])); a.push({ x, z, tx, tz }); };
   edges.forEach((e) => {
     if (e.len < 0.6) return;
     const ry = Math.atan2(e.nx, e.nz);
     const gap = gate && gate.e === e ? [gate.t - 1.0, gate.t + 1.0] : null; // a 2 m gate
-    const runs = gap ? [[0, gap[0]], [gap[1], e.len]] : [[0, e.len]];
+    // split the edge into ~1 m pieces, drop the gate and anything the neighbour already fenced, merge the rest
+    const n = Math.max(1, Math.round(e.len)), step = e.len / n, keep = [];
+    for (let k = 0; k < n; k++) {
+      const u0 = k * step, u1 = u0 + step, um = (u0 + u1) / 2;
+      const inGate = gap && um > gap[0] && um < gap[1];
+      keep.push(!inGate && !fencedAlready(e.ax + e.tx * um, e.az + e.tz * um, e.tx, e.tz));
+    }
+    const runs = [];
+    for (let k = 0; k < n; k++) if (keep[k]) { if (runs.length && runs[runs.length - 1][1] === k * step) runs[runs.length - 1][1] = (k + 1) * step; else runs.push([k * step, (k + 1) * step]); }
+    if (gap) runs.forEach((r) => { if (r[1] > gap[0] && r[0] < gap[0]) r[1] = gap[0]; if (r[0] < gap[1] && r[1] > gap[1]) r[0] = gap[1]; });
+    for (let k = 0; k < n; k++) if (keep[k]) remember(e.ax + e.tx * (k + 0.5) * step, e.az + e.tz * (k + 0.5) * step, e.tx, e.tz);
     runs.forEach(([a, b]) => {
       const L = b - a;
       if (L < 0.3) return;
@@ -172,9 +212,9 @@ export function dressEstate(mb, lot, c, levels, o) {
       fences.push({ cx: mx, cz: mz, hx: L / 2, hz: 0.07, ry });
       mb.box(mx, 0.32, mz, L, 0.07, 0.05, ESTATE.picket, { grad: 0, vary: 0 }, ry);
       mb.box(mx, 0.72, mz, L, 0.07, 0.05, ESTATE.picket, { grad: 0, vary: 0 }, ry);
-      const step = detail ? 0.45 : 1.8;
-      for (let u = a + 0.1; u <= b - 0.05; u += step) {
-        const big = !detail || Math.abs((u - a) % 1.8) < step * 0.5;
+      const st = detail ? 0.45 : 1.8;
+      for (let u = a + 0.1; u <= b - 0.05; u += st) {
+        const big = !detail || Math.abs((u - a) % 1.8) < st * 0.5;
         mb.box(e.ax + e.tx * u, 0, e.az + e.tz * u, big ? 0.1 : 0.08, big ? 1.0 : 0.92, big ? 0.1 : 0.03, ESTATE.picket, { grad: 0, vary: 0 }, ry);
       }
     });

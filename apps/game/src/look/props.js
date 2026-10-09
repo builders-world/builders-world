@@ -325,7 +325,8 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   // beside the street, never on the pavement or the road; the board sits above head height, lit at night
   let mural = null;
   // open ground first; failing that, private land behind a fence, clear of houses, as real boards stand
-  const bbSpot = findArea(bSpot.a + 9, 8.6, 1.4, { from: 0.8, to: 14 }) ?? findArea(bSpot.a + 9, 8.6, 1.4, { from: 1.5, to: 16, lots: true, pad: 1.2 });
+  // public ground only, never a garden (estate-layout skill); the whole board clears buildings by 1 m. No spot, no billboard.
+  const bbSpot = findArea(bSpot.a + 9, 8.6, 1.4, { from: 0.8, to: 14, pad: 1.0 });
   if (bbSpot) {
     mural = { a: bbSpot.a, o: bbSpot.c, len: 8 };
     const bb = new THREE.Group();
@@ -348,6 +349,7 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
       bb.add(new THREE.Mesh(box(0.34, 0.14, 0.2, x, 7.22, 0.85), M.warm));
     });
     const bp = place(bb, bbSpot.a, bbSpot.c, faceRoad);
+    world.claim?.({ kind: 'billboard', cx: bp.x, cz: bp.z, hx: 4.35, hz: 0.6, ry: faceRoad });
     billboardFace = faceMat;
     lamps.push({ x: bp.x - N.x * 1.2, y: 6.8, z: bp.z - N.z * 1.2, power: 18, boost: 30, color: 0xffd9a0 });
     // only the legs stand on the ground, so only they collide

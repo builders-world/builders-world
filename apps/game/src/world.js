@@ -307,12 +307,87 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     return d;
   };
   const lotTrees = [], doorPlants = [], lotFences = [];
+  // A plot may not reach the pavement or the carriageway, nor overlap a plot already laid out:
+  // map footprints often do both, so each plot is pulled back toward its centre until it is clear.
+  const reserve = [];
+  roads.forEach((r) => { if (!r.fit) return; const { pts, half, paveL, paveR } = r.fit; for (let k = 0; k < pts.length - 1; k++) reserve.push([pts[k], pts[k + 1], Math.max(half[k], half[k + 1]) + Math.max(paveL[k], paveR[k], paveL[k + 1], paveR[k + 1]) + 0.3]); });
+  const inReserve = (x, z) => reserve.some(([a, c, h]) => { const dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / L2)); return Math.hypot(x - a[0] - dx * u, z - a[1] - dz * u) < h; });
+  const laid = []; // accepted plots: { pts, bb }
+  const carriage = []; roads.forEach((r) => { if (!r.fit) return; const { pts, half } = r.fit; for (let k = 0; k < pts.length - 1; k++) carriage.push([pts[k], pts[k + 1], Math.max(half[k], half[k + 1])]); });
+  const along = (pts, f) => { for (let i = 0; i < pts.length; i++) { const [ax, az] = pts[i], [bx, bz] = pts[(i + 1) % pts.length], n = Math.max(1, Math.ceil(Math.hypot(bx - ax, bz - az))); for (let k = 0; k < n; k++) if (f(ax + (bx - ax) * k / n, az + (bz - az) * k / n)) return true; } return false; };
+  const clashes = (pts) => {
+    const bb = bbox(pts);
+    if (along(pts, inReserve) || along(pts, inReserveBox) || reserveCorners().some(([x, z]) => pointInPoly(x, z, pts))) return true;
+    return laid.some((l) => !(bb.x1 < l.bb.x0 || bb.x0 > l.bb.x1 || bb.z1 < l.bb.z0 || bb.z0 > l.bb.z1) && (along(pts, (x, z) => pointInPoly(x, z, l.pts)) || l.pts.some(([x, z]) => pointInPoly(x, z, pts))));
+  };
+  // plots of the builders' towers are laid first, so gardens give way to them
+  blds.forEach((b) => { if (plotIds.has(b)) laid.push({ pts: b.pts, bb: b.bb }); });
+  // ---------- footbridge site, chosen before any garden is laid out (infrastructure reserves land first) ----------
+  const BRIDGE = { H: 5.2, RISE: 0.18, RUN: 0.3, FW: 0.9, LAND: 1.25 }; BRIDGE.nSteps = Math.round(BRIDGE.H / BRIDGE.RISE); BRIDGE.FLIGHT = BRIDGE.nSteps * BRIDGE.RUN;
+  const cores = blds.filter((b) => !plotIds.has(b)).map((b) => scaleAbout(b.pts, b.c, 0.55));
+  let bridgeSite = null;
+  const bridgeReserve = []; // boxes no garden may take
+  {
+    const { H, nSteps, RUN, FLIGHT, FW, LAND } = BRIDGE;
+    const main = [...roads].filter((r) => r.fit && ['primary', 'secondary', 'trunk', 'tertiary'].includes(r.cls)).sort((a, b) => perimeter(b.pts) - perimeter(a.pts))[0];
+    const okBox = (cx, cz, hx, hz, ry) => {
+      const cs = Math.cos(ry), sn = Math.sin(ry);
+      for (let u = -1; u <= 1.001; u += 0.25) for (let v = -1; v <= 1.001; v += 0.5) {
+        const lx = u * hx, lz = v * hz, x = cx + lx * cs + lz * sn, z = cz - lx * sn + lz * cs;
+        if (Math.hypot(x, z) > R * 0.9) return false;
+        if (carriage.some(([a, c, h]) => { const dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1, w = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / L2)); return Math.hypot(x - a[0] - dx * w, z - a[1] - dz * w) < h + 0.3; })) return false;
+        if (laid.some((l) => pointInPoly(x, z, l.pts) || nearestOnPoly(x, z, l.pts).d < 1.2)) return false; // the builders' towers
+        if (cores.some((c) => pointInPoly(x, z, c))) return false; // the middle of any map building
+      }
+      return true;
+    };
+    let site = null;
+    if (main) {
+      const S = samplePolyline(main.fit.pts, 4), n0 = Math.floor(S.length * 0.2), n1 = Math.ceil(S.length * 0.8);
+      const order = []; for (let k = n0; k < n1; k++) order.push(k); order.sort((p, q) => Math.abs(p - S.length / 2) - Math.abs(q - S.length / 2));
+      for (const k of order) {
+        const m = S[k], nx = -m.tz, nz = m.tx;
+        // carriageway half and pavement width here
+        let hw = 4, pv = 2; { let bd = Infinity; main.fit.pts.forEach((p, i) => { const d = Math.hypot(p[0] - m.x, p[1] - m.z); if (d < bd) { bd = d; hw = main.fit.half[i]; pv = Math.max(main.fit.paveL[i], main.fit.paveR[i]); } }); }
+        const D = hw + pv + LAND + 0.4, ry = Math.atan2(nx, nz);
+        // each end: the landing, and a flight running one way or the other along the road
+        // a dual carriageway is two roads side by side: walk out from the centre line until clear of all of them
+        const onAny = (x, z) => carriage.some(([a, c, h]) => { const dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1, w = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / L2)); return Math.hypot(x - a[0] - dx * w, z - a[1] - dz * w) < h + 0.3; });
+        const reach = (sg) => { let last = 0; for (let q = 0; q < 45; q += 0.5) if (onAny(m.x + nx * q * sg, m.z + nz * q * sg)) last = q; return last; };
+        const ends = [-1, 1].map((sg) => {
+          const Ds = reach(sg) + pv + LAND + 0.2;
+          if (Ds > 40) return null;
+          const lx = m.x + nx * Ds * sg, lz = m.z + nz * Ds * sg;
+          for (const dir of [1, -1]) {
+            const fc = LAND + FLIGHT / 2, fx = lx + m.tx * fc * dir, fz = lz + m.tz * fc * dir;
+            if (okBox(lx, lz, LAND, LAND, ry) && okBox(fx, fz, FLIGHT / 2 + 0.3, FW + 0.2, ry)) return { lx, lz, dir, sg, D: Ds };
+          }
+          return null;
+        });
+        if (ends[0] && ends[1]) { site = { m, nx, nz, D, ry, ends }; break; }
+      }
+    }
+    bridgeSite = site;
+    if (site) site.ends.forEach(({ lx, lz, dir }) => {
+      const { LAND: L2, FLIGHT: F2, FW: W2 } = BRIDGE, fc = L2 + F2 / 2;
+      bridgeReserve.push({ cx: lx, cz: lz, hx: L2 + 0.8, hz: L2 + 0.8, ry: site.ry });
+      bridgeReserve.push({ cx: lx + site.m.tx * fc * dir, cz: lz + site.m.tz * fc * dir, hx: F2 / 2 + 0.8, hz: W2 + 0.8, ry: site.ry });
+    });
+  }
+  const inReserveBox = (x, z) => bridgeReserve.some((c) => { const dx = x - c.cx, dz = z - c.cz, cs = Math.cos(c.ry), sn = Math.sin(c.ry), lx = dx * cs - dz * sn, lz = dx * sn + dz * cs; return Math.abs(lx) < c.hx && Math.abs(lz) < c.hz; });
+  const reserveCorners = () => bridgeReserve.flatMap((c) => { const cs = Math.cos(c.ry), sn = Math.sin(c.ry); return [[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([u, v]) => [c.cx + u * c.hx * cs + v * c.hz * sn, c.cz - u * c.hx * sn + v * c.hz * cs]); });
+
+  const fenceIndex = new Map();
   blds.forEach((b) => {
     if (plotIds.has(b)) return;
+    let lot = null;
+    for (const k of [1, 0.94, 0.88, 0.82, 0.76, 0.7, 0.64]) { const p = k === 1 ? b.pts : scaleAbout(b.pts, b.c, k); if (!clashes(p)) { lot = p; break; } }
+    if (!lot) { b.pts = []; b.top = 0; return; } // a footprint that is mostly street: nothing is built there
+    laid.push({ pts: lot, bb: bbox(lot) });
     const lv = b.levels ?? (b.h ? b.h / 3 : 1 + Math.floor(rng() * 2));
     const wall = PAL.walls[Math.floor(rng() * PAL.walls.length)];
-    const est = dressEstate(mb, b.pts, b.c, lv, { wall, rng, front: toStreet, detail: Math.hypot(b.c[0], b.c[1]) < R * 0.6 ? 1 : 0 });
-    b.lot = b.pts;
+    const est = dressEstate(mb, lot, b.c, lv, { wall, rng, front: toStreet, fenceIndex, detail: Math.hypot(b.c[0], b.c[1]) < R * 0.6 ? 1 : 0 });
+    b.lot = lot;
     if (!est) { b.pts = []; b.top = 0; return; }
     b.pts = est.pts; b.bb = bbox(est.pts); b.top = est.top;
     if (est.tree) lotTrees.push(est.tree);
@@ -332,14 +407,94 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   const lamps = []; // street lamps that light the ground for real
   const lampT = kit?.get('yaba_street_lamp');
   const lampSpots = [];
-  const kitColliders = [...lotFences]; // picket fences first: low (1 m), so a jump clears them
+  const kitColliders = [...lotFences];
+  const claims = []; // { kind, cx, cz, hx, hz, ry }
+  let world_bridge = null; // picket fences first: low (1 m), so a jump clears them
   const trees = [];
   const glows = []; // {x,z,r}
   // lots count as built: nothing from the street is planted on someone's lawn
-  const inAnyBuilding = (x, z) => blds.some((b) => { const P = b.lot || b.pts; const bb = b.lot ? b.lotBB || (b.lotBB = bbox(b.lot)) : b.bb; return P.length >= 3 && x > bb.x0 - 1 && x < bb.x1 + 1 && z > bb.z0 - 1 && z < bb.z1 + 1 && pointInPoly(x, z, P); });
+  const inAnyBuilding = (x, z, pad = 0) => blds.some((b) => { const P = b.lot || b.pts; const bb = b.lot ? b.lotBB || (b.lotBB = bbox(b.lot)) : b.bb; return P.length >= 3 && x > bb.x0 - 1 - pad && x < bb.x1 + 1 + pad && z > bb.z0 - 1 - pad && z < bb.z1 + 1 + pad && (pointInPoly(x, z, P) || (pad > 0 && nearestOnPoly(x, z, P).d < pad)); });
 
   // street lamps on every street, trees only where pavements allow (world bible 4.3)
   const furniture = streetFurniture(roads, { inBuilding: inAnyBuilding, inside: (x, z) => Math.hypot(x, z) < R * 1.08 });
+  // ---------- footbridge (estate-layout skill): only where both stairs land on public ground ----------
+  // A deck 5.2 m up across the main road, a landing at each end, and a stair flight down each side
+  // running alongside the road. Steps, landings and deck are walkable (groundAt); railings stop you
+  // stepping off; anything standing where the stairs go (a lamp, a tree) gives way.
+  const walkables = []; // flat surfaces: { cx, cz, hx, hz, ry, top }
+  const bridgeBoxes = []; // footprints, to clear lamps and trees
+  {
+    const { H, RISE, nSteps, RUN, FLIGHT, FW, LAND } = BRIDGE;
+    const site = bridgeSite;
+    if (site) {
+      const { m, nx, nz, ry, ends } = site, tx = m.tx, tz = m.tz;
+      // the deck runs from one landing to the other, wherever each one had to go
+      const D1 = ends[0].D, D2 = ends[1].D, D = (D1 + D2) / 2, off = (D2 - D1) / 2, mx0 = m.x + nx * off, mz0 = m.z + nz * off;
+      const deck = '#c9c2b2', rail = PAL.tealDark, step = '#d6d0c0', pier = '#b5ab98';
+      // deck and its rails
+      mb.box(mx0, H - 0.35, mz0, LAND * 2, 0.35, D * 2, deck, { grad: 0.1, vary: 0 }, ry);
+      walkables.push({ cx: mx0, cz: mz0, hx: LAND, hz: D, ry, top: H });
+      [-1, 1].forEach((s2) => {
+        const rx = mx0 + tx * (LAND - 0.05) * s2, rz = mz0 + tz * (LAND - 0.05) * s2;
+        // deck rails run between the landings only, so the stairs can join the landings
+        const DL = D - LAND;
+        mb.box(rx, H, rz, 0.08, 1.05, DL * 2, rail, { grad: 0, vary: 0 }, ry);
+        mb.box(rx, H + 1.0, rz, 0.14, 0.08, DL * 2, rail, { grad: 0, vary: 0 }, ry);
+        kitColliders.push({ name: 'bridge_rail', cx: rx, cz: rz, hx: 0.06, hz: DL, ry, y0: H, y1: H + 1.1 });
+      });
+      for (let q = -D + 1.5; q < D - 1; q += 2.6) bulbs.push({ x: mx0 + nx * q, y: H + 1.15, z: mz0 + nz * q, s: 0.12 });
+      ends.forEach(({ lx, lz, dir, sg }) => {
+        // landing on four piers
+        mb.box(lx, H - 0.35, lz, LAND * 2, 0.35, LAND * 2, deck, { grad: 0.1, vary: 0 }, ry);
+        walkables.push({ cx: lx, cz: lz, hx: LAND, hz: LAND, ry, top: H });
+        bridgeBoxes.push({ cx: lx, cz: lz, hx: LAND + 0.5, hz: LAND + 0.5, ry });
+        [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([a, c]) => {
+          const px = lx + tx * (LAND - 0.2) * a + nx * (LAND - 0.2) * c, pz = lz + tz * (LAND - 0.2) * a + nz * (LAND - 0.2) * c;
+          mb.box(px, 0, pz, 0.32, H - 0.35, 0.32, pier, { grad: 0.2, vary: 0 }, ry);
+          kitColliders.push({ name: 'bridge_pier', cx: px, cz: pz, hx: 0.2, hz: 0.2, ry, y0: 0, y1: H - 0.35 });
+        });
+        // railings on the landing's outer side and its far side (the flight leaves from the near side)
+        const ox = lx + nx * (LAND - 0.05) * sg, oz = lz + nz * (LAND - 0.05) * sg;
+        mb.box(ox, H, oz, LAND * 2, 1.05, 0.08, rail, { grad: 0, vary: 0 }, ry);
+        kitColliders.push({ name: 'bridge_rail', cx: ox, cz: oz, hx: LAND, hz: 0.06, ry, y0: H, y1: H + 1.1 });
+        // the stair side of the landing: short rails either side of the stair opening
+        [-1, 1].forEach((s2) => {
+          const w = LAND - FW, o = FW + w / 2;
+          const px = lx + tx * (LAND - 0.05) * dir + nx * o * s2, pz = lz + tz * (LAND - 0.05) * dir + nz * o * s2;
+          mb.box(px, H, pz, 0.08, 1.05, w, rail, { grad: 0, vary: 0 }, ry);
+          kitColliders.push({ name: 'bridge_rail', cx: px, cz: pz, hx: 0.06, hz: w / 2, ry, y0: H, y1: H + 1.1 });
+        });
+        const fx0 = lx - tx * (LAND - 0.05) * dir, fz0 = lz - tz * (LAND - 0.05) * dir;
+        mb.box(fx0, H, fz0, 0.08, 1.05, LAND * 2, rail, { grad: 0, vary: 0 }, ry);
+        kitColliders.push({ name: 'bridge_rail', cx: fx0, cz: fz0, hx: 0.06, hz: LAND, ry, y0: H, y1: H + 1.1 });
+        // the flight: solid steps from the landing down to the pavement, a rail each side
+        const fry = Math.atan2(tx * dir, tz * dir);
+        for (let k = 0; k < nSteps; k++) {
+          const top = H - (k + 1) * RISE, a = LAND + (k + 0.5) * RUN;
+          if (top <= 0.001) continue;
+          const sx = lx + tx * a * dir, sz = lz + tz * a * dir;
+          mb.box(sx, 0, sz, FW * 2, top, RUN + 0.01, step, { grad: 0.15, vary: 0.02 }, fry);
+          walkables.push({ cx: sx, cz: sz, hx: FW, hz: RUN / 2 + 0.005, ry: fry, top });
+          kitColliders.push({ name: 'bridge_step', cx: sx, cz: sz, hx: FW, hz: RUN / 2, ry: fry, y0: 0, y1: top, step: true });
+          [-1, 1].forEach((s2) => {
+            const rx = sx + nx * (FW + 0.04) * s2 * sg, rz = sz + nz * (FW + 0.04) * s2 * sg;
+            mb.box(rx, top, rz, 0.08, 1.05, RUN + 0.01, rail, { grad: 0, vary: 0 }, fry);
+            kitColliders.push({ name: 'bridge_rail', cx: rx, cz: rz, hx: 0.05, hz: RUN / 2, ry: fry, y0: top, y1: top + 1.1 });
+          });
+        }
+        const fc = LAND + FLIGHT / 2;
+        bridgeBoxes.push({ cx: lx + tx * fc * dir, cz: lz + tz * fc * dir, hx: FW + 0.6, hz: FLIGHT / 2 + 0.8, ry: fry });
+        claims.push({ kind: 'bridge_stairs', cx: lx + tx * fc * dir, cz: lz + tz * fc * dir, hx: FW, hz: FLIGHT / 2, ry: fry });
+      });
+      claims.push({ kind: 'bridge_landing', cx: ends[0].lx, cz: ends[0].lz, hx: LAND, hz: LAND, ry }, { kind: 'bridge_landing', cx: ends[1].lx, cz: ends[1].lz, hx: LAND, hz: LAND, ry });
+      // lamps and trees in the way give way to the bridge
+      const inB = (x, z, pad) => bridgeBoxes.some((c) => { const dx = x - c.cx, dz = z - c.cz, cs = Math.cos(c.ry), sn = Math.sin(c.ry), lxx = dx * cs - dz * sn, lzz = dx * sn + dz * cs; return Math.abs(lxx) < c.hx + pad && Math.abs(lzz) < c.hz + pad; });
+      for (let k = furniture.lamps.length - 1; k >= 0; k--) if (inB(furniture.lamps[k].x, furniture.lamps[k].z, 0.6)) furniture.lamps.splice(k, 1);
+      for (let k = furniture.trees.length - 1; k >= 0; k--) if (inB(furniture.trees[k].x, furniture.trees[k].z, 1.2)) furniture.trees.splice(k, 1);
+      world_bridge = { x: mx0, z: mz0, span: D * 2, height: H, ends: ends.map((e) => ({ x: e.lx, z: e.lz, foot: { x: e.lx + tx * (LAND + FLIGHT + 0.8) * e.dir, z: e.lz + tz * (LAND + FLIGHT + 0.8) * e.dir }, up: Math.atan2(-tx * e.dir, -tz * e.dir) })) };
+    }
+  }
+
   furniture.lamps.forEach((l) => {
     const { x, z, nx, nz } = l;
     if (lampT) {
@@ -382,26 +537,6 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
         mb.box(mx, 8.55, mz, 0.05, 0.05, len, PAL.wire, { grad: 0, vary: 0 }, Math.atan2(nxt.x - p.x, nxt.z - p.z));
       }
     });
-
-
-    // pedestrian footbridge over the main road
-    const mids = samplePolyline(longest.pts, 1);
-    const m = mids[Math.floor(mids.length * 0.45)] || mids[0];
-    if (m) {
-      const nxv = -m.tz, nzv = m.tx;
-      const half = longest.w / 2 + 5.2;
-      const ry = Math.atan2(nxv, nzv);
-      mb.box(m.x, 5.2, m.z, 2.6, 0.35, half * 2, PAL.wire, { grad: 0.1 }, ry);
-      mb.box(m.x, 5.55, m.z, 0.14, 1.0, half * 2, PAL.teal, { grad: 0 }, ry + 0);
-      [-1, 1].forEach((sgn) => {
-        const ex = m.x + nxv * half * sgn, ez = m.z + nzv * half * sgn;
-        mb.box(ex, 0, ez, 3.4, 5.2, 3.4, PAL.tower, { grad: 0.3 }, ry);
-        mb.box(ex, 5.2, ez, 3.8, 0.5, 3.8, PAL.tealDark, { grad: 0 }, ry);
-      });
-      for (let q = -half + 2; q < half - 1.5; q += 2.6) {
-        bulbs.push({ x: m.x + nxv * q, y: 6.35, z: m.z + nzv * q, s: 0.17 });
-      }
-    }
   }
 
   // market kiosks along the roads (amber lamps)
@@ -412,8 +547,12 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     const sd = rng() < 0.5 ? 1 : -1;
     const off = r.w / 2 + 2.6;
     const x = s.x + -s.tz * sd * off, z = s.z + s.tx * sd * off;
-    if (Math.hypot(x, z) > R || inAnyBuilding(x, z) || inAnyBuilding(x + 2, z) || inAnyBuilding(x - 2, z)) continue;
     const ry = Math.atan2(s.tx, s.tz);
+    // a kiosk stands on public ground beside the pavement: off every carriageway, out of plots, clear of buildings and the bridge
+    const kb = { cx: x, cz: z, hx: 1.45, hz: 1.3, ry };
+    const cornersOk = [[-1, -1], [1, -1], [1, 1], [-1, 1], [0, 0]].every(([u, v]) => { const px = x + u * 1.45 * Math.cos(ry) + v * 1.3 * Math.sin(ry), pz = z - u * 1.45 * Math.sin(ry) + v * 1.3 * Math.cos(ry); return !inAnyBuilding(px, pz, 0.6) && !laid.some((l) => pointInPoly(px, pz, l.pts)) && !carriage.some(([a, c, h]) => { const dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1, w = Math.max(0, Math.min(1, ((px - a[0]) * dx + (pz - a[1]) * dz) / L2)); return Math.hypot(px - a[0] - dx * w, pz - a[1] - dz * w) < h + 0.3; }); });
+    if (Math.hypot(x, z) > R || !cornersOk || kitColliders.some((c) => Math.hypot(c.cx - x, c.cz - z) < Math.max(c.hx, c.hz) + 2)) continue;
+    kitColliders.push({ name: 'kiosk', ...kb });
     mb.box(x, 0, z, 2.2, 2.0, 1.9, PAL.kiosk, { grad: 0.3 }, ry);
     mb.box(x, 2.0, z, 2.9, 0.18, 2.6, PAL.teal, { grad: 0, vary: 0 }, ry);
     bulbs.push({ x, y: 1.65, z, s: 0.22 });
@@ -645,6 +784,8 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
         return;
       }
       if (s.h !== undefined && y + 0.25 > s.h) return; // tucked knees lift the feet about 25 cm
+      if (s.y1 !== undefined && (y > s.y1 - 0.3 || y + 1.7 < s.y0)) return; // above it, or walking underneath
+      if (s.step && s.y1 <= y + 0.55) return; // a step you can step up onto
       pushOutBox(pos, rad, s);
     });
     const rr = Math.hypot(pos.x, pos.z);
@@ -702,6 +843,21 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     // flat roofs of unclaimed buildings, for rooftop water tanks
     roofs: blds.filter((b) => !plotIds.has(b) && b.top && b.pts.length >= 3).map((b) => ({ x: b.c[0], z: b.c[1], y: b.top, area: b.area, pts: b.pts })),
     blockedAt: (x, z, r = 0.35) => { const v = { x, z }; resolve(v, r); return Math.hypot(v.x - x, v.z - z) > 0.01; },
+    // footprints of things that have no collider (a billboard face, a bridge deck, drains), for the layout audit
+    claims, claim: (c) => claims.push(c), bridge: world_bridge,
+    // the ground under someone's feet: steps, landings and decks they can reach (a 0.55 m step up at most)
+    groundAt: (x, z, feet = 0) => {
+      let g = 0;
+      for (const w of walkables) {
+        if (w.top > feet + 0.55 || w.top <= g) continue;
+        const dx = x - w.cx, dz = z - w.cz, cs = Math.cos(w.ry), sn = Math.sin(w.ry), lx = dx * cs - dz * sn, lz = dx * sn + dz * cs;
+        if (Math.abs(lx) <= w.hx + 0.05 && Math.abs(lz) <= w.hz + 0.05) g = w.top;
+      }
+      return g;
+    },
+    // land use, for anything placed after the world is built (estate-layout skill)
+    onCarriageway: (x, z, pad = 0) => carriage.some(([a, c, h]) => { const dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / L2)); return Math.hypot(x - a[0] - dx * u, z - a[1] - dz * u) < h + pad; }),
+    inPlot: (x, z, pad = 0) => laid.some((l) => x > l.bb.x0 - pad && x < l.bb.x1 + pad && z > l.bb.z0 - pad && z < l.bb.z1 + pad && (pointInPoly(x, z, l.pts) || (pad > 0 && nearestOnPoly(x, z, l.pts).d < pad))),
     kit, kitColliders, addColliders: (list) => { list.forEach((c) => { kitColliders.push(c); indexBox(c); }); nav = null; },
     // walkable paths around everything solid, by the movement rules (navgrid.js); built on first use
     plan: (a, b, opt) => navGrid().plan(a, b, opt),
