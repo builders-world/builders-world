@@ -75,9 +75,9 @@ export function buildParks({ world, scene, pond, area, uTime, addLamps, reduced 
     [0.85, 2.0, 3.5, 4.6, 5.6].forEach((a, i) => {
       const p = onEll(a, 3.3);
       if (!world.isFree(p.x, p.z, 0.4, { lots: false })) return;
-      const b = benchMesh.clone(); b.position.set(p.x, 0, p.z); b.rotation.y = Math.atan2(P.x - p.x, P.z - p.z) + Math.PI; group.add(b);
+      const b = benchMesh.clone(); b.position.set(p.x, 0, p.z); b.rotation.y = Math.atan2(P.x - p.x, P.z - p.z); group.add(b); // the seat faces the water, the backrest the path
       cols.push({ name: 'bench', cx: p.x, cz: p.z, hx: 0.9, hz: 0.25, ry: b.rotation.y, h: 0.9 });
-      out.benches.push(p);
+      out.benches.push({ x: p.x + Math.sin(b.rotation.y) * 0.05, z: p.z + Math.cos(b.rotation.y) * 0.05, yaw: b.rotation.y });
       const t = onEll(a + 0.45, 4.6);
       if (world.isFree(t.x, t.z, 0.6) && i % 2 === 0) {
         const tree = new THREE.Group(); tree.add(new THREE.Mesh(tg[0], trunk)); tg.slice(1).forEach((g) => tree.add(new THREE.Mesh(g, leaf))); tree.position.set(t.x, 0, t.z); group.add(tree);
@@ -162,24 +162,27 @@ export function buildParks({ world, scene, pond, area, uTime, addLamps, reduced 
   return { group, ...out, update(t) { const f = group.getObjectByName?.('foam'); void f; void t; void reduced; } };
 }
 
+// a W x D rectangle of open public ground, nearest the start, clear of everything in `used` (which it extends)
+export function findSite(world, used, W, D) {
+  const free = (x, z) => (world.costAt ? world.costAt(x, z) < 2.6 : world.isFree(x, z, 0.5));
+  for (let r = 10; r < world.radius * 0.95; r += 5) for (let k = 0; k < 20; k++) {
+    const a = (k / 20) * Math.PI * 2 + r * 0.37, x = world.spawn.x + Math.cos(a) * r, z = world.spawn.z + Math.sin(a) * r;
+    if (Math.hypot(x, z) > world.radius * 0.9 || used.some((u) => Math.abs(u.x - x) < (u.W + W) / 2 + 3 && Math.abs(u.z - z) < (u.D + D) / 2 + 3)) continue;
+    let ok = true;
+    for (let u = -W / 2; u <= W / 2 && ok; u += 1.5) for (let v = -D / 2; v <= D / 2 && ok; v += 1.5) if (!free(x + u, z + v)) ok = false;
+    if (ok) { used.push({ x, z, W, D }); return { x, z }; }
+  }
+  return null;
+}
+
 // ---------- places to play (world bible 4.5): a skate park, a water park, a community garden, a picnic lawn ----------
 // Each needs a rectangle of open public ground (the walkable map says: not a building, garden, road or prop),
 // kept clear of the pond park and of each other, as near the start as there is room.
 export function buildRecreation({ world, scene, uTime, taken = [], reduced }) {
   const group = new THREE.Group(); group.name = 'recreation'; scene.add(group);
   const pois = [], cols = [], anim = [];
-  const free = (x, z) => (world.costAt ? world.costAt(x, z) < 2.6 : world.isFree(x, z, 0.5));
-  const used = [...taken];
-  function site(W, D) {
-    for (let r = 10; r < world.radius * 0.95; r += 5) for (let k = 0; k < 20; k++) {
-      const a = (k / 20) * Math.PI * 2 + r * 0.37, x = world.spawn.x + Math.cos(a) * r, z = world.spawn.z + Math.sin(a) * r;
-      if (Math.hypot(x, z) > world.radius * 0.9 || used.some((u) => Math.abs(u.x - x) < (u.W + W) / 2 + 3 && Math.abs(u.z - z) < (u.D + D) / 2 + 3)) continue;
-      let ok = true;
-      for (let u = -W / 2; u <= W / 2 && ok; u += 1.5) for (let v = -D / 2; v <= D / 2 && ok; v += 1.5) if (!free(x + u, z + v)) ok = false;
-      if (ok) { used.push({ x, z, W, D }); return { x, z }; }
-    }
-    return null;
-  }
+  const used = taken;
+  const site = (W, D) => findSite(world, used, W, D);
   const mat = (color, extra = {}) => new THREE.MeshStandardMaterial({ color, roughness: 0.85, ...extra });
   const pad = (W, D, color, y = 0.08) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(W, D).rotateX(-Math.PI / 2), mat(color, { polygonOffset: true, polygonOffsetFactor: -1 })); m.position.y = y; return m; };
   const signFor = (text, bg) => { const s = new THREE.Group(); s.add(new THREE.Mesh(box(0.08, 1.5, 0.08, -0.8, 0.75, 0), mat(0x263832)), new THREE.Mesh(box(0.08, 1.5, 0.08, 0.8, 0.75, 0), mat(0x263832))); const p = new THREE.Mesh(new THREE.PlaneGeometry(1.9, 0.5), new THREE.MeshStandardMaterial({ map: signTexture(text, { bg, w: 512, h: 140 }), roughness: 0.7 })); p.position.set(0, 1.3, 0.05); s.add(p); return s; };
@@ -267,7 +270,7 @@ export function buildRecreation({ world, scene, uTime, taken = [], reduced }) {
 
   world.addColliders(cols);
   return {
-    group, pois,
+    group, pois, used,
     update(t) { if (reduced) return; anim.forEach((a) => { const h = 0.4 + 1.4 * Math.max(0, Math.sin(t * 2.2 + a.ph)); a.j.scale.y = h; }); },
   };
 }

@@ -117,6 +117,7 @@ const CSS = `${KIT_CSS}
 #lkm-wal h3 { margin: 0 0 10px; font: 800 26px/1 ${FONT}; }
 #lkm-wal h3 small { display: block; margin-top: 4px; font: 600 13px/1 ${FONT}; color: ${C.ink2}; }
 #lkm-wal .bal { display: flex; align-items: center; gap: 6px; padding: 14px 16px; border-radius: 18px; background: #2a9d94; color: #fff; }
+#lkm-wal li b.in { color: #2f8a4f; }
 #lkm-wal .bal b { font: 800 40px/1 ${FONT}; letter-spacing: -.01em; }
 #lkm-wal .how, #lkm-wal .st { margin: 10px 0; font: 600 13.5px/1.45 ${FONT}; color: ${C.ink2}; }
 #lkm-wal .st { color: ${C.coral}; }
@@ -304,7 +305,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     atm: { label: 'ATMs', glyph: 'atm', color: '#2a9d94' }, food: { label: 'Food', glyph: 'food', color: '#e46f4f' },
     cafe: { label: 'Cafes', glyph: 'cafe', color: '#a87950' }, fuel: { label: 'Fuel', glyph: 'fuel', color: '#e46f4f' },
     bus: { label: 'Rides', glyph: 'bus', color: '#f2b33d' }, work: { label: 'Workspaces', glyph: 'work', color: '#4a64b0' },
-    shop: { label: 'Shops', glyph: 'shop', color: '#7d5aa6' }, park: { label: 'Parks', glyph: 'build', color: '#5f9a45' }, gym: { label: 'Gyms', glyph: 'gym', color: '#326952' },
+    shop: { label: 'Shops', glyph: 'shop', color: '#7d5aa6' }, park: { label: 'Parks', glyph: 'build', color: '#5f9a45' }, recycle: { label: 'Recycling', glyph: 'recycle', color: '#4f8a4a' }, gym: { label: 'Gyms', glyph: 'gym', color: '#326952' },
   };
   const poiIcon = {};
   Object.entries(KINDS).forEach(([k, d]) => {
@@ -668,7 +669,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   const wallet = walletEngine();
   function openWallet({ atm = false } = {}) {
     const w = wallet;
-    const hist = w.history.map((h) => `<li><span>${h.what}</span><b>−${effortsMark(12)}${fmt(h.amount)}</b></li>`).join('') || '<li class="none">Nothing spent yet.</li>';
+    const hist = w.history.map((h) => `<li><span>${h.what}</span><b${h.earn ? ' class="in"' : ''}>${h.earn ? '+' : '−'}${effortsMark(12)}${fmt(h.amount)}</b></li>`).join('') || '<li class="none">Nothing spent or earned yet.</li>';
     walEl.classList.toggle('atm', atm);
     walEl.innerHTML = `<h3>${atm ? 'ATM' : 'Wallet'}<small>${atm ? 'Yaba Builders Bank' : 'Efforts, earned by shipping'}</small></h3>
       <div class="bal">${effortsMark(40)}<b>${fmt(w.balance())}</b></div>

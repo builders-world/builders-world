@@ -237,7 +237,7 @@ async function main() {
     const k = e.key.toLowerCase();
     // phone, map and bag take their keys first, and hold movement while open
     if (!e.repeat && street?.hud.menuKey(k)) { e.preventDefault(); keys.clear(); return; }
-    if (street?.hud.isOpen() && ['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(k)) return;
+    if (street?.hud.isOpen() && !street?.benchSeated && ['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(k)) return;
     if (k === 'v') { if (!e.repeat) { if (cam.aerial) cut(() => setAerial(false)); else cycleView(); } }
     else if (k === 'b') { if (!e.repeat) cut(() => setAerial(!cam.aerial)); }
     else if (k === 'c') { if (!e.repeat) setTravel(!travel.on); }
@@ -404,10 +404,12 @@ async function main() {
     // moving into or out of a place, sitting down, standing up
     const move = street?.takeMove();
     if (move) {
-      if (move.mode === 'stand') { player.z += 0.9; seated = false; }
+      if (move.mode === 'stand') { if (move.x !== undefined) player.set(move.x, 0, move.z); else player.z += 0.9; seated = false; snap = true; }
       else {
         player.set(move.x, 0, move.z);
         if (move.yaw !== undefined) heading = cam.yaw = cam.yawT = move.yaw;
+        // on a street bench the camera swings round to a three-quarter front view, so you see yourself sit
+        if (move.mode === 'sit' && street?.benchSeated) { cam.yaw = cam.yawT = move.yaw + 2.5; cam.pitchT = Math.max(cam.pitchT, 0.32); }
         seated = move.mode === 'sit';
         if (move.mode === 'inside') { savedOutside = { dist: cam.distT, pitch: cam.pitchT }; cam.distT = cam.dist = 4.5; cam.pitchT = cam.pitch = 0.32; }
         if (move.mode === 'outside' && savedOutside) { cam.distT = savedOutside.dist; cam.pitchT = savedOutside.pitch; world.resolve(player, PLAYER_R); }
@@ -434,6 +436,8 @@ async function main() {
     fwd.set(Math.sin(cam.yaw), 0, Math.cos(cam.yaw));
     right.set(-Math.cos(cam.yaw), 0, Math.sin(cam.yaw));
     mv.set(0, 0, 0);
+    // on a street bench, any move key or the stick stands you up
+    if (seated && street?.benchSeated && (['w', 's', 'a', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].some((k) => keys.has(k)) || Math.abs(input.state.move.x) + Math.abs(input.state.move.y) > 0.3)) street.standUp();
     if (!cam.aerial && !riding && !seated) {
       if (keys.has('w') || keys.has('arrowup')) mv.add(fwd);
       if (keys.has('s') || keys.has('arrowdown')) mv.sub(fwd);

@@ -26,11 +26,13 @@ export function createWallet({ demoCommits = 12 } = {}) {
     commits: store.get('bw-gh-commits', null),
     checked: store.get('bw-gh-at', 0),
     spent: store.get('bw-spent', []), // [{ what, amount, at }]
+    bonus: store.get('bw-bonus', []), // Efforts earned in the world: cleaning the streets, recycling [{ what, amount, at }]
     status: '', source: store.get('bw-gh-src', 'commits'),
   };
   const earned = () => (state.handle && state.commits !== null ? state.commits : demoCommits) * PER_COMMIT;
   const spentTotal = () => state.spent.reduce((a, s) => a + s.amount, 0);
-  const balance = () => earned() - spentTotal();
+  const bonusTotal = () => state.bonus.reduce((a, s) => a + s.amount, 0);
+  const balance = () => earned() + bonusTotal() - spentTotal();
   const emit = () => listeners.forEach((fn) => fn(api));
 
   // your shipping over the last year, from the game's own endpoint (api/efforts.js), which asks GitHub
@@ -69,11 +71,19 @@ export function createWallet({ demoCommits = 12 } = {}) {
     emit();
     return true;
   }
+  // earned in the world, not by shipping: kept on this device next to what you spend
+  function earn(amount, what) {
+    amount = Math.max(0, Math.round(amount)); if (!amount) return;
+    state.bonus.push({ what, amount, at: Date.now() });
+    if (state.bonus.length > 400) { const old = state.bonus.splice(0, 100).reduce((a, s) => a + s.amount, 0); state.bonus.unshift({ what: 'Earlier street work', amount: old, at: 0 }); }
+    store.set('bw-bonus', state.bonus);
+    emit();
+  }
   const api = {
-    balance, earned, spend, link, refresh,
+    balance, earned, spend, earn, link, refresh, bonus: bonusTotal,
     get handle() { return state.handle; }, get commits() { return state.handle && state.commits !== null ? state.commits : demoCommits; },
     get demo() { return !state.handle || state.commits === null; }, get status() { return state.status; }, get source() { return state.source; },
-    get history() { return state.spent.slice(-12).reverse(); },
+    get history() { return [...state.spent, ...state.bonus.map((b) => ({ ...b, earn: true }))].sort((a, b) => a.at - b.at).slice(-12).reverse(); },
     onChange: (fn) => { listeners.add(fn); return () => listeners.delete(fn); },
     PER_COMMIT,
   };

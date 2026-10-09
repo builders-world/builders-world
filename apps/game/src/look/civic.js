@@ -116,7 +116,7 @@ export function buildCivic(world, scene, { rides } = {}) {
     // only the back panel and the posts are solid: you can step in under the canopy
     world.addColliders([{ name: 'shelter_back', cx: x - nx * 0.65, cz: z - nz * 0.65, hx: 1.55, hz: 0.06, ry }]);
     world.claim?.({ kind: 'bus_shelter', cx: x, cz: z, hx: 1.6, hz: 0.75, ry });
-    added.push({ kind: 'bus_shelter', x, z });
+    added.push({ kind: 'bus_shelter', x, z, seat: { x: x - Math.sin(ry) * 0.35, z: z - Math.cos(ry) * 0.35, yaw: ry } });
   });
 
   return { group, added, dispose() { group.removeFromParent(); } };

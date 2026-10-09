@@ -875,7 +875,8 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   // is a world-space point inside a building volume? (camera collision)
   // what the camera must not pass through: big props and overhead things (not fences, poles or steps)
   const camBoxes = [];
-  const camRefresh = () => { camBoxes.length = 0; [...kitColliders, ...claims].forEach((c) => { if (/fence|pole|lamp|bollard|rail|step|sign|post|tree|palm|drain/i.test(c.name || c.kind || '') || Math.max(c.hx, c.hz) < 0.6) return; camBoxes.push(c); }); };
+  const camRefresh = () => { camBoxes.length = 0; [...kitColliders, ...claims.filter((c) => c.y1 !== undefined)].forEach((c) => { // a claim is land set aside, not a wall: only one with a height band (a billboard face) blocks the camera
+    if (/fence|pole|lamp|bollard|rail|step|sign|post|tree|palm|drain/i.test(c.name || c.kind || '') || Math.max(c.hx, c.hz) < 0.6) return; camBoxes.push(c); }); };
   function solidAt(x, y, z) {
     if (camBoxes.dirty !== false) { camRefresh(); camBoxes.dirty = false; }
     for (const s of solid) {
