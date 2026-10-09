@@ -169,7 +169,7 @@ export function rigAvatar(root) {
     set(pelvis, 'y', -0.07 * walk * Math.sin(ph), k);
     set(chest, 'y', 0.12 * walk * Math.sin(ph) * lerp(1, 1.4, run), k);
     set(neck, 'y', -chest.rotation.y * 0.8 - pelvis.rotation.y, k);
-    set(neck, 'x', -chest.rotation.x * 0.6, k);
+    set(neck, 'x', -chest.rotation.x * 0.6 + 0.32 * (s.slump || 0), k); // sad people look at the ground
     set(pelvis, 'z', 0.02 * walk * Math.sin(ph) * (1 - run), k);
   }
   function landed(v) { cur.land = Math.min(1, Math.abs(v) / 6); }

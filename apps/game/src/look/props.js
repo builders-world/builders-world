@@ -527,16 +527,8 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
     });
   }
 
-  // people walking the pavement: residents, not builders (no name tags), each with a register for the
-  // chat bubbles: tier 0 is well-off (mostly English, a smart jacket), 2 is working-class (mostly Pidgin)
-  if (!lowQuality) {
-    const RES = [['Chidi', '#c25b4a', 2], ['Amaka', '#e0c36a', 0], ['Bayo', '#5a7fb0', 1], ['Zainab', '#d9d2c3', 0], ['Emeka', '#7fb35e', 2], ['Funke', '#e98a6a', 1]];
-    RES.forEach(([name, c, tier], i) => {
-      const av = createAvatarModel({ color: c, style: tier === 0 ? 'jacket' : tier === 1 ? 'hoodie' : 'tee' });
-      root.add(av.root);
-      walkers.push({ name, tier, obj: av.root, dispose: av.dispose, rig: rigAvatar(av.root), s: -14 + i * 9, dir: i % 2 ? 1 : -1, out: 0.6 + (i % 2) * 0.9, speed: 1.1 + rng() * 0.4 });
-    });
-  }
+  // the people walking the streets are residents with lives of their own now (lives.js)
+
 
   function update(dt, t, player) {
     if (area?.userData.ghost) area.userData.ghost.material.opacity = 0.22 + (reduced ? 0.1 : 0.12 * (0.5 + 0.5 * Math.sin(t * 2.4)));

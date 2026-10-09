@@ -86,7 +86,10 @@ export function createChat({ camera, avatar, getEnv, reduced }) {
   }
 
   // what a greeting sounds like right now: time of day and weather first, now and then
+  let lifeLine = null;
   function greeting(p) {
+    // residents talk about their own lives: the baby, the late bus, the rent, the dream
+    if (p.life && lifeLine && Math.random() < 0.6) { const l = lifeLine(p.life); if (l) return l; }
     const env = getEnv?.() || {};
     const r = Math.random();
     if (env.rain > 0.3 && r < 0.35) return line('rain', p);
@@ -197,5 +200,5 @@ export function createChat({ camera, avatar, getEnv, reduced }) {
   // other players (online.js) and your own typed messages
   const sayFrom = (obj, text, name, emoji = false) => say(obj, text, { name, emoji, hold: emoji ? 2.4 : 5 });
   const sayMine = (text) => say(avatar, text, { me: true, hold: 5 });
-  return { add, update, sayHi, emote, nearest, dispose, sayFrom, sayMine, get people() { return people; }, get last() { return last; } };
+  return { add, update, sayHi, emote, nearest, dispose, sayFrom, sayMine, setLife: (fn) => { lifeLine = fn; }, get people() { return people; }, get last() { return last; } };
 }

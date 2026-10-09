@@ -8,6 +8,7 @@ import { createLife } from './life.js';
 import { dressDistrict } from './district.js';
 import { createRides } from './rides.js';
 import { createChat } from './chat.js';
+import { createLives } from './lives.js';
 import { buildCivic } from './civic.js';
 import { createInteriors, PLACES, namePlaces } from './interior.js';
 import { sunPosition, sunDirection } from './sun.js';
@@ -134,10 +135,15 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   }
   let savedFog = null;
   const chat = createChat({ camera, avatar, getEnv: () => live, reduced });
+  // residents with homes, jobs, families and a day that follows real time (lives.js)
+  const lives = createLives({ world, scene: group, getEnv: () => live, getPois: () => props.pois, reduced, lowQuality: quality === 'low', chat, interact: props.interact });
+  chat.setLife?.(lives.lifeLine);
+  props.people = [...(props.people || []), ...lives.people];
   (props.people || []).forEach((p) => chat.add(p));
   const hud = createHud({
     onChat: (name) => { const p = chat.people.find((q) => q.name === name); if (p) chat.sayHi(p); },
     onUse: (player, active) => {
+      if (active?.id?.startsWith('life:')) return lives.talk(active.id);
       if (interiors?.active) {
         const r = interiors.use(player.x, player.z);
         if (r?.exit) { interiors.leave(); setInside(null); pendingMove = doorOut && { ...doorOut, mode: 'outside' }; return true; }
@@ -178,7 +184,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   group.add(hud.route);
   interiors = createInteriors({ scene, reduced, toast: hud.toast, getEnv: () => live || { day: 1 } });
   // everything that moves and can be bumped into: people, traffic, the waiting hired vehicle
-  const bodies = () => [...(props.bodies?.() || []), ...(dressing?.bodies?.() || []), rides?.body?.()].filter(Boolean);
+  const bodies = () => [...(props.bodies?.() || []), ...lives.bodies(), ...(dressing?.bodies?.() || []), rides?.body?.()].filter(Boolean);
   rides = createRides({ world, scene: group, nav: hud.nav, props, reduced, toast: hud.toast, getBodies: () => [...(props.bodies?.() || []), ...(dressing?.bodies?.() || [])],
     onState: (st) => { if (st.ride === false && st.exitAt) pendingExit = st.exitAt; } });
   const civic = buildCivic(world, group, { rides });
@@ -317,7 +323,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     fill.position.set(camera.position.x * 0.6 + player.x * 0.4, 3.2, camera.position.z * 0.6 + player.z * 0.4);
     if (rainMesh) rainMesh.userData.cam.value.copy(camera.position);
     props.update(dt, t, player);
-    if (!interiors?.active) chat.update(dt, player);
+    if (!interiors?.active) { lives.update(dt, t, player); chat.update(dt, player); }
     hud.update(dt, t, player, yaw);
     // lightning only when there is a thunderstorm where the weather comes from
     if (night && !reduced && cur.storm > 0.5) {
@@ -370,6 +376,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, lives, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 
