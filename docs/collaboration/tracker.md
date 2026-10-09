@@ -73,8 +73,16 @@ Every request Elvis has made, with where it stands. Updated 9 October 2026, 17:4
 | 44 | Lane markings, crossings, bus stops, real Yaba roads and landmarks | Done, pushed: lanes, 32 zebras, street-name plates, landmark fingerposts, bus shelters | yaba-scene `src/look/civic.js` | `d405134` |
 | 45 | More street lights; motion-sensor porch lights | Done, pushed | yaba-scene `src/world.js` | `ca22d3e` |
 | 46 | ATMs in a proper district; map icons for services | Done, pushed: bank branch ATMs, filling station, Find nearest, icons | yaba-scene `src/look/district.js` | `5956261` |
-| 47 | Mobile analog stick; PS4/PS5/Xbox controllers with a mapping screen | Next | | |
+| 47 | Mobile analog stick; PS4/PS5/Xbox controllers with a mapping screen | Done, pushed; phone HUD cleaned up | yaba-scene `src/look/input.js` | `36b0dab` |
+| 47a | Near camera by default; idle cinematic camera | Done, pushed | yaba-scene `src/main.js` | `203426e` |
+| 47b | Animated emotes and idle fidgets; fewer chat bubbles | Done, pushed | yaba-scene `src/look/anim.js`, `chat.js` | `83e45fd` |
+| 47c | Bird species, a pond, flocking without clumps; cats no longer spin | Done, pushed | yaba-scene `src/look/birds.js`, `life.js` | `04e0b80` |
+| 47d | Zoomable map with zones, estates, house numbers and names | Done, pushed | yaba-scene `src/look/menus.js` | `db61ddf` |
+| 47e | MongoDB: other players online, typed chat | Done, pushed and live: presence every second, avatars, name tags, chat (Enter), shared emotes | yaba-scene `api/presence.js`, `src/look/online.js` | `aa80c2e`, `95a7106` |
 | 48 | Bench building animation with hard hat and tools | Queued | | |
+| 57 | Roadside vendors and a little street chaos; random events; police stations; city traffic control | Queued | | |
+| 58 | Passenger cars, several designs; taxi and danfo roof signs | Queued | | |
+| 59 | Gated estates: residents' passes, invited visitors confirmed by the host, 3 to 4 day visits, reputation | Queued | | |
 | 49 | Watch Dogs-style tags and profiles (career, socials, commits, stars, design work) | Queued | | |
 | 50 | Women, Afrocentric fashion, hairstyles, accessories, footwear; an outfit editor for you and NPCs | Queued | | |
 | 51 | Pets: dog or cat, breeds, names, petting, ball, laser, whistle | Queued | | |

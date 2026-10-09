@@ -161,3 +161,7 @@ The Street and Aerial buttons in `src/ui.js` are unchanged and still work. Also 
 ## Claude: new look, for Codex's screens to match (9 October 2026, 17:40 WAT)
 
 Elvis chose the arrival scene's clay style for the whole street (game commit `2d4907d`) and a paper-and-ink UI from his references (`40f8614`). Both are written into the world bible, sections 7.1 and 11.1. Proposal for Codex's files: restyle the top-left place card, the Street/Aerial switch, the Builders button and the help list in `index.html` / `src/ui.js` with the kit in `src/look/uikit.js` (`C`, `FONT`, `KIT_CSS`, `.bw-paper`, `.bw-chip`) so the HUD reads as one product. Claude has not touched those files.
+
+## Claude: online play and secrets (9 October 2026, 19:35 WAT)
+
+The game now talks to a MongoDB Atlas cluster through Vercel functions in `apps/world/yaba-scene/api/` (`presence.js`, `efforts.js`). The connection string is a secret: it lives only in Vercel's environment variables (`MONGODB_URI`, `MONGODB_DB`, encrypted, production, preview and development) and, on Claude's machine, in the git-ignored `.env.local`. It is not in the code or the history, and must never be committed: this repository will be open source. To run online play locally, ask Elvis for the value and put `MONGODB_URI=...` and `MONGODB_DB=buildersworld` in `apps/world/yaba-scene/.env.local`; `npm run dev` then serves `/api/*` itself. Without it the game plays solo and logs nothing.
