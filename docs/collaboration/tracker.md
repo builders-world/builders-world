@@ -69,6 +69,20 @@ Every request Elvis has made, with where it stands. Updated 9 October 2026, 17:4
 | 41 | Level design skills; fix every overlap and impossible placement (billboard on a house, footbridge with no stairs) | Done, pushed: level-design and procedural-gen linked, estate-layout skill written; audit 159 issues to 0; walkable footbridge | yaba-scene `src/world.js`, `src/look/houses.js` | `db85ba6` |
 | 42 | NPC chat bubbles: greetings in English and pidgin by class, reactions to you, moods and emoji | Done, pushed: register by lifestyle, greetings by time and weather, E to say hi, 1-6 emotes, waves | yaba-scene `src/look/chat.js` | `2f930d6` |
 | 40 | Live site updates itself on every push | Waiting on Elvis: install the Vercel GitHub app on the builders-world org, then Claude connects the project | Vercel | |
+| 43 | Efforts currency (1,000 per commit), wallet, logo, banks, ATMs | Done, pushed: wallet + ATM + fares; live endpoint counts GitHub contributions (set GITHUB_TOKEN in Vercel for exact commit counts) | yaba-scene `src/look/wallet.js`, `api/efforts.js` | `745cc2c` |
+| 44 | Lane markings, crossings, bus stops, real Yaba roads and landmarks | Done, pushed: lanes, 32 zebras, street-name plates, landmark fingerposts, bus shelters | yaba-scene `src/look/civic.js` | `d405134` |
+| 45 | More street lights; motion-sensor porch lights | Done, pushed | yaba-scene `src/world.js` | `ca22d3e` |
+| 46 | ATMs in a proper district; map icons for services | Done, pushed: bank branch ATMs, filling station, Find nearest, icons | yaba-scene `src/look/district.js` | `5956261` |
+| 47 | Mobile analog stick; PS4/PS5/Xbox controllers with a mapping screen | Next | | |
+| 48 | Bench building animation with hard hat and tools | Queued | | |
+| 49 | Watch Dogs-style tags and profiles (career, socials, commits, stars, design work) | Queued | | |
+| 50 | Women, Afrocentric fashion, hairstyles, accessories, footwear; an outfit editor for you and NPCs | Queued | | |
+| 51 | Pets: dog or cat, breeds, names, petting, ball, laser, whistle | Queued | | |
+| 52 | Food stalls with a first-person view of the vendor (suya); Nigerian street elements | Queued | | |
+| 53 | Populate the city with NPCs; NPC and player activities (cycling, skateboarding, roller skating) | Queued | | |
+| 54 | Bus parks (buses route through them), bike-rental docks, cycling | Queued | | |
+| 55 | Flyover road bridge for cars | Queued | | |
+| 56 | Enterable work places: cafes, gyms, studios, bank | Queued | | |
 | 24a | Help panel still says V is street or aerial | Proposed to Codex (its file `index.html`): change to V camera, B aerial | live handoff | |
 
 ## Decisions waiting on Elvis
