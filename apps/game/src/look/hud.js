@@ -3,6 +3,7 @@ import { createMenus } from './menus.js';
 import { createNav, nearestOn, pathLength, pointAlong } from './nav.js';
 import { createTrail } from './trail.js';
 import { audioEngine, sfx } from './audio.js';
+import { walletEngine, effortsMark, fmt } from './wallet.js';
 import { C as K, FONT, loadFont } from './uikit.js';
 
 // The in-world overlay from the reference screenshot: district and objective,
@@ -65,6 +66,9 @@ body.nohud #lk { display: none; }
 #lk-wx button { margin-top: 8px; width: 100%; border: 0; border-radius: 8px; padding: 6px 8px; background: rgba(255,255,255,.08); color: #eef2ff; font: 600 11.5px/1.2 "Baloo 2", ui-rounded, system-ui, sans-serif; cursor: pointer; }
 #lk-wx .src { display: block; margin-top: 6px; color: ${K.ink2}; font-size: 10.5px; }
 #lk-wx .src a { color: inherit; }
+#lk-eff { position: absolute; right: 14px; top: 338px; display: flex; align-items: center; gap: 4px; padding: 7px 14px 7px 10px; border: 0; border-radius: 999px; pointer-events: auto; cursor: pointer; font: 800 17px/1 ${FONT}; color: ${K.ink}; }
+#lk-eff svg { color: ${K.teal}; }
+@media (max-width: 700px) { #lk-eff { top: 262px; font-size: 14px; } }
 @media (max-width: 700px) { #lk-wx { top: 172px; width: 120px; padding: 8px 10px; } #lk-wx .t { font-size: 16px; } #lk-wx button { display: none; } }
 /* the music button, above the zoom dock */
 #lk-snd { position: absolute; right: 14px; bottom: 200px; width: 46px; height: 46px; border: 0; border-radius: 50%; background: ${K.paper}; color: ${K.ink}; pointer-events: auto; cursor: pointer;
@@ -129,12 +133,18 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     <button id="lk-snd" aria-label="Music" title="Music (N)"></button>
     <div id="lk-cine"><span>Cinematic travel <b>C</b> or move to take over</span></div>
     ${weatherFeed ? '<div id="lk-wx" class="pane" aria-live="polite"></div>' : ''}
+    <button id="lk-eff" class="pane" aria-label="Wallet"></button>
     ${world.via === 'sample' ? '' : '<div id="lk-osm">Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a></div>'}`;
   document.body.appendChild(el);
   const $ = (s) => el.querySelector(s);
   const objList = $('#lk-obj ul'), prompt = $('#lk-prompt'), promptText = $('#lk-prompt span');
   const boardEl = $('#lk-board'), toastEl = $('#lk-toast');
   const map = $('#lk-map canvas').getContext('2d');
+  // your Efforts, always in view; tap for the wallet
+  const effBtn = $('#lk-eff'), wal = walletEngine();
+  const effSync = () => { effBtn.innerHTML = `${effortsMark(20)}${fmt(wal.balance())}`; };
+  effSync(); const effOff = wal.onChange(effSync);
+  effBtn.onclick = () => menus.openWallet();
   // music on or off, one tap (N on the keyboard does the same)
   const sndBtn = $('#lk-snd'), snd = audioEngine();
   sndBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 18V5l11-2v13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="18" r="2.8" fill="currentColor"/><circle cx="17.5" cy="16" r="2.8" fill="currentColor"/></svg>';
@@ -238,6 +248,7 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     if (onUse?.(lastPlayer, active)) return true; // rides: get in, get out, hire at a stop
     if (!active) return false;
     if (active.id.startsWith('npc:')) { onChat?.(active.id.slice(4)); return true; }
+    if (active.id === 'atm') { sfx('interact'); menus.openWallet({ atm: true }); return true; }
     sfx('interact');
     if (active.id === 'board') openBoard();
     else if (active.line) toast(`${active.name}: ${active.line}`, 4500); // shops and stalls along the street
@@ -392,7 +403,7 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     onPhoto: () => { document.body.classList.add('nohud'); toast('Photo mode. Press H to bring the interface back.', 4000); },
   });
 
-  function dispose() { sndOff(); menus.dispose(); unsub?.(); clearInterval(wxTimer); el.remove(); style.remove(); route.removeFromParent(); trail.dispose(); }
+  function dispose() { sndOff(); effOff(); menus.dispose(); unsub?.(); clearInterval(wxTimer); el.remove(); style.remove(); route.removeFromParent(); trail.dispose(); }
 
   return { update, interact, route, dispose, nav, setRoute: (at, label) => setRoute(at, label, true), travel: () => (path ? { path, along: pathAlong, total: pathLength(path) } : null), clearRoute: () => { custom = null; path = null; }, isOpen: () => boardEl.classList.contains('on') || menus.isOpen() || !!isExtraOpen?.(), close: () => { closeBoard(); menus.close(); closeExtra?.(); }, toast, menuKey: (k) => menus.key(k) };
 }

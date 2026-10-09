@@ -229,6 +229,7 @@ async function main() {
   // ---- input ----
   const keys = new Set();
   addEventListener('keydown', (e) => {
+    if (e.target.closest?.('input, textarea, select')) return; // typing in a field is not playing
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const k = e.key.toLowerCase();
     // phone, map and bag take their keys first, and hold movement while open

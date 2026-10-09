@@ -4,6 +4,11 @@ import { danfo, propMaterials } from './props.js';
 import { cloneAsset } from './kit.js';
 import { nearestOn, pathLength, pointAlong } from './nav.js';
 import { pushOutDynamic } from './physics.js';
+import { walletEngine, effortsMark, fmt } from './wallet.js';
+
+// fares in Efforts: a danfo is cheapest, a taxi to yourself dearest, the keys dearer still
+const FARE = { danfo: 300, keke: 500, taxi: 1500 }, DRIVE_EXTRA = 500;
+const fareOf = (c) => FARE[c.kind] + (c.mode === 'drive' ? DRIVE_EXTRA : 0);
 
 // Hired rides (world bible 9.2): danfo at stops on main roads, keke on inner streets, ride-hail
 // taxis from the phone. Free, because the PRD bans in-world money. Players choose to ride as a
@@ -133,16 +138,20 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
   function render() {
     const places = props.places || [];
     const kinds = choice.from.app ? ['taxi', 'danfo', 'keke'] : [choice.kind];
-    body.innerHTML = `<h3>Hire a ride</h3><div class="sub">Rides are free. ${choice.from.app ? 'A driver comes to you.' : TYPES[choice.kind].name + ' from this stop.'}</div>
-      ${choice.from.app ? `<div class="lkr-lbl">Vehicle</div><div class="row">${kinds.map((k) => `<button data-k="${k}" class="${choice.kind === k ? 'sel' : ''}">${TYPES[k].name}</button>`).join('')}${(world.place?.city ?? 'Lagos') === 'Lagos' ? '<button disabled>Okada: not allowed in Yaba</button>' : ''}</div>` : ''}
+    body.innerHTML = `<h3>Hire a ride</h3><div class="sub">You have ${effortsMark(13)}${fmt(walletEngine().balance())}. ${choice.from.app ? 'A driver comes to you.' : TYPES[choice.kind].name + ' from this stop.'}</div>
+      ${choice.from.app ? `<div class="lkr-lbl">Vehicle</div><div class="row">${kinds.map((k) => `<button data-k="${k}" class="${choice.kind === k ? 'sel' : ''}">${TYPES[k].name}<br><small>${effortsMark(11)}${fmt(FARE[k])}</small></button>`).join('')}${(world.place?.city ?? 'Lagos') === 'Lagos' ? '<button disabled>Okada: not allowed in Yaba</button>' : ''}</div>` : ''}
       <div class="lkr-lbl">Where to</div><div class="opts">${places.map((p, i) => `<button data-d="${i}" class="${choice.dest === p ? 'sel' : ''}">${p.name}</button>`).join('')}</div>
       <div class="lkr-lbl">How</div><div class="row"><button data-m="passenger" class="${choice.mode === 'passenger' ? 'sel' : ''}">Ride as passenger</button><button data-m="drive" class="${choice.mode === 'drive' ? 'sel' : ''}">Drive yourself</button></div>
-      <button class="go">${choice.mode === 'drive' ? 'Get the keys' : 'Call the ride'}</button>
+      <button class="go">${choice.mode === 'drive' ? 'Get the keys' : 'Call the ride'} · ${effortsMark(14)}${fmt(fareOf(choice))}</button>
       <button class="x" style="margin-top:6px;width:100%;text-align:center">Cancel</button>`;
     body.querySelectorAll('[data-k]').forEach((b) => { b.onclick = () => { choice.kind = b.dataset.k; render(); }; });
     body.querySelectorAll('[data-d]').forEach((b) => { b.onclick = () => { choice.dest = places[+b.dataset.d]; render(); }; });
     body.querySelectorAll('[data-m]').forEach((b) => { b.onclick = () => { choice.mode = b.dataset.m; render(); }; });
-    body.querySelector('.go').onclick = () => { closePanel(); summon(choice); };
+    body.querySelector('.go').onclick = () => {
+      const fare = fareOf(choice);
+      if (!walletEngine().spend(fare, `${TYPES[choice.kind].name} ride`)) { toast(`Not enough Efforts for this ride. Push some commits and come back.`); return; }
+      closePanel(); summon(choice);
+    };
     body.querySelector('.x').onclick = closePanel;
   }
   function closePanel() { panel.classList.remove('on'); onState?.({ menu: false }); }

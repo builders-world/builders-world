@@ -217,6 +217,39 @@ function hub(M) {
   return g;
 }
 
+// A painted sign on a canvas: bold text on a coloured board, for shop fronts and street furniture.
+export function signTexture(text, { bg = '#2a9d94', fg = '#f7efdc', w = 512, h = 128, sub = '' } = {}) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  const g = c.getContext('2d');
+  g.fillStyle = bg; g.fillRect(0, 0, w, h);
+  g.fillStyle = fg; g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.font = `900 ${Math.round(h * (sub ? 0.42 : 0.56))}px "Baloo 2", "Arial Black", sans-serif`;
+  g.fillText(text, w / 2, h * (sub ? 0.4 : 0.54));
+  if (sub) { g.globalAlpha = 0.85; g.font = `700 ${Math.round(h * 0.2)}px "Baloo 2", sans-serif`; g.fillText(sub, w / 2, h * 0.78); }
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
+  return t;
+}
+
+// An ATM gallery: two machines under a canopy, the bank's sign above.
+function atmGallery(M) {
+  const g = new THREE.Group();
+  const shell = new THREE.MeshStandardMaterial({ color: 0x2a9d94, roughness: 0.6 });
+  const dark = new THREE.MeshStandardMaterial({ color: 0x263832, roughness: 0.6 });
+  const screen = new THREE.MeshBasicMaterial({ color: new THREE.Color(0.55, 0.95, 0.85) });
+  g.add(new THREE.Mesh(box(3.6, 0.12, 1.8, 0, 0.06, 0), M.concrete));
+  [-0.8, 0.8].forEach((x) => {
+    g.add(new THREE.Mesh(box(0.9, 1.75, 0.7, x, 0.12 + 0.875, -0.35), shell));
+    g.add(new THREE.Mesh(box(0.6, 0.42, 0.04, x, 1.42, 0.02), screen));
+    g.add(new THREE.Mesh(box(0.5, 0.06, 0.25, x, 1.08, 0.1), dark));
+  });
+  g.add(new THREE.Mesh(box(3.8, 0.14, 2.0, 0, 2.75, -0.1), dark));
+  [-1.75, 1.75].forEach((x) => g.add(new THREE.Mesh(box(0.12, 2.7, 0.12, x, 1.35, -0.95), dark)));
+  const sign = new THREE.Mesh(new THREE.PlaneGeometry(3.4, 0.6), new THREE.MeshStandardMaterial({ map: signTexture('ATM', { sub: 'Yaba Builders Bank · Efforts' }), emissive: 0xffffff, emissiveIntensity: 0.15, roughness: 0.6 }));
+  sign.position.set(0, 3.22, 0.9); sign.material.emissiveMap = sign.material.map;
+  g.add(sign);
+  return g;
+}
+
 // Strings of bulbs that sag between two points.
 function stringLights(a, b, sag, n) {
   const bulbs = [];
@@ -366,6 +399,16 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
     world.addColliders([{ name: 'hub', cx: hp.x, cz: hp.z, hx: 3.7, hz: 2.3, ry: faceRoad }]);
     hubAt = { x: hp.x - N.x * 3.2, z: hp.z - N.z * 3.2 };
     lamps.push({ x: hp.x - N.x * 2.6, y: 2.9, z: hp.z - N.z * 2.6, power: 40, boost: 25, color: 0xffb060 });
+  }
+
+  // an ATM gallery on public ground near the board: your Efforts, on a machine
+  const atmSpot = findArea(bSpot.a + 14, 3.8, 2.2, { from: 0.6, to: 12, pad: 0.6 });
+  if (atmSpot) {
+    const ap2 = place(atmGallery(M), atmSpot.a, atmSpot.c, faceRoad); // screens face the street
+    world.addColliders([{ name: 'atm', cx: ap2.x + N.x * 0.35, cz: ap2.z + N.z * 0.35, hx: 1.8, hz: 0.5, ry: faceRoad }]);
+    world.claim?.({ kind: 'atm', cx: ap2.x, cz: ap2.z, hx: 1.9, hz: 1.0, ry: faceRoad });
+    interact.push({ id: 'atm', label: 'Use the ATM', x: ap2.x - N.x * 1.4, z: ap2.z - N.z * 1.4, r: 2.6 });
+    lamps.push({ x: ap2.x - N.x * 0.6, y: 2.6, z: ap2.z - N.z * 0.6, power: 10, boost: 10, color: 0xbff5e6 });
   }
 
   // string lights over the pavement, from the board to the mural

@@ -5,6 +5,7 @@
 import { BUILDERS } from '../builders.js';
 import { loadProfile } from '../onboarding/state.js';
 import { audioEngine, sfx } from './audio.js';
+import { walletEngine, effortsMark, fmt } from './wallet.js';
 import { C, FONT, KIT_CSS, loadFont, pattern, backdropSVG, personFor, portraitSVG, figureSVG, art, appIcon, placeArt, ribbonSVG } from './uikit.js';
 
 const CSS = `${KIT_CSS}
@@ -96,6 +97,25 @@ const CSS = `${KIT_CSS}
 #lkm-bag .acts { position: absolute; right: 18px; bottom: 16px; display: flex; gap: 8px; z-index: 3; }
 #lkm-bag .acts button { border: 0; cursor: pointer; }
 #lkm-bag .acts button[disabled] { opacity: .55; cursor: default; }
+/* wallet and ATM */
+#lkm-wal { position: fixed; z-index: 31; left: 50%; top: 50%; width: min(400px, calc(100vw - 32px)); max-height: calc(100vh - 40px); overflow: auto; padding: 22px 22px 18px; box-sizing: border-box;
+  transform: translate(-50%, -48%); opacity: 0; pointer-events: none; transition: opacity .18s ease, transform .2s ease; }
+#lkm-wal.on { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%); }
+#lkm-wal.atm { border: 12px solid #2a9d94; }
+#lkm-wal h3 { margin: 0 0 10px; font: 800 26px/1 ${FONT}; }
+#lkm-wal h3 small { display: block; margin-top: 4px; font: 600 13px/1 ${FONT}; color: ${C.ink2}; }
+#lkm-wal .bal { display: flex; align-items: center; gap: 6px; padding: 14px 16px; border-radius: 18px; background: #2a9d94; color: #fff; }
+#lkm-wal .bal b { font: 800 40px/1 ${FONT}; letter-spacing: -.01em; }
+#lkm-wal .how, #lkm-wal .st { margin: 10px 0; font: 600 13.5px/1.45 ${FONT}; color: ${C.ink2}; }
+#lkm-wal .st { color: ${C.coral}; }
+#lkm-wal .gh { display: flex; gap: 8px; }
+#lkm-wal .gh input { flex: 1; min-width: 0; border: 2px solid #e3d4b4; border-radius: 999px; padding: 8px 14px; background: #fffaf0; color: ${C.ink}; font: 700 14px/1 ${FONT}; }
+#lkm-wal .gh button { border: 0; cursor: pointer; }
+#lkm-wal h4 { margin: 14px 0 6px; font: 800 15px/1 ${FONT}; color: ${C.teal}; }
+#lkm-wal ul { list-style: none; margin: 0 0 14px; padding: 0; }
+#lkm-wal li { display: flex; justify-content: space-between; padding: 6px 0; border-top: 2px dashed #e3d4b4; font: 600 14px/1.3 ${FONT}; }
+#lkm-wal li.none { color: ${C.ink2}; }
+#lkm-wal .done { border: 0; cursor: pointer; float: right; }
 /* settings */
 #lkm-set { position: fixed; z-index: 31; left: 50%; top: 50%; width: min(420px, calc(100vw - 32px)); padding: 22px 22px 18px; box-sizing: border-box; transform: translate(-50%, -48%);
   opacity: 0; pointer-events: none; transition: opacity .18s ease, transform .2s ease; }
@@ -180,13 +200,13 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   style.textContent = CSS;
   document.head.appendChild(style);
   const root = document.createElement('div');
-  root.innerHTML = `<div id="lkm-dim"></div><div id="lkm-set" class="bw-paper" role="dialog" aria-label="Settings"></div><div id="lkm-phone" role="dialog" aria-label="Phone"><div class="scr"></div></div>
+  root.innerHTML = `<div id="lkm-dim"></div><div id="lkm-set" class="bw-paper" role="dialog" aria-label="Settings"></div><div id="lkm-wal" class="bw-paper" role="dialog" aria-label="Wallet"></div><div id="lkm-phone" role="dialog" aria-label="Phone"><div class="scr"></div></div>
     <div id="lkm-map" role="dialog" aria-label="Map of ${placeName(world)}"></div><div id="lkm-bag" role="dialog" aria-label="Bag"></div>
     <div class="lkm-hints" hidden></div><div id="lkm-guide" role="dialog" aria-label="Controls"></div>
     <div id="lkm-tip"><span><b>Tab</b>Phone</span><span><b>M</b>Map</span><span><b>I</b>Bag</span><span><b>E</b>Interact</span><span><b>Shift</b>Run</span><span><b>Space</b>Jump</span><span><b>V</b>Camera</span><span><b>C</b>Travel</span><span><b>N</b>Music</span><span><b style="white-space:nowrap">1–6</b>Emote</span></div>`;
   document.body.appendChild(root);
   const $ = (s) => root.querySelector(s);
-  const dim = $('#lkm-dim'), phone = $('#lkm-phone'), mapEl = $('#lkm-map'), bagEl = $('#lkm-bag'), hints = $('.lkm-hints'), guide = $('#lkm-guide'), setEl = $('#lkm-set');
+  const dim = $('#lkm-dim'), phone = $('#lkm-phone'), mapEl = $('#lkm-map'), bagEl = $('#lkm-bag'), hints = $('.lkm-hints'), guide = $('#lkm-guide'), setEl = $('#lkm-set'), walEl = $('#lkm-wal');
   let open = null;
   loadFont();
   const profile = (() => { try { return loadProfile(); } catch { return null; } })();
@@ -201,7 +221,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   }
   function close() {
     if (open) sfx('close');
-    [phone, mapEl, bagEl, setEl].forEach((p) => p.classList.remove('on'));
+    [phone, mapEl, bagEl, setEl, walEl].forEach((p) => p.classList.remove('on'));
     dim.classList.remove('on');
     setHints(null);
     open = null;
@@ -226,6 +246,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     ['Camera', 'camera', '#d3b4f2', () => { close(); onPhoto?.(); }],
     ['Ride', 'car', '#f7d36b', () => { close(); onRide?.(); }],
     ['Build', 'build', '#9fd6ef', () => { close(); onRoute?.(props.area, 'Community build area'); }],
+    ['Wallet', 'wallet', '#b7e0a0', () => openWallet()],
     ['Cities', 'cities', '#f4c98a', () => { close(); location.search = '?world=1&view=cities'; }],
     ['Weather', 'weather', '#aebcff', () => { const w = weatherFeed?.state; toast(w ? `${w.loc.label}: ${w.label}${w.tempC != null ? `, ${Math.round(w.tempC)}°C` : ''}. Updated every 10 minutes.` : 'Weather is loading.'); }],
     ['Settings', 'settings', '#d8cfbd', () => openSettings()],
@@ -478,7 +499,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     if (k === 'tab') { open === phone ? close() : openPhone(); return true; }
     if (k === 'm') { open === mapEl ? close() : openMap(); return true; }
     if (k === 'i') { open === bagEl ? close() : openBag(); return true; }
-    if (open === setEl && k !== 'escape') return true;
+    if ((open === setEl || open === walEl) && k !== 'escape') return true;
     if (k === 'escape' && open) { close(); return true; }
     return !!open && ['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'e', 'q'].includes(k);
   }
@@ -503,5 +524,24 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     setEl.querySelector('input')?.focus();
   }
 
-  return { key, close, isOpen: () => !!open, openPhone, openMap, openBag, openSettings, showGuide, dispose };
+  // ---------- wallet (and the ATM, which is the same wallet on a machine) ----------
+  const wallet = walletEngine();
+  function openWallet({ atm = false } = {}) {
+    const w = wallet;
+    const hist = w.history.map((h) => `<li><span>${h.what}</span><b>−${effortsMark(12)}${fmt(h.amount)}</b></li>`).join('') || '<li class="none">Nothing spent yet.</li>';
+    walEl.classList.toggle('atm', atm);
+    walEl.innerHTML = `<h3>${atm ? 'ATM' : 'Wallet'}<small>${atm ? 'Yaba Builders Bank' : 'Efforts, earned by shipping'}</small></h3>
+      <div class="bal">${effortsMark(40)}<b>${fmt(w.balance())}</b></div>
+      <p class="how">${w.demo ? `Demo balance: ${w.commits} commits. Link your GitHub and every commit you push is <span style="white-space:nowrap">${effortsMark(12)}1,000</span>.` : `${fmt(w.commits)} ${w.source === 'contributions' ? 'contributions' : 'commits'} in the last year on GitHub as <b>@${w.handle}</b>, at <span style="white-space:nowrap">${effortsMark(12)}1,000</span> each.`}</p>
+      <form class="gh"><input name="h" placeholder="GitHub username" value="${w.handle}" autocomplete="off" spellcheck="false" aria-label="GitHub username"><button class="bw-chip"><b>↵</b>${w.handle ? 'Update' : 'Link'}</button></form>
+      ${w.status ? `<p class="st">${w.status}</p>` : ''}
+      <h4>Spent</h4><ul>${hist}</ul>
+      <button class="bw-chip done"><b>Esc</b>Done</button>`;
+    walEl.querySelector('.gh').onsubmit = async (e) => { e.preventDefault(); await w.link(e.target.h.value); openWallet({ atm }); };
+    walEl.querySelector('.done').onclick = close;
+    show(walEl, null);
+  }
+  wallet.onChange(() => { if (open === walEl) openWallet({ atm: walEl.classList.contains('atm') }); });
+
+  return { key, close, isOpen: () => !!open, openPhone, openMap, openBag, openSettings, openWallet, showGuide, dispose };
 }

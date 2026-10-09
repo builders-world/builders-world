@@ -146,6 +146,7 @@ const APP = {
   weather: `<circle cx="17" cy="17" r="8" fill="${C.amber}" stroke="${C.ink}" stroke-width="2.5"/><path d="M15 38a8 8 0 0 1 1-16 10 10 0 0 1 19 3 6 6 0 0 1-1 13z" ${G}/><path d="M20 42l-2 3M28 42l-2 3" stroke="${C.ink}" stroke-width="3" stroke-linecap="round"/>`,
   settings: `<path d="M21 5h6l1 5 4 2 5-3 4 4-3 5 2 4 5 1v6l-5 1-2 4 3 5-4 4-5-3-4 2-1 5h-6l-1-5-4-2-5 3-4-4 3-5-2-4-5-1v-6l5-1 2-4-3-5 4-4 5 3 4-2z" ${G}/><circle cx="24" cy="24" r="6" ${L}/>`,
   home: `<path d="M6 24L24 9l18 15" fill="none" stroke="${C.ink}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 22v18h26V22L24 12z" ${G}/><rect x="20" y="28" width="8" height="12" ${L}/>`,
+  wallet: `<rect x="6" y="12" width="36" height="26" rx="6" ${G}/><rect x="28" y="21" width="14" height="9" rx="3" ${L}/><circle cx="33" cy="25.5" r="2" ${G}/><path d="M10 12l18-6 4 6" fill="none" stroke="${C.ink}" stroke-width="3.5" stroke-linejoin="round"/>`,
   help: `<path d="M8 10h32v22H22l-8 7v-7H8z" ${G} stroke="${C.ink}" stroke-width="2" stroke-linejoin="round"/><path d="M20 17a4 4 0 1 1 5 4c-1 1-1 2-1 3" fill="none" stroke="${C.paper}" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="28" r="1.8" ${L}/>`,
 };
 export const appIcon = (id) => `<svg viewBox="0 0 48 48" width="44" height="44" aria-hidden="true">${APP[id] || ''}</svg>`;
