@@ -1,0 +1,9 @@
+node_modules
+dist
+artifacts
+tests
+/i*.png
+playwright.config.js
+railway.json
+.env*
+.vercel

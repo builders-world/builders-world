@@ -4,3 +4,5 @@ artifacts/test-results/
 artifacts/**/*.png
 artifacts/*.webm
 artifacts/motion/
+.vercel
+.env*
