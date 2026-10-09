@@ -1,8 +1,34 @@
 # Builders World
 
-A 3D world where every building is generated from someone's real work. Product requirements, v1.0.
+A 3D world where every building is generated from someone's real work. Product requirements, v1.1.
 
-Working title. Author: Elvis Obi. 5 October 2026. Final draft for build planning.
+Working title. Author: Elvis Obi. v1.0 on 5 October 2026. Revised 9 October 2026.
+
+## What changed in v1.1
+
+Five reference images now set the look and the in-world experience. Where they disagree with v1.0, the images win. They live in `assets/reference/generated-visual-direction/`:
+
+\- `gameplay-screenshot-yaba-objective.png`: the target for a Yaba street in play, with the HUD.  
+\- `gameplay-loop-explore-connect-build.png`: the core loop.  
+\- `hybrid-visual-language-board.png`: world, character, motion and materials.  
+\- `storm-physics-and-atmosphere.png`: weather and ambient life.  
+\- `yaba-blue-hour-street.png`: the mood of a lived-in Yaba street.
+
+They are AI-generated concept art, not renders. They show where we are aiming, not what a browser can draw today.
+
+Rules this revision replaces:
+
+| v1.0 rule | v1.1 rule |
+|---|---|
+| Flat shading, no textures, vertex colours only | Chunky readable forms with textured materials: wet concrete, painted walls, brushed metal, glass, foliage |
+| Night as the base, nothing warm except amber | Blue hour into night, usually after rain. Amber still means activity on a plot. Lagos colour is allowed on surfaces |
+| Minimal avatars, two dots for a face at most | Stylised characters with full faces and streetwear |
+| Nothing idles | The street is alive: rain, wind, traffic, people. Plots still only change when work changes |
+| Five emotes | Five emotes plus a two-person high five |
+| User-built plots are out of scope | Personal plots stay generated. Residents build together in marked community areas, using an in-game kit |
+| Weather is a month-seven drop | Rain and storms are part of the base look |
+
+The HTML and PDF exports in `docs/product/exports/` are still v1.0. Regenerate them once this revision is accepted.
 
 ## What this is
 
@@ -55,9 +81,62 @@ Sign in with GitHub. Pick a home city. Connect Stripe and Product Hunt if you ha
 
 *Figure: Account linking. Verified sources get a connect action and a plain statement of what is read. Link-only sources are visually lighter so nobody confuses the two.*
 
+### The loop: explore, connect, build
+
+Same people. Brighter places.
+
+i. Explore. Follow the route, discover the district, see who is around.  
+ii. Connect. Meet builders, see who is nearby, share ideas, leave notes.  
+iii. Build. Improve a shared community area together and watch the district grow.
+
 ### The world
 
 You spawn at your plot. Neighbours' windows are lit if they pushed in the last 24 hours and pulsing if they are working right now. Library monuments sit on the horizon. A small feed shows what your district did since you last visited.
+
+The camera sits behind your character, third person. The street feels lived in: danfos and cars on the road, people walking and sitting, vendors under umbrellas, string lights, murals. Other builders have a name tag with a presence dot above their head.
+
+### In-world interface
+
+Signs in the world are physical objects. Controls are a crisp overlay on top. The overlay has:
+
+\- District name and the current objective, top left. Example: "Yaba District. Meet the builders at the community board." Objectives can be a short checklist.  
+\- A round minimap with north marked, top right. Community build areas are marked on it.  
+\- A route drawn on the ground to the current objective, with a distance marker.  
+\- A contextual prompt when something can be used. Example: "E. Open community board."  
+\- A small controls card for new visitors: WASD to move, mouse to look.  
+\- A Builders Nearby panel: avatar, name, what they are doing, and a voice indicator.  
+\- An arrival progress bar while a district loads.
+
+### Community board
+
+Every district has a board at the spawn point. It holds pinned notes, photos and ideas from the people who live there. Using it gives three actions: meet builders, read notes, leave a note.
+
+### Build together
+
+Residents can improve their district, but only in community build areas. Everything else in the world, including personal plots, roads, landmarks and monuments, cannot be changed by players.
+
+What a community build area is:
+
+\- A fixed space set aside for things that help the community grow. Examples: a corner that needs a bench or a waste bin, a broken streetlight, an empty lot that could be a playground or a garden, a stretch of waterfront that could get seating or a water point.  
+\- Each area has a type, like street corner, playground, garden or waterfront. The type decides which pieces can go there.  
+\- Areas are placed by us when a district is generated, not claimed by players.
+
+How you find one:
+
+\- A physical marker in the world shows the area is open for building. Something like a signpost or a painted outline on the ground, consistent across every district, so people learn to spot it.  
+\- The area is also marked on the minimap. Walking into it shows a prompt to start building.
+
+How building works:
+
+\- Pieces come only from the in-game community kit: benches, waste bins, streetlights, playground pieces, garden beds, planters, trees, water points and waterfront seating. No uploaded models, images or text.  
+\- Repairs count. Fixing a broken streetlight is a build action, just like adding something new.  
+\- Pieces snap to set points inside the area. You see a glowing preview, rotate it, then confirm or cancel.  
+\- Nothing can block a path, a door or a plot entrance.  
+\- Each area has a limit on how many pieces it holds, so it fills up rather than getting cluttered.  
+\- Several residents can build in the same area at once and see each other's changes as they happen.  
+\- Finished areas stay. They are part of the district's history, like round markers.
+
+This is the one place players add to the world. Personal plots are still generated from verified work and nobody decorates their own. Who can build, how often, and how changes get reviewed are open questions below.
 
 *Figure: District view. Building height comes from outcomes (stars, forks, MRR). Lit windows come from the last 24 hours. Pulsing windows mean the owner's presence agent says they are working now. The dark building has not pushed in weeks.*
 
@@ -100,32 +179,40 @@ Nobody models this by hand. A kit of around 30 parametric building pieces and a 
 
 ### Illustration
 
-Flat-shaded low poly, at night, with light as the only colour that means anything. The style has three jobs: read at a distance, survive procedural assembly, and carry data. Anything that fights one of those is wrong however good it looks in a screenshot.
+Hybrid: chunky, readable forms with real materials, at blue hour after rain. The style still has three jobs: read at a distance, survive procedural assembly, and carry data. Anything that fights one of those is wrong however good it looks in a screenshot. The reference images show the target.
 
-\- Flat shading, hard edges, no textures. Vertex colours only. Cheap in the browser, scales to thousands of plots, and a district palette is a colour change, not a new asset set.  
-\- Night as the base. Dark blues and greys for the built world, one warm amber for light. Nothing else is allowed to be warm. Fog for depth, bloom on windows and nowhere else.  
-\- Strong silhouettes. A plot is recognisable from its outline at 200 metres. Kit pieces are chunky and slightly oversized at the top, closer to a board game tower than a real building.  
-\- Minimal avatars. Rounded forms, two dots for a face at most. No one is here to look at avatars.  
-\- Each district gets one secondary colour for roofs and ground so Yaba and Lekki are tellable apart on the map and in the street.  
-\- References: Townscaper for modular buildings that assemble procedurally and still look placed. Mini Motorways for palette restraint. Kentucky Route Zero for night mood. Monument Valley for silhouette, used lightly.  
-\- Not this: voxels, photoreal, cel-shaded anime, isometric pixel art.  
-\- The flat site and admin invert it. Daylight, white, the same amber accent, the same chunky silhouettes as 2D icons. Same family, different time of day.
+\- Forms stay chunky with strong silhouettes. A plot is recognisable from its outline at 200 metres. Kit pieces are slightly oversized at the top.  
+\- Textured materials, shared across the kit: wet concrete, brushed metal, painted walls, glass, foliage. Textures are made offline and baked into the kit, never generated live. A district palette is still a material swap, not a new asset set.  
+\- Blue hour into night as the base. Cool sky fill, warm amber window and lamp light, volumetric fog for depth.  
+\- Wet ground. Streets and pavements reflect lamps, windows and signs. Puddles ripple in the rain.  
+\- Amber still carries data. A plot's lit windows are amber and only amber. The street can have other light, like streetlamps, shop signs and car lights, as long as it never reads as plot activity.  
+\- Lagos colour lives on surfaces: danfo yellow, painted walls, murals in teal, coral and green, fabrics. Each district still gets one secondary colour so Yaba and Lekki are tellable apart.  
+\- Lagos is recognisable. Danfos, overhead power lines, street vendors, palms and banana plants, balconies with laundry, flyovers, and the Lekki-Ikoyi Link Bridge and the skyline on the horizon.  
+\- Weather is part of the place. Rain is the default mood. Storms bring heavier rain, wind in the palms and flags, and lightning over the water.  
+\- Stylised characters with full faces and expressive features. Streetwear: caps and beanies, oversized tees, cargo trousers, sneakers, backpacks and crossbody bags. The character board's palette is green, coral, cream, navy and amber. The final default avatar is still to come from Elvis.  
+\- Community build areas share one visual marker across every district, and pieces from the community kit match the rest of the world. Nothing a player builds should look pasted in.  
+\- References: the five images in `assets/reference/generated-visual-direction/` come first. Townscaper still applies to how modular buildings assemble.  
+\- Not this: voxels, photoreal, anime, isometric pixel art, neon sci-fi holograms.  
+\- The flat site and admin invert it. Daylight, white, the same amber accent, the same chunky silhouettes as 2D icons. Same family, different time of day.  
+\- Every look has a lower quality tier. Fog, reflections, rain density and shadows scale down so the world still runs on a laptop with no real GPU.
 
 ### Animation
 
-Slow, and only when something changed. Motion is a data signal, so if nothing changed, nothing moves.
+Two kinds of motion. The street is alive all the time. Data motion is slow and only happens when something changed.
 
-\- Nothing idles. Buildings do not sway, avatars do not fidget, UI does not float.  
+\- The street moves. Rain falls, palms and flags move in the wind, danfos drive past, people walk, sit and talk. This never changes what a plot says.  
+\- Plots do not idle. Buildings do not sway and windows only change when work changes. UI does not float.  
 \- Lights behave like bulbs. A push turns one window on in about 400ms with a touch of overshoot. Presence is a slow breath at about 2.5 seconds, never a strobe. Decay goes out one window at a time over days.  
 \- Growth happens while you are away. If someone is watching when a floor is added, it rises in about 600ms with a slight squash at the top. One floor, then stop.  
-\- Avatars walk, they do not run. Talking shows as a soft ring at the feet. Five emotes: wave, point, nod, clap, sit.  
+\- Avatars walk, they do not run. Talking shows as a soft ring at the feet. Five emotes: wave, point, nod, clap, sit. Two people can high five. Greetings can carry small hand-drawn marks, like the lines in the motion board.  
 \- Camera never shakes. Third person, damped follow. District to district is a cut via the map, not a flight.  
 \- One orchestrated moment: arrival. Fade from black, your plot first, then the street lights up outward over about 1.5 seconds.  
 \- Monuments sweep a slow light, like a lighthouse. No animated geometry.  
 \- Fireworks once a month in district colour for ten seconds when a round closes. The only celebration in the world.  
 \- HUD eases 150 to 250ms from the edge it belongs to. No bounce. Standings tick, they do not scroll.  
 \- Pulses and sweeps live in shaders driven by a uniform, never per-mesh JavaScript. 3,000 windows have to pulse at 60fps on a laptop with no real GPU.  
-\- Respect prefers-reduced-motion. Pulses become steady lit, arrival becomes a fade, fireworks become a banner.
+\- Respect prefers-reduced-motion. Pulses become steady lit, arrival becomes a fade, fireworks become a banner, rain gets lighter and wind stops.  
+\- Lightning never flashes more than three times in any second, for anyone. With reduced motion it is off.
 
 ## Districts and the map
 
@@ -296,6 +383,7 @@ No single model builds this. Each job has a different right tool, and most of th
 | Writing the codebase, procedural rules, shaders | Claude, GPT-6 Astra, Codex-class agents                        | Astra is a language model. It writes three.js, it does not render anything.             |
 | Rendering the world                             | three.js in the browser                                        | No AI at runtime. Procedural generation from stored numbers.                            |
 | The 30-piece building kit                       | Meshy, Tripo, Hunyuan3D, Rodin, with manual cleanup in Blender | Generate props and variants, then a human fixes topology. Not districts, single pieces. |
+| Characters, street props and the community kit  | Same generators for a base mesh, then rigging and cleanup in Blender | Stylised characters need faces, rigs and walk, sit and emote animations. The biggest asset cost in v1.1. |
 | Texture variation                               | Flux or Stable Diffusion, offline                              | Baked into the asset kit, never generated live.                                         |
 | Repo summaries on plot cards                    | A small, cheap model such as Haiku-class                       | Runs in the ingest worker on README and recent commit messages. Cached.                 |
 | Builder matching, "people like you nearby"      | Embeddings model                                               | Embed repo topics and languages. v2.                                                    |
@@ -312,6 +400,8 @@ iv. Designers and creators as separate leagues. YouTube. Nomad mode.
 v. Hosted hackathon venues. Scout and recruiter seats. Partner districts.
 
 ## How the world improves month to month
+
+Weather was the month-seven drop in v1.0. In v1.1 rain and storms are part of the base look, so that drop is kit v2 alone. New community kit pieces and new kinds of build area are good candidates for monthly drops.
 
 A world that never changes is a screenshot. Treat this like a live game: one visible drop a month, announced in advance, and every district regenerates overnight so people wake up to a changed skyline. Scores and history are never reset. Changes are additive.
 
@@ -345,14 +435,18 @@ The monthly drop decision is made from these numbers and a short written review,
 \- Gaming. Every metric will be attacked. Mitigated by consistency weighting, verified-only inputs, and a hold-and-review queue.  
 \- Cost. Realtime servers and voice scale with concurrency. Districts are capped so the ceiling is known.  
 \- Platform dependence. GitHub or Stripe changing API terms would hurt. No mitigation beyond diversifying sources in phase 3.  
-\- Safety. Open voice with strangers goes bad fast. Moderated default and verified-only speaking in moderated spaces.
+\- Safety. Open voice with strangers goes bad fast. Moderated default and verified-only speaking in moderated spaces.  
+\- Look versus load. Textures, reflections, rain and characters cost download size and frame time. The phase 2 target is still under 8 seconds on a mid-range phone connection. Mitigated by quality tiers, compressed textures and a small first scene that streams the rest.  
+\- Asset cost. Stylised characters, a textured kit and the community kit take real production time. Mitigated by finishing one street before scaling to a district.  
+\- Griefing in build areas. Anything players can place will be abused. Mitigated by fixed areas, a curated kit with no uploads, snap points, piece limits and the same report flow as notes.
 
 ## Out of scope for v1
 
 \- Influencer and follower-based rankings.  
 \- LinkedIn, Behance, Dribbble, Figma as data sources.  
-\- Replicas of real offices or hubs.  
-\- User-built or user-decorated plots.  
+\- Replicas of real offices or hubs. Public landmarks on the skyline are fine.  
+\- User-decorated personal plots, and building anywhere outside a community build area.  
+\- Uploaded models, images or text in community builds. Only kit pieces.  
 \- District prizes with cash value. Markers and standing only.  
 \- Mobile 3D client. Mobile gets the flat profile and leaderboard.  
 \- Any token, coin, NFT or tradable asset.
@@ -362,6 +456,17 @@ The monthly drop decision is made from these numbers and a short written review,
 \- Which Lagos district seeds first after Yaba, and how the first 100 Yaba builders are recruited.  
 \- Whether the presence agent ships in phase 1 or 2. It is cheap to build and it is the hook, but it is one more thing to install.  
 \- Name.
+
+Added in v1.1:
+
+\- Build rights. Can every resident build, or only verified builders? Is building earned through real work, and is there a daily limit?  
+\- Build review. Can neighbours undo, vote on or report a piece? Does a district captain or an admin approve finished areas?  
+\- Build area marker. What exactly marks an area in the world: a signpost, a painted outline, a light, or a mix?  
+\- The people on the street. Are background people other players, simulated residents, or both? If simulated, how do we keep them from being mistaken for real builders?  
+\- Builders Nearby shows what each person is doing. Does that come from their real work, from what they are building in the world, or from a status they type?  
+\- Objectives. Who writes them, and are they only for onboarding or ongoing?  
+\- Phases. The images describe the 3D world, and the team's proof of concept is 3D first. Phase 1 is still a flat site in this document. Confirm or change that.  
+\- Onboarding. `docs/design/immersive-onboarding.md` describes an airport arrival with a flight. That is longer than the two-minute onboarding above. Decide which one wins.
 
 ------------------------------------------------------------------------
 
