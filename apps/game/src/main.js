@@ -12,6 +12,7 @@ import { createAvatarModel } from './onboarding/avatar.js';
 import { createLook, blueHourSky, pickQuality, createWeather } from './look/index.js';
 import { loadKit } from './look/kit.js';
 import { rigAvatar } from './look/anim.js';
+import { walkMarker } from './look/trail.js';
 import { pushOutDynamic } from './look/physics.js';
 
 const q = new URLSearchParams(location.search);
@@ -129,11 +130,7 @@ async function main() {
   }
 
   // destination marker for click-to-walk (static; it only exists while there is a target)
-  const marker = new THREE.Mesh(
-    new THREE.RingGeometry(0.55, 0.7, 28).rotateX(-Math.PI / 2),
-    new THREE.MeshBasicMaterial({ color: 0xffb454, transparent: true, opacity: 0.9, depthWrite: false })
-  );
-  marker.position.y = 0.14;
+  const marker = walkMarker();
   marker.visible = false;
   scene.add(marker);
 
@@ -232,6 +229,7 @@ async function main() {
     if (street?.hud.isOpen() && ['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(k)) return;
     if (k === 'v') { if (!e.repeat) { if (cam.aerial) cut(() => setAerial(false)); else cycleView(); } }
     else if (k === 'b') { if (!e.repeat) cut(() => setAerial(!cam.aerial)); }
+    else if (k === 'c') { if (!e.repeat) setTravel(!travel.on); }
     else if (k === 't') { if (!e.repeat) setTheme(themeName === 'night' ? 'day' : 'night'); }
     else if (k === 'h') { if (!e.repeat) document.body.classList.toggle('nohud'); }
     else if (k === '?' || k === '/') chrome.toggleHelp();
@@ -283,7 +281,7 @@ async function main() {
       cut(() => { player.set(pt.x, 0, pt.z); world.resolve(player, 0.8); setAerial(false); snap = true; });
     } else {
       walkTarget = pt.clone();
-      marker.position.set(pt.x, 0.14, pt.z);
+      marker.position.set(pt.x, 0, pt.z);
       marker.visible = true;
     }
   });
@@ -302,6 +300,20 @@ async function main() {
 
   let riding = false, savedDist = cam.distT, seated = false, savedOutside = null;
   let jumpQueued = false, jumpV = 0, jumpY = 0;
+
+  // ---- cinematic travel (C): walk the route on your own while the camera shoots it like a film,
+  // after Red Dead Redemption 2's cinematic camera. Any movement key, or C again, hands control back.
+  const travel = { on: false, shot: -1, t: 0, hold: new THREE.Vector3(), heading: 0 };
+  function setTravel(on) {
+    if (on) {
+      const tr = street?.hud.travel?.();
+      if (!tr || riding || seated || street?.inside) { (street?.hud.toast ?? chrome.toast)('Set a destination on the map (M) first, then press C to travel there.', 3200); return; }
+      walkTarget = null; marker.visible = false;
+    }
+    travel.on = on; travel.shot = -1; travel.t = 0;
+    document.body.classList.toggle('bw-cine', on);
+    if (!on) { snap = true; cam.yawT = cam.yaw = travel.heading; }
+  }
 
   // camera views, after GTA V: V cycles near, mid and far third person and first person; vehicles add a
   // cinematic camera. On foot and in a vehicle each keep their own choice, like its independent camera modes.
@@ -390,6 +402,19 @@ async function main() {
       if (keys.has('s') || keys.has('arrowdown')) mv.sub(fwd);
       if (keys.has('d') || keys.has('arrowright')) mv.add(right);
       if (keys.has('a') || keys.has('arrowleft')) mv.sub(right);
+      if (mv.lengthSq() > 0 && travel.on) setTravel(false);
+      if (travel.on) {
+        const tr = street?.hud.travel?.();
+        if (!tr || tr.total - tr.along < 2.5) { setTravel(false); (street?.hud.toast ?? chrome.toast)('You have arrived.', 2400); }
+        else {
+          // steer at a point a few metres along the route, so corners are walked round, not cut
+          let acc = 0, aim = tr.path[tr.path.length - 1];
+          for (let i = 1; i < tr.path.length; i++) { const A = tr.path[i - 1], B = tr.path[i], L = Math.hypot(B.x - A.x, B.z - A.z); if (acc + L >= tr.along + 2.5) { const u = (tr.along + 2.5 - acc) / (L || 1); aim = { x: A.x + (B.x - A.x) * u, z: A.z + (B.z - A.z) * u }; break; } acc += L; }
+          const dx = aim.x - player.x, dz = aim.z - player.z, d = Math.hypot(dx, dz) || 1;
+          mv.set(dx / d, 0, dz / d);
+          travel.heading += Math.atan2(Math.sin(Math.atan2(dx, dz) - travel.heading), Math.cos(Math.atan2(dx, dz) - travel.heading)) * (1 - Math.exp(-dt * 3));
+        }
+      }
       if (mv.lengthSq() === 0 && walkTarget) {
         const dx = walkTarget.x - player.x, dz = walkTarget.z - player.z;
         const dist = Math.hypot(dx, dz);
@@ -478,7 +503,34 @@ async function main() {
       if (C.solidAt(desired.x, desired.y, desired.z)) desired.set(player.x - fx * rs.cam, 3.2, player.z - fz * rs.cam);
       fixed = true;
     }
-    if (fixed && !snap) { camPos.lerp(desired, 1 - Math.exp(-dt * (view.id === 'first' ? 30 : 4))); look.lerp(focus, 1 - Math.exp(-dt * 20)); }
+    if (travel.on && !cam.aerial && !reduced) {
+      // four shots in turn, each held about six seconds, each checked for a clear line of sight
+      const h = travel.heading, fx = Math.sin(h), fz = Math.cos(h), sx = -fz, sz = fx;
+      // clear means no building volume, and no pole, tree or lamp on the ground, between the lens and you
+      const clear = (x, y, z) => { if (C.solidAt(x, y, z)) return false; for (let k = 0; k < 10; k++) { const u = k / 10, px = x + (player.x - x) * u, pz = z + (player.z - z) * u, py = y + (1.2 - y) * u; if (C.solidAt(px, py, pz) || (u < 0.9 && world.blockedAt(px, pz, 0.35))) return false; } return true; };
+      const shotAt = (n) => {
+        if (n === 0) return [player.x + sx * 5.5 + fx * 1.5, 1.5, player.z + sz * 5.5 + fz * 1.5];      // tracking, from the side
+        if (n === 1) return [travel.hold.x, 1.3, travel.hold.z];                                            // waiting ahead as you walk in
+        if (n === 2) return [player.x - fx * 9, 6.5, player.z - fz * 9];                                    // high, behind, the street ahead
+        return [player.x + fx * 3.6 - sx * 0.9, 0.75, player.z + fz * 3.6 - sz * 0.9];                     // low, in front, walking backwards
+      };
+      travel.t -= dt;
+      if (travel.t <= 0) {
+        for (let tries = 0; tries < 4; tries++) {
+          travel.shot = (travel.shot + 1) % 4;
+          if (travel.shot === 1) travel.hold.set(player.x + fx * 16 - sx * 2.5, 0, player.z + fz * 16 - sz * 2.5);
+          const [x, y, z] = shotAt(travel.shot);
+          if (clear(x, y, z)) break;
+        }
+        travel.t = 6; snap = true;
+      }
+      const [x, y, z] = shotAt(travel.shot);
+      if (!clear(x, y, z)) travel.t = Math.min(travel.t, 0.01); // something walked into the shot: cut next frame
+      desired.set(x, y, z);
+      focus.set(player.x + (travel.shot === 2 ? fx * 6 : fx * 0.8), travel.shot === 2 ? 1.0 : 1.25, player.z + (travel.shot === 2 ? fz * 6 : fz * 0.8));
+      fixed = true;
+    }
+    if (fixed && !snap) { const k = travel.on ? 1 - Math.exp(-dt * 5) : 1 - Math.exp(-dt * (view.id === 'first' ? 30 : 4)); camPos.lerp(desired, k); look.lerp(focus, 1 - Math.exp(-dt * (travel.on ? 6 : 20))); }
     else if (snap) { camPos.copy(desired); look.copy(focus); snap = false; }
     else {
       const k = 1 - Math.exp(-dt * 6);
@@ -488,7 +540,7 @@ async function main() {
     camera.position.copy(camPos);
     camera.lookAt(look);
     // a wall pushed the camera into the avatar: hide it rather than show the inside of a head
-    avatar.visible = !riding && (cam.aerial || (view.id !== 'first' && camPos.distanceTo(look) > 1.7));
+    avatar.visible = !riding && (cam.aerial || travel.on || (view.id !== 'first' && camPos.distanceTo(look) > 1.7));
 
     chrome.update(camera, player, !cam.aerial);
     street?.update(dt, t, player, cam.yaw, shared.uArrival.value);
@@ -500,7 +552,7 @@ async function main() {
 
   window.__bw = {
     get world() { return world; }, camera, cam, player, renderer, scene, via,
-    get theme() { return themeName; }, setTheme, get look() { return street; }, quality, composer, weather: weatherFeed, get kit() { return kit; }, goto, setAerial, cycleView, get view() { return (riding ? 'ride:' : 'foot:') + (riding ? viewOf('ride') : viewOf('foot')).id; }, get walkTarget() { return walkTarget; },
+    get theme() { return themeName; }, setTheme, get look() { return street; }, quality, composer, weather: weatherFeed, get kit() { return kit; }, goto, setAerial, cycleView, setTravel, get travel() { return travel.on; }, get view() { return (riding ? 'ride:' : 'foot:') + (riding ? viewOf('ride') : viewOf('foot')).id; }, get walkTarget() { return walkTarget; },
     ready: true,
   };
 }

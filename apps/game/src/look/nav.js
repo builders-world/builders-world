@@ -80,6 +80,12 @@ export function createNav(roads) {
   }
 
   // a route from one point to another along the streets, as [{x, z}, ...]
+  function component(start) {
+    const seen = new Set([start]), q = [start];
+    while (q.length) { const i = q.pop(); nodes[i].edges.forEach((e) => { if (!seen.has(e.to)) { seen.add(e.to); q.push(e.to); } }); }
+    return seen;
+  }
+
   function route(from, to) {
     const s = snap(from.x, from.z), t = snap(to.x, to.z);
     if (!s || !t) return null;
@@ -89,8 +95,20 @@ export function createNav(roads) {
       return pts;
     }
     const len = (p, i) => Math.hypot(p.x - nodes[i].x, p.z - nodes[i].z);
-    const path = astar([{ id: s.a, w: len(s, s.a) }, { id: s.b, w: len(s, s.b) }], t, [{ id: t.a, w: len(t, t.a) }, { id: t.b, w: len(t, t.b) }]);
-    if (!path) return null;
+    let path = astar([{ id: s.a, w: len(s, s.a) }, { id: s.b, w: len(s, s.b) }], t, [{ id: t.a, w: len(t, t.a) }, { id: t.b, w: len(t, t.b) }]);
+    if (!path) {
+      // the map is clipped at the district edge, so some streets connect to the rest only off the map:
+      // go along the streets as far as they reach, then walk the last stretch directly
+      const reach = component(s.a);
+      let near = -1, nd = Infinity;
+      reach.forEach((i) => { const d = Math.hypot(nodes[i].x - to.x, nodes[i].z - to.z); if (d < nd) { nd = d; near = i; } });
+      if (near < 0) return null;
+      path = astar([{ id: s.a, w: len(s, s.a) }, { id: s.b, w: len(s, s.b) }], nodes[near], [{ id: near, w: 0 }]);
+      if (!path) return null;
+      path.forEach((i) => pts.push({ x: nodes[i].x, z: nodes[i].z }));
+      pts.push({ x: to.x, z: to.z });
+      return pts;
+    }
     path.forEach((i) => pts.push({ x: nodes[i].x, z: nodes[i].z }));
     pts.push({ x: t.x, z: t.z }, { x: to.x, z: to.z });
     return pts;

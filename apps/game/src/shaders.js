@@ -7,9 +7,9 @@ export function logDepth(m) {
   const v = m.vertexShader, f = m.fragmentShader;
   const persp = v.includes('#include <common>') ? '' : 'bool isPerspectiveMatrix( mat4 m ) { return m[ 2 ][ 3 ] == - 1.0; }\n';
   const vm = v.search(/void\s+main\s*\(\s*\)/), vEnd = v.lastIndexOf('}');
-  m.vertexShader = v.slice(0, vm) + '#include <logdepthbuf_pars_vertex>\n' + persp + v.slice(vm, vEnd) + '\n#include <logdepthbuf_vertex>\n' + v.slice(vEnd);
+  m.vertexShader = v.slice(0, vm) + '\n#include <logdepthbuf_pars_vertex>\n' + persp + v.slice(vm, vEnd) + '\n#include <logdepthbuf_vertex>\n' + v.slice(vEnd);
   const fm = f.search(/void\s+main\s*\(\s*\)\s*\{/), fOpen = f.indexOf('{', fm) + 1;
-  m.fragmentShader = f.slice(0, fm) + '#include <logdepthbuf_pars_fragment>\n' + f.slice(fm, fOpen) + '\n  #include <logdepthbuf_fragment>\n' + f.slice(fOpen);
+  m.fragmentShader = f.slice(0, fm) + '\n#include <logdepthbuf_pars_fragment>\n' + f.slice(fm, fOpen) + '\n  #include <logdepthbuf_fragment>\n' + f.slice(fOpen);
   return m;
 }
 

@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { createMenus } from './menus.js';
 import { createNav, nearestOn, pathLength, pointAlong } from './nav.js';
+import { createTrail } from './trail.js';
 import { C as K, FONT, loadFont } from './uikit.js';
 
 // The in-world overlay from the reference screenshot: district and objective,
@@ -64,6 +65,16 @@ body.nohud #lk { display: none; }
 #lk-wx .src { display: block; margin-top: 6px; color: ${K.ink2}; font-size: 10.5px; }
 #lk-wx .src a { color: inherit; }
 @media (max-width: 700px) { #lk-wx { top: 172px; width: 120px; padding: 8px 10px; } #lk-wx .t { font-size: 16px; } #lk-wx button { display: none; } }
+/* cinematic travel: letterbox bars, the HUD steps aside, one quiet caption */
+#lk-cine { position: fixed; inset: 0; pointer-events: none; z-index: 14; }
+#lk-cine::before, #lk-cine::after { content: ''; position: absolute; left: 0; right: 0; height: 0; background: #14110d; transition: height .6s cubic-bezier(.2,.8,.2,1); }
+#lk-cine::before { top: 0; } #lk-cine::after { bottom: 0; }
+body.bw-cine #lk-cine::before, body.bw-cine #lk-cine::after { height: 11vh; }
+#lk-cine span { position: absolute; z-index: 1; left: 50%; bottom: 3.6vh; transform: translateX(-50%); color: #f7efdc; font: 700 15px/1 ${FONT}; opacity: 0; transition: opacity .6s .3s; white-space: nowrap; }
+#lk-cine span b { display: inline-grid; place-items: center; min-width: 24px; height: 24px; margin: 0 4px; border-radius: 999px; background: #f7efdc; color: #3b2a20; font-size: 12px; }
+body.bw-cine #lk-cine span { opacity: .9; }
+body.bw-cine #lk .pane, body.bw-cine #lk-map, body.bw-cine #lk-tags, body.bw-cine #lkm-tip, body.bw-cine #labels, body.bw-cine .ui { opacity: 0 !important; transition: opacity .4s; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { #lk-cine::before, #lk-cine::after, #lk-cine span { transition: none; } }
 body.bw-inside #lk-map, body.bw-inside #lk-wx, body.bw-inside #lk-osm, body.bw-inside #lk-obj { display: none; }
 #lk-osm { position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%); font-size: 10.5px; color: rgba(238,242,255,.6); pointer-events: auto; }
 #lk-osm a { color: inherit; }
@@ -108,6 +119,7 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     <div id="lk-tags"></div>
     <div id="lk-board" class="pane" role="dialog" aria-label="Community board"></div>
     <div id="lk-toast" class="pane" role="status"></div>
+    <div id="lk-cine"><span>Cinematic travel <b>C</b> or move to take over</span></div>
     ${weatherFeed ? '<div id="lk-wx" class="pane" aria-live="polite"></div>' : ''}
     ${world.via === 'sample' ? '' : '<div id="lk-osm">Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a></div>'}`;
   document.body.appendChild(el);
@@ -181,18 +193,19 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
   }
   function closeBoard() { boardEl.classList.remove('on'); }
 
-  // ---------- route on the ground ----------
-  const chevShape = new THREE.Shape();
-  chevShape.moveTo(-0.45, -0.25); chevShape.lineTo(0, 0.2); chevShape.lineTo(0.45, -0.25); chevShape.lineTo(0.45, -0.05); chevShape.lineTo(0, 0.4); chevShape.lineTo(-0.45, -0.05);
-  const chevGeo = new THREE.ShapeGeometry(chevShape).rotateX(-Math.PI / 2);
-  const chevMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(2.0, 1.25, 0.35), transparent: true, depthWrite: false });
-  const MAXC = 40;
+  function setRoute(at, label, fromMap) {
+    if (!at) return;
+    custom = { x: at.x, z: at.z, name: label, label: `Go to ${label}` };
+    path = null;
+    renderSteps();
+    if (fromMap) toast(`Route set to ${label}. Follow the trail, or press C to travel there.`);
+  }
+
+  // ---------- route on the ground: a ribbon with arrows and a destination beacon (trail.js) ----------
   const nav = createNav(world.roads);
-  let path = null, pathAt = 0; // the satnav route, when the player has set a destination
-  const route = new THREE.InstancedMesh(chevGeo, chevMat, MAXC);
-  route.frustumCulled = false;
-  route.renderOrder = 3;
-  const routeM = new THREE.Matrix4(), routeQ = new THREE.Quaternion(), up = new THREE.Vector3(0, 1, 0);
+  let path = null, pathAt = 0, pathAlong = 0; // the satnav route, when the player has set a destination
+  const trail = createTrail({ reduced });
+  const route = trail.group;
 
   // ---------- tags ----------
   const tagsEl = $('#lk-tags');
@@ -317,20 +330,9 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     mapTimer -= dt;
     if (mapTimer <= 0) { mapTimer = 0.1; renderSteps(dist); drawMap(player, yaw, target); }
 
-    // the trail: chevrons along the streets, only for a destination the player chose
-    let n = 0;
-    if (path && dist > 3) {
-      const total = pathLength(path), flow = reduced ? 0 : (t * 2) % 2;
-      for (let s = onPath.along + 2 + flow; s < Math.min(total - 1.5, onPath.along + 2 * MAXC) && n < MAXC; s += 2) {
-        const p = pointAlong(path, s);
-        routeQ.setFromAxisAngle(up, p.yaw);
-        routeM.compose(new THREE.Vector3(p.x, 0.14, p.z), routeQ, new THREE.Vector3(1, 1, 1));
-        route.setMatrixAt(n++, routeM);
-      }
-    }
-    route.count = n;
-    route.instanceMatrix.needsUpdate = true;
-    chevMat.opacity = 0.55 + (reduced ? 0 : 0.25 * Math.sin(t * 3));
+    // the trail, only for a destination the player chose
+    pathAlong = onPath ? onPath.along : 0;
+    trail.update(path && dist > 3 ? path : null, pathAlong, t);
 
     // name tags
     tags.forEach(({ b, d }) => {
@@ -368,17 +370,11 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     getPath: () => path,
     onRide: () => onRide?.(lastPlayer),
     snapToStreet: (x, z) => nav.snap(x, z),
-    onRoute: (at, label, fromMap) => {
-      if (!at) return;
-      custom = { x: at.x, z: at.z, name: label, label: `Go to ${label}` };
-      path = null;
-      renderSteps();
-      if (fromMap) toast(`Route set to ${label}. Follow the trail along the streets.`);
-    },
+    onRoute: (at, label, fromMap) => setRoute(at, label, fromMap),
     onPhoto: () => { document.body.classList.add('nohud'); toast('Photo mode. Press H to bring the interface back.', 4000); },
   });
 
-  function dispose() { menus.dispose(); unsub?.(); clearInterval(wxTimer); el.remove(); style.remove(); route.removeFromParent(); chevGeo.dispose(); chevMat.dispose(); }
+  function dispose() { menus.dispose(); unsub?.(); clearInterval(wxTimer); el.remove(); style.remove(); route.removeFromParent(); trail.dispose(); }
 
-  return { update, interact, route, dispose, nav, isOpen: () => boardEl.classList.contains('on') || menus.isOpen() || !!isExtraOpen?.(), close: () => { closeBoard(); menus.close(); closeExtra?.(); }, toast, menuKey: (k) => menus.key(k) };
+  return { update, interact, route, dispose, nav, setRoute: (at, label) => setRoute(at, label, true), travel: () => (path ? { path, along: pathAlong, total: pathLength(path) } : null), clearRoute: () => { custom = null; path = null; }, isOpen: () => boardEl.classList.contains('on') || menus.isOpen() || !!isExtraOpen?.(), close: () => { closeBoard(); menus.close(); closeExtra?.(); }, toast, menuKey: (k) => menus.key(k) };
 }
