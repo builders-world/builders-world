@@ -304,6 +304,26 @@ Ambient creatures and NPCs have no name tags, no presence dots and cannot be mes
 - Anything placed in the world checks the same colliders first (and stays off lawns, pavements and carriageways), so nothing is ever placed inside anything else.
 - Test with the walk-and-run sweep (24 directions, zero overlaps) before shipping any change to placement or movement.
 
+### 7.6 Navigation and movement rules
+
+Mapping and localisation, the game way: the district already knows its walls, so `src/look/navgrid.js` rasterises every collider into a 0.5 m walkable grid (grown by a walker's 0.42 m radius) the first time a path is asked for, and again whenever something new is placed. Anyone's position is a cell in that grid. Paths are A* over the grid, pulled tight with line-of-sight checks, planned in 1 to 30 ms.
+
+Movement rules, as path costs:
+
+| Ground | Cost | Rule |
+|---|---|---|
+| Pavement, open ground | 1 | Where people walk. |
+| Carriageway | 6 | Cross the road; never walk down the middle of it. |
+| A private lawn | 4 | Only to reach that house. Fences funnel you through the 2 m gate. |
+| Beside a wall or fence | +1.5 | Keep a little clearance, as people do. |
+| Building, fence, prop | never | |
+
+- Click-to-walk and cinematic travel follow the planned path. If someone walks into the way, the walker plans again (twice), then stops politely.
+- A goal inside a wall, or inside a sealed garden, snaps to the nearest reachable spot on the same connected area.
+- The route trail draws the planned path, so what you see is where you will walk.
+- Vehicles keep to the street graph (`nav.js`); people use the grid.
+- Test with the plot sweep (walk to every plot, zero frames inside anything) before shipping a change to placement or movement.
+
 ## 8. Shaders, textures and lighting
 
 ### 8.1 Textures

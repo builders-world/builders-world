@@ -6,7 +6,7 @@ Every request Elvis has made, with where it stands. Updated 9 October 2026, 17:4
 
 | Copy | Address | What it shows |
 |---|---|---|
-| Live on Vercel | https://buildersworld.vercel.app/?world=1 (onboarding at https://buildersworld.vercel.app/) | `main` as of `84ad44d`, deployed 9 October from the Vercel CLI (project buildersworld, account obileonardo). Redeploy with `vercel deploy --prod` from the game folder. |
+| Live on Vercel | https://buildersworld.vercel.app/?world=1 (onboarding at https://buildersworld.vercel.app/) | `main` as of the latest push, deployed 9 October from the Vercel CLI (project buildersworld, account obileonardo). Redeploy with `vercel deploy --prod` from the game folder. |
 | The game, branch `main` (merged) | http://127.0.0.1:5173/?world=1 (onboarding at http://127.0.0.1:5173/) | Everything below marked Done. Claude's worktree on 5181 is the same plus work in progress. |
 | GitHub | builders-world/yaba-scene and builders-world/builders-world, branch `main` | Pushed after each item, approved by Elvis on 9 October. |
 
@@ -62,6 +62,11 @@ Every request Elvis has made, with where it stands. Updated 9 October 2026, 17:4
 | 33 | Walk instead of waddle; run and jump | Done, pushed: jointed rig, walk, Shift run, Space jump, seated pose; iterated with contact sheets | yaba-scene `src/look/anim.js` | `91d670c` |
 | 34 | Real physics: nothing passes through anything, cars too | Done, pushed: grid colliders with heights, fences, people, traffic, whole-body vehicle checks; tested | yaba-scene `src/world.js`, `src/look/physics.js` | `84ad44d` |
 | 35 | More flicker (towers, skyline) | Done, pushed: found with a frame-difference test; log depth made opt-in | yaba-scene | `1042da7` |
+| 36 | Trail points the wrong way and flickers; RDR2/GTA style; auto travel | Done, pushed: ribbon with arrows toward the destination, beacon, no flicker; C for cinematic travel | yaba-scene `src/look/trail.js`, `src/main.js` | `3a87b82` |
+| 37 | One cohesive cartoon UI | Done, pushed: skin over Codex's chrome via CSS variables, plus every panel of Claude's | yaba-scene `src/look/uikit.js` | `b906a80` |
+| 38 | Sound, music and a music toggle (licence-free) | Done, pushed: all synthesised in the browser; Settings app, music button, N | yaba-scene `src/look/audio.js` | `8984f7a` |
+| 39 | Mapping and path management; movement rules | Done, pushed: walkable grid, A*, rules as costs (world bible 7.6) | yaba-scene `src/look/navgrid.js` | latest |
+| 40 | Live site updates itself on every push | Waiting on Elvis: install the Vercel GitHub app on the builders-world org, then Claude connects the project | Vercel | |
 | 24a | Help panel still says V is street or aerial | Proposed to Codex (its file `index.html`): change to V camera, B aerial | live handoff | |
 
 ## Decisions waiting on Elvis
