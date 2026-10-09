@@ -54,6 +54,8 @@ body.nohud #lk { display: none; }
 #lk-board button.p { background: #f2b33d; color: #2a1a02; }
 #lk-board .x { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; padding: 0; }
 #lk-board .tag { display: inline-block; font-size: 10.5px; color: #10131c; background: #a3afd0; border-radius: 6px; padding: 2px 6px; margin-left: 6px; vertical-align: 2px; }
+#lk-osm { position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%); font-size: 10.5px; color: rgba(238,242,255,.6); pointer-events: auto; }
+#lk-osm a { color: inherit; }
 #lk-toast { position: absolute; left: 50%; top: 22px; transform: translateX(-50%); padding: 10px 16px; font-size: 13.5px; opacity: 0; transition: opacity .3s; }
 #lk-toast.on { opacity: 1; }
 @media (max-width: 700px) {
@@ -98,7 +100,8 @@ export function createHud({ world, props, camera, reduced, onInteract }) {
     </div>
     <div id="lk-tags"></div>
     <div id="lk-board" class="pane" role="dialog" aria-label="Community board"></div>
-    <div id="lk-toast" class="pane" role="status"></div>`;
+    <div id="lk-toast" class="pane" role="status"></div>
+    ${world.via === 'sample' ? '' : '<div id="lk-osm">Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a></div>'}`;
   document.body.appendChild(el);
   const $ = (s) => el.querySelector(s);
   const objList = $('#lk-obj ul'), prompt = $('#lk-prompt'), promptText = $('#lk-prompt span');
