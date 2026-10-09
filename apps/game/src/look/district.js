@@ -206,7 +206,7 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
           // the piece and both its ends must clear every other carriageway
           if ([0, 1, -1].some((e) => onRoad(x + tx * halfLen * e, z + tz * halfLen * e, ri))) return;
           // sunk into the verge: the walls stand a kerb's height proud and the slabs sit near flush
-          spots.push({ x, z, y: -0.36, ry: Math.atan2(-tz, tx) });
+          spots.push({ x, z, y: -0.24, ry: Math.atan2(-tz, tx) }); // covers 9 cm above the pavement, never level with it
         });
       }
     });

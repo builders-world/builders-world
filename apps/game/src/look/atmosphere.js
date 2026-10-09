@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { shared } from '../shaders.js';
+import { shared, logDepth } from '../shaders.js';
 import { weather } from './surfaces.js';
 import { mulberry32 } from '../mesh.js';
 
@@ -61,6 +61,7 @@ export function blueHourSky() {
         gl_FragColor = vec4(col, 1.0);
       }`,
   });
+  logDepth(mat);
   const mesh = new THREE.Mesh(geo, mat);
   mesh.renderOrder = -10;
   mesh.userData.flash = mat.uniforms.uFlash;
@@ -119,6 +120,7 @@ export function rain(count) {
         gl_FragColor = vec4(vec3(0.55, 0.62, 0.8) * a * 0.35, 1.0);
       }`,
   });
+  logDepth(mat);
   const mesh = new THREE.Mesh(g, mat);
   mesh.frustumCulled = false;
   mesh.renderOrder = 5;
@@ -156,6 +158,7 @@ export function lampCones(lamps) {
         gl_FragColor = vec4(vec3(1.0, 0.62, 0.25) * a * (0.035 + 0.05 * uRain) * on * uLamps, 1.0);
       }`,
   });
+  logDepth(mat);
   const mesh = new THREE.InstancedMesh(g, mat, Math.max(1, lamps.length));
   const m = new THREE.Matrix4();
   const delay = new Float32Array(Math.max(1, lamps.length));

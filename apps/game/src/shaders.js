@@ -1,5 +1,18 @@
 import * as THREE from 'three';
 
+// Logarithmic depth for hand-written shaders (world bible 7.2): the renderer uses a log depth buffer
+// so layers a few centimetres apart stay resolved hundreds of metres away; built-in materials get the
+// chunks automatically, these need them added or they would sort against the scene incorrectly.
+export function logDepth(m) {
+  const v = m.vertexShader, f = m.fragmentShader;
+  const persp = v.includes('#include <common>') ? '' : 'bool isPerspectiveMatrix( mat4 m ) { return m[ 2 ][ 3 ] == - 1.0; }\n';
+  const vm = v.search(/void\s+main\s*\(\s*\)/), vEnd = v.lastIndexOf('}');
+  m.vertexShader = v.slice(0, vm) + '#include <logdepthbuf_pars_vertex>\n' + persp + v.slice(vm, vEnd) + '\n#include <logdepthbuf_vertex>\n' + v.slice(vEnd);
+  const fm = f.search(/void\s+main\s*\(\s*\)\s*\{/), fOpen = f.indexOf('{', fm) + 1;
+  m.fragmentShader = f.slice(0, fm) + '#include <logdepthbuf_pars_fragment>\n' + f.slice(fm, fOpen) + '\n  #include <logdepthbuf_fragment>\n' + f.slice(fOpen);
+  return m;
+}
+
 // All time-based light behaviour lives in shaders driven by shared uniforms,
 // never per-mesh JavaScript. Nothing here moves unless something changed.
 
@@ -93,6 +106,7 @@ export function makeWindowMaterial(pane = '#1c2744') {
       }
     `,
   });
+  logDepth(m);
   m.uniforms.uTime = shared.uTime;
   m.uniforms.uArrival = shared.uArrival;
   m.uniforms.uReduced = shared.uReduced;
@@ -140,6 +154,7 @@ export function makeGlowMaterial() {
       }
     `,
   });
+  logDepth(m);
   return m;
 }
 
@@ -190,5 +205,6 @@ export function makeBeamMaterial(radius) {
       }
     `,
   });
+  logDepth(m);
   return m;
 }

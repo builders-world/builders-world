@@ -188,9 +188,9 @@ function bench(M) {
 function buildArea(M, w, d) {
   const g = new THREE.Group();
   const dashes = [];
-  const dash = (x, z, rot) => dashes.push(box(0.9, 0.02, 0.12, x, 0.1, z).rotateY(0).applyMatrix4(new THREE.Matrix4().makeRotationY(rot)));
+  const dash = (x, z, rot) => dashes.push(box(0.9, 0.03, 0.12, x, 0.17, z).rotateY(0).applyMatrix4(new THREE.Matrix4().makeRotationY(rot)));
   for (let x = -w / 2 + 0.5; x < w / 2; x += 1.4) { dash(x, -d / 2, 0); dash(x, d / 2, 0); }
-  for (let z = -d / 2 + 0.5; z < d / 2; z += 1.4) { dashes.push(box(0.12, 0.02, 0.9, -w / 2, 0.1, z)); dashes.push(box(0.12, 0.02, 0.9, w / 2, 0.1, z)); }
+  for (let z = -d / 2 + 0.5; z < d / 2; z += 1.4) { dashes.push(box(0.12, 0.03, 0.9, -w / 2, 0.17, z)); dashes.push(box(0.12, 0.03, 0.9, w / 2, 0.17, z)); }
   g.add(new THREE.Mesh(mergeGeometries(dashes), M.teal));
   const post = new THREE.Mesh(box(0.12, 2.2, 0.12, -w / 2 - 0.4, 1.1, -d / 2), M.darkMetal);
   const sign = new THREE.Mesh(new THREE.PlaneGeometry(1.6, 0.8).translate(-w / 2 - 0.4, 2.0, -d / 2 + 0.07), M.buildSign);
@@ -209,7 +209,7 @@ function hub(M) {
   g.add(new THREE.Mesh(mergeGeometries([box(6.6, 2.5, 0.05, 0, 1.5, 1.6), box(6.6, 2.5, 0.05, 0, 4.6, 1.6)]), M.interior));
   const mull = [];
   for (let x = -3.3; x <= 3.31; x += 1.1) mull.push(box(0.08, 6.0, 0.12, x, 3.1, 2.14));
-  mull.push(box(7, 0.14, 0.14, 0, 3.15, 2.14));
+  mull.push(box(7, 0.14, 0.14, 0, 3.15, 2.17)); // 4 cm proud of the uprights, or every crossing shimmers
   g.add(new THREE.Mesh(mergeGeometries(mull), M.black));
   g.add(new THREE.Mesh(new THREE.PlaneGeometry(1.4, 2.8).translate(-4.25, 4.3, 1.4).rotateY(0), M.hubSign));
   g.add(new THREE.Mesh(box(0.2, 3.0, 1.6, -4.25, 4.3, 0.55), M.black));
@@ -433,7 +433,7 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   [[-2.9, 0.4], [2.9, 0.4], [-2.9, 1.6], [2.9, 1.6]].forEach(([u, v]) => tryPlant(bSpot.a + u, bSpot.c + v));
   if (aSpot) [[-3.1, -1], [3.1, -1], [-3.1, 1.2], [3.1, 1.2]].forEach(([u, v]) => tryPlant(aSpot.a + u, aSpot.c + v));
   // potted plants by the board and the build area, the arrival scene's own planters
-  root.add(instanced(clayTreeGeometry(), new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.75 }), plantSpots, () => 1.05 + rng() * 0.35));
+  root.add(instanced(clayTreeGeometry(), new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.75 }), [...plantSpots, ...(world.doorPlants || []).map((d) => ({ x: d.x, z: d.z, ry: rng() * 6 }))], () => 1.05 + rng() * 0.35));
   void banana;
 
   // danfos: two parked at the kerb ahead, three driving the main road

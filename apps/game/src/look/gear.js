@@ -25,7 +25,7 @@ export function createGear(avatar) {
     const pocket = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.16, 0.05), amber);
     pocket.position.set(0, 0.94, -0.34);
     const strapGeo = new THREE.BoxGeometry(0.05, 0.5, 0.03);
-    [-1, 1].forEach((s) => { const st = new THREE.Mesh(strapGeo, dark); st.position.set(s * 0.13, 1.08, 0.15); g.add(st); });
+    [-1, 1].forEach((s) => { const st = new THREE.Mesh(strapGeo, dark); st.position.set(s * 0.13, 1.08, 0.18); g.add(st); /* clear of the jacket pocket and zip at 0.15 to 0.16 */ });
     g.add(body, pocket);
     return g;
   })();

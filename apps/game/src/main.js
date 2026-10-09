@@ -40,12 +40,14 @@ if (q.get('hud') === '0') document.body.classList.add('nohud');
 
 const quality = pickQuality(q);
 const canvas = document.getElementById('c');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+// logarithmic depth: no shimmer between near-coplanar layers at district distances (off on the low tier)
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance', logarithmicDepthBuffer: quality !== 'low' });
 renderer.setPixelRatio(Math.min(devicePixelRatio, quality === 'low' ? 1 : 1.5));
 renderer.setSize(innerWidth, innerHeight, false);
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.2, 4000);
+// near plane at 0.3 m: more depth precision across the district, still close enough for first person
+const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.3, 4000);
 
 const composer = new EffectComposer(
   renderer,

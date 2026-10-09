@@ -5,6 +5,7 @@ import { makeWindowMaterial, makeGlowMaterial, makeBeamMaterial } from './shader
 import { wetGroundMaterial, wallMaterial } from './look/surfaces.js';
 import { instanceAsset, collidersFor, anchorAt } from './look/kit.js';
 import { makeClearance, fitStreets, band, streetFurniture, isFootway } from './look/streets.js';
+import { dressEstate } from './look/houses.js';
 
 const NIGHT = {
   // the clay palette of the arrival scene (world bible 7.1): ivory, cream, stone, mint and peach
@@ -23,7 +24,7 @@ const NIGHT = {
     hemi: { sky: 0x4a64b8, ground: 0x1a1612, i: 0.75 },
     key: { color: 0x8ea6ff, i: 0.55 }, rim: { color: 0x3a6aa0, i: 0.3 },
     wet: 1, rain: 1, lights: 1,
-    pane: '#1c2744', bulb: [1.5, 0.86, 0.22],
+    pane: '#5d828a', bulb: [1.5, 0.86, 0.22],
     sky: { top: '#03050d', mid: '#0a1226', hor: '#13203e' }, stars: true,
   },
 };
@@ -272,13 +273,14 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   // roads: carriageways fitted between building lines, pavements on what is left, paint on main roads
   const kerbTris = [], roadTris = [], pathTris = [], paintTris = [];
   roads.forEach((r) => {
+    // ground layers sit at least 3 cm apart, or the depth buffer cannot tell them apart at distance
     if (isFootway(r) || !r.fit) { ribbon(pathTris, r.pts, Math.min(r.w, 3), 0.06); return; }
     const { pts, nrm, half, paveL, paveR } = r.fit;
     const neg = half.map((h) => -h);
-    band(roadTris, pts, nrm, neg, half, 0.1, pushTri);
-    band(kerbTris, pts, nrm, half, half.map((h, i) => h + paveL[i]), 0.08, pushTri);
-    band(kerbTris, pts, nrm, half.map((h, i) => -h - paveR[i]), neg, 0.08, pushTri);
-    if (['primary', 'secondary', 'trunk', 'motorway'].includes(r.cls)) dashes(paintTris, pts, 0.115);
+    band(roadTris, pts, nrm, neg, half, 0.14, pushTri);
+    band(kerbTris, pts, nrm, half, half.map((h, i) => h + paveL[i]), 0.11, pushTri);
+    band(kerbTris, pts, nrm, half.map((h, i) => -h - paveR[i]), neg, 0.11, pushTri);
+    if (['primary', 'secondary', 'trunk', 'motorway'].includes(r.cls)) dashes(paintTris, pts, 0.17);
     // junction aprons: rounded pavement corners where streets end or meet, so no bare ground shows
     [0, pts.length - 1].forEach((i) => {
       const rad = half[i] + Math.max(paveL[i], paveR[i]);
@@ -286,7 +288,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
       const [cx, cz] = pts[i], seg = 18;
       for (let k = 0; k < seg; k++) {
         const a0 = (k / seg) * Math.PI * 2, a1 = ((k + 1) / seg) * Math.PI * 2;
-        pushTri(kerbTris, [cx, 0.075, cz], [cx + Math.cos(a0) * rad, 0.075, cz + Math.sin(a0) * rad], [cx + Math.cos(a1) * rad, 0.075, cz + Math.sin(a1) * rad]);
+        pushTri(kerbTris, [cx, 0.09, cz], [cx + Math.cos(a0) * rad, 0.09, cz + Math.sin(a0) * rad], [cx + Math.cos(a1) * rad, 0.09, cz + Math.sin(a1) * rad]);
       }
     });
   });
@@ -295,15 +297,24 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   if (roadTris.length) gb.raw(roadTris, PAL.road);
   if (paintTris.length) gb.raw(paintTris, PAL.paint);
 
-  // unclaimed buildings: low, dark, no lit windows
+  // unclaimed buildings: each map footprint is a lot with a house set back on a lawn, behind a
+  // picket fence, door to the street (Elvis, 9 October 2026: a clean, established suburb first)
+  const toStreet = (x, z) => {
+    let d = Infinity;
+    mainRoads.forEach((r) => { const P = r.fit ? r.fit.pts : r.pts; for (let i = 0; i < P.length - 1; i += 1) { const [ax, az] = P[i], [bx, bz] = P[i + 1]; const dx = bx - ax, dz = bz - az; const t = Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / (dx * dx + dz * dz || 1))); d = Math.min(d, Math.hypot(x - ax - dx * t, z - az - dz * t)); } });
+    return d;
+  };
+  const lotTrees = [], doorPlants = [];
   blds.forEach((b) => {
     if (plotIds.has(b)) return;
-    const lv = b.levels ?? (b.h ? b.h / 3 : 1 + Math.floor(rng() * 3));
-    const h = Math.max(3.2, Math.min(15, b.h ?? lv * 3));
-    const col = PAL.dark[Math.floor(rng() * PAL.dark.length)];
-    mb.extrude(b.pts, 0, h, col, { grad: 0.4, vary: 0.04 });
-    mb.extrude(scaleAbout(b.pts, b.c, 1.03), h, 0.45, PAL.roofCap, { grad: 0, vary: 0.02 });
-    b.top = h + 0.45;
+    const lv = b.levels ?? (b.h ? b.h / 3 : 1 + Math.floor(rng() * 2));
+    const wall = PAL.walls[Math.floor(rng() * PAL.walls.length)];
+    const est = dressEstate(mb, b.pts, b.c, lv, { wall, rng, front: toStreet, detail: Math.hypot(b.c[0], b.c[1]) < R * 0.6 ? 1 : 0 });
+    b.lot = b.pts;
+    if (!est) { b.pts = []; b.top = 0; return; }
+    b.pts = est.pts; b.bb = bbox(est.pts); b.top = est.top;
+    if (est.tree) lotTrees.push(est.tree);
+    if (est.door) doorPlants.push({ x: est.door.x, z: est.door.z });
   });
 
   // far lots beyond the data: unclaimed, dark
@@ -321,7 +332,8 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   const kitColliders = [];
   const trees = [];
   const glows = []; // {x,z,r}
-  const inAnyBuilding = (x, z) => blds.some((b) => x > b.bb.x0 - 1 && x < b.bb.x1 + 1 && z > b.bb.z0 - 1 && z < b.bb.z1 + 1 && pointInPoly(x, z, b.pts));
+  // lots count as built: nothing from the street is planted on someone's lawn
+  const inAnyBuilding = (x, z) => blds.some((b) => { const P = b.lot || b.pts; const bb = b.lot ? b.lotBB || (b.lotBB = bbox(b.lot)) : b.bb; return P.length >= 3 && x > bb.x0 - 1 && x < bb.x1 + 1 && z > bb.z0 - 1 && z < bb.z1 + 1 && pointInPoly(x, z, P); });
 
   // street lamps on every street, trees only where pavements allow (world bible 4.3)
   const furniture = streetFurniture(roads, { inBuilding: inAnyBuilding, inside: (x, z) => Math.hypot(x, z) < R * 1.08 });
@@ -344,7 +356,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
       lamps.push({ x: bx, y: 5.95, z: bz, delay: delayFor(bx, bz), kind: 'street' });
     }
   });
-  trees.push(...furniture.trees);
+  trees.push(...furniture.trees, ...lotTrees);
 
   // electric poles with wires along the longest main road (a Lagos detail)
   const longest = [...roads].filter((r) => ['primary', 'secondary', 'trunk'].includes(r.cls))
@@ -463,8 +475,8 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
       for (let f = 0; f < floors; f++) {
         for (let c = 0; c < cols; c++) {
           const t = (0.7 + sp * (c + 0.5)) / len;
-          const x = ax + dx * t + nx * 0.05;
-          const z = az + dz * t + nz * 0.05;
+          const x = ax + dx * t + nx * 0.08;
+          const z = az + dz * t + nz * 0.08;
           const lit = kind === 'shop'
             ? rng() < Math.min(0.92, P * 1.35 + (P > 0 ? 0.1 : 0)) ? 1 : 0
             : rng() < P ? 1 : 0;
@@ -596,7 +608,8 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   });
 
   // --- collision: circle vs real footprints ---
-  const solid = blds.map((b) => ({ pts: b.pts, bb: b.bb, top: b.top ?? 10 }));
+  const solid = blds.filter((b) => b.pts.length >= 3).map((b) => ({ pts: b.pts, bb: b.bb, top: b.top ?? 10 }));
+  const lots = blds.filter((b) => b.lot && b.lot.length >= 3).map((b) => ({ pts: b.lot, bb: b.lotBB || (b.lotBB = bbox(b.lot)) }));
   function resolve(pos, rad = 0.8) {
     for (const s of solid) {
       if (pos.x < s.bb.x0 - rad || pos.x > s.bb.x1 + rad || pos.z < s.bb.z0 - rad || pos.z > s.bb.z1 + rad) continue;
@@ -638,6 +651,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
       if (x < s.bb.x0 - pad || x > s.bb.x1 + pad || z < s.bb.z0 - pad || z > s.bb.z1 + pad) continue;
       if (pointInPoly(x, z, s.pts) || nearestOnPoly(x, z, s.pts).d < pad) return false;
     }
+    for (const l of lots) if (x > l.bb.x0 - pad && x < l.bb.x1 + pad && z > l.bb.z0 - pad && z < l.bb.z1 + pad && (pointInPoly(x, z, l.pts) || nearestOnPoly(x, z, l.pts).d < pad)) return false;
     // keep carriageways and pavements clear: pavements are for walking (world bible 4.3)
     for (const r of mainRoads) {
       const P = r.fit ? r.fit.pts : r.pts;
@@ -670,9 +684,9 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     lamps, trees, isFree, youCenter: you.c, mainRoad: longest, roads,
     rig: { hemi, moon, rim, bulbMat, bulb: T.env.bulb },
     center: manifest.center,
-    footprints: blds.map((b) => b.pts),
+    footprints: blds.filter((b) => b.pts.length >= 3).map((b) => b.pts), lots: blds.filter((b) => b.lot).map((b) => b.lot), doorPlants,
     // flat roofs of unclaimed buildings, for rooftop water tanks
-    roofs: blds.filter((b) => !plotIds.has(b) && b.top).map((b) => ({ x: b.c[0], z: b.c[1], y: b.top, area: b.area, pts: b.pts })),
+    roofs: blds.filter((b) => !plotIds.has(b) && b.top && b.pts.length >= 3).map((b) => ({ x: b.c[0], z: b.c[1], y: b.top, area: b.area, pts: b.pts })),
     kit, kitColliders, addColliders: (list) => kitColliders.push(...list),
     source: manifest.source,
   };
