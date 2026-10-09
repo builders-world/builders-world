@@ -7,6 +7,7 @@ import { instanceAsset, collidersFor, anchorAt } from './look/kit.js';
 import { makeClearance, fitStreets, band, streetFurniture, isFootway } from './look/streets.js';
 import { dressEstate } from './look/houses.js';
 import { pushOutBox } from './look/physics.js';
+import { buildNavGrid } from './look/navgrid.js';
 
 const NIGHT = {
   // the clay palette of the arrival scene (world bible 7.1): ivory, cream, stone, mint and peach
@@ -651,6 +652,9 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     if (rr > maxR) { pos.x *= maxR / rr; pos.z *= maxR / rr; }
   }
 
+  let nav = null;
+  const navGrid = () => (nav ??= buildNavGrid({ R, solids: solid, boxes: kitColliders, roads, lots, pointInPoly, nearestOnPoly }));
+
   // free for a prop: outside every footprint and off the carriageway
   function isFree(x, z, pad = 0.6, { lots: onLots = false } = {}) {
     let hit = false;
@@ -698,7 +702,11 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     // flat roofs of unclaimed buildings, for rooftop water tanks
     roofs: blds.filter((b) => !plotIds.has(b) && b.top && b.pts.length >= 3).map((b) => ({ x: b.c[0], z: b.c[1], y: b.top, area: b.area, pts: b.pts })),
     blockedAt: (x, z, r = 0.35) => { const v = { x, z }; resolve(v, r); return Math.hypot(v.x - x, v.z - z) > 0.01; },
-    kit, kitColliders, addColliders: (list) => { list.forEach((c) => { kitColliders.push(c); indexBox(c); }); },
+    kit, kitColliders, addColliders: (list) => { list.forEach((c) => { kitColliders.push(c); indexBox(c); }); nav = null; },
+    // walkable paths around everything solid, by the movement rules (navgrid.js); built on first use
+    plan: (a, b, opt) => navGrid().plan(a, b, opt),
+    costAt: (x, z) => navGrid().costAt(x, z),
+    navReach: (a) => navGrid().reach(a),
     source: manifest.source,
   };
 }

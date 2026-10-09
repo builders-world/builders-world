@@ -338,7 +338,8 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     if (custom) {
       pathAt -= dt;
       const off = path ? nearestOn(path, player.x, player.z).d : Infinity;
-      if (!path || (off > 8 && pathAt <= 0)) { path = nav.route(player, custom); pathAt = 1; }
+      // a walkable path by the movement rules; the street graph only if the planner finds nothing
+      if (!path || (off > 6 && pathAt <= 0)) { path = world.plan?.(player, custom) || nav.route(player, custom); pathAt = 1; }
     } else path = null;
     // objective distance: along the route when there is one, as the crow flies otherwise
     const onPath = path ? nearestOn(path, player.x, player.z) : null;

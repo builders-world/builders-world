@@ -148,7 +148,7 @@ export function dressEstate(mb, lot, c, levels, o) {
     edges.forEach((e) => {
       if (e.nx * dn[0] + e.nz * dn[1] < 0.5) return;
       const t = (ox - e.ax) * e.tx + (oz - e.az) * e.tz;
-      if (t < 0.9 || t > e.len - 0.9) return;
+      if (t < 1.1 || t > e.len - 1.1) return;
       const gx = e.ax + e.tx * t, gz = e.az + e.tz * t, dd = Math.hypot(gx - ox, gz - oz);
       if (dd < best) { best = dd; gate = { e, t, x: gx, z: gz }; }
     });
@@ -163,7 +163,7 @@ export function dressEstate(mb, lot, c, levels, o) {
   edges.forEach((e) => {
     if (e.len < 0.6) return;
     const ry = Math.atan2(e.nx, e.nz);
-    const gap = gate && gate.e === e ? [gate.t - 0.8, gate.t + 0.8] : null;
+    const gap = gate && gate.e === e ? [gate.t - 1.0, gate.t + 1.0] : null; // a 2 m gate
     const runs = gap ? [[0, gap[0]], [gap[1], e.len]] : [[0, e.len]];
     runs.forEach(([a, b]) => {
       const L = b - a;

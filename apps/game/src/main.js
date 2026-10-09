@@ -19,6 +19,8 @@ import { weather as wx } from './look/surfaces.js';
 import { pushOutDynamic } from './look/physics.js';
 
 const q = new URLSearchParams(location.search);
+const TEST_PACE = +(q.get('pace') ?? 1); // tests walk faster; players never see this
+const PLAYER_R = 0.42; // the body is about 0.5 m across; 0.42 fits a 2 m gate with room to spare
 // one cartoon skin over every panel on the street, Codex's chrome included (world bible 11.1)
 { const st = document.createElement('style'); st.textContent = SKIN_CSS; document.head.appendChild(st); document.body.classList.add('bw-skin'); loadFont(); }
 const arrivalProfile = loadProfile();
@@ -141,7 +143,7 @@ async function main() {
 
   const player = new THREE.Vector3();
   let heading = 0;
-  let walkTarget = null;
+  let walkTarget = null, walkPath = null, walkAt = 0, replans = 0;
 
   const cam = { yaw: 0, yawT: 0, pitch: 0.2, pitchT: 0.2, dist: 7, distT: 7, aerial: false };
   const modes = { street: { pitch: 0.2, dist: 7 }, aerial: { pitch: 0.62, dist: 0 } };
@@ -182,7 +184,7 @@ async function main() {
     const m = modes[flag ? 'aerial' : 'street'];
     cam.pitchT = cam.pitch = m.pitch;
     cam.distT = cam.dist = m.dist || world.radius * 1.35;
-    walkTarget = null; marker.visible = false;
+    walkTarget = null; walkPath = null; marker.visible = false;
     snap = true;
     chrome.setView(flag);
   }
@@ -193,9 +195,9 @@ async function main() {
     cut(() => {
       const f = world.frontOf([pl.center.x, pl.center.z]);
       player.set(f.x, 0, f.z);
-      world.resolve(player, 0.8);
+      world.resolve(player, PLAYER_R);
       heading = cam.yaw = cam.yawT = f.yaw;
-      walkTarget = null; marker.visible = false;
+      walkTarget = null; walkPath = null; marker.visible = false;
       setAerial(false);
       snap = true;
       chrome.showCard(pl.b, true);
@@ -244,7 +246,7 @@ async function main() {
     else if (k === '=' || k === '+') zoomKey(-1);
     else if (k === '-' || k === '_') zoomKey(1);
     else if (k === ' ') { e.preventDefault(); if (!e.repeat) jumpQueued = true; }
-    else { keys.add(k); if (['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(k)) { walkTarget = null; marker.visible = false; } }
+    else { keys.add(k); if (['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(k)) { walkTarget = null; walkPath = null; marker.visible = false; } }
   });
   function zoomKey(dir) { const [lo, hi] = limits(); cam.distT = Math.max(lo, Math.min(hi, cam.distT * (1 + dir * 0.12))); }
   addEventListener('keyup', (e) => keys.delete(e.key.toLowerCase()));
@@ -284,13 +286,23 @@ async function main() {
     pt.copy(hit.point);
     if (Math.hypot(pt.x, pt.z) > world.radius * 1.05) return;
     if (cam.aerial) {
-      cut(() => { player.set(pt.x, 0, pt.z); world.resolve(player, 0.8); setAerial(false); snap = true; });
+      cut(() => { player.set(pt.x, 0, pt.z); world.resolve(player, PLAYER_R); setAerial(false); snap = true; });
     } else {
-      walkTarget = pt.clone();
-      marker.position.set(pt.x, 0, pt.z);
-      marker.visible = true;
+      walkTo(pt);
     }
   });
+
+  // plan a walkable path there, round buildings and through gates (navgrid.js), and set off
+  function walkTo(pt) {
+    const path = world.plan ? world.plan(player, pt) : [player.clone(), pt.clone()];
+    if (!path) { chrome.toast('There is no way through to there'); return false; }
+    walkPath = path; walkAt = 1; replans = 0;
+    const end = path[path.length - 1];
+    walkTarget = new THREE.Vector3(end.x, 0, end.z);
+    marker.position.set(end.x, 0, end.z);
+    marker.visible = true;
+    return true;
+  }
 
   // ---- arrival: fade from black, your plot first, then the street lights up outward ----
   loader.classList.add('gone');
@@ -315,7 +327,7 @@ async function main() {
     if (on) {
       const tr = street?.hud.travel?.();
       if (!tr || riding || seated || street?.inside) { (street?.hud.toast ?? chrome.toast)('Set a destination on the map (M) first, then press C to travel there.', 3200); return; }
-      walkTarget = null; marker.visible = false;
+      walkTarget = null; walkPath = null; marker.visible = false;
     }
     travel.on = on; travel.shot = -1; travel.t = 0;
     document.body.classList.toggle('bw-cine', on);
@@ -380,7 +392,7 @@ async function main() {
         if (move.yaw !== undefined) heading = cam.yaw = cam.yawT = move.yaw;
         seated = move.mode === 'sit';
         if (move.mode === 'inside') { savedOutside = { dist: cam.distT, pitch: cam.pitchT }; cam.distT = cam.dist = 4.5; cam.pitchT = cam.pitch = 0.32; }
-        if (move.mode === 'outside' && savedOutside) { cam.distT = savedOutside.dist; cam.pitchT = savedOutside.pitch; world.resolve(player, 0.8); }
+        if (move.mode === 'outside' && savedOutside) { cam.distT = savedOutside.dist; cam.pitchT = savedOutside.pitch; world.resolve(player, PLAYER_R); }
         snap = true;
       }
     }
@@ -390,7 +402,7 @@ async function main() {
     // a hired ride carries the player; the camera sits behind the vehicle
     const rs = street?.ride(dt, t, keys, player);
     if (rs?.exit) {
-      player.copy(rs.exit); world.resolve(player, 0.8);
+      player.copy(rs.exit); world.resolve(player, PLAYER_R);
       if (riding) { riding = false; applyView('foot'); }
     } else if (rs?.pos) {
       if (!riding) { savedDist = cam.distT; riding = true; applyView('ride'); }
@@ -423,25 +435,33 @@ async function main() {
         }
       }
       if (mv.lengthSq() === 0 && walkTarget) {
-        const dx = walkTarget.x - player.x, dz = walkTarget.z - player.z;
-        const dist = Math.hypot(dx, dz);
-        if (dist < 0.45) { walkTarget = null; marker.visible = false; }
-        else mv.set(dx / dist, 0, dz / dist);
+        // follow the planned corners; skip ahead to any corner already reached
+        const P = walkPath || [walkTarget];
+        while (walkAt < P.length - 1 && Math.hypot(P[walkAt].x - player.x, P[walkAt].z - player.z) < 0.6) walkAt++;
+        const aim = P[Math.min(walkAt, P.length - 1)];
+        const dx = aim.x - player.x, dz = aim.z - player.z, dist = Math.hypot(dx, dz);
+        if (walkAt >= P.length - 1 && dist < 0.45) { walkTarget = null; walkPath = null; marker.visible = false; }
+        else mv.set(dx / (dist || 1), 0, dz / (dist || 1));
       }
     }
     const moving = mv.lengthSq() > 0;
     // walk by default, run with Shift (world bible 7.4); indoors you walk like indoors
     const running = keys.has('shift') && !inside && !seated;
-    const pace = inside ? 1.9 : running ? 6.4 : 2.8;
+    const pace = (inside ? 1.9 : running ? 6.4 : 2.8) * TEST_PACE;
     if (moving) {
       mv.normalize();
       last.copy(player);
       player.addScaledVector(mv, pace * dt);
       // static world first (a jump clears low fences), then everything that moves
-      if (inside) C.resolve(player); else { world.resolve(player, 0.8, jumpY); pushOutDynamic(player, 0.4, street?.bodies?.() || []); world.resolve(player, 0.8, jumpY); }
+      if (inside) C.resolve(player); else { world.resolve(player, PLAYER_R, jumpY); pushOutDynamic(player, 0.4, street?.bodies?.() || []); world.resolve(player, PLAYER_R, jumpY); }
       if (walkTarget) {
         stuck = player.distanceTo(last) < pace * dt * 0.25 ? stuck + dt : 0;
-        if (stuck > 0.5) { walkTarget = null; marker.visible = false; stuck = 0; }
+        // blocked by someone walking past: plan again from here, twice, then give up politely
+        if (stuck > 0.5) {
+          stuck = 0;
+          const again = replans++ < 2 && world.plan ? world.plan(player, walkTarget) : null;
+          if (again) { walkPath = again; walkAt = 1; } else { walkTarget = null; walkPath = null; marker.visible = false; }
+        }
       }
       let dh = Math.atan2(mv.x, mv.z) - heading;
       dh = Math.atan2(Math.sin(dh), Math.cos(dh));
@@ -562,7 +582,7 @@ async function main() {
 
   window.__bw = {
     get world() { return world; }, camera, cam, player, renderer, scene, via,
-    get theme() { return themeName; }, setTheme, get look() { return street; }, quality, composer, weather: weatherFeed, get kit() { return kit; }, goto, setAerial, cycleView, setTravel, get travel() { return travel.on; }, audio, get view() { return (riding ? 'ride:' : 'foot:') + (riding ? viewOf('ride') : viewOf('foot')).id; }, get walkTarget() { return walkTarget; },
+    get theme() { return themeName; }, setTheme, get look() { return street; }, quality, composer, weather: weatherFeed, get kit() { return kit; }, goto, setAerial, cycleView, setTravel, get travel() { return travel.on; }, audio, get view() { return (riding ? 'ride:' : 'foot:') + (riding ? viewOf('ride') : viewOf('foot')).id; }, get walkTarget() { return walkTarget; }, get walkPath() { return walkPath; }, walkTo,
     ready: true,
   };
 }
