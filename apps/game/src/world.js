@@ -284,6 +284,16 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     band(kerbTris, pts, nrm, half, half.map((h, i) => h + paveL[i]), 0.08, pushTri);
     band(kerbTris, pts, nrm, half.map((h, i) => -h - paveR[i]), neg, 0.08, pushTri);
     if (['primary', 'secondary', 'trunk', 'motorway'].includes(r.cls)) dashes(paintTris, pts, 0.115);
+    // junction aprons: rounded pavement corners where streets end or meet, so no bare ground shows
+    [0, pts.length - 1].forEach((i) => {
+      const rad = half[i] + Math.max(paveL[i], paveR[i]);
+      if (rad < 1) return;
+      const [cx, cz] = pts[i], seg = 18;
+      for (let k = 0; k < seg; k++) {
+        const a0 = (k / seg) * Math.PI * 2, a1 = ((k + 1) / seg) * Math.PI * 2;
+        pushTri(kerbTris, [cx, 0.075, cz], [cx + Math.cos(a0) * rad, 0.075, cz + Math.sin(a0) * rad], [cx + Math.cos(a1) * rad, 0.075, cz + Math.sin(a1) * rad]);
+      }
+    });
   });
   if (kerbTris.length) gb.raw(kerbTris, PAL.kerb);
   if (pathTris.length) gb.raw(pathTris, PAL.path);

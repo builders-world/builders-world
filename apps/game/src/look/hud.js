@@ -344,17 +344,10 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     const w = weatherFeed?.state;
     if (!wxEl || !w) return;
     const temp = w.tempC == null ? '' : `${Math.round(w.tempC)}°`;
-    const mine = w.loc.how === 'your location';
     const tag = w.source === 'preset' ? ' · preview' : w.source === 'offline' ? ' · offline' : '';
     wxEl.innerHTML = `<div class="t">${temp}<span>${w.label}</span></div>
       <div class="p">${w.loc.label} · ${weatherFeed.localTime()}${tag}</div>
-      <button type="button">${mine ? 'Stop using my location' : 'Use my location'}</button>
       <span class="src">Weather: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></span>`;
-    wxEl.querySelector('button').onclick = async () => {
-      if (mine) { await weatherFeed.forgetMyLocation(); toast('Back to your home city weather.'); return; }
-      const ok = await weatherFeed.useMyLocation();
-      toast(ok ? 'Weather now follows your area, rounded to about 10 km. Stored on this device only.' : 'Location was not shared. Using your home city.');
-    };
   }
   if (weatherFeed) {
     unsub = weatherFeed.onChange(renderWeather);

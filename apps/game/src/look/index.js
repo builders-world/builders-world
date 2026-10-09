@@ -4,6 +4,7 @@ import { rain, lampCones, LampLights, skyline } from './atmosphere.js';
 import { buildProps } from './props.js';
 import { createHud } from './hud.js';
 import { createGear } from './gear.js';
+import { createLife } from './life.js';
 import { sunPosition, sunDirection } from './sun.js';
 import { shared } from '../shaders.js';
 
@@ -178,7 +179,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       const to = ((cur.windDir + 180) * Math.PI) / 180, slant = Math.min(cur.wind, 15) * 0.025;
       rainMesh.userData.wind.value.set(Math.sin(to) * slant, -Math.cos(to) * slant);
     }
-    live = { elevation: e, day, lamps, ...cur };
+    const lt = weatherFeed ? weatherFeed.localTime().split(':').map(Number) : [12, 0];
+    live = { elevation: e, day, lamps, hour: lt[0] + lt[1] / 60, ...cur };
   }
 
   // Lightning: rare, two flashes at most per strike, never more than three a second.
@@ -190,8 +192,11 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   flashLight.position.set(-200, 300, 100);
   group.add(flashLight);
 
+  const life = off.has('life') ? null : createLife({ world, scene: group, camera, getEnv: () => live, reduced, lowQuality: quality === 'low', uTime: shared.uTime });
+
   function update(dt, t, player, yaw, arrival) {
     if (night) environment(dt);
+    life?.update(dt, t, player);
     lights?.update(dt, player, arrival);
     fill.position.set(camera.position.x * 0.6 + player.x * 0.4, 3.2, camera.position.z * 0.6 + player.z * 0.4);
     if (rainMesh) rainMesh.userData.cam.value.copy(camera.position);
@@ -221,6 +226,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   function setSize(w, h) { reflection?.setSize(w * renderer.getPixelRatio(), h * renderer.getPixelRatio()); }
 
   function dispose() {
+    life?.dispose();
     hud.dispose();
     gear?.dispose();
     props.dispose();

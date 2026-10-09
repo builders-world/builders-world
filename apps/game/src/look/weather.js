@@ -1,17 +1,10 @@
 // Live weather for the street, from Open-Meteo (free, no key, CC BY 4.0).
-// Location is city level: the home city chosen at arrivals, or the district itself.
-// A visitor can opt in to their own location, rounded to about 10 km and kept on this device.
-
-const CITIES = {
-  Abuja: { lat: 9.0765, lon: 7.3986 },
-  Uyo: { lat: 5.0377, lon: 7.9128 },
-  'Port Harcourt': { lat: 4.8156, lon: 7.0498 },
-};
+// Each district shows its own real weather (decided by Elvis, 9 October 2026), so Yaba
+// always has Lagos weather whoever is visiting. No player location is used.
 
 const store = {
   get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* storage unavailable */ } },
-  del(k) { try { localStorage.removeItem(k); } catch { /* storage unavailable */ } },
 };
 
 const LABELS = {
@@ -69,10 +62,6 @@ export function createWeather({ district, profile, query }) {
 
   function where() {
     if (wxloc.length === 2 && wxloc.every(Number.isFinite)) return { lat: wxloc[0], lon: wxloc[1], label: 'Test location', how: 'test' };
-    const mine = store.get('bw-wx-geo');
-    if (mine) return { ...mine, label: 'Your area', how: 'your location' };
-    const city = profile?.city && CITIES[profile.city];
-    if (city) return { ...city, label: profile.city, how: 'home city' };
     return { lat: district.lat, lon: district.lon, label: district.name, how: 'district' };
   }
 
@@ -146,17 +135,6 @@ export function createWeather({ district, profile, query }) {
     timer = setInterval(refresh, 10 * 60 * 1000); // Open-Meteo updates every 15 minutes
   }
 
-  function useMyLocation() {
-    return new Promise((resolve) => {
-      if (!navigator.geolocation) { resolve(false); return; }
-      navigator.geolocation.getCurrentPosition((p) => {
-        store.set('bw-wx-geo', { lat: Math.round(p.coords.latitude * 10) / 10, lon: Math.round(p.coords.longitude * 10) / 10 });
-        refresh().then(() => resolve(true));
-      }, () => resolve(false), { enableHighAccuracy: false, maximumAge: 3600000, timeout: 10000 });
-    });
-  }
-  function forgetMyLocation() { store.del('bw-wx-geo'); return refresh(); }
-
   function localTime() {
     const off = state?.utcOffset ?? 3600;
     const d = new Date(now().getTime() + off * 1000);
@@ -164,7 +142,7 @@ export function createWeather({ district, profile, query }) {
   }
 
   return {
-    start, refresh, now, localTime, useMyLocation, forgetMyLocation,
+    start, refresh, now, localTime,
     get state() { return state; },
     onChange(fn) { listeners.add(fn); if (state) fn(state); return () => listeners.delete(fn); },
     dispose() { clearInterval(timer); listeners.clear(); },
