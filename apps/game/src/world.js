@@ -6,6 +6,7 @@ import { wetGroundMaterial, wallMaterial } from './look/surfaces.js';
 import { instanceAsset, collidersFor, anchorAt } from './look/kit.js';
 import { makeClearance, fitStreets, band, streetFurniture, isFootway } from './look/streets.js';
 import { dressEstate, drawFence, fenceCollider, cutFence, WALK } from './look/houses.js';
+import { planEstates, nearWall, LOT_W, LOT_D } from './estates.js';
 import { pushOutBox } from './look/physics.js';
 import { buildNavGrid } from './look/navgrid.js';
 
@@ -406,24 +407,64 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   const reserveCorners = () => bridgeReserve.flatMap((c) => { const cs = Math.cos(c.ry), sn = Math.sin(c.ry); return [[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([u, v]) => [c.cx + u * c.hx * cs + v * c.hz * sn, c.cz - u * c.hx * sn + v * c.hz * cs]); });
 
   const fenceIndex = new Map(), estates = [];
-  blds.forEach((b) => {
-    if (plotIds.has(b)) return;
-    let lot = null;
-    for (const k of [1, 0.94, 0.88, 0.82, 0.76, 0.7, 0.64]) { const p = k === 1 ? b.pts : scaleAbout(b.pts, b.c, k); if (!clashes(p)) { lot = p; break; } }
-    if (!lot) { b.pts = []; b.top = 0; return; } // a footprint that is mostly street: nothing is built there
-    laid.push({ pts: lot, bb: bbox(lot) });
-    const lv = b.levels ?? (b.h ? b.h / 3 : 1 + Math.floor(rng() * 2));
-    const wall = PAL.walls[Math.floor(rng() * PAL.walls.length)];
-    const est = dressEstate(mb, lot, b.c, lv, { wall, rng, front: toStreet, fenceIndex, deferFences: true, detail: Math.hypot(b.c[0], b.c[1]) < R * 0.6 ? 1 : 0 });
-    b.lot = lot;
-    if (!est) { b.pts = []; b.top = 0; return; }
-    b.pts = est.pts; b.bb = bbox(est.pts); b.top = est.top;
-    if (est.tree) lotTrees.push(est.tree);
-    if (est.door) doorPlants.push({ x: est.door.x, z: est.door.z, step: est.door.step });
-    // porch lights: two in three on a motion sensor (on only when someone comes near), the rest on all night
-    // the fitting sits on the wall (mx, mz); the light it casts is placed 0.9 m out so it falls on the step, not the wall
-    if (est.door?.lamp) { const L = est.door.lamp; porchLamps.push({ mx: L.x, mz: L.z, x: L.x + Math.sin(L.ry) * 0.9, y: 2.4, z: L.z + Math.cos(L.ry) * 0.9, ry: L.ry, my: L.y, sensor: rng() < 0.67, power: 0, color: 0xffc27a, kind: 'porch' }); }
-    estates.push(est);
+  // ---------- planned estates (src/estates.js): the district's houses on a grid, behind walls and gates ----------
+  // The map's own house footprints point every which way; the roads, the builders' plots and the bridge
+  // stay, and the houses are laid out as estates along the roads instead (Elvis, 9 October 2026).
+  blds.forEach((b) => { if (!plotIds.has(b)) { b.pts = []; b.top = 0; } });
+  const plotFree = (x, z) => !laid.some((l) => x > l.bb.x0 - 1 && x < l.bb.x1 + 1 && z > l.bb.z0 - 1 && z < l.bb.z1 + 1 && (pointInPoly(x, z, l.pts) || nearestOnPoly(x, z, l.pts).d < 1));
+  // the road reserve on a 1 m raster, marked segment by segment: far quicker than asking every
+  // segment about every point the planner tests
+  const RC = 1, RN = Math.ceil((2 * R) / RC) + 3, resv = new Uint8Array(RN * RN);
+  reserve.forEach(([a, c, h]) => {
+    const dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1;
+    const i0 = Math.max(0, Math.floor((Math.min(a[0], c[0]) - h + R) / RC)), i1 = Math.min(RN - 1, Math.ceil((Math.max(a[0], c[0]) + h + R) / RC));
+    const j0 = Math.max(0, Math.floor((Math.min(a[1], c[1]) - h + R) / RC)), j1 = Math.min(RN - 1, Math.ceil((Math.max(a[1], c[1]) + h + R) / RC));
+    for (let j = j0; j <= j1; j++) for (let i = i0; i <= i1; i++) {
+      const x = -R + i * RC, z = -R + j * RC, w = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / L2));
+      if (Math.hypot(x - a[0] - dx * w, z - a[1] - dz * w) < h + 0.35) resv[j * RN + i] = 1; // the reserve already has a margin; 0.35 more covers the 1 m raster's rounding
+    }
+  });
+  const inResv = (x, z) => { const i = Math.round((x + R) / RC), j = Math.round((z + R) / RC); return i < 0 || j < 0 || i >= RN || j >= RN || resv[j * RN + i] === 1; };
+  const estatePlan = planEstates({ roads, R, rng, free: (x, z) => Math.hypot(x - spawn.x, z - spawn.z) > 50 && !inResv(x, z) && !inReserveBox(x, z) && plotFree(x, z) }); // the start street stays open for the board, the hub and the stalls
+  const estateWalls = [], estateGarages = [], carSpots = [], addresses = [];
+  const WALLC = '#e6dcc8', COPE = '#b9ab92', CLOSE = '#9a9a92';
+  estatePlan.forEach((E, ei) => {
+    // the walls, with a coping, and pillars and a guard booth at every gate
+    E.walls.forEach((w) => {
+      mb.box(w.cx, 0, w.cz, w.hx * 2, 2.0, w.hz * 2, WALLC, { grad: 0.06, vary: 0.02 }, w.ry);
+      mb.box(w.cx, 2.0, w.cz, w.hx * 2 + 0.05, 0.12, w.hz * 2 + 0.12, COPE, { grad: 0, vary: 0 }, w.ry);
+      estateWalls.push({ name: 'estate_wall', ...w, h: 2.12 });
+    });
+    E.gates.forEach((g) => {
+      g.post.forEach(([x, z]) => { mb.box(x, 0, z, 0.6, 2.7, 0.6, COPE, { grad: 0.05, vary: 0 }, E.ry); estateWalls.push({ name: 'gate_pillar', cx: x, cz: z, hx: 0.3, hz: 0.3, ry: E.ry, h: 2.7 }); });
+      const [bx, bz] = g.booth;
+      mb.box(bx, 0, bz, 2.2, 2.5, 2.2, WALLC, { grad: 0.06, vary: 0.02 }, E.ry); mb.box(bx, 2.5, bz, 2.6, 0.16, 2.6, '#5a5048', { grad: 0, vary: 0 }, E.ry);
+      estateWalls.push({ name: 'gate_booth', cx: bx, cz: bz, hx: 1.1, hz: 1.1, ry: E.ry, h: 2.7 });
+    });
+    // estates back from the road reach it by a short access lane
+    (E.access || []).forEach((a) => { const mx = (a.from[0] + a.to[0]) / 2, mz = (a.from[1] + a.to[1]) / 2; mb.box(mx, 0, mz, 4.0, 0.08, a.len + 0.6, CLOSE, { grad: 0, vary: 0.015 }, Math.atan2(a.to[0] - a.from[0], a.to[1] - a.from[1])); });
+    // each close: a paved lane from the gate to the back of the estate
+    E.closes.forEach((c) => mb.box(c.cx, 0, c.cz, c.hx * 2, 0.08, c.hz * 2, CLOSE, { grad: 0, vary: 0.015 }, c.ry));
+    // the lots, numbered from the gate: 1A, 2A... on the left as you walk in, 1B, 2B... on the right
+    E.lots.forEach((L, li) => {
+      laid.push({ pts: L.pts, bb: bbox(L.pts) });
+      const lv = rng() < 0.55 ? 2 : 1;
+      const wall = PAL.walls[Math.floor(rng() * PAL.walls.length)];
+      const est = dressEstate(mb, L.pts, L.c, lv, { wall, rng, fenceIndex, deferFences: true, detail: Math.hypot(L.c[0], L.c[1]) < R * 0.6 ? 1 : 0,
+        plan: { front: L.front, side: L.side, depth: LOT_D, width: LOT_W, flip: (parseInt(L.no, 10) % 2) === 0 }, noFence: (x, z) => nearWall(E, x, z, 0.9) });
+      if (!est) return;
+      const addr = `${L.no}, Gate ${L.gate}, ${E.name}`;
+      const b = { pts: est.pts, lot: L.pts, c: L.c, bb: bbox(est.pts), top: est.top, area: Math.abs(polyArea(est.pts)), planned: true, addr, no: L.no, gate: L.gate, estate: E.name };
+      blds.push(b);
+      if (est.tree) lotTrees.push(est.tree);
+      if (est.garage) estateGarages.push(est.garage);
+      if (est.car && rng() < 0.6) carSpots.push({ ...est.car, addr });
+      if (est.door) doorPlants.push({ x: est.door.x, z: est.door.z, step: est.door.step, addr, no: L.no });
+      addresses.push({ x: L.c[0], z: L.c[1], no: L.no, gate: L.gate, estate: E.name, addr, door: est.door?.step || null, lamp: est.door?.lamp || null, pts: L.pts });
+      // porch lights: two in three on a motion sensor (on only when someone comes near), the rest on all night
+      if (est.door?.lamp) { const Lp = est.door.lamp; porchLamps.push({ mx: Lp.x, mz: Lp.z, x: Lp.x + Math.sin(Lp.ry) * 0.9, y: 2.4, z: Lp.z + Math.cos(Lp.ry) * 0.9, ry: Lp.ry, my: Lp.y, sensor: rng() < 0.67, power: 0, color: 0xffc27a, kind: 'porch' }); }
+      estates.push(est);
+    });
   });
   // fences last, once every house is down, so none runs too close to any wall (houses.js)
   const houses = blds.filter((b) => b.pts.length >= 3).map((b) => ({ pts: b.pts, bb: b.bb || bbox(b.pts) }));
@@ -453,7 +494,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   // between it and ground that can. Opening one garden can connect the next, so it runs a few rounds.
   {
     const solidsNow = blds.filter((b) => b.pts.length >= 3).map((b) => ({ pts: b.pts, bb: b.bb || bbox(b.pts), top: 10 }));
-    const treeBoxes = lotTrees.map((t) => ({ cx: t.x, cz: t.z, hx: 0.3, hz: 0.3, ry: 0 }));
+    const treeBoxes = [...lotTrees.map((t) => ({ cx: t.x, cz: t.z, hx: 0.3, hz: 0.3, ry: 0 })), ...estateWalls, ...estateGarages];
     const GATE = 1.8;
     for (let round = 0; round < 5; round++) {
       const g = buildNavGrid({ R, solids: solidsNow, boxes: [...fenceRuns.map(fenceCollider), ...treeBoxes], roads, lots: [], pointInPoly, nearestOnPoly });
@@ -492,7 +533,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   const lamps = []; // street lamps that light the ground for real
   const lampT = kit?.get('yaba_street_lamp');
   const lampSpots = [];
-  const kitColliders = [...lotFences];
+  const kitColliders = [...lotFences, ...estateWalls, ...estateGarages];
   const claims = []; // { kind, cx, cz, hx, hz, ry }
   let world_bridge = null; // picket fences first: low (1 m), so a jump clears them
   const trees = [];
@@ -604,6 +645,22 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     }
   });
   trees.push(...furniture.trees, ...lotTrees);
+
+  // lamps along every estate close, alternating sides every 16 m, arms over the lane
+  estatePlan.forEach((E) => E.closes.forEach((c) => {
+    const [ux, uz] = E.rect.u, [vx, vz] = E.rect.v;
+    for (let t = 6, k = 0; t < c.hz * 2 - 3; t += 16, k++) {
+      const side = k % 2 ? 1 : -1, off = c.hx - 0.35;
+      const bx = c.cx + vx * (t - c.hz), bz = c.cz + vz * (t - c.hz), x = bx + ux * off * side, z = bz + uz * off * side;
+      mb.cyl(x, 0.08, z, 0.08, 0.11, 4.4, 6, PAL.metal, { grad: 0.2 });
+      const hx = x - ux * 0.9 * side, hz = z - uz * 0.9 * side;
+      mb.box((x + hx) / 2, 4.35, (z + hz) / 2, 0.1, 0.1, 1.0, PAL.metal, { grad: 0 }, Math.atan2(ux * side, uz * side));
+      bulbs.push({ x: hx, y: 4.3, z: hz, s: 0.2 });
+      glows.push({ x: hx, z: hz, r: 6 });
+      lamps.push({ x: hx, y: 4.3, z: hz, delay: delayFor(hx, hz), kind: 'street' });
+      kitColliders.push({ name: 'lamp_post', cx: x, cz: z, hx: 0.12, hz: 0.12, ry: 0 });
+    }
+  }));
 
   // footpath bollards: footways and paths get low lights every 14 m, so no walkway is dark (world bible 4.3)
   roads.filter((r) => isFootway(r)).forEach((r) => {
@@ -955,6 +1012,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     rig: { hemi, moon, rim, bulbMat, bulb: T.env.bulb },
     center: manifest.center,
     footprints: blds.filter((b) => b.pts.length >= 3).map((b) => b.pts), lots: blds.filter((b) => b.lot).map((b) => b.lot), doorPlants,
+    estates: estatePlan.map((E) => ({ name: E.name, corners: E.corners, ry: E.ry, gates: E.gates, closes: E.closes, n: E.n })), addresses, carSpots,
     // flat roofs of unclaimed buildings, for rooftop water tanks
     roofs: blds.filter((b) => !plotIds.has(b) && b.top && b.pts.length >= 3).map((b) => ({ x: b.c[0], z: b.c[1], y: b.top, area: b.area, pts: b.pts })),
     blockedAt: (x, z, r = 0.35) => { const v = { x, z }; resolve(v, r); return Math.hypot(v.x - x, v.z - z) > 0.01; },

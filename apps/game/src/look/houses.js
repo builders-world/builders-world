@@ -148,18 +148,22 @@ export function dressEstate(mb, lot, c0, levels, o) {
   // that runs too close to the wall, so the wall itself is the boundary there.
   // An L-shaped plot scaled toward its centre can push the house through the inner corner, so shrink it,
   // and failing that, place a rectangle at the widest point of the garden.
+  // a planned estate lot (src/estates.js): the house, garage and driveway are placed, not fitted
+  let planned = null;
+  if (o.plan) planned = planLot(c0, o.plan);
   const roomy = grow(lot, -(0.25 + WALK)), tight = grow(lot, -0.8);
   const fitsIn = (inner) => (h) => !h.some(([x, z]) => !inPoly(x, z, inner)) && !inner.some(([x, z]) => inPoly(x, z, h));
   const minSide = (h) => Math.min(...h.map(([x, z], i) => { const [x2, z2] = h[(i + 1) % h.length]; return Math.hypot(x2 - x, z2 - z); }));
-  let pts = null;
-  if (roomy.length >= 3 && Math.abs(area(roomy)) > 20) {
+  let pts = planned ? planned.house : null;
+  if (planned) c = planned.c;
+  if (!planned && roomy.length >= 3 && Math.abs(area(roomy)) > 20) {
     for (let kk = k; kk > 0.3 && !pts; kk -= 0.04) { const h = scaleAbout(lot, c, kk); if (fitsIn(roomy)(h)) pts = h; }
     if (pts && (minSide(pts) < 3.6 || Math.abs(area(pts)) < 18)) pts = null; // too small to be a house: use the tight fit instead
   }
   const inner = tight, fits = fitsIn(tight);
   if (!pts) pts = scaleAbout(lot, c, k);
-  for (let kk = k; !fits(pts) && kk > 0.3; kk -= 0.06) pts = scaleAbout(lot, c, kk);
-  if (!fits(pts)) {
+  for (let kk = k; !planned && !fits(pts) && kk > 0.3; kk -= 0.06) pts = scaleAbout(lot, c, kk);
+  if (!planned && !fits(pts)) {
     const bb = lot.reduce((a, [x, z]) => [Math.min(a[0], x), Math.min(a[1], z), Math.max(a[2], x), Math.max(a[3], z)], [1e9, 1e9, -1e9, -1e9]);
     let best = null, bd = 0;
     for (let x = bb[0]; x <= bb[2]; x += 0.5) for (let z = bb[1]; z <= bb[3]; z += 0.5) {
@@ -176,7 +180,8 @@ export function dressEstate(mb, lot, c0, levels, o) {
   // one lawn colour with no variation: where map footprints overlap, the lawns are identical and cannot shimmer
   mb.extrude(grow(lot, -0.05), 0, 0.03, ESTATE.lawn[0], { grad: 0, vary: 0 });
   const floors = Math.max(1, Math.min(levels >= 4 ? 3 : 2, Math.round(levels)));
-  const house = dressHouse(mb, { pts, c }, floors * FLOOR, o);
+  const house = dressHouse(mb, { pts, c }, floors * FLOOR, planned ? { ...o, front: planned.front } : o);
+  if (planned) dressGarage(mb, planned, o);
   // the gate: on the lot edge the front door faces
   const ring = grow(lot, -0.25), edges = facades(ring);
   let gate = null;
@@ -224,7 +229,8 @@ export function dressEstate(mb, lot, c0, levels, o) {
       const inGate = gap && um > gap[0] && um < gap[1];
       // too close to the wall to walk between: no fence here, the wall is the boundary
       const px = e.ax + e.tx * um, pz = e.az + e.tz * um;
-      keep.push(!inGate && !near(px, pz) && !fencedAlready(px, pz, e.tx, e.tz));
+      const openFront = planned && e.nx * o.plan.front[0] + e.nz * o.plan.front[1] > 0.7; // estate lots: open front lawns
+      keep.push(!inGate && !openFront && !o.noFence?.(px, pz) && !near(px, pz) && !fencedAlready(px, pz, e.tx, e.tz));
     }
     const runs = [];
     for (let k = 0; k < n; k++) if (keep[k]) { if (runs.length && runs[runs.length - 1][1] === k * step) runs[runs.length - 1][1] = (k + 1) * step; else runs.push([k * step, (k + 1) * step]); }
@@ -241,8 +247,9 @@ export function dressEstate(mb, lot, c0, levels, o) {
     const tx = c[0] - d.nx * (back + 2.4), tz = c[1] - d.nz * (back + 2.4);
     if (inPoly(tx, tz, grow(lot, -(0.25 + WALK + 0.35))) && !inPoly(tx, tz, grow(pts, WALK + 0.35))) tree = { x: tx, z: tz };
   }
-  if (!o.deferFences) { const runs = lay(); runs.forEach((r) => drawFence(mb, r)); return { pts, top: house.top, door: house.door, tree, fences: runs.map(fenceCollider) }; }
-  return { pts, top: house.top, door: house.door, tree, lay };
+  const extra = planned ? { garage: planned.garageBox, car: planned.carSpot } : {};
+  if (!o.deferFences) { const runs = lay(); runs.forEach((r) => drawFence(mb, r)); return { pts, top: house.top, door: house.door, tree, fences: runs.map(fenceCollider), ...extra }; }
+  return { pts, top: house.top, door: house.door, tree, lay, ...extra };
 }
 
 export { scaleAbout };
@@ -262,4 +269,39 @@ export function drawFence(mb, r) {
 }
 export function cutFence(r, u0, u1) {
   return [[r.a, Math.min(r.b, u0)], [Math.max(r.a, u1), r.b]].filter(([a, b]) => b - a >= 0.3).map(([a, b]) => ({ ...r, a, b }));
+}
+
+// ---------- planned lots: house, garage, driveway in a fixed arrangement ----------
+// the lot's frame: a along `front` (toward the close; the lot front is at +depth/2), b along `side`.
+// House 8.2 m wide and 9 m deep, set back 6 m; the garage (3.6 by 6) beside it, flush with the front;
+// a 3.2 m driveway from the garage door to the close. 2.1 m clear on both sides (more than WALK).
+const GARAGE = { door: '#8a9096', rib: '#6f767c', roof: '#5a5048' };
+function planLot(c0, plan) {
+  const f = plan.front, sv = plan.side, flip = plan.flip ? -1 : 1, D2 = plan.depth / 2, W2 = plan.width / 2;
+  const P = (a, b) => [c0[0] + f[0] * a + sv[0] * b * flip, c0[1] + f[1] * a + sv[1] * b * flip];
+  const rect = (a0, a1, b0, b1) => [P(a0, b0), P(a1, b0), P(a1, b1), P(a0, b1)];
+  const hf = D2 - 6, hb = hf - 9, s0 = -W2 + 2.1, s1 = s0 + 8.2, g1 = s1 + 3.6;
+  const house = rect(hb, hf, s0, s1);
+  const hc = P((hb + hf) / 2, (s0 + s1) / 2);
+  const ry = Math.atan2(f[0], f[1]);
+  const gc = P(hf - 3, (s1 + g1) / 2), dc = P((hf + D2) / 2, (s1 + g1) / 2);
+  return {
+    house, c: hc, ry, f, P, hf, D2, s1, g1,
+    // the door goes on the facade that faces the close
+    front: (x, z) => -((x - c0[0]) * f[0] + (z - c0[1]) * f[1]),
+    garage: { c: gc, w: 3.6, d: 6 }, drive: { c: dc, w: 3.2, d: D2 - hf },
+    garageBox: { name: 'garage', cx: gc[0], cz: gc[1], hx: 1.8, hz: 3, ry, h: 3.0 },
+    carSpot: { x: dc[0], z: dc[1], ry },
+  };
+}
+function dressGarage(mb, L, o) {
+  const { garage: g, drive: d, ry, f } = L, wall = o.wall || '#e9dcc3';
+  mb.box(g.c[0], 0, g.c[1], g.w, 2.8, g.d, wall, { grad: 0.08, vary: 0.02 }, ry);
+  mb.box(g.c[0], 2.8, g.c[1], g.w + 0.3, 0.18, g.d + 0.3, GARAGE.roof, { grad: 0, vary: 0 }, ry);
+  // the roller door, with its ribs, on the face toward the close
+  const fx = g.c[0] + f[0] * (g.d / 2 + 0.03), fz = g.c[1] + f[1] * (g.d / 2 + 0.03);
+  mb.box(fx, 0.02, fz, 3.0, 2.3, 0.06, GARAGE.door, { grad: 0, vary: 0 }, ry);
+  for (let y = 0.35; y < 2.3; y += 0.32) mb.box(fx + f[0] * 0.03, y, fz + f[1] * 0.03, 3.0, 0.05, 0.03, GARAGE.rib, { grad: 0, vary: 0 }, ry);
+  // the driveway: paved, from the garage door to the close
+  mb.box(d.c[0], 0, d.c[1], d.w, 0.07, d.d + 0.1, '#cfc8b8', { grad: 0, vary: 0.02 }, ry);
 }

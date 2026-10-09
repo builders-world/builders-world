@@ -92,7 +92,7 @@ export function createLives({ world, scene, getEnv, getPois, reduced, lowQuality
     av.root.position.set(home.x, 0, home.z);
     group.add(av.root);
     let street = null, sd = 1e9; world.roads.forEach((rd) => { if (!rd.name) return; rd.pts.forEach(([x, z]) => { const dd = Math.hypot(x - home.x, z - home.z); if (dd < sd) { sd = dd; street = rd.name; } }); });
-    home.addr = street ? `${1 + Math.floor(hash(d.name) * 40)} ${street}` : null;
+    home.addr = dp?.addr || (street ? `${1 + Math.floor(hash(d.name) * 40)} ${street}` : null); // the estate address when there is one
     const r = { ...d, id: d.name.split(' ')[0], first: d.name.split(' ')[0], home, obj: av.root, rig, kids: [...d.kids], pet: d.pet && { ...d.pet }, path: null, at0: 0, task: 'home', goal: null, mood: 0.2, reason: '', events: [], seed: hash(d.name), wait: 2 + i * 1.5, late: false };
     // life events from the last week, drawn from the date: everyone sees the same story on the same day
     for (let n = 6; n >= 0; n--) {

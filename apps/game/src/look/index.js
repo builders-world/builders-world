@@ -13,6 +13,7 @@ import { createLives } from './lives.js';
 import { buildCivic } from './civic.js';
 import { createLitter } from './litter.js';
 import { buildPlaceFronts, hubSign } from './places.js';
+import { buildEstateSigns } from './estatesigns.js';
 import { passesEngine, MEMBERS_ONLY } from './passes.js';
 import { walletEngine } from './wallet.js';
 import { createInteriors, PLACES, namePlaces } from './interior.js';
@@ -131,6 +132,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   // the loft and the studio get buildings of their own, with their names on the front (places.js);
   // the hub's building gets the same big sign
   if (props.hubGroup) hubSign(props.hubGroup);
+  // the estates: gate signs, house numbers, cars in the driveways (estatesigns.js)
+  const estateSigns = buildEstateSigns({ world, scene: group });
   const placeUsed = [];
   const fronts = buildPlaceFronts({ world, scene: group, keys: ['loft', 'studio'], used: placeUsed,
     addLamps: (l) => props.lamps.push(...l) });

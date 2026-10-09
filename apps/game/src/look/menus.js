@@ -349,6 +349,15 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     if (zoning) return zoning;
     const named = world.roads.filter((r) => r.name && !['footway', 'path', 'cycleway', 'pedestrian'].includes(r.cls));
     const nearestRoad = (x, z) => { let best = null, bd = Infinity, along = 0, side = 1; named.forEach((r) => { let acc = 0; for (let i = 0; i < r.pts.length - 1; i++) { const [ax, az] = r.pts[i], [bx, bz] = r.pts[i + 1], dx = bx - ax, dz = bz - az, L = Math.hypot(dx, dz) || 1, u = Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / (L * L))), d = Math.hypot(x - ax - dx * u, z - az - dz * u); if (d < bd) { bd = d; best = r; along = acc + u * L; side = (dx * (z - az) - dz * (x - ax)) > 0 ? 1 : 0; } acc += L; } }); return { r: best, d: bd, along, side }; };
+    // planned estates carry their own numbers: 3B, Gate 2, Onike Court (src/estates.js)
+    if (world.addresses?.length) {
+      const TINT = ['#f6e7b8', '#e8f0c8', '#f6d6c2', '#dcecdc', '#efe0f2', '#e2eef4', '#f4e8d0'], names = [...new Set(world.addresses.map((a) => a.estate))];
+      const lotsE = world.addresses.map((a) => ({ pts: a.pts, c: [a.x, a.z], no: a.no, addr: a.addr, tint: TINT[names.indexOf(a.estate) % TINT.length] }));
+      const estateLabels = (world.estates || []).map((E) => ({ name: E.name, x: E.corners.reduce((q, c) => q + c[0] / 4, 0), z: E.corners.reduce((q, c) => q + c[1] / 4, 0), n: E.gates.length * 10 }));
+      const COMM = ['shop', 'food', 'cafe', 'fuel'], CIVIC = ['atm', 'work', 'board', 'build'];
+      zoning = { lots: lotsE, estateLabels, comm: (props.pois || []).filter((q) => COMM.includes(q.kind)), civic: (props.pois || []).filter((q) => CIVIC.includes(q.kind)) };
+      return zoning;
+    }
     const lots = (world.lots || []).map((pts) => { const c = pts.reduce((a, [x, z]) => [a[0] + x / pts.length, a[1] + z / pts.length], [0, 0]); return { pts, c, ...nearestRoad(c[0], c[1]) }; }).filter((l) => l.r && l.d < 60);
     const estates = new Map();
     lots.forEach((l) => { const k = l.r.name; if (!estates.has(k)) estates.set(k, []); estates.get(k).push(l); });
