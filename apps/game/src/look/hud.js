@@ -83,8 +83,9 @@ body.nohud #lk { display: none; }
 body.bw-cine #lk-cine::before, body.bw-cine #lk-cine::after { height: 11vh; }
 #lk-cine span { position: absolute; z-index: 1; left: 50%; bottom: 3.6vh; transform: translateX(-50%); color: #f7efdc; font: 700 15px/1 ${FONT}; opacity: 0; transition: opacity .6s .3s; white-space: nowrap; }
 #lk-cine span b { display: inline-grid; place-items: center; min-width: 24px; height: 24px; margin: 0 4px; border-radius: 999px; background: #f7efdc; color: #3b2a20; font-size: 12px; }
-body.bw-cine #lk-cine span { opacity: .9; }
-body.bw-cine #lk .pane, body.bw-cine #lk-map, body.bw-cine #lk-tags, body.bw-cine #lkm-tip, body.bw-cine #labels, body.bw-cine .ui { opacity: 0 !important; transition: opacity .4s; pointer-events: none; }
+body.bw-cine #lk-cine span.tr { opacity: .9; }
+body.bw-idle #lk-cine span.tr { opacity: 0; } body.bw-idle #lk-cine span.id { opacity: .9; }
+body.bw-cine #lk .pane, body.bw-cine #lk-map, body.bw-cine #lk-snd, body.bw-cine #lk-eff, body.bw-cine #lk-tags, body.bw-cine #lkm-tip, body.bw-cine #labels, body.bw-cine .ui { opacity: 0 !important; transition: opacity .4s; pointer-events: none; }
 @media (prefers-reduced-motion: reduce) { #lk-cine::before, #lk-cine::after, #lk-cine span { transition: none; } }
 body.bw-inside #lk-map, body.bw-inside #lk-wx, body.bw-inside #lk-osm, body.bw-inside #lk-obj { display: none; }
 #lk-osm { position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%); font-size: 10.5px; color: rgba(238,242,255,.6); pointer-events: auto; }
@@ -131,7 +132,7 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     <div id="lk-board" class="pane" role="dialog" aria-label="Community board"></div>
     <div id="lk-toast" class="pane" role="status"></div>
     <button id="lk-snd" aria-label="Music" title="Music (N)"></button>
-    <div id="lk-cine"><span>Cinematic travel <b>C</b> or move to take over</span></div>
+    <div id="lk-cine"><span class="tr">Cinematic travel <b>C</b> or move to take over</span><span class="id">Watching the street · press any key</span></div>
     ${weatherFeed ? '<div id="lk-wx" class="pane" aria-live="polite"></div>' : ''}
     <button id="lk-eff" class="pane" aria-label="Wallet"></button>
     ${world.via === 'sample' ? '' : '<div id="lk-osm">Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a></div>'}`;

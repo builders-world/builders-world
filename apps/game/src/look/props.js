@@ -276,7 +276,7 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   const lamps = []; // extra lamps for the light pool
   const interact = []; // things the HUD can prompt for
   const builders = []; // named people with tags
-  let billboardFace = null;
+  let billboardFace = null, billboardMesh = null;
   const walkers = [];
   const movers = [];
 
@@ -379,7 +379,8 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
     // the face: the mural artwork, glowing softly after dusk like a digital board
     const faceMat = M.mural.clone();
     faceMat.emissive = new THREE.Color(0xffffff); faceMat.emissiveMap = faceMat.map; faceMat.emissiveIntensity = 0.05;
-    bb.add(new THREE.Mesh(new THREE.PlaneGeometry(8.0, 3.2).translate(0, 5.35, 0.17), faceMat));
+    billboardMesh = new THREE.Mesh(new THREE.PlaneGeometry(8.0, 3.2).translate(0, 5.35, 0.17), faceMat);
+    bb.add(billboardMesh);
     // three lamps on arms, pointing at the board
     [-2.7, 0, 2.7].forEach((x) => {
       bb.add(new THREE.Mesh(box(0.06, 0.06, 0.8, x, 7.3, 0.4), steel));
@@ -585,5 +586,5 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   const bodies = () => [...walkers, ...builders].map((w) => ({ x: w.obj.position.x, z: w.obj.position.z, r: 0.33 }));
   // everyone who can talk, for the chat bubbles
   const people = [...builders.map((b) => ({ id: b.name, name: b.name, obj: b.obj, rig: b.rig, tier: b.tier })), ...walkers.map((w) => ({ id: w.name, name: w.name, obj: w.obj, rig: w.rig, tier: w.tier }))];
-  return { root, lamps, interact, builders, bodies, people, update, dispose, viewYaw, materials: M, hubAt, kitPlaced, billboardFace, objective: interact[0], area: interact.find((i) => i.id === 'build') };
+  return { root, lamps, interact, builders, bodies, people, update, dispose, viewYaw, materials: M, hubAt, kitPlaced, billboardFace, billboardMesh, objective: interact[0], area: interact.find((i) => i.id === 'build') };
 }

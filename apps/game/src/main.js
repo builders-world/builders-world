@@ -321,6 +321,8 @@ async function main() {
 
   let riding = false, savedDist = cam.distT, seated = false, savedOutside = null;
   let jumpQueued = false, jumpV = 0, jumpY = 0, stepAcc = 0, groundY = 0;
+  const idle = { t: 0, on: false, shot: -1, until: 0 };
+  ['keydown', 'pointerdown', 'pointermove', 'wheel', 'touchstart'].forEach((ev) => addEventListener(ev, () => { idle.t = 0; }, { passive: true, capture: true }));
   const audio = audioEngine();
   // touch stick and controllers: their buttons become the same key presses the keyboard makes
   const input = createInput({ onKey: (key) => { dispatchEvent(new KeyboardEvent('keydown', { key: key === 'tab' ? 'Tab' : key === 'escape' ? 'Escape' : key })); } });
@@ -349,7 +351,8 @@ async function main() {
       { id: 'far', name: 'Far', k: 1.5, pitch: 0.3 }, { id: 'first', name: 'First person', k: 0.01, pitch: 0.35 },
       { id: 'cine', name: 'Cinematic', k: 1, pitch: 0.24 }],
   };
-  const viewIx = { foot: +(store.get('bw-view-foot') ?? 1) % 4, ride: +(store.get('bw-view-ride') ?? 1) % 5 };
+  // Near is the default on foot (Elvis, 9 October); your own choice is remembered
+  const viewIx = { foot: +(store.get('bw-view-foot') ?? 0) % 4, ride: +(store.get('bw-view-ride') ?? 1) % 5 };
   const viewOf = (kind) => VIEWS[kind][viewIx[kind]];
   const cine = { t: 0, shot: -1, pos: new THREE.Vector3() };
   function applyView(kind) {
@@ -375,6 +378,7 @@ async function main() {
   const focus = new THREE.Vector3(), desired = new THREE.Vector3();
 
   function frame() {
+    requestAnimationFrame(frame); // scheduled first: one bad frame must never stop the game
     const dt = Math.min(clock.getDelta(), 0.05);
     t += dt;
     shared.uTime.value = t;
@@ -554,6 +558,40 @@ async function main() {
       if (C.solidAt(desired.x, desired.y, desired.z)) desired.set(player.x - fx * rs.cam, 3.2, player.z - fz * rs.cam);
       fixed = true;
     }
+    // ---- idle cinematic camera: stand still for 30 s and the camera wanders the street, like GTA V ----
+    idle.t += dt;
+    if (input.state.move.x || input.state.move.y || input.state.look.x || input.state.look.y) idle.t = 0;
+    const idleNow = idle.t > 30 && !travel.on && !riding && !inside && !cam.aerial && !street?.hud.isOpen() && !reduced && !document.querySelector('#lk-board.on, #lkr.on');
+    if (idleNow !== idle.on) { idle.on = idleNow; idle.shot = -1; idle.until = 0; document.body.classList.toggle('bw-cine', idleNow); document.body.classList.toggle('bw-idle', idleNow); if (!idleNow) snap = true; }
+    if (idle.on) {
+      const clearView = (x, y, z, tx, ty, tz) => { if (C.solidAt(x, y, z)) return false; for (let k = 1; k < 9; k++) { const u = k / 10; if (C.solidAt(x + (tx - x) * u, y + (ty - y) * u, z + (tz - z) * u)) return false; } return true; };
+      idle.until -= dt;
+      if (idle.until <= 0) {
+        // what is worth watching near you: people (talking ones first), traffic, the billboard, shops and services
+        const subs = [];
+        (street?.props.people || []).forEach((q) => { const d = Math.hypot(q.obj.position.x - player.x, q.obj.position.z - player.z); if (d < 40) subs.push({ obj: q.obj, y: 1.35, near: 3.4, w: 3 - d / 20 }); });
+        (street?.dressing?.bodies?.() || []).forEach((b) => { const d = Math.hypot(b.cx - player.x, b.cz - player.z); if (d < 60) subs.push({ at: new THREE.Vector3(b.cx, 1.4, b.cz), near: 9, w: 1.5 }); });
+        const bb = street?.props.billboardMesh; if (bb) { bb.updateWorldMatrix(true, false); const v = new THREE.Vector3(0, 5.35, 0.17).applyMatrix4(bb.matrixWorld); if (v.distanceTo(player) < 70) subs.push({ at: v, near: 11, w: 2, low: true }); }
+        (street?.props.pois || []).forEach((q) => { const d = Math.hypot(q.x - player.x, q.z - player.z); if (d < 50) subs.push({ at: new THREE.Vector3(q.x, 1.6, q.z), near: 7, w: 1 }); });
+        subs.push({ obj: avatar, y: 1.2, near: 4.5, w: 1.2 });
+        for (let tries = 0; tries < 12; tries++) {
+          const tot = subs.reduce((a, q) => a + q.w, 0); let r = Math.random() * tot; const q = subs.find((x) => (r -= x.w) <= 0) || subs[0];
+          if (q === idle.last && subs.length > 1) continue;
+          const at = q.obj ? q.obj.position.clone().setY(q.y) : q.at.clone();
+          const a = Math.random() * Math.PI * 2, dist = q.near * (0.85 + Math.random() * 0.5), h = q.low ? 1.4 : 1.2 + Math.random() * 2.2;
+          const from = new THREE.Vector3(at.x + Math.sin(a) * dist, h, at.z + Math.cos(a) * dist);
+          if (!clearView(from.x, from.y, from.z, at.x, at.y, at.z)) continue;
+          idle.q = q; idle.last = q; idle.from = from; idle.drift = new THREE.Vector3(-Math.cos(a), 0, Math.sin(a)).multiplyScalar((Math.random() < 0.5 ? -1 : 1) * 0.35);
+          idle.until = 5 + Math.random() * 2; snap = true;
+          break;
+        }
+      }
+      if (idle.from) {
+        idle.from.addScaledVector(idle.drift, dt); // a slow dolly
+        const q = idle.q, at = q.obj ? q.obj.position.clone().setY(q.y) : q.at;
+        desired.copy(idle.from); focus.copy(at); fixed = true;
+      }
+    }
     if (travel.on && !cam.aerial && !reduced) {
       // four shots in turn, each held about six seconds, each checked for a clear line of sight
       const h = travel.heading, fx = Math.sin(h), fz = Math.cos(h), sx = -fz, sz = fx;
@@ -581,7 +619,7 @@ async function main() {
       focus.set(player.x + (travel.shot === 2 ? fx * 6 : fx * 0.8), travel.shot === 2 ? 1.0 : 1.25, player.z + (travel.shot === 2 ? fz * 6 : fz * 0.8));
       fixed = true;
     }
-    if (fixed && !snap) { const k = travel.on ? 1 - Math.exp(-dt * 5) : 1 - Math.exp(-dt * (view.id === 'first' ? 30 : 4)); camPos.lerp(desired, k); look.lerp(focus, 1 - Math.exp(-dt * (travel.on ? 6 : 20))); }
+    if (fixed && !snap) { const k = idle.on ? 1 - Math.exp(-dt * 3) : travel.on ? 1 - Math.exp(-dt * 5) : 1 - Math.exp(-dt * (view.id === 'first' ? 30 : 4)); camPos.lerp(desired, k); look.lerp(focus, 1 - Math.exp(-dt * (travel.on ? 6 : 20))); }
     else if (snap) { camPos.copy(desired); look.copy(focus); snap = false; }
     else {
       const k = 1 - Math.exp(-dt * 6);
@@ -597,13 +635,12 @@ async function main() {
     street?.update(dt, t, player, cam.yaw, shared.uArrival.value);
     street?.renderReflection();
     if (q.get('post') === '0') renderer.render(scene, camera); else composer.render();
-    requestAnimationFrame(frame);
   }
   frame();
 
   window.__bw = {
     get world() { return world; }, camera, cam, player, renderer, scene, via,
-    get theme() { return themeName; }, setTheme, get look() { return street; }, quality, composer, weather: weatherFeed, get kit() { return kit; }, goto, setAerial, cycleView, setTravel, get travel() { return travel.on; }, audio, get view() { return (riding ? 'ride:' : 'foot:') + (riding ? viewOf('ride') : viewOf('foot')).id; }, get walkTarget() { return walkTarget; }, get walkPath() { return walkPath; }, walkTo, get groundY() { return groundY; },
+    get theme() { return themeName; }, setTheme, get look() { return street; }, quality, composer, weather: weatherFeed, get kit() { return kit; }, goto, setAerial, cycleView, setTravel, get travel() { return travel.on; }, idle, audio, get view() { return (riding ? 'ride:' : 'foot:') + (riding ? viewOf('ride') : viewOf('foot')).id; }, get walkTarget() { return walkTarget; }, get walkPath() { return walkPath; }, walkTo, get groundY() { return groundY; },
     ready: true,
   };
 }
