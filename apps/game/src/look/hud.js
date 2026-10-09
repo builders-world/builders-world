@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { createMenus } from './menus.js';
+import { createNav, nearestOn, pathLength, pointAlong } from './nav.js';
 
 // The in-world overlay from the reference screenshot: district and objective,
 // minimap, a route on the ground, a contextual prompt, name tags and the board.
@@ -183,7 +184,9 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
   chevShape.moveTo(-0.45, -0.25); chevShape.lineTo(0, 0.2); chevShape.lineTo(0.45, -0.25); chevShape.lineTo(0.45, -0.05); chevShape.lineTo(0, 0.4); chevShape.lineTo(-0.45, -0.05);
   const chevGeo = new THREE.ShapeGeometry(chevShape).rotateX(-Math.PI / 2);
   const chevMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(2.0, 1.25, 0.35), transparent: true, depthWrite: false });
-  const MAXC = 18;
+  const MAXC = 40;
+  const nav = createNav(world.roads);
+  let path = null, pathAt = 0; // the satnav route, when the player has set a destination
   const route = new THREE.InstancedMesh(chevGeo, chevMat, MAXC);
   route.frustumCulled = false;
   route.renderOrder = 3;
@@ -235,9 +238,12 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
       map.beginPath(); p.pts.forEach(([x, z], i) => (i ? map.lineTo(x * k, z * k) : map.moveTo(x * k, z * k))); map.closePath(); map.fill();
     });
     if (props.area) { map.fillStyle = '#3ad1c0'; map.beginPath(); map.arc(props.area.x * k, props.area.z * k, 6, 0, 7); map.fill(); }
+    if (path) {
+      map.strokeStyle = '#c7f0ff'; map.lineWidth = 9; map.lineCap = 'round'; map.lineJoin = 'round';
+      map.beginPath(); path.forEach((p, i) => (i ? map.lineTo(p.x * k, p.z * k) : map.moveTo(p.x * k, p.z * k))); map.stroke();
+      map.strokeStyle = '#4fb6ff'; map.lineWidth = 5; map.stroke();
+    }
     if (target) {
-      map.strokeStyle = 'rgba(242,179,61,0.9)'; map.setLineDash([6, 8]); map.lineWidth = 4;
-      map.beginPath(); map.moveTo(player.x * k, player.z * k); map.lineTo(target.x * k, target.z * k); map.stroke(); map.setLineDash([]);
       map.fillStyle = '#f2b33d'; map.beginPath(); map.arc(target.x * k, target.z * k, 9, 0, 7); map.fill();
       map.fillStyle = '#10131c'; map.beginPath(); map.arc(target.x * k, target.z * k, 3.5, 0, 7); map.fill();
     }
@@ -293,19 +299,26 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     if (active) { promptText.textContent = active.label; prompt.classList.add('on'); } else prompt.classList.remove('on');
     if (!custom && step?.near && target && Math.hypot(target.x - player.x, target.z - player.z) < 4.5) complete(current);
 
-    // objective distance
-    const dist = target ? Math.hypot(target.x - player.x, target.z - player.z) : null;
+    // satnav: keep the route current, re-route when the player leaves it
+    if (custom) {
+      pathAt -= dt;
+      const off = path ? nearestOn(path, player.x, player.z).d : Infinity;
+      if (!path || (off > 8 && pathAt <= 0)) { path = nav.route(player, custom); pathAt = 1; }
+    } else path = null;
+    // objective distance: along the route when there is one, as the crow flies otherwise
+    const onPath = path ? nearestOn(path, player.x, player.z) : null;
+    const dist = path ? Math.max(0, pathLength(path) - onPath.along) : target ? Math.hypot(target.x - player.x, target.z - player.z) : null;
     mapTimer -= dt;
     if (mapTimer <= 0) { mapTimer = 0.1; renderSteps(dist); drawMap(player, yaw, target); }
 
-    // route chevrons, flowing toward the objective
+    // the trail: chevrons along the streets, only for a destination the player chose
     let n = 0;
-    if (target && dist > 3.5) {
-      const dx = (target.x - player.x) / dist, dz = (target.z - player.z) / dist;
-      routeQ.setFromAxisAngle(up, Math.atan2(dx, dz));
-      const flow = reduced ? 0 : (t * 1.6) % 1.6;
-      for (let s = 1.6 + flow; s < Math.min(dist - 2, 1.6 * MAXC) && n < MAXC; s += 1.6) {
-        routeM.compose(new THREE.Vector3(player.x + dx * s, 0.12, player.z + dz * s), routeQ, new THREE.Vector3(1, 1, 1));
+    if (path && dist > 3) {
+      const total = pathLength(path), flow = reduced ? 0 : (t * 2) % 2;
+      for (let s = onPath.along + 2 + flow; s < Math.min(total - 1.5, onPath.along + 2 * MAXC) && n < MAXC; s += 2) {
+        const p = pointAlong(path, s);
+        routeQ.setFromAxisAngle(up, p.yaw);
+        routeM.compose(new THREE.Vector3(p.x, 0.14, p.z), routeQ, new THREE.Vector3(1, 1, 1));
         route.setMatrixAt(n++, routeM);
       }
     }
@@ -353,11 +366,14 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
   const menus = createMenus({
     world, props, weatherFeed, toast, onEquip,
     getPlayer: () => lastPlayer,
+    getPath: () => path,
+    snapToStreet: (x, z) => nav.snap(x, z),
     onRoute: (at, label, fromMap) => {
       if (!at) return;
       custom = { x: at.x, z: at.z, name: label, label: `Go to ${label}` };
+      path = null;
       renderSteps();
-      if (fromMap) toast(`Route set to ${label}. Follow the arrows.`);
+      if (fromMap) toast(`Route set to ${label}. Follow the trail along the streets.`);
     },
     onPhoto: () => { document.body.classList.add('nohud'); toast('Photo mode. Press H to bring the interface back.', 4000); },
   });

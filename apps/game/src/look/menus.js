@@ -168,7 +168,7 @@ const store = {
 };
 const COLORS = ['#7fd3b0', '#9cb3ff', '#f6a8a0', '#f7e27a', '#c9a7f5', '#8fd0f0', '#f2b33d', '#a8e0d0'];
 
-export function createMenus({ world, props, weatherFeed, getPlayer, onRoute, onEquip, onPhoto, toast }) {
+export function createMenus({ world, props, weatherFeed, getPlayer, getPath, snapToStreet, onRoute, onEquip, onPhoto, toast }) {
   const style = document.createElement('style');
   style.textContent = CSS;
   document.head.appendChild(style);
@@ -293,6 +293,13 @@ export function createMenus({ world, props, weatherFeed, getPlayer, onRoute, onE
       g.beginPath(); g.arc(px, py, 19, 0, 7); g.fill();
       g.fillStyle = pl.color; g.beginPath(); g.arc(px, py, 15, 0, 7); g.fill();
     });
+    // the route, if one is set
+    const route = getPath?.();
+    if (route) {
+      g.strokeStyle = '#c7f0ff'; g.lineWidth = 11; g.lineCap = 'round'; g.lineJoin = 'round';
+      g.beginPath(); route.forEach((p, i) => { const [x, y] = toPx(p.x, p.z); i ? g.lineTo(x, y) : g.moveTo(x, y); }); g.stroke();
+      g.strokeStyle = '#4fb6ff'; g.lineWidth = 6; g.stroke();
+    }
     // you are here
     const pl = getPlayer();
     const [px, py] = toPx(pl.x, pl.z);
@@ -305,7 +312,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, onRoute, onE
         <span class="av ${b.live ? 'live' : ''}" style="background:${b.id === 'you' ? '#f7e27a' : COLORS[i % COLORS.length]}">${b.name.split(' ').map((w) => w[0]).join('').slice(0, 2)}</span>${b.name.split(' ')[0]}</button>`).join('')}</div></div>
       <div class="mid"><div class="ribbon">Yaba<small>Lagos</small></div><div class="bubble"></div></div>
       <div class="col"><h3>Places</h3><div class="places">${places.map((p) => `<button data-p="${p.id}" class="${selPlace === p.id ? 'sel' : ''}"><i style="background:${p.color}">${ICON[p.icon].replace('currentColor', '#10131c')}</i><span>${p.name}<small>${p.sub}</small></span></button>`).join('')}</div>
-        <p style="color:#a3afd0;font-size:12px;line-height:1.5;margin-top:16px">Pick a place to draw a route to it. Pick a resident to find their plot.</p></div>`;
+        <p style="color:#a3afd0;font-size:12px;line-height:1.5;margin-top:16px">Pick a place or a resident, or click any street, to set a destination. The trail follows the streets.</p></div>`;
     mapEl.querySelector('.mid').prepend(mapCanvas);
     drawBigMap();
     const bubble = mapEl.querySelector('.bubble');
@@ -315,13 +322,23 @@ export function createMenus({ world, props, weatherFeed, getPlayer, onRoute, onE
       bubble.textContent = text; bubble.style.display = 'block';
       bubble.style.left = `${r.left - m.left + (px / 900) * r.width}px`; bubble.style.top = `${r.top - m.top + (py / 900) * r.height}px`;
     };
+    mapCanvas.onclick = (ev) => {
+      const r = mapCanvas.getBoundingClientRect();
+      const px = ((ev.clientX - r.left) / r.width) * 900, py = ((ev.clientY - r.top) / r.height) * 900;
+      const wx = ((px - 450) / 380) * MAPR, wz = ((py - 450) / 380) * MAPR;
+      const s = snapToStreet?.(wx, wz);
+      if (!s || s.d > 25) { toast('Pick a point on or near a street.'); return; }
+      selPlace = null; selRes = null;
+      onRoute?.({ x: s.x, z: s.z }, 'your marker', true);
+      setTimeout(() => { drawBigMap(); showBubble(s.x, s.z, 'Marker'); }, 50);
+    };
     mapEl.querySelectorAll('.res button').forEach((b) => {
       b.onclick = () => {
         selRes = b.dataset.id; selPlace = null;
         mapEl.querySelectorAll('.res button').forEach((x) => x.classList.toggle('sel', x === b));
         drawBigMap();
         const p = world.plots.find((pl) => pl.b.id === selRes);
-        if (p) { showBubble(p.center.x, p.center.z, p.b.name); onRoute?.({ x: p.center.x, z: p.center.z }, `Visit ${p.b.name.split(' ')[0]}'s plot`, true); }
+        if (p) { showBubble(p.center.x, p.center.z, p.b.name); const f = world.frontOf([p.center.x, p.center.z]); onRoute?.({ x: f.x, z: f.z }, `${p.b.name.split(' ')[0]}'s plot`, true); setTimeout(drawBigMap, 50); }
       };
     });
     mapEl.querySelectorAll('.places button').forEach((b) => {
@@ -329,11 +346,11 @@ export function createMenus({ world, props, weatherFeed, getPlayer, onRoute, onE
         const p = places.find((x) => x.id === b.dataset.p);
         selPlace = p.id; selRes = null;
         mapEl.querySelectorAll('.places button').forEach((x) => x.classList.toggle('sel', x === b));
-        drawBigMap(); showBubble(p.at.x, p.at.z, p.name);
         onRoute?.(p.at, p.name, true);
+        setTimeout(() => { drawBigMap(); showBubble(p.at.x, p.at.z, p.name); }, 50);
       };
     });
-    show(mapEl, [['M', 'Close'], ['Click', 'Set a route']]);
+    show(mapEl, [['M', 'Close'], ['Click', 'Set a destination']]);
     if (focusResidents) mapEl.querySelector('.res button')?.focus();
   }
 

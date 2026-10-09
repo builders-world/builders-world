@@ -4,6 +4,7 @@ import { BUILDERS, MONUMENTS, FLOOR_H, floorsFor, litProbability } from './build
 import { makeWindowMaterial, makeGlowMaterial, makeBeamMaterial } from './shaders.js';
 import { wetGroundMaterial, wallMaterial } from './look/surfaces.js';
 import { instanceAsset, collidersFor, anchorAt } from './look/kit.js';
+import { makeClearance, fitStreets, band, streetFurniture, isFootway } from './look/streets.js';
 
 const NIGHT = {
   // weathered Lagos plaster: light enough to read in daylight, the lighting makes it night
@@ -203,6 +204,10 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     return { ...b, area, c, compact: (4 * Math.PI * area) / (per * per || 1), bb: bbox(pts) };
   }).filter((b) => b.area > 14 && b.pts.length >= 3);
 
+  // measure every street against its real building lines (world bible 4.3)
+  const clearance = makeClearance(blds, pointInPoly);
+  fitStreets(roads, clearance);
+
   const cand = blds
     .filter((b) => b.area >= 70 && b.area <= 1500 && b.compact >= 0.42 && Math.hypot(b.c[0], b.c[1]) < R * 0.7)
     .sort((a, b) => b.area - a.area);
@@ -269,15 +274,16 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   const gb = new MeshBuilder(); // ground surfaces get the wet street material
   gb.box(0, -0.6, 0, R * 14, 0.6, R * 14, PAL.ground, { grad: 0, vary: 0 });
 
-  // roads: kerb band, tarmac, paint
+  // roads: carriageways fitted between building lines, pavements on what is left, paint on main roads
   const kerbTris = [], roadTris = [], pathTris = [], paintTris = [];
   roads.forEach((r) => {
-    if (['footway', 'path', 'cycleway', 'pedestrian'].includes(r.cls)) ribbon(pathTris, r.pts, r.w, 0.05);
-    else {
-      ribbon(kerbTris, r.pts, r.w + 4.2, 0.03);
-      ribbon(roadTris, r.pts, r.w, 0.07);
-      if (['primary', 'secondary', 'trunk'].includes(r.cls)) dashes(paintTris, r.pts, 0.085);
-    }
+    if (isFootway(r) || !r.fit) { ribbon(pathTris, r.pts, Math.min(r.w, 3), 0.06); return; }
+    const { pts, nrm, half, paveL, paveR } = r.fit;
+    const neg = half.map((h) => -h);
+    band(roadTris, pts, nrm, neg, half, 0.1, pushTri);
+    band(kerbTris, pts, nrm, half, half.map((h, i) => h + paveL[i]), 0.08, pushTri);
+    band(kerbTris, pts, nrm, half.map((h, i) => -h - paveR[i]), neg, 0.08, pushTri);
+    if (['primary', 'secondary', 'trunk', 'motorway'].includes(r.cls)) dashes(paintTris, pts, 0.115);
   });
   if (kerbTris.length) gb.raw(kerbTris, PAL.kerb);
   if (pathTris.length) gb.raw(pathTris, PAL.path);
@@ -312,37 +318,28 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   const glows = []; // {x,z,r}
   const inAnyBuilding = (x, z) => blds.some((b) => x > b.bb.x0 - 1 && x < b.bb.x1 + 1 && z > b.bb.z0 - 1 && z < b.bb.z1 + 1 && pointInPoly(x, z, b.pts));
 
-  // street lamps, trees
-  mainRoads.forEach((r, ri) => {
-    const lit = ['primary', 'secondary', 'tertiary', 'trunk'].includes(r.cls);
-    const step = lit ? 26 : 22;
-    samplePolyline(r.pts, step).forEach((s, i) => {
-      const side = (i + ri) % 2 ? 1 : -1;
-      const off = r.w / 2 + 1.5;
-      const nx = -s.tz * side, nz = s.tx * side;
-      const x = s.x + nx * off, z = s.z + nz * off;
-      if (Math.hypot(x, z) > R * 1.08 || inAnyBuilding(x, z)) return;
-      if (lit && lampT) {
-        // the kit's street lamp, arm turned toward the road
-        const spot = { x, z, ry: Math.atan2(nz, -nx) };
-        lampSpots.push(spot);
-        const g = anchorAt(lampT, 'lamp_glow', spot);
-        bulbs.push({ x: g.x, y: g.y - 0.06, z: g.z, s: 0.14 });
-        glows.push({ x: g.x - nx * 1.0, z: g.z - nz * 1.0, r: 6.5 });
-        lamps.push({ x: g.x, y: g.y, z: g.z, delay: delayFor(g.x, g.z), kind: 'street' });
-      } else if (lit) {
-        mb.cyl(x, 0.2, z, 0.1, 0.14, 7.2, 6, PAL.metal, { grad: 0.2 });
-        const bx = x - nx * 1.5, bz = z - nz * 1.5;
-        mb.box((x + bx) / 2, 7.0, (z + bz) / 2, 0.14, 0.14, 1.6, PAL.metal, { grad: 0 }, Math.atan2(nx, nz));
-        bulbs.push({ x: bx, y: 6.95, z: bz, s: 0.3 });
-        glows.push({ x: bx - nx * 1.6, z: bz - nz * 1.6, r: 7 });
-        lamps.push({ x: bx, y: 6.95, z: bz, delay: delayFor(bx, bz), kind: 'street' });
-      } else if (i % 2 === 0) {
-        const tx = s.x + (-s.tz * -side) * (r.w / 2 + 3.4), tz = s.z + s.tx * -side * (r.w / 2 + 3.4);
-        if (Math.hypot(tx, tz) < R * 1.05 && !inAnyBuilding(tx, tz)) trees.push({ x: tx, z: tz });
-      }
-    });
+  // street lamps on every street, trees only where pavements allow (world bible 4.3)
+  const furniture = streetFurniture(roads, { inBuilding: inAnyBuilding, inside: (x, z) => Math.hypot(x, z) < R * 1.08 });
+  furniture.lamps.forEach((l) => {
+    const { x, z, nx, nz } = l;
+    if (lampT) {
+      // the kit's street lamp on the pavement, arm over the road
+      const spot = { x, z, ry: Math.atan2(nz, -nx) };
+      lampSpots.push(spot);
+      const g = anchorAt(lampT, 'lamp_glow', spot);
+      bulbs.push({ x: g.x, y: g.y - 0.06, z: g.z, s: 0.14 });
+      glows.push({ x: g.x - nx * 1.0, z: g.z - nz * 1.0, r: 6.5 });
+      lamps.push({ x: g.x, y: g.y, z: g.z, delay: delayFor(g.x, g.z), kind: 'street' });
+    } else {
+      mb.cyl(x, 0.2, z, 0.1, 0.14, 6.2, 6, PAL.metal, { grad: 0.2 });
+      const bx = x - nx * 1.2, bz = z - nz * 1.2;
+      mb.box((x + bx) / 2, 6.0, (z + bz) / 2, 0.14, 0.14, 1.3, PAL.metal, { grad: 0 }, Math.atan2(nx, nz));
+      bulbs.push({ x: bx, y: 5.95, z: bz, s: 0.26 });
+      glows.push({ x: bx - nx * 1.0, z: bz - nz * 1.0, r: 6.5 });
+      lamps.push({ x: bx, y: 5.95, z: bz, delay: delayFor(bx, bz), kind: 'street' });
+    }
   });
+  trees.push(...furniture.trees);
 
   // electric poles with wires along the longest main road (a Lagos detail)
   const longest = [...roads].filter((r) => ['primary', 'secondary', 'trunk'].includes(r.cls))
@@ -635,12 +632,16 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
       if (x < s.bb.x0 - pad || x > s.bb.x1 + pad || z < s.bb.z0 - pad || z > s.bb.z1 + pad) continue;
       if (pointInPoly(x, z, s.pts) || nearestOnPoly(x, z, s.pts).d < pad) return false;
     }
+    // keep carriageways and pavements clear: pavements are for walking (world bible 4.3)
     for (const r of mainRoads) {
-      for (let i = 0; i < r.pts.length - 1; i++) {
-        const [ax, az] = r.pts[i], [bx, bz] = r.pts[i + 1];
+      const P = r.fit ? r.fit.pts : r.pts;
+      for (let i = 0; i < P.length - 1; i++) {
+        const [ax, az] = P[i], [bx, bz] = P[i + 1];
         const dx = bx - ax, dz = bz - az;
         const t = Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / (dx * dx + dz * dz || 1)));
-        if (Math.hypot(x - (ax + dx * t), z - (az + dz * t)) < r.w / 2 + 0.4) return false;
+        const k = t < 0.5 ? i : i + 1;
+        const clear = r.fit ? r.fit.half[k] + Math.max(r.fit.paveL[k], r.fit.paveR[k]) + 0.3 : r.w / 2 + 0.4;
+        if (Math.hypot(x - (ax + dx * t), z - (az + dz * t)) < clear) return false;
       }
     }
     return Math.hypot(x, z) < R * 1.05;
