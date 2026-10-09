@@ -85,6 +85,7 @@ Every request Elvis has made, with where it stands. Updated 9 October 2026, 17:4
 | 63 | Sit on benches | Done, pushed: park and bus shelter benches, E to sit, E or walk to stand; park benches now face the pond | yaba-scene `src/look/index.js` | `e7d044a` |
 | 64 | Clean streets: pick up litter, recycle it for Efforts, fund street bins together | Done, pushed: Recycling Point 150 per piece, bins 50; bins cost 3,000 in 1,000 steps and are shared online (`/api/bins`) | yaba-scene `src/look/litter.js`, `api/bins.js` | `e7d044a` |
 | 65 | GitHub login in front of the world | Waiting on Elvis: create a GitHub OAuth App (callback https://buildersworld.vercel.app/api/auth/callback) | Vercel env | |
+| 66 | Players stuck between a house wall and its fence after an aerial click | Done, pushed: 1.7 m walkway or no fence, no squeeze alleys, back gates where a garden is cut off; pockets 590 to 10 cells; clicks land on reachable ground; boxed-in rescue | yaba-scene `src/look/houses.js`, `src/world.js`, `src/main.js` | `d9f7178` |
 | 48 | Bench building animation with hard hat and tools | Queued | | |
 | 57 | Roadside vendors and a little street chaos; random events; police stations; city traffic control | Queued | | |
 | 58 | Passenger cars, several designs; taxi and danfo roof signs | Queued | | |

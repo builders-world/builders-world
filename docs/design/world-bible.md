@@ -310,6 +310,8 @@ Every object stands on land it could legally stand on (Claude's `estate-layout` 
 
 Before shipping a placement change, run the layout audit (every object against every other by land use); it must report zero issues in both the Yaba and sample layouts.
 
+**No traps (Elvis, 9 October 2026).** Every patch of ground a person can stand on must be one they can walk out of. Between a house and its fence there is either a walkway of at least 1.7 m (a person is 0.84 m across; the rest lets the 0.5 m walk map see the path unbroken at any angle) or no fence on that side, so the wall is the boundary. No two fences run side by side closer than 1.7 m. Fences go up after every house is placed, and any garden the street cannot reach gets a back gate cut into its fence. `world.pocketReport()` counts what is left (10 single cells in Yaba). Clicks, aerial drops and ride exits land on ground joined to the streets, and anyone boxed in while trying to move is stepped back out after two seconds.
+
 ### 7.6 Navigation and movement rules
 
 Mapping and localisation, the game way: the district already knows its walls, so `src/look/navgrid.js` rasterises every collider into a 0.5 m walkable grid (grown by a walker's 0.42 m radius) the first time a path is asked for, and again whenever something new is placed. Anyone's position is a cell in that grid. Paths are A* over the grid, pulled tight with line-of-sight checks, planned in 1 to 30 ms.
