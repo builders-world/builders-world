@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { createAvatarModel } from '../onboarding/avatar.js';
 import { rigAvatar } from './anim.js';
 import { C, FONT } from './uikit.js';
+import { sfx } from './audio.js';
 
 // The people of the district (world bible 11.5). Each resident has a home on a real street, a job at a
 // real place on the map, a family, sometimes a pet, a personality, a dream, and a day that follows real
@@ -72,7 +73,7 @@ const CSS = `
 body.bw-cine #lk-life { display: none; }
 `;
 
-export function createLives({ world, scene, getEnv, getPois, reduced, lowQuality, chat, interact }) {
+export function createLives({ world, scene, getEnv, getPois, reduced, lowQuality, chat, interact, toast = () => {} }) {
   const style = document.createElement('style'); style.textContent = CSS; document.head.appendChild(style);
   const card = document.createElement('div'); card.id = 'lk-life'; document.body.appendChild(card);
   const group = new THREE.Group(); group.name = 'residents'; scene.add(group);
@@ -83,7 +84,8 @@ export function createLives({ world, scene, getEnv, getPois, reduced, lowQuality
   const doors = (world.doorPlants || []).slice().sort((a, b) => Math.hypot(a.x - world.spawn.x, a.z - world.spawn.z) - Math.hypot(b.x - world.spawn.x, b.z - world.spawn.z));
   const roster = PEOPLE.slice(0, lowQuality ? 6 : PEOPLE.length);
   const residents = roster.map((d, i) => {
-    const home = doors[i * 2 + 1] || doors[i] || { x: world.spawn.x + i, z: world.spawn.z };
+    // home is the doorstep (not the planter beside it): where they go in and out, and where you knock
+    const dp = doors[i * 2 + 1] || doors[i], home = dp?.step ? { ...dp.step } : dp ? { x: dp.x, z: dp.z } : { x: world.spawn.x + i, z: world.spawn.z };
     const av = createAvatarModel({ color: d.color, style: d.style });
     if (d.trait === 'elder') av.root.scale.setScalar(0.96);
     const rig = rigAvatar(av.root);
@@ -111,6 +113,10 @@ export function createLives({ world, scene, getEnv, getPois, reduced, lowQuality
     if (r.kids.some((k) => !k.startsWith('baby')) && r.trait !== 'elder') { const kid = createAvatarModel({ color: '#f6a8a0', style: 'tee' }); kid.root.scale.setScalar(0.62); r.kidRig = rigAvatar(kid.root); r.kidObj = kid.root; kid.root.visible = false; group.add(kid.root); }
     const it = { id: `life:${r.id}`, label: `Talk to ${r.first}`, x: home.x, z: home.z, r: 2.4 };
     interact.push(it); r.it = it;
+    // their front door: anyone can knock; nobody goes in unless they are invited
+    r.doorIt = { id: `knock:${r.id}`, label: `Knock on ${r.first}'s door`, x: home.x, z: home.z, r: 1.7 };
+    interact.push(r.doorIt);
+    r.inside = true; r.obj.visible = false;
     chat?.add({ id: r.id, name: r.first, obj: r.obj, rig: r.rig, tier: r.tier, life: r });
     return r;
   });
@@ -200,11 +206,23 @@ export function createLives({ world, scene, getEnv, getPois, reduced, lowQuality
         r.obj.position.x += (ax / pd) * dt * 2.2 - (az / pd) * dt * 1.2; r.obj.position.z += (az / pd) * dt * 2.2 + (ax / pd) * dt * 1.2;
         world.resolve(r.obj.position, 0.35, 0);
       }
-      // at home at night: indoors
-      const homeNow = r.task === 'home' && !r.path && Math.hypot(r.obj.position.x - r.home.x, r.obj.position.z - r.home.z) < 1.5;
-      r.obj.visible = !homeNow;
+      // home: they reach the doorstep, turn to the door and go in; they come out of it when they leave
+      const homeTask = r.task === 'home' || r.task === 'homeward';
+      if (r.answering > 0) { r.answering -= dt; if (r.answering <= 0 && homeTask) { r.inside = true; r.invited = 0; } }
+      else if (homeTask && !r.path && Math.hypot(r.obj.position.x - r.home.x, r.obj.position.z - r.home.z) < 1.6) {
+        if (!r.inside) {
+          r.goingIn = (r.goingIn || 0) + dt;
+          const want = (r.home.ry ?? 0) + Math.PI, dh = Math.atan2(Math.sin(want - r.obj.rotation.y), Math.cos(want - r.obj.rotation.y));
+          r.obj.rotation.y += dh * (1 - Math.exp(-dt * 10));
+          if (r.goingIn > 0.6) { r.inside = true; r.goingIn = 0; }
+        }
+      } else if (r.inside && !homeTask) { r.inside = false; r.obj.position.set(r.home.x, 0, r.home.z); r.obj.rotation.y = r.home.ry ?? 0; }
+      if (r.visiting) r.inside = true; // you are in their living room with them
+      r.obj.visible = !r.inside;
+      r.doorIt.label = r.invited > clock ? `Go in: ${r.first} invited you` : `Knock on ${r.first}'s door`;
+      r.doorIt.id = r.invited > clock ? `visit:${r.id}` : `knock:${r.id}`;
       r.rig?.update(dt, { speed, running: r.late, t, slump: r.mood < -0.4 ? 1 : 0 });
-      r.it.x = r.obj.position.x; r.it.z = r.obj.position.z; r.it.r = r.obj.visible ? 2.4 : 0;
+      r.it.x = r.obj.position.x; r.it.z = r.obj.position.z; r.it.r = r.obj.visible && !(r.answering > 0) ? 2.4 : 0; // at the door, the door is what E is for
       // the pet trots behind; the eldest child comes along on the walk home
       if (r.petObj) {
         const behind = v.set(r.obj.position.x - Math.sin(r.obj.rotation.y) * 1.1 + 0.5, 0, r.obj.position.z - Math.cos(r.obj.rotation.y) * 1.1);
@@ -235,6 +253,7 @@ export function createLives({ world, scene, getEnv, getPois, reduced, lowQuality
   const moodWord = (m) => (m > 0.55 ? ['Overjoyed', '#3fbf6d'] : m > 0.2 ? ['Good', '#7fb35e'] : m > -0.2 ? ['Okay', '#f2b33d'] : m > -0.5 ? ['Frustrated', '#e98a6a'] : ['Sad', '#7d5aa6']);
   function talk(id) {
     const r = residents.find((x) => `life:${x.id}` === id); if (!r) return false;
+    r.met = true;
     const [mw, mc] = moodWord(r.mood);
     const e = r.events[r.events.length - 1];
     card.innerHTML = `<button class="x" aria-label="Close">×</button><h3>${r.name}</h3><div class="sub">${r.age} · ${r.job} · ${TRAITS[r.trait].label}</div>
@@ -250,7 +269,37 @@ export function createLives({ world, scene, getEnv, getPois, reduced, lowQuality
     if (r.mood > 0.5) r.rig?.play?.('cheer'); else if (r.mood < -0.4) r.rig?.play?.('thanks'); else r.rig?.wave?.();
     return true;
   }
+  // knocking: nobody home, asleep, or they come to the door and maybe ask you in
+  function knock(id) {
+    const r = residents.find((x) => `knock:${x.id}` === id); if (!r) return false;
+    sfx('knock');
+    const pd = sp(r) === 'pd';
+    setTimeout(() => {
+      if (!r.inside || r.answering > 0) { toast(`No answer. ${r.first} is out: ${(r.doing || 'out and about').replace(/^./, (c) => c.toLowerCase())}.`, 3600); return; }
+      if (/Asleep|In bed/.test(r.doing || '')) { toast(`From inside, sleepily: "${pd ? 'Who dey knock this late? Abeg come back tomorrow.' : 'Who is it? It is late, come back tomorrow.'}"`, 4200); return; }
+      // they open the door
+      r.inside = false; r.answering = 9; r.obj.position.set(r.home.x, 0, r.home.z); r.obj.rotation.y = r.home.ry ?? 0; r.obj.visible = true;
+      const welcome = r.met || r.mood > -0.1 ? hash(`${r.name}|${today}|door`) < (r.met ? 0.95 : 0.7) : false;
+      if (welcome) {
+        r.invited = clock + 25; r.answering = 25;
+        chat?.sayFrom?.(r.obj, pd ? 'Ah, na you! Come in, come in.' : 'Oh, hello! Come in, come in.', r.first);
+        toast(`${r.first} invites you in. Press E at the door to go in.`, 3600);
+      } else {
+        chat?.sayFrom?.(r.obj, pd ? 'Not today o, I dey rest. Catch me outside tomorrow.' : 'Not today, I am resting. Catch me outside tomorrow!', r.first);
+      }
+      r.met = true;
+      r.rig?.wave?.();
+    }, 1300);
+    return true;
+  }
+  // going in as a guest: what the house needs to know about who lives there
+  function visit(id) {
+    const r = residents.find((x) => `visit:${x.id}` === id); if (!r || !(r.invited > clock)) return null;
+    r.visiting = true; r.invited = 0; r.answering = 0;
+    return { id: r.id, first: r.first, name: r.name, job: r.job, color: r.color, style: r.style, spouse: r.spouse, kids: r.kids, pet: r.pet, dream: r.dream, pidgin: sp(r) === 'pd', door: { ...r.home } };
+  }
+  function leaveVisit(id) { const r = residents.find((x) => x.id === id); if (r) r.visiting = false; }
   const bodies = () => residents.filter((r) => r.obj.visible).map((r) => ({ x: r.obj.position.x, z: r.obj.position.z, r: 0.33 }));
   function dispose() { group.removeFromParent(); card.remove(); style.remove(); }
-  return { update, talk, lifeLine, bodies, residents, people: residents.map((r) => ({ id: r.id, name: r.first, obj: r.obj, rig: r.rig, tier: r.tier })), dispose };
+  return { update, talk, knock, visit, leaveVisit, lifeLine, bodies, residents, people: residents.map((r) => ({ id: r.id, name: r.first, obj: r.obj, rig: r.rig, tier: r.tier })), dispose };
 }

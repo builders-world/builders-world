@@ -122,6 +122,8 @@ export function createAudio() {
     arrive: () => { const t = ctx.currentTime; [74, 79, 83, 86].forEach((n, k) => tone(sfxBus, midi(n), t + k * 0.08, { type: 'triangle', peak: 0.08, dec: 0.5 })); },
     door: () => { const t = ctx.currentTime; tone(sfxBus, midi(76), t, { type: 'sine', peak: 0.08, dec: 0.5 }); tone(sfxBus, midi(72), t + 0.18, { type: 'sine', peak: 0.08, dec: 0.7 }); },
     interact: () => tone(sfxBus, midi(81), ctx.currentTime, { type: 'sine', peak: 0.07, dec: 0.25 }),
+    // three knocks on a wooden door
+    knock: () => { const t = ctx.currentTime; [0, 0.2, 0.4].forEach((k) => { noise(sfxBus, t + k, { type: 'lowpass', f: 380, dur: 0.07, peak: 0.22 }); tone(sfxBus, 95, t + k, { type: 'sine', peak: 0.16, dec: 0.1 }); }); },
     // litter into the bag: a short crinkle and a soft up-note
     pick: () => { const t = ctx.currentTime; noise(sfxBus, t, { type: 'highpass', f: 2400, dur: 0.09, peak: 0.06 }); tone(sfxBus, midi(84), t + 0.05, { type: 'sine', peak: 0.04, dec: 0.15 }); },
     // a speech blip: two quick soft notes, higher for you than for others

@@ -124,7 +124,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     };
   })();
 
-  let passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
+  let visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
   // the tech places you can walk into (world bible 6.6)
   const doors = [];
   if (props.hubAt) doors.push({ key: 'hub', at: props.hubAt });
@@ -145,7 +145,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   let savedFog = null;
   const chat = createChat({ camera, avatar, getEnv: () => live, reduced });
   // residents with homes, jobs, families and a day that follows real time (lives.js)
-  const lives = createLives({ world, scene: group, getEnv: () => live, getPois: () => props.pois, reduced, lowQuality: quality === 'low', chat, interact: props.interact });
+  const lives = createLives({ world, scene: group, getEnv: () => live, getPois: () => props.pois, reduced, lowQuality: quality === 'low', chat, interact: props.interact, toast: (t, ms) => hud.toast(t, ms) });
   chat.setLife?.(lives.lifeLine);
   props.people = [...(props.people || []), ...lives.people];
   (props.people || []).forEach((p) => chat.add(p));
@@ -154,6 +154,15 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     onUse: (player, active) => {
       if (benchSeat) { standUp(); return true; }
       if (active?.id?.startsWith('life:')) return lives.talk(active.id);
+      // people's homes: knock; go in only when they have asked you in (lives.js)
+      if (active?.id?.startsWith('knock:')) return lives.knock(active.id);
+      if (active?.id?.startsWith('visit:')) {
+        const host = lives.visit(active.id); if (!host) return false;
+        doorOut = { x: host.door.x, z: host.door.z, yaw: host.door.ry ?? 0 };
+        visiting = host.id;
+        interiors.enter('home', host).then((p) => { setInside(`${host.first}'s home`); pendingMove = { ...p, mode: 'inside' }; passes.arrive('home'); });
+        return true;
+      }
       if (active?.id?.startsWith('seat:')) {
         const st = seats[+active.id.slice(5)]; if (!st) return false;
         benchSeat = st; pendingMove = { x: st.x, z: st.z, yaw: st.yaw, mode: 'sit' };
@@ -162,7 +171,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       if (active?.id && (active.id.startsWith('litter:') || active.id.startsWith('bin:') || active.id === 'recycle')) return !!litter?.use(active.id, player);
       if (interiors?.active) {
         const r = interiors.use(player.x, player.z);
-        if (r?.exit) { interiors.leave(); passes.forgetLink(); setInside(null); pendingMove = doorOut && { ...doorOut, mode: 'outside' }; return true; }
+        if (r?.exit) { interiors.leave(); passes.forgetLink(); if (visiting) { lives.leaveVisit(visiting); visiting = null; } setInside(null); pendingMove = doorOut && { ...doorOut, mode: 'outside' }; return true; }
         if (r?.sit) { pendingMove = { ...r.sit, mode: 'sit' }; return true; } // the seat bar says what you can do now
         return !!r;
       }

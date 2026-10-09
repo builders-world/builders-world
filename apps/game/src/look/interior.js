@@ -287,20 +287,86 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net }
     return { key, group: g, colliders, interact, door, window, sun, people, desks };
   }
 
+  // ---------- a home: what you see when someone who lives here invites you in ----------
+  function buildHome() {
+    const HW = 12, HD = 9, HH = 3.0;
+    const g = new THREE.Group(); g.position.copy(ORIGIN); g.visible = false;
+    const mat = (c, r = 0.7, m = 0) => new THREE.MeshStandardMaterial({ color: c, roughness: r, metalness: m });
+    const M = { floor: mat(0x9c6b45, 0.45), wall: mat(0xefe3cc, 0.9), accent: mat(0x2a6f6a, 0.9), wood: mat(0x7a4a2a, 0.6), woodL: mat(0xc9a27a, 0.6), sofa: mat(0xb5523b, 0.95), chair: mat(0xe0b44a, 0.95),
+      metal: mat(0xd8d8d8, 0.35, 0.4), dark: mat(0x1d2028, 0.5), rug: mat(0xe0c36a, 0.95), leaf: mat(0x2f6b2c, 0.8), pot: mat(0xb8b0a0, 0.9),
+      sky: new THREE.MeshBasicMaterial({ color: new THREE.Color(0.6, 0.75, 1.0) }), screen: new THREE.MeshBasicMaterial({ color: 0x3a6ea5 }), warm: new THREE.MeshBasicMaterial({ color: new THREE.Color(2.0, 1.3, 0.6) }) };
+    const add = (geo, m) => { const o = new THREE.Mesh(geo, m); g.add(o); return o; };
+    const colliders = [], block = (x, z, w, d) => colliders.push([x - w / 2, z - d / 2, x + w / 2, z + d / 2]);
+    // the room: floor, ceiling, walls, a patterned feature wall behind the sofa, a window on the street
+    add(box(HW, 0.1, HD, 0, -0.05, 0), M.floor); add(box(HW, 0.1, HD, 0, HH + 0.05, 0), M.wall);
+    add(mergeGeometries([box(HW, HH, 0.2, 0, HH / 2, -HD / 2), box(0.2, HH, HD, -HW / 2, HH / 2, 0), box(0.2, HH, HD, HW / 2, HH / 2, 0), box(1.9, HH, 0.2, -5.05, HH / 2, HD / 2), box(HW - 4.2, HH, 0.2, 2.1, HH / 2, HD / 2)]), M.wall);
+    const ankara = canvasTex(512, 256, (x, w, h) => { x.fillStyle = '#2a6f6a'; x.fillRect(0, 0, w, h); const cols = ['#e0b44a', '#b5523b', '#f4ead2', '#1d3b3a']; for (let i = 0; i < 16; i++) for (let j = 0; j < 8; j++) { x.fillStyle = cols[(i + j) % 4]; x.beginPath(); x.arc(16 + i * 32, 16 + j * 32, 9, 0, Math.PI * 2); x.fill(); x.fillStyle = cols[(i + j + 2) % 4]; x.fillRect(12 + i * 32, 12 + j * 32, 8, 8); } });
+    add(new THREE.PlaneGeometry(5.2, HH - 0.2).translate(-2.2, HH / 2, -HD / 2 + 0.11), new THREE.MeshStandardMaterial({ map: ankara, roughness: 0.9 }));
+    const window = add(box(2.6, 1.4, 0.05, 3.2, 1.6, HD / 2 - 0.12), M.sky);
+    [[0, -HD / 2, HW, 0.4], [-HW / 2, 0, 0.4, HD], [HW / 2, 0, 0.4, HD], [-5.05, HD / 2, 1.9, 0.4], [2.1, HD / 2, HW - 4.2, 0.4]].forEach(([x, z, w, d]) => block(x, z, w, d));
+    const door = { x: -3.5, z: HD / 2 - 1.0 };
+    add(box(1.3, 2.3, 0.08, -3.5, 1.15, HD / 2 + 0.02), M.wood);
+    // the living room: rug, sofa, armchair, coffee table, the TV on its stand
+    add(box(3.4, 0.02, 2.4, -2.2, 0.01, -2.2), M.rug);
+    add(mergeGeometries([box(2.8, 0.45, 0.9, -2.2, 0.225, -3.7), box(2.8, 0.55, 0.22, -2.2, 0.72, -4.1), box(0.22, 0.6, 0.9, -3.5, 0.3, -3.7), box(0.22, 0.6, 0.9, -0.9, 0.3, -3.7)]), M.sofa); block(-2.2, -3.8, 2.8, 1.0);
+    add(mergeGeometries([box(0.9, 0.45, 0.9, -4.9, 0.225, -1.8), box(0.22, 0.55, 0.9, -5.25, 0.72, -1.8)]), M.chair); block(-4.9, -1.8, 0.9, 0.9);
+    add(box(1.2, 0.4, 0.6, -2.2, 0.2, -2.1), M.wood); block(-2.2, -2.1, 1.2, 0.6);
+    add(box(1.8, 0.5, 0.45, -2.2, 0.25, 0.4), M.wood); block(-2.2, 0.4, 1.8, 0.45);
+    add(box(1.4, 0.8, 0.06, -2.2, 0.95, 0.42), M.dark); add(new THREE.PlaneGeometry(1.3, 0.7).rotateY(Math.PI).translate(-2.2, 0.95, 0.38), M.screen);
+    // family photos above the sofa
+    [[-3.3, 1.9, 0.5, 0.6, 0xe0b44a], [-2.5, 2.0, 0.7, 0.5, 0xf4ead2], [-1.6, 1.85, 0.45, 0.55, 0xb5523b], [-0.9, 2.05, 0.4, 0.4, 0x8fbf5a]].forEach(([x, y, w, h, c]) => { add(box(w + 0.08, h + 0.08, 0.04, x, y, -HD / 2 + 0.14), M.wood); add(box(w, h, 0.02, x, y, -HD / 2 + 0.17), mat(c, 0.8)); });
+    // dining table and four chairs
+    add(box(1.7, 0.06, 0.95, 2.6, 0.75, -2.4), M.woodL); add(mergeGeometries([box(0.06, 0.75, 0.06, 1.85, 0.375, -2.0), box(0.06, 0.75, 0.06, 3.35, 0.375, -2.0), box(0.06, 0.75, 0.06, 1.85, 0.375, -2.8), box(0.06, 0.75, 0.06, 3.35, 0.375, -2.8)]), M.wood);
+    [[2.2, -1.6, 0], [3.0, -1.6, 0], [2.2, -3.2, Math.PI], [3.0, -3.2, Math.PI]].forEach(([x, z]) => add(mergeGeometries([box(0.45, 0.05, 0.45, x, 0.45, z), box(0.45, 0.5, 0.05, x, 0.7, z + (z > -2.4 ? 0.22 : -0.22))]), M.wood));
+    block(2.6, -2.4, 2.0, 2.0);
+    // the kitchen: counter, cooker, fridge
+    add(box(0.75, 0.95, 3.6, 5.45, 0.475, -2.5), M.woodL); add(box(0.8, 0.05, 3.7, 5.45, 0.97, -2.5), M.metal); block(5.45, -2.5, 0.8, 3.7);
+    add(box(0.6, 0.06, 0.6, 5.45, 1.02, -3.6), M.dark); add(box(0.75, 1.8, 0.7, 5.45, 0.9, 0.2), M.metal); block(5.45, 0.2, 0.8, 0.75);
+    // plants, a standing lamp, the ceiling fan every Lagos living room has
+    [[-5.4, -4.0], [4.6, 3.8], [-5.4, 3.6]].forEach(([x, z]) => { add(new THREE.CylinderGeometry(0.28, 0.22, 0.45, 10).translate(x, 0.22, z), M.pot); add(new THREE.IcosahedronGeometry(0.5, 0).translate(x, 0.9, z), M.leaf); block(x, z, 0.6, 0.6); });
+    add(new THREE.CylinderGeometry(0.03, 0.03, 1.6, 6).translate(-0.4, 0.8, -4.0), M.dark); add(new THREE.CylinderGeometry(0.18, 0.25, 0.3, 12).translate(-0.4, 1.65, -4.0), M.warm);
+    const fan = new THREE.Group(); fan.position.set(0, HH - 0.35, -1.2);
+    fan.add(new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.12, 12), M.metal));
+    for (let k = 0; k < 3; k++) { const b = new THREE.Mesh(box(1.1, 0.02, 0.18, 0.62, 0, 0), M.woodL); b.rotation.y = (k / 3) * Math.PI * 2; fan.add(b); }
+    add(new THREE.CylinderGeometry(0.02, 0.02, 0.3, 6).translate(0, HH - 0.15, -1.2), M.metal); g.add(fan);
+    [[-2.2, -1.5], [2.8, -2.2]].forEach(([x, z]) => { const l = new THREE.PointLight(0xffc27a, 14, 10, 1.6); l.position.set(x, HH - 0.5, z); g.add(l); });
+    g.add(new THREE.HemisphereLight(0xfff1dc, 0x4a3f35, 0.85));
+    const sun = new THREE.DirectionalLight(0xfff1dc, 0); sun.position.set(4, 6, 10); g.add(sun);
+    scene.add(g);
+    // the people who live here, placed for each visit
+    const people = [];
+    const room = { key: 'home', group: g, colliders, interact: [], door, window, sun, people, desks: [], W: HW, D: HD, H: HH, fan, host: null,
+      setHost(h) {
+        people.splice(0).forEach((p) => { p.root.removeFromParent(); p.dispose?.(); });
+        room.host = h; room.lineAt = -1;
+        const me = createAvatarModel({ color: h.color, style: h.style }); me.root.position.set(1.6, 0, -1.2); me.root.rotation.y = 2.6; g.add(me.root); people.push(me);
+        if (h.spouse) { const sp = createAvatarModel({ color: '#8a5aa0', style: 'classic' }); sp.root.position.set(-1.6, -0.42, -3.55); g.add(sp.root); people.push(sp); }
+        (h.kids || []).filter((k) => !k.startsWith('baby')).slice(0, 2).forEach((k, i) => { const kid = createAvatarModel({ color: ['#f6a8a0', '#7fb3d5'][i], style: 'tee' }); kid.root.scale.setScalar(0.62); kid.root.position.set(-2.8 + i * 1.1, 0, -1.3); kid.root.rotation.y = Math.PI; g.add(kid.root); people.push(kid); });
+        room.interact = [
+          { id: 'in:exit', label: `Leave ${h.first}'s home`, x: door.x, z: door.z + 0.4, r: 1.8 },
+          { id: 'in:host', label: `Talk to ${h.first}`, x: 1.6, z: -1.2, r: 2.0 },
+          { id: 'in:photos', label: 'Look at the family photos', x: -3.9, z: -2.6, r: 1.5 },
+        ];
+      },
+    };
+    return room;
+  }
+
   // ---------- inside: walking, sitting, the laptop ----------
   let seated = null, laptop = null;
   const laptopMat = new THREE.MeshStandardMaterial({ color: 0x9aa3b2, roughness: 0.35, metalness: 0.6 });
   const laptopScreen = new THREE.MeshBasicMaterial({ map: codeScreen(SNIPPET) });
 
-  function enter(key) {
-    if (!built[key]) built[key] = build(key);
+  function enter(key, host) {
+    if (!built[key]) built[key] = key === 'home' ? buildHome() : build(key);
     current = built[key];
+    if (key === 'home') current.setHost(host);
     fade.style.opacity = '1';
     return new Promise((res) => setTimeout(() => {
       current.group.visible = true;
       fade.style.opacity = '0';
       sfx('door');
-      toast(`${PLACES[key].name}. ${PLACES[key].kind}. Find a free desk, or grab something at the cafeteria.`, 4500);
+      toast(key === 'home' ? `${host.first}'s home. ${host.pidgin ? 'Make yourself at home o.' : 'Make yourself at home.'}` : `${PLACES[key].name}. ${PLACES[key].kind}. Find a free desk, or grab something at the cafeteria.`, 4500);
       res({ x: ORIGIN.x + current.door.x, z: ORIGIN.z + current.door.z - 1.5, yaw: Math.PI });
     }, reduced ? 0 : 360));
   }
@@ -362,6 +428,8 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net }
     current.interact.forEach((it) => { const d = Math.hypot(it.x - x, it.z - z); if (d < it.r && d < bd) { bd = d; best = it; } });
     if (!best) return null;
     if (best.id === 'in:exit') return { exit: true };
+    if (best.id === 'in:host') { const h = current.host; const lines = h.pidgin ? ['You go take Zobo or Chapman? Siddon, make yourself comfortable.', `Abeg no mind the place. ${h.kids?.length ? `${h.kids[0]} scatter am this morning.` : 'Na small house but e sweet.'}`, `Me? I dey hustle: ${h.dream.toLowerCase()}.`] : ['Can I get you some Zobo? Or Chapman? Sit, sit.', `Sorry about the mess. ${h.kids?.length ? `${h.kids[0]} was busy this morning.` : 'It is small, but it is home.'}`, `My dream? ${h.dream}.`]; current.lineAt = ((current.lineAt ?? -1) + 1) % lines.length; toast(`${h.first}: "${lines[current.lineAt]}"`, 4500); return { handled: true }; }
+    if (best.id === 'in:photos') { const h = current.host; toast(`Family photos: ${[h.spouse && `${h.first} and ${h.spouse} on their wedding day`, h.kids?.length && `${h.kids.join(' and ')}`, 'a beach day at Elegushi', 'a graduation in Akoka'].filter(Boolean).join(', ')}.`, 5200); return { handled: true }; }
     if (best.id === 'in:board') { const n = net?.NETS?.[current.key]; toast(`Demo night is Thursday at 7pm. ${current.key === 'studio' ? 'Members\' Wi-Fi is on your membership card.' : n ? `Wi-Fi ${n.ssid}, password ${n.pass}.` : ''}`, 5200); return { handled: true }; }
     if (best.id === 'in:cafe') { const items = ['Zobo', 'Chapman', 'coffee', 'puff-puff', 'jollof and plantain']; toast(`Your ${items[Math.floor(Math.random() * items.length)]} is ready at the counter. Free for builders today.`); return { handled: true }; }
     if (best.id === 'in:meet') { toast('Meeting room booked for 30 minutes. Voice rooms arrive with multiplayer.'); return { handled: true }; }
@@ -382,7 +450,8 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net }
   function resolve(pos, rad = 0.45) {
     if (!current) return;
     const x = pos.x - ORIGIN.x, z = pos.z - ORIGIN.z;
-    let nx = Math.max(-W / 2 + rad + 0.2, Math.min(W / 2 - rad - 0.2, x)), nz = Math.max(-D / 2 + rad + 0.2, Math.min(D / 2 - rad - 0.2, z));
+    const RW = current.W ?? W, RD = current.D ?? D;
+    let nx = Math.max(-RW / 2 + rad + 0.2, Math.min(RW / 2 - rad - 0.2, x)), nz = Math.max(-RD / 2 + rad + 0.2, Math.min(RD / 2 - rad - 0.2, z));
     current.colliders.forEach(([x0, z0, x1, z1]) => {
       const cx = Math.max(x0, Math.min(x1, nx)), cz = Math.max(z0, Math.min(z1, nz));
       const dx = nx - cx, dz = nz - cz, d = Math.hypot(dx, dz);
@@ -398,11 +467,12 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net }
   function solidAt(x, y, z) {
     if (!current) return false;
     const lx = x - ORIGIN.x, lz = z - ORIGIN.z;
-    return y > H - 0.2 || Math.abs(lx) > W / 2 - 0.3 || Math.abs(lz) > D / 2 - 0.3;
+    return y > (current.H ?? H) - 0.2 || Math.abs(lx) > (current.W ?? W) / 2 - 0.3 || Math.abs(lz) > (current.D ?? D) / 2 - 0.3;
   }
 
   function update(dt, t) {
     if (!current) return;
+    if (current.fan && !reduced) current.fan.rotation.y += dt * 4;
     const env = getEnv?.() || { day: 1 };
     // the window shows the real sky: bright by day, deep blue at night
     current.window.material.color.setRGB(0.15 + 0.75 * env.day, 0.22 + 0.7 * env.day, 0.45 + 0.6 * env.day);

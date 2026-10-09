@@ -177,7 +177,9 @@ export function createChat({ camera, avatar, getEnv, reduced }) {
       b.obj.getWorldPosition(v); v.y += 2.6; // above the name tags
       const far = v.distanceTo(camera.position);
       v.project(camera);
-      const vis = v.z < 1 && far < 40 && Math.abs(v.x) < 1.1 && Math.abs(v.y) < 1.1;
+      // only for someone you can see: not a person indoors, not the street while you are inside
+      let shown = true; for (let o = b.obj; o; o = o.parent) if (!o.visible) { shown = false; break; }
+      const vis = shown && v.z < 1 && far < 40 && Math.abs(v.x) < 1.1 && Math.abs(v.y) < 1.1;
       b.el.style.display = vis ? '' : 'none';
       b.sx = (v.x * 0.5 + 0.5) * innerWidth; b.sy = (-v.y * 0.5 + 0.5) * innerHeight; b.vis = vis;
     }

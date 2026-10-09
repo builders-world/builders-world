@@ -419,7 +419,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     if (!est) { b.pts = []; b.top = 0; return; }
     b.pts = est.pts; b.bb = bbox(est.pts); b.top = est.top;
     if (est.tree) lotTrees.push(est.tree);
-    if (est.door) doorPlants.push({ x: est.door.x, z: est.door.z });
+    if (est.door) doorPlants.push({ x: est.door.x, z: est.door.z, step: est.door.step });
     // porch lights: two in three on a motion sensor (on only when someone comes near), the rest on all night
     // the fitting sits on the wall (mx, mz); the light it casts is placed 0.9 m out so it falls on the step, not the wall
     if (est.door?.lamp) { const L = est.door.lamp; porchLamps.push({ mx: L.x, mz: L.z, x: L.x + Math.sin(L.ry) * 0.9, y: 2.4, z: L.z + Math.cos(L.ry) * 0.9, ry: L.ry, my: L.y, sensor: rng() < 0.67, power: 0, color: 0xffc27a, kind: 'porch' }); }
