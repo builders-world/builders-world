@@ -3,6 +3,7 @@ import { MeshBuilder, mulberry32 } from './mesh.js';
 import { BUILDERS, MONUMENTS, FLOOR_H, floorsFor, litProbability } from './builders.js';
 import { makeWindowMaterial, makeGlowMaterial, makeBeamMaterial } from './shaders.js';
 import { wetGroundMaterial, wallMaterial } from './look/surfaces.js';
+import { instanceAsset, collidersFor, anchorAt } from './look/kit.js';
 
 const NIGHT = {
   // weathered Lagos plaster: light enough to read in daylight, the lighting makes it night
@@ -171,7 +172,7 @@ function samplePolyline(pts, step) {
 }
 
 // ---------- the world ----------
-export function buildWorld(manifest, via, theme = 'night') {
+export function buildWorld(manifest, via, theme = 'night', kit = null) {
   const PAL = THEMES[theme] || THEMES.night;
   const T = PAL;
   const rng = mulberry32(1337);
@@ -304,6 +305,9 @@ export function buildWorld(manifest, via, theme = 'night') {
 
   const bulbs = []; // {x,y,z,s}
   const lamps = []; // street lamps that light the ground for real
+  const lampT = kit?.get('yaba_street_lamp');
+  const lampSpots = [];
+  const kitColliders = [];
   const trees = [];
   const glows = []; // {x,z,r}
   const inAnyBuilding = (x, z) => blds.some((b) => x > b.bb.x0 - 1 && x < b.bb.x1 + 1 && z > b.bb.z0 - 1 && z < b.bb.z1 + 1 && pointInPoly(x, z, b.pts));
@@ -318,7 +322,15 @@ export function buildWorld(manifest, via, theme = 'night') {
       const nx = -s.tz * side, nz = s.tx * side;
       const x = s.x + nx * off, z = s.z + nz * off;
       if (Math.hypot(x, z) > R * 1.08 || inAnyBuilding(x, z)) return;
-      if (lit) {
+      if (lit && lampT) {
+        // the kit's street lamp, arm turned toward the road
+        const spot = { x, z, ry: Math.atan2(nz, -nx) };
+        lampSpots.push(spot);
+        const g = anchorAt(lampT, 'lamp_glow', spot);
+        bulbs.push({ x: g.x, y: g.y - 0.06, z: g.z, s: 0.14 });
+        glows.push({ x: g.x - nx * 1.0, z: g.z - nz * 1.0, r: 6.5 });
+        lamps.push({ x: g.x, y: g.y, z: g.z, delay: delayFor(g.x, g.z), kind: 'street' });
+      } else if (lit) {
         mb.cyl(x, 0.2, z, 0.1, 0.14, 7.2, 6, PAL.metal, { grad: 0.2 });
         const bx = x - nx * 1.5, bz = z - nz * 1.5;
         mb.box((x + bx) / 2, 7.0, (z + bz) / 2, 0.14, 0.14, 1.6, PAL.metal, { grad: 0 }, Math.atan2(nx, nz));
@@ -413,6 +425,11 @@ export function buildWorld(manifest, via, theme = 'night') {
     bulbs.push({ x, y: y + 2.0, z, s: 1.1 });
     monuments.push({ ...mn, x, z, topY });
   });
+
+  if (lampT && lampSpots.length) {
+    scene.add(instanceAsset(lampT, lampSpots));
+    kitColliders.push(...collidersFor(lampT, lampSpots));
+  }
 
   const staticMesh = new THREE.Mesh(mb.toGeometry(), wallMaterial());
   scene.add(staticMesh);
@@ -594,6 +611,18 @@ export function buildWorld(manifest, via, theme = 'night') {
         pos.z = n.pz + (dz / l) * rad;
       }
     }
+    // kit collision proxies: boxes on the ground, turned
+    for (const c of kitColliders) {
+      const dx = pos.x - c.cx, dz = pos.z - c.cz;
+      const cs = Math.cos(c.ry), sn = Math.sin(c.ry);
+      const lx = dx * cs - dz * sn, lz = dx * sn + dz * cs;
+      const ex = c.hx + rad, ez = c.hz + rad;
+      if (Math.abs(lx) >= ex || Math.abs(lz) >= ez) continue;
+      let nx2 = lx, nz2 = lz;
+      if (ex - Math.abs(lx) < ez - Math.abs(lz)) nx2 = Math.sign(lx || 1) * ex; else nz2 = Math.sign(lz || 1) * ez;
+      pos.x = c.cx + nx2 * cs + nz2 * sn;
+      pos.z = c.cz - nx2 * sn + nz2 * cs;
+    }
     const rr = Math.hypot(pos.x, pos.z);
     const maxR = R * 1.05;
     if (rr > maxR) { pos.x *= maxR / rr; pos.z *= maxR / rr; }
@@ -601,6 +630,7 @@ export function buildWorld(manifest, via, theme = 'night') {
 
   // free for a prop: outside every footprint and off the carriageway
   function isFree(x, z, pad = 0.6) {
+    for (const c of kitColliders) if (Math.hypot(x - c.cx, z - c.cz) < Math.max(c.hx, c.hz) + pad) return false;
     for (const s of solid) {
       if (x < s.bb.x0 - pad || x > s.bb.x1 + pad || z < s.bb.z0 - pad || z > s.bb.z1 + pad) continue;
       if (pointInPoly(x, z, s.pts) || nearestOnPoly(x, z, s.pts).d < pad) return false;
@@ -634,6 +664,7 @@ export function buildWorld(manifest, via, theme = 'night') {
     rig: { hemi, moon, rim, bulbMat, bulb: T.env.bulb },
     center: manifest.center,
     footprints: blds.map((b) => b.pts),
+    kit, kitColliders, addColliders: (list) => kitColliders.push(...list),
     source: manifest.source,
   };
 }

@@ -10,6 +10,7 @@ import { initChrome } from './ui.js';
 import { loadProfile } from './onboarding/state.js';
 import { createAvatarModel } from './onboarding/avatar.js';
 import { createLook, blueHourSky, pickQuality, createWeather } from './look/index.js';
+import { loadKit } from './look/kit.js';
 
 const q = new URLSearchParams(location.search);
 const arrivalProfile = loadProfile();
@@ -77,6 +78,11 @@ async function main() {
     ? { manifest: await (await fetch('./data/sample.json')).json(), via: 'sample' }
     : await loadManifest(place);
 
+  // the Yaba asset kit (GLBs from the parent repo); the street falls back to code-built props without it
+  let kit = null;
+  if (q.get('kit') !== '0') {
+    try { kit = await loadKit(); } catch (err) { console.warn('Yaba asset kit not loaded, using built-in props', err); }
+  }
   let world = null;
   let sky = null;
   const fade = document.getElementById('fade');
@@ -132,7 +138,7 @@ async function main() {
     shared.uDay.value = name === 'day' ? 1 : 0;
     if (world) { scene.remove(world.scene); disposeTree(world.scene); }
     if (sky) { scene.remove(sky); disposeTree(sky); }
-    world = buildWorld(manifest, via, name);
+    world = buildWorld(manifest, via, name, kit);
     sky = world.env.wet ? blueHourSky() : buildSky(name);
     scene.add(sky, world.scene);
     const E = world.env;
@@ -371,7 +377,7 @@ async function main() {
 
   window.__bw = {
     get world() { return world; }, camera, cam, player, renderer, scene, via,
-    get theme() { return themeName; }, setTheme, get look() { return street; }, quality, composer, weather: weatherFeed, goto, setAerial, get walkTarget() { return walkTarget; },
+    get theme() { return themeName; }, setTheme, get look() { return street; }, quality, composer, weather: weatherFeed, get kit() { return kit; }, goto, setAerial, get walkTarget() { return walkTarget; },
     ready: true,
   };
 }

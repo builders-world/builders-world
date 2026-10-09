@@ -94,6 +94,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   const tmpA = new THREE.Color(), tmpB = new THREE.Color();
   const mix3 = (out, a, b, c, tb, tc) => out.copy(a).lerp(b, tb).lerp(c, tc);
   const district = world.center?.lat != null ? world.center : { lat: 6.5095, lon: 3.3715 };
+  const kitLampAmber = [...new Set((world.kit?.get('yaba_street_lamp')?.meshes || []).map((m) => m.material).filter((m) => m.emissive && m.emissive.getHex()))];
   let live = null;
 
   function environment(dt) {
@@ -171,6 +172,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     fill.intensity = 6 * (1 - day);
     if (rig.bulbMat) rig.bulbMat.color.setRGB(...rig.bulb).multiplyScalar(0.06 + 0.94 * lamps);
     props.materials.warm.color.setRGB(2.0, 1.15, 0.45).multiplyScalar(0.12 + 0.88 * lamps);
+    // the kit lamp's authored amber stays the same material; only how brightly it glows follows dusk and dawn
+    kitLampAmber.forEach((m) => { m.emissiveIntensity = 0.12 + 0.88 * lamps; });
     if (rainMesh) {
       const to = ((cur.windDir + 180) * Math.PI) / 180, slant = Math.min(cur.wind, 15) * 0.025;
       rainMesh.userData.wind.value.set(Math.sin(to) * slant, -Math.cos(to) * slant);

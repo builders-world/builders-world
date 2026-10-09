@@ -5,6 +5,7 @@ import { mulberry32 } from '../mesh.js';
 import { createAvatarModel } from '../onboarding/avatar.js';
 import { wallMaterial } from './surfaces.js';
 import { frondTexture, leafTexture, boardTexture, muralTexture, buildSignTexture, hubSignTexture } from './textures.js';
+import { instanceAsset, collidersFor, footprint } from './kit.js';
 
 const V3 = THREE.Vector3;
 const box = (w, h, d, x = 0, y = 0, z = 0) => new THREE.BoxGeometry(w, h, d).translate(x, y, z);
@@ -212,6 +213,8 @@ function stringLights(a, b, sag, n) {
 
 // ---------- assemble the street around the spawn point ----------
 export function buildProps(world, scene, { lowQuality = false, reduced = false } = {}) {
+  const kit = world.kit;
+  const kitPlaced = {}; // asset id -> spots, for the handoff report
   const M = propMaterials();
   addSway(M.frond, 0.03);
   addSway(M.leaf, 0.05);
@@ -264,9 +267,19 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
 
   // community board, in the first gap that fits it
   const bSpot = findArea(8, 4.9, 1.8) ?? { a: 8, o: 1, c: 1.9 };
-  const board = communityBoard(M);
-  const boardPos = place(board, bSpot.a, bSpot.c, faceRoad);
-  lamps.push({ x: boardPos.x - N.x * 2.2, y: 4.2, z: boardPos.z - N.z * 2.2, power: 16, boost: 40, color: 0xffb35c });
+  let boardPos;
+  const boardT = kit?.get('yaba_community_board');
+  if (boardT) {
+    // the kit's board; its notes face local -z, so a half turn faces the street
+    const p = at(bSpot.a, bSpot.c), spot = { x: p.x, z: p.z, ry: faceRoad + Math.PI };
+    root.add(instanceAsset(boardT, [spot]));
+    world.addColliders(collidersFor(boardT, [spot]));
+    kitPlaced.yaba_community_board = [spot];
+    boardPos = p;
+  } else {
+    boardPos = place(communityBoard(M), bSpot.a, bSpot.c, faceRoad);
+  }
+  lamps.push({ x: boardPos.x - N.x * 2.2, y: 4.2, z: boardPos.z - N.z * 2.2, power: 8, boost: 40, color: 0xffb35c });
   interact.push({ id: 'board', label: 'Open community board', x: boardPos.x - N.x * 1.8, z: boardPos.z - N.z * 1.8, r: 4.2 });
 
   // two builders reading it
@@ -336,6 +349,38 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   const benchSpot = findArea(bSpot.a - 5, 2, 0.8);
   if (benchSpot) place(new THREE.Mesh(bench(M), M.wood), benchSpot.a, benchSpot.c, faceRoad);
 
+  // market stalls along the pavement: Yaba street life, warm light, things to buy
+  const stallT = kit?.get('yaba_market_stall');
+  if (stallT) {
+    const fp = footprint(stallT), spots = [];
+    for (const pref of [bSpot.a - 7, bSpot.a + 12, bSpot.a + 26]) {
+      const s = findArea(pref, fp.w + 0.4, fp.d + 0.2, { from: 0.4, to: 8 });
+      if (!s) continue;
+      const p = at(s.a, s.c);
+      spots.push({ x: p.x, z: p.z, ry: faceRoad });
+      lamps.push({ x: p.x - N.x * 0.4, y: 2.6, z: p.z - N.z * 0.4, power: 22, boost: 12, color: 0xffb35c });
+      if (spots.length >= (lowQuality ? 2 : 3)) break;
+    }
+    if (spots.length) {
+      root.add(instanceAsset(stallT, spots));
+      world.addColliders(collidersFor(stallT, spots));
+      kitPlaced.yaba_market_stall = spots;
+    }
+  }
+
+  // a starter house where a lot is free: what a new resident's first home looks like
+  const houseT = kit?.get('yaba_starter_house');
+  if (houseT) {
+    const fp = footprint(houseT);
+    const s = findArea(bSpot.a + 20, fp.w + 0.6, fp.d + 0.6, { from: 1, to: 16, lo: -30, hi: 60 });
+    if (s) {
+      const p = at(s.a, s.c), spot = { x: p.x, z: p.z, ry: faceRoad };
+      root.add(instanceAsset(houseT, [spot]));
+      world.addColliders(collidersFor(houseT, [spot]));
+      kitPlaced.yaba_starter_house = [spot];
+    }
+  }
+
   // palms where world.js planted trees, plus plants by the board
   const palm = palmGeometry();
   const palmSpots = world.trees.map((t) => ({ x: t.x, z: t.z, ry: rng() * Math.PI * 2 }));
@@ -346,9 +391,18 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   [[bSpot.a - 2.2, bSpot.c + 2.6], [bSpot.a + 2.2, bSpot.c + 3.2], ...(aSpot ? [[aSpot.a - 2.6, aSpot.c + 2.6]] : [])].forEach(([a, o]) => {
     if (freeAt(a, o, 0.6)) { const p = at(a, o); palmSpots.push({ x: p.x, z: p.z, ry: rng() * 6 }); }
   });
-  root.add(instanced(palm.trunk, M.trunk, palmSpots, () => 0.85 + rng() * 0.45));
-  const r2 = mulberry32(2026);
-  root.add(instanced(palm.fronds, M.frond, palmSpots, () => 0.85 + r2() * 0.45));
+  const palmT = kit?.get('yaba_palm_tree');
+  if (palmT) {
+    // the kit's palm, instanced; authored scale kept, only the turn varies
+    const spots = palmSpots.map((s) => ({ x: s.x, z: s.z, ry: s.ry }));
+    root.add(instanceAsset(palmT, spots));
+    world.addColliders(collidersFor(palmT, spots));
+    kitPlaced.yaba_palm_tree = spots;
+  } else {
+    root.add(instanced(palm.trunk, M.trunk, palmSpots, () => 0.85 + rng() * 0.45));
+    const r2 = mulberry32(2026);
+    root.add(instanced(palm.fronds, M.frond, palmSpots, () => 0.85 + r2() * 0.45));
+  }
 
   const banana = bananaGeometry();
   const plantSpots = [];
@@ -438,5 +492,5 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   const view = T.clone().multiplyScalar(Math.cos(0.3)).addScaledVector(N, Math.sin(0.3));
   const viewYaw = Math.atan2(view.x, view.z);
 
-  return { root, lamps, interact, builders, update, dispose, viewYaw, materials: M, hubAt, objective: interact[0], area: interact.find((i) => i.id === 'build') };
+  return { root, lamps, interact, builders, update, dispose, viewYaw, materials: M, hubAt, kitPlaced, objective: interact[0], area: interact.find((i) => i.id === 'build') };
 }
