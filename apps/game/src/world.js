@@ -501,7 +501,8 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
 
     pb.extrude(src.pts, 0, pod, PAL.podium, { grad: 0.5, vary: 0.03 });
     addWindowsForPoly(src.pts, 0, 1, b, 'shop');
-    pb.extrude(scaleAbout(src.pts, c, 1.04), pod - 0.35, 0.35, PAL.tealDark, { grad: 0, vary: 0 }); // awning ledge
+    // awning ledge: its top stands 6 cm above the podium roof, or the two shimmer from above
+    pb.extrude(scaleAbout(src.pts, c, 1.04), pod - 0.35, 0.41, PAL.tealDark, { grad: 0, vary: 0 });
 
     const tall = floors >= 9;
     const lowFloors = tall ? Math.ceil(floors * 0.62) : floors;

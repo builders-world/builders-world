@@ -41,8 +41,9 @@ if (q.get('hud') === '0') document.body.classList.add('nohud');
 
 const quality = pickQuality(q);
 const canvas = document.getElementById('c');
-// logarithmic depth: no shimmer between near-coplanar layers at district distances (off on the low tier)
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance', logarithmicDepthBuffer: quality !== 'low' });
+// Depth: layers sit 3 cm or more apart and the near plane is 0.3 m, which resolves them past the fog line.
+// A logarithmic depth buffer also works (?logz=1) but costs about 4.5 ms a frame, so it is opt-in.
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance', logarithmicDepthBuffer: q.get('logz') === '1' });
 renderer.setPixelRatio(Math.min(devicePixelRatio, quality === 'low' ? 1 : 1.5));
 renderer.setSize(innerWidth, innerHeight, false);
 

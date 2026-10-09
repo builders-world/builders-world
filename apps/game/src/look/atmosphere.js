@@ -232,9 +232,12 @@ export function skyline(world) {
     t.magFilter = THREE.NearestFilter;
     return t;
   })();
-  const winMat = new THREE.MeshBasicMaterial({ map: winTex, color: new THREE.Color(1.4, 1.4, 1.5), blending: THREE.AdditiveBlending, transparent: true, depthWrite: false });
+  // the lit-window shell sits 4% out and under the roof line, with a depth offset: at 600 m and beyond
+  // a 1% shell and a shared roof plane shimmer against the tower
+  const winMat = new THREE.MeshBasicMaterial({ map: winTex, color: new THREE.Color(1.4, 1.4, 1.5), blending: THREE.AdditiveBlending, transparent: true, depthWrite: false,
+    polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -8 });
   const towers = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1).translate(0, 0.5, 0), towerMat, 60);
-  const glow = new THREE.InstancedMesh(new THREE.BoxGeometry(1.02, 1, 1.02).translate(0, 0.5, 0), winMat, 60);
+  const glow = new THREE.InstancedMesh(new THREE.BoxGeometry(1.04, 0.97, 1.04).translate(0, 0.485, 0), winMat, 60);
   const m = new THREE.Matrix4();
   // a skyline cluster in the direction you face at spawn, like the reference image
   const ahead = world.spawnYaw;
