@@ -193,6 +193,36 @@
       "materials": "shared procedural PBR materials; no external textures",
       "provenance": "Procedural derivative authored from ChatGPT-generated local visual references; no reference image pixels shipped in the GLB.",
       "approval": "prototype / pending art direction approval"
+    },
+    {
+      "id": "yaba_creative_hub_frontage",
+      "label": "Yaba Creative Hub frontage",
+      "runtime": "assets/exports/models/yaba-kit/yaba_creative_hub_frontage.glb",
+      "preview": "assets/exports/renders/yaba_creative_hub_frontage.png",
+      "source": "assets/source/blender/generated-kit/build_yaba_assets.py",
+      "format": "GLB / glTF 2.0",
+      "units": "meters",
+      "axis": "Y-up",
+      "lod": "hero reusable prop; create instanced/distant variant at integration time",
+      "collision": "COLLISION_creative_hub",
+      "materials": "shared procedural PBR materials; no external textures",
+      "provenance": "Procedural derivative authored from ChatGPT-generated local visual references; no reference image pixels shipped in the GLB.",
+      "approval": "prototype / pending art direction approval"
+    },
+    {
+      "id": "builders_world_stylized_builder",
+      "label": "Builders World stylized builder",
+      "runtime": "assets/exports/models/yaba-kit/builders_world_stylized_builder.glb",
+      "preview": "assets/exports/renders/builders_world_stylized_builder.png",
+      "source": "assets/source/blender/generated-kit/build_yaba_assets.py",
+      "format": "GLB / glTF 2.0",
+      "units": "meters",
+      "axis": "Y-up",
+      "lod": "hero reusable prop; create instanced/distant variant at integration time",
+      "collision": "COLLISION_stylized_builder",
+      "materials": "shared procedural PBR materials; no external textures",
+      "provenance": "Procedural derivative authored from ChatGPT-generated local visual references; no reference image pixels shipped in the GLB.",
+      "approval": "prototype / pending art direction approval"
     }
   ]
 }

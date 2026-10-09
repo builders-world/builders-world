@@ -34,6 +34,8 @@ This file is the local collaboration checkpoint for Claude and the other Builder
 | Yaba utility pole | `assets/exports/models/yaba-kit/yaba_utility_pole.glb` | exported / validated |
 | Yaba roadside drainage gutter | `assets/exports/models/yaba-kit/yaba_drainage_gutter.glb` | exported / validated |
 | Yaba rooftop water tank | `assets/exports/models/yaba-kit/yaba_rooftop_water_tank.glb` | exported / validated |
+| Yaba Creative Hub frontage | `assets/exports/models/yaba-kit/yaba_creative_hub_frontage.glb` | exported / validated; hero prototype |
+| Stylized builder avatar | `assets/exports/models/yaba-kit/builders_world_stylized_builder.glb` | exported / validated; style prototype |
 
 ## Technical contract
 
@@ -57,12 +59,12 @@ This file is the local collaboration checkpoint for Claude and the other Builder
 ## Local outputs ready for Claude
 
 - Source and rerun command: `assets/source/blender/generated-kit/build_yaba_assets.py`.
-- Structural report: `assets/exports/models/yaba-kit/asset-validation.json` (all twelve GLBs pass).
+- Structural report: `assets/exports/models/yaba-kit/asset-validation.json` (all fourteen GLBs pass).
 - Manifest: `assets/exports/models/yaba-kit/asset-manifest.json`.
 - Review sheet: `assets/exports/renders/yaba-kit-contact-sheet.png`; individual cards share the GLB stem names.
 - Named visual crops: `assets/reference/generated-visual-direction/extracted-crops/`.
 - Rebuild crop set: `python3 assets/source/reference/make_yaba_reference_crops.py`.
-- Three.js `GLTFLoader` parse smoke test passed for all twelve exports; each loaded scene contains the expected mesh hierarchy.
+- Three.js `GLTFLoader` parse smoke test passed for all fourteen exports; each loaded scene contains the expected mesh hierarchy.
 - Screen-recording review and level-design priorities: `docs/design/yaba-screen-recording-review.md`.
 
 Last checkpoint: procedural kit exported, collision proxies added, GLB structure validated, and reference crops/contact sheet generated. The latest parent-repo checkpoint is local and unpushed; the short SHA is available from `git log -1`. The files are local so Claude can read them from the shared workspace while remote Git remains paused.
@@ -99,10 +101,11 @@ The kit lamp's authored amber material is unchanged; only its emissive intensity
 
 Claude owns the runtime files listed above. Nothing in `src/onboarding/` or `src/ui.js` was changed.
 
-**New street-scale kit available for the next sync:** `yaba_danfo_minibus`, `yaba_compound_shop`,
-`yaba_midrise_corner_block`, `yaba_utility_pole`, `yaba_drainage_gutter`, and
-`yaba_rooftop_water_tank` are exported and validated in the parent asset directory. They are not
-yet copied into Claude's nested app worktree; re-run the sync script after reviewing the manifest.
+**New style and street-scale kit available for the next sync:** `yaba_danfo_minibus`,
+`yaba_compound_shop`, `yaba_midrise_corner_block`, `yaba_utility_pole`, `yaba_drainage_gutter`,
+`yaba_rooftop_water_tank`, `yaba_creative_hub_frontage`, and `builders_world_stylized_builder`
+are exported and validated in the parent asset directory. They are not yet copied into Claude's
+nested app worktree; re-run the sync script after reviewing the manifest.
 
 ## Claude integration status: twelve-model kit (9 October 2026, 15:45 WAT)
 

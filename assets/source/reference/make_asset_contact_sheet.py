@@ -21,6 +21,8 @@ ASSETS = [
     ("Yaba utility pole", "yaba_utility_pole.png"),
     ("Yaba drainage gutter", "yaba_drainage_gutter.png"),
     ("Yaba rooftop water tank", "yaba_rooftop_water_tank.png"),
+    ("Yaba Creative Hub frontage", "yaba_creative_hub_frontage.png"),
+    ("Stylized builder avatar", "builders_world_stylized_builder.png"),
 ]
 
 

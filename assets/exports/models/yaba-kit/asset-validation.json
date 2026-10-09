@@ -28,6 +28,32 @@
       "ok": true
     },
     {
+      "file": "assets/exports/models/yaba-kit/builders_world_stylized_builder.glb",
+      "bytes": 18156,
+      "nodes": 19,
+      "meshes": 8,
+      "materials": [
+        "BW_skin_deep",
+        "BW_charcoal",
+        "BW_sneaker",
+        "BW_denim",
+        "BW_vest_green",
+        "BW_sign_white"
+      ],
+      "collision_nodes": [
+        "COLLISION_stylized_builder"
+      ],
+      "checks": {
+        "glb_version_2": true,
+        "named_root": true,
+        "has_meshes": true,
+        "has_pbr_materials": true,
+        "has_collision_proxy": true,
+        "root_has_export_correction": true
+      },
+      "ok": true
+    },
+    {
       "file": "assets/exports/models/yaba-kit/yaba_community_board.glb",
       "bytes": 19956,
       "nodes": 16,
@@ -76,6 +102,39 @@
       ],
       "collision_nodes": [
         "COLLISION_compound_shop"
+      ],
+      "checks": {
+        "glb_version_2": true,
+        "named_root": true,
+        "has_meshes": true,
+        "has_pbr_materials": true,
+        "has_collision_proxy": true,
+        "root_has_export_correction": true
+      },
+      "ok": true
+    },
+    {
+      "file": "assets/exports/models/yaba-kit/yaba_creative_hub_frontage.glb",
+      "bytes": 31460,
+      "nodes": 51,
+      "meshes": 14,
+      "materials": [
+        "BW_charcoal",
+        "BW_deep_teal",
+        "BW_wood_light",
+        "BW_amber",
+        "BW_sign_white",
+        "BW_mural_pink",
+        "BW_mural_green",
+        "BW_mural_blue",
+        "BW_leaf_light",
+        "BW_plaster",
+        "BW_wood",
+        "BW_concrete",
+        "BW_mural_ochre"
+      ],
+      "collision_nodes": [
+        "COLLISION_creative_hub"
       ],
       "checks": {
         "glb_version_2": true,

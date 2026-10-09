@@ -56,6 +56,14 @@ PALETTE = {
     "water_blue": "#2E6878",
     "sign_white": "#F1E8D1",
     "rust": "#8B4D35",
+    "mural_blue": "#274B68",
+    "mural_ochre": "#D9943D",
+    "mural_pink": "#D47E79",
+    "mural_green": "#5C8A72",
+    "vest_green": "#3F6658",
+    "denim": "#273B4B",
+    "sneaker": "#E7E2D4",
+    "skin_deep": "#6E432F",
 }
 
 
@@ -376,6 +384,68 @@ def make_rooftop_water_tank(materials, meshes):
     return c
 
 
+def make_creative_hub_frontage(materials, meshes):
+    """Hero frontage matching the supplied Yaba Creative Hub illustration language."""
+    c, r = new_asset("yaba_creative_hub_frontage", "Yaba Creative Hub frontage")
+    box(c, r, meshes, materials, "hub_back_shell", (0, 3.4, -1.0), (11.5, 6.8, 2.6), "deep_teal")
+    box(c, r, meshes, materials, "hub_mural_wall", (3.0, 3.35, 0.42), (5.3, 6.4, 0.16), "plaster")
+    box(c, r, meshes, materials, "hub_container_left", (-3.95, 3.25, 0.58), (3.0, 6.5, 2.25), "mural_blue")
+    box(c, r, meshes, materials, "hub_container_sign", (-3.95, 4.7, 1.76), (2.35, 1.5, 0.08), "amber")
+    box(c, r, meshes, materials, "hub_sign_shadow", (-3.95, 4.7, 1.84), (2.0, 0.95, 0.04), "charcoal")
+    for x in (-4.45, -3.45):
+        box(c, r, meshes, materials, f"hub_sign_letter_{x}", (x, 4.7, 1.9), (0.26, 0.72, 0.04), "sign_white")
+    # Mural color blocking and a simplified bridge/skyline silhouette.
+    box(c, r, meshes, materials, "mural_sky", (3.0, 5.2, 0.54), (5.0, 2.4, 0.035), "mural_blue")
+    box(c, r, meshes, materials, "mural_ochre_sun", (4.35, 5.0, 0.58), (1.35, 1.35, 0.04), "mural_ochre")
+    box(c, r, meshes, materials, "mural_pink_block", (1.85, 3.95, 0.58), (1.5, 1.75, 0.04), "mural_pink")
+    box(c, r, meshes, materials, "mural_green_block", (3.65, 3.25, 0.58), (2.35, 1.15, 0.04), "mural_green")
+    box(c, r, meshes, materials, "mural_bridge_deck", (3.0, 4.2, 0.62), (4.7, 0.12, 0.04), "amber")
+    for x in (1.1, 2.0, 3.0, 4.0, 4.9):
+        box(c, r, meshes, materials, f"mural_bridge_pier_{x}", (x, 3.75, 0.62), (0.12, 0.82, 0.04), "mural_blue")
+    # Open-air balcony/pergola gives the hub a strong near-field silhouette.
+    for x in (-5.0, -2.0, 0.8, 5.3):
+        box(c, r, meshes, materials, f"hub_column_{x}", (x, 3.2, 2.0), (0.22, 6.4, 0.22), "wood_light")
+    for x in (-3.7, -1.5, 0.7, 2.9, 5.1):
+        box(c, r, meshes, materials, f"hub_pergola_beam_{x}", (x, 6.55, 1.75), (2.0, 0.16, 2.2), "wood")
+        sphere(c, r, meshes, materials, f"hub_string_light_{x}", (x, 5.82, 2.74), (0.11, 0.11, 0.11), "amber")
+    box(c, r, meshes, materials, "hub_roof", (0.2, 6.92, 0.72), (11.0, 0.22, 5.0), "charcoal")
+    box(c, r, meshes, materials, "hub_steps", (0.1, 0.42, 2.1), (10.0, 0.34, 2.2), "concrete")
+    # Community board at the route-facing edge, with colorful low-cost notes.
+    box(c, r, meshes, materials, "hub_board_frame", (5.15, 2.35, 2.72), (2.8, 2.3, 0.16), "wood_light")
+    box(c, r, meshes, materials, "hub_board_panel", (5.15, 2.35, 2.82), (2.5, 1.95, 0.05), "deep_teal")
+    for i, mat in enumerate(("amber", "sign_white", "mural_pink", "mural_green", "amber", "sign_white")):
+        box(c, r, meshes, materials, f"hub_board_note_{i}", (4.35 + (i % 3) * 0.75, 1.85 + (i // 3) * 0.72, 2.88), (0.5, 0.38, 0.035), mat)
+    for x in (-4.7, 4.7):
+        box(c, r, meshes, materials, f"hub_planter_{x}", (x, 0.72, 2.6), (0.8, 0.9, 0.8), "concrete")
+        for i in range(3):
+            leaf(c, r, meshes, materials, f"hub_leaf_{x}_{i}", (x, 1.35, 2.6), (0.25, 0.72, 0.08), (0.2, i * 2.1, 0.3), "leaf_light")
+    box(c, r, meshes, materials, "COLLISION_creative_hub", (0, 3.3, 0.0), (11.7, 6.9, 5.9), "charcoal", role="collision")
+    return c
+
+
+def make_stylized_builder_avatar(materials, meshes):
+    """Low-poly builder silhouette based on the supplied cap/vest/cargo illustration."""
+    c, r = new_asset("builders_world_stylized_builder", "Builders World stylized builder")
+    # Cargo trousers and sneakers keep the 1.8 m silhouette readable at street scale.
+    for x in (-0.28, 0.28):
+        box(c, r, meshes, materials, f"builder_cargo_leg_{x}", (x, 0.64, 0), (0.42, 1.04, 0.46), "denim")
+        box(c, r, meshes, materials, f"builder_cargo_pocket_{x}", (x * 1.04, 0.72, 0.25), (0.28, 0.34, 0.05), "vest_green")
+        box(c, r, meshes, materials, f"builder_sneaker_{x}", (x, 0.1, 0.16), (0.54, 0.22, 0.82), "sneaker")
+    box(c, r, meshes, materials, "builder_tshirt", (0, 1.52, 0), (1.02, 0.86, 0.56), "sign_white")
+    box(c, r, meshes, materials, "builder_vest_front", (0, 1.65, 0.3), (0.92, 0.9, 0.08), "vest_green")
+    box(c, r, meshes, materials, "builder_vest_back", (0, 1.65, -0.3), (0.92, 0.9, 0.08), "vest_green")
+    sphere(c, r, meshes, materials, "builder_head", (0, 2.55, 0), (0.39, 0.44, 0.38), "skin_deep")
+    sphere(c, r, meshes, materials, "builder_hair", (0, 2.87, -0.02), (0.41, 0.2, 0.36), "charcoal")
+    box(c, r, meshes, materials, "builder_cap_crown", (0, 3.06, 0), (0.76, 0.18, 0.66), "sneaker")
+    box(c, r, meshes, materials, "builder_cap_brim", (0, 3.0, 0.3), (0.6, 0.08, 0.28), "sneaker")
+    for x in (-0.68, 0.68):
+        box(c, r, meshes, materials, f"builder_arm_{x}", (x, 1.53, 0), (0.22, 0.85, 0.26), "skin_deep", (0, 0, -x * 0.16))
+    box(c, r, meshes, materials, "builder_crossbody_bag", (0.58, 1.65, 0.38), (0.42, 0.5, 0.16), "charcoal")
+    box(c, r, meshes, materials, "builder_bag_strap", (-0.05, 1.98, 0.31), (0.08, 1.0, 0.06), "charcoal", (0.16, 0, -0.22))
+    box(c, r, meshes, materials, "COLLISION_stylized_builder", (0, 1.55, 0), (1.15, 3.2, 0.86), "charcoal", role="collision")
+    return c
+
+
 def setup_preview(materials, meshes, collections):
     scene = bpy.context.scene
     floor = bpy.data.objects.new("preview_ground", meshes["cube"])
@@ -426,6 +496,8 @@ def setup_preview(materials, meshes, collections):
         "yaba_utility_pole": (-13, 0, 16),
         "yaba_drainage_gutter": (-2, 0, 16),
         "yaba_rooftop_water_tank": (8, 0, 16),
+        "yaba_creative_hub_frontage": (17, 0, 11),
+        "builders_world_stylized_builder": (17, 0, 4),
     }
     for collection in collections:
         root = bpy.data.objects.get(collection.name.replace("ASSET_", ""))
@@ -479,6 +551,10 @@ def render_asset_cards(collections):
         camera.data.ortho_scale = max(dimensions.x, dimensions.y, dimensions.z, 1.0) * 1.35
         camera.location = center + Vector((0, camera.data.ortho_scale * 0.08, camera.data.ortho_scale * 2.6))
         look_at(camera, center)
+        # Blender's camera view is opposite the Y-up authoring convention used by
+        # these procedural props; a 180° roll makes review cards read upright while
+        # leaving the exported GLB transforms untouched.
+        camera.rotation_euler.rotate_axis("Z", math.pi)
         asset_id = root.name if root else collection.name.replace("ASSET_", "")
         scene.render.filepath = str(RENDER_OUT / f"{asset_id}.png")
         bpy.ops.render.render(write_still=True)
@@ -535,6 +611,8 @@ def main():
         ("yaba_utility_pole", "Yaba utility pole", make_utility_pole),
         ("yaba_drainage_gutter", "Yaba roadside drainage gutter", make_drainage_gutter),
         ("yaba_rooftop_water_tank", "Yaba rooftop water tank", make_rooftop_water_tank),
+        ("yaba_creative_hub_frontage", "Yaba Creative Hub frontage", make_creative_hub_frontage),
+        ("builders_world_stylized_builder", "Builders World stylized builder", make_stylized_builder_avatar),
     ]
     collections = []
     manifest_assets = []
@@ -551,6 +629,8 @@ def main():
         "yaba_utility_pole": "COLLISION_utility_pole",
         "yaba_drainage_gutter": "COLLISION_drainage",
         "yaba_rooftop_water_tank": "COLLISION_water_tank",
+        "yaba_creative_hub_frontage": "COLLISION_creative_hub",
+        "builders_world_stylized_builder": "COLLISION_stylized_builder",
     }
     for asset_id, label, builder in builders:
         collection = builder(materials, meshes)

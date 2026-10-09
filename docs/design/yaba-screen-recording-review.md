@@ -42,7 +42,8 @@ the current world from a high aerial camera and a closer street camera during li
 
 ## Asset pass created from this review
 
-The procedural kit now includes the original six props plus six street-scale additions:
+The procedural kit now includes the original six props, six street-scale additions, and two
+illustration-style prototypes:
 
 - `yaba_danfo_minibus.glb` — yellow transit silhouette with dark belt, windows, bumpers, and wheels.
 - `yaba_compound_shop.glb` — low-rise street-facing shop/compound mass with awning and frontage.
@@ -50,8 +51,13 @@ The procedural kit now includes the original six props plus six street-scale add
 - `yaba_utility_pole.glb` — pole, crossarm, insulators, and cheap wire silhouette.
 - `yaba_drainage_gutter.glb` — open drain segment with concrete walls and covers.
 - `yaba_rooftop_water_tank.glb` — elevated tank silhouette for roof dressing.
+- `yaba_creative_hub_frontage.glb` — hero frontage with mural color blocking, pergola, warm lights,
+  planters, and a community board.
+- `builders_world_stylized_builder.glb` — cap, vest, cargo, sneaker, and cross-body-bag silhouette
+  tuned to the supplied character board; use this as a style prototype until the final avatar is
+  approved.
 
-All twelve exports are in `assets/exports/models/yaba-kit/`. They use shared procedural PBR
+All fourteen exports are in `assets/exports/models/yaba-kit/`. They use shared procedural PBR
 materials, Y-up GLB output, metre-scale origins, and named collision proxies. They are intended
 to be instanced and composed by the graphics agent rather than dropped into the scene as one
 large combined mesh.
