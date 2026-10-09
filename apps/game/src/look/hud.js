@@ -1,73 +1,73 @@
 import * as THREE from 'three';
 import { createMenus } from './menus.js';
 import { createNav, nearestOn, pathLength, pointAlong } from './nav.js';
+import { C as K, FONT, loadFont } from './uikit.js';
 
 // The in-world overlay from the reference screenshot: district and objective,
 // minimap, a route on the ground, a contextual prompt, name tags and the board.
 
 const CSS = `
-#lk { position: fixed; inset: 0; pointer-events: none; z-index: 15; font-family: inherit; }
+#lk { position: fixed; inset: 0; pointer-events: none; z-index: 15; font-family: ${FONT}; }
 body.nohud #lk { display: none; }
-#lk .pane { background: rgba(9, 14, 28, 0.72); border: 1px solid rgba(255,255,255,.09); border-radius: 14px;
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: #eef2ff; box-shadow: 0 10px 40px rgba(0,0,0,.4); }
+#lk .pane { background: ${K.paper}; border-radius: 20px; color: ${K.ink}; box-shadow: 0 4px 0 rgba(59,42,32,.2), 0 12px 30px rgba(10,14,30,.25); }
 #lk-obj { position: absolute; top: 74px; left: 14px; padding: 12px 16px 12px 14px; min-width: 250px; }
-#lk-obj .d { display: flex; align-items: center; gap: 9px; font: 800 19px/1 "Arial Narrow", "Roboto Condensed", system-ui, sans-serif; letter-spacing: .04em; text-transform: uppercase; }
+#lk-obj .d { display: flex; align-items: center; gap: 9px; font: 800 20px/1 ${FONT}; }
 #lk-obj .d svg { width: 20px; height: 20px; flex: none; }
 #lk-obj ul { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; }
-#lk-obj li { display: flex; align-items: center; gap: 9px; font-size: 13.5px; color: #dfe5f7; }
-#lk-obj li i { width: 15px; height: 15px; border-radius: 50%; border: 2px solid #f2b33d; flex: none; display: grid; place-items: center; font-style: normal; font-size: 10px; color: #10131c; }
-#lk-obj li.done { color: #8d97b3; text-decoration: line-through; }
-#lk-obj li.done i { background: #f2b33d; }
-#lk-obj li.todo i { border-color: #6f7ca3; }
-#lk-obj li em { margin-left: auto; padding-left: 12px; font-style: normal; color: #f2b33d; font-variant-numeric: tabular-nums; font-size: 12px; }
+#lk-obj li { display: flex; align-items: center; gap: 9px; font: 600 14px/1.25 ${FONT}; color: ${K.ink}; }
+#lk-obj li i { width: 15px; height: 15px; border-radius: 50%; border: 2.5px solid ${K.teal}; flex: none; display: grid; place-items: center; font-style: normal; font-size: 10px; color: #10131c; }
+#lk-obj li.done { color: ${K.ink2}; text-decoration: line-through; }
+#lk-obj li.done i { background: ${K.teal}; }
+#lk-obj li.todo i { border-color: #c9b998; }
+#lk-obj li em { margin-left: auto; padding-left: 12px; font-style: normal; color: ${K.coral}; font-weight: 800; font-variant-numeric: tabular-nums; font-size: 12px; }
 #lk-map { position: absolute; top: 68px; right: 14px; width: 156px; height: 156px; border-radius: 50%; overflow: hidden;
-  border: 2px solid rgba(255,255,255,.18); box-shadow: 0 10px 40px rgba(0,0,0,.45); background: rgba(9,14,28,.8); }
+  border: 5px solid ${K.paper}; box-shadow: 0 4px 0 rgba(59,42,32,.2), 0 12px 30px rgba(10,14,30,.3); background: ${K.sea}; }
 #lk-map canvas { width: 100%; height: 100%; display: block; }
 #lk-prompt { position: absolute; left: 50%; bottom: 96px; transform: translate(-50%, 8px); opacity: 0; transition: opacity .2s ease, transform .2s ease;
-  display: flex; align-items: center; gap: 12px; padding: 10px 18px 10px 10px; font-size: 15px; font-weight: 560; }
+  display: flex; align-items: center; gap: 12px; padding: 8px 20px 8px 8px; border-radius: 999px; font: 700 16px/1 ${FONT}; }
 #lk-prompt.on { opacity: 1; transform: translate(-50%, 0); }
-#lk kbd { display: inline-grid; place-items: center; min-width: 28px; height: 28px; padding: 0 6px; border-radius: 7px; background: #eef2ff; color: #0d1326;
-  font: 700 13px/1 ui-sans-serif, system-ui, sans-serif; box-shadow: 0 2px 0 rgba(0,0,0,.35); }
+#lk kbd { display: inline-grid; place-items: center; min-width: 30px; height: 30px; padding: 0 7px; border-radius: 999px; background: ${K.ink}; color: ${K.paper};
+  font: 700 14px/1 ${FONT}; }
 #lk-keys { position: absolute; right: 66px; bottom: 14px; padding: 12px 16px; display: grid; grid-template-columns: auto auto; gap: 10px 14px; align-items: center;
   font-size: 13.5px; transition: opacity .6s ease; }
 #lk-keys .wasd { display: grid; grid-template-columns: repeat(3, 24px); gap: 3px; }
 #lk-keys .wasd kbd { min-width: 24px; height: 24px; font-size: 11px; }
 #lk-keys.fade { opacity: 0; }
 #lk-tags { position: absolute; inset: 0; }
-#lk-tags div { position: absolute; transform: translate(-50%, -100%); display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px;
-  background: rgba(9,14,28,.62); color: #fff; font-size: 13px; font-weight: 600; white-space: nowrap; }
-#lk-tags div b { width: 7px; height: 7px; border-radius: 50%; background: #5fe08d; box-shadow: 0 0 8px #5fe08d; }
+#lk-tags div { position: absolute; transform: translate(-50%, -100%); display: flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px;
+  background: ${K.paper}; color: ${K.ink}; font: 700 13.5px/1.2 ${FONT}; white-space: nowrap; box-shadow: 0 3px 0 rgba(59,42,32,.22); }
+#lk-tags div b { width: 8px; height: 8px; border-radius: 50%; background: #3fbf6d; }
 #lk-board { position: absolute; right: 186px; top: 74px; width: min(420px, calc(100vw - 32px)); max-height: calc(100vh - 250px); overflow: auto; padding: 18px;
   pointer-events: auto; display: none; }
 #lk-board.on { display: block; }
-#lk-board h2 { margin: 0 0 2px; font: 800 22px/1.1 "Arial Narrow", system-ui, sans-serif; letter-spacing: .03em; text-transform: uppercase; }
-#lk-board .sub { color: #a3afd0; font-size: 12.5px; margin-bottom: 14px; }
-#lk-board h3 { margin: 16px 0 8px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #a3afd0; }
-#lk-board .who { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px solid rgba(255,255,255,.07); }
+#lk-board h2 { margin: 0 0 2px; font: 800 26px/1.1 ${FONT}; }
+#lk-board .sub { color: ${K.ink2}; font-size: 12.5px; margin-bottom: 14px; }
+#lk-board h3 { margin: 16px 0 8px; font: 800 15px/1 ${FONT}; color: ${K.teal}; }
+#lk-board .who { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-top: 2px dashed #e3d4b4; }
 #lk-board .who .av { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 12px; color: #10131c; }
 #lk-board .who .n { font-weight: 650; }
-#lk-board .who .s { color: #a3afd0; font-size: 12px; }
-#lk-board .who svg { margin-left: auto; width: 18px; height: 18px; color: #a3afd0; }
-#lk-board .note { padding: 10px 12px; border-radius: 10px; margin-bottom: 8px; color: #2b241d; font-size: 13px; }
-#lk-board textarea { width: 100%; box-sizing: border-box; min-height: 64px; border-radius: 10px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.05);
-  color: #eef2ff; padding: 10px; font: inherit; resize: vertical; }
+#lk-board .who .s { color: ${K.ink2}; font-size: 12.5px; }
+#lk-board .who svg { margin-left: auto; width: 18px; height: 18px; color: ${K.ink2}; }
+#lk-board .note { padding: 10px 12px; border-radius: 4px 14px 14px 14px; margin-bottom: 8px; color: ${K.ink}; font: 600 14px/1.35 ${FONT}; box-shadow: 0 3px 0 rgba(59,42,32,.15); transform: rotate(-.6deg); }
+#lk-board textarea { width: 100%; box-sizing: border-box; min-height: 64px; border-radius: 14px; border: 2px solid #e3d4b4; background: #fffaf0;
+  color: ${K.ink}; padding: 10px; font: 600 14px/1.4 ${FONT}; resize: vertical; }
 #lk-board .row { display: flex; gap: 8px; margin-top: 8px; }
-#lk-board button { border: 0; border-radius: 10px; padding: 9px 14px; font: 600 13px/1 inherit; cursor: pointer; background: rgba(255,255,255,.08); color: #eef2ff; }
-#lk-board button.p { background: #f2b33d; color: #2a1a02; }
+#lk-board button { border: 0; border-radius: 999px; padding: 9px 16px; font: 700 14px/1 ${FONT}; cursor: pointer; background: ${K.paper2}; color: ${K.ink}; }
+#lk-board button.p { background: ${K.teal}; color: #fff; box-shadow: 0 3px 0 #1d6f69; }
 #lk-board .x { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; padding: 0; }
-#lk-board .tag { display: inline-block; font-size: 10.5px; color: #10131c; background: #a3afd0; border-radius: 6px; padding: 2px 6px; margin-left: 6px; vertical-align: 2px; }
+#lk-board .tag { display: inline-block; font-size: 10.5px; color: ${K.ink}; background: ${K.paper2}; border-radius: 6px; padding: 2px 6px; margin-left: 6px; vertical-align: 2px; }
 #lk-wx { position: absolute; top: 234px; right: 14px; width: 156px; box-sizing: border-box; padding: 10px 12px; pointer-events: auto; font-size: 12px; }
-#lk-wx .t { display: flex; align-items: baseline; gap: 6px; font-size: 20px; font-weight: 700; }
-#lk-wx .t span { font-size: 12.5px; font-weight: 560; color: #dfe5f7; }
-#lk-wx .p { color: #a3afd0; margin-top: 2px; }
+#lk-wx .t { display: flex; align-items: baseline; gap: 6px; font-size: 24px; font-weight: 800; }
+#lk-wx .t span { font-size: 13px; font-weight: 700; color: ${K.ink}; }
+#lk-wx .p { color: ${K.ink2}; margin-top: 2px; font-weight: 600; }
 #lk-wx button { margin-top: 8px; width: 100%; border: 0; border-radius: 8px; padding: 6px 8px; background: rgba(255,255,255,.08); color: #eef2ff; font: 600 11.5px/1.2 inherit; cursor: pointer; }
-#lk-wx .src { display: block; margin-top: 6px; color: #6f7ca3; font-size: 10.5px; }
+#lk-wx .src { display: block; margin-top: 6px; color: ${K.ink2}; font-size: 10.5px; }
 #lk-wx .src a { color: inherit; }
 @media (max-width: 700px) { #lk-wx { top: 172px; width: 120px; padding: 8px 10px; } #lk-wx .t { font-size: 16px; } #lk-wx button { display: none; } }
 body.bw-inside #lk-map, body.bw-inside #lk-wx, body.bw-inside #lk-osm, body.bw-inside #lk-obj { display: none; }
 #lk-osm { position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%); font-size: 10.5px; color: rgba(238,242,255,.6); pointer-events: auto; }
 #lk-osm a { color: inherit; }
-#lk-toast { position: absolute; left: 50%; top: 22px; transform: translateX(-50%); padding: 10px 16px; font-size: 13.5px; opacity: 0; transition: opacity .3s; }
+#lk-toast { position: absolute; left: 50%; top: 22px; transform: translateX(-50%); padding: 10px 20px; border-radius: 999px; font: 700 15px/1.3 ${FONT}; opacity: 0; transition: opacity .3s; }
 #lk-toast.on { opacity: 1; }
 @media (max-width: 700px) {
   #lk-obj { top: 70px; min-width: 0; right: 120px; padding: 10px 12px; }
@@ -79,7 +79,7 @@ body.bw-inside #lk-map, body.bw-inside #lk-wx, body.bw-inside #lk-osm, body.bw-i
 @media (prefers-reduced-motion: reduce) { #lk-prompt, #lk-keys, #lk-toast { transition: none; } }
 `;
 
-const PIN = '<svg viewBox="0 0 24 24"><path fill="#f2b33d" d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.6" fill="#10131c"/></svg>';
+const PIN = '<svg viewBox="0 0 24 24"><path fill="#e46f4f" d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.8" fill="#fff"/></svg>';
 const SPEAKER = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6"/></svg>';
 
 const NEARBY = [
@@ -95,6 +95,7 @@ const NOTES = [
 ];
 
 export function createHud({ world, props, camera, reduced, onInteract, weatherFeed, onEquip, onUse, onRide, isExtraOpen, closeExtra, getPrompt }) {
+  loadFont();
   const style = document.createElement('style');
   style.textContent = CSS;
   document.head.appendChild(style);
@@ -225,47 +226,47 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     const S = 312, C = S / 2, k = 1.9; // pixels per metre
     map.setTransform(1, 0, 0, 1, 0, 0);
     map.clearRect(0, 0, S, S);
-    map.fillStyle = 'rgba(20,28,48,0.95)'; map.fillRect(0, 0, S, S);
+    map.fillStyle = '#7fb35e'; map.fillRect(0, 0, S, S);
     map.translate(C, C);
     map.rotate(yaw - Math.PI); // camera forward points up
     map.translate(-player.x * k, -player.z * k);
     map.lineCap = 'round'; map.lineJoin = 'round';
     world.roads.forEach((r) => {
       if (['footway', 'path', 'cycleway', 'pedestrian'].includes(r.cls)) return;
-      map.strokeStyle = 'rgba(150,165,200,0.55)';
-      map.lineWidth = Math.max(4, r.w * k * 0.9);
-      map.beginPath(); r.pts.forEach(([x, z], i) => (i ? map.lineTo(x * k, z * k) : map.moveTo(x * k, z * k))); map.stroke();
+      map.beginPath(); r.pts.forEach(([x, z], i) => (i ? map.lineTo(x * k, z * k) : map.moveTo(x * k, z * k)));
+      map.strokeStyle = '#c4a46c'; map.lineWidth = Math.max(4, r.w * k * 0.9) + 5; map.stroke();
+      map.strokeStyle = '#f0deb0'; map.lineWidth = Math.max(4, r.w * k * 0.9); map.stroke();
     });
     world.plots.forEach((p) => {
-      map.fillStyle = p.b.id === 'you' ? 'rgba(242,179,61,0.9)' : 'rgba(110,125,165,0.75)';
+      map.fillStyle = p.b.id === 'you' ? '#f2b33d' : '#e2a07c';
       map.beginPath(); p.pts.forEach(([x, z], i) => (i ? map.lineTo(x * k, z * k) : map.moveTo(x * k, z * k))); map.closePath(); map.fill();
     });
     if (props.area) { map.fillStyle = '#3ad1c0'; map.beginPath(); map.arc(props.area.x * k, props.area.z * k, 6, 0, 7); map.fill(); }
     if (path) {
-      map.strokeStyle = '#c7f0ff'; map.lineWidth = 9; map.lineCap = 'round'; map.lineJoin = 'round';
+      map.strokeStyle = '#2a9d94'; map.lineWidth = 10; map.lineCap = 'round'; map.lineJoin = 'round';
       map.beginPath(); path.forEach((p, i) => (i ? map.lineTo(p.x * k, p.z * k) : map.moveTo(p.x * k, p.z * k))); map.stroke();
-      map.strokeStyle = '#4fb6ff'; map.lineWidth = 5; map.stroke();
+      map.strokeStyle = '#fff'; map.lineWidth = 5; map.setLineDash([1, 10]); map.stroke(); map.setLineDash([]);
     }
     if (target) {
-      map.fillStyle = '#f2b33d'; map.beginPath(); map.arc(target.x * k, target.z * k, 9, 0, 7); map.fill();
-      map.fillStyle = '#10131c'; map.beginPath(); map.arc(target.x * k, target.z * k, 3.5, 0, 7); map.fill();
+      map.fillStyle = '#e46f4f'; map.beginPath(); map.arc(target.x * k, target.z * k, 10, 0, 7); map.fill();
+      map.fillStyle = '#fff'; map.beginPath(); map.arc(target.x * k, target.z * k, 4, 0, 7); map.fill();
     }
     map.setTransform(1, 0, 0, 1, 0, 0);
     const street = streetName(player);
     if (street) {
-      map.font = '700 22px system-ui'; map.textAlign = 'center'; map.textBaseline = 'middle';
+      map.font = `800 22px ${FONT}`; map.textAlign = 'center'; map.textBaseline = 'middle';
       const w = map.measureText(street).width + 26;
-      map.fillStyle = 'rgba(9,14,28,.78)'; map.beginPath(); map.roundRect(C - w / 2, S - 62, w, 34, 17); map.fill();
-      map.fillStyle = '#eef2ff'; map.fillText(street, C, S - 45);
+      map.fillStyle = '#f7efdc'; map.beginPath(); map.roundRect(C - w / 2, S - 64, w, 36, 18); map.fill();
+      map.fillStyle = '#3b2a20'; map.fillText(street, C, S - 45);
     }
     // player arrow, always pointing up
-    map.fillStyle = '#4fb6ff';
-    map.beginPath(); map.moveTo(C, C - 16); map.lineTo(C + 11, C + 12); map.lineTo(C, C + 6); map.lineTo(C - 11, C + 12); map.closePath(); map.fill();
+    map.fillStyle = '#e46f4f'; map.strokeStyle = '#fff'; map.lineWidth = 4;
+    map.beginPath(); map.moveTo(C, C - 16); map.lineTo(C + 11, C + 12); map.lineTo(C, C + 6); map.lineTo(C - 11, C + 12); map.closePath(); map.stroke(); map.fill();
     // north marker on the rim
     const na = yaw - Math.PI;
     const nx = C + Math.sin(na) * (C - 18), ny = C - Math.cos(na) * (C - 18);
-    map.fillStyle = '#0d1326'; map.beginPath(); map.arc(nx, ny, 13, 0, 7); map.fill();
-    map.fillStyle = '#fff'; map.font = 'bold 16px system-ui'; map.textAlign = 'center'; map.textBaseline = 'middle'; map.fillText('N', nx, ny + 1);
+    map.fillStyle = '#3b2a20'; map.beginPath(); map.arc(nx, ny, 14, 0, 7); map.fill();
+    map.fillStyle = '#f7efdc'; map.font = `800 17px ${FONT}`; map.textAlign = 'center'; map.textBaseline = 'middle'; map.fillText('N', nx, ny + 1);
   }
 
   // nearest named road within a short walk, like a callout on a competitive map
