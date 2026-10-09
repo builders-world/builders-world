@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { dressSkyline } from './neon.js';
 import { shared, logDepth } from '../shaders.js';
 import { weather } from './surfaces.js';
 import { mulberry32 } from '../mesh.js';
@@ -220,7 +221,9 @@ export function skyline(world) {
   const group = new THREE.Group();
   const R = world.radius;
   const r = mulberry32(77);
-  const towerMat = new THREE.MeshStandardMaterial({ color: 0x1a2236, roughness: 0.9 });
+  // the skyline sits beyond the fog line, so it keeps its own colour instead of fading to white
+  const towerMat = new THREE.MeshStandardMaterial({ color: 0x1a2236, roughness: 0.9, fog: false });
+  const towerList = [];
   const winTex = (() => {
     const c = document.createElement('canvas'); c.width = 64; c.height = 256;
     const g = c.getContext('2d');
@@ -234,7 +237,7 @@ export function skyline(world) {
   })();
   // the lit-window shell sits 4% out and under the roof line, with a depth offset: at 600 m and beyond
   // a 1% shell and a shared roof plane shimmer against the tower
-  const winMat = new THREE.MeshBasicMaterial({ map: winTex, color: new THREE.Color(1.4, 1.4, 1.5), blending: THREE.AdditiveBlending, transparent: true, depthWrite: false,
+  const winMat = new THREE.MeshBasicMaterial({ map: winTex, color: new THREE.Color(1.4, 1.4, 1.5), blending: THREE.AdditiveBlending, transparent: true, depthWrite: false, fog: false,
     polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -8 });
   const towers = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1).translate(0, 0.5, 0), towerMat, 60);
   const glow = new THREE.InstancedMesh(new THREE.BoxGeometry(1.04, 0.97, 1.04).translate(0, 0.485, 0), winMat, 60);
@@ -245,7 +248,9 @@ export function skyline(world) {
     const a = ahead + (r() - 0.5) * 1.6;
     const d = R * (2.2 + r() * 1.1);
     const w = 14 + r() * 22, h = 40 + Math.pow(r(), 1.6) * 140;
-    m.compose(new THREE.Vector3(Math.sin(a) * d, 0, Math.cos(a) * d), new THREE.Quaternion().setFromEuler(new THREE.Euler(0, r() * 3, 0)), new THREE.Vector3(w, h, w * (0.7 + r() * 0.6)));
+    const ry = r() * 3, dd = w * (0.7 + r() * 0.6);
+    m.compose(new THREE.Vector3(Math.sin(a) * d, 0, Math.cos(a) * d), new THREE.Quaternion().setFromEuler(new THREE.Euler(0, ry, 0)), new THREE.Vector3(w, h, dd));
+    towerList.push({ x: Math.sin(a) * d, z: Math.cos(a) * d, w, d: dd, h, ry });
     towers.setMatrixAt(i, m); glow.setMatrixAt(i, m);
   }
   group.add(towers, glow);
@@ -280,5 +285,16 @@ export function skyline(world) {
     if (Math.abs(x) > 8) bridge.add(p);
   }
   group.add(bridge);
+  // neon and animated adverts (neon.js)
+  const neon = dressSkyline(towerList, { center: world.center ? { x: 0, z: 0 } : { x: 0, z: 0 }, reduced: false });
+  group.add(neon.group);
+  const DAY = new THREE.Color(0xb9c4c2), DUSK = new THREE.Color(0x3a4258), NIGHT = new THREE.Color(0x141a2c);
+  group.userData.update = (dt, day, night) => {
+    // towers read as a clay silhouette by day, a deep blue at dusk and night
+    towerMat.color.copy(NIGHT).lerp(DUSK, Math.min(1, day * 3)).lerp(DAY, Math.max(0, day * 1.4 - 0.4));
+    winMat.opacity = 0.25 + 0.75 * night;
+    neon.update(dt, night);
+  };
+  group.userData.neon = neon;
   return group;
 }

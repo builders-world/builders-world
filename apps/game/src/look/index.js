@@ -58,7 +58,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   // the expanded kit: shops, stalls, landmarks, poles and wires, gutters, tanks, danfos
   const dressing = world.kit ? dressDistrict(world, group, { kit: world.kit, lowQuality: quality === 'low', reduced, spawn: world.spawn }) : null;
   if (dressing) { props.interact.push(...dressing.interact); props.lamps.push(...dressing.lamps); }
-  if (!off.has('skyline')) group.add(skyline(world));
+  const sky2 = off.has('skyline') ? null : skyline(world);
+  if (sky2) group.add(sky2);
 
   let reflection = null, rainMesh = null, cones = null, lights = null;
   if (night) {
@@ -273,6 +274,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       u.uFogCol.value.copy(scene.fog ? scene.fog.color : tmpA);
     }
 
+    sky2?.userData.update?.(dt, day, Math.max(lamps, 1 - day));
     // street
     shared.uLamps.value = lamps;
     shared.uDay.value = day; // daylight fades lamp pools and the monument sweep
@@ -368,6 +370,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 
