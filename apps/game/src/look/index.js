@@ -13,6 +13,7 @@ import { createLives } from './lives.js';
 import { buildCivic } from './civic.js';
 import { createLitter } from './litter.js';
 import { buildPlaceFronts, hubSign } from './places.js';
+import { passesEngine, MEMBERS_ONLY } from './passes.js';
 import { walletEngine } from './wallet.js';
 import { createInteriors, PLACES, namePlaces } from './interior.js';
 import { sunPosition, sunDirection } from './sun.js';
@@ -123,7 +124,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     };
   })();
 
-  let rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
+  let passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
   // the tech places you can walk into (world bible 6.6)
   const doors = [];
   if (props.hubAt) doors.push({ key: 'hub', at: props.hubAt });
@@ -134,7 +135,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   const fronts = buildPlaceFronts({ world, scene: group, keys: ['loft', 'studio'], used: placeUsed,
     addLamps: (l) => props.lamps.push(...l) });
   doors.push(...fronts.doors);
-  doors.forEach((d) => props.interact.push({ id: `enter:${d.key}`, label: `Enter ${PLACES[d.key].name}`, x: d.at.x, z: d.at.z, r: 3.5 }));
+  doors.forEach((d) => props.interact.push({ id: `enter:${d.key}`, label: MEMBERS_ONLY[d.key] ? `${PLACES[d.key].name}: members only` : `Enter ${PLACES[d.key].name}`, x: d.at.x, z: d.at.z, r: 3.5 }));
   function setInside(name) {
     world.scene.visible = !name; if (sky) sky.visible = !name; group.visible = !name;
     document.body.classList.toggle('bw-inside', !!name);
@@ -161,14 +162,25 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       if (active?.id && (active.id.startsWith('litter:') || active.id.startsWith('bin:') || active.id === 'recycle')) return !!litter?.use(active.id, player);
       if (interiors?.active) {
         const r = interiors.use(player.x, player.z);
-        if (r?.exit) { interiors.leave(); setInside(null); pendingMove = doorOut && { ...doorOut, mode: 'outside' }; return true; }
+        if (r?.exit) { interiors.leave(); passes.forgetLink(); setInside(null); pendingMove = doorOut && { ...doorOut, mode: 'outside' }; return true; }
         if (r?.sit) { pendingMove = { ...r.sit, mode: 'sit' }; return true; } // the seat bar says what you can do now
         return !!r;
       }
       if (active?.id?.startsWith('enter:')) {
-        const key = active.id.slice(6);
-        doorOut = { x: active.x, z: active.z, yaw: Math.atan2(active.x - player.x, active.z - player.z) + Math.PI };
-        interiors.enter(key).then((p) => { setInside(PLACES[key].name); pendingMove = { ...p, mode: 'inside' }; });
+        const key = active.id.slice(6), door = { x: active.x, z: active.z, yaw: Math.atan2(active.x - player.x, active.z - player.z) + Math.PI };
+        const go = () => {
+          doorOut = door;
+          interiors.enter(key).then((p) => {
+            setInside(PLACES[key].name); pendingMove = { ...p, mode: 'inside' };
+            const L = passes.arrive(key), own = passes.NETS[key];
+            setTimeout(() => hud.toast(L ? `Your laptop joined ${L.ssid}.` : `Your laptop is offline in here. ${key === 'studio' ? 'The members\' Wi-Fi is on your card' : `Wi-Fi ${own?.ssid}: the password is on the notice board`}.`, 4000), 4800);
+          });
+        };
+        // members only: register at the door, or tap your card
+        const gate = MEMBERS_ONLY[key];
+        if (gate && !passes.valid(gate.card)) { passes.openRegister(go); return true; }
+        if (gate) { const c = passes.card(gate.card); hud.toast(`Card tapped. Welcome back, ${c.name.split(' ')[0]}.`, 2000); }
+        go();
         return true;
       }
       if (rides?.use(player)) return true;
@@ -176,9 +188,10 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       return false;
     },
     onRide: (player) => (interiors?.active ? hud.toast('Step outside to call a ride: the driver cannot come in.', 2600) : rides?.openPanel('taxi', { app: true, x: player.x, z: player.z })),
-    isExtraOpen: () => rides?.isMenuOpen() || interiors?.computerOpen || !!benchSeat,
+    isExtraOpen: () => rides?.isMenuOpen() || interiors?.computerOpen || !!benchSeat || !!passes?.registering,
     closeExtra: () => {
       rides?.closeMenu();
+      if (passes?.registering) { passes.closeRegister(); return; }
       if (interiors?.computerOpen) interiors.closeComputer();
       else if (interiors?.seated || benchSeat) standUp();
     },
@@ -197,7 +210,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     },
   });
   group.add(hud.route);
-  interiors = createInteriors({ scene, reduced, toast: hud.toast, getEnv: () => live || { day: 1 }, onPackUp: () => standUp() });
+  passes = passesEngine({ toast: hud.toast, district: world.place?.name || 'Yaba' });
+  interiors = createInteriors({ scene, reduced, toast: hud.toast, getEnv: () => live || { day: 1 }, onPackUp: () => standUp(), net: passes });
   // everything that moves and can be bumped into: people, traffic, the waiting hired vehicle
   const bodies = () => [...(props.bodies?.() || []), ...lives.bodies(), ...(dressing?.bodies?.() || []), rides?.body?.()].filter(Boolean);
   rides = createRides({ world, scene: group, nav: hud.nav, props, reduced, toast: hud.toast, getBodies: () => [...(props.bodies?.() || []), ...(dressing?.bodies?.() || [])],
@@ -444,6 +458,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

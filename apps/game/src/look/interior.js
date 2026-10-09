@@ -57,7 +57,7 @@ const SNIPPET = [
   '// ✓ 3 commits verified',
 ];
 
-export function createInteriors({ scene, reduced, toast, getEnv, onPackUp }) {
+export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net }) {
   const built = {};
   let current = null; // { key, group, colliders, seats, interact }
   const fade = document.createElement('div');
@@ -81,22 +81,69 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp }) {
     #lki button { font: 600 12px system-ui; border: 0; border-radius: 8px; padding: 8px 12px; cursor: pointer; background: #21262d; color: #e6edf3; }
     #lki button.p { background: #238636; }
     #lki .term { white-space: pre-wrap; margin-top: 18px; padding: 12px; border-radius: 10px; background: #010409; color: #7ee787; min-height: 80px; }
+    #lki aside { overflow-y: auto; }
+    #lki .wf { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; background: #3a1d1d; color: #ffb4a8; }
+    #lki .wf.up { background: #12301f; color: #7ee787; }
+    #lki .bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 14px; } #lki .bars i { width: 3px; background: #4b535d; border-radius: 1px; } #lki .bars i.on { background: currentColor; }
+    #lki .nets { margin-top: 6px; display: grid; gap: 4px; } #lki .nets > button { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; }
+    #lki .nets > button.on { outline: 1px solid #238636; } #lki .lock { margin-left: auto; font-size: 10px; color: #8b949e; }
+    #lki .pw { display: grid; grid-template-columns: 1fr auto; gap: 6px; padding: 4px 0 6px; } #lki .pw input { min-width: 0; border: 1px solid #30363d; border-radius: 8px; padding: 7px 9px; background: #0d1117; color: #e6edf3; font: 13px system-ui; }
+    #lki .pw .err { grid-column: 1 / -1; color: #ff7b72; font: 600 12px system-ui; } #lki .none { color: #8b949e; }
+    #lki aside .tab { cursor: pointer; }
+    #lki .page { font: 14px/1.5 system-ui; color: #e6edf3; } #lki .page h2 { font: 700 22px system-ui; margin: 10px 0; } #lki .addr { padding: 7px 12px; border-radius: 999px; background: #161b22; color: #8b949e; font: 12px ui-monospace, monospace; }
+    #lki .page .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; } #lki .page .cards div { padding: 12px; border-radius: 10px; background: #161b22; }
+    #lki .page.off { display: grid; place-items: center; text-align: center; min-height: 50vh; } #lki .dino { font: 28px monospace; color: #8b949e; } #lki .slow { color: #e3b341; }
   </style><div id="lki" role="dialog" aria-label="Your computer"></div>`;
   document.body.appendChild(screen);
   const lki = screen.querySelector('#lki');
-  function openComputer() {
+  // the laptop: code, a browser, and Wi-Fi it has to be on before either reaches the internet (passes.js)
+  let view = 'code', wifiOpen = false, joining = null, wifiErr = '', pageAt = 0, pushed = '';
+  const bars = (n) => `<span class="bars">${[1, 2, 3, 4].map((k) => `<i class="${k <= n ? 'on' : ''}" style="height:${2 + k * 3}px"></i>`).join('')}</span>`;
+  const esc = (t) => String(t).replace(/[<>&"]/g, (ch) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[ch]));
+  function browserView(L) {
+    if (!L) return `<div class="page off"><h2>No internet</h2><p>This laptop is not on a network. Click <b>Wi-Fi</b> at the top left and join one. The password is on the notice board here, on your membership card, or, for ${esc(net?.NETS?.district?.ssid || 'the district network')}, on your resident card.</p><div class="dino">( -_-)</div></div>`;
+    if (L.bars < 2 && performance.now() - pageAt < 2600) return `<div class="page"><div class="addr">builders.world</div><p class="slow">Loading... weak signal on ${esc(L.ssid)}. Pages will be slow.</p></div>`;
     const you = BUILDERS.find((b) => b.id === 'you');
-    lki.innerHTML = `<aside><h4>Repositories</h4>${(you?.repoList || []).map(([r], i) => `<div class="${i ? '' : 'on'}">${r}</div>`).join('')}
-      <h4 style="margin-top:18px">This desk</h4><div>${current ? PLACES[current.key].name : ''}</div></aside>
+    return `<div class="page"><div class="addr">builders.world/home</div><h2>Good to see you online</h2>
+      <div class="cards"><div><b>github.com/${esc(you?.handle || 'you')}</b><br>${(you?.repoList || []).length} repositories, ${you?.commits ?? 0} commits this year</div>
+      <div><b>Yaba tech jobs</b><br>Product designer at a fintech, React Native at a logistics startup, Rust contractor</div>
+      <div><b>This week in Yaba</b><br>Demo night Thursday 7pm. Rust study group, room 2. Design crit at Eko on Saturday.</div></div>
+      ${L.bars < 2 ? '<p class="slow">You are on the district Wi-Fi from inside: it works, slowly. The building\'s own network is faster.</p>' : ''}</div>`;
+  }
+  function openComputer() {
+    const you = BUILDERS.find((b) => b.id === 'you'), L = net?.link || null, nets = current ? net?.inRange(current.key) || [] : [];
+    lki.innerHTML = `<aside>
+      <button class="wf ${L ? 'up' : ''}" aria-expanded="${wifiOpen}">${bars(L ? L.bars : 0)} ${L ? esc(L.ssid) : 'Wi-Fi: not connected'}</button>
+      ${wifiOpen ? `<div class="nets">${nets.map((n) => `<button data-s="${esc(n.ssid)}" class="${L?.ssid === n.ssid ? 'on' : ''}">${bars(n.bars)} ${esc(n.ssid)} <span class="lock">locked</span></button>
+        ${joining === n.ssid ? `<div class="pw"><input type="password" placeholder="Password" aria-label="Password for ${esc(n.ssid)}" autocomplete="off"><button class="join">Join</button><div class="err">${esc(wifiErr)}</div></div>` : ''}`).join('') || '<div class="none">No networks here.</div>'}</div>` : ''}
+      <h4 style="margin-top:14px">View</h4><div class="tab ${view === 'code' ? 'on' : ''}" data-v="code">Code</div><div class="tab ${view === 'web' ? 'on' : ''}" data-v="web">Browser</div>
+      <h4 style="margin-top:14px">Repositories</h4>${(you?.repoList || []).map(([r], i) => `<div class="${i ? '' : 'on'}">${r}</div>`).join('')}
+      <h4 style="margin-top:14px">This desk</h4><div>${current ? PLACES[current.key].name : ''}</div></aside>
       <main><div class="bar"><button class="p">Commit and push</button><button class="x">Close the screen (Esc)</button><button class="c">Close laptop (F)</button><button class="u">Pack up and leave</button></div>
-      <pre>${SNIPPET.join('\n').replace(/</g, '&lt;')}</pre>
-      <div class="term">$ git status\nOn branch main\nYour branch is up to date with 'origin/main'.</div></main>`;
+      ${view === 'code' ? `<pre>${SNIPPET.join('\n').replace(/</g, '&lt;')}</pre><div class="term">${pushed || "$ git status\nOn branch main\nYour branch is up to date with 'origin/main'."}</div>` : browserView(L)}</main>`;
     lki.classList.add('on');
     lki.querySelector('.x').onclick = closeComputer;
     lki.querySelector('.c').onclick = () => closeLaptop();
     lki.querySelector('.u').onclick = () => onPackUp?.();
+    lki.querySelector('.wf').onclick = () => { wifiOpen = !wifiOpen; joining = null; wifiErr = ''; openComputer(); };
+    lki.querySelectorAll('.tab').forEach((t) => { t.onclick = () => { view = t.dataset.v; pageAt = performance.now(); openComputer(); if (view === 'web' && L && L.bars < 2) setTimeout(() => lki.classList.contains('on') && view === 'web' && openComputer(), 2700); }; });
+    lki.querySelectorAll('.nets > button').forEach((b) => { b.onclick = () => {
+      const ssid = b.dataset.s, saved = net?.known()[ssid];
+      if (saved && net.join(current.key, ssid, saved).ok) { wifiOpen = false; toast(`Connected to ${ssid}.`, 1800); openComputer(); return; }
+      joining = ssid; wifiErr = ''; openComputer(); setTimeout(() => lki.querySelector('.pw input')?.focus(), 30);
+    }; });
+    const pw = lki.querySelector('.pw input');
+    const tryJoin = () => {
+      const r = net.join(current.key, joining, pw.value);
+      if (!r.ok) { wifiErr = r.why; openComputer(); setTimeout(() => lki.querySelector('.pw input')?.focus(), 30); return; }
+      toast(`Connected to ${joining}. The laptop will remember it.`, 2400); sfx('arrive'); wifiOpen = false; joining = null; openComputer();
+    };
+    if (pw) { lki.querySelector('.join').onclick = tryJoin; pw.onkeydown = (e) => { if (e.key === 'Enter') { e.preventDefault(); tryJoin(); } }; }
     lki.querySelector('.p').onclick = () => {
-      lki.querySelector('.term').textContent = '$ git push origin main\nThis desk is a preview. Real pushes count when GitHub verifies them, wherever you work.';
+      const now = net?.link;
+      pushed = now ? `$ git push origin main\n${now.bars < 2 ? 'Writing objects: 100% (slowly, on the district Wi-Fi)\n' : ''}This desk is a preview. Real pushes count when GitHub verifies them, wherever you work.`
+        : "$ git push origin main\nfatal: unable to access 'https://github.com/': Could not resolve host: github.com\n(no Wi-Fi: click Wi-Fi at the top left)";
+      view = 'code'; openComputer();
     };
   }
   function closeComputer() { lki.classList.remove('on'); }
@@ -138,7 +185,7 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp }) {
     const boardTex = canvasTex(512, 256, (x, w, h) => {
       x.fillStyle = '#2b4a5a'; x.fillRect(0, 0, w, h);
       x.fillStyle = '#f4ead2'; x.font = '900 34px "Arial Black", Impact, sans-serif'; x.fillText(P.name.toUpperCase(), 20, 48);
-      x.font = '20px Arial'; ['Demo night: Thursday 7pm', 'Wifi: ask at reception', 'Rust study group: room 2', 'Hiring? Pin it here'].forEach((t, i) => {
+      x.font = '20px Arial'; ['Demo night: Thursday 7pm', key === 'studio' ? 'Wi-Fi: see your card' : `Wi-Fi ${net?.NETS?.[key]?.ssid || ''}`, 'Rust study group: room 2', key === 'studio' ? 'Design crit: Saturday' : `pass: ${net?.NETS?.[key]?.pass || 'ask'}`].forEach((t, i) => {
         x.fillStyle = ['#f7e27a', '#a8e0d0', '#f6a8a0', '#f9f3e3'][i]; x.fillRect(20 + (i % 2) * 245, 80 + Math.floor(i / 2) * 85, 225, 70);
         x.fillStyle = '#2b241d'; x.fillText(t, 30 + (i % 2) * 245, 120 + Math.floor(i / 2) * 85);
       });
@@ -315,7 +362,7 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp }) {
     current.interact.forEach((it) => { const d = Math.hypot(it.x - x, it.z - z); if (d < it.r && d < bd) { bd = d; best = it; } });
     if (!best) return null;
     if (best.id === 'in:exit') return { exit: true };
-    if (best.id === 'in:board') { toast('Demo night is Thursday at 7pm. The Rust study group meets in room 2.', 4500); return { handled: true }; }
+    if (best.id === 'in:board') { const n = net?.NETS?.[current.key]; toast(`Demo night is Thursday at 7pm. ${current.key === 'studio' ? 'Members\' Wi-Fi is on your membership card.' : n ? `Wi-Fi ${n.ssid}, password ${n.pass}.` : ''}`, 5200); return { handled: true }; }
     if (best.id === 'in:cafe') { const items = ['Zobo', 'Chapman', 'coffee', 'puff-puff', 'jollof and plantain']; toast(`Your ${items[Math.floor(Math.random() * items.length)]} is ready at the counter. Free for builders today.`); return { handled: true }; }
     if (best.id === 'in:meet') { toast('Meeting room booked for 30 minutes. Voice rooms arrive with multiplayer.'); return { handled: true }; }
     if (best.desk) return { sit: sit(best.desk) };

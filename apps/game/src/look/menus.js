@@ -6,6 +6,7 @@ import { BUILDERS } from '../builders.js';
 import { loadProfile } from '../onboarding/state.js';
 import { audioEngine, sfx } from './audio.js';
 import { walletEngine, effortsMark, fmt } from './wallet.js';
+import { passesEngine } from './passes.js';
 import { PAD_MAP } from './input.js';
 import { C, FONT, KIT_CSS, loadFont, pattern, backdropSVG, personFor, portraitSVG, figureSVG, art, appIcon, placeArt, ribbonSVG } from './uikit.js';
 
@@ -107,6 +108,9 @@ const CSS = `${KIT_CSS}
 #lkm-bag .card .tag { display: inline-block; font: 700 11.5px/1 ${FONT}; padding: 5px 10px; border-radius: 999px; background: ${C.paper2}; color: ${C.ink2}; margin-bottom: 8px; }
 #lkm-bag .card p { margin: 0; font: 600 14.5px/1.45 ${FONT}; }
 #lkm-bag .acts { position: absolute; right: 18px; bottom: 16px; display: flex; gap: 8px; z-index: 3; }
+#lkm-bag .cardsview { position: absolute; left: 50%; top: 54%; transform: translate(-50%, -50%); width: min(820px, calc(100vw - 40px)); max-height: calc(100vh - 210px); overflow-y: auto; padding: 8px;
+  display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(280px, 380px)); justify-content: center; align-items: start; }
+#lkm-bag .wifis { padding: 14px 16px; } #lkm-bag .wifis h4 { margin: 0 0 8px; font: 800 15px/1 ${FONT}; } #lkm-bag .wifis .w { padding: 6px 0; border-top: 2px dashed #e3d4b4; font: 700 14px/1.2 ui-monospace, Menlo, monospace; } #lkm-bag .wifis p { margin: 0; font: 600 13.5px/1.4 ${FONT}; color: ${C.ink2}; }
 #lkm-bag .acts button { border: 0; cursor: pointer; }
 #lkm-bag .acts button[disabled] { opacity: .55; cursor: default; }
 /* wallet and ATM */
@@ -566,7 +570,22 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   // a scalloped tile, like the wardrobe ring
   const FLOWER = (() => { let d = ''; for (let i = 0; i <= 96; i++) { const a = (i / 96) * Math.PI * 2, r = 58 + Math.cos(a * 7) * 5; d += `${i ? 'L' : 'M'}${(66 + Math.cos(a) * r).toFixed(1)} ${(66 + Math.sin(a) * r).toFixed(1)}`; } return `<svg class="fl" viewBox="0 0 132 132"><path d="${d}Z"/></svg>`; })();
   let bagTab = 'gadgets', bagSel = 'laptop', bagResize = false;
+  const BAG_TABS = [['gadgets', 'Gadgets'], ['wear', 'Wearables'], ['badges', 'Badges'], ['cards', 'Cards']];
+  const tabsHTML = () => `<div class="tabs" role="tablist">${BAG_TABS.map(([k, nm]) => `<button role="tab" data-t="${k}" class="${bagTab === k ? 'on' : ''}" aria-selected="${bagTab === k}">${nm}</button>`).join('')}</div>`;
+  // cards: membership and resident cards, and the Wi-Fi your laptop has joined (passes.js)
+  function openCards() {
+    const P = passesEngine(), list = P.cards(), known = Object.keys(P.known());
+    bagEl.style.backgroundImage = `url("data:image/svg+xml,${encodeURIComponent(backdropSVG())}")`;
+    bagEl.innerHTML = `${tabsHTML()}<div class="name">Cards</div>
+      <div class="cardsview">${list.map((c) => P.cardHTML(c)).join('')}
+        <div class="wifis bw-paper"><h4>Saved Wi-Fi</h4>${known.map((k) => `<div class="w">${k}</div>`).join('') || '<p>None yet. Join a network from your laptop at a desk; the password is on a notice board or on your card.</p>'}</div></div>
+      <div class="acts"><button class="bw-chip cl"><b>I</b>Close</button></div>`;
+    bagEl.querySelectorAll('.tabs button').forEach((b) => { b.onclick = () => { bagTab = b.dataset.t; openBag(); }; });
+    bagEl.querySelector('.cl').onclick = close;
+    show(bagEl, null);
+  }
   function openBag() {
+    if (bagTab === 'cards') return openCards();
     const list = ITEMS.filter((i) => i.tab === bagTab);
     if (!list.find((i) => i.id === bagSel)) bagSel = list[0].id;
     const it = ITEMS.find((i) => i.id === bagSel);
@@ -575,7 +594,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     const verb = it.locked ? 'Not earned yet' : it.always ? 'Always with you' : isOn ? (it.wear ? 'Take off' : 'Put back') : (it.wear ? 'Wear' : 'Carry');
     bagEl.style.backgroundImage = `url("data:image/svg+xml,${encodeURIComponent(backdropSVG())}")`;
     bagEl.innerHTML = `
-      <div class="tabs" role="tablist">${[['gadgets', 'Gadgets'], ['wear', 'Wearables'], ['badges', 'Badges']].map(([k, nm]) => `<button role="tab" data-t="${k}" class="${bagTab === k ? 'on' : ''}" aria-selected="${bagTab === k}">${nm}</button>`).join('')}</div>
+      ${tabsHTML()}
       <div class="name">${it.name}</div>
       <div class="stage"><div class="disc"></div><div class="fig">${figureSVG(me.look, equipped)}</div>
         ${list.map((i, k) => { const a = -Math.PI / 2 + (k / n) * Math.PI * 2; return `<button class="it ${i.id === bagSel ? 'sel' : ''} ${i.locked ? 'locked' : ''}" data-i="${i.id}" aria-label="${i.name}" style="left:${380 + Math.cos(a) * rx}px;top:${320 + Math.sin(a) * ry}px">${FLOWER}<svg class="a" viewBox="0 0 64 64" width="76" height="76">${art(i.id).replace(/^<svg[^>]*>|<\/svg>$/g, '')}</svg>${equipped.includes(i.id) ? '<span class="eq">✓</span>' : ''}</button>`; }).join('')}</div>
