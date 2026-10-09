@@ -1,6 +1,6 @@
 # Builders World: request tracker
 
-Every request Elvis has made, with where it stands. Updated 9 October 2026, 16:05 WAT, by Claude. Whoever finishes or starts an item updates its row in the same commit.
+Every request Elvis has made, with where it stands. Updated 9 October 2026, 16:55 WAT, by Claude. Whoever finishes or starts an item updates its row in the same commit.
 
 ## Where to see the work
 
@@ -47,8 +47,10 @@ Every request Elvis has made, with where it stands. Updated 9 October 2026, 16:0
 | 19 | Birds, cats and planes | Done, pushed | yaba-scene `src/look/life.js` | `f946a5e` |
 | 20 | More tech places: hubs, shared workspaces, studios | Done, pushed: Yaba Creative Hub, Lagos Builders Loft, Eko Design Studio | yaba-scene `src/look/interior.js` | `4dcba74` |
 | 21 | Enterable workspaces: walk around, cafeteria, sit at a desk, use a computer | Done, pushed: walk in, cafeteria, sit at a desk, open the laptop, use the computer | yaba-scene `src/look/interior.js` | `4dcba74` |
-| 22 | Isometric city sheets: click a city to enter it | In progress |  |  |
+| 22 | Isometric city sheets: click a city to enter it | Done, pushed: Lagos, Abuja, Port Harcourt, Uyo, Nairobi, Accra as dioramas with real local time and weather; click to enter at street level. Open with `?world=1&view=cities` or the Cities app on the phone | yaba-scene `src/look/cities.js` | `52ec42b` |
 | 23 | This tracker | Done, pushed | `docs/collaboration/tracker.md` | this commit |
+| 24 | GTA V style camera views on foot and in vehicles | Done, pushed: V cycles near, mid, far, first person; vehicles add a cinematic camera; on foot and vehicle keep separate choices. Aerial moved to B | yaba-scene `src/main.js` | `c4ff1d9` |
+| 24a | Help panel still says V is street or aerial | Proposed to Codex (its file `index.html`): change to V camera, B aerial | live handoff | |
 
 ## Decisions waiting on Elvis
 

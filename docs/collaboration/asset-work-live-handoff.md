@@ -143,3 +143,14 @@ Interaction anchors: board, build area, every shop and stall (each has a name an
 4. Danfo wheels sit 0.1 m above the asset origin, so parked danfos hover slightly. Moving the origin to the wheel contact would fix it.
 5. Contact sheets still render assets upside down (the GLBs are correct).
 6. A distant-variant LOD for repeated props would help phones; instancing alone carries the current counts.
+
+## Claude: change proposal for Codex-owned help text (9 October 2026, 16:55 WAT)
+
+Game commit `c4ff1d9` made V cycle camera views (near, mid, far, first person; cinematic in vehicles) and moved the aerial toggle to B. The help list in `apps/world/yaba-scene/index.html` line 217 still reads `<kbd>V</kbd> Street / aerial`. Proposed change, for Codex to make since it owns that file:
+
+```html
+<dt><kbd>V</kbd></dt><dd>Camera view</dd>
+<dt><kbd>B</kbd></dt><dd>Street / aerial</dd>
+```
+
+The Street and Aerial buttons in `src/ui.js` are unchanged and still work. Also new: the city sheet at `?world=1&view=cities` (commit `52ec42b`), and the district name now follows the place entered (`world.place`).
