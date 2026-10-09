@@ -15,6 +15,7 @@ import { rigAvatar } from './look/anim.js';
 import { walkMarker } from './look/trail.js';
 import { SKIN_CSS, loadFont } from './look/uikit.js';
 import { audioEngine, sfx } from './look/audio.js';
+import { createInput } from './look/input.js';
 import { weather as wx } from './look/surfaces.js';
 import { pushOutDynamic } from './look/physics.js';
 
@@ -321,6 +322,9 @@ async function main() {
   let riding = false, savedDist = cam.distT, seated = false, savedOutside = null;
   let jumpQueued = false, jumpV = 0, jumpY = 0, stepAcc = 0, groundY = 0;
   const audio = audioEngine();
+  // touch stick and controllers: their buttons become the same key presses the keyboard makes
+  const input = createInput({ onKey: (key) => { dispatchEvent(new KeyboardEvent('keydown', { key: key === 'tab' ? 'Tab' : key === 'escape' ? 'Escape' : key })); } });
+  window.__bwInput = input;
 
   // ---- cinematic travel (C): walk the route on your own while the camera shoots it like a film,
   // after Red Dead Redemption 2's cinematic camera. Any movement key, or C again, hands control back.
@@ -376,6 +380,9 @@ async function main() {
     shared.uTime.value = t;
     if (arrivalStarted && shared.uArrival.value < 50) shared.uArrival.value += dt;
 
+    // controllers: poll every frame; the right stick turns and tilts the camera
+    input.poll();
+    if (input.state.look.x || input.state.look.y) { cam.yawT -= input.state.look.x * 2.4 * dt; cam.pitchT = Math.max(0.02, Math.min(1.35, cam.pitchT + input.state.look.y * 1.3 * dt)); }
     // hold-to-rotate and Q/E
     const rot = (holds.rotL || keys.has('q') ? 1 : 0) - (holds.rotR || keys.has('e') ? 1 : 0);
     if (rot) cam.yawT += rot * 1.7 * dt;
@@ -423,6 +430,8 @@ async function main() {
       if (keys.has('s') || keys.has('arrowdown')) mv.sub(fwd);
       if (keys.has('d') || keys.has('arrowright')) mv.add(right);
       if (keys.has('a') || keys.has('arrowleft')) mv.sub(right);
+      // the thumbstick or a controller's left stick, relative to the camera like the keys
+      if (Math.abs(input.state.move.x) + Math.abs(input.state.move.y) > 0.05 && !street?.hud.isOpen()) { mv.addScaledVector(fwd, input.state.move.y).addScaledVector(right, input.state.move.x); walkTarget = null; walkPath = null; marker.visible = false; }
       if (mv.lengthSq() > 0 && travel.on) setTravel(false);
       if (travel.on) {
         const tr = street?.hud.travel?.();
@@ -448,7 +457,7 @@ async function main() {
     }
     const moving = mv.lengthSq() > 0;
     // walk by default, run with Shift (world bible 7.4); indoors you walk like indoors
-    const running = keys.has('shift') && !inside && !seated;
+    const running = (keys.has('shift') || input.state.run) && !inside && !seated;
     const pace = (inside ? 1.9 : running ? 6.4 : 2.8) * TEST_PACE;
     if (moving) {
       mv.normalize();

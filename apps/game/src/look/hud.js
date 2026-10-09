@@ -140,6 +140,10 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
   const objList = $('#lk-obj ul'), prompt = $('#lk-prompt'), promptText = $('#lk-prompt span');
   const boardEl = $('#lk-board'), toastEl = $('#lk-toast');
   const map = $('#lk-map canvas').getContext('2d');
+  // on phones: tap the minimap for the full map, tap the objective to expand it, tap a prompt to do it
+  $('#lk-map').addEventListener('click', () => menus.openMap());
+  $('#lk-obj').addEventListener('click', () => $('#lk-obj').classList.toggle('open'));
+  $('#lk-prompt').addEventListener('click', () => dispatchEvent(new KeyboardEvent('keydown', { key: 'e' })));
   // your Efforts, always in view; tap for the wallet
   const effBtn = $('#lk-eff'), wal = walletEngine();
   const effSync = () => { effBtn.innerHTML = `${effortsMark(20)}${fmt(wal.balance())}`; };

@@ -6,6 +6,7 @@ import { BUILDERS } from '../builders.js';
 import { loadProfile } from '../onboarding/state.js';
 import { audioEngine, sfx } from './audio.js';
 import { walletEngine, effortsMark, fmt } from './wallet.js';
+import { PAD_MAP } from './input.js';
 import { C, FONT, KIT_CSS, loadFont, pattern, backdropSVG, personFor, portraitSVG, figureSVG, art, appIcon, placeArt, ribbonSVG } from './uikit.js';
 
 const CSS = `${KIT_CSS}
@@ -140,6 +141,13 @@ const CSS = `${KIT_CSS}
 #lkm-set .vol input { flex: 1; accent-color: ${C.teal}; }
 #lkm-set .note { margin: 6px 0 14px; color: ${C.ink2}; font: 600 12.5px/1.4 ${FONT}; }
 #lkm-set .done { border: 0; cursor: pointer; float: right; }
+#lkm-set { max-height: calc(100vh - 40px); overflow: auto; }
+#lkm-set h4.sec { margin: 14px 0 4px; font: 800 18px/1 ${FONT}; color: ${C.teal}; }
+#lkm-set select { border: 2px solid #e3d4b4; border-radius: 999px; padding: 6px 12px; background: #fffaf0; color: ${C.ink}; font: 700 14px/1 ${FONT}; }
+#lkm-set table.pad { width: 100%; border-collapse: collapse; margin-bottom: 14px; font: 600 13.5px/1.3 ${FONT}; }
+#lkm-set table.pad td { padding: 5px 0; border-top: 2px dashed #e3d4b4; }
+#lkm-set table.pad td:first-child { width: 96px; }
+#lkm-set table.pad kbd { display: inline-block; min-width: 26px; padding: 3px 8px; border-radius: 999px; background: ${C.ink}; color: ${C.paper}; font: 700 12px/1.2 ${FONT}; text-align: center; }
 /* first-visit guide, line art over the darkened street */
 #lkm-guide { position: fixed; inset: 0; z-index: 33; display: grid; place-items: center; background: radial-gradient(ellipse at center, rgba(5,8,18,.55), rgba(5,8,18,.85));
   color: #fff; opacity: 0; pointer-events: none; transition: opacity .5s ease; font: 800 15px/1 "Avenir Next", system-ui, sans-serif; letter-spacing: .12em; }
@@ -253,6 +261,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     ['Ride', 'car', '#f7d36b', () => { close(); onRide?.(); }],
     ['Build', 'build', '#9fd6ef', () => { close(); onRoute?.(props.area, 'Community build area'); }],
     ['Wallet', 'wallet', '#b7e0a0', () => openWallet()],
+    ['Aerial', 'cities', '#c9e3f2', () => { close(); dispatchEvent(new KeyboardEvent('keydown', { key: 'b' })); }],
     ['Cities', 'cities', '#f4c98a', () => { close(); location.search = '?world=1&view=cities'; }],
     ['Weather', 'weather', '#aebcff', () => { const w = weatherFeed?.state; toast(w ? `${w.loc.label}: ${w.label}${w.tempC != null ? `, ${Math.round(w.tempC)}°C` : ''}. Updated every 10 minutes.` : 'Weather is loading.'); }],
     ['Settings', 'settings', '#d8cfbd', () => openSettings()],
@@ -548,7 +557,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   // ---------- settings: sound first ----------
   const audio = audioEngine();
   function openSettings() {
-    const st = audio.settings;
+    const st = audio.settings, inp = window.__bwInput;
     const row = (k, name, sub) => `<label class="sw"><span><b>${name}</b><small>${sub}</small></span><input type="checkbox" data-k="${k}" ${st[k] ? 'checked' : ''}><i></i></label>`;
     setEl.innerHTML = `<h3>Settings</h3>
       ${row('music', 'Music', 'A highlife loop made as you play. N turns it on or off.')}
@@ -556,9 +565,17 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
       ${row('sfx', 'Sound effects', 'Footsteps, doors, taps and chimes.')}
       <label class="vol"><b>Volume</b><input type="range" min="0" max="1" step="0.05" value="${st.volume}"></label>
       <p class="note">Every sound is made in your browser as you play. No recordings, so nothing to license.</p>
+      <h4 class="sec">Controls</h4>
+      <label class="vol"><b>Touch controls</b><select data-in="touch"><option value="auto">Automatic</option><option value="on">On</option><option value="off">Off</option></select></label>
+      <label class="sw"><span><b>Invert camera up and down</b><small>For the right stick.</small></span><input type="checkbox" data-in="invertY" ${inp?.settings.invertY ? 'checked' : ''}><i></i></label>
+      <label class="vol"><b>Camera speed</b><input type="range" data-in="sensitivity" min="0.4" max="2" step="0.1" value="${inp?.settings.sensitivity ?? 1}"></label>
+      <p class="note">${inp?.connected ? `Connected: <b>${inp.connected.replace(/\(.*\)/, '').trim()}</b>` : 'Connect a PlayStation 4 or 5, or an Xbox controller, by USB or Bluetooth and press any button.'}</p>
+      <table class="pad">${PAD_MAP.map((m) => `<tr><td><kbd>${inp ? inp.padLabel(m.i) : m.i}</kbd></td><td>${m.what}</td></tr>`).join('')}<tr><td><kbd>Left stick</kbd></td><td>Walk (push all the way to run)</td></tr><tr><td><kbd>Right stick</kbd></td><td>Look around</td></tr></table>
       <button class="bw-chip done"><b>Esc</b>Done</button>`;
-    setEl.querySelectorAll('input[type=checkbox]').forEach((c) => { c.onchange = () => { audio.wake(); audio.set(c.dataset.k, c.checked); }; });
-    setEl.querySelector('input[type=range]').oninput = (e) => { audio.wake(); audio.set('volume', +e.target.value); };
+    setEl.querySelectorAll('input[type=checkbox][data-k]').forEach((c) => { c.onchange = () => { audio.wake(); audio.set(c.dataset.k, c.checked); }; });
+    setEl.querySelector('input[type=range]:not([data-in])').oninput = (e) => { audio.wake(); audio.set('volume', +e.target.value); };
+    const tsel = setEl.querySelector('select[data-in]'); if (tsel) { tsel.value = inp?.settings.touch ?? 'auto'; tsel.onchange = () => inp?.set('touch', tsel.value); }
+    setEl.querySelectorAll('[data-in]:not(select)').forEach((el) => { el.oninput = el.onchange = () => inp?.set(el.dataset.in, el.type === 'checkbox' ? el.checked : +el.value); });
     setEl.querySelector('.done').onclick = close;
     show(setEl, null);
     setEl.querySelector('input')?.focus();
