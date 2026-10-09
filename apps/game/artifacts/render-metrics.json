@@ -1,0 +1,67 @@
+{
+  "lobby": {
+    "calls": 46,
+    "triangles": 18570,
+    "geometries": 16,
+    "textures": 11,
+    "cameraPosition": [
+      0,
+      1.7,
+      8
+    ],
+    "nearDesk": false,
+    "homeSeed": "3368778178"
+  },
+  "role": {
+    "calls": 44,
+    "triangles": 18546,
+    "geometries": 16,
+    "textures": 11,
+    "cameraPosition": [
+      0,
+      1.7,
+      -1.7147214281108574
+    ],
+    "nearDesk": false,
+    "homeSeed": "3368778178"
+  },
+  "destination": {
+    "calls": 44,
+    "triangles": 18546,
+    "geometries": 16,
+    "textures": 11,
+    "cameraPosition": [
+      3.4060993342931853,
+      1.7,
+      3.0854852462341187
+    ],
+    "nearDesk": false,
+    "homeSeed": "3368778178"
+  },
+  "flight": {
+    "calls": 31,
+    "triangles": 28758,
+    "geometries": 13,
+    "textures": 3,
+    "cameraPosition": [
+      -0.2,
+      1.48,
+      0.65
+    ],
+    "nearDesk": false,
+    "homeSeed": "3368778178"
+  },
+  "home": {
+    "calls": 59,
+    "triangles": 31318,
+    "geometries": 17,
+    "textures": 1,
+    "cameraPosition": [
+      6.5,
+      3.9,
+      12
+    ],
+    "nearDesk": false,
+    "homeSeed": "3368778178"
+  }
+}

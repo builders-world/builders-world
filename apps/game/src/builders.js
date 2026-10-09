@@ -1,5 +1,6 @@
 // Invented builders (names and figures are illustrative, as in the PRD).
 // This is the only input the world needs: numbers in, structure out.
+import { loadProfile, homeSeed } from './onboarding/state.js';
 
 export const DISTRICT = { name: 'Yaba', city: 'Lagos', secondary: '#2a9d94' };
 
@@ -86,6 +87,22 @@ export const BUILDERS = [
   },
 ];
 
+// A resident from the local onboarding gets an unverified starter plot. Never
+// turn the example account into fabricated GitHub activity or verified metrics.
+if (typeof location !== 'undefined' && new URLSearchParams(location.search).get('resident') === '1') {
+  const profile = loadProfile();
+  if (profile.step === 'home' && profile.city === 'Lagos' && profile.district === 'Yaba') {
+    Object.assign(BUILDERS[0], {
+      name: profile.name, handle: profile.name.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 20) || 'newbuilder',
+      seed: homeSeed(profile), tagline: `${profile.role === 'designer' ? 'Designer' : 'Developer'} · Yaba · Local preview`,
+      repos: 0, stars: 0, forks: 0, prs: 0, votes: 0, mrr: 0, mrrPublic: false,
+      lastPush: 0, live: false, streak: 0, consistency: 0, verified: [], demoResident: true,
+      today: 'Arrived in Yaba. No real account connected yet.',
+      month: ['Starter plot preview · progress saved on this device'], repoList: [],
+    });
+  }
+}
+
 // Monuments are earned by libraries with 25+ verified contributors.
 // They sit on the horizon, placed by angle around the district.
 export const MONUMENTS = [
@@ -97,6 +114,7 @@ export const MONUMENTS = [
 export const FLOOR_H = 2.7;
 
 export function floorsFor(b) {
+  if (b.demoResident) return 1;
   const outcome =
     b.stars * 0.012 + b.forks * 0.04 + (b.mrrPublic ? b.mrr / 700 : 0) + b.prs * 0.6 + b.votes * 0.01;
   return Math.max(3, Math.min(14, Math.round(3 + Math.sqrt(outcome) * 1.9)));

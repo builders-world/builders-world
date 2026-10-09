@@ -10,6 +10,7 @@ const ARROW = '<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
 const CLOSE = '<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>';
 
 function status(b) {
+  if (b.demoResident) return 'New arrival';
   if (b.live) return 'Working now';
   if (b.lastPush === 0) return 'Pushed today';
   if (b.lastPush > 60) return 'Dark';
@@ -73,7 +74,7 @@ export function initChrome(h) {
 
   function cardHTML(b, full) {
     const on = b.lastPush <= 14;
-    const chip = b.live
+    const chip = b.demoResident ? '<span class="chip">Local preview · unverified</span>' : b.live
       ? '<span class="chip live">Live now</span>'
       : `<span class="chip">${status(b)}</span>`;
     const ver = b.verified.map((v) => `<span class="chip ver">${CHECK}${esc(v)}</span>`).join('');

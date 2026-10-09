@@ -7,8 +7,12 @@ import { loadManifest, DEFAULT_PLACE } from './osm.js';
 import { buildWorld, buildSky } from './world.js';
 import { shared } from './shaders.js';
 import { initChrome } from './ui.js';
+import { loadProfile } from './onboarding/state.js';
+import { createAvatarModel } from './onboarding/avatar.js';
 
 const q = new URLSearchParams(location.search);
+const arrivalProfile = loadProfile();
+const resident = q.get('resident') === '1' && arrivalProfile.step === 'home' && arrivalProfile.city === 'Lagos' && arrivalProfile.district === 'Yaba';
 const place = {
   ...DEFAULT_PLACE,
   name: q.get('name') || DEFAULT_PLACE.name,
@@ -62,7 +66,9 @@ function disposeTree(root) {
 }
 
 async function main() {
-  const { manifest, via } = await loadManifest(place);
+  const { manifest, via } = resident
+    ? { manifest: await (await fetch('./data/sample.json')).json(), via: 'sample' }
+    : await loadManifest(place);
 
   let world = null;
   let sky = null;
@@ -89,6 +95,16 @@ async function main() {
     avatar.add(d);
   });
   scene.add(avatar);
+  if (resident) {
+    avatar.children.forEach(child => { child.visible = false; });
+    const model = createAvatarModel(arrivalProfile.avatar);
+    avatar.add(model.root);
+    const returnLink = document.createElement('a');
+    returnLink.href = './';
+    returnLink.textContent = '← Your arrival / edit avatar';
+    Object.assign(returnLink.style, { position: 'fixed', bottom: '68px', left: '16px', zIndex: '20', color: 'var(--fg)', background: 'var(--solid)', padding: '10px 14px', fontSize: '12px', borderRadius: '8px', textDecoration: 'none' });
+    document.body.appendChild(returnLink);
+  }
 
   // destination marker for click-to-walk (static; it only exists while there is a target)
   const marker = new THREE.Mesh(

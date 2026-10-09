@@ -1,4 +1,31 @@
-# Yaba night scene
+# Builders World arrivals + Yaba scene
+
+The default page now opens the local onboarding prototype: Nigeria arrivals, an attendant conversation, developer/designer identity, city and district selection, a first-person airplane introduction with simultaneous avatar editing, and a generated starter-home preview.
+
+Open `/?world=1` to visit the original Yaba scene directly. Completing the Lagos → Yaba journey enters the district with your selected name and avatar. The district uses its existing building kit for your starter plot; the home reveal is a concept preview, not an exact asset match. This handoff uses the bundled sample map so it works without an external map service.
+
+## Onboarding preview
+
+- Walk in the lobby using WASD, arrow keys, or on-screen movement buttons; drag to look. **Walk to arrivals** goes directly to the attendant.
+- Choose a name and role. GitHub and Dribbble connections are explicitly simulated: no OAuth request or real account access occurs.
+- Choose Lagos, Abuja, Uyo, or Port Harcourt. Yaba is the only named district implemented. The other cities use a labeled founding-community preview and do not silently enter Yaba.
+- During the flight, watch the three-part animated seatback introduction and change outfit style/colour. Pause, replay, next chapter, and immediate landing work independently of avatar editing.
+- Your name, choices, avatar, and progress are stored in localStorage. Reload resumes the current step. **Restart journey** clears the onboarding choices after a confirmation. The introduction restarts when reloading the flight.
+- The final avatar design, art direction references, produced video, real country routing, authentication, shared home ownership, and career progression are future work. Nigeria is a fixed preview lobby, not detected location.
+- All work remains local on `codex/arrivals-onboarding`; nothing has been pushed.
+
+The shareable image brief is `BUILDERS_WORLD_VISUAL_BRIEF.md` at the parent Builders-World folder root. The detailed experience brief is `docs/design/immersive-onboarding.md` in that parent folder.
+
+## Checks
+
+    npm test
+    npx playwright install chromium  # once per machine
+    npm run test:browser
+    npm run build
+
+Browser checks cover desktop and phone-size viewports, both identity routes, all four destinations, local persistence, failed storage, reduced motion, avatar changes, intro controls, and the Yaba handoff. Evidence and limitations are recorded in `artifacts/final-evidence.md`.
+
+## Original district prototype
 
 A three.js render of a small piece of Yaba, Lagos, built the way the Builders World PRD describes: real place in, numbers drive the structure, flat-shaded night look out.
 
@@ -7,7 +34,7 @@ A three.js render of a small piece of Yaba, Lagos, built the way the Builders Wo
     npm install
     npm run dev
 
-Open the printed URL.
+Open the printed URL for onboarding, or append `?world=1` for direct district exploration.
 
 - Walk with WASD, or click the street to walk there. Drag or Q/E to look, scroll or +/- to zoom (or use the buttons bottom right).
 - Click a building for its plot card. The Builders list (bottom left) jumps you to any plot.
