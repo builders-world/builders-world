@@ -304,6 +304,12 @@ Ambient creatures and NPCs have no name tags, no presence dots and cannot be mes
 - Anything placed in the world checks the same colliders first (and stays off lawns, pavements and carriageways), so nothing is ever placed inside anything else.
 - Test with the walk-and-run sweep (24 directions, zero overlaps) before shipping any change to placement or movement.
 
+### 7.5a Land use and the layout audit
+
+Every object stands on land it could legally stand on (Claude's `estate-layout` skill holds the full rules). In short: nothing but vehicles on a carriageway; lamps, poles and signs at the kerb edge or in the verge; trees in the verge or a garden, 1.6 m clear of walls; gardens never reach the pavement or each other, one fence per shared boundary, gate toward the street; billboards on public ground only, the whole board 1 m clear of buildings; a footbridge only where both stairs land on public ground, and its site is chosen before gardens are laid out. Placement code asks the world (`onCarriageway`, `inPlot`, `isFree`) before placing anything, and registers a footprint (`claim`) for anything without a collider.
+
+Before shipping a placement change, run the layout audit (every object against every other by land use); it must report zero issues in both the Yaba and sample layouts.
+
 ### 7.6 Navigation and movement rules
 
 Mapping and localisation, the game way: the district already knows its walls, so `src/look/navgrid.js` rasterises every collider into a 0.5 m walkable grid (grown by a walker's 0.42 m radius) the first time a path is asked for, and again whenever something new is placed. Anyone's position is a cell in that grid. Paths are A* over the grid, pulled tight with line-of-sight checks, planned in 1 to 30 ms.
