@@ -86,6 +86,9 @@ Every request Elvis has made, with where it stands. Updated 9 October 2026, 17:4
 | 64 | Clean streets: pick up litter, recycle it for Efforts, fund street bins together | Done, pushed: Recycling Point 150 per piece, bins 50; bins cost 3,000 in 1,000 steps and are shared online (`/api/bins`) | yaba-scene `src/look/litter.js`, `api/bins.js` | `e7d044a` |
 | 65 | GitHub login in front of the world | Waiting on Elvis: create a GitHub OAuth App (callback https://buildersworld.vercel.app/api/auth/callback) | Vercel env | |
 | 66 | Players stuck between a house wall and its fence after an aerial click | Done, pushed: 1.7 m walkway or no fence, no squeeze alleys, back gates where a garden is cut off; pockets 590 to 10 cells; clicks land on reachable ground; boxed-in rescue | yaba-scene `src/look/houses.js`, `src/world.js`, `src/main.js` | `d9f7178` |
+| 67 | Stuck at a desk: no way to close the laptop or leave | Done, pushed: seat bar (E open or use, F close lid, Esc pack up and leave), walking also leaves, buttons on the computer screen | yaba-scene `src/look/interior.js`, `index.js` | `15e46a4` |
+| 68 | Names and signage on enterable buildings, a little larger | Done, pushed: the loft and studio get two-storey storefronts with lit names (the loft opened from the bank before); the hub gets the same sign | yaba-scene `src/look/places.js` | `15e46a4` |
+| 69 | Sweep for other traps | Done, pushed: 25 scenarios tested; fixed the ride panel off short screens, no ride cancel (now refunded), passengers could not get off early, Esc in the wallet field, board closes on walking, aerial and plot jumps and ride calls refused indoors | yaba-scene `src/main.js`, `src/look/rides.js` | `15e46a4` |
 | 48 | Bench building animation with hard hat and tools | Queued | | |
 | 57 | Roadside vendors and a little street chaos; random events; police stations; city traffic control | Queued | | |
 | 58 | Passenger cars, several designs; taxi and danfo roof signs | Queued | | |
