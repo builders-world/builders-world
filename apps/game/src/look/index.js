@@ -8,6 +8,7 @@ import { createLife } from './life.js';
 import { dressDistrict } from './district.js';
 import { createRides } from './rides.js';
 import { createChat } from './chat.js';
+import { buildCivic } from './civic.js';
 import { createInteriors, PLACES, namePlaces } from './interior.js';
 import { sunPosition, sunDirection } from './sun.js';
 import { shared } from '../shaders.js';
@@ -149,6 +150,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   const bodies = () => [...(props.bodies?.() || []), ...(dressing?.bodies?.() || []), rides?.body?.()].filter(Boolean);
   rides = createRides({ world, scene: group, nav: hud.nav, props, reduced, toast: hud.toast, getBodies: () => [...(props.bodies?.() || []), ...(dressing?.bodies?.() || [])],
     onState: (st) => { if (st.ride === false && st.exitAt) pendingExit = st.exitAt; } });
+  const civic = buildCivic(world, group, { rides });
 
   if (reflection) reflection.hidden = [world.ground, rainMesh, cones, hud.route].filter(Boolean);
 
@@ -325,6 +327,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

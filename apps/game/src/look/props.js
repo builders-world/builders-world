@@ -223,7 +223,10 @@ export function signTexture(text, { bg = '#2a9d94', fg = '#f7efdc', w = 512, h =
   const g = c.getContext('2d');
   g.fillStyle = bg; g.fillRect(0, 0, w, h);
   g.fillStyle = fg; g.textAlign = 'center'; g.textBaseline = 'middle';
-  g.font = `900 ${Math.round(h * (sub ? 0.42 : 0.56))}px "Baloo 2", "Arial Black", sans-serif`;
+  // shrink to fit: long street names must never be cut off
+  let fs = Math.round(h * (sub ? 0.42 : 0.56));
+  g.font = `900 ${fs}px "Baloo 2", "Arial Black", sans-serif`;
+  while (g.measureText(text).width > w * 0.92 && fs > 8) { fs -= 2; g.font = `900 ${fs}px "Baloo 2", "Arial Black", sans-serif`; }
   g.fillText(text, w / 2, h * (sub ? 0.4 : 0.54));
   if (sub) { g.globalAlpha = 0.85; g.font = `700 ${Math.round(h * 0.2)}px "Baloo 2", sans-serif`; g.fillText(sub, w / 2, h * 0.78); }
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;

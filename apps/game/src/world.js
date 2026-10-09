@@ -191,6 +191,9 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   scene.add(rim);
 
   const roads = manifest.roads;
+  // spellings in the map data that Lagos would not recognise
+  const NAME_FIX = { 'Murtula Muhammed Way': 'Murtala Muhammed Way' };
+  roads.forEach((r) => { if (r.name && NAME_FIX[r.name]) r.name = NAME_FIX[r.name]; });
   const mainRoads = roads.filter((r) => ['motorway', 'trunk', 'primary', 'secondary', 'tertiary', 'unclassified', 'residential', 'living_street', 'service'].includes(r.cls));
 
   // --- choose plots ---
@@ -274,6 +277,11 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
 
   // roads: carriageways fitted between building lines, pavements on what is left, paint on main roads
   const kerbTris = [], roadTris = [], pathTris = [], paintTris = [];
+  const crossings = [];
+  // where streets meet: a point another fitted road also passes through (within 1.5 m)
+  const nodeUse = new Map();
+  roads.forEach((r) => { if (!r.fit) return; r.fit.pts.forEach((p) => { const k = `${Math.round(p[0] / 1.5)},${Math.round(p[1] / 1.5)}`; const set = nodeUse.get(k) || new Set(); set.add(r); nodeUse.set(k, set); }); });
+  const junctionAt = (p, own) => { for (let dx = -1; dx <= 1; dx++) for (let dz = -1; dz <= 1; dz++) { const set = nodeUse.get(`${Math.round(p[0] / 1.5) + dx},${Math.round(p[1] / 1.5) + dz}`); if (set && [...set].some((o) => o !== own)) return true; } return false; };
   roads.forEach((r) => {
     // ground layers sit at least 3 cm apart, or the depth buffer cannot tell them apart at distance
     if (isFootway(r) || !r.fit) { ribbon(pathTris, r.pts, Math.min(r.w, 3), 0.06); return; }
@@ -282,7 +290,27 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     band(roadTris, pts, nrm, neg, half, 0.14, pushTri);
     band(kerbTris, pts, nrm, half, half.map((h, i) => h + paveL[i]), 0.11, pushTri);
     band(kerbTris, pts, nrm, half.map((h, i) => -h - paveR[i]), neg, 0.11, pushTri);
-    if (['primary', 'secondary', 'trunk', 'motorway'].includes(r.cls)) dashes(paintTris, pts, 0.17);
+    // lane markings (world bible 4.3): a dashed centre line on any two-lane street, lane dividers on wide
+    // roads, solid edge lines on main roads; all paint sits at 17 cm, above every other ground layer
+    const minHalf = Math.min(...half);
+    if (minHalf >= 2.8) dashes(paintTris, pts, 0.17, 2.4, 4.2, 0.16);
+    if (minHalf >= 5.6) [-1, 1].forEach((sg) => dashes(paintTris, pts.map((p, i) => [p[0] + nrm[i][0] * half[i] * 0.5 * sg, p[1] + nrm[i][1] * half[i] * 0.5 * sg]), 0.17, 1.6, 4.6, 0.13));
+    if (['primary', 'secondary', 'trunk', 'motorway', 'tertiary'].includes(r.cls)) [-1, 1].forEach((sg) => ribbon(paintTris, pts.map((p, i) => [p[0] + nrm[i][0] * (half[i] - 0.35) * sg, p[1] + nrm[i][1] * (half[i] - 0.35) * sg]), 0.12, 0.17));
+    // zebra crossings just before each junction, so people cross where drivers expect them
+    if (minHalf >= 2.8) [0, pts.length - 1].forEach((end) => {
+      if (!junctionAt(pts[end], r)) return;
+      const rad = half[end] + Math.max(paveL[end], paveR[end]);
+      const s = rad + 1.2; // metres back from the junction
+      const dir = end === 0 ? 1 : -1;
+      let acc = 0, k = end;
+      while (k + dir >= 0 && k + dir < pts.length) { const L = Math.hypot(pts[k + dir][0] - pts[k][0], pts[k + dir][1] - pts[k][1]); if (acc + L >= s + 3.2) break; acc += L; k += dir; }
+      if (k + dir < 0 || k + dir >= pts.length) return;
+      const A = pts[k], B = pts[k + dir], L = Math.hypot(B[0] - A[0], B[1] - A[1]) || 1, tx = (B[0] - A[0]) / L, tz = (B[1] - A[1]) / L;
+      const u0 = Math.max(0, s - acc), c0 = [A[0] + tx * u0, A[1] + tz * u0], c1 = [A[0] + tx * (u0 + 3), A[1] + tz * (u0 + 3)];
+      const nx = -tz, nz = tx, hw = half[k] - 0.4;
+      for (let q = -hw + 0.25; q <= hw - 0.25; q += 1.0) ribbon(paintTris, [[c0[0] + nx * q, c0[1] + nz * q], [c1[0] + nx * q, c1[1] + nz * q]], 0.5, 0.17);
+      crossings.push({ x: (c0[0] + c1[0]) / 2, z: (c0[1] + c1[1]) / 2, nx, nz, hw });
+    });
     // junction aprons: rounded pavement corners where streets end or meet, so no bare ground shows
     [0, pts.length - 1].forEach((i) => {
       const rad = half[i] + Math.max(paveL[i], paveR[i]);
@@ -844,7 +872,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     roofs: blds.filter((b) => !plotIds.has(b) && b.top && b.pts.length >= 3).map((b) => ({ x: b.c[0], z: b.c[1], y: b.top, area: b.area, pts: b.pts })),
     blockedAt: (x, z, r = 0.35) => { const v = { x, z }; resolve(v, r); return Math.hypot(v.x - x, v.z - z) > 0.01; },
     // footprints of things that have no collider (a billboard face, a bridge deck, drains), for the layout audit
-    claims, claim: (c) => claims.push(c), bridge: world_bridge,
+    claims, claim: (c) => claims.push(c), bridge: world_bridge, crossings, junctionAt,
     // the ground under someone's feet: steps, landings and decks they can reach (a 0.55 m step up at most)
     groundAt: (x, z, feet = 0) => {
       let g = 0;
