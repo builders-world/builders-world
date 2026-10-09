@@ -141,10 +141,11 @@ export function streetFurniture(roads, { inBuilding, inside }) {
   });
   // any carriageway but the stretch the thing belongs to (a winding street can pass itself further along)
   const inRoad = (x, z, own, clear, at = -1) => carriage.some((c) => {
-    if (c.ri === own && (at < 0 || Math.abs(c.k - at) <= 3)) return false;
+    // the thing's own stretch of street: only the carriageway itself is off limits (it stands at the kerb)
+    const nearOwn = c.ri === own && (at < 0 || Math.abs(c.k - at) <= 3);
     const dx = c.bx - c.ax, dz = c.bz - c.az, L2 = dx * dx + dz * dz || 1;
     const u = Math.max(0, Math.min(1, ((x - c.ax) * dx + (z - c.az) * dz) / L2));
-    return Math.hypot(x - c.ax - dx * u, z - c.az - dz * u) < c.h + clear;
+    return Math.hypot(x - c.ax - dx * u, z - c.az - dz * u) < c.h + (nearOwn ? -0.05 : clear);
   });
   roads.forEach((r, ri) => {
     if (!r.fit) return;

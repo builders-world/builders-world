@@ -509,10 +509,14 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
           kitColliders.push({ name: 'bridge_step', cx: sx, cz: sz, hx: FW, hz: RUN / 2, ry: fry, y0: 0, y1: top, step: true });
           [-1, 1].forEach((s2) => {
             const rx = sx + nx * (FW + 0.04) * s2 * sg, rz = sz + nz * (FW + 0.04) * s2 * sg;
-            mb.box(rx, top, rz, 0.08, 1.05, RUN + 0.01, rail, { grad: 0, vary: 0 }, fry);
+            // a slim post every third step and a thin handrail along the top: light, not a wall
+            if (k % 3 === 0) mb.box(rx, top, rz, 0.05, 0.98, 0.05, rail, { grad: 0, vary: 0 }, fry);
+            mb.box(rx, top + 0.95, rz, 0.06, 0.06, RUN + 0.02, rail, { grad: 0, vary: 0 }, fry);
             kitColliders.push({ name: 'bridge_rail', cx: rx, cz: rz, hx: 0.05, hz: RUN / 2, ry: fry, y0: top, y1: top + 1.1 });
           });
         }
+        // the flight's sides: the steps stand on a sloped concrete stringer, painted like the piers
+        for (let k = 0; k < nSteps; k++) { const top = H - (k + 1) * RISE, a = LAND + (k + 0.5) * RUN; if (top <= 0.001) continue; [-1, 1].forEach((s2) => mb.box(lx + tx * a * dir + nx * (FW + 0.01) * s2 * sg, 0, lz + tz * a * dir + nz * (FW + 0.01) * s2 * sg, 0.06, top, RUN + 0.01, pier, { grad: 0.2, vary: 0 }, fry)); }
         const fc = LAND + FLIGHT / 2;
         bridgeBoxes.push({ cx: lx + tx * fc * dir, cz: lz + tz * fc * dir, hx: FW + 0.6, hz: FLIGHT / 2 + 0.8, ry: fry });
         claims.push({ kind: 'bridge_stairs', cx: lx + tx * fc * dir, cz: lz + tz * fc * dir, hx: FW, hz: FLIGHT / 2, ry: fry });

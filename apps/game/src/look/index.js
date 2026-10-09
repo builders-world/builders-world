@@ -181,6 +181,15 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   rides = createRides({ world, scene: group, nav: hud.nav, props, reduced, toast: hud.toast, getBodies: () => [...(props.bodies?.() || []), ...(dressing?.bodies?.() || [])],
     onState: (st) => { if (st.ride === false && st.exitAt) pendingExit = st.exitAt; } });
   const civic = buildCivic(world, group, { rides });
+  // every place you can go and do something, for the map's icons and "find the nearest" (world bible 11.3)
+  props.pois = [
+    ...(dressing?.pois || []),
+    ...doors.map((d) => ({ kind: 'work', name: PLACES[d.key].name, x: d.at.x, z: d.at.z })),
+    ...(studioShop ? [{ kind: 'work', name: PLACES.studio.name, x: studioShop.x, z: studioShop.z }] : []),
+    ...(rides?.stops || []).map((s) => ({ kind: 'bus', name: s.kind === 'danfo' ? 'Danfo stop' : 'Keke park', x: s.x, z: s.z })),
+    ...props.interact.filter((i) => i.id === 'board').map((i) => ({ kind: 'board', name: 'Community board', x: i.x, z: i.z })),
+    ...(props.area ? [{ kind: 'build', name: 'Community build area', x: props.area.x, z: props.area.z }] : []),
+  ];
 
   if (reflection) reflection.hidden = [world.ground, rainMesh, cones, hud.route].filter(Boolean);
 

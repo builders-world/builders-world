@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { instanceAsset, collidersFor, movingInstances, footprint } from './kit.js';
 import { mulberry32 } from '../mesh.js';
+import { signTexture } from './props.js';
 
 // District dressing with the expanded Yaba kit (world bible 6.3, 6.7, 7.2):
 // active street edges (compound shops, stalls), sparse landmarks (mid-rise corner blocks),
@@ -38,8 +39,9 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
   // ---------- street-facing lots across the district ----------
   // A lot sits behind the pavement, faces the road, and every sample of its footprint is free ground.
   function lots(template, { step = 10, maxR = R * 0.9 } = {}) {
-    const fp = footprint(template);
-    const front = template.bounds.max.z; // the kit's fronts face local +z
+    // a kit template, or a plain { w, d } footprint whose origin is the back edge and front faces +z
+    const fp = template.bounds ? footprint(template) : template;
+    const front = template.bounds ? template.bounds.max.z : template.d; // the kit's fronts face local +z
     const out = [];
     world.roads.forEach((r) => {
       if (!r.fit) return;
@@ -93,6 +95,67 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
   put('yaba_midrise_corner_block', mids);
   mids.forEach((s) => placed.push(s));
 
+  // ---------- services on the commercial frontage (estate-layout skill: banks, fuel, food on main roads) ----------
+  const pois = []; // { kind, name, x, z } for the map
+  const poi = (kind, name, x, z) => pois.push({ kind, name, x, z });
+  const fwd = (s, d) => ({ x: s.x + Math.sin(s.ry) * d, z: s.z + Math.cos(s.ry) * d });
+
+  // the bank: a branch in the first mid-rise block, ATMs set into its front wall, its name above
+  const bankAt = mids[0];
+  if (bankAt) {
+    const fz = midT.bounds.max.z, g = new THREE.Group();
+    const shell = new THREE.MeshStandardMaterial({ color: 0x2a9d94, roughness: 0.6 });
+    const screen = new THREE.MeshBasicMaterial({ color: new THREE.Color(0.55, 0.95, 0.85) });
+    const dark = new THREE.MeshStandardMaterial({ color: 0x263832, roughness: 0.6 });
+    g.add(new THREE.Mesh(new THREE.BoxGeometry(3.4, 2.5, 0.3).translate(0, 1.25, -0.1), dark)); // the recess
+    [-0.8, 0.8].forEach((x) => {
+      g.add(new THREE.Mesh(new THREE.BoxGeometry(1.0, 1.85, 0.32).translate(x, 0.925, 0.12), shell));
+      g.add(new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.42, 0.03).translate(x, 1.42, 0.3), screen));
+    });
+    const sign = new THREE.Mesh(new THREE.PlaneGeometry(4.6, 0.75), new THREE.MeshStandardMaterial({ map: signTexture('YABA BUILDERS BANK', { sub: 'ATM · Efforts' }), roughness: 0.6 }));
+    sign.position.set(0, 3.05, 0.08); g.add(sign);
+    const lx = 2.2; // to one side of the entrance
+    const p0 = fwd(bankAt, fz + 0.02), c = Math.cos(bankAt.ry), sn = Math.sin(bankAt.ry);
+    g.position.set(p0.x + lx * c, 0, p0.z - lx * sn); g.rotation.y = bankAt.ry;
+    group.add(g);
+    const front = fwd({ x: g.position.x, z: g.position.z, ry: bankAt.ry }, 1.3);
+    interact.push({ id: 'atm', label: 'Use the ATM', x: front.x, z: front.z, r: 2.4 });
+    lamps.push({ x: front.x, y: 2.8, z: front.z, power: 10, boost: 10, color: 0xbff5e6 });
+    poi('atm', 'Yaba Builders Bank ATM', front.x, front.z);
+  }
+
+  // the filling station: a forecourt on a main road, a canopy over two pump islands, a kiosk at the back
+  {
+    const FP = { w: 18, d: 15 };
+    const cands = lots(FP, { step: 8 }).filter((c) => MAJOR.includes(c.road.cls));
+    const at = spaced(cands, 1, 60, [...placed, ...mids])[0];
+    if (at) {
+      const g = new THREE.Group(), cream = new THREE.MeshStandardMaterial({ color: 0xf2ecd9, roughness: 0.7 });
+      const red = new THREE.MeshStandardMaterial({ color: 0xe46f4f, roughness: 0.6 }), grey = new THREE.MeshStandardMaterial({ color: 0x8f8b80, roughness: 0.9 });
+      const B = (w, h, d, x, y, z, m) => { const o = new THREE.Mesh(new THREE.BoxGeometry(w, h, d).translate(x, y, z), m); g.add(o); return o; };
+      B(18, 0.12, 15, 0, 0.06, 7.5, grey);                       // forecourt, origin at the back edge
+      B(14, 0.5, 7, 0, 5.2, 9.5, cream); B(14.2, 0.35, 7.2, 0, 4.85, 9.5, red); // canopy
+      [[-6, 6.5], [6, 6.5], [-6, 12.5], [6, 12.5]].forEach(([x, z]) => B(0.35, 4.7, 0.35, x, 2.35, z, cream));
+      [-3, 3].forEach((x) => { B(0.9, 0.25, 4.5, x, 0.12, 9.5, cream); [8.2, 10.8].forEach((z) => { B(0.6, 1.5, 0.45, x, 0.9, z, red); B(0.4, 0.3, 0.05, x, 1.25, z + 0.25, new THREE.MeshBasicMaterial({ color: 0xbff5e6 })); }); });
+      B(8, 3.2, 4, 0, 1.6, 2.5, cream); B(8.4, 0.35, 4.4, 0, 3.35, 2.5, red);    // kiosk
+      const kiosk = new THREE.Mesh(new THREE.PlaneGeometry(6, 0.8), new THREE.MeshStandardMaterial({ map: signTexture('FUEL · KIOSK', { bg: '#e46f4f' }), roughness: 0.6 })); kiosk.position.set(0, 2.7, 4.52); g.add(kiosk);
+      B(0.3, 4.5, 0.3, 7.6, 2.25, 14.2, cream);
+      const pole = new THREE.Mesh(new THREE.PlaneGeometry(1.8, 1.4), new THREE.MeshStandardMaterial({ map: signTexture('PMS', { bg: '#263832', fg: '#f2b33d', w: 256, h: 200, sub: 'Petrol · Diesel' }), roughness: 0.6 }));
+      pole.position.set(7.6, 4.9, 14.37); g.add(pole);
+      g.position.set(at.x, 0, at.z); g.rotation.y = at.ry; group.add(g);
+      placed.push(at);
+      const W = (lx, lz) => ({ x: at.x + lx * Math.cos(at.ry) + lz * Math.sin(at.ry), z: at.z - lx * Math.sin(at.ry) + lz * Math.cos(at.ry) });
+      const col = (lx, lz, hx, hz) => { const p = W(lx, lz); return { name: 'fuel', cx: p.x, cz: p.z, hx, hz, ry: at.ry }; };
+      world.addColliders([col(0, 2.5, 4.1, 2.1), col(-3, 9.5, 0.5, 2.3), col(3, 9.5, 0.5, 2.3), col(-6, 6.5, 0.2, 0.2), col(6, 6.5, 0.2, 0.2), col(-6, 12.5, 0.2, 0.2), col(6, 12.5, 0.2, 0.2), col(7.6, 14.2, 0.2, 0.2)]);
+      world.claim?.({ kind: 'filling_station', ...(() => { const p = W(0, 7.5); return { cx: p.x, cz: p.z }; })(), hx: 9, hz: 7.5, ry: at.ry, y0: 4.7, y1: 5.5 });
+      const k = W(0, 5.4);
+      interact.push({ id: 'fuel', label: 'Buy a drink at the fuel station kiosk', x: k.x, z: k.z, r: 3, name: 'Fuel station kiosk', line: 'Cold zobo, malt and a top-up for the generator.' });
+      [W(0, 9.5), W(0, 2.5)].forEach((p, i) => lamps.push({ x: p.x, y: i ? 3 : 4.6, z: p.z, power: 30, boost: 10, color: 0xf4f1ff }));
+      const sp = W(0, 9.5); poi('fuel', 'Filling station', sp.x, sp.z);
+      counts.filling_station = 1;
+    }
+  }
+
   // ---------- active street edges: compound shops ----------
   const shopT = get('yaba_compound_shop');
   if (shopT) {
@@ -103,6 +166,7 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
       const [name, line] = SHOP_NAMES[i % SHOP_NAMES.length];
       const fx = -Math.sin(s.ry + Math.PI), fz = -Math.cos(s.ry + Math.PI);
       interact.push({ id: `shop:${i}`, label: `Visit ${name}`, x: s.x + Math.sin(s.ry) * 4.8, z: s.z + Math.cos(s.ry) * 4.8, r: 3.5, line, name });
+      poi(/Kitchen|Cafe/.test(name) ? (/Cafe/.test(name) ? 'cafe' : 'food') : 'shop', name, s.x + Math.sin(s.ry) * 4.8, s.z + Math.cos(s.ry) * 4.8);
       lamps.push({ x: s.x + Math.sin(s.ry) * 3.6, y: 3.4, z: s.z + Math.cos(s.ry) * 3.6, power: 20, boost: 8, color: 0xffb35c });
       void fx; void fz;
     });
@@ -117,6 +181,7 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
       placed.push(s);
       const [name, line] = STALL_NAMES[i % STALL_NAMES.length];
       interact.push({ id: `stall:${i}`, label: `Stop at the ${name.toLowerCase()}`, x: s.x + Math.sin(s.ry) * 2.4, z: s.z + Math.cos(s.ry) * 2.4, r: 3.2, line, name });
+      poi(/POS/.test(name) ? 'shop' : 'food', name, s.x + Math.sin(s.ry) * 2.4, s.z + Math.cos(s.ry) * 2.4);
       lamps.push({ x: s.x, y: 2.6, z: s.z, power: 16, boost: 6, color: 0xffb35c });
     });
   }
@@ -275,5 +340,5 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
   // moving danfos as boxes, for people and the player's car to bump into (world bible 7.5)
   const bodies = () => movers.map((m) => m.body).filter(Boolean);
 
-  return { group, interact, lamps, update, bodies, counts, shops: placed.filter((p) => p.road && interact.some((i) => i.id.startsWith('shop:'))), landmarks: mids };
+  return { group, interact, lamps, update, bodies, counts, pois, shops: placed.filter((p) => p.road && interact.some((i) => i.id.startsWith('shop:'))), landmarks: mids };
 }

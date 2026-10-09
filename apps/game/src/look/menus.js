@@ -67,6 +67,12 @@ const CSS = `${KIT_CSS}
 #lkm-map .places button small { display: block; color: ${C.ink2}; font-size: 11.5px; font-weight: 600; }
 #lkm-map .places button:hover, #lkm-map .places button.sel, #lkm-map .places button:focus-visible { transform: translateY(-3px) scale(1.04); outline: none; }
 #lkm-map .places button.sel span { background: ${C.amber}; }
+#lkm-map .kinds { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+#lkm-map .kinds button { display: flex; align-items: center; gap: 6px; padding: 5px 8px 5px 5px; border-radius: 999px; background: ${C.paper}; font: 700 12px/1.1 ${FONT}; text-align: left; box-shadow: 0 2px 0 rgba(59,42,32,.15); }
+#lkm-map .kinds button.sel { background: #fff; box-shadow: inset 0 0 0 3px ${C.teal}; }
+#lkm-map .kinds i { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; flex: none; }
+#lkm-map .kinds i svg { width: 20px; height: 20px; }
+#lkm-map .kinds small { display: block; font-size: 10.5px; color: ${C.ink2}; }
 #lkm-map .hint { margin: 12px 6px 0; color: #fff; font: 600 12.5px/1.45 ${FONT}; text-shadow: 0 1px 0 rgba(0,0,0,.15); }
 
 /* bag: you in the middle, what you carry in a ring around you (the wardrobe screen) */
@@ -279,6 +285,24 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     props.hubAt && { id: 'hub', name: `${placeName(world)} Creative Hub`, sub: 'Desks, wifi, people', art: 'hub', glyph: 'people', at: props.hubAt },
     (() => { const p = world.plots.find((pl) => pl.b.id === 'you'); return p && { id: 'home', name: 'Your plot', sub: 'Grows with your work', art: 'home', glyph: 'home', at: { x: p.center.x, z: p.center.z } }; })(),
   ].filter(Boolean);
+  // services on the map (world bible 11.3): each kind has an illustrated icon and a colour
+  const KINDS = {
+    atm: { label: 'ATMs', glyph: 'atm', color: '#2a9d94' }, food: { label: 'Food', glyph: 'food', color: '#e46f4f' },
+    cafe: { label: 'Cafes', glyph: 'cafe', color: '#a87950' }, fuel: { label: 'Fuel', glyph: 'fuel', color: '#e46f4f' },
+    bus: { label: 'Rides', glyph: 'bus', color: '#f2b33d' }, work: { label: 'Workspaces', glyph: 'work', color: '#4a64b0' },
+    shop: { label: 'Shops', glyph: 'shop', color: '#7d5aa6' }, gym: { label: 'Gyms', glyph: 'gym', color: '#326952' },
+  };
+  const poiIcon = {};
+  Object.entries(KINDS).forEach(([k, d]) => {
+    const glyph = appIcon(d.glyph).replace(/^<svg[^>]*>|<\/svg>$/g, '');
+    const img = new Image();
+    img.src = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"><circle cx="32" cy="32" r="29" fill="${d.color}" stroke="#fff" stroke-width="4"/><circle cx="32" cy="32" r="22" fill="${C.paper}"/><g transform="translate(14 14) scale(.75)">${glyph}</g></svg>`)}`;
+    img.onload = () => { if (open === mapEl) drawBigMap(); };
+    poiIcon[k] = img;
+  });
+  const poisOf = (k) => (props.pois || []).filter((p) => p.kind === k);
+  let poiFilter = null; // a kind to highlight, or null for all
+
   // facility badges on the map: black discs with a light glyph, drawn once from SVG
   const badges = {};
   places.forEach((pl) => {
@@ -367,6 +391,12 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
       const [x, y] = toPx(pl.at.x, pl.at.z), r = selPlace === pl.id ? 26 : 19;
       if (badges[pl.id]?.complete) g.drawImage(badges[pl.id], x - r, y - r, r * 2, r * 2);
     });
+    // services
+    (props.pois || []).forEach((q) => {
+      if (!KINDS[q.kind] || !poiIcon[q.kind]?.complete) return;
+      const [x, y] = toPx(q.x, q.z), on = !poiFilter || poiFilter === q.kind, r = poiFilter === q.kind ? 20 : 14;
+      g.globalAlpha = on ? 1 : 0.3; g.drawImage(poiIcon[q.kind], x - r, y - r, r * 2, r * 2); g.globalAlpha = 1;
+    });
     // the route: white footsteps over a teal line
     const route = getPath?.();
     if (route) {
@@ -387,7 +417,9 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
         <span class="hs">${portraitSVG(look, 64)}${b.live ? '<i class="live" title="Building now"></i>' : ''}</span>${b.name.split(' ')[0]}</button>`).join('')}</div></div>
       <div class="mid"><div class="ribbon">${ribbonSVG(380)}<b>${placeName(world)}<small>${world.place?.city ?? 'Lagos'}</small></b></div><div class="bubble"></div></div>
       <div class="col"><h3>Places</h3><div class="places">${places.map((p) => `<button data-p="${p.id}" class="${selPlace === p.id ? 'sel' : ''}">${placeArt(p.art)}<span>${p.name}<small>${p.sub}</small></span></button>`).join('')}</div>
-        <p class="hint">Pick a resident or a place, or tap any street, and a trail will lead you there.</p></div>`;
+        <h3 style="position:static;transform:none;display:inline-block;margin:16px 0 8px">Find nearest</h3>
+        <div class="kinds">${Object.entries(KINDS).filter(([k]) => poisOf(k).length).map(([k, d]) => `<button data-kind="${k}" class="${poiFilter === k ? 'sel' : ''}"><i style="background:${d.color}">${appIcon(d.glyph)}</i><span>${d.label}<small>${poisOf(k).length}</small></span></button>`).join('')}</div>
+        <p class="hint">Pick a resident, a place or a service, or tap any street, and a trail will lead you there.</p></div>`;
     mapEl.querySelector('.mid').prepend(mapCanvas);
     drawBigMap();
     const bubble = mapEl.querySelector('.bubble');
@@ -423,6 +455,14 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
         mapEl.querySelectorAll('.places button').forEach((x) => x.classList.toggle('sel', x === b));
         onRoute?.(p.at, p.name, true);
         setTimeout(() => { drawBigMap(); showBubble(p.at.x, p.at.z, p.name); }, 50);
+      };
+    });
+    mapEl.querySelectorAll('.kinds button').forEach((b) => {
+      b.onclick = () => {
+        poiFilter = b.dataset.kind; selPlace = null; selRes = null;
+        const me2 = getPlayer(), best = poisOf(poiFilter).sort((p1, p2) => Math.hypot(p1.x - me2.x, p1.z - me2.z) - Math.hypot(p2.x - me2.x, p2.z - me2.z))[0];
+        mapEl.querySelectorAll('.kinds button').forEach((x) => x.classList.toggle('sel', x === b));
+        if (best) { onRoute?.({ x: best.x, z: best.z }, best.name, true); setTimeout(() => { drawBigMap(); showBubble(best.x, best.z, best.name); }, 50); }
       };
     });
     show(mapEl, [['M', 'Close'], ['Click', 'Set a destination']]);

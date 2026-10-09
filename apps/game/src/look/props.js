@@ -404,16 +404,6 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
     lamps.push({ x: hp.x - N.x * 2.6, y: 2.9, z: hp.z - N.z * 2.6, power: 40, boost: 25, color: 0xffb060 });
   }
 
-  // an ATM gallery on public ground near the board: your Efforts, on a machine
-  const atmSpot = findArea(bSpot.a + 14, 3.8, 2.2, { from: 0.6, to: 12, pad: 0.6 });
-  if (atmSpot) {
-    const ap2 = place(atmGallery(M), atmSpot.a, atmSpot.c, faceRoad); // screens face the street
-    world.addColliders([{ name: 'atm', cx: ap2.x + N.x * 0.35, cz: ap2.z + N.z * 0.35, hx: 1.8, hz: 0.5, ry: faceRoad }]);
-    world.claim?.({ kind: 'atm', cx: ap2.x, cz: ap2.z, hx: 1.9, hz: 1.0, ry: faceRoad });
-    interact.push({ id: 'atm', label: 'Use the ATM', x: ap2.x - N.x * 1.4, z: ap2.z - N.z * 1.4, r: 2.6 });
-    lamps.push({ x: ap2.x - N.x * 0.6, y: 2.6, z: ap2.z - N.z * 0.6, power: 10, boost: 10, color: 0xbff5e6 });
-  }
-
   // string lights over the pavement, from the board to the mural
   const endA = mural ? mural.a + mural.len / 2 - 1 : bSpot.a + 12;
   const sA = at(bSpot.a - 2.2, Math.max(0.4, bSpot.c - 0.6)), sB = at(endA, Math.max(0.4, (mural?.o ?? 1) - 0.3));
