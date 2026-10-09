@@ -14,6 +14,8 @@ import { loadKit } from './look/kit.js';
 import { rigAvatar } from './look/anim.js';
 import { walkMarker } from './look/trail.js';
 import { SKIN_CSS, loadFont } from './look/uikit.js';
+import { audioEngine, sfx } from './look/audio.js';
+import { weather as wx } from './look/surfaces.js';
 import { pushOutDynamic } from './look/physics.js';
 
 const q = new URLSearchParams(location.search);
@@ -233,6 +235,7 @@ async function main() {
     if (k === 'v') { if (!e.repeat) { if (cam.aerial) cut(() => setAerial(false)); else cycleView(); } }
     else if (k === 'b') { if (!e.repeat) cut(() => setAerial(!cam.aerial)); }
     else if (k === 'c') { if (!e.repeat) setTravel(!travel.on); }
+    else if (k === 'n') { if (!e.repeat) { audio.wake(); audio.set('music', !audio.settings.music); (street?.hud.toast ?? chrome.toast)(audio.settings.music ? 'Music on' : 'Music off', 1400); } }
     else if (k === 't') { if (!e.repeat) setTheme(themeName === 'night' ? 'day' : 'night'); }
     else if (k === 'h') { if (!e.repeat) document.body.classList.toggle('nohud'); }
     else if (k === '?' || k === '/') chrome.toggleHelp();
@@ -302,7 +305,8 @@ async function main() {
   }
 
   let riding = false, savedDist = cam.distT, seated = false, savedOutside = null;
-  let jumpQueued = false, jumpV = 0, jumpY = 0;
+  let jumpQueued = false, jumpV = 0, jumpY = 0, stepAcc = 0;
+  const audio = audioEngine();
 
   // ---- cinematic travel (C): walk the route on your own while the camera shoots it like a film,
   // after Red Dead Redemption 2's cinematic camera. Any movement key, or C again, hands control back.
@@ -408,7 +412,7 @@ async function main() {
       if (mv.lengthSq() > 0 && travel.on) setTravel(false);
       if (travel.on) {
         const tr = street?.hud.travel?.();
-        if (!tr || tr.total - tr.along < 2.5) { setTravel(false); (street?.hud.toast ?? chrome.toast)('You have arrived.', 2400); }
+        if (!tr || tr.total - tr.along < 2.5) { setTravel(false); sfx('arrive'); (street?.hud.toast ?? chrome.toast)('You have arrived.', 2400); }
         else {
           // steer at a point a few metres along the route, so corners are walked round, not cut
           let acc = 0, aim = tr.path[tr.path.length - 1];
@@ -446,16 +450,19 @@ async function main() {
     avatar.position.copy(player);
     avatar.rotation.y = heading;
     // jump: real gravity, from the ground only, not while riding or seated
-    if (jumpQueued && jumpY === 0 && !riding && !seated && !cam.aerial) jumpV = 5.0; // peaks near 0.96 m
+    if (jumpQueued && jumpY === 0 && !riding && !seated && !cam.aerial) { jumpV = 5.0; sfx('jump'); } // peaks near 0.96 m
     jumpQueued = false;
     if (jumpV !== 0 || jumpY > 0) {
       jumpV -= 13 * dt; jumpY += jumpV * dt;
-      if (jumpY <= 0) { if (jumpV < -1) rig?.landed(jumpV); jumpY = 0; jumpV = 0; }
+      if (jumpY <= 0) { if (jumpV < -1) { rig?.landed(jumpV); sfx('land', Math.min(1, -jumpV / 6)); } jumpY = 0; jumpV = 0; }
     }
     avatar.position.y = jumpY;
     const groundSpeed = moving ? player.distanceTo(last) / Math.max(dt, 1e-4) : 0;
     if (rig && !reduced) rig.update(dt, { speed: Math.min(groundSpeed, 8), running, air: jumpY > 0.02, t, seated });
     else body.position.y = seated ? -0.42 : 0;
+    // a footstep every stride, on whatever is underfoot
+    if (moving && jumpY === 0 && !riding) { stepAcc += groundSpeed * dt; const stride = running ? 1.25 : 0.72; if (stepAcc > stride) { stepAcc = 0; sfx('step', { run: running, grass: !inside && !world.isFree(player.x, player.z, 0, { lots: false }) && world.isFree(player.x, player.z, 0, { lots: true }) }); } }
+    audio.update(dt, { day: shared.uDay.value, rain: wx.uRain.value, inside, riding, speed: street?.rides?.()?.debug?.v ?? 0 });
 
     // damped third-person follow; district-to-district is a cut, never a flight
     if (cam.aerial) focus.set(0, 6, 0); else focus.set(player.x, 1.75, player.z);
@@ -555,7 +562,7 @@ async function main() {
 
   window.__bw = {
     get world() { return world; }, camera, cam, player, renderer, scene, via,
-    get theme() { return themeName; }, setTheme, get look() { return street; }, quality, composer, weather: weatherFeed, get kit() { return kit; }, goto, setAerial, cycleView, setTravel, get travel() { return travel.on; }, get view() { return (riding ? 'ride:' : 'foot:') + (riding ? viewOf('ride') : viewOf('foot')).id; }, get walkTarget() { return walkTarget; },
+    get theme() { return themeName; }, setTheme, get look() { return street; }, quality, composer, weather: weatherFeed, get kit() { return kit; }, goto, setAerial, cycleView, setTravel, get travel() { return travel.on; }, audio, get view() { return (riding ? 'ride:' : 'foot:') + (riding ? viewOf('ride') : viewOf('foot')).id; }, get walkTarget() { return walkTarget; },
     ready: true,
   };
 }

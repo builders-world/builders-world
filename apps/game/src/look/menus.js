@@ -4,6 +4,7 @@
 
 import { BUILDERS } from '../builders.js';
 import { loadProfile } from '../onboarding/state.js';
+import { audioEngine, sfx } from './audio.js';
 import { C, FONT, KIT_CSS, loadFont, pattern, backdropSVG, personFor, portraitSVG, figureSVG, art, appIcon, placeArt, ribbonSVG } from './uikit.js';
 
 const CSS = `${KIT_CSS}
@@ -95,6 +96,24 @@ const CSS = `${KIT_CSS}
 #lkm-bag .acts { position: absolute; right: 18px; bottom: 16px; display: flex; gap: 8px; z-index: 3; }
 #lkm-bag .acts button { border: 0; cursor: pointer; }
 #lkm-bag .acts button[disabled] { opacity: .55; cursor: default; }
+/* settings */
+#lkm-set { position: fixed; z-index: 31; left: 50%; top: 50%; width: min(420px, calc(100vw - 32px)); padding: 22px 22px 18px; box-sizing: border-box; transform: translate(-50%, -48%);
+  opacity: 0; pointer-events: none; transition: opacity .18s ease, transform .2s ease; }
+#lkm-set.on { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%); }
+#lkm-set h3 { margin: 0 0 12px; font: 800 28px/1 ${FONT}; }
+#lkm-set .sw { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-top: 2px dashed #e3d4b4; cursor: pointer; }
+#lkm-set .sw span { flex: 1; } #lkm-set b { display: block; font: 800 17px/1.2 ${FONT}; }
+#lkm-set small { display: block; color: ${C.ink2}; font: 600 13px/1.35 ${FONT}; }
+#lkm-set .sw input { position: absolute; opacity: 0; }
+#lkm-set .sw i { width: 52px; height: 30px; border-radius: 999px; background: #d9ccb2; position: relative; flex: none; transition: background .15s; box-shadow: inset 0 2px 0 rgba(59,42,32,.12); }
+#lkm-set .sw i::after { content: ''; position: absolute; left: 3px; top: 3px; width: 24px; height: 24px; border-radius: 50%; background: #fff; box-shadow: 0 2px 0 rgba(59,42,32,.2); transition: transform .15s; }
+#lkm-set .sw input:checked + i { background: ${C.teal}; }
+#lkm-set .sw input:checked + i::after { transform: translateX(22px); }
+#lkm-set .sw input:focus-visible + i { outline: 3px solid ${C.amber}; outline-offset: 2px; }
+#lkm-set .vol { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-top: 2px dashed #e3d4b4; }
+#lkm-set .vol input { flex: 1; accent-color: ${C.teal}; }
+#lkm-set .note { margin: 6px 0 14px; color: ${C.ink2}; font: 600 12.5px/1.4 ${FONT}; }
+#lkm-set .done { border: 0; cursor: pointer; float: right; }
 /* first-visit guide, line art over the darkened street */
 #lkm-guide { position: fixed; inset: 0; z-index: 33; display: grid; place-items: center; background: radial-gradient(ellipse at center, rgba(5,8,18,.55), rgba(5,8,18,.85));
   color: #fff; opacity: 0; pointer-events: none; transition: opacity .5s ease; font: 800 15px/1 "Avenir Next", system-ui, sans-serif; letter-spacing: .12em; }
@@ -161,13 +180,13 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   style.textContent = CSS;
   document.head.appendChild(style);
   const root = document.createElement('div');
-  root.innerHTML = `<div id="lkm-dim"></div><div id="lkm-phone" role="dialog" aria-label="Phone"><div class="scr"></div></div>
+  root.innerHTML = `<div id="lkm-dim"></div><div id="lkm-set" class="bw-paper" role="dialog" aria-label="Settings"></div><div id="lkm-phone" role="dialog" aria-label="Phone"><div class="scr"></div></div>
     <div id="lkm-map" role="dialog" aria-label="Map of ${placeName(world)}"></div><div id="lkm-bag" role="dialog" aria-label="Bag"></div>
     <div class="lkm-hints" hidden></div><div id="lkm-guide" role="dialog" aria-label="Controls"></div>
-    <div id="lkm-tip"><span><b>Tab</b>Phone</span><span><b>M</b>Map</span><span><b>I</b>Bag</span><span><b>E</b>Interact</span><span><b>Shift</b>Run</span><span><b>Space</b>Jump</span><span><b>V</b>Camera</span><span><b>C</b>Travel</span></div>`;
+    <div id="lkm-tip"><span><b>Tab</b>Phone</span><span><b>M</b>Map</span><span><b>I</b>Bag</span><span><b>E</b>Interact</span><span><b>Shift</b>Run</span><span><b>Space</b>Jump</span><span><b>V</b>Camera</span><span><b>C</b>Travel</span><span><b>N</b>Music</span></div>`;
   document.body.appendChild(root);
   const $ = (s) => root.querySelector(s);
-  const dim = $('#lkm-dim'), phone = $('#lkm-phone'), mapEl = $('#lkm-map'), bagEl = $('#lkm-bag'), hints = $('.lkm-hints'), guide = $('#lkm-guide');
+  const dim = $('#lkm-dim'), phone = $('#lkm-phone'), mapEl = $('#lkm-map'), bagEl = $('#lkm-bag'), hints = $('.lkm-hints'), guide = $('#lkm-guide'), setEl = $('#lkm-set');
   let open = null;
   loadFont();
   const profile = (() => { try { return loadProfile(); } catch { return null; } })();
@@ -181,13 +200,16 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     hints.innerHTML = (list || []).map(([k, t]) => `<span><b>${k}</b>${t}</span>`).join('');
   }
   function close() {
-    [phone, mapEl, bagEl].forEach((p) => p.classList.remove('on'));
+    if (open) sfx('close');
+    [phone, mapEl, bagEl, setEl].forEach((p) => p.classList.remove('on'));
     dim.classList.remove('on');
     setHints(null);
     open = null;
   }
   function show(el, hintList) {
+    const was = open;
     close();
+    if (!was) sfx('open');
     dim.classList.add('on');
     el.classList.add('on');
     setHints(hintList);
@@ -206,7 +228,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     ['Build', 'build', '#9fd6ef', () => { close(); onRoute?.(props.area, 'Community build area'); }],
     ['Cities', 'cities', '#f4c98a', () => { close(); location.search = '?world=1&view=cities'; }],
     ['Weather', 'weather', '#aebcff', () => { const w = weatherFeed?.state; toast(w ? `${w.loc.label}: ${w.label}${w.tempC != null ? `, ${Math.round(w.tempC)}°C` : ''}. Updated every 10 minutes.` : 'Weather is loading.'); }],
-    ['Settings', 'settings', '#d8cfbd', () => toast('Quality, sound and accessibility settings land here next.')],
+    ['Settings', 'settings', '#d8cfbd', () => openSettings()],
     ['Help', 'help', '#f0e1bd', () => { close(); showGuide(); }],
   ];
   const SIGNAL = `<svg viewBox="0 0 24 24"><path d="M3 18h3v3H3zM8 14h3v7H8zM13 10h3v11h-3zM18 6h3v15h-3z" fill="currentColor"/></svg>`;
@@ -456,10 +478,30 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     if (k === 'tab') { open === phone ? close() : openPhone(); return true; }
     if (k === 'm') { open === mapEl ? close() : openMap(); return true; }
     if (k === 'i') { open === bagEl ? close() : openBag(); return true; }
+    if (open === setEl && k !== 'escape') return true;
     if (k === 'escape' && open) { close(); return true; }
     return !!open && ['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'e', 'q'].includes(k);
   }
 
   function dispose() { root.remove(); style.remove(); }
-  return { key, close, isOpen: () => !!open, openPhone, openMap, openBag, showGuide, dispose };
+  // ---------- settings: sound first ----------
+  const audio = audioEngine();
+  function openSettings() {
+    const st = audio.settings;
+    const row = (k, name, sub) => `<label class="sw"><span><b>${name}</b><small>${sub}</small></span><input type="checkbox" data-k="${k}" ${st[k] ? 'checked' : ''}><i></i></label>`;
+    setEl.innerHTML = `<h3>Settings</h3>
+      ${row('music', 'Music', 'A highlife loop made as you play. N turns it on or off.')}
+      ${row('ambience', 'City sounds', 'Traffic hum, birds, rain, horns, crickets at night.')}
+      ${row('sfx', 'Sound effects', 'Footsteps, doors, taps and chimes.')}
+      <label class="vol"><b>Volume</b><input type="range" min="0" max="1" step="0.05" value="${st.volume}"></label>
+      <p class="note">Every sound is made in your browser as you play. No recordings, so nothing to license.</p>
+      <button class="bw-chip done"><b>Esc</b>Done</button>`;
+    setEl.querySelectorAll('input[type=checkbox]').forEach((c) => { c.onchange = () => { audio.wake(); audio.set(c.dataset.k, c.checked); }; });
+    setEl.querySelector('input[type=range]').oninput = (e) => { audio.wake(); audio.set('volume', +e.target.value); };
+    setEl.querySelector('.done').onclick = close;
+    show(setEl, null);
+    setEl.querySelector('input')?.focus();
+  }
+
+  return { key, close, isOpen: () => !!open, openPhone, openMap, openBag, openSettings, showGuide, dispose };
 }

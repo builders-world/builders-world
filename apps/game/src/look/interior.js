@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { sfx } from './audio.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { createAvatarModel } from '../onboarding/avatar.js';
 import { BUILDERS } from '../builders.js';
@@ -248,6 +249,7 @@ export function createInteriors({ scene, reduced, toast, getEnv }) {
     return new Promise((res) => setTimeout(() => {
       current.group.visible = true;
       fade.style.opacity = '0';
+      sfx('door');
       toast(`${PLACES[key].name}. ${PLACES[key].kind}. Find a free desk, or grab something at the cafeteria.`, 4500);
       res({ x: ORIGIN.x + current.door.x, z: ORIGIN.z + current.door.z - 1.5, yaw: Math.PI });
     }, reduced ? 0 : 360));
