@@ -17,10 +17,12 @@ export { createWeather } from './weather.js';
 const C = (hex) => new THREE.Color(hex);
 const smooth = (e0, e1, x) => { const t = Math.max(0, Math.min(1, (x - e0) / (e1 - e0))); return t * t * (3 - 2 * t); };
 const PAL = {
-  hemiSky: { night: C(0x1e2a52), blue: C(0x4a64b8), day: C(0xa8c4ee) },
-  hemiGround: { night: C(0x0e0c0a), blue: C(0x1a1612), day: C(0x6a5a48) },
-  fog: { night: C(0x0c1226), blue: C(0x24305a), day: C(0xa3b4c8), gold: C(0xa88a86), storm: C(0x3a4250) },
-  sun: { gold: C(0xffa868), day: C(0xfff3e2), moon: C(0x8ea6ff) },
+  // the clay look from the arrival scene (world bible 7.1): high soft sky light, warm sun, sage air
+  hemiSky: { night: C(0x34446e), blue: C(0x6f80b4), day: C(0xd7e6e4) },
+  hemiGround: { night: C(0x1c1914), blue: C(0x3a3426), day: C(0x817151) },
+  fog: { night: C(0x1a2340), blue: C(0x4a5878), day: C(0xc6d5c7), gold: C(0xd9bf9c), storm: C(0x6a7470) },
+  sun: { gold: C(0xffb87a), day: C(0xffe0ac), moon: C(0x9fb2ff) },
+  fill: { day: C(0xb8d9df), night: C(0x3a6aa0) },
 };
 
 // Quality tiers. Low drops the mirror, most rain, most lights and the walkers,
@@ -196,8 +198,9 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     const blueToDay = day, nightAmt = deep * (1 - day);
     mix3(rig.hemi.color, PAL.hemiSky.blue, PAL.hemiSky.night, PAL.hemiSky.day, nightAmt, blueToDay);
     mix3(rig.hemi.groundColor, PAL.hemiGround.blue, PAL.hemiGround.night, PAL.hemiGround.day, nightAmt, blueToDay);
-    rig.hemi.intensity = (0.42 - 0.12 * nightAmt + 1.6 * day) * (1 - 0.12 * cur.cloud) * (1 - 0.3 * cur.storm);
-    rig.rim.intensity = 0.3 * (1 - day) + 0.1;
+    rig.hemi.intensity = (0.6 - 0.15 * nightAmt + 1.9 * day) * (1 - 0.1 * cur.cloud) * (1 - 0.25 * cur.storm);
+    rig.rim.color.copy(PAL.fill.night).lerp(PAL.fill.day, day);
+    rig.rim.intensity = 0.35 * (1 - day) + 0.8 * day;
 
     // fog and haze
     if (scene.fog) {
@@ -211,8 +214,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       scene.fog.far = R * (1.9 - 1.3 * thick) * (1 + 2.2 * high);
       scene.fog.near = scene.fog.near * (1 + 4 * high);
     }
-    renderer.toneMappingExposure = 1.05 - 0.05 * day;
-    if (bloom) { bloom.strength = 0.55 - 0.3 * day; bloom.threshold = 0.85 + 0.75 * day; }
+    renderer.toneMappingExposure = 1.05 + 0.1 * day;
+    if (bloom) { bloom.strength = 0.45 - 0.3 * day; bloom.threshold = 0.85 + 0.75 * day; }
 
     // sky
     const u = sky?.userData.u;

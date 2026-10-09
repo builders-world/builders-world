@@ -21,18 +21,33 @@ function colorize(geo, hex) {
 }
 const glowMat = (r, g, b) => new THREE.MeshBasicMaterial({ color: new THREE.Color(r, g, b) });
 
+// ---------- clay tree: the arrival scene's planter tree, at street size (world bible 7.1) ----------
+// A stone planter, a wood trunk and fat ellipsoid leaves in two greens, as one vertex-coloured mesh.
+function clayTreeGeometry() {
+  const parts = [colorize(cyl(0.34, 0.3, 0.6, 14, 0, 0.3, 0), '#c3bdae'), colorize(cyl(0.38, 0.38, 0.06, 14, 0, 0.6, 0), '#d6d0c0'),
+    colorize(cyl(0.045, 0.065, 1.6, 7, 0, 1.4, 0), '#a87950')];
+  for (let i = 0; i < 9; i++) {
+    const a = i * 2.4, leaf = new THREE.SphereGeometry(1, 10, 8);
+    leaf.scale(0.14, 0.56, 0.24);
+    leaf.rotateX(Math.sin(a) * 0.75); leaf.rotateZ(Math.cos(a) * 0.85);
+    leaf.translate(Math.cos(a) * 0.3, 1.75 + i * 0.07, Math.sin(a) * 0.3);
+    parts.push(colorize(leaf, i % 2 ? '#45694c' : '#7d9263'));
+  }
+  return mergeGeometries(parts);
+}
+
 // One material set for every prop, so a street of props stays a handful of programs.
 export function propMaterials(city) {
   return {
     concrete: wallMaterial(),
     yellow: new THREE.MeshStandardMaterial({ color: 0xe9b21c, roughness: 0.42, metalness: 0.05 }),
-    black: new THREE.MeshStandardMaterial({ color: 0x15171c, roughness: 0.55 }),
-    glass: new THREE.MeshStandardMaterial({ color: 0x0c1420, roughness: 0.16, metalness: 0.1 }),
+    black: new THREE.MeshStandardMaterial({ color: 0x263832, roughness: 0.7 }), // the clay look's darkest tone is deep green, never black
+    glass: new THREE.MeshStandardMaterial({ color: 0x7fa6a4, roughness: 0.18, metalness: 0.05 }),
     metal: new THREE.MeshStandardMaterial({ color: 0x6f7787, roughness: 0.35, metalness: 0.7 }),
-    darkMetal: new THREE.MeshStandardMaterial({ color: 0x2a2f3a, roughness: 0.5, metalness: 0.6 }),
-    wood: new THREE.MeshStandardMaterial({ color: 0x5b3d26, roughness: 0.75 }),
-    tyre: new THREE.MeshStandardMaterial({ color: 0x0d0e11, roughness: 0.9 }),
-    trunk: new THREE.MeshStandardMaterial({ color: 0x4a3b2c, roughness: 0.95 }),
+    darkMetal: new THREE.MeshStandardMaterial({ color: 0x55605a, roughness: 0.55, metalness: 0.4 }),
+    wood: new THREE.MeshStandardMaterial({ color: 0xa87950, roughness: 0.75 }),
+    tyre: new THREE.MeshStandardMaterial({ color: 0x263832, roughness: 0.9 }),
+    trunk: new THREE.MeshStandardMaterial({ color: 0xa87950, roughness: 0.85 }),
     frond: new THREE.MeshStandardMaterial({ map: frondTexture(), alphaTest: 0.4, side: THREE.DoubleSide, roughness: 0.6 }),
     leaf: new THREE.MeshStandardMaterial({ map: leafTexture(), alphaTest: 0.4, side: THREE.DoubleSide, roughness: 0.55 }),
     board: new THREE.MeshStandardMaterial({ map: boardTexture(), roughness: 0.8 }),
@@ -383,7 +398,15 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
 
   // palms where world.js planted trees, plus plants by the board
   const palm = palmGeometry();
-  const palmSpots = world.trees.map((t) => ({ x: t.x, z: t.z, ry: rng() * Math.PI * 2 }));
+  // street trees are clay planter trees, as in the arrival scene; palms stay as accents by the board
+  const treeSpots = world.trees.map((t) => ({ x: t.x, z: t.z, ry: rng() * Math.PI * 2 }));
+  if (treeSpots.length) {
+    const clayMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.75 });
+    const r3 = mulberry32(77);
+    root.add(instanced(clayTreeGeometry(), clayMat, treeSpots, () => 2.3 + r3() * 0.7));
+    world.addColliders(treeSpots.map((t) => ({ name: 'clay_tree', cx: t.x, cz: t.z, hx: 0.75, hz: 0.75, ry: 0 })));
+  }
+  const palmSpots = [];
   // palms line the far pavement of the hero street, and stand at the back of the open gaps
   let farOut = null;
   for (let o = -3; o > -40 && farOut === null; o -= 0.5) if (freeAt(10, o, 0.2) && !freeAt(10, o + 1, 0.2)) farOut = o - 0.8;
@@ -409,8 +432,9 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   const tryPlant = (a, o) => { if (freeAt(a, o, 0.8)) { const p = at(a, o); plantSpots.push({ x: p.x, z: p.z, ry: rng() * 6 }); } };
   [[-2.9, 0.4], [2.9, 0.4], [-2.9, 1.6], [2.9, 1.6]].forEach(([u, v]) => tryPlant(bSpot.a + u, bSpot.c + v));
   if (aSpot) [[-3.1, -1], [3.1, -1], [-3.1, 1.2], [3.1, 1.2]].forEach(([u, v]) => tryPlant(aSpot.a + u, aSpot.c + v));
-  root.add(instanced(banana.leaves, M.leaf, plantSpots, () => 0.9 + rng() * 0.6));
-  root.add(instanced(colorize(box(1.2, 0.55, 1.2, 0, 0.275, 0), '#9a968c'), M.concrete, plantSpots));
+  // potted plants by the board and the build area, the arrival scene's own planters
+  root.add(instanced(clayTreeGeometry(), new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.75 }), plantSpots, () => 1.05 + rng() * 0.35));
+  void banana;
 
   // danfos: two parked at the kerb ahead, three driving the main road
   const road = world.mainRoad;

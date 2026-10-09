@@ -35,7 +35,7 @@ export function blueHourSky() {
         vec3 col = band(vec3(0.020, 0.040, 0.115), vec3(0.060, 0.110, 0.290), vec3(0.230, 0.270, 0.470), y);
         vec3 night = band(vec3(0.006, 0.010, 0.030), vec3(0.016, 0.026, 0.070), vec3(0.070, 0.070, 0.120), y);
         night += vec3(0.16, 0.10, 0.07) * (1.0 - smoothstep(0.0, 0.14, y)); // the city's own glow on the horizon
-        vec3 day = band(vec3(0.150, 0.330, 0.700), vec3(0.330, 0.530, 0.840), vec3(0.660, 0.740, 0.850), y);
+        vec3 day = band(vec3(0.360, 0.520, 0.560), vec3(0.540, 0.650, 0.580), vec3(0.700, 0.740, 0.640), y); // sage, as in the arrival scene
         col = mix(col, night, uNight);
         col = mix(col, day, uDay);
         // warm light toward the sun when it is low
@@ -49,7 +49,7 @@ export function blueHourSky() {
         float c = smoothstep(mix(0.78, 0.22, uCloud), mix(0.98, 0.55, uCloud), fbm(uv * 1.3));
         float shade = fbm(uv * 2.7 + 4.0);
         vec3 cloudNight = mix(vec3(0.07, 0.08, 0.16), vec3(0.22, 0.17, 0.16), shade);
-        vec3 cloudDay = mix(vec3(0.58, 0.61, 0.66), vec3(0.95, 0.96, 0.98), shade);
+        vec3 cloudDay = mix(vec3(0.66, 0.70, 0.66), vec3(0.96, 0.95, 0.90), shade);
         vec3 cloudCol = mix(mix(cloudNight, vec3(0.30, 0.32, 0.48) * (0.6 + 0.6 * shade), 1.0 - uNight), cloudDay, uDay);
         cloudCol += vec3(1.0, 0.55, 0.3) * uGold * pow(toward, 2.0) * 0.6;
         cloudCol *= 1.0 - 0.55 * uStorm;

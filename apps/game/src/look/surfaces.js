@@ -123,7 +123,7 @@ export function wetGroundMaterial() {
         vec4 nz = texture2D(tNoise, vWPos.xz * 0.018);
         wetGrain = texture2D(tNoise, vWPos.xz * 0.45).g;
         wetPuddle = smoothstep(0.5, 0.58, nz.r + (wetGrain - 0.5) * 0.08) * uWet;
-        diffuseColor.rgb *= 0.78 + 0.44 * wetGrain;
+        diffuseColor.rgb *= 0.93 + 0.14 * wetGrain;
         diffuseColor.rgb *= mix(1.0, 0.62, uWet) * mix(1.0, 0.55, wetPuddle);`)
       .replace('#include <roughnessmap_fragment>', `
         float roughnessFactor = mix(0.86, mix(0.36 + 0.2 * wetGrain, 0.12, wetPuddle), uWet);`)
@@ -168,10 +168,11 @@ export function wallMaterial({ wetBottom = true } = {}) {
         float mott = texture2D(tNoise, uvw * 0.11).r;
         float fine = texture2D(tNoise, uvw * 0.9).g;
         float streak = texture2D(tNoise, vec2(uvw.x * 0.35, vWPos.y * 0.015)).b;
-        diffuseColor.rgb *= 0.74 + 0.38 * mott;
-        diffuseColor.rgb *= 0.9 + 0.2 * fine;
+        // clay: a whisper of mottling, not grime
+        diffuseColor.rgb *= 0.93 + 0.1 * mott;
+        diffuseColor.rgb *= 0.97 + 0.06 * fine;
         float grime = ${wetBottom ? '(1.0 - smoothstep(0.0, 2.4, vWPos.y))' : '0.0'};
-        diffuseColor.rgb *= 1.0 - 0.35 * grime - 0.18 * smoothstep(0.55, 0.8, streak) * (1.0 - an.y);
+        diffuseColor.rgb *= 1.0 - 0.1 * grime - 0.04 * smoothstep(0.55, 0.8, streak) * (1.0 - an.y);
         wallWet = uWet * (0.35 * grime + 0.25 * an.y);`)
       .replace('#include <roughnessmap_fragment>', `
         float roughnessFactor = mix(0.86, 0.38, wallWet);`);

@@ -7,15 +7,16 @@ import { instanceAsset, collidersFor, anchorAt } from './look/kit.js';
 import { makeClearance, fitStreets, band, streetFurniture, isFootway } from './look/streets.js';
 
 const NIGHT = {
-  // weathered Lagos plaster: light enough to read in daylight, the lighting makes it night
-  walls: ['#a7a9b0', '#b5aa9c', '#8fa9a6', '#c2a487', '#9ea7bd', '#b89a8e', '#c9c0a8'],
-  dark: ['#8d8e93', '#9a9285', '#7f8c91', '#a08f80', '#8a929c'],
-  teal: '#2a9d94', tealDark: '#1b6e69',
-  road: '#4a4e57', kerb: '#9a9ca0', path: '#8a8c90', paint: '#e2e4e8', ground: '#5a5a54',
-  foliage: ['#2f5a3a', '#2a5236', '#36633f'], trunk: '#4a3f35', metal: '#5a6070', slate: '#5c6270',
-  podium: '#6a6560', capSlab: '#64676c', tank: '#7c8088', ac: '#8a8f96', far: '#6a7280', roofCap: '#6b6a66',
-  wire: '#30343c', tower: '#7a8090', kiosk: '#6e6a64', board: '#4a4f5a', monoA: '#7d8696', monoB: '#8a93a2',
-  cabin: '#6a7488', wheel: '#15171c',
+  // the clay palette of the arrival scene (world bible 7.1): ivory, cream, stone, mint and peach
+  // plaster with wood and sage trims; the lighting decides whether it is day or night
+  walls: ['#ded8c8', '#f2ecd9', '#c9c2b2', '#e6d3b3', '#cfd9c8', '#e9c9a8', '#d6cdb8', '#bcd2d6'],
+  dark: ['#b9b09e', '#a9b3a2', '#c4a98c', '#a7b4b6', '#b5ab98'],
+  teal: '#326952', tealDark: '#263832',
+  road: '#8f8b80', kerb: '#d8d1bf', path: '#c3bdae', paint: '#f2ecd9', ground: '#a4ab7c',
+  foliage: ['#45694c', '#7d9263', '#5b7d55'], trunk: '#a87950', metal: '#7b867d', slate: '#8b958c',
+  podium: '#b3ab9a', capSlab: '#a9a395', tank: '#e9e3d2', ac: '#c9c3b4', far: '#a9b6ad', roofCap: '#a8a294',
+  wire: '#3a3a34', tower: '#b5bfb4', kiosk: '#c9b48e', board: '#5a4632', monoA: '#b8c2b6', monoB: '#c3ccbf',
+  cabin: '#82afbf', wheel: '#263832',
   env: {
     day: 0, bg: '#1b2748', fog: '#24305a', fogNear: 0.08, fogFar: 1.9, exposure: 1.05, tone: 'aces',
     bloom: { on: true, strength: 0.55, radius: 0.55, threshold: 0.85 },
