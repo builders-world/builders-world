@@ -5,6 +5,7 @@ import { buildProps } from './props.js';
 import { createHud } from './hud.js';
 import { createGear } from './gear.js';
 import { createLife } from './life.js';
+import { dressDistrict } from './district.js';
 import { sunPosition, sunDirection } from './sun.js';
 import { shared } from '../shaders.js';
 
@@ -47,6 +48,9 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   const off = new Set((new URLSearchParams(location.search).get('no') || '').split(','));
 
   const props = buildProps(world, group, { lowQuality: quality === 'low', reduced });
+  // the expanded kit: shops, stalls, landmarks, poles and wires, gutters, tanks, danfos
+  const dressing = world.kit ? dressDistrict(world, group, { kit: world.kit, lowQuality: quality === 'low', reduced, spawn: world.spawn }) : null;
+  if (dressing) { props.interact.push(...dressing.interact); props.lamps.push(...dressing.lamps); }
   if (!off.has('skyline')) group.add(skyline(world));
 
   let reflection = null, rainMesh = null, cones = null, lights = null;
@@ -197,6 +201,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   function update(dt, t, player, yaw, arrival) {
     if (night) environment(dt);
     life?.update(dt, t, player);
+    dressing?.update(dt, t, player);
     lights?.update(dt, player, arrival);
     fill.position.set(camera.position.x * 0.6 + player.x * 0.4, 3.2, camera.position.z * 0.6 + player.z * 0.4);
     if (rainMesh) rainMesh.userData.cam.value.copy(camera.position);
@@ -239,6 +244,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { update, renderReflection, setSize, dispose, hud, props, quality, viewYaw: props.viewYaw, get env() { return live; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { update, renderReflection, setSize, dispose, hud, props, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

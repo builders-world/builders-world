@@ -361,7 +361,8 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
       z: s.z + s.tx * side * (longest.w / 2 + 2.6),
       tx: s.tx, tz: s.tz,
     })).filter((p) => Math.hypot(p.x, p.z) < R * 1.05 && !inAnyBuilding(p.x, p.z));
-    pole.forEach((p, i) => {
+    // the kit's utility poles replace these along neighbourhood streets (props.js)
+    if (!kit?.get('yaba_utility_pole')) pole.forEach((p, i) => {
       mb.cyl(p.x, 0, p.z, 0.13, 0.19, 9.4, 6, PAL.trunk);
       mb.box(p.x, 8.6, p.z, 0.16, 0.16, 2.6, PAL.metal, { grad: 0 }, Math.atan2(-p.tz, p.tx) + Math.PI / 2 - Math.PI / 2);
       const nxt = pole[i + 1];
@@ -675,6 +676,8 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     rig: { hemi, moon, rim, bulbMat, bulb: T.env.bulb },
     center: manifest.center,
     footprints: blds.map((b) => b.pts),
+    // flat roofs of unclaimed buildings, for rooftop water tanks
+    roofs: blds.filter((b) => !plotIds.has(b) && b.top).map((b) => ({ x: b.c[0], z: b.c[1], y: b.top, area: b.area, pts: b.pts })),
     kit, kitColliders, addColliders: (list) => kitColliders.push(...list),
     source: manifest.source,
   };

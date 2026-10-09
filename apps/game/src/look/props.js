@@ -414,7 +414,8 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
 
   // danfos: two parked at the kerb ahead, three driving the main road
   const road = world.mainRoad;
-  if (road) {
+  // the kit's danfo takes over parked and moving danfos (district.js)
+  if (road && !kit?.get('yaba_danfo_minibus')) {
     const pts = road.pts.map(([x, z]) => new V3(x, 0, z));
     const lens = [0];
     for (let i = 1; i < pts.length; i++) lens.push(lens[i - 1] + pts[i].distanceTo(pts[i - 1]));

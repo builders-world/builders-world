@@ -207,6 +207,7 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     if (boardEl.classList.contains('on')) { closeBoard(); return true; }
     if (!active) return false;
     if (active.id === 'board') openBoard();
+    else if (active.line) toast(`${active.name}: ${active.line}`, 4500); // shops and stalls along the street
     if (active.id === 'build') {
       if (steps[2] && !steps[2].done) {
         onInteract?.('place-bench');

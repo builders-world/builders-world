@@ -102,3 +102,43 @@ export function footprint(template) {
   const s = template.bounds.getSize(new THREE.Vector3()), c = template.bounds.getCenter(new THREE.Vector3());
   return { w: s.x, d: s.z, cx: c.x, cz: c.z, h: s.y };
 }
+
+// Copies that move every frame (traffic): one InstancedMesh per authored mesh, matrices updated in place.
+// `forward` turns the asset so its authored front faces the caller's +Z convention (the danfo's front is +X);
+// it aligns axes for steering maths and is not an export correction.
+export function movingInstances(template, count, forward = 0) {
+  const group = new THREE.Group();
+  group.name = `kit:${template.id}:moving`;
+  const align = new THREE.Matrix4().makeRotationY(forward);
+  const parts = template.meshes.map((m) => {
+    const inst = new THREE.InstancedMesh(m.geometry, m.material, Math.max(1, count));
+    inst.frustumCulled = false;
+    group.add(inst);
+    return { inst, local: new THREE.Matrix4().multiplyMatrices(align, m.matrix) };
+  });
+  const P = new THREE.Matrix4(), out = new THREE.Matrix4();
+  return {
+    group,
+    setAt(i, x, z, ry) {
+      P.compose(_p.set(x, 0, z), _q.setFromAxisAngle(Y, ry), _s);
+      parts.forEach(({ inst, local }) => { inst.setMatrixAt(i, out.multiplyMatrices(P, local)); inst.instanceMatrix.needsUpdate = true; });
+    },
+    setCount(n) { parts.forEach(({ inst }) => { inst.count = n; }); },
+  };
+}
+
+// A single movable copy (a hired vehicle): shared geometry and materials, own transform.
+export function cloneAsset(template, forward = 0) {
+  const outer = new THREE.Group();
+  const inner = new THREE.Group();
+  inner.rotation.y = forward;
+  template.meshes.forEach((m) => {
+    const mesh = new THREE.Mesh(m.geometry, m.material);
+    mesh.matrixAutoUpdate = false;
+    mesh.matrix.copy(m.matrix);
+    inner.add(mesh);
+  });
+  outer.add(inner);
+  outer.userData.shared = true; // do not dispose shared geometry with this group
+  return outer;
+}
