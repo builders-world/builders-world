@@ -254,7 +254,13 @@ Ambient creatures and NPCs have no name tags, no presence dots and cannot be mes
 
 ### 7.1 Look
 
-The PRD v1.1 and the five reference images set the look: chunky readable forms, real materials, blue hour after rain, amber light that means something. The flat site and admin keep the daylight look.
+**Decided by Elvis, 9 October 2026: the world uses the clay style of the arrival scene.** Chunky, soft, matte forms in a warm palette, lit like a model under a bright sky. Real sun, weather and night still drive the light; the clay style is what that light falls on. This replaces the earlier blue-hour-after-rain grade as the base look; rain and night are now conditions, not the default. The flat site and admin keep the daylight look.
+
+- **Light.** A strong hemisphere light (sky `#d7e6e4`, ground `#817151`, about 2.5 at noon), a warm sun (`#ffe0ac`), a cool fill (`#b8d9df`), sage fog and sky (`#c6d5c7`), ACES at about 1.15. At night the same rig turns cool blue and the warm windows and lamps carry the scene.
+- **Palette.** Plaster in ivory `#ded8c8`, cream `#f2ecd9`, stone `#c9c2b2`, sand `#e6d3b3`, mint `#cfd9c8`, peach `#e9c9a8` and pale blue `#bcd2d6`. Trims in wood `#a87950`, deep green `#263832` and green `#326952`. Leaves `#45694c` and `#7d9263`. Verges `#a4ab7c`. Nothing is pure black; the darkest tone is deep green.
+- **Materials.** Flat colour, roughness about 0.75, no grime maps. Texture only where it carries meaning (signs, the board, the mural).
+- **Plants.** Fat ellipsoid leaves on a wood trunk in a round stone planter, from a pot by a door up to a street tree. Kit palms are accents.
+- **Wet is a condition.** Puddles and sheen appear only when it has really rained.
 
 - **Amber is data on plots.** A plot's windows are the only amber that encodes activity. Street lamps, stalls, string lights and signs use warm light too, but never in a pattern that could read as a plot's windows.
 - **Silhouette first.** Every prop must read from its outline at 30 m, every building at 200 m.
@@ -391,6 +397,17 @@ live weather + sun ────────────────────�
 - The first visit shows a full-screen controls guide in white line art over the darkened street, keyboard and touch versions, dismissed by any input.
 - Minimap shows the current street name, like a callout on a competitive map.
 - Accessibility: reduced motion everywhere, text at least 12 px on phones, contrast checked, every control reachable by keyboard and touch, captions for any voice or video.
+
+### 11.1 Visual language
+
+Decided by Elvis, 9 October 2026, from the references he shared (the island map, the phone, the wardrobe ring, the face pickers, the line-art controls guide). The kit lives in `apps/world/yaba-scene/src/look/uikit.js`.
+
+- **Paper and ink, not glass.** Surfaces are warm paper (`#f7efdc`) with a soft drop under them; text is brown ink (`#3b2a20`). No dark translucent panels.
+- **One rounded display face.** Baloo 2, from Google Fonts, with the system rounded face as the fallback.
+- **Adire for pattern.** Full-screen menus sit on indigo Adire cloth or a patterned lagoon, Lagos's answer to the patterned backdrops in the references.
+- **Drawn art, not line icons.** Apps are chunky two-tone glyphs on coloured tiles; items, places and people are small filled drawings with ink outlines. Residents appear as drawn portraits in house-shaped frames.
+- **Menus are places.** The map is an illustrated island with a folded banner, a grid, black badges for facilities and little houses for plots. The bag puts you in the middle, wearing what you equip, with items in a ring of scalloped tiles.
+- **Controls as chips.** Key prompts are cream pills with an ink key cap, bottom right.
 
 ## 12. Writing
 

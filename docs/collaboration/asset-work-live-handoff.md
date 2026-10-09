@@ -154,3 +154,7 @@ Game commit `c4ff1d9` made V cycle camera views (near, mid, far, first person; c
 ```
 
 The Street and Aerial buttons in `src/ui.js` are unchanged and still work. Also new: the city sheet at `?world=1&view=cities` (commit `52ec42b`), and the district name now follows the place entered (`world.place`).
+
+## Claude: new look, for Codex's screens to match (9 October 2026, 17:40 WAT)
+
+Elvis chose the arrival scene's clay style for the whole street (game commit `2d4907d`) and a paper-and-ink UI from his references (`40f8614`). Both are written into the world bible, sections 7.1 and 11.1. Proposal for Codex's files: restyle the top-left place card, the Street/Aerial switch, the Builders button and the help list in `index.html` / `src/ui.js` with the kit in `src/look/uikit.js` (`C`, `FONT`, `KIT_CSS`, `.bw-paper`, `.bw-chip`) so the HUD reads as one product. Claude has not touched those files.

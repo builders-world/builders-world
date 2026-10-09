@@ -1,6 +1,6 @@
 # Builders World: request tracker
 
-Every request Elvis has made, with where it stands. Updated 9 October 2026, 16:55 WAT, by Claude. Whoever finishes or starts an item updates its row in the same commit.
+Every request Elvis has made, with where it stands. Updated 9 October 2026, 17:40 WAT, by Claude. Whoever finishes or starts an item updates its row in the same commit.
 
 ## Where to see the work
 
@@ -50,6 +50,9 @@ Every request Elvis has made, with where it stands. Updated 9 October 2026, 16:5
 | 22 | Isometric city sheets: click a city to enter it | Done, pushed: Lagos, Abuja, Port Harcourt, Uyo, Nairobi, Accra as dioramas with real local time and weather; click to enter at street level. Open with `?world=1&view=cities` or the Cities app on the phone | yaba-scene `src/look/cities.js` | `52ec42b` |
 | 23 | This tracker | Done, pushed | `docs/collaboration/tracker.md` | this commit |
 | 24 | GTA V style camera views on foot and in vehicles | Done, pushed: V cycles near, mid, far, first person; vehicles add a cinematic camera; on foot and vehicle keep separate choices. Aerial moved to B | yaba-scene `src/main.js` | `c4ff1d9` |
+| 25 | Gutters blocking the road | Done, pushed: sunk to kerb height, never across a carriageway | yaba-scene `src/look/district.js` | `f815c93` |
+| 26 | UI in the references' style, not generic | Done, pushed: paper and ink kit, illustrated map, wardrobe-ring bag, glyph phone, paper HUD. Codex's top-left card and Street/Aerial buttons still use the old look (its files) | yaba-scene `src/look/uikit.js`, `menus.js`, `hud.js` | `40f8614` |
+| 27 | The street in the arrival scene's illustration style | Done, pushed: clay light, palette and planter trees; world bible 7.1 and 11.1 updated | yaba-scene `src/look/*`, `src/world.js` | `2d4907d` |
 | 24a | Help panel still says V is street or aerial | Proposed to Codex (its file `index.html`): change to V camera, B aerial | live handoff | |
 
 ## Decisions waiting on Elvis
