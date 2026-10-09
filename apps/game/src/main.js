@@ -145,7 +145,8 @@ async function main() {
 
   const player = new THREE.Vector3();
   let heading = 0;
-  let walkTarget = null, walkPath = null, walkAt = 0, replans = 0;
+  let walkTarget = null, walkPath = null, walkAt = 0, replans = 0, sidestepT = 0;
+  const sidestep = new THREE.Vector3();
 
   const cam = { yaw: 0, yawT: 0, pitch: 0.2, pitchT: 0.2, dist: 7, distT: 7, aerial: false };
   const modes = { street: { pitch: 0.2, dist: 7 }, aerial: { pitch: 0.62, dist: 0 } };
@@ -460,7 +461,7 @@ async function main() {
         const aim = P[Math.min(walkAt, P.length - 1)];
         const dx = aim.x - player.x, dz = aim.z - player.z, dist = Math.hypot(dx, dz);
         if (walkAt >= P.length - 1 && dist < 0.45) { walkTarget = null; walkPath = null; marker.visible = false; }
-        else mv.set(dx / (dist || 1), 0, dz / (dist || 1));
+        else { mv.set(dx / (dist || 1), 0, dz / (dist || 1)); if (sidestepT > 0) { sidestepT -= dt; mv.addScaledVector(sidestep, 1.2); } }
       }
     }
     const moving = mv.lengthSq() > 0;
@@ -479,7 +480,10 @@ async function main() {
         // blocked by someone walking past: plan again from here, twice, then give up politely
         if (stuck > 0.5) {
           stuck = 0;
-          const again = replans++ < 2 && world.plan ? world.plan(player, walkTarget) : null;
+          // someone in the way: step to the side and carry on, as people do (this does not count as a replan)
+          const bod = [...(street?.bodies?.() || []), ...(online?.bodies() || [])].find((o) => o.r !== undefined && Math.hypot(o.x - player.x, o.z - player.z) < 1.4);
+          if (bod && sidestepT <= 0) { const dx = player.x - bod.x, dz = player.z - bod.z, l = Math.hypot(dx, dz) || 1; sidestep.set(-dz / l, 0, dx / l); sidestepT = 0.6; }
+          const again = bod ? walkPath : replans++ < 2 && world.plan ? world.plan(player, walkTarget) : null;
           if (again) { walkPath = again; walkAt = 1; } else { walkTarget = null; walkPath = null; marker.visible = false; }
         }
       }

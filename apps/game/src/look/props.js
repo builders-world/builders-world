@@ -348,14 +348,15 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
 
   // a community build area in the next open gap, with a bin already added and a bench waiting
   const aSpot = findArea(bSpot.a + 18, 5.2, 3.6, { lo: bSpot.a + 4 });
-  let area = null;
+  // the build area always exists; the park gives it a proper home once the pond is laid out (parks.js).
+  // Until then it waits in the first roadside gap, or hidden if there is none.
+  const area = buildArea(M, 5, 3.4);
   if (aSpot) {
-    area = buildArea(M, 5, 3.4);
     const ap = place(area, aSpot.a, aSpot.c, faceRoad);
     interact.push({ id: 'build', label: 'Build here: add a bench', x: ap.x - N.x * 1.6, z: ap.z - N.z * 1.6, r: 4 });
-    const bin = new THREE.Mesh(colorize(cyl(0.32, 0.28, 0.9, 10, 0, 0.45, 0), '#2f6b4f'), M.concrete);
-    const bp = at(aSpot.a + 2.2, aSpot.c + 1.2); bin.position.set(bp.x, 0, bp.z); root.add(bin);
-    world.addColliders([{ name: 'bin', cx: bp.x, cz: bp.z, hx: 0.32, hz: 0.32, ry: 0, h: 0.9 }]);
+  } else {
+    root.add(area); area.visible = false;
+    interact.push({ id: 'build', label: 'Build here: add a bench', x: 0, z: 0, r: 0 });
   }
 
   // the mural, now a framed roadside billboard (Elvis, 9 October 2026): two steel legs on open ground
@@ -415,9 +416,7 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   root.add(new THREE.Line(wire, new THREE.LineBasicMaterial({ color: 0x111111 })));
   lamps.push({ ...strand[15], power: 18, boost: 10, color: 0xffc070 });
 
-  // a bench near the board, if there is room for one
-  const benchSpot = findArea(bSpot.a - 5, 2, 0.8);
-  if (benchSpot) place(new THREE.Mesh(bench(M), M.wood), benchSpot.a, benchSpot.c, faceRoad);
+  // benches belong in the park and at bus stops, where people sit (parks.js, civic.js), not beside a house
 
   // market stalls along the pavement: Yaba street life, warm light, things to buy
   const stallT = kit?.get('yaba_market_stall');
@@ -578,5 +577,5 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   const bodies = () => [...walkers, ...builders].map((w) => ({ x: w.obj.position.x, z: w.obj.position.z, r: 0.33 }));
   // everyone who can talk, for the chat bubbles
   const people = [...builders.map((b) => ({ id: b.name, name: b.name, obj: b.obj, rig: b.rig, tier: b.tier })), ...walkers.map((w) => ({ id: w.name, name: w.name, obj: w.obj, rig: w.rig, tier: w.tier }))];
-  return { root, lamps, interact, builders, bodies, people, update, dispose, viewYaw, materials: M, hubAt, kitPlaced, billboardFace, billboardMesh, objective: interact[0], area: interact.find((i) => i.id === 'build') };
+  return { root, lamps, interact, builders, bodies, people, update, dispose, viewYaw, materials: M, hubAt, kitPlaced, billboardFace, billboardMesh, areaGroup: area, objective: interact[0], area: interact.find((i) => i.id === 'build') };
 }

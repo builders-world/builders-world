@@ -44,12 +44,14 @@ export function createBirds({ world, scene, uTime, rng, reduced, lowQuality }) {
   const isFree = (x, z) => world.isFree(x, z, 0.3, { lots: true });
 
   // ---------- a pond on open public ground near the start: water, a stone rim, reeds, lily pads ----------
+  // room for the water and a paved loop round it (parks.js): 22 m by 17 m of open public ground
   let pond = null;
-  for (let r = 18; r < 140 && !pond; r += 6) for (let k = 0; k < 16 && !pond; k++) {
+  for (const [U, V] of [[11, 8.5], [7.5, 5]]) for (let r = 12; r < 200 && !pond; r += 6) for (let k = 0; k < 16 && !pond; k++) {
     const a = (k / 16) * Math.PI * 2 + r, x = spawn.x + Math.cos(a) * r, z = spawn.z + Math.sin(a) * r;
     if (Math.hypot(x, z) > R * 0.85) continue;
     let ok = true;
-    for (let u = -7.5; u <= 7.5 && ok; u += 1.5) for (let v = -5; v <= 5 && ok; v += 1.25) if (!world.isFree(x + u, z + v, 0.6)) ok = false;
+    // open public ground in the walkable map: not a building, a garden, a road or a prop (one lookup each)
+    for (let u = -U; u <= U && ok; u += 1.5) for (let v = -V; v <= V && ok; v += 1.25) if (!(world.costAt ? world.costAt(x + u, z + v) < 2.6 : world.isFree(x + u, z + v, 0.6))) ok = false;
     if (ok) pond = { x, z, rx: 6, rz: 3.8 };
   }
   if (pond) {

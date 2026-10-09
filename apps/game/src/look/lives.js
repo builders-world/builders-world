@@ -182,6 +182,13 @@ export function createLives({ world, scene, getEnv, getPois, reduced, lowQuality
           r.obj.rotation.y += dh * (1 - Math.exp(-dt * 8));
         } else { r.path = null; r.late = false; }
       }
+      // someone walking into them: they step aside, as people do, so nobody is ever stuck behind a resident
+      const pd = Math.hypot(player.x - r.obj.position.x, player.z - r.obj.position.z);
+      if (pd < 1.0 && pd > 0.01 && speed < 0.5) {
+        const ax = r.obj.position.x - player.x, az = r.obj.position.z - player.z;
+        r.obj.position.x += (ax / pd) * dt * 2.2 - (az / pd) * dt * 1.2; r.obj.position.z += (az / pd) * dt * 2.2 + (ax / pd) * dt * 1.2;
+        world.resolve(r.obj.position, 0.35, 0);
+      }
       // at home at night: indoors
       const homeNow = r.task === 'home' && !r.path && Math.hypot(r.obj.position.x - r.home.x, r.obj.position.z - r.home.z) < 1.5;
       r.obj.visible = !homeNow;

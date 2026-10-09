@@ -8,6 +8,7 @@ import { createLife } from './life.js';
 import { dressDistrict } from './district.js';
 import { createRides } from './rides.js';
 import { createChat } from './chat.js';
+import { buildParks } from './parks.js';
 import { createLives } from './lives.js';
 import { buildCivic } from './civic.js';
 import { createInteriors, PLACES, namePlaces } from './interior.js';
@@ -312,6 +313,11 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
 
   const life = off.has('life') ? null : createLife({ world, scene: group, camera, getEnv: () => live, reduced, lowQuality: quality === 'low', uTime: shared.uTime });
   props.pond = life?.birds?.pond || null; // for the map's park zone
+  // the park around the pond, the waterfall, benches where people sit, the build area, a roundabout (parks.js)
+  const parks = buildParks({ world, scene: group, pond: props.pond, area: { group: props.areaGroup, item: props.area }, uTime: shared.uTime, reduced,
+    addLamps: (l) => { props.lamps.push(...l); lights?.setLamps([...world.lamps, ...props.lamps, ...(world.porchLamps || [])]); } });
+  if (parks.park) props.pois?.push({ kind: 'park', name: parks.park.name, x: parks.park.x, z: parks.park.z });
+  props.pois?.filter((q) => q.kind === 'build').forEach((q) => { q.x = props.area.x; q.z = props.area.z; }); // the build area moved into the park
 
   function update(dt, t, player, yaw, arrival) {
     if (night && !interiors?.active) environment(dt);
@@ -376,6 +382,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, lives, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 
