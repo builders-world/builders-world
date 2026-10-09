@@ -318,6 +318,7 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
     interact.push({ id: 'build', label: 'Build here: add a bench', x: ap.x - N.x * 1.6, z: ap.z - N.z * 1.6, r: 4 });
     const bin = new THREE.Mesh(colorize(cyl(0.32, 0.28, 0.9, 10, 0, 0.45, 0), '#2f6b4f'), M.concrete);
     const bp = at(aSpot.a + 2.2, aSpot.c + 1.2); bin.position.set(bp.x, 0, bp.z); root.add(bin);
+    world.addColliders([{ name: 'bin', cx: bp.x, cz: bp.z, hx: 0.32, hz: 0.32, ry: 0, h: 0.9 }]);
   }
 
   // the mural, now a framed roadside billboard (Elvis, 9 October 2026): two steel legs on open ground
@@ -359,6 +360,7 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   const hSpot = findArea(bSpot.a - 12, 7.6, 4.8);
   if (hSpot) {
     const hp = place(hub(M), hSpot.a, hSpot.c, faceRoad);
+    world.addColliders([{ name: 'hub', cx: hp.x, cz: hp.z, hx: 3.7, hz: 2.3, ry: faceRoad }]);
     hubAt = { x: hp.x - N.x * 3.2, z: hp.z - N.z * 3.2 };
     lamps.push({ x: hp.x - N.x * 2.6, y: 2.9, z: hp.z - N.z * 2.6, power: 40, boost: 25, color: 0xffb060 });
   }
@@ -510,12 +512,17 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
       m.obj.rotation.y = Math.atan2(f0.tan.x * m.dir, f0.tan.z * m.dir);
     });
     walkers.forEach((w) => {
-      if (!reduced) w.s += w.dir * w.speed * dt;
+      // walkers stop for the player and turn back at anything solid, never walking through it
+      const next = at(w.s + w.dir * 0.9, -0.2 - w.out);
+      const blockedByPlayer = Math.hypot(next.x - player.x, next.z - player.z) < 1.1;
+      if (world.blockedAt(next.x, next.z, 0.3)) w.dir *= -1;
+      else if (!reduced && !blockedByPlayer) w.s += w.dir * w.speed * dt;
+      w.moving = !reduced && !blockedByPlayer;
       if (w.s > 34 || w.s < -16) w.dir *= -1;
       const p = at(w.s, -0.2 - w.out);
       w.obj.position.set(p.x, 0, p.z);
       w.obj.rotation.y = alongRoad + (w.dir > 0 ? 0 : Math.PI);
-      if (!reduced) w.rig?.update(dt, { speed: w.speed, t });
+      if (!reduced) w.rig?.update(dt, { speed: w.moving ? w.speed : 0, t });
     });
     builders.forEach((b) => { if (!reduced) b.rig?.update(dt, { speed: 0, t: t + b.name.length }); });
     walkers.forEach(() => {
@@ -534,5 +541,7 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   const view = T.clone().multiplyScalar(Math.cos(0.3)).addScaledVector(N, Math.sin(0.3));
   const viewYaw = Math.atan2(view.x, view.z);
 
-  return { root, lamps, interact, builders, update, dispose, viewYaw, materials: M, hubAt, kitPlaced, billboardFace, objective: interact[0], area: interact.find((i) => i.id === 'build') };
+  // people as circles, for the player to bump into
+  const bodies = () => [...walkers, ...builders].map((w) => ({ x: w.obj.position.x, z: w.obj.position.z, r: 0.33 }));
+  return { root, lamps, interact, builders, bodies, update, dispose, viewYaw, materials: M, hubAt, kitPlaced, billboardFace, objective: interact[0], area: interact.find((i) => i.id === 'build') };
 }

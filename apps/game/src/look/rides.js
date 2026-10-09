@@ -3,6 +3,7 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { danfo, propMaterials } from './props.js';
 import { cloneAsset } from './kit.js';
 import { nearestOn, pathLength, pointAlong } from './nav.js';
+import { pushOutDynamic } from './physics.js';
 
 // Hired rides (world bible 9.2): danfo at stops on main roads, keke on inner streets, ride-hail
 // taxis from the phone. Free, because the PRD bans in-world money. Players choose to ride as a
@@ -60,7 +61,7 @@ function stopSign(M, kind) {
   return g;
 }
 
-export function createRides({ world, scene, nav, props, reduced, toast, onState }) {
+export function createRides({ world, scene, nav, props, reduced, toast, onState, getBodies }) {
   const M = propMaterials();
   const group = new THREE.Group();
   group.name = 'rides';
@@ -263,11 +264,18 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState 
     const prev = ride.pos.clone();
     ride.pos.x += Math.sin(ride.yaw) * ride.v * dt;
     ride.pos.z += Math.cos(ride.yaw) * ride.v * dt;
-    // buildings and props stop the vehicle; it bounces back a little
-    const probe = ride.pos.clone().add(new THREE.Vector3(Math.sin(ride.yaw), 0, Math.cos(ride.yaw)).multiplyScalar(Math.sign(ride.v) * 1.4));
-    const before = probe.clone();
-    world.resolve(probe, ride.T.radius);
-    if (probe.distanceTo(before) > 0.01) { ride.pos.copy(prev); ride.v *= -0.2; }
+    // the whole body collides, nose to tail: buildings, fences, props, traffic and people stop it,
+    // and it bounces back a little (world bible 7.5)
+    const fx = Math.sin(ride.yaw), fz = Math.cos(ride.yaw), half = ride.T.wheelbase / 2 + 0.6;
+    const others = getBodies?.() || [];
+    let hit = false;
+    for (const u of [-1, -0.5, 0, 0.5, 1]) {
+      const probe = { x: ride.pos.x + fx * half * u, z: ride.pos.z + fz * half * u };
+      const bx = probe.x, bz = probe.z;
+      world.resolve(probe, ride.T.radius, 0);
+      if (Math.hypot(probe.x - bx, probe.z - bz) > 0.01 || pushOutDynamic({ x: bx, z: bz }, ride.T.radius, others)) { hit = true; break; }
+    }
+    if (hit) { ride.pos.copy(prev); ride.v *= -0.2; }
   }
 
   function update(dt, t, keys, player) {
@@ -309,6 +317,8 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState 
     update, use, openPanel, dispose, stops,
     isMenuOpen: () => panel.classList.contains('on'), closeMenu: closePanel,
     get active() { return !!ride; },
+    // the hired vehicle, while you are not in it, is something to walk around
+    body: () => (ride && ride.phase !== 'riding' && ride.phase !== 'driving' ? { cx: ride.pos.x, cz: ride.pos.z, hx: ride.T.radius, hz: ride.T.wheelbase / 2 + 0.6, ry: ride.yaw } : null),
     get debug() { return ride && { phase: ride.phase, x: ride.pos.x, z: ride.pos.z, s: ride.s, L: pathLength(ride.path), v: ride.v, pickup: ride.pickup }; }, get seated() { return !!ride && (ride.phase === 'riding' || ride.phase === 'driving'); },
   };
 }

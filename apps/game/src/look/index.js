@@ -141,7 +141,9 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   });
   group.add(hud.route);
   interiors = createInteriors({ scene, reduced, toast: hud.toast, getEnv: () => live || { day: 1 } });
-  rides = createRides({ world, scene: group, nav: hud.nav, props, reduced, toast: hud.toast,
+  // everything that moves and can be bumped into: people, traffic, the waiting hired vehicle
+  const bodies = () => [...(props.bodies?.() || []), ...(dressing?.bodies?.() || []), rides?.body?.()].filter(Boolean);
+  rides = createRides({ world, scene: group, nav: hud.nav, props, reduced, toast: hud.toast, getBodies: () => [...(props.bodies?.() || []), ...(dressing?.bodies?.() || [])],
     onState: (st) => { if (st.ride === false && st.exitAt) pendingExit = st.exitAt; } });
 
   if (reflection) reflection.hidden = [world.ground, rainMesh, cones, hud.route].filter(Boolean);
@@ -318,6 +320,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { update, renderReflection, setSize, dispose, hud, props, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { update, renderReflection, setSize, dispose, hud, props, bodies, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

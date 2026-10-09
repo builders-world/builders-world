@@ -12,6 +12,7 @@ import { createAvatarModel } from './onboarding/avatar.js';
 import { createLook, blueHourSky, pickQuality, createWeather } from './look/index.js';
 import { loadKit } from './look/kit.js';
 import { rigAvatar } from './look/anim.js';
+import { pushOutDynamic } from './look/physics.js';
 
 const q = new URLSearchParams(location.search);
 const arrivalProfile = loadProfile();
@@ -404,7 +405,8 @@ async function main() {
       mv.normalize();
       last.copy(player);
       player.addScaledVector(mv, pace * dt);
-      if (inside) C.resolve(player); else world.resolve(player, 0.8);
+      // static world first (a jump clears low fences), then everything that moves
+      if (inside) C.resolve(player); else { world.resolve(player, 0.8, jumpY); pushOutDynamic(player, 0.4, street?.bodies?.() || []); world.resolve(player, 0.8, jumpY); }
       if (walkTarget) {
         stuck = player.distanceTo(last) < pace * dt * 0.25 ? stuck + dt : 0;
         if (stuck > 0.5) { walkTarget = null; marker.visible = false; stuck = 0; }
@@ -416,7 +418,7 @@ async function main() {
     avatar.position.copy(player);
     avatar.rotation.y = heading;
     // jump: real gravity, from the ground only, not while riding or seated
-    if (jumpQueued && jumpY === 0 && !riding && !seated && !cam.aerial) jumpV = 4.6;
+    if (jumpQueued && jumpY === 0 && !riding && !seated && !cam.aerial) jumpV = 5.0; // peaks near 0.96 m
     jumpQueued = false;
     if (jumpV !== 0 || jumpY > 0) {
       jumpV -= 13 * dt; jumpY += jumpV * dt;

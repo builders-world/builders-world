@@ -267,8 +267,11 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
       if (!reduced && !ahead) m.s += m.dir * m.speed * dt;
       if (m.s > m.total - 1 || m.s < 1) { m.dir *= -1; m.s = Math.max(1, Math.min(m.total - 1, m.s)); }
       moving.setAt(k, px, pz, Math.atan2(tx, tz));
+      m.body = { cx: px, cz: pz, hx: 1.05, hz: 2.7, ry: Math.atan2(tx, tz) };
     });
   }
+  // moving danfos as boxes, for people and the player's car to bump into (world bible 7.5)
+  const bodies = () => movers.map((m) => m.body).filter(Boolean);
 
-  return { group, interact, lamps, update, counts, shops: placed.filter((p) => p.road && interact.some((i) => i.id.startsWith('shop:'))), landmarks: mids };
+  return { group, interact, lamps, update, bodies, counts, shops: placed.filter((p) => p.road && interact.some((i) => i.id.startsWith('shop:'))), landmarks: mids };
 }

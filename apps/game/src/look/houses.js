@@ -158,7 +158,8 @@ export function dressEstate(mb, lot, c, levels, o) {
       if (L > 0.3) mb.box((sx + gate.x) / 2, 0, (sz + gate.z) / 2, 1.2, 0.07, L + 0.3, ESTATE.path, { grad: 0, vary: 0.02 }, Math.atan2(gate.x - sx, gate.z - sz));
     }
   }
-  // white picket fence on the lot line, open at the gate
+  // white picket fence on the lot line, open at the gate; each run is also a collider
+  const fences = [];
   edges.forEach((e) => {
     if (e.len < 0.6) return;
     const ry = Math.atan2(e.nx, e.nz);
@@ -168,6 +169,7 @@ export function dressEstate(mb, lot, c, levels, o) {
       const L = b - a;
       if (L < 0.3) return;
       const mx = e.ax + e.tx * (a + L / 2), mz = e.az + e.tz * (a + L / 2);
+      fences.push({ cx: mx, cz: mz, hx: L / 2, hz: 0.07, ry });
       mb.box(mx, 0.32, mz, L, 0.07, 0.05, ESTATE.picket, { grad: 0, vary: 0 }, ry);
       mb.box(mx, 0.72, mz, L, 0.07, 0.05, ESTATE.picket, { grad: 0, vary: 0 }, ry);
       const step = detail ? 0.45 : 1.8;
@@ -184,7 +186,7 @@ export function dressEstate(mb, lot, c, levels, o) {
     const tx = c[0] - d.nx * (back + 2.4), tz = c[1] - d.nz * (back + 2.4);
     if (inPoly(tx, tz, grow(lot, -1.2)) && !inPoly(tx, tz, grow(pts, 1.2))) tree = { x: tx, z: tz };
   }
-  return { pts, top: house.top, door: house.door, tree };
+  return { pts, top: house.top, door: house.door, tree, fences };
 }
 
 export { scaleAbout };

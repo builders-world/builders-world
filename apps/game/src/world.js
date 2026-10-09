@@ -6,6 +6,7 @@ import { wetGroundMaterial, wallMaterial } from './look/surfaces.js';
 import { instanceAsset, collidersFor, anchorAt } from './look/kit.js';
 import { makeClearance, fitStreets, band, streetFurniture, isFootway } from './look/streets.js';
 import { dressEstate } from './look/houses.js';
+import { pushOutBox } from './look/physics.js';
 
 const NIGHT = {
   // the clay palette of the arrival scene (world bible 7.1): ivory, cream, stone, mint and peach
@@ -304,7 +305,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     mainRoads.forEach((r) => { const P = r.fit ? r.fit.pts : r.pts; for (let i = 0; i < P.length - 1; i += 1) { const [ax, az] = P[i], [bx, bz] = P[i + 1]; const dx = bx - ax, dz = bz - az; const t = Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / (dx * dx + dz * dz || 1))); d = Math.min(d, Math.hypot(x - ax - dx * t, z - az - dz * t)); } });
     return d;
   };
-  const lotTrees = [], doorPlants = [];
+  const lotTrees = [], doorPlants = [], lotFences = [];
   blds.forEach((b) => {
     if (plotIds.has(b)) return;
     const lv = b.levels ?? (b.h ? b.h / 3 : 1 + Math.floor(rng() * 2));
@@ -315,6 +316,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     b.pts = est.pts; b.bb = bbox(est.pts); b.top = est.top;
     if (est.tree) lotTrees.push(est.tree);
     if (est.door) doorPlants.push({ x: est.door.x, z: est.door.z });
+    est.fences.forEach((f) => lotFences.push({ name: 'fence', ...f, h: 1.0 }));
   });
 
   // far lots beyond the data: unclaimed, dark
@@ -329,7 +331,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   const lamps = []; // street lamps that light the ground for real
   const lampT = kit?.get('yaba_street_lamp');
   const lampSpots = [];
-  const kitColliders = [];
+  const kitColliders = [...lotFences]; // picket fences first: low (1 m), so a jump clears them
   const trees = [];
   const glows = []; // {x,z,r}
   // lots count as built: nothing from the street is planted on someone's lawn
@@ -611,35 +613,39 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   // --- collision: circle vs real footprints ---
   const solid = blds.filter((b) => b.pts.length >= 3).map((b) => ({ pts: b.pts, bb: b.bb, top: b.top ?? 10 }));
   const lots = blds.filter((b) => b.lot && b.lot.length >= 3).map((b) => ({ pts: b.lot, bb: b.lotBB || (b.lotBB = bbox(b.lot)) }));
-  function resolve(pos, rad = 0.8) {
-    for (const s of solid) {
-      if (pos.x < s.bb.x0 - rad || pos.x > s.bb.x1 + rad || pos.z < s.bb.z0 - rad || pos.z > s.bb.z1 + rad) continue;
-      const inside = pointInPoly(pos.x, pos.z, s.pts);
-      const n = nearestOnPoly(pos.x, pos.z, s.pts);
-      if (inside) {
-        const dx = n.px - pos.x, dz = n.pz - pos.z;
-        const l = Math.hypot(dx, dz) || 1;
-        pos.x = n.px + (dx / l) * rad;
-        pos.z = n.pz + (dz / l) * rad;
-      } else if (n.d < rad) {
-        const dx = pos.x - n.px, dz = pos.z - n.pz;
-        const l = Math.hypot(dx, dz) || 1;
-        pos.x = n.px + (dx / l) * rad;
-        pos.z = n.pz + (dz / l) * rad;
+  // a uniform grid over every collider, so a fence on every estate costs nothing per frame (world bible 7.5)
+  const CELL = 8;
+  const grid = new Map();
+  const cellsOf = (x0, z0, x1, z1, fn) => { for (let i = Math.floor(x0 / CELL); i <= Math.floor(x1 / CELL); i++) for (let j = Math.floor(z0 / CELL); j <= Math.floor(z1 / CELL); j++) fn(`${i},${j}`); };
+  const index = (item, x0, z0, x1, z1) => cellsOf(x0, z0, x1, z1, (k) => { let a = grid.get(k); if (!a) grid.set(k, (a = [])); a.push(item); });
+  solid.forEach((sd) => { sd.kind = 'poly'; index(sd, sd.bb.x0, sd.bb.z0, sd.bb.x1, sd.bb.z1); });
+  const indexBox = (c) => { c.kind = 'box'; const r = Math.hypot(c.hx, c.hz); index(c, c.cx - r, c.cz - r, c.cx + r, c.cz + r); };
+  kitColliders.forEach(indexBox);
+  let stamp = 0;
+  const near = (x, z, r, fn) => {
+    stamp++;
+    cellsOf(x - r, z - r, x + r, z + r, (k) => { const a = grid.get(k); if (a) for (const it of a) if (it._s !== stamp) { it._s = stamp; fn(it); } });
+  };
+  // push a circle (radius rad, feet at height y) out of everything it overlaps; colliders lower than the
+  // feet are cleared, so a jump carries you over a picket fence but never through a wall
+  function resolve(pos, rad = 0.8, y = 0) {
+    near(pos.x, pos.z, rad + 1, (s) => {
+      if (s.kind === 'poly') {
+        if (pos.x < s.bb.x0 - rad || pos.x > s.bb.x1 + rad || pos.z < s.bb.z0 - rad || pos.z > s.bb.z1 + rad) return;
+        const inside = pointInPoly(pos.x, pos.z, s.pts);
+        const n = nearestOnPoly(pos.x, pos.z, s.pts);
+        if (inside) {
+          const dx = n.px - pos.x, dz = n.pz - pos.z, l = Math.hypot(dx, dz) || 1;
+          pos.x = n.px + (dx / l) * rad; pos.z = n.pz + (dz / l) * rad;
+        } else if (n.d < rad) {
+          const dx = pos.x - n.px, dz = pos.z - n.pz, l = Math.hypot(dx, dz) || 1;
+          pos.x = n.px + (dx / l) * rad; pos.z = n.pz + (dz / l) * rad;
+        }
+        return;
       }
-    }
-    // kit collision proxies: boxes on the ground, turned
-    for (const c of kitColliders) {
-      const dx = pos.x - c.cx, dz = pos.z - c.cz;
-      const cs = Math.cos(c.ry), sn = Math.sin(c.ry);
-      const lx = dx * cs - dz * sn, lz = dx * sn + dz * cs;
-      const ex = c.hx + rad, ez = c.hz + rad;
-      if (Math.abs(lx) >= ex || Math.abs(lz) >= ez) continue;
-      let nx2 = lx, nz2 = lz;
-      if (ex - Math.abs(lx) < ez - Math.abs(lz)) nx2 = Math.sign(lx || 1) * ex; else nz2 = Math.sign(lz || 1) * ez;
-      pos.x = c.cx + nx2 * cs + nz2 * sn;
-      pos.z = c.cz - nx2 * sn + nz2 * cs;
-    }
+      if (s.h !== undefined && y + 0.25 > s.h) return; // tucked knees lift the feet about 25 cm
+      pushOutBox(pos, rad, s);
+    });
     const rr = Math.hypot(pos.x, pos.z);
     const maxR = R * 1.05;
     if (rr > maxR) { pos.x *= maxR / rr; pos.z *= maxR / rr; }
@@ -647,11 +653,14 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
 
   // free for a prop: outside every footprint and off the carriageway
   function isFree(x, z, pad = 0.6, { lots: onLots = false } = {}) {
-    for (const c of kitColliders) if (Math.hypot(x - c.cx, z - c.cz) < Math.max(c.hx, c.hz) + pad) return false;
-    for (const s of solid) {
-      if (x < s.bb.x0 - pad || x > s.bb.x1 + pad || z < s.bb.z0 - pad || z > s.bb.z1 + pad) continue;
-      if (pointInPoly(x, z, s.pts) || nearestOnPoly(x, z, s.pts).d < pad) return false;
-    }
+    let hit = false;
+    near(x, z, pad + 1, (s) => {
+      if (hit) return;
+      if (s.kind === 'box') { if (Math.hypot(x - s.cx, z - s.cz) < Math.max(s.hx, s.hz) + pad) hit = true; return; }
+      if (x < s.bb.x0 - pad || x > s.bb.x1 + pad || z < s.bb.z0 - pad || z > s.bb.z1 + pad) return;
+      if (pointInPoly(x, z, s.pts) || nearestOnPoly(x, z, s.pts).d < pad) hit = true;
+    });
+    if (hit) return false;
     if (!onLots) for (const l of lots) if (x > l.bb.x0 - pad && x < l.bb.x1 + pad && z > l.bb.z0 - pad && z < l.bb.z1 + pad && (pointInPoly(x, z, l.pts) || nearestOnPoly(x, z, l.pts).d < pad)) return false;
     // keep carriageways and pavements clear: pavements are for walking (world bible 4.3)
     for (const r of mainRoads) {
@@ -688,7 +697,8 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     footprints: blds.filter((b) => b.pts.length >= 3).map((b) => b.pts), lots: blds.filter((b) => b.lot).map((b) => b.lot), doorPlants,
     // flat roofs of unclaimed buildings, for rooftop water tanks
     roofs: blds.filter((b) => !plotIds.has(b) && b.top && b.pts.length >= 3).map((b) => ({ x: b.c[0], z: b.c[1], y: b.top, area: b.area, pts: b.pts })),
-    kit, kitColliders, addColliders: (list) => kitColliders.push(...list),
+    blockedAt: (x, z, r = 0.35) => { const v = { x, z }; resolve(v, r); return Math.hypot(v.x - x, v.z - z) > 0.01; },
+    kit, kitColliders, addColliders: (list) => { list.forEach((c) => { kitColliders.push(c); indexBox(c); }); },
     source: manifest.source,
   };
 }
