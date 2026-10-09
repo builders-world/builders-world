@@ -61,7 +61,7 @@ export function rigAvatar(root) {
   }
 
   // ---------- the pose: targets from the gait, eased so states blend ----------
-  const cur = { phase: 0, walk: 0, run: 0, air: 0, land: 0, wave: 0 };
+  const cur = { phase: 0, walk: 0, run: 0, air: 0, land: 0, wave: 0, g: null, still: 0, nextIdle: 4 };
   const J = (o) => o; // joints are written directly below
   void J;
   const ease = (k, dt) => 1 - Math.exp(-dt * k);
@@ -112,6 +112,43 @@ export function rigAvatar(root) {
     };
     armPose(L, ph, -1);
     armPose(R, ph + Math.PI, 1);
+    // ---- gestures and idle moments: layered on the pose, faded in and out ----
+    // standing still, people fidget now and then: look around, check the phone, stretch, shift weight
+    if (!s.seated && speed < 0.1 && !s.air) {
+      cur.still += dt;
+      if (!cur.g && cur.still > cur.nextIdle) { cur.nextIdle = cur.still + 6 + Math.random() * 8; play(['look', 'phone', 'stretch', 'shift', 'look'][Math.floor(Math.random() * 5)]); }
+    } else { cur.still = 0; cur.nextIdle = 3 + Math.random() * 5; if (cur.g?.idle) cur.g = null; }
+    if (cur.g) {
+      const G = cur.g; G.t += dt;
+      const w = Math.min(1, G.t * 4, (G.dur - G.t) * 4), t = s.t || 0, kk = ease(14, dt);
+      // the gesture owns these joints while it plays: blend from the walking pose by w, no tug of war
+      const pose = (j, axis, v) => { j.rotation[axis] = lerp(j.rotation[axis], v, w); };
+      void kk;
+      if (G.t >= G.dur) cur.g = null;
+      else if (G.name === 'cheer') { // both arms up, a little bounce
+        pose(L.shoulder, 'x', -2.8); pose(R.shoulder, 'x', -2.8); pose(L.shoulder, 'z', -0.4); pose(R.shoulder, 'z', 0.4); pose(L.elbow, 'x', -0.2); pose(R.elbow, 'x', -0.2);
+        pelvis.position.y += w * 0.06 * Math.abs(Math.sin(t * 9));
+      } else if (G.name === 'thumbs') { // right arm forward, forearm up
+        pose(R.shoulder, 'x', -1.2); pose(R.elbow, 'x', -1.3); pose(neck, 'x', -0.1);
+      } else if (G.name === 'laugh') { // head back, shoulders shaking
+        pose(neck, 'x', -0.35); pose(chest, 'x', -0.1 + 0.05 * Math.sin(t * 22)); pose(L.elbow, 'x', -0.9); pose(R.elbow, 'x', -0.9); pose(L.shoulder, 'x', -0.3); pose(R.shoulder, 'x', -0.3);
+      } else if (G.name === 'thanks') { // hands together at the chest, a small bow
+        pose(L.shoulder, 'x', -0.7); pose(R.shoulder, 'x', -0.7); pose(L.shoulder, 'z', 0.35); pose(R.shoulder, 'z', -0.35); pose(L.elbow, 'x', -1.9); pose(R.elbow, 'x', -1.9); pose(chest, 'x', 0.3); pose(neck, 'x', 0.15);
+      } else if (G.name === 'dance') { // side to side, arms pumping
+        pelvis.position.y += w * 0.05 * Math.abs(Math.sin(t * 8));
+        pose(pelvis, 'z', 0.12 * Math.sin(t * 8)); pose(chest, 'y', 0.3 * Math.sin(t * 8));
+        pose(L.shoulder, 'x', -0.9 + 0.6 * Math.sin(t * 8)); pose(R.shoulder, 'x', -0.9 - 0.6 * Math.sin(t * 8)); pose(L.elbow, 'x', -1.4); pose(R.elbow, 'x', -1.4);
+        pose(L.knee, 'x', 0.3 + 0.3 * Math.max(0, Math.sin(t * 8))); pose(R.knee, 'x', 0.3 + 0.3 * Math.max(0, -Math.sin(t * 8)));
+      } else if (G.name === 'look') { // glance one way, then the other
+        pose(neck, 'y', 0.7 * Math.sin((G.t / G.dur) * Math.PI * 2));
+      } else if (G.name === 'phone') { // phone out, head down
+        pose(R.shoulder, 'x', -0.6); pose(R.elbow, 'x', -1.7); pose(R.shoulder, 'z', -0.15); pose(neck, 'x', 0.45);
+      } else if (G.name === 'stretch') { // arms up and back
+        pose(L.shoulder, 'x', -3.0); pose(R.shoulder, 'x', -3.0); pose(L.elbow, 'x', -0.3); pose(R.elbow, 'x', -0.3); pose(chest, 'x', -0.15);
+      } else if (G.name === 'shift') { // weight onto one leg
+        pose(pelvis, 'z', 0.08); pose(L.knee, 'x', 0.25); pose(chest, 'z', -0.05);
+      }
+    }
     // a wave: the right arm up, the forearm swinging, for about a second and a half
     if (cur.wave > 0) {
       cur.wave = Math.max(0, cur.wave - dt);
@@ -137,8 +174,10 @@ export function rigAvatar(root) {
   }
   function landed(v) { cur.land = Math.min(1, Math.abs(v) / 6); }
   function wave() { cur.wave = 1.5; }
+  const DUR = { cheer: 2.0, thumbs: 1.6, laugh: 1.8, thanks: 1.8, dance: 3.2, look: 2.6, phone: 4.5, stretch: 2.2, shift: 3.5 };
+  function play(name) { if (!DUR[name]) return; cur.g = { name, t: 0, dur: DUR[name], idle: ['look', 'phone', 'stretch', 'shift'].includes(name) }; }
   function dispose() { own.forEach((g) => g.dispose()); }
-  const rig = { pelvis, chest, neck, L, R, attach, update, landed, wave, dispose };
+  const rig = { pelvis, chest, neck, L, R, attach, update, landed, wave, play, dispose };
   root.userData.rig = rig;
   return rig;
 }

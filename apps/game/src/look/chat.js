@@ -66,7 +66,7 @@ export function createChat({ camera, avatar, getEnv, reduced }) {
   const bubbles = []; // { el, obj, until, y }
   const pairs = new Map();
   const v = new THREE.Vector3();
-  let clock = 0, tick = 0, moodT = 6, last = null, meCool = 0;
+  let clock = 0, tick = 0, moodT = 20, last = null, meCool = 0, quietUntil = 0;
 
   function add(p) { people.push({ cool: 0, coolMe: 0, mood: pick(Object.keys(MOODS)), ...p }); }
   const speaks = (p) => (Math.random() < PIDGIN_SHARE[p.tier ?? 1] ? 'pd' : 'en');
@@ -75,7 +75,7 @@ export function createChat({ camera, avatar, getEnv, reduced }) {
   function say(obj, text, { name, me = false, emoji = false, hold = 3.2 } = {}) {
     // one bubble per speaker: a new line replaces the old
     for (let i = bubbles.length - 1; i >= 0; i--) if (bubbles[i].obj === obj) { bubbles[i].el.remove(); bubbles.splice(i, 1); }
-    if (bubbles.length >= 7) { bubbles[0].el.remove(); bubbles.shift(); }
+    if (bubbles.length >= 3) { bubbles[0].el.remove(); bubbles.shift(); }
     const el = document.createElement('div');
     el.className = `lkc-b${me ? ' me' : ''}${emoji ? ' emoji' : ''}`;
     el.innerHTML = `${name && !emoji ? `<small>${name}</small>` : ''}${text}`;
@@ -112,7 +112,8 @@ export function createChat({ camera, avatar, getEnv, reduced }) {
   function emote(n, player) {
     const e = EMOTES[n - 1]; if (!e || clock < meCool) return;
     meCool = clock + 1.2;
-    if (e === '👋') avatar?.userData.rig?.wave?.();
+    const GEST = { '👋': null, '😄': 'laugh', '👍': 'thumbs', '🔥': 'dance', '🙏': 'thanks', '🎉': 'cheer' };
+    if (e === '👋') avatar?.userData.rig?.wave?.(); else avatar?.userData.rig?.play?.(GEST[e]);
     say(avatar, e, { me: true, emoji: true, hold: 2.2 });
     // the nearest person within 6 m answers
     let best = null, bd = 6;
@@ -120,6 +121,7 @@ export function createChat({ camera, avatar, getEnv, reduced }) {
     if (!best) return;
     setTimeout(() => {
       if (e === '👋') { best.rig?.wave?.(); say(best.obj, greeting(best), { name: best.name }); return; }
+      best.rig?.play?.({ '😄': 'laugh', '👍': 'thumbs', '🔥': 'cheer', '🙏': 'thanks', '🎉': 'cheer' }[e]);
       const opts = ANSWER[e][speaks(best)], t = pick(opts);
       say(best.obj, t, { name: best.name, emoji: [...t].length <= 2 });
     }, 900);
@@ -135,16 +137,18 @@ export function createChat({ camera, avatar, getEnv, reduced }) {
       for (let i = 0; i < people.length; i++) for (let j = i + 1; j < people.length; j++) {
         const a = people[i], b = people[j], d = a.obj.position.distanceTo(b.obj.position);
         const key = a.id < b.id ? `${a.id}|${b.id}` : `${b.id}|${a.id}`;
-        if (d < 2.8 && clock > (pairs.get(key) || 0) && clock > a.cool && clock > b.cool && Math.random() < 0.5) {
-          pairs.set(key, clock + 35); a.cool = b.cool = clock + 6;
+        // only where you can see it, now and then: two neighbours meeting is a moment, not a stream
+        const seen = Math.min(Math.hypot(a.obj.position.x - player.x, a.obj.position.z - player.z), Math.hypot(b.obj.position.x - player.x, b.obj.position.z - player.z)) < 18;
+        if (seen && d < 2.6 && clock > (pairs.get(key) || 0) && clock > a.cool && clock > b.cool && clock > quietUntil && Math.random() < 0.06) {
+          pairs.set(key, clock + 150); quietUntil = clock + 12; a.cool = b.cool = clock + 6;
           (Math.random() < 0.5 ? converse(a, b) : converse(b, a));
         }
       }
       // someone you walk past greets you
       people.forEach((p) => {
         const d = Math.hypot(p.obj.position.x - player.x, p.obj.position.z - player.z);
-        if (d < 3.4 && clock > p.coolMe && clock > p.cool && Math.random() < 0.35) {
-          p.coolMe = clock + 45; p.cool = clock + 5;
+        if (d < 3.0 && clock > p.coolMe && clock > p.cool && clock > quietUntil && Math.random() < 0.1) {
+          p.coolMe = clock + 180; quietUntil = clock + 8; p.cool = clock + 5;
           if (Math.random() < 0.6) p.rig?.wave?.();
           say(p.obj, greeting(p), { name: p.name });
         }
@@ -152,8 +156,8 @@ export function createChat({ camera, avatar, getEnv, reduced }) {
       // now and then someone shows how they feel
       moodT -= 0.25;
       if (moodT <= 0) {
-        moodT = 7 + Math.random() * 8;
-        const seen = people.filter((p) => clock > p.cool && p.obj.position.distanceTo(camera.position) < 30);
+        moodT = 30 + Math.random() * 30;
+        const seen = clock > quietUntil ? people.filter((p) => clock > p.cool && p.obj.position.distanceTo(camera.position) < 20) : [];
         if (seen.length) {
           const p = pick(seen), m = MOODS[p.mood], text = Math.random() < 0.55 || !m.en ? m.emoji : `${m[speaks(p)]} ${m.emoji}`;
           say(p.obj, text, { name: p.name, emoji: text === m.emoji, hold: 2.6 });
