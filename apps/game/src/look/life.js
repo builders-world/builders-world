@@ -1,35 +1,12 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { mulberry32 } from '../mesh.js';
+import { createBirds } from './birds.js';
 
-// Ambient life (world bible 6.7): birds, cats and planes. None of it has a name tag,
+// Ambient life (world bible 6.7): birds (birds.js), cats and planes. None of it has a name tag,
 // a presence dot, or can be messaged, so nobody mistakes it for a builder.
 
 const box = (w, h, d, x = 0, y = 0, z = 0) => new THREE.BoxGeometry(w, h, d).translate(x, y, z);
-
-// ---------- birds: small flocks that circle, perch on roofs and wires, scatter, roost at dusk ----------
-function birdGeometry() {
-  // a body and two wings; the wings flap in the vertex shader by their x distance from the body
-  const body = box(0.09, 0.07, 0.24);
-  const wingL = new THREE.PlaneGeometry(0.26, 0.11).rotateX(-Math.PI / 2).translate(-0.17, 0.02, 0);
-  const wingR = new THREE.PlaneGeometry(0.26, 0.11).rotateX(-Math.PI / 2).translate(0.17, 0.02, 0);
-  return mergeGeometries([body.toNonIndexed(), wingL.toNonIndexed(), wingR.toNonIndexed()]);
-}
-
-function birdMaterial(uTime, uFlap) {
-  const m = new THREE.MeshStandardMaterial({ color: 0x23262e, roughness: 0.9, side: THREE.DoubleSide });
-  m.onBeforeCompile = (s) => {
-    s.uniforms.uTime = uTime;
-    s.vertexShader = s.vertexShader
-      .replace('#include <common>', '#include <common>\nuniform float uTime;\nattribute float aFlap;')
-      .replace('#include <begin_vertex>', `#include <begin_vertex>
-        float ph = instanceMatrix[3].x * 1.7 + instanceMatrix[3].z * 2.3;
-        float w = abs(position.x) > 0.06 ? 1.0 : 0.0;
-        transformed.y += w * sin(uTime * 18.0 + ph) * abs(position.x) * 0.9 * aFlap;`);
-  };
-  m.customProgramCacheKey = () => 'bw-bird';
-  return m;
-}
 
 export function createLife({ world, scene, camera, getEnv, reduced, lowQuality, uTime }) {
   const rng = mulberry32(77);
@@ -38,31 +15,8 @@ export function createLife({ world, scene, camera, getEnv, reduced, lowQuality, 
   scene.add(group);
   const R = world.radius;
 
-  // perches: rooftops near the centre, and points along lamp arms
-  const perches = [];
-  (world.footprints || []).forEach((pts) => {
-    if (perches.length > 60 || rng() > 0.25) return;
-    const c = pts.reduce((a, p) => [a[0] + p[0] / pts.length, a[1] + p[1] / pts.length], [0, 0]);
-    if (Math.hypot(c[0], c[1]) < R * 0.9) perches.push({ x: c[0], y: 7 + rng() * 5, z: c[1] });
-  });
-  world.lamps.filter((l) => l.kind === 'street').forEach((l, i) => { if (i % 3 === 0) perches.push({ x: l.x, y: l.y + 0.35, z: l.z }); });
-
-  const FLOCKS = lowQuality ? 2 : 4, PER = lowQuality ? 8 : 14;
-  const birdGeo = birdGeometry();
-  const flap = new Float32Array(FLOCKS * PER).fill(1);
-  birdGeo.setAttribute('aFlap', new THREE.InstancedBufferAttribute(flap, 1));
-  const birds = new THREE.InstancedMesh(birdGeo, birdMaterial(uTime), FLOCKS * PER);
-  birds.frustumCulled = false;
-  group.add(birds);
-  const flocks = [];
-  for (let f = 0; f < FLOCKS; f++) {
-    const home = perches[Math.floor(rng() * perches.length)] || { x: 0, y: 10, z: 0 };
-    flocks.push({
-      mode: 'fly', t: rng() * 100, home, perch: null, timer: 10 + rng() * 20,
-      cx: home.x, cz: home.z, radius: 18 + rng() * 22, height: 16 + rng() * 14, dir: rng() < 0.5 ? 1 : -1,
-      members: Array.from({ length: PER }, () => ({ ox: (rng() - 0.5) * 6, oy: (rng() - 0.5) * 2.5, oz: (rng() - 0.5) * 6, ph: rng() * 6, p: new THREE.Vector3(home.x, 20, home.z) })),
-    });
-  }
+  // birds of several kinds, each its own animal, and the pond the egrets and swans live at (birds.js)
+  const birdLife = createBirds({ world, scene: group, uTime, rng, reduced, lowQuality });
 
   // ---------- cats: wander the gaps, nap at midday, shelter from rain, keep their distance ----------
   function catGeometry(color) {
@@ -125,41 +79,8 @@ export function createLife({ world, scene, camera, getEnv, reduced, lowQuality, 
     const env = getEnv() || { day: 1, lamps: 0, rain: 0 };
     const dusk = env.lamps > 0.6; // birds roost once the lamps are on
     const wet = env.rain > 0.5;
-    let k = 0;
-    flocks.forEach((f) => {
-      f.timer -= dt;
-      const near = f.perch && Math.hypot(player.x - f.perch.x, player.z - f.perch.z) < 6;
-      if (f.mode === 'perch' && (near || (f.timer <= 0 && !dusk && !wet)) && !reduced) {
-        f.mode = 'fly'; f.timer = 15 + rng() * 25; f.cx = f.perch.x; f.cz = f.perch.z; f.perch = null;
-      } else if (f.mode === 'fly' && (f.timer <= 0 || dusk || wet || reduced)) {
-        f.mode = 'perch'; f.perch = perches[Math.floor(rng() * perches.length)] || f.home; f.timer = 12 + rng() * 30;
-      }
-      if (f.mode === 'fly') {
-        f.t += dt * 0.35 * f.dir;
-        // the circle centre wanders slowly so flocks drift over the district
-        f.cx += Math.sin(t * 0.05 + f.radius) * dt * 1.5; f.cz += Math.cos(t * 0.04 + f.height) * dt * 1.5;
-        if (Math.hypot(f.cx, f.cz) > R * 0.8) { f.cx *= 0.99; f.cz *= 0.99; }
-      }
-      f.members.forEach((b, i) => {
-        let tx, ty, tz;
-        if (f.mode === 'fly') {
-          const a = f.t + i * 0.12;
-          tx = f.cx + Math.cos(a) * f.radius + b.ox; tz = f.cz + Math.sin(a) * f.radius + b.oz; ty = f.height + b.oy + Math.sin(t + b.ph) * 0.8;
-        } else {
-          tx = f.perch.x + (i - PER / 2) * 0.35; ty = f.perch.y; tz = f.perch.z + Math.sin(i) * 0.2;
-        }
-        const prev = v.copy(b.p);
-        b.p.lerp(new THREE.Vector3(tx, ty, tz), 1 - Math.exp(-dt * (f.mode === 'fly' ? 2.2 : 1.4)));
-        const vx = b.p.x - prev.x, vz = b.p.z - prev.z;
-        const moving = Math.hypot(vx, vz) / Math.max(dt, 1e-3) > 0.6;
-        flap[k] = moving ? 1 : 0;
-        e.set(0, Math.atan2(vx, vz) || 0, 0);
-        m.compose(b.p, q.setFromEuler(e), one);
-        birds.setMatrixAt(k++, m);
-      });
-    });
-    birds.instanceMatrix.needsUpdate = true;
-    birdGeo.attributes.aFlap.needsUpdate = true;
+    birdLife.update(dt, t, player, env);
+    void dusk; void wet;
 
     // cats
     const hour = env.hour ?? 12;
@@ -167,9 +88,12 @@ export function createLife({ world, scene, camera, getEnv, reduced, lowQuality, 
       c.timer -= dt;
       const d = Math.hypot(player.x - c.obj.position.x, player.z - c.obj.position.z);
       const nap = (hour > 11 && hour < 15) || wet;
-      if (d < 3 && !reduced) { // keep their distance
-        const away = freeNear(c.obj.position.x + (c.obj.position.x - player.x), c.obj.position.z + (c.obj.position.z - player.z), 4);
-        if (away) { c.goal = away; c.mode = 'walk'; c.speed = 2.2; }
+      if (d < 3 && !reduced && !c.fleeing) { // keep their distance: pick one spot away from you and go
+        const ax = c.obj.position.x - player.x, az = c.obj.position.z - player.z, al = Math.hypot(ax, az) || 1;
+        let away = null;
+        for (let k2 = 0; k2 < 12 && !away; k2++) { const a = Math.atan2(ax, az) + (rng() - 0.5) * 1.6, r = 4 + rng() * 3, x = c.obj.position.x + Math.sin(a) * r, z = c.obj.position.z + Math.cos(a) * r; if (world.isFree(x, z, 0.4)) away = { x, z }; }
+        void al;
+        if (away) { c.goal = away; c.mode = 'walk'; c.speed = 2.2; c.fleeing = true; }
       } else if (c.mode !== 'walk' && c.timer <= 0 && !reduced) {
         if (nap) { c.mode = 'sleep'; c.timer = 20 + rng() * 40; } else {
           c.goal = freeNear(c.obj.position.x, c.obj.position.z, 10); c.mode = c.goal ? 'walk' : 'sit'; c.speed = 0.9 + rng() * 0.4; c.timer = 4 + rng() * 8;
@@ -177,9 +101,11 @@ export function createLife({ world, scene, camera, getEnv, reduced, lowQuality, 
       }
       if (c.mode === 'walk' && c.goal) {
         const dx = c.goal.x - c.obj.position.x, dz = c.goal.z - c.obj.position.z, L = Math.hypot(dx, dz);
-        if (L < 0.2) { c.mode = 'sit'; c.timer = 3 + rng() * 6; } else {
+        if (L < 0.2) { c.mode = 'sit'; c.timer = 3 + rng() * 6; c.fleeing = false; } else {
           c.obj.position.x += (dx / L) * c.speed * dt; c.obj.position.z += (dz / L) * c.speed * dt;
-          c.obj.rotation.y = Math.atan2(dx, dz);
+          // turn smoothly toward where it is going, never snapping
+          const want = Math.atan2(dx, dz), dh = Math.atan2(Math.sin(want - c.obj.rotation.y), Math.cos(want - c.obj.rotation.y));
+          c.obj.rotation.y += dh * (1 - Math.exp(-dt * 8));
           c.obj.position.y = Math.abs(Math.sin(t * 9)) * 0.02;
         }
       }
@@ -208,5 +134,5 @@ export function createLife({ world, scene, camera, getEnv, reduced, lowQuality, 
     group.traverse((o) => { o.geometry?.dispose(); if (o.material) (Array.isArray(o.material) ? o.material : [o.material]).forEach((x) => x.dispose()); });
     group.removeFromParent();
   }
-  return { update, dispose, counts: () => ({ birds: FLOCKS * PER, cats: cats.length }) };
+  return { update, dispose, counts: () => ({ birds: birdLife.count(), cats: cats.length }), birds: birdLife };
 }
