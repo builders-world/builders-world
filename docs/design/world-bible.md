@@ -348,6 +348,10 @@ Land claims (the registry that stops two things being built in one place) are gr
 
 A little real-life friction, on purpose, because the people this world is for live with it. Eko Design Studio is for members: you register at the door (name, role, a day pass for 500 Efforts or a month for 3,000) and a membership card goes in your bag; after that you tap it to get in, and you renew when it runs out. Every resident has a district resident card from the day they arrive. Each workplace has its own Wi-Fi: Eko's password is on the membership card, the Hub's and the Loft's are on their notice boards. The district network (Yaba-Connect) is for residents, password on the resident card; from inside a building it is faint and slow. A laptop that is not on a network cannot browse, and `git push` fails the way it does in life. Networks you have joined are remembered and reconnect when you are back in range. The bag's Cards tab shows your cards and saved networks (`src/look/passes.js`).
 
+### 7.9 Homes are private
+
+Nobody walks into a home uninvited, resident or player. Residents go in and out by their own front door: they walk to the step, turn to the door and go in, and when their day takes them out they come out of it. Anyone can knock. Nobody home: no answer, and where they are. Asleep: a sleepy word through the door. Awake: they come to the door and either ask you in or say not today (people who know you, and people in a good mood, ask you in more often). Invited, you go into their living room with them and their family, and leave by the same door. Player homes follow the same rule: the owner invites, a knock asks; that arrives with player homes in the shared world (after GitHub login and plot claims).
+
 ## 8. Shaders, textures and lighting
 
 ### 8.1 Textures
