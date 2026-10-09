@@ -93,7 +93,7 @@ const NOTES = [
   ['#f6a8a0', 'Who wants to fix the stairway lights with me?'],
 ];
 
-export function createHud({ world, props, camera, reduced, onInteract, weatherFeed, onEquip }) {
+export function createHud({ world, props, camera, reduced, onInteract, weatherFeed, onEquip, onUse, onRide, isExtraOpen, closeExtra }) {
   const style = document.createElement('style');
   style.textContent = CSS;
   document.head.appendChild(style);
@@ -205,6 +205,7 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
   let active = null;
   function interact() {
     if (boardEl.classList.contains('on')) { closeBoard(); return true; }
+    if (onUse?.(lastPlayer, active)) return true; // rides: get in, get out, hire at a stop
     if (!active) return false;
     if (active.id === 'board') openBoard();
     else if (active.line) toast(`${active.name}: ${active.line}`, 4500); // shops and stalls along the street
@@ -361,6 +362,7 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     world, props, weatherFeed, toast, onEquip,
     getPlayer: () => lastPlayer,
     getPath: () => path,
+    onRide: () => onRide?.(lastPlayer),
     snapToStreet: (x, z) => nav.snap(x, z),
     onRoute: (at, label, fromMap) => {
       if (!at) return;
@@ -374,5 +376,5 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
 
   function dispose() { menus.dispose(); unsub?.(); clearInterval(wxTimer); el.remove(); style.remove(); route.removeFromParent(); chevGeo.dispose(); chevMat.dispose(); }
 
-  return { update, interact, route, dispose, isOpen: () => boardEl.classList.contains('on') || menus.isOpen(), close: () => { closeBoard(); menus.close(); }, toast, menuKey: (k) => menus.key(k) };
+  return { update, interact, route, dispose, nav, isOpen: () => boardEl.classList.contains('on') || menus.isOpen() || !!isExtraOpen?.(), close: () => { closeBoard(); menus.close(); closeExtra?.(); }, toast, menuKey: (k) => menus.key(k) };
 }

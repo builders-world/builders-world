@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { danfo, propMaterials } from './props.js';
+import { cloneAsset } from './kit.js';
 import { nearestOn, pathLength, pointAlong } from './nav.js';
 
 // Hired rides (world bible 9.2): danfo at stops on main roads, keke on inner streets, ride-hail
@@ -147,7 +148,9 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState 
 
   // ---------- the vehicle ----------
   let ride = null; // { kind, mesh, mode, phase, path, s, v, yaw, pos, dest }
-  const builders = { danfo: () => danfo(M), keke: () => keke(M), taxi: () => taxi(M) };
+  // the kit's danfo when it is loaded (front is +X, aligned to the ride's +Z), the code-built one otherwise
+  const kitDanfo = world.kit?.get('yaba_danfo_minibus');
+  const builders = { danfo: () => (kitDanfo ? cloneAsset(kitDanfo, -Math.PI / 2) : danfo(M)), keke: () => keke(M), taxi: () => taxi(M) };
 
   function laneOf(pts, side = 1.7) {
     // shift a centreline route into the right-hand lane
@@ -158,16 +161,45 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState 
     });
   }
 
+  // the last ~45 m of the same street, driving toward the pickup in the lane on the pickup's side
+  function approachFor(x, z) {
+    let best = null;
+    world.roads.forEach((r) => {
+      if (!r.fit) return;
+      r.fit.pts.forEach((p, i) => {
+        const d = Math.hypot(p[0] - x, p[1] - z);
+        if (!best || d < best.d) best = { r, i, d };
+      });
+    });
+    if (!best) return null;
+    const { pts, nrm } = best.r.fit;
+    const side = (x - pts[best.i][0]) * nrm[best.i][0] + (z - pts[best.i][1]) * nrm[best.i][1] >= 0 ? 1 : -1;
+    // right-hand traffic: the right of travel is -normal, so a stop on the -normal side is reached driving forward
+    const step = side < 0 ? -1 : 1;
+    const path = [];
+    let L = 0, i = best.i;
+    path.unshift({ x: pts[i][0], z: pts[i][1] });
+    while (L < 45 && i + step >= 0 && i + step < pts.length) {
+      const j = i + step;
+      L += Math.hypot(pts[j][0] - pts[i][0], pts[j][1] - pts[i][1]);
+      path.unshift({ x: pts[j][0], z: pts[j][1] });
+      i = j;
+    }
+    return path.length > 1 ? path : null;
+  }
+
   function summon(c) {
     const T = TYPES[c.kind];
-    const pickup = c.from.kerb || (() => { const s = nav.snap(c.from.x, c.from.z); return { x: s.x, z: s.z }; })();
-    // arrive from up the road, along the streets
-    const startAt = nav.snap(pickup.x + 40, pickup.z + 40) || pickup;
-    const approach = nav.route({ x: startAt.x, z: startAt.z }, pickup) || [startAt, pickup];
+    const pickup = c.from.kerb || { x: c.from.x, z: c.from.z };
+    const approach = approachFor(pickup.x, pickup.z) || [{ x: pickup.x + 30, z: pickup.z }, pickup];
     const mesh = builders[c.kind]();
     group.add(mesh);
-    ride = { kind: c.kind, T, mesh, mode: c.mode, phase: 'arriving', path: laneOf(approach), s: 0, v: 0, yaw: 0, steer: 0,
-      pos: new THREE.Vector3(approach[0].x, 0, approach[0].z), dest: c.dest, pickup };
+    const lanePath = laneOf(approach, 1.9);
+    if (c.from.kerb) lanePath.push({ x: c.from.kerb.x, z: c.from.kerb.z }); // pull in to the kerb at the stop
+    ride = { kind: c.kind, T, mesh, mode: c.mode, phase: 'arriving', path: lanePath, s: 0, v: 0, yaw: 0, steer: 0,
+      pos: new THREE.Vector3(lanePath[0].x, 0, lanePath[0].z), dest: c.dest, pickup };
+    const a = lanePath[0], b = lanePath[1];
+    ride.yaw = Math.atan2(b.x - a.x, b.z - a.z);
     toast(c.mode === 'drive' ? `Your ${T.name.toLowerCase()} is on its way. You will drive.` : `Your ${T.name.toLowerCase()} is coming. Wait at the kerb.`);
     onState?.({ ride: true, phase: 'arriving' });
   }
@@ -192,7 +224,7 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState 
     const p = new THREE.Vector3(out.x, 0, out.z);
     world.resolve(p, 0.8);
     const wasMoving = ride.phase !== 'arriving';
-    ride.mesh.traverse((o) => o.geometry?.dispose());
+    if (!ride.mesh.userData.shared) ride.mesh.traverse((o) => o.geometry?.dispose());
     ride.mesh.removeFromParent();
     ride = null;
     onState?.({ ride: false, exitAt: wasMoving ? p : null });
@@ -258,7 +290,7 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState 
   // E: board when waiting nearby, get off when seated
   function use(player) {
     if (!ride) return false;
-    if (ride.phase === 'waiting' && Math.hypot(player.x - ride.pos.x, player.z - ride.pos.z) < 6) { board(); return true; }
+    if (ride.phase === 'waiting' && Math.hypot(player.x - ride.pos.x, player.z - ride.pos.z) < 8) { board(); return true; }
     if (ride.phase === 'riding' || ride.phase === 'driving') {
       if (Math.abs(ride.v) > 1.5) { toast('Slow down first.'); return true; }
       const p = alight(); onState?.({ ride: false, exitAt: p }); return true;
@@ -276,6 +308,7 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState 
   return {
     update, use, openPanel, dispose, stops,
     isMenuOpen: () => panel.classList.contains('on'), closeMenu: closePanel,
-    get active() { return !!ride; }, get seated() { return !!ride && (ride.phase === 'riding' || ride.phase === 'driving'); },
+    get active() { return !!ride; },
+    get debug() { return ride && { phase: ride.phase, x: ride.pos.x, z: ride.pos.z, s: ride.s, L: pathLength(ride.path), v: ride.v, pickup: ride.pickup }; }, get seated() { return !!ride && (ride.phase === 'riding' || ride.phase === 'driving'); },
   };
 }

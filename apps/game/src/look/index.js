@@ -6,6 +6,7 @@ import { createHud } from './hud.js';
 import { createGear } from './gear.js';
 import { createLife } from './life.js';
 import { dressDistrict } from './district.js';
+import { createRides } from './rides.js';
 import { sunPosition, sunDirection } from './sun.js';
 import { shared } from '../shaders.js';
 
@@ -71,7 +72,25 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   const placed = new THREE.Group();
   group.add(placed);
   const gear = avatar ? createGear(avatar) : null;
+  // places a ride can take you, also used by the map
+  const you = world.plots.find((pl) => pl.b.id === 'you');
+  props.places = [
+    props.interact.find((i) => i.id === 'board') && { name: 'Community board', at: props.interact.find((i) => i.id === 'board') },
+    props.area && { name: 'Community build area', at: props.area },
+    props.hubAt && { name: 'Yaba Creative Hub', at: props.hubAt },
+    you && { name: 'Your plot', at: world.frontOf([you.center.x, you.center.z]) },
+    ...props.interact.filter((i) => i.id.startsWith('shop:')).map((i) => ({ name: i.name, at: i })),
+  ].filter(Boolean);
+  let rides = null, pendingExit = null;
   const hud = createHud({
+    onUse: (player, active) => {
+      if (rides?.use(player)) return true;
+      if (active?.id?.startsWith('stop:')) { rides?.openPanel(active.kind, active); return true; }
+      return false;
+    },
+    onRide: (player) => rides?.openPanel('taxi', { app: true, x: player.x, z: player.z }),
+    isExtraOpen: () => rides?.isMenuOpen(),
+    closeExtra: () => rides?.closeMenu(),
     world, props, camera, reduced, weatherFeed: night ? weatherFeed : null,
     onEquip: (id, on) => gear?.set(id, on),
     onInteract: (what) => {
@@ -86,6 +105,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     },
   });
   group.add(hud.route);
+  rides = createRides({ world, scene: group, nav: hud.nav, props, reduced, toast: hud.toast,
+    onState: (st) => { if (st.ride === false && st.exitAt) pendingExit = st.exitAt; } });
 
   if (reflection) reflection.hidden = [world.ground, rainMesh, cones, hud.route].filter(Boolean);
 
@@ -230,7 +251,16 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
 
   function setSize(w, h) { reflection?.setSize(w * renderer.getPixelRatio(), h * renderer.getPixelRatio()); }
 
+  // the player's ride: a pose while seated, an exit point once, or null
+  function ride(dt, t, keys, player) {
+    if (pendingExit) { const p = pendingExit; pendingExit = null; return { exit: p }; }
+    const r = rides?.update(dt, t, keys, player);
+    if (r?.exit) return r;
+    return r;
+  }
+
   function dispose() {
+    rides?.dispose();
     life?.dispose();
     hud.dispose();
     gear?.dispose();
@@ -244,6 +274,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { update, renderReflection, setSize, dispose, hud, props, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { update, renderReflection, setSize, dispose, hud, props, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

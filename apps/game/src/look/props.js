@@ -136,7 +136,7 @@ function instanced(geo, mat, spots, scale = () => 1) {
 }
 
 // ---------- the danfo ----------
-function danfo(M) {
+export function danfo(M) {
   const g = new THREE.Group();
   const add = (geo, mat) => { const o = new THREE.Mesh(geo, mat); g.add(o); return o; };
   add(mergeGeometries([box(2.1, 1.25, 5.2, 0, 0.95, 0), box(2.0, 0.9, 4.3, 0, 2.0, -0.25), box(1.9, 0.25, 1.1, 0, 1.55, 2.3)]), M.yellow);

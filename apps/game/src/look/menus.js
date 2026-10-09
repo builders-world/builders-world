@@ -121,6 +121,7 @@ const ICON = {
   build: ic('<path d="M8 34h32M12 34v6M36 34v6M10 27h28M14 27v7M34 27v7"/><path d="M24 8v12M18 14l6-6 6 6"/>'),
   weather: ic('<path d="M14 32a8 8 0 1 1 3-15 10 10 0 0 1 19 4 6 6 0 0 1-1 11z"/><path d="M18 38l-2 4M26 38l-2 4M34 38l-2 4"/>'),
   settings: ic('<circle cx="24" cy="24" r="6"/><path d="M24 6v6M24 36v6M6 24h6M36 24h6M11 11l4 4M33 33l4 4M37 11l-4 4M15 33l-4 4"/>'),
+  car: ic('<path d="M8 30l3-10a4 4 0 0 1 4-3h18a4 4 0 0 1 4 3l3 10"/><rect x="6" y="28" width="36" height="9" rx="3"/><circle cx="14" cy="38" r="3"/><circle cx="34" cy="38" r="3"/>'),
   help: ic('<circle cx="24" cy="24" r="17"/><path d="M19 19a5 5 0 1 1 7 5c-2 1-2 2-2 4M24 34v.5"/>'),
   laptop: ic('<rect x="10" y="11" width="28" height="19" rx="2"/><path d="M5 35h38l-3 4H8z"/><path d="M19 20l-3 3 3 3M29 20l3 3-3 3"/>'),
   phone: ic('<rect x="15" y="5" width="18" height="38" rx="4"/><path d="M22 38h4"/>'),
@@ -168,7 +169,7 @@ const store = {
 };
 const COLORS = ['#7fd3b0', '#9cb3ff', '#f6a8a0', '#f7e27a', '#c9a7f5', '#8fd0f0', '#f2b33d', '#a8e0d0'];
 
-export function createMenus({ world, props, weatherFeed, getPlayer, getPath, snapToStreet, onRoute, onEquip, onPhoto, toast }) {
+export function createMenus({ world, props, weatherFeed, getPlayer, getPath, snapToStreet, onRoute, onEquip, onPhoto, onRide, toast }) {
   const style = document.createElement('style');
   style.textContent = CSS;
   document.head.appendChild(style);
@@ -210,6 +211,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     ['Board', 'board', '#f6a8a0', () => { close(); props.openBoard?.(); }],
     ['Builders', 'people', '#9be08f', () => openMap(true)],
     ['Camera', 'camera', '#c9a7f5', () => { close(); onPhoto?.(); }],
+    ['Ride', 'car', '#f2b33d', () => { close(); onRide?.(); }],
     ['Build', 'build', '#8fd0f0', () => { close(); onRoute?.(props.area, 'Community build area'); }],
     ['Weather', 'weather', '#9cb3ff', () => { const w = weatherFeed?.state; toast(w ? `${w.loc.label}: ${w.label}${w.tempC != null ? `, ${Math.round(w.tempC)}°C` : ''}. Updated every 10 minutes.` : 'Weather is loading.'); }],
     ['Settings', 'settings', '#cfc6b4', () => toast('Quality, sound and accessibility settings land here next.')],

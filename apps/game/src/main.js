@@ -277,6 +277,7 @@ async function main() {
     if (!store.get('bw-help-seen')) { setTimeout(() => chrome.toggleHelp(true), 1600); setTimeout(() => { chrome.toggleHelp(false); store.set('bw-help-seen', '1'); }, 9000); }
   }
 
+  let riding = false, savedDist = cam.distT;
   const clock = new THREE.Clock();
   let t = 0;
   let stuck = 0;
@@ -299,11 +300,24 @@ async function main() {
     cam.pitch += (cam.pitchT - cam.pitch) * kc;
     cam.dist += (cam.distT - cam.dist) * kc;
 
+    // a hired ride carries the player; the camera sits behind the vehicle
+    const rs = street?.ride(dt, t, keys, player);
+    if (rs?.exit) {
+      player.copy(rs.exit); world.resolve(player, 0.8);
+      if (riding) { cam.distT = savedDist; riding = false; }
+    } else if (rs?.pos) {
+      if (!riding) { savedDist = cam.distT; riding = true; }
+      player.set(rs.pos.x, 0, rs.pos.z);
+      heading = rs.yaw;
+      cam.distT = rs.cam;
+      if (!drag) cam.yawT += Math.atan2(Math.sin(rs.yaw - cam.yawT), Math.cos(rs.yaw - cam.yawT)) * (1 - Math.exp(-dt * 2));
+    }
+
     // walking, never running
     fwd.set(Math.sin(cam.yaw), 0, Math.cos(cam.yaw));
     right.set(-Math.cos(cam.yaw), 0, Math.sin(cam.yaw));
     mv.set(0, 0, 0);
-    if (!cam.aerial) {
+    if (!cam.aerial && !riding) {
       if (keys.has('w') || keys.has('arrowup')) mv.add(fwd);
       if (keys.has('s') || keys.has('arrowdown')) mv.sub(fwd);
       if (keys.has('d') || keys.has('arrowright')) mv.add(right);
@@ -365,7 +379,7 @@ async function main() {
     camera.position.copy(camPos);
     camera.lookAt(look);
     // a wall pushed the camera into the avatar: hide it rather than show the inside of a head
-    avatar.visible = cam.aerial || camPos.distanceTo(focus) > 1.7;
+    avatar.visible = !riding && (cam.aerial || camPos.distanceTo(focus) > 1.7);
 
     chrome.update(camera, player, !cam.aerial);
     street?.update(dt, t, player, cam.yaw, shared.uArrival.value);
