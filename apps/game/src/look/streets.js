@@ -156,18 +156,22 @@ export function streetFurniture(roads, { inBuilding, inside }) {
     const total = len[len.length - 1];
     const at = (s) => { let i = 1; while (i < len.length - 1 && len[i] < s) i++; return i; };
     let n = 0;
+    // lamps on both sides of every street (Elvis, 9 October): opposite pairs on main roads, staggered
+    // on smaller streets so the pools of light overlap down the whole length of the pavement
     for (let s = 6; s < total - 6; s += C.lamp, n++) {
-      const i = at(s);
-      const prefer = C.sides === 2 ? (n + ri) % 2 : ri % 2; // staggered on main roads, one side elsewhere
-      for (const side of [prefer, 1 - prefer]) {
+      for (const side of [0, 1]) {
+        const ss = C.sides === 2 ? s : s + (side ? C.lamp / 2 : 0);
+        if (ss >= total - 4) continue;
+        const i = at(ss);
         const pave = side === 0 ? paveL[i] : paveR[i];
         if (pave < 0.9) continue;
         const sg = side === 0 ? 1 : -1;
         const off = half[i] + Math.min(0.6, pave - 0.3);
         const x = pts[i][0] + nrm[i][0] * off * sg, z = pts[i][1] + nrm[i][1] * off * sg;
-        if (!inside(x, z) || inBuilding(x, z, 0.8) || inRoad(x, z, ri, 0.5, i) || tooClose(lamps, x, z, C.lamp * 0.6)) continue;
+        // spacing is checked along the same side of the street only
+        const sameSide = lamps.filter((l) => (l.nx * nrm[i][0] + l.nz * nrm[i][1]) * sg > 0.5);
+        if (!inside(x, z) || inBuilding(x, z, 0.8) || inRoad(x, z, ri, 0.5, i) || tooClose(sameSide, x, z, C.lamp * 0.6) || tooClose(lamps, x, z, 3)) continue;
         lamps.push({ x, z, nx: nrm[i][0] * sg, nz: nrm[i][1] * sg, cls: r.cls });
-        break;
       }
     }
     // trees: only where the pavement is wide enough, away from kerb, lamps and junction ends

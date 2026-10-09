@@ -25,7 +25,7 @@ const PEOPLE = [
   { name: 'Funke Ajayi', age: 52, trait: 'elder', job: 'Provisions shop owner', at: 'shop', tier: 1, color: '#e98a6a', style: 'jacket', spouse: null, kids: ['Dapo', 'Bisi', 'Wale'], pet: null, dream: 'See her children graduate, every one of them' },
   { name: 'Kunle Bakare', age: 23, trait: 'shy', job: 'Yaba Tech student', at: 'work', tier: 2, color: '#4a64b0', style: 'hoodie', spouse: null, kids: [], pet: null, dream: 'Get his first remote job and buy his mother a fridge' },
   { name: 'Grace Okon', age: 31, trait: 'cheerful', job: 'Bank teller', at: 'atm', tier: 0, color: '#c9a7f5', style: 'jacket', spouse: 'Ime', kids: [], pet: { kind: 'dog', name: 'Lucky' }, dream: 'Leave banking and start a bakery' },
-  { name: 'Musa Ibrahim', age: 45, trait: 'grumpy', job: 'Fuel station attendant', at: 'fuel', tier: 2, color: '#f2b33d', style: 'tee', spouse: 'Hauwa', kids: ['Aisha', 'Umar', 'Sani'], pet: null, dream: 'Send Aisha to medical school' },
+  { name: 'Musa Ibrahim', age: 45, trait: 'grumpy', job: 'Fuel station attendant', at: 'fuel', shift: 'night', tier: 2, color: '#f2b33d', style: 'tee', spouse: 'Hauwa', kids: ['Aisha', 'Umar', 'Sani'], pet: null, dream: 'Send Aisha to medical school' },
   { name: 'Ifeoma Chukwu', age: 28, trait: 'dreamer', job: 'Community organiser', at: 'board', tier: 1, color: '#2a9d94', style: 'hoodie', spouse: null, kids: [], pet: { kind: 'cat', name: 'Biscuit' }, dream: 'A playground on every street in Yaba' },
   { name: 'Segun Lawal', age: 35, trait: 'hustler', job: 'Danfo conductor', at: 'bus', tier: 2, color: '#e46f4f', style: 'tee', spouse: 'Tolu', kids: ['Femi'], pet: null, dream: 'Own the danfo instead of renting it' },
   { name: 'Halima Yusuf', age: 63, trait: 'elder', job: 'Retired teacher', at: 'board', tier: 1, color: '#a87950', style: 'jacket', spouse: null, kids: ['Rukayya', 'Bilal'], pet: { kind: 'cat', name: 'Mama Cat' }, dream: 'Teach one more child to read' },
@@ -123,10 +123,21 @@ export function createLives({ world, scene, getEnv, getPois, reduced, lowQuality
     const start = 7 + r.seed * 1.5, end = 17 + r.seed * 2, lunch = 12 + ((r.seed * 7) % 1) * 2;
     const tiedToPost = ['food', 'shop', 'fuel', 'bus', 'atm'].includes(r.at); // they eat at work
     const errands = [poisOf('food'), poisOf('shop'), poisOf('atm'), poisOf('cafe')].flat();
-    if (hour < start - 0.4 || hour > end + 3.5) return { task: 'home', to: r.home, label: hour < start ? 'Asleep, the alarm is set for six' : 'Home for the night' };
+    // night shift: the fuel station never closes, so its attendant works 7 pm to 7 am
+    if (r.shift === 'night') {
+      if (hour >= 19 || hour < 6.5) return { task: 'work', to: workplace(r), label: `Night shift at ${workplace(r).name || 'work'}` };
+      if (hour < 7.2) return { task: 'homeward', to: r.home, label: 'Walking home after the night shift' };
+      return { task: 'home', to: r.home, label: 'Asleep after the night shift' };
+    }
+    // everyone else is in bed by ten and up with the light
+    if (hour >= 22 || hour < start - 0.4) return { task: 'home', to: r.home, label: hour < 12 ? 'Asleep, the alarm is set for six' : 'In bed' };
+    if (hour >= Math.min(21, end + 2.5)) return { task: 'homeward', to: r.home, label: 'Heading home to sleep' };
     if (hour < start) return { task: 'commute', to: workplace(r), label: `Getting ready, then off to work as ${r.job.toLowerCase()}` };
     if (!tiedToPost && Math.abs(hour - lunch) < 0.4) { const f = nearest(poisOf('food'), workplace(r)) || workplace(r); return { task: 'lunch', to: f, label: `Lunch break at ${f.name || 'the food spot'}` }; }
     if (hour > end) {
+      // after work, some go to play: the skate park, the water park, the garden, the picnic lawn
+      const parks = poisOf('park');
+      if (parks.length && hash(`${r.name}|${today}|play`) < 0.55 && hour < end + 2) { const pk = parks[Math.floor(hash(`${r.name}|${today}|pk`) * parks.length)]; return { task: 'errand', to: pk, label: `Unwinding at ${pk.name}${r.kids.length ? ` with ${r.kids[0]}` : ''}` }; }
       const e = errands[Math.floor(hash(`${r.name}|${today}|${Math.floor(hour)}`) * errands.length)];
       if (hour < end + 1 && e) return { task: 'errand', to: e, label: `Picking something up at ${e.name}` };
       return { task: 'homeward', to: r.home, label: `On the way home to ${r.spouse || (r.kids.length ? 'the kids' : 'a quiet evening')}` };

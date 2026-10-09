@@ -150,7 +150,7 @@ export function makeGlowMaterial() {
         float d = length(vUv - 0.5) * 2.0;
         float a = pow(clamp(1.0 - d, 0.0, 1.0), 2.4);
         float on = clamp((uArrival - vDelay) / 0.5, 0.0, 1.0);
-        gl_FragColor = vec4(uAmber * a * 0.2 * on * (1.0 - uDay) * uLamps, 1.0);
+        gl_FragColor = vec4(uAmber * a * 0.42 * on * (1.0 - uDay) * uLamps, 1.0); // every lamp lights its own patch of street, always
       }
     `,
   });

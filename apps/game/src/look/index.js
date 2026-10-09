@@ -8,7 +8,7 @@ import { createLife } from './life.js';
 import { dressDistrict } from './district.js';
 import { createRides } from './rides.js';
 import { createChat } from './chat.js';
-import { buildParks } from './parks.js';
+import { buildParks, buildRecreation } from './parks.js';
 import { createLives } from './lives.js';
 import { buildCivic } from './civic.js';
 import { createInteriors, PLACES, namePlaces } from './interior.js';
@@ -39,7 +39,7 @@ export function pickQuality(q) {
 }
 
 const TIERS = {
-  high: { reflect: 0.5, rain: 9000, lights: 8 },
+  high: { reflect: 0.5, rain: 9000, lights: 14 },
   low: { reflect: 0, rain: 2500, lights: 3 },
 };
 
@@ -317,6 +317,9 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   const parks = buildParks({ world, scene: group, pond: props.pond, area: { group: props.areaGroup, item: props.area }, uTime: shared.uTime, reduced,
     addLamps: (l) => { props.lamps.push(...l); lights?.setLamps([...world.lamps, ...props.lamps, ...(world.porchLamps || [])]); } });
   if (parks.park) props.pois?.push({ kind: 'park', name: parks.park.name, x: parks.park.x, z: parks.park.z });
+  // places to play: skate park, water park, community garden, picnic lawn (parks.js)
+  const rec = buildRecreation({ world, scene: group, uTime: shared.uTime, reduced, taken: parks.park ? [{ x: parks.park.x, z: parks.park.z, W: parks.park.rx * 2 + 10, D: parks.park.rz * 2 + 10 }] : [] });
+  props.pois?.push(...rec.pois);
   props.pois?.filter((q) => q.kind === 'build').forEach((q) => { q.x = props.area.x; q.z = props.area.z; }); // the build area moved into the park
 
   function update(dt, t, player, yaw, arrival) {
@@ -329,7 +332,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     fill.position.set(camera.position.x * 0.6 + player.x * 0.4, 3.2, camera.position.z * 0.6 + player.z * 0.4);
     if (rainMesh) rainMesh.userData.cam.value.copy(camera.position);
     props.update(dt, t, player);
-    if (!interiors?.active) { lives.update(dt, t, player); chat.update(dt, player); }
+    if (!interiors?.active) { lives.update(dt, t, player); chat.update(dt, player); rec.update(t); }
     hud.update(dt, t, player, yaw);
     // lightning only when there is a thunderstorm where the weather comes from
     if (night && !reduced && cur.storm > 0.5) {
@@ -382,6 +385,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

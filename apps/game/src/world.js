@@ -538,7 +538,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
       lampSpots.push(spot);
       const g = anchorAt(lampT, 'lamp_glow', spot);
       bulbs.push({ x: g.x, y: g.y - 0.06, z: g.z, s: 0.14 });
-      glows.push({ x: g.x - nx * 1.0, z: g.z - nz * 1.0, r: 6.5 });
+      glows.push({ x: g.x - nx * 1.0, z: g.z - nz * 1.0, r: 8 });
       lamps.push({ x: g.x, y: g.y, z: g.z, delay: delayFor(g.x, g.z), kind: 'street' });
     } else {
       mb.cyl(x, 0.2, z, 0.1, 0.14, 6.2, 6, PAL.metal, { grad: 0.2 });

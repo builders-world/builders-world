@@ -161,3 +161,113 @@ export function buildParks({ world, scene, pond, area, uTime, addLamps, reduced 
   world.addColliders(cols);
   return { group, ...out, update(t) { const f = group.getObjectByName?.('foam'); void f; void t; void reduced; } };
 }
+
+// ---------- places to play (world bible 4.5): a skate park, a water park, a community garden, a picnic lawn ----------
+// Each needs a rectangle of open public ground (the walkable map says: not a building, garden, road or prop),
+// kept clear of the pond park and of each other, as near the start as there is room.
+export function buildRecreation({ world, scene, uTime, taken = [], reduced }) {
+  const group = new THREE.Group(); group.name = 'recreation'; scene.add(group);
+  const pois = [], cols = [], anim = [];
+  const free = (x, z) => (world.costAt ? world.costAt(x, z) < 2.6 : world.isFree(x, z, 0.5));
+  const used = [...taken];
+  function site(W, D) {
+    for (let r = 10; r < world.radius * 0.95; r += 5) for (let k = 0; k < 20; k++) {
+      const a = (k / 20) * Math.PI * 2 + r * 0.37, x = world.spawn.x + Math.cos(a) * r, z = world.spawn.z + Math.sin(a) * r;
+      if (Math.hypot(x, z) > world.radius * 0.9 || used.some((u) => Math.abs(u.x - x) < (u.W + W) / 2 + 3 && Math.abs(u.z - z) < (u.D + D) / 2 + 3)) continue;
+      let ok = true;
+      for (let u = -W / 2; u <= W / 2 && ok; u += 1.5) for (let v = -D / 2; v <= D / 2 && ok; v += 1.5) if (!free(x + u, z + v)) ok = false;
+      if (ok) { used.push({ x, z, W, D }); return { x, z }; }
+    }
+    return null;
+  }
+  const mat = (color, extra = {}) => new THREE.MeshStandardMaterial({ color, roughness: 0.85, ...extra });
+  const pad = (W, D, color, y = 0.08) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(W, D).rotateX(-Math.PI / 2), mat(color, { polygonOffset: true, polygonOffsetFactor: -1 })); m.position.y = y; return m; };
+  const signFor = (text, bg) => { const s = new THREE.Group(); s.add(new THREE.Mesh(box(0.08, 1.5, 0.08, -0.8, 0.75, 0), mat(0x263832)), new THREE.Mesh(box(0.08, 1.5, 0.08, 0.8, 0.75, 0), mat(0x263832))); const p = new THREE.Mesh(new THREE.PlaneGeometry(1.9, 0.5), new THREE.MeshStandardMaterial({ map: signTexture(text, { bg, w: 512, h: 140 }), roughness: 0.7 })); p.position.set(0, 1.3, 0.05); s.add(p); return s; };
+  const add = (g, at, W, D, name, kind) => { g.position.set(at.x, 0, at.z); group.add(g); pois.push({ kind, name, x: at.x, z: at.z }); world.claim?.({ kind: 'recreation', cx: at.x, cz: at.z, hx: W / 2, hz: D / 2, ry: 0 }); };
+  const place = (name) => `${world.place?.name ?? 'Yaba'} ${name}`;
+
+  // skate park: a concrete pad, two quarter pipes, a funbox, a grind rail and a ledge, with a bit of paint
+  let at = site(20, 14);
+  if (at) {
+    const g = new THREE.Group(), concrete = mat(0xc9c2b2), paint = [0xe46f4f, 0x2a9d94, 0xf2b33d];
+    g.add(pad(20, 14, 0xbfb8a8));
+    const qp = new THREE.Shape(); qp.moveTo(0, 0); qp.lineTo(3, 0); qp.lineTo(3, 2.0); qp.quadraticCurveTo(3, 0, 0, 0);
+    [-1, 1].forEach((sd) => {
+      const ramp = new THREE.Mesh(new THREE.ExtrudeGeometry(qp, { depth: 10, bevelEnabled: false }).translate(0, 0, -5), concrete);
+      ramp.rotation.y = sd > 0 ? 0 : Math.PI; ramp.position.set(sd * 7, 0, 0); g.add(ramp);
+      g.add(new THREE.Mesh(box(0.12, 0.12, 10, sd * 10, 2.05, 0), mat(0x55605a, { metalness: 0.5 })));
+      cols.push({ name: 'skate_ramp', cx: at.x + sd * 8.5, cz: at.z, hx: 1.5, hz: 5, ry: 0, h: 2.0 });
+    });
+    const fb = new THREE.Shape(); fb.moveTo(-2.5, 0); fb.lineTo(-1.2, 0.8); fb.lineTo(1.2, 0.8); fb.lineTo(2.5, 0); fb.closePath();
+    g.add(new THREE.Mesh(new THREE.ExtrudeGeometry(fb, { depth: 3, bevelEnabled: false }).translate(0, 0, -1.5), concrete));
+    cols.push({ name: 'skate_box', cx: at.x, cz: at.z, hx: 1.6, hz: 1.5, ry: 0, h: 0.8 });
+    g.add(new THREE.Mesh(box(4, 0.08, 0.08, 0, 0.55, 4.5), mat(0xe46f4f, { metalness: 0.4 })), new THREE.Mesh(box(0.08, 0.55, 0.08, -1.8, 0.27, 4.5), mat(0x263832)), new THREE.Mesh(box(0.08, 0.55, 0.08, 1.8, 0.27, 4.5), mat(0x263832)));
+    g.add(new THREE.Mesh(box(4, 0.5, 1, 0, 0.25, -4.8), concrete));
+    paint.forEach((c, i) => g.add(new THREE.Mesh(new THREE.CircleGeometry(0.8 + i * 0.3, 16).rotateX(-Math.PI / 2).translate(-3 + i * 3, 0.09, 2.5), mat(c, { polygonOffset: true, polygonOffsetFactor: -2 }))));
+    const sg = signFor('SKATE PARK', '#e46f4f'); sg.position.set(0, 0, 7.6); g.add(sg);
+    add(g, at, 20, 14, place('Skate Park'), 'park');
+  }
+
+  // water park: a blue splash pad with jets that rise and fall, a paddling pool, a small slide, sun umbrellas
+  at = site(16, 13);
+  if (at) {
+    const g = new THREE.Group();
+    g.add(pad(16, 13, 0x8fc9d6));
+    const pool = new THREE.Mesh(new THREE.CircleGeometry(3, 28).rotateX(-Math.PI / 2), mat(0x5fb4c4, { roughness: 0.15, polygonOffset: true, polygonOffsetFactor: -2 })); pool.position.set(-3.5, 0.1, 0); g.add(pool);
+    const rim = new THREE.Mesh(new THREE.TorusGeometry(3.05, 0.14, 6, 32).rotateX(Math.PI / 2), mat(0xf7efdc)); rim.position.set(-3.5, 0.12, 0); g.add(rim);
+    const jetMat = new THREE.MeshBasicMaterial({ color: 0xdff6fb, transparent: true, opacity: 0.75 });
+    for (let i = 0; i < 6; i++) { const a = (i / 6) * Math.PI * 2, j = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.12, 1, 8).translate(0, 0.5, 0), jetMat); j.position.set(3.5 + Math.cos(a) * 2, 0.1, Math.sin(a) * 2); g.add(j); anim.push({ j, ph: i * 0.9 }); }
+    g.add(new THREE.Mesh(box(1.2, 1.6, 1.2, 4.5, 0.8, -4.5), mat(0xf2b33d)));
+    // the slide runs from the top of the tower down into the splash pad
+    const slide = new THREE.Group(); slide.position.set(4.5, 0.9, -2.4); slide.rotation.x = Math.atan2(1.55, 3.2);
+    slide.add(new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.08, 3.6), mat(0xe46f4f)), new THREE.Mesh(box(0.08, 0.25, 3.6, -0.45, 0.12, 0), mat(0xe46f4f)), new THREE.Mesh(box(0.08, 0.25, 3.6, 0.45, 0.12, 0), mat(0xe46f4f)));
+    g.add(slide);
+    [[-6, 5], [0, 5.2], [6, 5]].forEach(([x, z], i) => { g.add(new THREE.Mesh(box(0.08, 2.2, 0.08, x, 1.1, z), mat(0x263832)), new THREE.Mesh(new THREE.ConeGeometry(1.4, 0.6, 10).translate(x, 2.4, z), mat([0xe46f4f, 0xf2b33d, 0x2a9d94][i], { side: THREE.DoubleSide }))); });
+    const sg = signFor('WATER PARK', '#2a9d94'); sg.position.set(0, 0, 6.8); g.add(sg);
+    cols.push({ name: 'water_slide', cx: at.x + 4.5, cz: at.z - 4.5, hx: 0.7, hz: 0.7, ry: 0, h: 1.6 });
+    add(g, at, 16, 13, place('Water Park'), 'park');
+  }
+
+  // community garden: raised beds of vegetables and flowers inside a low fence, a shed, a water tank
+  at = site(13, 11);
+  if (at) {
+    const g = new THREE.Group(), wood = mat(0xa87950), soil = mat(0x6b4a30);
+    g.add(pad(13, 11, 0x9cc163, 0.04));
+    const crops = [0x5f9a45, 0xe46f4f, 0xf2b33d, 0x7fb35e, 0xc9a7f5, 0x45694c];
+    for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++) {
+      const x = -4 + c * 4, z = -2 + r * 4;
+      g.add(new THREE.Mesh(box(3, 0.4, 2, x, 0.2, z), wood), new THREE.Mesh(box(2.8, 0.06, 1.8, x, 0.41, z), soil));
+      for (let p = 0; p < 8; p++) g.add(new THREE.Mesh(new THREE.IcosahedronGeometry(0.2, 0).translate(x - 1.1 + (p % 4) * 0.72, 0.6, z - 0.45 + Math.floor(p / 4) * 0.9), mat(crops[(r * 3 + c) % crops.length], { flatShading: true })));
+      cols.push({ name: 'garden_bed', cx: at.x + x, cz: at.z + z, hx: 1.5, hz: 1, ry: 0, h: 0.4 });
+    }
+    g.add(new THREE.Mesh(box(2.2, 2.2, 1.8, 5, 1.1, 3.8), mat(0x326952)), new THREE.Mesh(box(2.5, 0.2, 2.1, 5, 2.3, 3.8), wood));
+    g.add(new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 1.4, 12).translate(-5.3, 0.7, 4), mat(0x2a9d94)));
+    cols.push({ name: 'garden_shed', cx: at.x + 5, cz: at.z + 3.8, hx: 1.1, hz: 0.9, ry: 0 });
+    const sg = signFor('COMMUNITY GARDEN', '#326952'); sg.position.set(0, 0, 5.4); g.add(sg);
+    add(g, at, 13, 11, place('Community Garden'), 'park');
+  }
+
+  // picnic lawn: lush grass, picnic tables, bunting between two posts, shade trees
+  at = site(13, 10);
+  if (at) {
+    const g = new THREE.Group(), wood = mat(0xa87950);
+    g.add(pad(13, 10, 0x8fbf5a, 0.04));
+    [[-3.5, -1.5], [2, -2], [-1, 2.5], [4, 2.2]].forEach(([x, z]) => {
+      g.add(new THREE.Mesh(box(1.8, 0.08, 0.8, x, 0.75, z), wood), new THREE.Mesh(box(1.8, 0.06, 0.3, x, 0.45, z - 0.6), wood), new THREE.Mesh(box(1.8, 0.06, 0.3, x, 0.45, z + 0.6), wood), new THREE.Mesh(box(0.1, 0.75, 0.1, x - 0.7, 0.37, z), wood), new THREE.Mesh(box(0.1, 0.75, 0.1, x + 0.7, 0.37, z), wood));
+      cols.push({ name: 'picnic_table', cx: at.x + x, cz: at.z + z, hx: 0.9, hz: 0.75, ry: 0, h: 0.8 });
+    });
+    const posts = [[-6, -4.5], [6, -4.5]];
+    posts.forEach(([x, z]) => g.add(new THREE.Mesh(box(0.1, 3, 0.1, x, 1.5, z), mat(0x263832))));
+    for (let i = 0; i < 14; i++) { const u = i / 13, x = -6 + u * 12, y = 2.9 - Math.sin(u * Math.PI) * 0.6; g.add(new THREE.Mesh(new THREE.ConeGeometry(0.18, 0.35, 3).rotateX(Math.PI).translate(x, y - 0.2, -4.5), mat([0xe46f4f, 0xf2b33d, 0x2a9d94, 0xf7efdc][i % 4]))); }
+    const tg = treeGeo(), leaf = new THREE.MeshStandardMaterial({ color: 0x5b7d55, roughness: 0.85, flatShading: true }), trunk = mat(0x7d5a3c);
+    [[-5.5, 3.5], [5.5, -2]].forEach(([x, z]) => { const t = new THREE.Group(); t.add(new THREE.Mesh(tg[0], trunk)); tg.slice(1).forEach((q) => t.add(new THREE.Mesh(q, leaf))); t.position.set(x, 0, z); g.add(t); cols.push({ name: 'park_tree', cx: at.x + x, cz: at.z + z, hx: 0.25, hz: 0.25, ry: 0 }); });
+    const sg = signFor('PICNIC LAWN', '#5f9a45'); sg.position.set(0, 0, 5); g.add(sg);
+    add(g, at, 13, 10, place('Picnic Lawn'), 'park');
+  }
+
+  world.addColliders(cols);
+  return {
+    group, pois,
+    update(t) { if (reduced) return; anim.forEach((a) => { const h = 0.4 + 1.4 * Math.max(0, Math.sin(t * 2.2 + a.ph)); a.j.scale.y = h; }); },
+  };
+}
