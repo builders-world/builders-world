@@ -6,7 +6,7 @@ Every request Elvis has made, with where it stands. Updated 9 October 2026, 17:4
 
 | Copy | Address | What it shows |
 |---|---|---|
-| Live on Vercel | https://buildersworld.vercel.app/?world=1 (onboarding at https://buildersworld.vercel.app/) | `main` as of `dc03f4a`, deployed 9 October from the Vercel CLI (project buildersworld, account obileonardo). Redeploy with `vercel deploy --prod` from the game folder. |
+| Live on Vercel | https://buildersworld.vercel.app/?world=1 (onboarding at https://buildersworld.vercel.app/) | `main` as of `84ad44d`, deployed 9 October from the Vercel CLI (project buildersworld, account obileonardo). Redeploy with `vercel deploy --prod` from the game folder. |
 | The game, branch `main` (merged) | http://127.0.0.1:5173/?world=1 (onboarding at http://127.0.0.1:5173/) | Everything below marked Done. Claude's worktree on 5181 is the same plus work in progress. |
 | GitHub | builders-world/yaba-scene and builders-world/builders-world, branch `main` | Pushed after each item, approved by Elvis on 9 October. |
 
@@ -58,6 +58,10 @@ Every request Elvis has made, with where it stands. Updated 9 October 2026, 17:4
 | 29 | Houses like the arrival scene's house | Done, pushed: every map footprint dressed in the starter house's parts | yaba-scene `src/look/houses.js` | `dc03f4a` |
 | 30 | Every house on its own estate: lawn, fence, room (California suburb first) | Done, pushed: lawn, white picket fence, gate, path, back-garden tree, door planter. Next: fill empty ground with new lots | yaba-scene `src/look/houses.js`, `src/world.js` | `dc03f4a` |
 | 31 | Flickering buildings and gutters | Done, pushed: coplanar surfaces separated, logarithmic depth buffer | yaba-scene `src/main.js`, `src/shaders.js`, `src/world.js` | `dc03f4a` |
+| 32 | Billboard blocking the road | Done, pushed: a framed roadside billboard on two legs, off the road, lit at night | yaba-scene `src/look/props.js` | `7fa64ac` |
+| 33 | Walk instead of waddle; run and jump | Done, pushed: jointed rig, walk, Shift run, Space jump, seated pose; iterated with contact sheets | yaba-scene `src/look/anim.js` | `91d670c` |
+| 34 | Real physics: nothing passes through anything, cars too | Done, pushed: grid colliders with heights, fences, people, traffic, whole-body vehicle checks; tested | yaba-scene `src/world.js`, `src/look/physics.js` | `84ad44d` |
+| 35 | More flicker (towers, skyline) | Done, pushed: found with a frame-difference test; log depth made opt-in | yaba-scene | `1042da7` |
 | 24a | Help panel still says V is street or aerial | Proposed to Codex (its file `index.html`): change to V camera, B aerial | live handoff | |
 
 ## Decisions waiting on Elvis

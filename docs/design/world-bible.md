@@ -293,6 +293,16 @@ Ambient creatures and NPCs have no name tags, no presence dots and cannot be mes
 - Rig standard: one humanoid skeleton shared by every character (so animations are shared), root at the feet, facing +Z.
 - Animation set for the first release: idle, walk, sit down, sit idle, type on laptop, stand up, wave, point, nod, clap, high five (two-person), talk loop.
 - Customisation follows the reference patterns: category tabs with round part pickers and a live preview (Toca Boca), a radial quick-swap for saved outfits (Animal Crossing), and a calmer, framed editor for faces and skin tone (Hogwarts Legacy). Dev streetwear first: hoodies, tees, cargo trousers, sneakers, caps, glasses, headphones, laptop backpacks.
+- **Movement (Elvis, 9 October 2026: walk, not waddle).** Until the final avatar ships, `src/look/anim.js` rigs the shared avatar with hip, knee, ankle, shoulder and elbow joints. Walk 2.8 m/s by default, run 6.4 m/s on Shift, jump on Space with real gravity (peak about 0.96 m). The cycle advances by distance travelled so feet never slide; the hips ride the stance leg (high as the legs pass, low at heel strike); a run leans in, lifts the knees, bends and pumps the arms and has a flight phase; a jump tucks one knee and lands with a small squash. No side-to-side body rocking: that reads as a penguin. Any new avatar must keep these joints so the cycle carries over.
+
+### 7.5 Physics and collision
+
+- Nothing passes through anything. People are circles (0.8 m for the player against the world, 0.33 m for others), things on the ground are turned boxes, buildings are their real footprints. All of it sits in one 8 m grid.
+- Every collider has a height. A running jump clears low things (picket fences, 1 m); walls, cars and people stop you.
+- Moving bodies collide: pavement walkers, builders, traffic and the hired vehicle. Walkers give way and turn back at obstacles; traffic gives way to people.
+- A driven vehicle is tested nose to tail every frame and bounces back on contact.
+- Anything placed in the world checks the same colliders first (and stays off lawns, pavements and carriageways), so nothing is ever placed inside anything else.
+- Test with the walk-and-run sweep (24 directions, zero overlaps) before shipping any change to placement or movement.
 
 ## 8. Shaders, textures and lighting
 
