@@ -66,7 +66,7 @@ export function createInteriors({ scene, reduced, toast, getEnv }) {
   // the computer overlay: a working screen at your desk
   const screen = document.createElement('div');
   screen.innerHTML = `<style>
-    #lki { position: fixed; z-index: 34; inset: 6vh 8vw; border-radius: 18px; background: #0d1117; color: #e6edf3; display: none; overflow: hidden;
+    #lki { position: fixed; z-index: 34; inset: 6vh 8vw; border-radius: 28px; border: 14px solid #f7efdc; box-shadow: 0 6px 0 rgba(59,42,32,.25), 0 30px 70px rgba(10,14,30,.4); background: #0d1117; color: #e6edf3; display: none; overflow: hidden;
       box-shadow: 0 30px 90px rgba(0,0,0,.6); font: 13px/1.5 Menlo, ui-monospace, monospace; }
     #lki.on { display: grid; grid-template-columns: 220px 1fr; }
     #lki aside { background: #161b22; padding: 16px; border-right: 1px solid #30363d; }

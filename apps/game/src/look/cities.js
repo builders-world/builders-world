@@ -27,21 +27,21 @@ function layout(portrait) {
 }
 
 const CSS = `
-#lkc { position: fixed; inset: 0; pointer-events: none; z-index: 20; font-family: ui-sans-serif, system-ui, sans-serif; color: #eef2ff; }
-#lkc h1 { position: absolute; left: 28px; top: 22px; margin: 0; font: 900 30px/1 ui-rounded, system-ui, sans-serif; letter-spacing: .02em; }
-#lkc h1 small { display: block; margin-top: 6px; font: 500 13px/1.4 system-ui; color: #a3afd0; letter-spacing: 0; }
+#lkc { position: fixed; inset: 0; pointer-events: none; z-index: 20; font-family: "Baloo 2", ui-rounded, system-ui, sans-serif; color: #3b2a20; }
+#lkc h1 { position: absolute; left: 28px; top: 22px; margin: 0; font: 800 34px/1 "Baloo 2", ui-rounded, system-ui, sans-serif; }
+#lkc h1 small { display: block; margin-top: 6px; font: 600 15px/1.4 "Baloo 2", ui-rounded, system-ui, sans-serif; color: #3b5f58; }
 #lkc .tag { position: absolute; transform: translate(-50%, -100%); pointer-events: auto; cursor: pointer; text-align: center; padding: 7px 12px; border-radius: 12px;
-  background: rgba(9,14,28,.8); border: 1px solid rgba(255,255,255,.09); backdrop-filter: blur(8px); white-space: nowrap; transition: transform .15s ease, background .15s ease; }
+  background: #f7efdc; color: #3b2a20; box-shadow: 0 4px 0 rgba(59,42,32,.2); white-space: nowrap; transition: transform .15s ease, background .15s ease; }
 #lkc .tag .more { display: none; }
 #lkc .tag:hover .more, #lkc .tag.on .more { display: block; }
-#lkc .tag:hover, #lkc .tag.on { background: rgba(242,179,61,.22); transform: translate(-50%, -106%); }
-#lkc .tag b { display: block; font: 800 16px/1.2 system-ui; }
-#lkc .tag span { display: block; font-size: 12px; color: #c5cde6; margin-top: 2px; }
+#lkc .tag:hover, #lkc .tag.on { background: #fff; transform: translate(-50%, -106%); }
+#lkc .tag b { display: block; font: 800 18px/1.2 "Baloo 2", ui-rounded, system-ui, sans-serif; }
+#lkc .tag span { display: block; font-size: 12.5px; color: #7a6552; margin-top: 2px; }
 #lkc .tag em { display: inline-block; margin-top: 6px; font: 700 11px/1 system-ui; font-style: normal; padding: 4px 8px; border-radius: 999px; background: #f2b33d; color: #2a1a02; }
 #lkc .tag em.prev { background: rgba(255,255,255,.12); color: #dfe5f7; }
-#lkc .back { position: absolute; right: 22px; top: 22px; pointer-events: auto; border: 0; border-radius: 12px; padding: 10px 16px; background: rgba(9,14,28,.78); color: #eef2ff; font: 650 13px system-ui; cursor: pointer; }
+#lkc .back { position: absolute; right: 22px; top: 22px; pointer-events: auto; border: 0; border-radius: 999px; padding: 10px 18px; background: #f7efdc; color: #3b2a20; box-shadow: 0 3px 0 rgba(59,42,32,.2); font: 700 14px system-ui; cursor: pointer; }
 @media (max-width: 600px) { #lkc h1 { font-size: 24px; left: 16px; top: 16px; max-width: 60%; } #lkc .back { right: 12px; top: 14px; padding: 8px 12px; } #lkc .tag { padding: 5px 9px; } #lkc .tag b { font-size: 14px; } #lkc .tag span { font-size: 11px; } }
-#lkc .note { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); font-size: 11.5px; color: #8b97b8; text-align: center; }
+#lkc .note { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); font-size: 12px; color: #2f5d55; text-align: center; }
 #lkc .note a { color: inherit; }
 `;
 
@@ -109,10 +109,10 @@ function diorama(c, manifest, seed) {
     });
   }
   const mats = {
-    ground: new THREE.MeshLambertMaterial({ color: 0x3d4a3a }),
-    road: new THREE.MeshLambertMaterial({ color: 0xc9bfa6 }),
-    bld: new THREE.MeshLambertMaterial({ color: 0xd5cfc4 }),
-    est: new THREE.MeshLambertMaterial({ color: 0xa6b4c8, transparent: true, opacity: 0.75 }),
+    ground: new THREE.MeshLambertMaterial({ color: 0xa4ab7c }),
+    road: new THREE.MeshLambertMaterial({ color: 0xf0deb0 }),
+    bld: new THREE.MeshLambertMaterial({ color: 0xe6d3b3 }),
+    est: new THREE.MeshLambertMaterial({ color: 0xbcd2d6, transparent: true, opacity: 0.8 }),
   };
   Object.entries(parts).forEach(([k, list]) => { if (list.length) g.add(new THREE.Mesh(mergeGeometries(list.map((x) => (x.index ? x.toNonIndexed() : x)).map((x) => { x.deleteAttribute('uv'); return x; })), mats[k])); });
   // night lights: amber points over buildings and roads, shown after dusk
@@ -141,7 +141,7 @@ export async function runCitySheet({ renderer, onEnter, onBack, reduced }) {
   ui.querySelector('.back').onclick = () => onBack?.();
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x0e1626);
+  scene.background = new THREE.Color(0x8ed3c4); // the lagoon, as on the map
   const hemi = new THREE.HemisphereLight(0xdfe8ff, 0x1a1612, 1.1); scene.add(hemi);
   const key = new THREE.DirectionalLight(0xffffff, 1.4); key.position.set(-200, 300, 120); scene.add(key);
 
@@ -174,7 +174,7 @@ export async function runCitySheet({ renderer, onEnter, onBack, reduced }) {
       const sun = sunPosition(new Date(), t.c.lat, t.c.lon);
       const day = THREE.MathUtils.smoothstep(sun.elevation, -6, 10);
       const tint = new THREE.Color().setRGB(0.32 + 0.68 * day, 0.38 + 0.62 * day, 0.62 + 0.38 * day);
-      ['ground', 'road', 'bld', 'est'].forEach((k) => { const base = { ground: 0x3d4a3a, road: 0xc9bfa6, bld: 0xd5cfc4, est: 0xa6b4c8 }[k]; t.d.mats[k].color.set(base).multiply(tint); });
+      ['ground', 'road', 'bld', 'est'].forEach((k) => { const base = { ground: 0xa4ab7c, road: 0xf0deb0, bld: 0xe6d3b3, est: 0xbcd2d6 }[k]; t.d.mats[k].color.set(base).multiply(tint); });
       t.d.lights.material.opacity = 1 - day;
       t.d.rain.visible = !!t.wx?.rain && !reduced;
       const temp = t.wx?.temp != null ? `${Math.round(t.wx.temp)}° ${LABEL(t.wx.code)}` : 'Weather loading';

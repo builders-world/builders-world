@@ -13,9 +13,12 @@ import { createLook, blueHourSky, pickQuality, createWeather } from './look/inde
 import { loadKit } from './look/kit.js';
 import { rigAvatar } from './look/anim.js';
 import { walkMarker } from './look/trail.js';
+import { SKIN_CSS, loadFont } from './look/uikit.js';
 import { pushOutDynamic } from './look/physics.js';
 
 const q = new URLSearchParams(location.search);
+// one cartoon skin over every panel on the street, Codex's chrome included (world bible 11.1)
+{ const st = document.createElement('style'); st.textContent = SKIN_CSS; document.head.appendChild(st); document.body.classList.add('bw-skin'); loadFont(); }
 const arrivalProfile = loadProfile();
 const resident = q.get('resident') === '1' && arrivalProfile.step === 'home' && arrivalProfile.city === 'Lagos' && arrivalProfile.district === 'Yaba';
 const place = {
@@ -125,7 +128,7 @@ async function main() {
     const returnLink = document.createElement('a');
     returnLink.href = './';
     returnLink.textContent = '← Your arrival / edit avatar';
-    Object.assign(returnLink.style, { position: 'fixed', bottom: '68px', left: '16px', zIndex: '20', color: 'var(--fg)', background: 'var(--solid)', padding: '10px 14px', fontSize: '12px', borderRadius: '8px', textDecoration: 'none' });
+    Object.assign(returnLink.style, { position: 'fixed', bottom: '68px', left: '14px', zIndex: '20', color: 'var(--fg)', background: 'var(--glass)', padding: '10px 16px', font: '700 14px/1 var(--bw-font, inherit)', borderRadius: '999px', textDecoration: 'none', boxShadow: 'var(--shadow)' });
     document.body.appendChild(returnLink);
   }
 

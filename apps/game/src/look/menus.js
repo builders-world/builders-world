@@ -7,7 +7,7 @@ import { loadProfile } from '../onboarding/state.js';
 import { C, FONT, KIT_CSS, loadFont, pattern, backdropSVG, personFor, portraitSVG, figureSVG, art, appIcon, placeArt, ribbonSVG } from './uikit.js';
 
 const CSS = `${KIT_CSS}
-#lkm-dim { position: fixed; inset: 0; z-index: 30; background: rgba(5,8,18,.55); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+#lkm-dim { position: fixed; inset: 0; z-index: 30; background: rgba(34,28,20,.42); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
   opacity: 0; pointer-events: none; transition: opacity .2s ease; }
 #lkm-dim.on { opacity: 1; pointer-events: auto; }
 .lkm-hints { position: fixed; right: 18px; bottom: 16px; z-index: 32; display: flex; gap: 8px; }
@@ -107,10 +107,11 @@ const CSS = `${KIT_CSS}
 #lkm-guide svg { stroke: #fff; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 #lkm-guide .or { opacity: .8; margin: 0 4px 20px; }
 #lkm-guide .skip { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); font: 600 12px/1 system-ui; letter-spacing: .08em; opacity: .65; }
-#lkm-tip { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 14; font: 600 12px/1 system-ui; color: rgba(238,242,255,.7);
-  display: flex; gap: 14px; pointer-events: none; }
+#lkm-tip { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 14; display: flex; gap: 6px; pointer-events: none; padding: 5px; border-radius: 999px;
+  background: rgba(247,239,220,.88); box-shadow: 0 3px 0 rgba(59,42,32,.15); font: 700 12.5px/1 ${FONT}; color: ${C.ink2}; }
 body.nohud #lkm-tip { display: none; }
-#lkm-tip b { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 4px; margin-right: 5px; border-radius: 5px; background: rgba(238,242,255,.85); color: #0d1326; font-size: 10.5px; }
+#lkm-tip span { display: inline-flex; align-items: center; padding-right: 8px; }
+#lkm-tip b { display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 6px; margin-right: 5px; border-radius: 999px; background: ${C.ink}; color: ${C.paper}; font-size: 11px; }
 @media (max-width: 700px) {
   #lkm-map { grid-template-columns: 1fr; grid-template-rows: auto auto auto; padding: 70px 12px 70px; overflow: auto; align-content: start; }
   #lkm-map .mid { order: -1; }

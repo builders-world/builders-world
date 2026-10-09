@@ -170,3 +170,53 @@ export const KIT_CSS = `
   font: 700 15px/1 ${FONT}; box-shadow: 0 3px 0 rgba(59,42,32,.2); }
 .bw-chip b { display: grid; place-items: center; min-width: 24px; height: 24px; padding: 0 6px; border-radius: 999px; background: ${C.ink}; color: ${C.paper}; font: 700 12px/1 ${FONT}; }
 `;
+
+// The skin (world bible 11.1): one look for every panel on the street, Codex's chrome included.
+// Codex's chrome is built on CSS variables, so the skin redefines them on <body> instead of editing
+// index.html or ui.js; nothing in those files changes. Applied with body.bw-skin.
+export const SKIN_CSS = `
+body.bw-skin { --glass: ${C.paper}; --solid: #fffaf0; --fg: ${C.ink}; --fg2: ${C.ink2}; --fg3: #a08c74; --line: rgba(59,42,32,.08);
+  --hover: rgba(59,42,32,.07); --seg: rgba(59,42,32,.12); --accent: ${C.amber}; --accent-ink: ${C.ink}; --accent-text: #a8680a; --ok: ${C.teal};
+  --shadow: 0 4px 0 rgba(59,42,32,.2), 0 12px 28px rgba(10,14,30,.22); --lbl: ${C.paper}; --r: 22px; font-family: ${FONT}; }
+body.bw-skin .glass { border: 0; backdrop-filter: none; -webkit-backdrop-filter: none; }
+body.bw-skin #brand { padding: 8px 16px 8px 8px; border-radius: 999px; }
+body.bw-skin #brand .mark { border-radius: 50%; width: 32px; height: 32px; box-shadow: inset 0 -3px 0 rgba(59,42,32,.18); }
+body.bw-skin #brand b { font: 800 16px/1.1 ${FONT}; letter-spacing: 0; }
+body.bw-skin #brand span.s, body.bw-skin #src { font: 600 12px/1.2 ${FONT}; }
+body.bw-skin #src { background: rgba(42,157,148,.12); color: ${C.teal}; }
+body.bw-skin #toolbar { border-radius: 999px; padding: 5px; }
+body.bw-skin .seg { border-radius: 999px; background: rgba(59,42,32,.07); }
+body.bw-skin .seg button { border-radius: 999px; font: 700 14px/1 ${FONT}; color: ${C.ink2}; height: 32px; }
+body.bw-skin .seg button[aria-pressed='true'] { background: ${C.teal} !important; color: #fff; box-shadow: 0 2px 0 #1d6f69 !important; }
+body.bw-skin .ib { border-radius: 50%; color: ${C.ink}; }
+body.bw-skin .ib svg { stroke-width: 2.3; }
+body.bw-skin .ib:hover { background: rgba(242,179,61,.25); }
+body.bw-skin #dock { border-radius: 999px; padding: 6px 5px; }
+body.bw-skin #bbtn { border-radius: 999px; height: 42px; padding: 0 18px 0 14px; font: 800 15px/1 ${FONT}; color: ${C.ink}; }
+body.bw-skin #bbtn svg { color: ${C.teal}; stroke-width: 2.3; }
+body.bw-skin #bbtn .n { display: inline-grid; place-items: center; min-width: 22px; height: 22px; border-radius: 999px; background: ${C.amber}; color: ${C.ink}; font-size: 12px; }
+body.bw-skin #blist, body.bw-skin #card, body.bw-skin #help { border-radius: 24px; }
+body.bw-skin #blist h2, body.bw-skin .sec h4 { font: 800 14px/1 ${FONT}; text-transform: none; letter-spacing: 0; color: ${C.teal}; }
+body.bw-skin .row { border-radius: 14px; font-family: ${FONT}; }
+body.bw-skin .av { border-radius: 50%; font: 800 16px/1 ${FONT}; }
+body.bw-skin .c-head h3 { font: 800 19px/1.1 ${FONT}; letter-spacing: 0; }
+body.bw-skin .chip { font: 700 12px/1.2 ${FONT}; padding: 4px 10px; background: ${C.paper2}; }
+body.bw-skin .chip.ver { background: rgba(42,157,148,.14); }
+body.bw-skin .stat { border-radius: 16px; background: ${C.paper2}; }
+body.bw-skin .stat b { font: 800 18px/1.1 ${FONT}; }
+body.bw-skin .more { border-radius: 999px; background: ${C.paper2}; font: 700 14px/1 ${FONT}; color: ${C.ink}; }
+body.bw-skin .go { border-radius: 999px; font: 800 15px/1 ${FONT}; box-shadow: 0 3px 0 #c98f1f; }
+body.bw-skin #help h2 { font: 800 20px/1.1 ${FONT}; }
+body.bw-skin #help dd { font: 600 14px/1.3 ${FONT}; }
+body.bw-skin kbd { border: 0; border-radius: 999px; background: ${C.ink}; color: ${C.paper}; font: 700 12px/1.6 ${FONT}; padding: 1px 8px; }
+body.bw-skin #toast { font: 700 15px/1.3 ${FONT}; padding: 10px 20px; }
+body.bw-skin .lbl { border: 0; font: 700 13px/1.4 ${FONT}; padding: 3px 11px 3px 9px; box-shadow: 0 3px 0 rgba(59,42,32,.2); }
+body.bw-skin #loader { background: ${C.sea}; color: ${C.ink}; font-family: ${FONT}; }
+body.bw-skin #loader b { color: ${C.ink}; }
+@media (max-width: 600px) {
+  body.bw-skin #brand { max-width: calc(100vw - 236px); padding-right: 12px; }
+  body.bw-skin #brand span.s { display: none; }
+  body.bw-skin .seg button { padding: 0 9px; font-size: 13px; }
+  body.bw-skin #toolbar .sep { display: none; }
+}
+`;

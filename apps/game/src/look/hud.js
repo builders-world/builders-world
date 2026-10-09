@@ -61,7 +61,7 @@ body.nohud #lk { display: none; }
 #lk-wx .t { display: flex; align-items: baseline; gap: 6px; font-size: 24px; font-weight: 800; }
 #lk-wx .t span { font-size: 13px; font-weight: 700; color: ${K.ink}; }
 #lk-wx .p { color: ${K.ink2}; margin-top: 2px; font-weight: 600; }
-#lk-wx button { margin-top: 8px; width: 100%; border: 0; border-radius: 8px; padding: 6px 8px; background: rgba(255,255,255,.08); color: #eef2ff; font: 600 11.5px/1.2 inherit; cursor: pointer; }
+#lk-wx button { margin-top: 8px; width: 100%; border: 0; border-radius: 8px; padding: 6px 8px; background: rgba(255,255,255,.08); color: #eef2ff; font: 600 11.5px/1.2 "Baloo 2", ui-rounded, system-ui, sans-serif; cursor: pointer; }
 #lk-wx .src { display: block; margin-top: 6px; color: ${K.ink2}; font-size: 10.5px; }
 #lk-wx .src a { color: inherit; }
 @media (max-width: 700px) { #lk-wx { top: 172px; width: 120px; padding: 8px 10px; } #lk-wx .t { font-size: 16px; } #lk-wx button { display: none; } }

@@ -106,17 +106,17 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
   panel.id = 'lkr';
   panel.innerHTML = `<style>
     #lkr { position: fixed; z-index: 31; right: 186px; top: 74px; width: min(380px, calc(100vw - 32px)); padding: 18px; border-radius: 20px; display: none;
-      background: rgba(14,22,40,.92); border: 1px solid rgba(255,255,255,.08); color: #eef2ff; font: 13px/1.45 ui-sans-serif, system-ui, sans-serif; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
+      background: #f7efdc; color: #3b2a20; font: 600 14px/1.45 "Baloo 2", ui-rounded, system-ui, sans-serif; box-shadow: 0 5px 0 rgba(59,42,32,.2), 0 18px 40px rgba(10,14,30,.28); border-radius: 26px; }
     #lkr.on { display: block; }
-    #lkr h3 { margin: 0 0 4px; font: 800 20px/1.1 ui-rounded, system-ui, sans-serif; }
-    #lkr .sub { color: #a3afd0; font-size: 12px; margin-bottom: 12px; }
-    #lkr .lbl { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #a3afd0; margin: 12px 0 6px; }
+    #lkr h3 { margin: 0 0 4px; font: 800 24px/1.1 "Baloo 2", ui-rounded, system-ui, sans-serif; }
+    #lkr .sub { color: #7a6552; font-size: 13px; margin-bottom: 12px; }
+    #lkr .lkr-lbl { font: 800 14px/1 "Baloo 2", ui-rounded, system-ui, sans-serif; color: #2a9d94; margin: 14px 0 7px; }
     #lkr .opts { display: grid; gap: 6px; }
-    #lkr button { border: 0; border-radius: 12px; padding: 10px 12px; text-align: left; background: rgba(255,255,255,.06); color: #eef2ff; font: 600 13px/1.2 inherit; cursor: pointer; }
-    #lkr button.sel { background: rgba(242,179,61,.18); box-shadow: inset 0 0 0 2px #f2b33d; }
+    #lkr button { border: 0; border-radius: 16px; padding: 11px 14px; text-align: left; background: #efe2c4; color: #3b2a20; font: 700 14px/1.2 "Baloo 2", ui-rounded, system-ui, sans-serif; cursor: pointer; }
+    #lkr button.sel { background: #fff; box-shadow: inset 0 0 0 3px #2a9d94; }
     #lkr button[disabled] { opacity: .45; cursor: default; }
     #lkr .row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-    #lkr .go { margin-top: 14px; width: 100%; text-align: center; background: #f2b33d; color: #2a1a02; font-weight: 800; }
+    #lkr .go { margin-top: 16px; width: 100%; text-align: center; background: #f2b33d; color: #3b2a20; font-weight: 800; font-size: 16px; border-radius: 999px; box-shadow: 0 3px 0 #c98f1f; }
     @media (max-width: 700px) { #lkr { right: 16px; top: 70px; } }
   </style><div class="body"></div>`;
   document.body.appendChild(panel);
@@ -134,9 +134,9 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
     const places = props.places || [];
     const kinds = choice.from.app ? ['taxi', 'danfo', 'keke'] : [choice.kind];
     body.innerHTML = `<h3>Hire a ride</h3><div class="sub">Rides are free. ${choice.from.app ? 'A driver comes to you.' : TYPES[choice.kind].name + ' from this stop.'}</div>
-      ${choice.from.app ? `<div class="lbl">Vehicle</div><div class="row">${kinds.map((k) => `<button data-k="${k}" class="${choice.kind === k ? 'sel' : ''}">${TYPES[k].name}</button>`).join('')}${(world.place?.city ?? 'Lagos') === 'Lagos' ? '<button disabled>Okada: not allowed in Yaba</button>' : ''}</div>` : ''}
-      <div class="lbl">Where to</div><div class="opts">${places.map((p, i) => `<button data-d="${i}" class="${choice.dest === p ? 'sel' : ''}">${p.name}</button>`).join('')}</div>
-      <div class="lbl">How</div><div class="row"><button data-m="passenger" class="${choice.mode === 'passenger' ? 'sel' : ''}">Ride as passenger</button><button data-m="drive" class="${choice.mode === 'drive' ? 'sel' : ''}">Drive yourself</button></div>
+      ${choice.from.app ? `<div class="lkr-lbl">Vehicle</div><div class="row">${kinds.map((k) => `<button data-k="${k}" class="${choice.kind === k ? 'sel' : ''}">${TYPES[k].name}</button>`).join('')}${(world.place?.city ?? 'Lagos') === 'Lagos' ? '<button disabled>Okada: not allowed in Yaba</button>' : ''}</div>` : ''}
+      <div class="lkr-lbl">Where to</div><div class="opts">${places.map((p, i) => `<button data-d="${i}" class="${choice.dest === p ? 'sel' : ''}">${p.name}</button>`).join('')}</div>
+      <div class="lkr-lbl">How</div><div class="row"><button data-m="passenger" class="${choice.mode === 'passenger' ? 'sel' : ''}">Ride as passenger</button><button data-m="drive" class="${choice.mode === 'drive' ? 'sel' : ''}">Drive yourself</button></div>
       <button class="go">${choice.mode === 'drive' ? 'Get the keys' : 'Call the ride'}</button>
       <button class="x" style="margin-top:6px;width:100%;text-align:center">Cancel</button>`;
     body.querySelectorAll('[data-k]').forEach((b) => { b.onclick = () => { choice.kind = b.dataset.k; render(); }; });
