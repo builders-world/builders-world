@@ -1,6 +1,6 @@
 node_modules
 dist
 artifacts/test-results/
-artifacts/*.png
+artifacts/**/*.png
 artifacts/*.webm
 artifacts/motion/

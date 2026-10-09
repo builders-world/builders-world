@@ -2,21 +2,23 @@ import * as THREE from 'three';
 import { MeshBuilder, mulberry32 } from './mesh.js';
 import { BUILDERS, MONUMENTS, FLOOR_H, floorsFor, litProbability } from './builders.js';
 import { makeWindowMaterial, makeGlowMaterial, makeBeamMaterial } from './shaders.js';
+import { wetGroundMaterial, wallMaterial } from './look/surfaces.js';
 
 const NIGHT = {
-  walls: ['#1d2744', '#222e50', '#27355a', '#1a2340', '#2a3050'],
-  dark: ['#1d2845', '#222e50', '#1a2540', '#26335a'],
+  walls: ['#5d6476', '#6a6470', '#4f6a70', '#7a6656', '#5c6680', '#6e5a58'],
+  dark: ['#454c5e', '#4d4f5c', '#3f4a58', '#56504e', '#48525e'],
   teal: '#2a9d94', tealDark: '#1b6e69',
-  road: '#1b2540', kerb: '#2a3558', path: '#2c3659', paint: '#7283ab', ground: '#0e1730',
+  road: '#3a3f4a', kerb: '#6d7078', path: '#5f636c', paint: '#d8dbe2', ground: '#2a2e34',
   foliage: ['#123a46', '#0f3340', '#144047'], trunk: '#1b2133', metal: '#3b4560', slate: '#2f3a56',
   podium: '#171f38', capSlab: '#13202b', tank: '#27324f', ac: '#2c3552', far: '#0b1020', roofCap: '#151d36',
   wire: '#2a3350', tower: '#252f4c', kiosk: '#232c48', board: '#1a2340', monoA: '#1d2744', monoB: '#242f50',
   cabin: '#3a4766', wheel: '#0b0f1c',
   env: {
-    day: 0, bg: '#0b1426', fog: '#0b1426', fogNear: 0.4, fogFar: 2.8, exposure: 1.25, tone: 'aces',
-    bloom: { on: true, strength: 0.7, radius: 0.5, threshold: 0.42 },
-    hemi: { sky: 0x6b86d6, ground: 0x0c1020, i: 1.35 },
-    key: { color: 0x9db2ff, i: 1.25 }, rim: { color: 0x2f9f98, i: 0.45 },
+    day: 0, bg: '#1b2748', fog: '#24305a', fogNear: 0.08, fogFar: 1.9, exposure: 1.05, tone: 'aces',
+    bloom: { on: true, strength: 0.55, radius: 0.55, threshold: 0.85 },
+    hemi: { sky: 0x4a64b8, ground: 0x1a1612, i: 0.75 },
+    key: { color: 0x8ea6ff, i: 0.55 }, rim: { color: 0x3a6aa0, i: 0.3 },
+    wet: 1, rain: 1, lights: 1,
     pane: '#1c2744', bulb: [1.5, 0.86, 0.22],
     sky: { top: '#03050d', mid: '#0a1226', hor: '#13203e' }, stars: true,
   },
@@ -36,6 +38,7 @@ const DAY = {
     day: 1, bg: '#eaf0f9', fog: '#eaf0f9', fogNear: 1.1, fogFar: 5.2, exposure: 1.0, tone: 'none',
     bloom: { on: false, strength: 0, radius: 0.4, threshold: 1 },
     hemi: { sky: 0xffffff, ground: 0xdde3f0, i: 0.98 },
+    wet: 0, rain: 0, lights: 0,
     key: { color: 0xffffff, i: 1.1 }, rim: { color: 0xdfe8ff, i: 0.25 },
     pane: '#a9b9da', bulb: [0.9, 0.52, 0.1],
     sky: { top: '#c5d5f0', mid: '#dbe5f6', hor: '#f3f6fc' }, stars: false,
@@ -261,7 +264,8 @@ export function buildWorld(manifest, via, theme = 'night') {
 
   // --- static scene geometry ---
   const mb = new MeshBuilder();
-  mb.box(0, -0.6, 0, R * 14, 0.6, R * 14, PAL.ground, { grad: 0, vary: 0 });
+  const gb = new MeshBuilder(); // ground surfaces get the wet street material
+  gb.box(0, -0.6, 0, R * 14, 0.6, R * 14, PAL.ground, { grad: 0, vary: 0 });
 
   // roads: kerb band, tarmac, paint
   const kerbTris = [], roadTris = [], pathTris = [], paintTris = [];
@@ -273,10 +277,10 @@ export function buildWorld(manifest, via, theme = 'night') {
       if (['primary', 'secondary', 'trunk'].includes(r.cls)) dashes(paintTris, r.pts, 0.085);
     }
   });
-  if (kerbTris.length) mb.raw(kerbTris, PAL.kerb);
-  if (pathTris.length) mb.raw(pathTris, PAL.path);
-  if (roadTris.length) mb.raw(roadTris, PAL.road);
-  if (paintTris.length) mb.raw(paintTris, PAL.paint);
+  if (kerbTris.length) gb.raw(kerbTris, PAL.kerb);
+  if (pathTris.length) gb.raw(pathTris, PAL.path);
+  if (roadTris.length) gb.raw(roadTris, PAL.road);
+  if (paintTris.length) gb.raw(paintTris, PAL.paint);
 
   // unclaimed buildings: low, dark, no lit windows
   blds.forEach((b) => {
@@ -298,6 +302,8 @@ export function buildWorld(manifest, via, theme = 'night') {
   }
 
   const bulbs = []; // {x,y,z,s}
+  const lamps = []; // street lamps that light the ground for real
+  const trees = [];
   const glows = []; // {x,z,r}
   const inAnyBuilding = (x, z) => blds.some((b) => x > b.bb.x0 - 1 && x < b.bb.x1 + 1 && z > b.bb.z0 - 1 && z < b.bb.z1 + 1 && pointInPoly(x, z, b.pts));
 
@@ -317,14 +323,10 @@ export function buildWorld(manifest, via, theme = 'night') {
         mb.box((x + bx) / 2, 7.0, (z + bz) / 2, 0.14, 0.14, 1.6, PAL.metal, { grad: 0 }, Math.atan2(nx, nz));
         bulbs.push({ x: bx, y: 6.95, z: bz, s: 0.3 });
         glows.push({ x: bx - nx * 1.6, z: bz - nz * 1.6, r: 7 });
+        lamps.push({ x: bx, y: 6.95, z: bz, delay: delayFor(bx, bz), kind: 'street' });
       } else if (i % 2 === 0) {
         const tx = s.x + (-s.tz * -side) * (r.w / 2 + 3.4), tz = s.z + s.tx * -side * (r.w / 2 + 3.4);
-        if (Math.hypot(tx, tz) < R * 1.05 && !inAnyBuilding(tx, tz)) {
-          mb.cyl(tx, 0, tz, 0.16, 0.22, 1.8, 5, PAL.trunk);
-          const fol = PAL.foliage[Math.floor(rng() * 3)];
-          mb.blob(tx, 3.1, tz, 1.9, fol, { grad: 0.4 }, 1.15);
-          mb.blob(tx, 4.5, tz, 1.3, fol, { grad: 0.4 }, 1.1);
-        }
+        if (Math.hypot(tx, tz) < R * 1.05 && !inAnyBuilding(tx, tz)) trees.push({ x: tx, z: tz });
       }
     });
   });
@@ -350,23 +352,6 @@ export function buildWorld(manifest, via, theme = 'night') {
       }
     });
 
-    // danfos parked on the kerb lane
-    const dpts = samplePolyline(longest.pts, 44);
-    [2, 5, 7].forEach((k, n) => {
-      const s = dpts[k];
-      if (!s) return;
-      const off = longest.w / 2 - 2.0;
-      const sd = n % 2 ? 1 : -1;
-      const x = s.x + -s.tz * sd * off, z = s.z + s.tx * sd * off;
-      if (Math.hypot(x, z) > R) return;
-      const ry = Math.atan2(s.tx, s.tz) + (sd > 0 ? Math.PI : 0);
-      mb.box(x, 0.55, z, 2.1, 1.35, 5.0, PAL.slate, { grad: 0.2 }, ry);
-      mb.box(x, 1.9, z, 1.95, 1.3, 3.6, PAL.cabin, { grad: 0.2 }, ry);
-      mb.box(x, 1.45, z, 2.14, 0.22, 5.04, PAL.teal, { grad: 0, vary: 0 }, ry); // stripe
-      const fx = Math.sin(ry), fz = Math.cos(ry), rx = Math.cos(ry), rz = -Math.sin(ry);
-      [-0.7, 0.7].forEach((o) => bulbs.push({ x: x + fx * 2.55 + rx * o, y: 1.0, z: z + fz * 2.55 + rz * o, s: 0.2 }));
-      [-1.4, 1.4].forEach((o) => [-0.95, 0.95].forEach((q) => mb.cyl(x + fx * o + rx * q, 0, z + fz * o + rz * q, 0.36, 0.36, 0.5, 6, PAL.wheel, { grad: 0 })));
-    });
 
     // pedestrian footbridge over the main road
     const mids = samplePolyline(longest.pts, 1);
@@ -402,18 +387,10 @@ export function buildWorld(manifest, via, theme = 'night') {
     mb.box(x, 2.0, z, 2.9, 0.18, 2.6, PAL.teal, { grad: 0, vary: 0 }, ry);
     bulbs.push({ x, y: 1.65, z, s: 0.22 });
     glows.push({ x, z, r: 5 });
+    lamps.push({ x, y: 1.9, z, delay: delayFor(x, z), kind: 'kiosk', power: 25 });
     placed++;
   }
 
-  // changelog board at the spawn point (a "village" board per district)
-  {
-    const bx = spawn.x + (you.c[0] - spawn.x) * 0.0, bz = spawn.z;
-    mb.box(bx - 0.9, 0, bz, 0.18, 2.4, 0.18, PAL.metal, { grad: 0 });
-    mb.box(bx + 0.9, 0, bz, 0.18, 2.4, 0.18, PAL.metal, { grad: 0 });
-    mb.box(bx, 1.3, bz, 2.2, 1.3, 0.14, PAL.board, { grad: 0 });
-    mb.box(bx, 2.55, bz, 2.5, 0.16, 0.3, PAL.teal, { grad: 0, vary: 0 });
-    bulbs.push({ x: bx, y: 2.8, z: bz + 0.2, s: 0.16 });
-  }
 
   // monuments on the horizon: libraries, earned at 25+ contributors
   const monuments = [];
@@ -436,14 +413,16 @@ export function buildWorld(manifest, via, theme = 'night') {
     monuments.push({ ...mn, x, z, topY });
   });
 
-  const staticMesh = new THREE.Mesh(mb.toGeometry(), new THREE.MeshLambertMaterial({ vertexColors: true }));
+  const staticMesh = new THREE.Mesh(mb.toGeometry(), wallMaterial());
   scene.add(staticMesh);
+  const groundMesh = new THREE.Mesh(gb.toGeometry(), wetGroundMaterial());
+  scene.add(groundMesh);
 
   // --- builder plots ---
   const winMat = makeWindowMaterial(T.env.pane);
   const wins = [];
   const plots = [];
-  const plotMat = new THREE.MeshLambertMaterial({ vertexColors: true });
+  const plotMat = wallMaterial();
 
   function addWindowsForPoly(pts, baseY, floors, b, kind) {
     const area = polyArea(pts);
@@ -618,6 +597,23 @@ export function buildWorld(manifest, via, theme = 'night') {
     if (rr > maxR) { pos.x *= maxR / rr; pos.z *= maxR / rr; }
   }
 
+  // free for a prop: outside every footprint and off the carriageway
+  function isFree(x, z, pad = 0.6) {
+    for (const s of solid) {
+      if (x < s.bb.x0 - pad || x > s.bb.x1 + pad || z < s.bb.z0 - pad || z > s.bb.z1 + pad) continue;
+      if (pointInPoly(x, z, s.pts) || nearestOnPoly(x, z, s.pts).d < pad) return false;
+    }
+    for (const r of mainRoads) {
+      for (let i = 0; i < r.pts.length - 1; i++) {
+        const [ax, az] = r.pts[i], [bx, bz] = r.pts[i + 1];
+        const dx = bx - ax, dz = bz - az;
+        const t = Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / (dx * dx + dz * dz || 1)));
+        if (Math.hypot(x - (ax + dx * t), z - (az + dz * t)) < r.w / 2 + 0.4) return false;
+      }
+    }
+    return Math.hypot(x, z) < R * 1.05;
+  }
+
   // is a world-space point inside a building volume? (camera collision)
   function solidAt(x, y, z) {
     for (const s of solid) {
@@ -631,7 +627,8 @@ export function buildWorld(manifest, via, theme = 'night') {
     scene, plots, monuments, spawn, resolve, solidAt, radius: R, via,
     counts: { buildings: manifest.buildings.length, roads: manifest.roads.length, windows: wins.length },
     spawnYaw: front0.yaw,
-    frontOf, env: T.env, theme, pick: staticMesh,
+    frontOf, env: T.env, theme, pick: groundMesh, solids: staticMesh, ground: groundMesh,
+    lamps, trees, isFree, youCenter: you.c, mainRoad: longest, roads,
     source: manifest.source,
   };
 }

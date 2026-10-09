@@ -25,6 +25,22 @@ The shareable image brief is `BUILDERS_WORLD_VISUAL_BRIEF.md` at the parent Buil
 
 Browser checks cover desktop and phone-size viewports, both identity routes, all four destinations, local persistence, failed storage, reduced motion, avatar changes, intro controls, and the Yaba handoff. Evidence and limitations are recorded in `artifacts/final-evidence.md`.
 
+## Street look (PRD v1.1 visual direction)
+
+The night theme now follows the reference images in the parent repository (`assets/reference/generated-visual-direction/`). Everything lives in `src/look/`:
+
+- `surfaces.js`: wet street material with puddles, ripples and a planar mirror; plaster walls with rain streaks and grime.
+- `atmosphere.js`: blue-hour sky with drifting cloud and rare lightning, rain, light cones under lamps, a pool of real lamp lights that follows the player, the lit skyline and the Lekki-Ikoyi Link Bridge.
+- `props.js`: danfos (parked and driving), palms and banana plants, the community board, the mural, a community build area, string lights, two named builders and a few unnamed walkers. Props look for open ground between real footprints, so they adapt to whatever map loads.
+- `hud.js`: district and objective, minimap, route on the ground, the E prompt, name tags, and the community board panel.
+- `textures.js`: every texture is painted on a canvas at load. Nothing is downloaded.
+
+The loop from the PRD works end to end: walk to the board, press E, read notes or pin one, find the build area, press E to add a bench. Notes and the bench stay on this device; nothing is shared yet.
+
+`?quality=low|high` picks a tier (phones get low automatically). Debug switches: `?post=0` skips post-processing, `?look=0` skips the street layer, `?no=rain,cones,lights,skyline,reflect` turns parts off.
+
+Plot windows are still the only amber that carries data. Street lamps, string lights, car lights and the skyline use other light so they never read as activity. Evidence is in `artifacts/street-look/README.md`.
+
 ## Original district prototype
 
 A three.js render of a small piece of Yaba, Lagos, built the way the Builders World PRD describes: real place in, numbers drive the structure, flat-shaded night look out.
@@ -67,7 +83,9 @@ All in `src/builders.js` and `src/world.js`.
 - Windows from recency: lit share drops after 14 days, zero after 60. Live builders get the slow 2.5s breath.
 - Everything else in the district is an unclaimed lot: low and dark.
 
-## Art rules kept
+## Art rules kept (PRD v1.0)
+
+These were the original prototype rules. PRD v1.1 replaces them for the night theme; see Street look above. Amber still only carries data on plots.
 
 Vertex colours only, flat shading, no textures. Amber is the only warm colour. Day mode is the same world in daylight: pale blue-grey, white, the same amber accent, lamps and bloom off. Window lighting, the arrival and the monument sweep are shader uniforms, not per-mesh JS. Bloom threshold sits above anything an unlit surface reaches. Respects prefers-reduced-motion.
 

@@ -9,6 +9,7 @@ import { shared } from './shaders.js';
 import { initChrome } from './ui.js';
 import { loadProfile } from './onboarding/state.js';
 import { createAvatarModel } from './onboarding/avatar.js';
+import { createLook, blueHourSky, pickQuality } from './look/index.js';
 
 const q = new URLSearchParams(location.search);
 const arrivalProfile = loadProfile();
@@ -33,13 +34,14 @@ shared.uReduced.value = reduced ? 1 : 0;
 const still = q.get('still') === '1';
 if (q.get('hud') === '0') document.body.classList.add('nohud');
 
+const quality = pickQuality(q);
 const canvas = document.getElementById('c');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
-renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+renderer.setPixelRatio(Math.min(devicePixelRatio, quality === 'low' ? 1 : 1.5));
 renderer.setSize(innerWidth, innerHeight, false);
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(52, innerWidth / innerHeight, 0.3, 4000);
+const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.2, 4000);
 
 const composer = new EffectComposer(
   renderer,
@@ -47,12 +49,14 @@ const composer = new EffectComposer(
 );
 composer.addPass(new RenderPass(scene, camera));
 const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.7, 0.5, 0.42);
+let street = null;
 composer.addPass(bloom);
 composer.addPass(new OutputPass());
 
 addEventListener('resize', () => {
   renderer.setSize(innerWidth, innerHeight, false);
   composer.setSize(innerWidth, innerHeight);
+  street?.setSize(innerWidth, innerHeight);
   camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
 });
@@ -83,22 +87,12 @@ async function main() {
     setTimeout(() => { fn(); fade.classList.add('out'); }, 140);
   }
 
-  // ---- avatar: rounded forms, two dots for a face ----
+  // ---- avatar: the shared provisional avatar, until the final design arrives ----
   const avatar = new THREE.Group();
-  const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.42, 0.9, 2, 7), new THREE.MeshLambertMaterial({ color: 0xa9bbea, flatShading: true }));
-  body.position.y = 0.95;
+  const body = createAvatarModel(resident ? arrivalProfile.avatar : { color: '#e2b13c', style: 'jacket' }).root;
   avatar.add(body);
-  const dotMat = new THREE.MeshBasicMaterial({ color: 0x0b1020 });
-  [-0.16, 0.16].forEach((x) => {
-    const d = new THREE.Mesh(new THREE.SphereGeometry(0.06, 6, 4), dotMat);
-    d.position.set(x, 1.5, 0.37);
-    avatar.add(d);
-  });
   scene.add(avatar);
   if (resident) {
-    avatar.children.forEach(child => { child.visible = false; });
-    const model = createAvatarModel(arrivalProfile.avatar);
-    avatar.add(model.root);
     const returnLink = document.createElement('a');
     returnLink.href = './';
     returnLink.textContent = '← Your arrival / edit avatar';
@@ -119,13 +113,13 @@ async function main() {
   let heading = 0;
   let walkTarget = null;
 
-  const cam = { yaw: 0, yawT: 0, pitch: 0.42, pitchT: 0.42, dist: 15, distT: 15, aerial: false };
-  const modes = { street: { pitch: 0.42, dist: 15 }, aerial: { pitch: 0.62, dist: 0 } };
+  const cam = { yaw: 0, yawT: 0, pitch: 0.2, pitchT: 0.2, dist: 7, distT: 7, aerial: false };
+  const modes = { street: { pitch: 0.2, dist: 7 }, aerial: { pitch: 0.62, dist: 0 } };
   const camPos = new THREE.Vector3();
   const look = new THREE.Vector3();
   let snap = true;
   const holds = { rotL: false, rotR: false };
-  const limits = () => (cam.aerial ? [60, world.radius * 2.2] : [7, 40]);
+  const limits = () => (cam.aerial ? [60, world.radius * 2.2] : [3.5, 40]);
 
   // ---- world (re)build: same layout, different light ----
   function build(name) {
@@ -136,7 +130,7 @@ async function main() {
     if (world) { scene.remove(world.scene); disposeTree(world.scene); }
     if (sky) { scene.remove(sky); disposeTree(sky); }
     world = buildWorld(manifest, via, name);
-    sky = buildSky(name);
+    sky = world.env.wet ? blueHourSky() : buildSky(name);
     scene.add(sky, world.scene);
     const E = world.env;
     scene.fog = new THREE.Fog(E.fog, world.radius * E.fogNear, world.radius * E.fogFar);
@@ -146,6 +140,8 @@ async function main() {
     bloom.enabled = E.bloom.on;
     bloom.strength = E.bloom.strength; bloom.radius = E.bloom.radius; bloom.threshold = E.bloom.threshold;
     chrome.setWorld(world, via, place);
+    street?.dispose();
+    if (q.get('look') !== '0') street = createLook({ renderer, scene, camera, world, reduced, quality, sky });
   }
 
   function setAerial(flag) {
@@ -191,7 +187,8 @@ async function main() {
   build(themeName);
   chrome.setView(false);
   player.set(world.spawn.x, 0, world.spawn.z);
-  heading = cam.yaw = cam.yawT = world.spawnYaw;
+  heading = world.spawnYaw;
+  cam.yaw = cam.yawT = street?.viewYaw ?? world.spawnYaw;
   modes.aerial.dist = world.radius * 1.35;
 
   if (q.get('view') === 'aerial') { setAerial(true); cam.yaw = cam.yawT = 2.5; }
@@ -205,7 +202,8 @@ async function main() {
     else if (k === 't') { if (!e.repeat) setTheme(themeName === 'night' ? 'day' : 'night'); }
     else if (k === 'h') { if (!e.repeat) document.body.classList.toggle('nohud'); }
     else if (k === '?' || k === '/') chrome.toggleHelp();
-    else if (k === 'escape') { chrome.unpin(); chrome.hideCard(); chrome.toggleList(false); chrome.toggleHelp(false); }
+    else if (k === 'e' && !e.repeat && street?.hud.interact()) { /* handled by the street */ }
+    else if (k === 'escape') { street?.hud.close(); chrome.unpin(); chrome.hideCard(); chrome.toggleList(false); chrome.toggleHelp(false); }
     else if (k === '=' || k === '+') zoomKey(-1);
     else if (k === '-' || k === '_') zoomKey(1);
     else { keys.add(k); if (['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(k)) { walkTarget = null; marker.visible = false; } }
@@ -223,7 +221,7 @@ async function main() {
     drag.moved += Math.abs(dx) + Math.abs(dy);
     drag.x = e.clientX; drag.y = e.clientY;
     cam.yawT -= dx * 0.005;
-    cam.pitchT = Math.max(0.1, Math.min(1.35, cam.pitchT + dy * 0.004));
+    cam.pitchT = Math.max(0.02, Math.min(1.35, cam.pitchT + dy * 0.004));
   });
   canvas.addEventListener('wheel', (e) => {
     e.preventDefault();
@@ -242,7 +240,7 @@ async function main() {
     if (hitPlot) { chrome.showCard(hitPlot.object.userData.builder, true); return; }
     chrome.unpin();
     // ground click: walk there, or from the aerial view cut down to that spot
-    const hit = ray.intersectObject(world.pick, false)[0];
+    const hit = ray.intersectObjects([world.pick, world.solids], false)[0];
     if (!hit || hit.point.y > 0.5) { chrome.toast('Click the street to walk there'); return; }
     pt.copy(hit.point);
     if (Math.hypot(pt.x, pt.z) > world.radius * 1.05) return;
@@ -321,10 +319,11 @@ async function main() {
     }
     avatar.position.copy(player);
     avatar.rotation.y = heading;
-    body.position.y = 0.95 + (moving ? Math.abs(Math.sin(t * 9)) * 0.06 : 0); // nothing idles
+    body.position.y = moving && !reduced ? Math.abs(Math.sin(t * 9)) * 0.05 : 0;
+    body.rotation.z = moving && !reduced ? Math.sin(t * 9) * 0.04 : 0;
 
     // damped third-person follow; district-to-district is a cut, never a flight
-    if (cam.aerial) focus.set(0, 6, 0); else focus.set(player.x, 2.3, player.z);
+    if (cam.aerial) focus.set(0, 6, 0); else focus.set(player.x, 1.75, player.z);
     const cp = Math.cos(cam.pitch);
     desired.set(
       focus.x - Math.sin(cam.yaw) * cp * cam.dist,
@@ -353,16 +352,20 @@ async function main() {
     }
     camera.position.copy(camPos);
     camera.lookAt(look);
+    // a wall pushed the camera into the avatar: hide it rather than show the inside of a head
+    avatar.visible = cam.aerial || camPos.distanceTo(focus) > 1.7;
 
     chrome.update(camera, player, !cam.aerial);
-    composer.render();
+    street?.update(dt, t, player, cam.yaw, shared.uArrival.value);
+    street?.renderReflection();
+    if (q.get('post') === '0') renderer.render(scene, camera); else composer.render();
     requestAnimationFrame(frame);
   }
   frame();
 
   window.__bw = {
     get world() { return world; }, camera, cam, player, renderer, scene, via,
-    get theme() { return themeName; }, setTheme, goto, setAerial, get walkTarget() { return walkTarget; },
+    get theme() { return themeName; }, setTheme, get look() { return street; }, quality, composer, goto, setAerial, get walkTarget() { return walkTarget; },
     ready: true,
   };
 }
