@@ -35,6 +35,14 @@ The night theme now follows the reference images in the parent repository (`asse
 - `hud.js`: district and objective, minimap, route on the ground, the E prompt, name tags, and the community board panel.
 - `textures.js`: every texture is painted on a canvas at load. Nothing is downloaded.
 
+### Live weather and real time
+
+The night theme now follows the real world. The sun's position comes from the real clock and location (`src/look/sun.js`), so day, golden hour, blue hour and night happen when they do outside, and streetlamps switch on at dusk. Weather comes from [Open-Meteo](https://open-meteo.com/) every 10 minutes (`src/look/weather.js`): rain intensity, cloud cover, wind (rain slant and palm sway), fog and haze from visibility, and lightning only during real thunderstorms. Streets get wet when it rains and dry over the following hours, faster in sun than at night.
+
+Location is city level: the home city chosen at arrivals, otherwise the district. "Use my location" in the weather chip is opt-in, rounded to about 10 km and stored on the device only. Previews: `?wx=clear|cloudy|drizzle|rain|storm|fog|haze`, `?hour=19.5` (local time at the weather location), `?wxloc=lat,lon`. The day theme toggle (T) still switches to the original flat daylight look.
+
+Open-Meteo's free API is for non-commercial use and needs the credit shown in the chip. A public launch needs their paid plan or another provider.
+
 The loop from the PRD works end to end: walk to the board, press E, read notes or pin one, find the build area, press E to add a bench. Notes and the bench stay on this device; nothing is shared yet.
 
 `?quality=low|high` picks a tier (phones get low automatically). Debug switches: `?post=0` skips post-processing, `?look=0` skips the street layer, `?no=rain,cones,lights,skyline,reflect` turns parts off.

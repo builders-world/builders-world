@@ -54,6 +54,14 @@ body.nohud #lk { display: none; }
 #lk-board button.p { background: #f2b33d; color: #2a1a02; }
 #lk-board .x { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; padding: 0; }
 #lk-board .tag { display: inline-block; font-size: 10.5px; color: #10131c; background: #a3afd0; border-radius: 6px; padding: 2px 6px; margin-left: 6px; vertical-align: 2px; }
+#lk-wx { position: absolute; top: 234px; right: 14px; width: 156px; box-sizing: border-box; padding: 10px 12px; pointer-events: auto; font-size: 12px; }
+#lk-wx .t { display: flex; align-items: baseline; gap: 6px; font-size: 20px; font-weight: 700; }
+#lk-wx .t span { font-size: 12.5px; font-weight: 560; color: #dfe5f7; }
+#lk-wx .p { color: #a3afd0; margin-top: 2px; }
+#lk-wx button { margin-top: 8px; width: 100%; border: 0; border-radius: 8px; padding: 6px 8px; background: rgba(255,255,255,.08); color: #eef2ff; font: 600 11.5px/1.2 inherit; cursor: pointer; }
+#lk-wx .src { display: block; margin-top: 6px; color: #6f7ca3; font-size: 10.5px; }
+#lk-wx .src a { color: inherit; }
+@media (max-width: 700px) { #lk-wx { top: 172px; width: 120px; padding: 8px 10px; } #lk-wx .t { font-size: 16px; } #lk-wx button { display: none; } }
 #lk-osm { position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%); font-size: 10.5px; color: rgba(238,242,255,.6); pointer-events: auto; }
 #lk-osm a { color: inherit; }
 #lk-toast { position: absolute; left: 50%; top: 22px; transform: translateX(-50%); padding: 10px 16px; font-size: 13.5px; opacity: 0; transition: opacity .3s; }
@@ -83,7 +91,7 @@ const NOTES = [
   ['#f6a8a0', 'Who wants to fix the stairway lights with me?'],
 ];
 
-export function createHud({ world, props, camera, reduced, onInteract }) {
+export function createHud({ world, props, camera, reduced, onInteract, weatherFeed }) {
   const style = document.createElement('style');
   style.textContent = CSS;
   document.head.appendChild(style);
@@ -101,6 +109,7 @@ export function createHud({ world, props, camera, reduced, onInteract }) {
     <div id="lk-tags"></div>
     <div id="lk-board" class="pane" role="dialog" aria-label="Community board"></div>
     <div id="lk-toast" class="pane" role="status"></div>
+    ${weatherFeed ? '<div id="lk-wx" class="pane" aria-live="polite"></div>' : ''}
     ${world.via === 'sample' ? '' : '<div id="lk-osm">Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a></div>'}`;
   document.body.appendChild(el);
   const $ = (s) => el.querySelector(s);
@@ -290,7 +299,31 @@ export function createHud({ world, props, camera, reduced, onInteract }) {
     });
   }
 
-  function dispose() { el.remove(); style.remove(); route.removeFromParent(); chevGeo.dispose(); chevMat.dispose(); }
+  // ---------- live weather chip ----------
+  const wxEl = el.querySelector('#lk-wx');
+  let wxTimer = 0, unsub = null;
+  function renderWeather() {
+    const w = weatherFeed?.state;
+    if (!wxEl || !w) return;
+    const temp = w.tempC == null ? '' : `${Math.round(w.tempC)}°`;
+    const mine = w.loc.how === 'your location';
+    const tag = w.source === 'preset' ? ' · preview' : w.source === 'offline' ? ' · offline' : '';
+    wxEl.innerHTML = `<div class="t">${temp}<span>${w.label}</span></div>
+      <div class="p">${w.loc.label} · ${weatherFeed.localTime()}${tag}</div>
+      <button type="button">${mine ? 'Stop using my location' : 'Use my location'}</button>
+      <span class="src">Weather: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></span>`;
+    wxEl.querySelector('button').onclick = async () => {
+      if (mine) { await weatherFeed.forgetMyLocation(); toast('Back to your home city weather.'); return; }
+      const ok = await weatherFeed.useMyLocation();
+      toast(ok ? 'Weather now follows your area, rounded to about 10 km. Stored on this device only.' : 'Location was not shared. Using your home city.');
+    };
+  }
+  if (weatherFeed) {
+    unsub = weatherFeed.onChange(renderWeather);
+    wxTimer = setInterval(renderWeather, 30000); // keep the clock honest
+  }
+
+  function dispose() { unsub?.(); clearInterval(wxTimer); el.remove(); style.remove(); route.removeFromParent(); chevGeo.dispose(); chevMat.dispose(); }
 
   return { update, interact, route, dispose, isOpen: () => boardEl.classList.contains('on'), close: closeBoard, toast };
 }

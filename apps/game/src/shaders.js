@@ -8,6 +8,8 @@ export const shared = {
   uArrival: { value: 0 },
   uReduced: { value: 0 },
   uDay: { value: 0 },
+  uLamps: { value: 1 }, // street lamps on (1) or off (0); real time switches them at dusk and dawn
+  uWind: { value: 1 }, // how hard leaves and fronds move
 };
 
 const AMBER = new THREE.Color('#ffb454');
@@ -111,6 +113,7 @@ export function makeGlowMaterial() {
       uAmber: { value: new THREE.Vector3(AMBER.r, AMBER.g, AMBER.b) },
       uArrival: shared.uArrival,
       uDay: shared.uDay,
+      uLamps: shared.uLamps,
     },
     vertexShader: /* glsl */ `
       attribute float aDelay;
@@ -126,13 +129,14 @@ export function makeGlowMaterial() {
       uniform vec3 uAmber;
       uniform float uArrival;
       uniform float uDay;
+      uniform float uLamps;
       varying vec2 vUv;
       varying float vDelay;
       void main() {
         float d = length(vUv - 0.5) * 2.0;
         float a = pow(clamp(1.0 - d, 0.0, 1.0), 2.4);
         float on = clamp((uArrival - vDelay) / 0.5, 0.0, 1.0);
-        gl_FragColor = vec4(uAmber * a * 0.2 * on * (1.0 - uDay), 1.0);
+        gl_FragColor = vec4(uAmber * a * 0.2 * on * (1.0 - uDay) * uLamps, 1.0);
       }
     `,
   });

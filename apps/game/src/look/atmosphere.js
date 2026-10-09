@@ -3,37 +3,60 @@ import { shared } from '../shaders.js';
 import { weather } from './surfaces.js';
 import { mulberry32 } from '../mesh.js';
 
-// ---------- blue hour sky with drifting cloud ----------
+// ---------- the sky: real time of day, real cloud cover ----------
+// uNight, uDay and uGold come from the sun's real elevation; uCloud and uStorm from live weather.
 export function blueHourSky() {
   const geo = new THREE.SphereGeometry(900, 48, 24);
   const mat = new THREE.ShaderMaterial({
     side: THREE.BackSide, depthWrite: false, fog: false,
-    uniforms: { uTime: shared.uTime, uReduced: shared.uReduced, uFlash: { value: 0 } },
+    uniforms: {
+      uTime: shared.uTime, uReduced: shared.uReduced, uFlash: { value: 0 },
+      uSunDir: { value: new THREE.Vector3(-0.6, 0.05, 0.8).normalize() },
+      uNight: { value: 0 }, uDay: { value: 0 }, uGold: { value: 0.4 },
+      uCloud: { value: 0.5 }, uStorm: { value: 0 }, uFog: { value: 0 }, uFogCol: { value: new THREE.Color('#24305a') },
+    },
     vertexShader: /* glsl */ `
       varying vec3 vDir;
       void main() { vDir = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
     fragmentShader: /* glsl */ `
-      uniform float uTime, uReduced, uFlash;
+      uniform float uTime, uReduced, uFlash, uNight, uDay, uGold, uCloud, uStorm, uFog;
+      uniform vec3 uSunDir, uFogCol;
       varying vec3 vDir;
       float h(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
       float n(vec2 p) { vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
         return mix(mix(h(i), h(i + vec2(1, 0)), f.x), mix(h(i + vec2(0, 1)), h(i + vec2(1, 1)), f.x), f.y); }
       float fbm(vec2 p) { float a = 0.5, s = 0.0; for (int i = 0; i < 5; i++) { s += a * n(p); p *= 2.03; a *= 0.5; } return s; }
+      vec3 band(vec3 top, vec3 mid, vec3 hor, float y) {
+        return mix(mix(hor, mid, smoothstep(0.0, 0.22, y)), top, smoothstep(0.2, 0.9, y));
+      }
       void main() {
         float y = clamp(vDir.y, -0.2, 1.0);
-        vec3 top = vec3(0.020, 0.040, 0.115);
-        vec3 mid = vec3(0.060, 0.110, 0.290);
-        vec3 hor = vec3(0.230, 0.270, 0.470);
-        vec3 col = mix(hor, mid, smoothstep(0.0, 0.22, y));
-        col = mix(col, top, smoothstep(0.2, 0.9, y));
-        // a last warm band low on one side, where the sun went down
-        float west = pow(max(0.0, dot(normalize(vDir.xz + 1e-4), normalize(vec2(-0.8, 0.6)))), 3.0);
-        col += vec3(0.32, 0.16, 0.10) * west * (1.0 - smoothstep(0.0, 0.18, y)) * 0.55;
-        // cloud deck
+        // blue hour is the base the street was designed around
+        vec3 col = band(vec3(0.020, 0.040, 0.115), vec3(0.060, 0.110, 0.290), vec3(0.230, 0.270, 0.470), y);
+        vec3 night = band(vec3(0.006, 0.010, 0.030), vec3(0.016, 0.026, 0.070), vec3(0.070, 0.070, 0.120), y);
+        night += vec3(0.16, 0.10, 0.07) * (1.0 - smoothstep(0.0, 0.14, y)); // the city's own glow on the horizon
+        vec3 day = band(vec3(0.150, 0.330, 0.700), vec3(0.330, 0.530, 0.840), vec3(0.660, 0.740, 0.850), y);
+        col = mix(col, night, uNight);
+        col = mix(col, day, uDay);
+        // warm light toward the sun when it is low
+        float toward = max(0.0, dot(normalize(vDir), uSunDir));
+        col += vec3(1.0, 0.48, 0.22) * uGold * pow(toward, 3.0) * (1.0 - smoothstep(-0.05, 0.35, y)) * 0.9;
+        // the sun itself, through any gaps in the cloud
+        float disc = smoothstep(0.9993, 0.9997, toward) * uDay * (1.0 - uCloud * 0.9);
+        col += vec3(6.0, 5.4, 4.6) * disc + vec3(0.9, 0.7, 0.45) * pow(toward, 60.0) * uDay * 0.35 * (1.0 - uCloud);
+        // cloud deck: coverage from live cloud cover
         vec2 uv = vDir.xz / max(0.08, vDir.y + 0.12) * 0.9 + vec2(uTime * 0.004 * (1.0 - uReduced), 0.0);
-        float c = smoothstep(0.42, 0.78, fbm(uv * 1.3));
-        vec3 cloud = mix(vec3(0.08, 0.10, 0.20), vec3(0.30, 0.32, 0.48), fbm(uv * 2.7 + 4.0));
-        col = mix(col, cloud, c * smoothstep(-0.02, 0.18, y) * 0.85);
+        float c = smoothstep(mix(0.78, 0.22, uCloud), mix(0.98, 0.55, uCloud), fbm(uv * 1.3));
+        float shade = fbm(uv * 2.7 + 4.0);
+        vec3 cloudNight = mix(vec3(0.07, 0.08, 0.16), vec3(0.22, 0.17, 0.16), shade);
+        vec3 cloudDay = mix(vec3(0.58, 0.61, 0.66), vec3(0.95, 0.96, 0.98), shade);
+        vec3 cloudCol = mix(mix(cloudNight, vec3(0.30, 0.32, 0.48) * (0.6 + 0.6 * shade), 1.0 - uNight), cloudDay, uDay);
+        cloudCol += vec3(1.0, 0.55, 0.3) * uGold * pow(toward, 2.0) * 0.6;
+        cloudCol *= 1.0 - 0.55 * uStorm;
+        col = mix(col, cloudCol, c * smoothstep(-0.02, 0.18, y) * 0.92);
+        col = mix(col, col * 0.55 + vec3(0.04, 0.045, 0.06), uStorm * 0.6);
+        // haze and fog swallow the horizon
+        col = mix(col, uFogCol, uFog * (1.0 - smoothstep(0.0, 0.5, y)));
         col += vec3(0.55, 0.6, 0.85) * uFlash * (0.4 + c);
         gl_FragColor = vec4(col, 1.0);
       }`,
@@ -41,6 +64,7 @@ export function blueHourSky() {
   const mesh = new THREE.Mesh(geo, mat);
   mesh.renderOrder = -10;
   mesh.userData.flash = mat.uniforms.uFlash;
+  mesh.userData.u = mat.uniforms;
   return mesh;
 }
 
@@ -60,11 +84,12 @@ export function rain(count) {
   g.instanceCount = count;
   const mat = new THREE.ShaderMaterial({
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
-    uniforms: { uTime: shared.uTime, uReduced: shared.uReduced, uRain: weather.uRain, uCam: { value: new THREE.Vector3() } },
+    uniforms: { uTime: shared.uTime, uReduced: shared.uReduced, uRain: weather.uRain, uCam: { value: new THREE.Vector3() }, uWindVec: { value: new THREE.Vector2(0.12, 0.05) } },
     vertexShader: /* glsl */ `
       attribute vec4 aOff;
       uniform float uTime, uReduced, uRain;
       uniform vec3 uCam;
+      uniform vec2 uWindVec;
       varying float vA;
       varying vec2 vUv;
       void main() {
@@ -74,7 +99,7 @@ export function rain(count) {
         p.y = mod(p.y - uTime * speed, box.y);
         p.xz = mod(p.xz - uCam.xz + box.xz * 0.5, box.xz) + uCam.xz - box.xz * 0.5;
         p.y += uCam.y - box.y * 0.45;
-        vec3 fall = normalize(vec3(0.12, -1.0, 0.05));
+        vec3 fall = normalize(vec3(uWindVec.x, -1.0, uWindVec.y));
         vec4 vp = viewMatrix * vec4(p, 1.0);
         vec3 vf = normalize((viewMatrix * vec4(fall, 0.0)).xyz);
         vec3 side = normalize(cross(vf, vec3(0.0, 0.0, 1.0)));
@@ -98,6 +123,7 @@ export function rain(count) {
   mesh.frustumCulled = false;
   mesh.renderOrder = 5;
   mesh.userData.cam = mat.uniforms.uCam;
+  mesh.userData.wind = mat.uniforms.uWindVec;
   return mesh;
 }
 
@@ -106,7 +132,7 @@ export function lampCones(lamps) {
   const g = new THREE.CylinderGeometry(0.25, 3.2, 1, 24, 1, true).translate(0, -0.5, 0);
   const mat = new THREE.ShaderMaterial({
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
-    uniforms: { uArrival: shared.uArrival, uRain: weather.uRain },
+    uniforms: { uArrival: shared.uArrival, uRain: weather.uRain, uLamps: shared.uLamps },
     vertexShader: /* glsl */ `
       attribute float aDelay;
       varying float vH; varying float vFacing; varying float vDelay; varying float vDist;
@@ -122,12 +148,12 @@ export function lampCones(lamps) {
         gl_Position = projectionMatrix * vp;
       }`,
     fragmentShader: /* glsl */ `
-      uniform float uArrival, uRain;
+      uniform float uArrival, uRain, uLamps;
       varying float vH; varying float vFacing; varying float vDelay; varying float vDist;
       void main() {
         float on = clamp((uArrival - vDelay) / 0.5, 0.0, 1.0);
         float a = pow(max(vFacing, 0.0), 2.2) * (1.0 - vH) * smoothstep(0.0, 0.15, vH) * (1.0 - smoothstep(20.0, 90.0, vDist));
-        gl_FragColor = vec4(vec3(1.0, 0.62, 0.25) * a * (0.035 + 0.05 * uRain) * on, 1.0);
+        gl_FragColor = vec4(vec3(1.0, 0.62, 0.25) * a * (0.035 + 0.05 * uRain) * on * uLamps, 1.0);
       }`,
   });
   const mesh = new THREE.InstancedMesh(g, mat, Math.max(1, lamps.length));
@@ -179,7 +205,7 @@ export class LampLights {
     }
     this.lights.forEach((l) => {
       const on = THREE.MathUtils.clamp((arrival - (l.userData.delay || 0)) / 0.5, 0, 1);
-      l.intensity = (l.userData.base || 0) * on;
+      l.intensity = (l.userData.base || 0) * on * shared.uLamps.value;
     });
   }
 

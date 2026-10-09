@@ -5,14 +5,15 @@ import { makeWindowMaterial, makeGlowMaterial, makeBeamMaterial } from './shader
 import { wetGroundMaterial, wallMaterial } from './look/surfaces.js';
 
 const NIGHT = {
-  walls: ['#5d6476', '#6a6470', '#4f6a70', '#7a6656', '#5c6680', '#6e5a58'],
-  dark: ['#454c5e', '#4d4f5c', '#3f4a58', '#56504e', '#48525e'],
+  // weathered Lagos plaster: light enough to read in daylight, the lighting makes it night
+  walls: ['#a7a9b0', '#b5aa9c', '#8fa9a6', '#c2a487', '#9ea7bd', '#b89a8e', '#c9c0a8'],
+  dark: ['#8d8e93', '#9a9285', '#7f8c91', '#a08f80', '#8a929c'],
   teal: '#2a9d94', tealDark: '#1b6e69',
-  road: '#3a3f4a', kerb: '#6d7078', path: '#5f636c', paint: '#d8dbe2', ground: '#2a2e34',
-  foliage: ['#123a46', '#0f3340', '#144047'], trunk: '#1b2133', metal: '#3b4560', slate: '#2f3a56',
-  podium: '#171f38', capSlab: '#13202b', tank: '#27324f', ac: '#2c3552', far: '#0b1020', roofCap: '#151d36',
-  wire: '#2a3350', tower: '#252f4c', kiosk: '#232c48', board: '#1a2340', monoA: '#1d2744', monoB: '#242f50',
-  cabin: '#3a4766', wheel: '#0b0f1c',
+  road: '#4a4e57', kerb: '#9a9ca0', path: '#8a8c90', paint: '#e2e4e8', ground: '#5a5a54',
+  foliage: ['#2f5a3a', '#2a5236', '#36633f'], trunk: '#4a3f35', metal: '#5a6070', slate: '#5c6270',
+  podium: '#6a6560', capSlab: '#64676c', tank: '#7c8088', ac: '#8a8f96', far: '#6a7280', roofCap: '#6b6a66',
+  wire: '#30343c', tower: '#7a8090', kiosk: '#6e6a64', board: '#4a4f5a', monoA: '#7d8696', monoB: '#8a93a2',
+  cabin: '#6a7488', wheel: '#15171c',
   env: {
     day: 0, bg: '#1b2748', fog: '#24305a', fogNear: 0.08, fogFar: 1.9, exposure: 1.05, tone: 'aces',
     bloom: { on: true, strength: 0.55, radius: 0.55, threshold: 0.85 },
@@ -537,9 +538,10 @@ export function buildWorld(manifest, via, theme = 'night') {
   }
 
   // bulbs: HDR amber, the only things besides windows that bloom
+  let bulbMat;
   {
     const g = new THREE.IcosahedronGeometry(1, 0);
-    const mat = new THREE.MeshBasicMaterial({ color: new THREE.Color().setRGB(...T.env.bulb) });
+    const mat = bulbMat = new THREE.MeshBasicMaterial({ color: new THREE.Color().setRGB(...T.env.bulb) });
     const mesh = new THREE.InstancedMesh(g, mat, bulbs.length);
     const m = new THREE.Matrix4();
     bulbs.forEach((b, i) => { m.makeScale(b.s, b.s, b.s).setPosition(b.x, b.y, b.z); mesh.setMatrixAt(i, m); });
@@ -629,6 +631,8 @@ export function buildWorld(manifest, via, theme = 'night') {
     spawnYaw: front0.yaw,
     frontOf, env: T.env, theme, pick: groundMesh, solids: staticMesh, ground: groundMesh,
     lamps, trees, isFree, youCenter: you.c, mainRoad: longest, roads,
+    rig: { hemi, moon, rim, bulbMat, bulb: T.env.bulb },
+    center: manifest.center,
     source: manifest.source,
   };
 }

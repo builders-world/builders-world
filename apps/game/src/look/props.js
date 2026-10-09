@@ -52,8 +52,9 @@ function addSway(material, amount) {
   material.onBeforeCompile = (s) => {
     s.uniforms.uTime = shared.uTime;
     s.uniforms.uReduced = shared.uReduced;
+    s.uniforms.uWind = shared.uWind;
     s.vertexShader = s.vertexShader
-      .replace('#include <common>', '#include <common>\nuniform float uTime; uniform float uReduced;')
+      .replace('#include <common>', '#include <common>\nuniform float uTime; uniform float uReduced; uniform float uWind;')
       .replace('#include <begin_vertex>', `#include <begin_vertex>
         {
           #ifdef USE_INSTANCING
@@ -61,7 +62,7 @@ function addSway(material, amount) {
           #else
             vec3 ip = vec3(0.0);
           #endif
-          float k = max(0.0, position.y - 1.0) * ${amount.toFixed(4)} * (1.0 - uReduced);
+          float k = max(0.0, position.y - 1.0) * ${amount.toFixed(4)} * uWind * (1.0 - uReduced);
           float ph = ip.x * 0.37 + ip.z * 0.21;
           transformed.x += sin(uTime * 1.3 + ph) * k + sin(uTime * 3.1 + position.x * 2.0 + ph) * k * 0.25;
           transformed.z += cos(uTime * 1.1 + ph) * k * 0.6;
@@ -186,7 +187,7 @@ function buildArea(M, w, d) {
 
 function hub(M) {
   const g = new THREE.Group();
-  const shell = colorize(mergeGeometries([box(7, 0.25, 4.4, 0, 3.1, 0), box(7.4, 0.2, 5.0, 0, 6.2, 0), box(0.25, 6.2, 4.4, -3.5, 3.1, 0), box(0.25, 6.2, 4.4, 3.5, 3.1, 0), box(7, 6.2, 0.25, 0, 3.1, -2.2)]), '#3b3f48');
+  const shell = colorize(mergeGeometries([box(7, 0.25, 4.4, 0, 3.1, 0), box(7.4, 0.2, 5.0, 0, 6.2, 0), box(0.25, 6.2, 4.4, -3.5, 3.1, 0), box(0.25, 6.2, 4.4, 3.5, 3.1, 0), box(7, 6.2, 0.25, 0, 3.1, -2.2)]), '#6a707c');
   g.add(new THREE.Mesh(shell, M.concrete));
   g.add(new THREE.Mesh(mergeGeometries([box(6.7, 2.7, 0.06, 0, 1.5, 2.1), box(6.7, 2.7, 0.06, 0, 4.6, 2.1)]), M.glass));
   g.add(new THREE.Mesh(mergeGeometries([box(6.6, 2.5, 0.05, 0, 1.5, 1.6), box(6.6, 2.5, 0.05, 0, 4.6, 1.6)]), M.interior));
@@ -435,5 +436,5 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   const view = T.clone().multiplyScalar(Math.cos(0.3)).addScaledVector(N, Math.sin(0.3));
   const viewYaw = Math.atan2(view.x, view.z);
 
-  return { root, lamps, interact, builders, update, dispose, viewYaw, objective: interact[0], area: interact.find((i) => i.id === 'build') };
+  return { root, lamps, interact, builders, update, dispose, viewYaw, materials: M, objective: interact[0], area: interact.find((i) => i.id === 'build') };
 }

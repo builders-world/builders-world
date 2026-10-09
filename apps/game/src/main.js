@@ -9,7 +9,7 @@ import { shared } from './shaders.js';
 import { initChrome } from './ui.js';
 import { loadProfile } from './onboarding/state.js';
 import { createAvatarModel } from './onboarding/avatar.js';
-import { createLook, blueHourSky, pickQuality } from './look/index.js';
+import { createLook, blueHourSky, pickQuality, createWeather } from './look/index.js';
 
 const q = new URLSearchParams(location.search);
 const arrivalProfile = loadProfile();
@@ -30,6 +30,9 @@ const norm = (t) => (t === 'day' || t === 'light' ? 'day' : 'night');
 let themeName = norm(q.get('theme') || store.get('bw-theme') || 'night');
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+// live weather for the street, at city level; ?wx=storm or ?hour=19.5 preview other conditions
+const weatherFeed = createWeather({ district: place, profile: arrivalProfile, query: q });
+weatherFeed.start();
 shared.uReduced.value = reduced ? 1 : 0;
 const still = q.get('still') === '1';
 if (q.get('hud') === '0') document.body.classList.add('nohud');
@@ -141,7 +144,7 @@ async function main() {
     bloom.strength = E.bloom.strength; bloom.radius = E.bloom.radius; bloom.threshold = E.bloom.threshold;
     chrome.setWorld(world, via, place);
     street?.dispose();
-    if (q.get('look') !== '0') street = createLook({ renderer, scene, camera, world, reduced, quality, sky });
+    if (q.get('look') !== '0') street = createLook({ renderer, scene, camera, world, reduced, quality, sky, bloom, weatherFeed });
   }
 
   function setAerial(flag) {
@@ -365,7 +368,7 @@ async function main() {
 
   window.__bw = {
     get world() { return world; }, camera, cam, player, renderer, scene, via,
-    get theme() { return themeName; }, setTheme, get look() { return street; }, quality, composer, goto, setAerial, get walkTarget() { return walkTarget; },
+    get theme() { return themeName; }, setTheme, get look() { return street; }, quality, composer, weather: weatherFeed, goto, setAerial, get walkTarget() { return walkTarget; },
     ready: true,
   };
 }
