@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { createMenus } from './menus.js';
 
 // The in-world overlay from the reference screenshot: district and objective,
 // minimap, a route on the ground, a contextual prompt, name tags and the board.
@@ -91,7 +92,7 @@ const NOTES = [
   ['#f6a8a0', 'Who wants to fix the stairway lights with me?'],
 ];
 
-export function createHud({ world, props, camera, reduced, onInteract, weatherFeed }) {
+export function createHud({ world, props, camera, reduced, onInteract, weatherFeed, onEquip }) {
   const style = document.createElement('style');
   style.textContent = CSS;
   document.head.appendChild(style);
@@ -101,11 +102,6 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     <div id="lk-obj" class="pane" aria-live="polite"><div class="d">${PIN}<span>Yaba District</span></div><ul></ul></div>
     <div id="lk-map"><canvas width="312" height="312" aria-label="Minimap"></canvas></div>
     <div id="lk-prompt" class="pane"><kbd>E</kbd><span></span></div>
-    <div id="lk-keys" class="pane">
-      <div class="wasd"><span></span><kbd>W</kbd><span></span><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></div><span>Move</span>
-      <kbd>Drag</kbd><span>Look around</span>
-      <kbd>E</kbd><span>Interact</span>
-    </div>
     <div id="lk-tags"></div>
     <div id="lk-board" class="pane" role="dialog" aria-label="Community board"></div>
     <div id="lk-toast" class="pane" role="status"></div>
@@ -114,9 +110,8 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
   document.body.appendChild(el);
   const $ = (s) => el.querySelector(s);
   const objList = $('#lk-obj ul'), prompt = $('#lk-prompt'), promptText = $('#lk-prompt span');
-  const boardEl = $('#lk-board'), toastEl = $('#lk-toast'), keysEl = $('#lk-keys');
+  const boardEl = $('#lk-board'), toastEl = $('#lk-toast');
   const map = $('#lk-map canvas').getContext('2d');
-  setTimeout(() => keysEl.classList.add('fade'), 16000);
 
   // ---------- objectives ----------
   const steps = [
@@ -125,7 +120,12 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     { text: 'Add a bench for Yaba', target: props.area, done: false },
   ].filter((s) => s.target);
   let current = 0;
+  let custom = null; // a route the player set from the map
   function renderSteps(dist) {
+    if (custom) {
+      objList.innerHTML = `<li><i></i><span>${custom.label}</span>${dist != null ? `<em>${Math.round(dist)} m</em>` : ''}</li>`;
+      return;
+    }
     objList.innerHTML = steps.map((s, i) => {
       if (i > current + 1) return '';
       const cls = s.done ? 'done' : i === current ? '' : 'todo';
@@ -242,6 +242,13 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
       map.fillStyle = '#10131c'; map.beginPath(); map.arc(target.x * k, target.z * k, 3.5, 0, 7); map.fill();
     }
     map.setTransform(1, 0, 0, 1, 0, 0);
+    const street = streetName(player);
+    if (street) {
+      map.font = '700 22px system-ui'; map.textAlign = 'center'; map.textBaseline = 'middle';
+      const w = map.measureText(street).width + 26;
+      map.fillStyle = 'rgba(9,14,28,.78)'; map.beginPath(); map.roundRect(C - w / 2, S - 62, w, 34, 17); map.fill();
+      map.fillStyle = '#eef2ff'; map.fillText(street, C, S - 45);
+    }
     // player arrow, always pointing up
     map.fillStyle = '#4fb6ff';
     map.beginPath(); map.moveTo(C, C - 16); map.lineTo(C + 11, C + 12); map.lineTo(C, C + 6); map.lineTo(C - 11, C + 12); map.closePath(); map.fill();
@@ -252,12 +259,30 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     map.fillStyle = '#fff'; map.font = 'bold 16px system-ui'; map.textAlign = 'center'; map.textBaseline = 'middle'; map.fillText('N', nx, ny + 1);
   }
 
+  // nearest named road within a short walk, like a callout on a competitive map
+  function streetName(p) {
+    let best = 18, name = null;
+    world.roads.forEach((r) => {
+      if (!r.name) return;
+      for (let i = 0; i < r.pts.length - 1; i++) {
+        const [ax, az] = r.pts[i], [bx, bz] = r.pts[i + 1], dx = bx - ax, dz = bz - az;
+        const t = Math.max(0, Math.min(1, ((p.x - ax) * dx + (p.z - az) * dz) / (dx * dx + dz * dz || 1)));
+        const d = Math.hypot(p.x - ax - dx * t, p.z - az - dz * t) - r.w / 2;
+        if (d < best) { best = d; name = r.name; }
+      }
+    });
+    return name;
+  }
+
   let mapTimer = 0;
   renderSteps();
 
+  const lastPlayer = new THREE.Vector3();
   function update(dt, t, player, yaw) {
+    lastPlayer.copy(player);
     const step = steps[current];
-    const target = step?.target;
+    if (custom && Math.hypot(custom.x - player.x, custom.z - player.z) < 4) { toast(`You are at ${custom.name}.`); custom = null; }
+    const target = custom || step?.target;
     // nearest interactable
     active = null;
     let best = Infinity;
@@ -266,7 +291,7 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
       if (d < it.r && d < best) { best = d; active = it; }
     });
     if (active) { promptText.textContent = active.label; prompt.classList.add('on'); } else prompt.classList.remove('on');
-    if (step?.near && target && Math.hypot(target.x - player.x, target.z - player.z) < 4.5) complete(current);
+    if (!custom && step?.near && target && Math.hypot(target.x - player.x, target.z - player.z) < 4.5) complete(current);
 
     // objective distance
     const dist = target ? Math.hypot(target.x - player.x, target.z - player.z) : null;
@@ -323,7 +348,21 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     wxTimer = setInterval(renderWeather, 30000); // keep the clock honest
   }
 
-  function dispose() { unsub?.(); clearInterval(wxTimer); el.remove(); style.remove(); route.removeFromParent(); chevGeo.dispose(); chevMat.dispose(); }
+  // ---------- phone, map, bag and the controls guide ----------
+  props.openBoard = openBoard;
+  const menus = createMenus({
+    world, props, weatherFeed, toast, onEquip,
+    getPlayer: () => lastPlayer,
+    onRoute: (at, label, fromMap) => {
+      if (!at) return;
+      custom = { x: at.x, z: at.z, name: label, label: `Go to ${label}` };
+      renderSteps();
+      if (fromMap) toast(`Route set to ${label}. Follow the arrows.`);
+    },
+    onPhoto: () => { document.body.classList.add('nohud'); toast('Photo mode. Press H to bring the interface back.', 4000); },
+  });
 
-  return { update, interact, route, dispose, isOpen: () => boardEl.classList.contains('on'), close: closeBoard, toast };
+  function dispose() { menus.dispose(); unsub?.(); clearInterval(wxTimer); el.remove(); style.remove(); route.removeFromParent(); chevGeo.dispose(); chevMat.dispose(); }
+
+  return { update, interact, route, dispose, isOpen: () => boardEl.classList.contains('on') || menus.isOpen(), close: () => { closeBoard(); menus.close(); }, toast, menuKey: (k) => menus.key(k) };
 }

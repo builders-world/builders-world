@@ -314,9 +314,11 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   }
 
   // the creative hub, only if a wide enough lot is free
+  let hubAt = null;
   const hSpot = findArea(bSpot.a - 12, 7.6, 4.8);
   if (hSpot) {
     const hp = place(hub(M), hSpot.a, hSpot.c, faceRoad);
+    hubAt = { x: hp.x - N.x * 3.2, z: hp.z - N.z * 3.2 };
     lamps.push({ x: hp.x - N.x * 2.6, y: 2.9, z: hp.z - N.z * 2.6, power: 40, boost: 25, color: 0xffb060 });
   }
 
@@ -436,5 +438,5 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   const view = T.clone().multiplyScalar(Math.cos(0.3)).addScaledVector(N, Math.sin(0.3));
   const viewYaw = Math.atan2(view.x, view.z);
 
-  return { root, lamps, interact, builders, update, dispose, viewYaw, materials: M, objective: interact[0], area: interact.find((i) => i.id === 'build') };
+  return { root, lamps, interact, builders, update, dispose, viewYaw, materials: M, hubAt, objective: interact[0], area: interact.find((i) => i.id === 'build') };
 }

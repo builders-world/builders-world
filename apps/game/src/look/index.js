@@ -3,6 +3,7 @@ import { PlanarReflection, weather } from './surfaces.js';
 import { rain, lampCones, LampLights, skyline } from './atmosphere.js';
 import { buildProps } from './props.js';
 import { createHud } from './hud.js';
+import { createGear } from './gear.js';
 import { sunPosition, sunDirection } from './sun.js';
 import { shared } from '../shaders.js';
 
@@ -32,7 +33,7 @@ const TIERS = {
   low: { reflect: 0, rain: 2500, lights: 3 },
 };
 
-export function createLook({ renderer, scene, camera, world, reduced, quality, sky, bloom, weatherFeed }) {
+export function createLook({ renderer, scene, camera, world, reduced, quality, sky, bloom, weatherFeed, avatar }) {
   const tier = TIERS[quality] || TIERS.high;
   const env = world.env;
   const night = !!env.wet;
@@ -64,8 +65,10 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   // the bench that appears when someone builds
   const placed = new THREE.Group();
   group.add(placed);
+  const gear = avatar ? createGear(avatar) : null;
   const hud = createHud({
     world, props, camera, reduced, weatherFeed: night ? weatherFeed : null,
+    onEquip: (id, on) => gear?.set(id, on),
     onInteract: (what) => {
       if (what !== 'place-bench' || !props.area) return;
       const ghost = props.root.children.find((c) => c.userData.ghost)?.userData.ghost;
@@ -216,6 +219,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
 
   function dispose() {
     hud.dispose();
+    gear?.dispose();
     props.dispose();
     lights?.dispose();
     reflection?.dispose();

@@ -633,6 +633,7 @@ export function buildWorld(manifest, via, theme = 'night') {
     lamps, trees, isFree, youCenter: you.c, mainRoad: longest, roads,
     rig: { hemi, moon, rim, bulbMat, bulb: T.env.bulb },
     center: manifest.center,
+    footprints: blds.map((b) => b.pts),
     source: manifest.source,
   };
 }
