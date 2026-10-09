@@ -64,6 +64,7 @@ body.nohud #lk { display: none; }
 #lk-wx .src { display: block; margin-top: 6px; color: #6f7ca3; font-size: 10.5px; }
 #lk-wx .src a { color: inherit; }
 @media (max-width: 700px) { #lk-wx { top: 172px; width: 120px; padding: 8px 10px; } #lk-wx .t { font-size: 16px; } #lk-wx button { display: none; } }
+body.bw-inside #lk-map, body.bw-inside #lk-wx, body.bw-inside #lk-osm, body.bw-inside #lk-obj { display: none; }
 #lk-osm { position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%); font-size: 10.5px; color: rgba(238,242,255,.6); pointer-events: auto; }
 #lk-osm a { color: inherit; }
 #lk-toast { position: absolute; left: 50%; top: 22px; transform: translateX(-50%); padding: 10px 16px; font-size: 13.5px; opacity: 0; transition: opacity .3s; }
@@ -93,7 +94,7 @@ const NOTES = [
   ['#f6a8a0', 'Who wants to fix the stairway lights with me?'],
 ];
 
-export function createHud({ world, props, camera, reduced, onInteract, weatherFeed, onEquip, onUse, onRide, isExtraOpen, closeExtra }) {
+export function createHud({ world, props, camera, reduced, onInteract, weatherFeed, onEquip, onUse, onRide, isExtraOpen, closeExtra, getPrompt }) {
   const style = document.createElement('style');
   style.textContent = CSS;
   document.head.appendChild(style);
@@ -298,6 +299,8 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
       const d = Math.hypot(it.x - player.x, it.z - player.z);
       if (d < it.r && d < best) { best = d; active = it; }
     });
+    const inner = getPrompt?.(player); // inside a workspace, the room decides the prompt
+    if (inner !== undefined) active = inner ? { id: 'inside', label: inner } : null;
     if (active) { promptText.textContent = active.label; prompt.classList.add('on'); } else prompt.classList.remove('on');
     if (!custom && step?.near && target && Math.hypot(target.x - player.x, target.z - player.z) < 4.5) complete(current);
 

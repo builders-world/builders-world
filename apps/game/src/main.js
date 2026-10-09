@@ -247,6 +247,7 @@ async function main() {
   canvas.addEventListener('pointerup', (e) => {
     const was = drag; drag = null;
     if (!was || was.moved > 6) return;
+    if (street?.inside) return; // indoors you walk with the keys; the street is not under your feet
     ray.setFromCamera(new THREE.Vector2((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1), camera);
     const hitPlot = ray.intersectObjects(world.plots.map((p) => p.mesh), false)[0];
     if (hitPlot) { chrome.showCard(hitPlot.object.userData.builder, true); return; }
@@ -277,7 +278,7 @@ async function main() {
     if (!store.get('bw-help-seen')) { setTimeout(() => chrome.toggleHelp(true), 1600); setTimeout(() => { chrome.toggleHelp(false); store.set('bw-help-seen', '1'); }, 9000); }
   }
 
-  let riding = false, savedDist = cam.distT;
+  let riding = false, savedDist = cam.distT, seated = false, savedOutside = null;
   const clock = new THREE.Clock();
   let t = 0;
   let stuck = 0;
@@ -300,6 +301,22 @@ async function main() {
     cam.pitch += (cam.pitchT - cam.pitch) * kc;
     cam.dist += (cam.distT - cam.dist) * kc;
 
+    // moving into or out of a place, sitting down, standing up
+    const move = street?.takeMove();
+    if (move) {
+      if (move.mode === 'stand') { player.z += 0.9; seated = false; }
+      else {
+        player.set(move.x, 0, move.z);
+        if (move.yaw !== undefined) heading = cam.yaw = cam.yawT = move.yaw;
+        seated = move.mode === 'sit';
+        if (move.mode === 'inside') { savedOutside = { dist: cam.distT, pitch: cam.pitchT }; cam.distT = cam.dist = 4.5; cam.pitchT = cam.pitch = 0.32; }
+        if (move.mode === 'outside' && savedOutside) { cam.distT = savedOutside.dist; cam.pitchT = savedOutside.pitch; world.resolve(player, 0.8); }
+        snap = true;
+      }
+    }
+    const inside = !!street?.inside;
+    const C = street?.collider?.() || world;
+
     // a hired ride carries the player; the camera sits behind the vehicle
     const rs = street?.ride(dt, t, keys, player);
     if (rs?.exit) {
@@ -317,7 +334,7 @@ async function main() {
     fwd.set(Math.sin(cam.yaw), 0, Math.cos(cam.yaw));
     right.set(-Math.cos(cam.yaw), 0, Math.sin(cam.yaw));
     mv.set(0, 0, 0);
-    if (!cam.aerial && !riding) {
+    if (!cam.aerial && !riding && !seated) {
       if (keys.has('w') || keys.has('arrowup')) mv.add(fwd);
       if (keys.has('s') || keys.has('arrowdown')) mv.sub(fwd);
       if (keys.has('d') || keys.has('arrowright')) mv.add(right);
@@ -333,8 +350,8 @@ async function main() {
     if (moving) {
       mv.normalize();
       last.copy(player);
-      player.addScaledVector(mv, 5.2 * dt);
-      world.resolve(player, 0.8);
+      player.addScaledVector(mv, (inside ? 2.6 : 5.2) * dt); // indoors you walk like indoors
+      if (inside) C.resolve(player); else world.resolve(player, 0.8);
       if (walkTarget) {
         stuck = player.distanceTo(last) < 5.2 * dt * 0.25 ? stuck + dt : 0;
         if (stuck > 0.5) { walkTarget = null; marker.visible = false; stuck = 0; }
@@ -345,7 +362,7 @@ async function main() {
     }
     avatar.position.copy(player);
     avatar.rotation.y = heading;
-    body.position.y = moving && !reduced ? Math.abs(Math.sin(t * 9)) * 0.05 : 0;
+    body.position.y = seated ? -0.42 : moving && !reduced ? Math.abs(Math.sin(t * 9)) * 0.05 : 0;
     body.rotation.z = moving && !reduced ? Math.sin(t * 9) * 0.04 : 0;
 
     // damped third-person follow; district-to-district is a cut, never a flight
@@ -365,7 +382,7 @@ async function main() {
         const x = focus.x + (desired.x - focus.x) * u;
         const y = focus.y + (desired.y - focus.y) * u;
         const z = focus.z + (desired.z - focus.z) * u;
-        if (y < 0.6 || world.solidAt(x, y, z)) { free = Math.max(0.12, (i - 2) / steps); break; }
+        if (y < 0.6 || C.solidAt(x, y, z)) { free = Math.max(0.12, (i - 2) / steps); break; }
       }
       desired.lerpVectors(focus, desired, free);
       if (desired.y < 0.8) desired.y = 0.8;

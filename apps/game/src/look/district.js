@@ -87,6 +87,12 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
     counts[id] = (counts[id] || 0) + spots.length;
   }
 
+  // ---------- sparse landmarks first: mid-rise corner blocks claim the big lots ----------
+  const midT = get('yaba_midrise_corner_block');
+  const mids = midT ? spaced(lots(midT, { step: 12 }), 2, 140, placed) : [];
+  put('yaba_midrise_corner_block', mids);
+  mids.forEach((s) => placed.push(s));
+
   // ---------- active street edges: compound shops ----------
   const shopT = get('yaba_compound_shop');
   if (shopT) {
@@ -114,12 +120,6 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
       lamps.push({ x: s.x, y: 2.6, z: s.z, power: 16, boost: 6, color: 0xffb35c });
     });
   }
-
-  // ---------- sparse landmarks: mid-rise corner blocks ----------
-  const midT = get('yaba_midrise_corner_block');
-  const mids = midT ? spaced(lots(midT, { step: 12 }), 2, 140, placed) : [];
-  put('yaba_midrise_corner_block', mids);
-  mids.forEach((s) => placed.push(s));
 
   // ---------- neighbourhood streets: utility poles and their wires ----------
   const poleT = get('yaba_utility_pole');
@@ -252,5 +252,5 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
     });
   }
 
-  return { group, interact, lamps, update, counts };
+  return { group, interact, lamps, update, counts, shops: placed.filter((p) => p.road && interact.some((i) => i.id.startsWith('shop:'))), landmarks: mids };
 }

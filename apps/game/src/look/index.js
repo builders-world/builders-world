@@ -7,6 +7,7 @@ import { createGear } from './gear.js';
 import { createLife } from './life.js';
 import { dressDistrict } from './district.js';
 import { createRides } from './rides.js';
+import { createInteriors, PLACES } from './interior.js';
 import { sunPosition, sunDirection } from './sun.js';
 import { shared } from '../shaders.js';
 
@@ -81,16 +82,47 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     you && { name: 'Your plot', at: world.frontOf([you.center.x, you.center.z]) },
     ...props.interact.filter((i) => i.id.startsWith('shop:')).map((i) => ({ name: i.name, at: i })),
   ].filter(Boolean);
-  let rides = null, pendingExit = null;
+  let rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null;
+  // the tech places you can walk into (world bible 6.6)
+  const doors = [];
+  if (props.hubAt) doors.push({ key: 'hub', at: props.hubAt });
+  if (dressing?.landmarks?.[0]) { const m = dressing.landmarks[0]; doors.push({ key: 'loft', at: { x: m.x + Math.sin(m.ry) * 5, z: m.z + Math.cos(m.ry) * 5 } }); }
+  const studioShop = props.interact.find((i) => i.id === 'shop:1');
+  if (studioShop) { studioShop.id = 'enter:studio'; studioShop.label = `Enter ${PLACES.studio.name}`; delete studioShop.line; }
+  doors.forEach((d) => props.interact.push({ id: `enter:${d.key}`, label: `Enter ${PLACES[d.key].name}`, x: d.at.x, z: d.at.z, r: 3.5 }));
+  function setInside(name) {
+    world.scene.visible = !name; if (sky) sky.visible = !name; group.visible = !name;
+    document.body.classList.toggle('bw-inside', !!name);
+    if (name) { savedFog = scene.fog; scene.fog = null; renderer.toneMappingExposure = 1.0; if (bloom) { bloom.strength = 0.3; bloom.threshold = 0.95; } }
+    else { scene.fog = savedFog; }
+  }
+  let savedFog = null;
   const hud = createHud({
     onUse: (player, active) => {
+      if (interiors?.active) {
+        const r = interiors.use(player.x, player.z);
+        if (r?.exit) { interiors.leave(); setInside(null); pendingMove = doorOut && { ...doorOut, mode: 'outside' }; return true; }
+        if (r?.sit) { pendingMove = { ...r.sit, mode: 'sit' }; hud.toast('Press E to open your laptop. Esc to stand up.'); return true; }
+        return !!r;
+      }
+      if (active?.id?.startsWith('enter:')) {
+        const key = active.id.slice(6);
+        doorOut = { x: active.x, z: active.z, yaw: Math.atan2(active.x - player.x, active.z - player.z) + Math.PI };
+        interiors.enter(key).then((p) => { setInside(PLACES[key].name); pendingMove = { ...p, mode: 'inside' }; });
+        return true;
+      }
       if (rides?.use(player)) return true;
       if (active?.id?.startsWith('stop:')) { rides?.openPanel(active.kind, active); return true; }
       return false;
     },
     onRide: (player) => rides?.openPanel('taxi', { app: true, x: player.x, z: player.z }),
-    isExtraOpen: () => rides?.isMenuOpen(),
-    closeExtra: () => rides?.closeMenu(),
+    isExtraOpen: () => rides?.isMenuOpen() || interiors?.computerOpen,
+    closeExtra: () => {
+      rides?.closeMenu();
+      if (interiors?.computerOpen) interiors.closeComputer();
+      else if (interiors?.seated) { interiors.stand(); pendingMove = { mode: 'stand' }; }
+    },
+    getPrompt: (player) => (interiors?.active ? interiors.prompt(player.x, player.z) : undefined),
     world, props, camera, reduced, weatherFeed: night ? weatherFeed : null,
     onEquip: (id, on) => gear?.set(id, on),
     onInteract: (what) => {
@@ -105,6 +137,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     },
   });
   group.add(hud.route);
+  interiors = createInteriors({ scene, reduced, toast: hud.toast, getEnv: () => live || { day: 1 } });
   rides = createRides({ world, scene: group, nav: hud.nav, props, reduced, toast: hud.toast,
     onState: (st) => { if (st.ride === false && st.exitAt) pendingExit = st.exitAt; } });
 
@@ -220,7 +253,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   const life = off.has('life') ? null : createLife({ world, scene: group, camera, getEnv: () => live, reduced, lowQuality: quality === 'low', uTime: shared.uTime });
 
   function update(dt, t, player, yaw, arrival) {
-    if (night) environment(dt);
+    if (night && !interiors?.active) environment(dt);
+    interiors?.update(dt, t);
     life?.update(dt, t, player);
     dressing?.update(dt, t, player);
     lights?.update(dt, player, arrival);
@@ -245,7 +279,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
 
   function renderReflection() {
     // a dry street has nothing to mirror, so skip the extra pass
-    if (reflection && weather.uWet.value > 0.03) reflection.render(renderer, scene, camera);
+    if (reflection && !interiors?.active && weather.uWet.value > 0.03) reflection.render(renderer, scene, camera);
     else weather.uHasReflect.value = 0;
   }
 
@@ -259,7 +293,12 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     return r;
   }
 
+  // a teleport for the player (into or out of a place, sitting, standing), taken once
+  function takeMove() { const m = pendingMove; pendingMove = null; return m; }
+
   function dispose() {
+    if (interiors?.active) setInside(null);
+    interiors?.dispose();
     rides?.dispose();
     life?.dispose();
     hud.dispose();
@@ -274,6 +313,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { update, renderReflection, setSize, dispose, hud, props, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { update, renderReflection, setSize, dispose, hud, props, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 
