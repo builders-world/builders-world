@@ -645,13 +645,13 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   }
 
   // free for a prop: outside every footprint and off the carriageway
-  function isFree(x, z, pad = 0.6) {
+  function isFree(x, z, pad = 0.6, { lots: onLots = false } = {}) {
     for (const c of kitColliders) if (Math.hypot(x - c.cx, z - c.cz) < Math.max(c.hx, c.hz) + pad) return false;
     for (const s of solid) {
       if (x < s.bb.x0 - pad || x > s.bb.x1 + pad || z < s.bb.z0 - pad || z > s.bb.z1 + pad) continue;
       if (pointInPoly(x, z, s.pts) || nearestOnPoly(x, z, s.pts).d < pad) return false;
     }
-    for (const l of lots) if (x > l.bb.x0 - pad && x < l.bb.x1 + pad && z > l.bb.z0 - pad && z < l.bb.z1 + pad && (pointInPoly(x, z, l.pts) || nearestOnPoly(x, z, l.pts).d < pad)) return false;
+    if (!onLots) for (const l of lots) if (x > l.bb.x0 - pad && x < l.bb.x1 + pad && z > l.bb.z0 - pad && z < l.bb.z1 + pad && (pointInPoly(x, z, l.pts) || nearestOnPoly(x, z, l.pts).d < pad)) return false;
     // keep carriageways and pavements clear: pavements are for walking (world bible 4.3)
     for (const r of mainRoads) {
       const P = r.fit ? r.fit.pts : r.pts;

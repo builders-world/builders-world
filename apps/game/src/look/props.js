@@ -239,6 +239,7 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   const lamps = []; // extra lamps for the light pool
   const interact = []; // things the HUD can prompt for
   const builders = []; // named people with tags
+  let billboardFace = null;
   const walkers = [];
   const movers = [];
 
@@ -252,13 +253,13 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   const alongRoad = Math.atan2(T.x, T.z);
 
   const place = (obj, along, out, ry) => { const p = at(along, out); obj.position.set(p.x, 0, p.z); obj.rotation.y = ry; root.add(obj); return p; };
-  const freeAt = (a, o, pad = 0.3) => { const p = at(a, o); return world.isFree(p.x, p.z, pad); };
+  const freeAt = (a, o, pad = 0.3, opt) => { const p = at(a, o); return world.isFree(p.x, p.z, pad, opt); };
   const taken = [];
   const overlaps = (a0, a1) => taken.some(([b0, b1]) => a0 < b1 && a1 > b0);
 
   // Find open ground on the building side: a w x d rectangle, front edge toward the road.
   // Dense blocks only open up in gaps between buildings, so search along the street.
-  function findArea(pref, w, d, { from = 0.6, to = 12, lo = -14, hi = 46 } = {}) {
+  function findArea(pref, w, d, { from = 0.6, to = 12, lo = -14, hi = 46, lots = false, pad = 0.3 } = {}) {
     const cands = [];
     for (let a = lo; a <= hi; a += 0.5) cands.push(a);
     cands.sort((x, y) => Math.abs(x - pref) - Math.abs(y - pref));
@@ -266,7 +267,7 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
       if (overlaps(a - w / 2 - 0.5, a + w / 2 + 0.5)) continue;
       for (let o = from; o <= to - d; o += 0.5) {
         let ok = true;
-        for (let u = -w / 2; u <= w / 2 + 1e-3 && ok; u += 0.5) for (let v = 0; v <= d + 1e-3 && ok; v += 0.5) if (!freeAt(a + u, o + v)) ok = false;
+        for (let u = -w / 2; u <= w / 2 + 1e-3 && ok; u += 0.5) for (let v = 0; v <= d + 1e-3 && ok; v += 0.5) if (!freeAt(a + u, o + v, pad, { lots })) ok = false;
         if (ok) { taken.push([a - w / 2, a + w / 2]); return { a, o, c: o + d / 2 }; }
       }
     }
@@ -318,27 +319,38 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
     const bp = at(aSpot.a + 2.2, aSpot.c + 1.2); bin.position.set(bp.x, 0, bp.z); root.add(bin);
   }
 
-  // the mural, painted on a straight stretch of an unclaimed facade
+  // the mural, now a framed roadside billboard (Elvis, 9 October 2026): two steel legs on open ground
+  // beside the street, never on the pavement or the road; the board sits above head height, lit at night
   let mural = null;
-  for (const len of [12, 10, 8]) {
-    const starts = [];
-    for (let a = -12; a <= 44 - len; a += 1) starts.push(a);
-    starts.sort((x, y) => Math.abs(x - (bSpot.a + 5)) - Math.abs(y - (bSpot.a + 5)));
-    for (const a0 of starts) {
-      const outs = [];
-      for (let a = a0; a <= a0 + len; a += 1) outs.push(facadeOut(a));
-      if (outs.some((o) => o === null)) continue;
-      if (Math.max(...outs) - Math.min(...outs) > 0.35) continue;
-      const o = Math.min(...outs);
-      if (nearPlot(a0 + len / 2, o + 0.5) || nearPlot(a0, o + 0.5) || nearPlot(a0 + len, o + 0.5)) continue;
-      mural = { a: a0 + len / 2, o, len };
-      break;
-    }
-    if (mural) break;
-  }
-  if (mural) {
-    const face = new THREE.Mesh(new THREE.PlaneGeometry(mural.len - 0.4, 3.4).translate(0, 2.2, 0), M.mural);
-    place(face, mural.a, mural.o - 0.06, faceRoad);
+  // open ground first; failing that, private land behind a fence, clear of houses, as real boards stand
+  const bbSpot = findArea(bSpot.a + 9, 8.6, 1.4, { from: 0.8, to: 14 }) ?? findArea(bSpot.a + 9, 8.6, 1.4, { from: 1.5, to: 16, lots: true, pad: 1.2 });
+  if (bbSpot) {
+    mural = { a: bbSpot.a, o: bbSpot.c, len: 8 };
+    const bb = new THREE.Group();
+    const steel = new THREE.MeshStandardMaterial({ color: 0x55605a, roughness: 0.55, metalness: 0.35 });
+    const frame = new THREE.MeshStandardMaterial({ color: 0x263832, roughness: 0.6 });
+    [-2.7, 2.7].forEach((x) => {
+      bb.add(new THREE.Mesh(cyl(0.16, 0.2, 3.6, 12, x, 1.8, 0), steel));
+      bb.add(new THREE.Mesh(colorize(cyl(0.42, 0.48, 0.3, 12, x, 0.15, 0), '#c3bdae'), M.concrete)); // footing
+    });
+    bb.add(new THREE.Mesh(box(8.5, 3.7, 0.28, 0, 5.35, 0.02), frame));
+    bb.add(new THREE.Mesh(box(8.7, 0.1, 0.9, 0, 3.42, -0.42), steel)); // walkway
+    bb.add(new THREE.Mesh(mergeGeometries([box(8.7, 0.04, 0.04, 0, 4.0, -0.85), ...[-4.3, -1.45, 1.45, 4.3].map((x) => box(0.04, 0.58, 0.04, x, 3.71, -0.85))]), steel));
+    // the face: the mural artwork, glowing softly after dusk like a digital board
+    const faceMat = M.mural.clone();
+    faceMat.emissive = new THREE.Color(0xffffff); faceMat.emissiveMap = faceMat.map; faceMat.emissiveIntensity = 0.05;
+    bb.add(new THREE.Mesh(new THREE.PlaneGeometry(8.0, 3.2).translate(0, 5.35, 0.17), faceMat));
+    // three lamps on arms, pointing at the board
+    [-2.7, 0, 2.7].forEach((x) => {
+      bb.add(new THREE.Mesh(box(0.06, 0.06, 0.8, x, 7.3, 0.4), steel));
+      bb.add(new THREE.Mesh(box(0.34, 0.14, 0.2, x, 7.22, 0.85), M.warm));
+    });
+    const bp = place(bb, bbSpot.a, bbSpot.c, faceRoad);
+    billboardFace = faceMat;
+    lamps.push({ x: bp.x - N.x * 1.2, y: 6.8, z: bp.z - N.z * 1.2, power: 18, boost: 30, color: 0xffd9a0 });
+    // only the legs stand on the ground, so only they collide
+    const r = faceRoad, cx = Math.cos(r), sx = Math.sin(r);
+    world.addColliders([-2.7, 2.7].map((x) => ({ name: 'billboard_leg', cx: bp.x + x * cx, cz: bp.z - x * sx, hx: 0.5, hz: 0.5, ry: 0 })));
   }
 
   // the creative hub, only if a wide enough lot is free
@@ -517,5 +529,5 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   const view = T.clone().multiplyScalar(Math.cos(0.3)).addScaledVector(N, Math.sin(0.3));
   const viewYaw = Math.atan2(view.x, view.z);
 
-  return { root, lamps, interact, builders, update, dispose, viewYaw, materials: M, hubAt, kitPlaced, objective: interact[0], area: interact.find((i) => i.id === 'build') };
+  return { root, lamps, interact, builders, update, dispose, viewYaw, materials: M, hubAt, kitPlaced, billboardFace, objective: interact[0], area: interact.find((i) => i.id === 'build') };
 }

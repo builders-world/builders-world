@@ -237,6 +237,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     props.materials.warm.color.setRGB(2.0, 1.15, 0.45).multiplyScalar(0.12 + 0.88 * lamps);
     // the kit lamp's authored amber stays the same material; only how brightly it glows follows dusk and dawn
     kitLampAmber.forEach((m) => { m.emissiveIntensity = 0.12 + 0.88 * lamps; });
+    if (props.billboardFace) props.billboardFace.emissiveIntensity = 0.05 + 0.55 * lamps; // the digital board glows after dusk
     if (rainMesh) {
       const to = ((cur.windDir + 180) * Math.PI) / 180, slant = Math.min(cur.wind, 15) * 0.025;
       rainMesh.userData.wind.value.set(Math.sin(to) * slant, -Math.cos(to) * slant);
