@@ -192,13 +192,19 @@ async function main() {
     chrome.setView(flag);
   }
 
+  // land on ground joined to the streets: a click or a jump never drops you in a boxed-in garden strip
+  function onStreetGround(p) {
+    world.resolve(p, PLAYER_R);
+    if (world.reachable && !world.reachable(p.x, p.z)) { const q = world.nearestReachable(p.x, p.z); if (q) { p.set(q.x, 0, q.z); world.resolve(p, PLAYER_R); } }
+    return p;
+  }
   function goto(id) {
     const pl = world.plots.find((p) => p.b.id === id);
     if (!pl) return;
     cut(() => {
       const f = world.frontOf([pl.center.x, pl.center.z]);
       player.set(f.x, 0, f.z);
-      world.resolve(player, PLAYER_R);
+      onStreetGround(player);
       heading = cam.yaw = cam.yawT = f.yaw;
       walkTarget = null; walkPath = null; marker.visible = false;
       setAerial(false);
@@ -291,7 +297,7 @@ async function main() {
     pt.copy(hit.point);
     if (Math.hypot(pt.x, pt.z) > world.radius * 1.05) return;
     if (cam.aerial) {
-      cut(() => { player.set(pt.x, 0, pt.z); world.resolve(player, PLAYER_R); setAerial(false); snap = true; });
+      cut(() => { player.set(pt.x, 0, pt.z); onStreetGround(player); setAerial(false); snap = true; });
     } else {
       walkTo(pt);
     }
@@ -322,7 +328,7 @@ async function main() {
   }
 
   let riding = false, savedDist = cam.distT, seated = false, savedOutside = null;
-  let jumpQueued = false, jumpV = 0, jumpY = 0, stepAcc = 0, groundY = 0;
+  let jumpQueued = false, jumpV = 0, jumpY = 0, stepAcc = 0, groundY = 0, boxedCheck = 1, boxedT = 0, boxedAt = { x: 0, z: 0 };
   const idle = { t: 0, on: false, shot: -1, until: 0 };
   // other players, through the database (online.js); ?offline=1 plays solo
   let lastSpeed = 0;
@@ -422,7 +428,7 @@ async function main() {
     // a hired ride carries the player; the camera sits behind the vehicle
     const rs = street?.ride(dt, t, keys, player);
     if (rs?.exit) {
-      player.copy(rs.exit); world.resolve(player, PLAYER_R);
+      player.copy(rs.exit); onStreetGround(player);
       if (riding) { riding = false; applyView('foot'); }
     } else if (rs?.pos) {
       if (!riding) { savedDist = cam.distT; riding = true; applyView('ride'); }
@@ -466,6 +472,21 @@ async function main() {
         const dx = aim.x - player.x, dz = aim.z - player.z, dist = Math.hypot(dx, dz);
         if (walkAt >= P.length - 1 && dist < 0.45) { walkTarget = null; walkPath = null; marker.visible = false; }
         else { mv.set(dx / (dist || 1), 0, dz / (dist || 1)); if (sidestepT > 0) { sidestepT -= dt; mv.addScaledVector(sidestep, 1.2); } }
+      }
+    }
+    // safety net: if you are ever boxed in (a gap nobody can walk out of), you step back onto the street
+    boxedCheck -= dt;
+    if (boxedCheck <= 0) {
+      boxedCheck = 0.5;
+      // boxed in means: off the street network, trying to move, and getting nowhere
+      const trying = mv.lengthSq() > 0 || !!walkTarget, moved = Math.hypot(player.x - boxedAt.x, player.z - boxedAt.z);
+      boxedAt.x = player.x; boxedAt.z = player.z;
+      const free = inside || riding || seated || cam.aerial || groundY > 0.3 || jumpY > 0 || !trying || moved > 0.6 || !world.reachable || world.reachable(player.x, player.z);
+      boxedT = free ? 0 : boxedT + 0.5;
+      if (boxedT >= 2) {
+        boxedT = 0;
+        const q = world.nearestReachable(player.x, player.z);
+        if (q) cut(() => { player.set(q.x, 0, q.z); world.resolve(player, PLAYER_R); walkTarget = null; walkPath = null; marker.visible = false; snap = true; (street?.hud.toast ?? chrome.toast)('You were boxed in, so you stepped back out to the street.', 3000); });
       }
     }
     const moving = mv.lengthSq() > 0;

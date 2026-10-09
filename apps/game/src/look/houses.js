@@ -122,6 +122,10 @@ export function dressHouse(mb, b, h, o) {
 
 // ---------- estates: lawn, picket fence, gate and path around every house ----------
 const inPoly = (x, z, pts) => { let c = false; for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) { const [xi, zi] = pts[i], [xj, zj] = pts[j]; if ((zi > z) !== (zj > z) && x < ((xj - xi) * (z - zi)) / (zj - zi) + xi) c = !c; } return c; };
+// room for a person (0.84 m across) to walk between a house and its fence: the body, plus enough that
+// the 0.5 m walk map sees the path as unbroken at any angle (0.84 + 0.71 diagonal + fence)
+export const WALK = 1.7;
+const distToPoly = (x, z, pts) => { let d = Infinity; for (let i = 0; i < pts.length; i++) { const [ax, az] = pts[i], [bx, bz] = pts[(i + 1) % pts.length], dx = bx - ax, dz = bz - az, L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / L2)); d = Math.min(d, Math.hypot(x - ax - dx * u, z - az - dz * u)); } return d; };
 export const ESTATE = { lawn: ['#9cc163', '#93bb5c', '#a3c76b'], picket: '#f7f1df', path: '#d6d0c0' };
 
 /**
@@ -135,12 +139,23 @@ export function dressEstate(mb, lot, c0, levels, o) {
   if (side < 5) return null;
   let k = Math.max(0.45, Math.min(0.72, 1 - 7.5 / side));
   if (side * k < 4.8) k = Math.min(0.82, 4.8 / side);
-  // the house must sit inside its own garden with 0.8 m to spare; an L-shaped plot scaled toward its
-  // centre can push the house through the inner corner, so shrink it, and failing that, place a
-  // rectangle at the widest point of the garden
-  const inner = grow(lot, -0.8);
-  const fits = (h) => !h.some(([x, z]) => !inPoly(x, z, inner)) && !inner.some(([x, z]) => inPoly(x, z, h));
-  let pts = scaleAbout(lot, c, k);
+  // the house must sit inside its own garden. Between the wall and the fence there is either a real
+  // side path (WALK, room for a person with a little to spare) or no gap at all: a strip a person can
+  // stand in but not walk out of is how players got stuck (Elvis, 9 October 2026). So: try for the full
+  // side path first; on a lot too tight for it, settle for 0.8 m and take the fence off any stretch
+  // that runs too close to the wall, so the wall itself is the boundary there.
+  // An L-shaped plot scaled toward its centre can push the house through the inner corner, so shrink it,
+  // and failing that, place a rectangle at the widest point of the garden.
+  const roomy = grow(lot, -(0.25 + WALK)), tight = grow(lot, -0.8);
+  const fitsIn = (inner) => (h) => !h.some(([x, z]) => !inPoly(x, z, inner)) && !inner.some(([x, z]) => inPoly(x, z, h));
+  const minSide = (h) => Math.min(...h.map(([x, z], i) => { const [x2, z2] = h[(i + 1) % h.length]; return Math.hypot(x2 - x, z2 - z); }));
+  let pts = null;
+  if (roomy.length >= 3 && Math.abs(area(roomy)) > 20) {
+    for (let kk = k; kk > 0.3 && !pts; kk -= 0.04) { const h = scaleAbout(lot, c, kk); if (fitsIn(roomy)(h)) pts = h; }
+    if (pts && (minSide(pts) < 3.6 || Math.abs(area(pts)) < 18)) pts = null; // too small to be a house: use the tight fit instead
+  }
+  const inner = tight, fits = fitsIn(tight);
+  if (!pts) pts = scaleAbout(lot, c, k);
   for (let kk = k; !fits(pts) && kk > 0.3; kk -= 0.06) pts = scaleAbout(lot, c, kk);
   if (!fits(pts)) {
     const bb = lot.reduce((a, [x, z]) => [Math.min(a[0], x), Math.min(a[1], z), Math.max(a[2], x), Math.max(a[3], z)], [1e9, 1e9, -1e9, -1e9]);
@@ -182,7 +197,11 @@ export function dressEstate(mb, lot, c0, levels, o) {
   }
   // white picket fence on the lot line, open at the gate; each run is also a collider.
   // Neighbours share one fence: a stretch already fenced by the plot next door is not fenced again.
+  // Fences go up once every house is placed (world.js calls lay with all of them), because a fence
+  // too close to the house next door makes the same trap as one too close to your own.
   const fences = [], shared = o.fenceIndex;
+  const lay = (houses = [{ pts, bb: null }]) => {
+  const near = (x, z) => houses.some((h) => (!h.bb || (x > h.bb.x0 - WALK && x < h.bb.x1 + WALK && z > h.bb.z0 - WALK && z < h.bb.z1 + WALK)) && (inPoly(x, z, h.pts) || distToPoly(x, z, h.pts) < WALK));
   const fencedAlready = (x, z, tx, tz) => {
     if (!shared) return false;
     const key = (i, j) => `${i},${j}`, ci = Math.floor(x / 2), cj = Math.floor(z / 2);
@@ -201,34 +220,44 @@ export function dressEstate(mb, lot, c0, levels, o) {
     for (let k = 0; k < n; k++) {
       const u0 = k * step, u1 = u0 + step, um = (u0 + u1) / 2;
       const inGate = gap && um > gap[0] && um < gap[1];
-      keep.push(!inGate && !fencedAlready(e.ax + e.tx * um, e.az + e.tz * um, e.tx, e.tz));
+      // too close to the wall to walk between: no fence here, the wall is the boundary
+      const px = e.ax + e.tx * um, pz = e.az + e.tz * um;
+      keep.push(!inGate && !near(px, pz) && !fencedAlready(px, pz, e.tx, e.tz));
     }
     const runs = [];
     for (let k = 0; k < n; k++) if (keep[k]) { if (runs.length && runs[runs.length - 1][1] === k * step) runs[runs.length - 1][1] = (k + 1) * step; else runs.push([k * step, (k + 1) * step]); }
     if (gap) runs.forEach((r) => { if (r[1] > gap[0] && r[0] < gap[0]) r[1] = gap[0]; if (r[0] < gap[1] && r[1] > gap[1]) r[0] = gap[1]; });
     for (let k = 0; k < n; k++) if (keep[k]) remember(e.ax + e.tx * (k + 0.5) * step, e.az + e.tz * (k + 0.5) * step, e.tx, e.tz);
-    runs.forEach(([a, b]) => {
-      const L = b - a;
-      if (L < 0.3) return;
-      const mx = e.ax + e.tx * (a + L / 2), mz = e.az + e.tz * (a + L / 2);
-      fences.push({ cx: mx, cz: mz, hx: L / 2, hz: 0.07, ry });
-      mb.box(mx, 0.32, mz, L, 0.07, 0.05, ESTATE.picket, { grad: 0, vary: 0 }, ry);
-      mb.box(mx, 0.72, mz, L, 0.07, 0.05, ESTATE.picket, { grad: 0, vary: 0 }, ry);
-      const st = detail ? 0.45 : 1.8;
-      for (let u = a + 0.1; u <= b - 0.05; u += st) {
-        const big = !detail || Math.abs((u - a) % 1.8) < st * 0.5;
-        mb.box(e.ax + e.tx * u, 0, e.az + e.tz * u, big ? 0.1 : 0.08, big ? 1.0 : 0.92, big ? 0.1 : 0.03, ESTATE.picket, { grad: 0, vary: 0 }, ry);
-      }
-    });
+    runs.forEach(([a, b]) => { if (b - a >= 0.3) fences.push({ ax: e.ax, az: e.az, tx: e.tx, tz: e.tz, nx: e.nx, nz: e.nz, a, b, ry, detail }); });
   });
-  // a tree in the back garden when there is room
+  return fences;
+  };
+  // a tree in the back garden when there is room, never in the side path
   let tree = null;
   if (house.door) {
     const d = house.door.f, back = Math.abs((c[0] - d.mx) * d.nx + (c[1] - d.mz) * d.nz);
     const tx = c[0] - d.nx * (back + 2.4), tz = c[1] - d.nz * (back + 2.4);
-    if (inPoly(tx, tz, grow(lot, -1.2)) && !inPoly(tx, tz, grow(pts, 1.2))) tree = { x: tx, z: tz };
+    if (inPoly(tx, tz, grow(lot, -(0.25 + WALK + 0.35))) && !inPoly(tx, tz, grow(pts, WALK + 0.35))) tree = { x: tx, z: tz };
   }
-  return { pts, top: house.top, door: house.door, tree, fences };
+  if (!o.deferFences) { const runs = lay(); runs.forEach((r) => drawFence(mb, r)); return { pts, top: house.top, door: house.door, tree, fences: runs.map(fenceCollider) }; }
+  return { pts, top: house.top, door: house.door, tree, lay };
 }
 
 export { scaleAbout };
+
+// a fence run is a stretch [a, b] along a lot edge; these turn one into its collider and its pickets,
+// and cut a gate into it
+export const fenceCollider = (r) => { const L = r.b - r.a, m = r.a + L / 2; return { cx: r.ax + r.tx * m, cz: r.az + r.tz * m, hx: L / 2, hz: 0.07, ry: r.ry }; };
+export function drawFence(mb, r) {
+  const { a, b, ry, detail } = r, L = b - a, m = a + L / 2, mx = r.ax + r.tx * m, mz = r.az + r.tz * m;
+  mb.box(mx, 0.32, mz, L, 0.07, 0.05, ESTATE.picket, { grad: 0, vary: 0 }, ry);
+  mb.box(mx, 0.72, mz, L, 0.07, 0.05, ESTATE.picket, { grad: 0, vary: 0 }, ry);
+  const st = detail ? 0.45 : 1.8;
+  for (let u = a + 0.1; u <= b - 0.05; u += st) {
+    const big = !detail || Math.abs((u - a) % 1.8) < st * 0.5;
+    mb.box(r.ax + r.tx * u, 0, r.az + r.tz * u, big ? 0.1 : 0.08, big ? 1.0 : 0.92, big ? 0.1 : 0.03, ESTATE.picket, { grad: 0, vary: 0 }, ry);
+  }
+}
+export function cutFence(r, u0, u1) {
+  return [[r.a, Math.min(r.b, u0)], [Math.max(r.a, u1), r.b]].filter(([a, b]) => b - a >= 0.3).map(([a, b]) => ({ ...r, a, b }));
+}

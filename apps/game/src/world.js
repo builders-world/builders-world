@@ -5,7 +5,7 @@ import { makeWindowMaterial, makeGlowMaterial, makeBeamMaterial } from './shader
 import { wetGroundMaterial, wallMaterial } from './look/surfaces.js';
 import { instanceAsset, collidersFor, anchorAt } from './look/kit.js';
 import { makeClearance, fitStreets, band, streetFurniture, isFootway } from './look/streets.js';
-import { dressEstate } from './look/houses.js';
+import { dressEstate, drawFence, fenceCollider, cutFence, WALK } from './look/houses.js';
 import { pushOutBox } from './look/physics.js';
 import { buildNavGrid } from './look/navgrid.js';
 
@@ -405,7 +405,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   const inReserveBox = (x, z) => bridgeReserve.some((c) => { const dx = x - c.cx, dz = z - c.cz, cs = Math.cos(c.ry), sn = Math.sin(c.ry), lx = dx * cs - dz * sn, lz = dx * sn + dz * cs; return Math.abs(lx) < c.hx && Math.abs(lz) < c.hz; });
   const reserveCorners = () => bridgeReserve.flatMap((c) => { const cs = Math.cos(c.ry), sn = Math.sin(c.ry); return [[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([u, v]) => [c.cx + u * c.hx * cs + v * c.hz * sn, c.cz - u * c.hx * sn + v * c.hz * cs]); });
 
-  const fenceIndex = new Map();
+  const fenceIndex = new Map(), estates = [];
   blds.forEach((b) => {
     if (plotIds.has(b)) return;
     let lot = null;
@@ -414,7 +414,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     laid.push({ pts: lot, bb: bbox(lot) });
     const lv = b.levels ?? (b.h ? b.h / 3 : 1 + Math.floor(rng() * 2));
     const wall = PAL.walls[Math.floor(rng() * PAL.walls.length)];
-    const est = dressEstate(mb, lot, b.c, lv, { wall, rng, front: toStreet, fenceIndex, detail: Math.hypot(b.c[0], b.c[1]) < R * 0.6 ? 1 : 0 });
+    const est = dressEstate(mb, lot, b.c, lv, { wall, rng, front: toStreet, fenceIndex, deferFences: true, detail: Math.hypot(b.c[0], b.c[1]) < R * 0.6 ? 1 : 0 });
     b.lot = lot;
     if (!est) { b.pts = []; b.top = 0; return; }
     b.pts = est.pts; b.bb = bbox(est.pts); b.top = est.top;
@@ -423,8 +423,62 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     // porch lights: two in three on a motion sensor (on only when someone comes near), the rest on all night
     // the fitting sits on the wall (mx, mz); the light it casts is placed 0.9 m out so it falls on the step, not the wall
     if (est.door?.lamp) { const L = est.door.lamp; porchLamps.push({ mx: L.x, mz: L.z, x: L.x + Math.sin(L.ry) * 0.9, y: 2.4, z: L.z + Math.cos(L.ry) * 0.9, ry: L.ry, my: L.y, sensor: rng() < 0.67, power: 0, color: 0xffc27a, kind: 'porch' }); }
-    est.fences.forEach((f) => lotFences.push({ name: 'fence', ...f, h: 1.0 }));
+    estates.push(est);
   });
+  // fences last, once every house is down, so none runs too close to any wall (houses.js)
+  const houses = blds.filter((b) => b.pts.length >= 3).map((b) => ({ pts: b.pts, bb: b.bb || bbox(b.pts) }));
+  let fenceRuns = estates.flatMap((est) => est.lay(houses));
+  // and no squeeze alleys: where two fences run side by side closer than the walkway, one stretch goes
+  {
+    const hash = new Map(), key = (x, z) => `${Math.floor(x / 2)},${Math.floor(z / 2)}`, next = [];
+    for (const r of fenceRuns) {
+      const drop = [];
+      for (let u = r.a + 0.25; u < r.b; u += 0.5) {
+        const x = r.ax + r.tx * u, z = r.az + r.tz * u, ci = Math.floor(x / 2), cj = Math.floor(z / 2);
+        let close = false;
+        for (let di = -1; di <= 1 && !close; di++) for (let dj = -1; dj <= 1 && !close; dj++) for (const q of hash.get(`${ci + di},${cj + dj}`) || []) {
+          const d = Math.hypot(q.x - x, q.z - z);
+          if (d > 0.3 && d < WALK && Math.abs(r.tx * q.tz - r.tz * q.tx) < 0.3) { close = true; break; }
+        }
+        if (close) drop.push([u - 0.3, u + 0.3]);
+      }
+      let parts = [r];
+      drop.forEach(([u0, u1]) => { parts = parts.flatMap((p) => (u1 > p.a && u0 < p.b ? cutFence(p, u0, u1) : [p])); });
+      parts.forEach((p) => { next.push(p); for (let u = p.a + 0.25; u < p.b; u += 0.5) { const x = p.ax + p.tx * u, z = p.az + p.tz * u, k = key(x, z); let a = hash.get(k); if (!a) hash.set(k, (a = [])); a.push({ x, z, tx: p.tx, tz: p.tz }); } });
+    }
+    fenceRuns = next;
+  }
+  // then gates: a back garden the house cuts off from its front gate is a trap (Elvis, 9 October 2026),
+  // so wherever a patch of garden cannot be walked to from the street, a gate is cut into the fence
+  // between it and ground that can. Opening one garden can connect the next, so it runs a few rounds.
+  {
+    const solidsNow = blds.filter((b) => b.pts.length >= 3).map((b) => ({ pts: b.pts, bb: b.bb || bbox(b.pts), top: 10 }));
+    const treeBoxes = lotTrees.map((t) => ({ cx: t.x, cz: t.z, hx: 0.3, hz: 0.3, ry: 0 }));
+    const GATE = 1.8;
+    for (let round = 0; round < 5; round++) {
+      const g = buildNavGrid({ R, solids: solidsNow, boxes: [...fenceRuns.map(fenceCollider), ...treeBoxes], roads, lots: [], pointInPoly, nearestOnPoly });
+      g.setMainLargest();
+      const pockets = g.pocketSizes(6);
+      if (!pockets.size) break;
+      const opened = new Set(), next = [];
+      let cuts = 0;
+      for (const r of fenceRuns) {
+        let cut = null;
+        for (let u = r.a + 0.5; u <= r.b - 0.5 && !cut; u += 0.5) {
+          const x = r.ax + r.tx * u, z = r.az + r.tz * u;
+          const A = g.islandNear(x + r.nx * 0.85, z + r.nz * 0.85, 1), B = g.islandNear(x - r.nx * 0.85, z - r.nz * 0.85, 1);
+          const [inner, outer] = pockets.has(A) && !opened.has(A) ? [A, B] : [B, A];
+          if (pockets.has(inner) && !opened.has(inner) && outer === g.main) { opened.add(inner); cut = u; }
+        }
+        if (cut === null) next.push(r);
+        else { cuts++; const u0 = Math.max(r.a, Math.min(cut - GATE / 2, r.b - GATE)), u1 = u0 + GATE; next.push(...cutFence(r, u0, u1)); }
+      }
+      fenceRuns = next;
+      if (!cuts) break;
+    }
+  }
+  // a stub left at a corner reads as a broken fence; taking it away only ever opens ground up
+  fenceRuns.filter((r) => r.b - r.a >= 1.5).forEach((r) => { drawFence(mb, r); lotFences.push({ name: 'fence', ...fenceCollider(r), h: 1.0 }); });
 
   // far lots beyond the data: unclaimed, dark
   for (let i = 0; i < 70; i++) {
@@ -924,6 +978,15 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     plan: (a, b, opt) => navGrid().plan(a, b, opt),
     costAt: (x, z) => navGrid().costAt(x, z),
     navReach: (a) => navGrid().reach(a),
+    // is this spot connected to the streets, and where is the nearest spot that is (navgrid.js)
+    reachable: (x, z) => { const g = navGrid(); g.setMain(spawn); return g.reachable(x, z); },
+    nearestReachable: (x, z) => { const g = navGrid(); g.setMain(spawn); return g.nearestReachable(x, z); },
+    // once everything is built: how much ground nobody can walk to from the streets (the layout audit reads this)
+    pocketReport: () => {
+      const g = navGrid(); g.setMain(spawn);
+      const boxes = g.pockets(); // reported, not walled off: at this size most are walk-map rounding, not traps
+      return { islands: boxes.islands || 0, cells: boxes.cells || 0, big: boxes.big || 0, largest: boxes.largest || 0, at: boxes.at || [] };
+    },
     source: manifest.source,
   };
 }

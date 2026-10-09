@@ -47,6 +47,7 @@ export function buildNavGrid({ R, solids, boxes, roads, lots, pointInPoly, neare
     if (pointInPoly(x, z, s.pts) || nearestOnPoly(x, z, s.pts).d < AGENT) cost[c] = BLOCK;
   }));
   boxes.forEach((b) => {
+    if ((b.y0 ?? 0) >= 1.8) return; // overhead (a bridge deck's railings): people walk underneath
     const r = Math.hypot(b.hx, b.hz) + AGENT, cs = Math.cos(b.ry || 0), sn = Math.sin(b.ry || 0);
     each(b.cx - r, b.cz - r, b.cx + r, b.cz + r, (i, j, c) => {
       const [x, z] = center(i, j), dx = x - b.cx, dz = z - b.cz;
@@ -79,10 +80,10 @@ export function buildNavGrid({ R, solids, boxes, roads, lots, pointInPoly, neare
     }
   }
   // nearest walkable cell to a point (a click on a wall, someone pushed into a corner), on a given island
-  function free(i, j, on = -1) {
+  function free(i, j, on = -1, maxR = 60) {
     const ok = (a, b) => !blocked(a, b) && (on < 0 || island[b * N + a] === on);
     if (ok(i, j)) return [i, j];
-    for (let r = 1; r < 60; r++) for (let dj = -r; dj <= r; dj++) for (let di = -r; di <= r; di++) {
+    for (let r = 1; r < maxR; r++) for (let dj = -r; dj <= r; dj++) for (let di = -r; di <= r; di++) {
       if (Math.max(Math.abs(di), Math.abs(dj)) !== r) continue;
       if (ok(i + di, j + dj)) return [i + di, j + dj];
     }
@@ -178,5 +179,38 @@ export function buildNavGrid({ R, solids, boxes, roads, lots, pointInPoly, neare
     return { reach: n, walk, N };
   }
   const costAt = (x, z) => { const [i, j] = toCell(x, z); return blocked(i, j) ? Infinity : cost[j * N + i]; };
-  return { plan, costAt, reach, cell: CELL, size: N };
+  // the street network: the island the start is on. Anywhere else a walker can stand is a pocket,
+  // a patch of ground boxed in by walls and fences that nobody can walk to or out of
+  let main = -1;
+  function setMain(p) { const s = free(...toCell(p.x, p.z)); main = s ? island[s[1] * N + s[0]] : -1; return main; }
+  // a point counts as reachable when the nearest walkable cell (within a metre, since a body flush
+  // against a wall sits in a cell the grid has grown the wall into) is on the street network
+  function reachable(x, z) { const s = free(...toCell(x, z), -1, 3); return !!s && (main < 0 || island[s[1] * N + s[0]] === main); }
+  function nearestReachable(x, z) { const s = free(...toCell(x, z), main); if (!s) return null; const [cx, cz] = center(...s); return { x: cx, z: cz }; }
+  // every pocket up to `max` cells, as boxes that cover it row by row
+  function pockets(max = 900) {
+    if (main < 0) return [];
+    const size = new Map();
+    for (let c = 0; c < N * N; c++) { const k = island[c]; if (k >= 0 && k !== main) size.set(k, (size.get(k) || 0) + 1); }
+    const boxes = []; let cells = 0;
+    for (let j = 0; j < N; j++) {
+      let run = -1;
+      for (let i = 0; i <= N; i++) {
+        const k = i < N ? island[j * N + i] : -1, inPocket = k >= 0 && k !== main && size.get(k) <= max;
+        if (inPocket && run < 0) run = i;
+        if (!inPocket && run >= 0) {
+          const [x0, z0] = center(run, j), [x1] = center(i - 1, j);
+          boxes.push({ cx: (x0 + x1) / 2, cz: z0, hx: (x1 - x0) / 2 + CELL / 2, hz: CELL / 2 }); cells += i - run; run = -1;
+        }
+      }
+    }
+    const kept = [...size.values()].filter((v) => v <= max);
+    const bigIds = [...size].filter(([, v]) => v >= 12 && v <= max).map(([k]) => k), at = bigIds.map((k) => { const c = island.indexOf(k), i = c % N, j = (c - i) / N; const [x, z] = center(i, j); return { x, z, n: size.get(k) }; });
+    return Object.assign(boxes, { cells, islands: kept.length, big: kept.filter((v) => v >= 12).length, at, largest: Math.max(0, ...kept) });
+  }
+  // the biggest island is the street network when there is no start point to go by
+  function setMainLargest() { const n = new Map(); for (let c = 0; c < N * N; c++) if (island[c] >= 0) n.set(island[c], (n.get(island[c]) || 0) + 1); let best = -1, bn = 0; n.forEach((v, k) => { if (v > bn) { bn = v; best = k; } }); main = best; return main; }
+  const islandNear = (x, z, r = 2) => { const s = free(...toCell(x, z), -1, r); return s ? island[s[1] * N + s[0]] : -1; };
+  function pocketSizes(min = 6) { const n = new Map(); for (let c = 0; c < N * N; c++) { const k = island[c]; if (k >= 0 && k !== main) n.set(k, (n.get(k) || 0) + 1); } [...n].forEach(([k, v]) => { if (v < min) n.delete(k); }); return n; }
+  return { plan, costAt, reach, setMain, setMainLargest, islandNear, pocketSizes, get main() { return main; }, reachable, nearestReachable, pockets, cell: CELL, size: N };
 }
