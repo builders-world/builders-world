@@ -107,5 +107,16 @@ export function walkMarker() {
   g.add(new THREE.Mesh(new THREE.RingGeometry(0.5, 0.66, 32).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: 0xffc23d, opacity: 1, ...off })));
   g.add(new THREE.Mesh(new THREE.RingGeometry(0.66, 0.7, 32).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: 0xd9940f, opacity: 1, ...off })));
   g.children.forEach((m) => { m.position.y = Y; m.renderOrder = 3; });
+  // it follows the light: full strength by day; at night dimmer and see-through, so it reads on dark
+  // tarmac without glaring (Elvis, 9 October 2026)
+  const base = [[1, 1, 1], [1, 0.76, 0.24], [0.85, 0.58, 0.06]], alpha = [0.9, 0.95, 0.95];
+  let last = -1;
+  g.userData.setDay = (day = 1) => {
+    const d = Math.round(Math.max(0, Math.min(1, day)) * 20) / 20;
+    if (d === last) return; last = d;
+    const k = 0.68 + 0.32 * d, a = 0.62 + 0.38 * d;
+    g.children.forEach((m, i) => { m.material.color.setRGB(base[i][0] * k, base[i][1] * k, base[i][2] * k); m.material.opacity = alpha[i] * (i === 0 ? a * 0.75 : a); });
+  };
+  g.userData.setDay(1);
   return g;
 }

@@ -320,6 +320,7 @@ async function main() {
     walkTarget = new THREE.Vector3(end.x, 0, end.z);
     marker.position.set(end.x, 0, end.z);
     marker.visible = true;
+    marker.userData.setDay?.(street?.env?.day ?? 1);
     return true;
   }
 
