@@ -224,7 +224,8 @@ async function main() {
     // phone, map and bag take their keys first, and hold movement while open
     if (!e.repeat && street?.hud.menuKey(k)) { e.preventDefault(); keys.clear(); return; }
     if (street?.hud.isOpen() && ['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(k)) return;
-    if (k === 'v') { if (!e.repeat) cut(() => setAerial(!cam.aerial)); }
+    if (k === 'v') { if (!e.repeat) { if (cam.aerial) cut(() => setAerial(false)); else cycleView(); } }
+    else if (k === 'b') { if (!e.repeat) cut(() => setAerial(!cam.aerial)); }
     else if (k === 't') { if (!e.repeat) setTheme(themeName === 'night' ? 'day' : 'night'); }
     else if (k === 'h') { if (!e.repeat) document.body.classList.toggle('nohud'); }
     else if (k === '?' || k === '/') chrome.toggleHelp();
@@ -293,6 +294,34 @@ async function main() {
   }
 
   let riding = false, savedDist = cam.distT, seated = false, savedOutside = null;
+
+  // camera views, after GTA V: V cycles near, mid and far third person and first person; vehicles add a
+  // cinematic camera. On foot and in a vehicle each keep their own choice, like its independent camera modes.
+  const VIEWS = {
+    foot: [{ id: 'near', name: 'Near', dist: 4.2, pitch: 0.16 }, { id: 'mid', name: 'Mid', dist: 7, pitch: 0.2 },
+      { id: 'far', name: 'Far', dist: 12, pitch: 0.3 }, { id: 'first', name: 'First person', dist: 0.01, pitch: 0.35 }],
+    ride: [{ id: 'near', name: 'Near', k: 0.72, pitch: 0.2 }, { id: 'mid', name: 'Mid', k: 1, pitch: 0.24 },
+      { id: 'far', name: 'Far', k: 1.5, pitch: 0.3 }, { id: 'first', name: 'First person', k: 0.01, pitch: 0.35 },
+      { id: 'cine', name: 'Cinematic', k: 1, pitch: 0.24 }],
+  };
+  const viewIx = { foot: +(store.get('bw-view-foot') ?? 1) % 4, ride: +(store.get('bw-view-ride') ?? 1) % 5 };
+  const viewOf = (kind) => VIEWS[kind][viewIx[kind]];
+  const cine = { t: 0, shot: -1, pos: new THREE.Vector3() };
+  function applyView(kind) {
+    const v = viewOf(kind);
+    cam.pitchT = v.pitch;
+    if (kind === 'foot') cam.distT = inside() ? Math.min(v.dist, 4.5) : v.dist;
+    cine.t = 0; cine.shot = -1;
+  }
+  const inside = () => !!street?.inside;
+  function cycleView() {
+    const kind = riding ? 'ride' : 'foot';
+    viewIx[kind] = (viewIx[kind] + 1) % VIEWS[kind].length;
+    store.set(`bw-view-${kind}`, String(viewIx[kind]));
+    applyView(kind);
+    (street?.hud.toast ?? chrome.toast)(`Camera: ${viewOf(kind).name} · V to change`, 1600);
+  }
+  applyView('foot'); cam.dist = cam.distT; cam.pitch = cam.pitchT;
   const clock = new THREE.Clock();
   let t = 0;
   let stuck = 0;
@@ -335,12 +364,12 @@ async function main() {
     const rs = street?.ride(dt, t, keys, player);
     if (rs?.exit) {
       player.copy(rs.exit); world.resolve(player, 0.8);
-      if (riding) { cam.distT = savedDist; riding = false; }
+      if (riding) { riding = false; applyView('foot'); }
     } else if (rs?.pos) {
-      if (!riding) { savedDist = cam.distT; riding = true; }
+      if (!riding) { savedDist = cam.distT; riding = true; applyView('ride'); }
       player.set(rs.pos.x, 0, rs.pos.z);
       heading = rs.yaw;
-      cam.distT = rs.cam;
+      cam.distT = rs.cam * viewOf('ride').k;
       if (!drag) cam.yawT += Math.atan2(Math.sin(rs.yaw - cam.yawT), Math.cos(rs.yaw - cam.yawT)) * (1 - Math.exp(-dt * 2));
     }
 
@@ -401,7 +430,35 @@ async function main() {
       desired.lerpVectors(focus, desired, free);
       if (desired.y < 0.8) desired.y = 0.8;
     }
-    if (snap) { camPos.copy(desired); look.copy(focus); snap = false; }
+    const view = riding ? viewOf('ride') : viewOf('foot');
+    let fixed = false;
+    if (!cam.aerial && view.id === 'first') {
+      // eye height in the head; in a vehicle the driver's eye line, set at the nose so the opaque
+      // windscreen of the low-poly kit does not fill the view (GTA's bonnet camera does the same)
+      const ahead = riding && rs ? rs.nose : 0.12, dir = riding && rs ? rs.yaw : cam.yaw;
+      desired.set(player.x + Math.sin(dir) * ahead, riding && rs ? rs.seatY + 0.5 : seated ? 1.2 : 1.62, player.z + Math.cos(dir) * ahead);
+      const lookDown = (cam.pitch - 0.35) * 1.3;
+      focus.set(desired.x + Math.sin(cam.yaw) * Math.cos(lookDown) * 10, desired.y - Math.sin(lookDown) * 10, desired.z + Math.cos(cam.yaw) * Math.cos(lookDown) * 10);
+      fixed = true;
+    } else if (!cam.aerial && riding && rs && view.id === 'cine') {
+      // cinematic: held shots from the roadside, the bumper and the side, cutting every few seconds
+      cine.t -= dt;
+      if (cine.t <= 0) {
+        cine.shot = (cine.shot + 1) % 3; cine.t = 5.5;
+        const fx = Math.sin(rs.yaw), fz = Math.cos(rs.yaw);
+        if (cine.shot === 0) cine.pos.set(player.x + fx * 26 + fz * 6, 1.4, player.z + fz * 26 - fx * 6);
+        snap = true;
+      }
+      const fx = Math.sin(rs.yaw), fz = Math.cos(rs.yaw);
+      if (cine.shot === 0) desired.copy(cine.pos);
+      else if (cine.shot === 1) desired.set(player.x + fx * 4.5 + fz * 0.6, 0.7, player.z + fz * 4.5 - fx * 0.6);
+      else desired.set(player.x - fz * 7 - fx * 2, 1.9, player.z + fx * 7 - fz * 2);
+      focus.set(player.x, rs.seatY + 0.4, player.z);
+      if (C.solidAt(desired.x, desired.y, desired.z)) desired.set(player.x - fx * rs.cam, 3.2, player.z - fz * rs.cam);
+      fixed = true;
+    }
+    if (fixed && !snap) { camPos.lerp(desired, 1 - Math.exp(-dt * (view.id === 'first' ? 30 : 4))); look.lerp(focus, 1 - Math.exp(-dt * 20)); }
+    else if (snap) { camPos.copy(desired); look.copy(focus); snap = false; }
     else {
       const k = 1 - Math.exp(-dt * 6);
       camPos.lerp(desired, k);
@@ -410,7 +467,7 @@ async function main() {
     camera.position.copy(camPos);
     camera.lookAt(look);
     // a wall pushed the camera into the avatar: hide it rather than show the inside of a head
-    avatar.visible = !riding && (cam.aerial || camPos.distanceTo(focus) > 1.7);
+    avatar.visible = !riding && (cam.aerial || (view.id !== 'first' && camPos.distanceTo(look) > 1.7));
 
     chrome.update(camera, player, !cam.aerial);
     street?.update(dt, t, player, cam.yaw, shared.uArrival.value);
@@ -422,7 +479,7 @@ async function main() {
 
   window.__bw = {
     get world() { return world; }, camera, cam, player, renderer, scene, via,
-    get theme() { return themeName; }, setTheme, get look() { return street; }, quality, composer, weather: weatherFeed, get kit() { return kit; }, goto, setAerial, get walkTarget() { return walkTarget; },
+    get theme() { return themeName; }, setTheme, get look() { return street; }, quality, composer, weather: weatherFeed, get kit() { return kit; }, goto, setAerial, cycleView, get view() { return (riding ? 'ride:' : 'foot:') + (riding ? viewOf('ride') : viewOf('foot')).id; }, get walkTarget() { return walkTarget; },
     ready: true,
   };
 }

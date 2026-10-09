@@ -179,7 +179,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   root.innerHTML = `<div id="lkm-dim"></div><div id="lkm-phone" role="dialog" aria-label="Phone"><div class="scr"></div></div>
     <div id="lkm-map" role="dialog" aria-label="Map of ${placeName(world)}"></div><div id="lkm-bag" role="dialog" aria-label="Bag"></div>
     <div class="lkm-hints" hidden></div><div id="lkm-guide" role="dialog" aria-label="Controls"></div>
-    <div id="lkm-tip"><span><b>Tab</b>Phone</span><span><b>M</b>Map</span><span><b>I</b>Bag</span><span><b>E</b>Interact</span></div>`;
+    <div id="lkm-tip"><span><b>Tab</b>Phone</span><span><b>M</b>Map</span><span><b>I</b>Bag</span><span><b>E</b>Interact</span><span><b>V</b>Camera</span></div>`;
   document.body.appendChild(root);
   const $ = (s) => root.querySelector(s);
   const dim = $('#lkm-dim'), phone = $('#lkm-phone'), mapEl = $('#lkm-map'), bagEl = $('#lkm-bag'), hints = $('.lkm-hints'), guide = $('#lkm-guide');
@@ -398,6 +398,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
         <div class="g"><div class="keys"><span></span><kbd>W</kbd><span></span><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></div>MOVE</div>
         <div class="g"><svg width="110" height="130" viewBox="0 0 110 130"><rect x="18" y="10" width="74" height="110" rx="37"/><path d="M55 10v40M18 50h74"/><path d="M4 70h10M96 70h10M8 64l-6 6 6 6M102 64l6 6-6 6"/></svg>DRAG TO LOOK</div>
         <div class="g"><kbd>E</kbd>INTERACT</div>
+        <div class="g"><kbd>V</kbd>CAMERA</div>
         <div class="or">OR</div>
         <div class="g"><div style="display:flex;gap:8px"><kbd style="min-width:72px">Tab</kbd><kbd>M</kbd><kbd>I</kbd></div>PHONE · MAP · BAG</div>
       </div><div class="skip">PRESS ANY KEY TO START</div>`;

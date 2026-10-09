@@ -284,7 +284,7 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState 
       ride.mesh.position.copy(ride.pos);
       ride.mesh.rotation.y = ride.yaw;
     }
-    return ride && (ride.phase === 'riding' || ride.phase === 'driving') ? { pos: ride.pos, yaw: ride.yaw, cam: ride.T.cam, seatY: ride.T.seatY } : null;
+    return ride && (ride.phase === 'riding' || ride.phase === 'driving') ? { pos: ride.pos, yaw: ride.yaw, cam: ride.T.cam, seatY: ride.T.seatY, nose: ride.T.wheelbase * 0.5 + 1.05 } : null;
   }
 
   // E: board when waiting nearby, get off when seated
