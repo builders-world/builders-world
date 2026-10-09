@@ -330,6 +330,16 @@ Movement rules, as path costs:
 - Vehicles keep to the street graph (`nav.js`); people use the grid.
 - Test with the plot sweep (walk to every plot, zero frames inside anything) before shipping a change to placement or movement.
 
+### 7.7 Recreation, benches and clean streets
+
+Places to play sit on open public ground, found by the same walkable map the navigation uses, clear of the pond park and of each other: a skate park (quarter pipes, funbox, rail, ledge), a water park (splash pad with jets, paddling pool, slide, umbrellas), a community garden (raised beds, shed, water tank) and a picnic lawn (tables, bunting, shade trees). They are on the map as Parks, and some residents go there after work.
+
+Benches are for sitting. Every park bench and bus shelter bench is a seat: E sits you down facing the way the bench faces (park benches face the water), and E or any move key stands you up. The camera swings to a three-quarter front view so you see yourself sit.
+
+Litter gathers along the kerbs, most of it near food spots and bus stops: pure water sachets, bottles, cans, takeaway packs, black nylon bags. You carry up to eight pieces. The Recycling Point pays 150 Efforts a piece; any street bin pays 50. The street is short of bins, so marked spots (a yellow ring and a ghost bin) take 3,000 Efforts, given 1,000 at a time by anyone. A funded bin is shared world state (`api/bins.js`), and less new litter turns up within 20 m of one.
+
+Land claims (the registry that stops two things being built in one place) are ground, not walls: only a claim with a height band, such as a billboard face, blocks the camera.
+
 ## 8. Shaders, textures and lighting
 
 ### 8.1 Textures

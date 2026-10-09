@@ -79,6 +79,12 @@ Every request Elvis has made, with where it stands. Updated 9 October 2026, 17:4
 | 47c | Bird species, a pond, flocking without clumps; cats no longer spin | Done, pushed | yaba-scene `src/look/birds.js`, `life.js` | `04e0b80` |
 | 47d | Zoomable map with zones, estates, house numbers and names | Done, pushed | yaba-scene `src/look/menus.js` | `db61ddf` |
 | 47e | MongoDB: other players online, typed chat | Done, pushed and live: presence every second, avatars, name tags, chat (Enter), shared emotes | yaba-scene `api/presence.js`, `src/look/online.js` | `aa80c2e`, `95a7106` |
+| 60 | Street lights on both sides of every road, always on; only house porch lights use motion sensors | Done, pushed: 205 street lamps, brighter pools | yaba-scene `src/look/streets.js` | `9fd78e7` |
+| 61 | At night everyone off work goes to bed; only night workers go to work | Done, pushed: in bed by 22:00, Musa on the night shift at the filling station | yaba-scene `src/look/lives.js` | `9fd78e7` |
+| 62 | Recreation: skate park, water park, community garden, picnic lawn | Done, pushed: placed on open ground, on the map as Parks; residents unwind there after work | yaba-scene `src/look/parks.js` | `9fd78e7` |
+| 63 | Sit on benches | Done, pushed: park and bus shelter benches, E to sit, E or walk to stand; park benches now face the pond | yaba-scene `src/look/index.js` | `e7d044a` |
+| 64 | Clean streets: pick up litter, recycle it for Efforts, fund street bins together | Done, pushed: Recycling Point 150 per piece, bins 50; bins cost 3,000 in 1,000 steps and are shared online (`/api/bins`) | yaba-scene `src/look/litter.js`, `api/bins.js` | `e7d044a` |
+| 65 | GitHub login in front of the world | Waiting on Elvis: create a GitHub OAuth App (callback https://buildersworld.vercel.app/api/auth/callback) | Vercel env | |
 | 48 | Bench building animation with hard hat and tools | Queued | | |
 | 57 | Roadside vendors and a little street chaos; random events; police stations; city traffic control | Queued | | |
 | 58 | Passenger cars, several designs; taxi and danfo roof signs | Queued | | |
