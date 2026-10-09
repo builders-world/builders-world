@@ -24,10 +24,10 @@ const glowMat = (r, g, b) => new THREE.MeshBasicMaterial({ color: new THREE.Colo
 // ---------- clay tree: the arrival scene's planter tree, at street size (world bible 7.1) ----------
 // A stone planter, a wood trunk and fat ellipsoid leaves in two greens, as one vertex-coloured mesh.
 function clayTreeGeometry() {
-  const parts = [colorize(cyl(0.34, 0.3, 0.6, 14, 0, 0.3, 0), '#c3bdae'), colorize(cyl(0.38, 0.38, 0.06, 14, 0, 0.6, 0), '#d6d0c0'),
+  const parts = [colorize(cyl(0.34, 0.3, 0.6, 10, 0, 0.3, 0), "#c3bdae"), colorize(cyl(0.38, 0.38, 0.06, 10, 0, 0.6, 0), "#d6d0c0"),
     colorize(cyl(0.045, 0.065, 1.6, 7, 0, 1.4, 0), '#a87950')];
   for (let i = 0; i < 9; i++) {
-    const a = i * 2.4, leaf = new THREE.SphereGeometry(1, 10, 8);
+    const a = i * 2.4, leaf = new THREE.SphereGeometry(1, 7, 5);
     leaf.scale(0.14, 0.56, 0.24);
     leaf.rotateX(Math.sin(a) * 0.75); leaf.rotateZ(Math.cos(a) * 0.85);
     leaf.translate(Math.cos(a) * 0.3, 1.75 + i * 0.07, Math.sin(a) * 0.3);
