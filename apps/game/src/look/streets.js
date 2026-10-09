@@ -8,12 +8,12 @@ const CLASS = {
   motorway: { half: 9, pave: 2, lamp: 26, sides: 2, minHalf: 3.5 },
   trunk: { half: 8, pave: 2.5, lamp: 26, sides: 2, minHalf: 3.5 },
   primary: { half: 7, pave: 3, lamp: 26, sides: 2, minHalf: 3.25 },
-  secondary: { half: 5, pave: 2.5, lamp: 28, sides: 2, minHalf: 2.75 },
-  tertiary: { half: 5, pave: 2.5, lamp: 28, sides: 2, minHalf: 2.75 },
-  unclassified: { half: 3.5, pave: 2, lamp: 32, sides: 1, minHalf: 2.75 },
-  residential: { half: 3.5, pave: 2, lamp: 32, sides: 1, minHalf: 2.75 },
-  living_street: { half: 3, pave: 1.5, lamp: 32, sides: 1, minHalf: 2.25 },
-  service: { half: 2.5, pave: 1.5, lamp: 38, sides: 1, minHalf: 1.75 },
+  secondary: { half: 5, pave: 2.5, lamp: 24, sides: 2, minHalf: 2.75 },
+  tertiary: { half: 5, pave: 2.5, lamp: 24, sides: 2, minHalf: 2.75 },
+  unclassified: { half: 3.5, pave: 2, lamp: 25, sides: 1, minHalf: 2.75 },
+  residential: { half: 3.5, pave: 2, lamp: 25, sides: 1, minHalf: 2.75 },
+  living_street: { half: 3, pave: 1.5, lamp: 25, sides: 1, minHalf: 2.25 },
+  service: { half: 2.5, pave: 1.5, lamp: 30, sides: 1, minHalf: 1.75 },
 };
 const KERB_GAP = 0.8; // building line to carriageway, at least
 

@@ -71,7 +71,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     cones = lampCones(world.lamps.filter((l) => l.kind === 'street'));
     if (!off.has('cones')) group.add(cones);
     lights = new LampLights(group, off.has('lights') ? 0 : tier.lights);
-    lights.setLamps([...world.lamps, ...props.lamps]);
+    lights.setLamps([...world.lamps, ...props.lamps, ...(world.porchLamps || [])]);
   }
 
   // the bench that appears when someone builds
@@ -87,6 +87,36 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     you && { name: 'Your plot', at: world.frontOf([you.center.x, you.center.z]) },
     ...props.interact.filter((i) => i.id.startsWith('shop:')).map((i) => ({ name: i.name, at: i })),
   ].filter(Boolean);
+  // porch lights: a small wall lamp by every front door. After dark the sensor ones switch on when
+  // anyone (you or a passer-by) comes within 7 m and off 20 s after they leave; the rest burn all night.
+  const porch = (() => {
+    const list = world.porchLamps || [];
+    if (!list.length) return null;
+    const mesh = new THREE.InstancedMesh(new THREE.BoxGeometry(0.22, 0.3, 0.14), new THREE.MeshBasicMaterial({ color: 0xffffff }), list.length);
+    const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), up = new THREE.Vector3(0, 1, 0), one = new THREE.Vector3(1, 1, 1);
+    list.forEach((l, i) => { m4.compose(new THREE.Vector3(l.mx, l.my, l.mz), q.setFromAxisAngle(up, l.ry), one); mesh.setMatrixAt(i, m4); l.until = 0; l.on = false; });
+    const ON = new THREE.Color(1.6, 1.15, 0.6), OFF = new THREE.Color(0.32, 0.3, 0.27);
+    list.forEach((l, i) => mesh.setColorAt(i, OFF));
+    group.add(mesh);
+    let tick = 0, clock = 0;
+    return {
+      mesh,
+      update(dt, player) {
+        clock += dt; tick -= dt; if (tick > 0) return; tick = 0.2;
+        const dark = (live?.lamps ?? (night ? 1 : 0)) > 0.35;
+        const movers = [player, ...(props.people || []).map((p) => p.obj.position)];
+        let changed = false;
+        list.forEach((l, i) => {
+          if (Math.hypot(l.x - player.x, l.z - player.z) > 90) { if (l.on) { l.on = false; l.power = 0; mesh.setColorAt(i, OFF); changed = true; } return; }
+          if (l.sensor && dark && movers.some((p) => Math.hypot(p.x - l.x, p.z - l.z) < 7)) l.until = clock + 20;
+          const on = dark && (!l.sensor || clock < l.until);
+          if (on !== l.on) { l.on = on; l.power = on ? 6 : 0; mesh.setColorAt(i, on ? ON : OFF); changed = true; }
+        });
+        if (changed) mesh.instanceColor.needsUpdate = true;
+      },
+    };
+  })();
+
   let rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null;
   // the tech places you can walk into (world bible 6.6)
   const doors = [];
@@ -245,7 +275,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     props.materials.warm.color.setRGB(2.0, 1.15, 0.45).multiplyScalar(0.12 + 0.88 * lamps);
     // the kit lamp's authored amber stays the same material; only how brightly it glows follows dusk and dawn
     kitLampAmber.forEach((m) => { m.emissiveIntensity = 0.12 + 0.88 * lamps; });
-    if (props.billboardFace) props.billboardFace.emissiveIntensity = 0.05 + 0.55 * lamps; // the digital board glows after dusk
+    if (props.billboardFace) props.billboardFace.emissiveIntensity = 0.05 + 0.22 * lamps; // the digital board glows after dusk
     if (rainMesh) {
       const to = ((cur.windDir + 180) * Math.PI) / 180, slant = Math.min(cur.wind, 15) * 0.025;
       rainMesh.userData.wind.value.set(Math.sin(to) * slant, -Math.cos(to) * slant);
@@ -270,6 +300,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     interiors?.update(dt, t);
     life?.update(dt, t, player);
     dressing?.update(dt, t, player);
+    porch?.update(dt, player);
     lights?.update(dt, player, arrival);
     fill.position.set(camera.position.x * 0.6 + player.x * 0.4, 3.2, camera.position.z * 0.6 + player.z * 0.4);
     if (rainMesh) rainMesh.userData.cam.value.copy(camera.position);

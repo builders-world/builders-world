@@ -386,7 +386,7 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
       bb.add(new THREE.Mesh(box(0.34, 0.14, 0.2, x, 7.22, 0.85), M.warm));
     });
     const bp = place(bb, bbSpot.a, bbSpot.c, faceRoad);
-    world.claim?.({ kind: 'billboard', cx: bp.x, cz: bp.z, hx: 4.35, hz: 0.6, ry: faceRoad });
+    world.claim?.({ kind: 'billboard', cx: bp.x, cz: bp.z, hx: 4.35, hz: 0.6, ry: faceRoad, y0: 3.3, y1: 7.4 });
     billboardFace = faceMat;
     lamps.push({ x: bp.x - N.x * 1.2, y: 6.8, z: bp.z - N.z * 1.2, power: 18, boost: 30, color: 0xffd9a0 });
     // only the legs stand on the ground, so only they collide

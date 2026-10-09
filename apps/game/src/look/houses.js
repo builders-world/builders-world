@@ -79,7 +79,9 @@ export function dressHouse(mb, b, h, o) {
     [x, z] = at(0.55); mb.box(x, 2.55, z, 2.3, 0.12, 1.0, panel, { grad: 0, vary: 0 }, ry);
     [x, z] = at(0.55); mb.box(x, 0, z, 2.1, 0.24, 1.0, HOUSE.stone, { grad: 0, vary: 0 }, ry);
     [x, z] = at(1.25); mb.box(x, 0, z, 2.5, 0.12, 0.5, HOUSE.step, { grad: 0, vary: 0 }, ry);
-    doorAt = { x: px + door.nx * 1.4 + door.tx * 1.9, z: pz + door.nz * 1.4 + door.tz * 1.9, ry, u, f: door };
+    doorAt = { x: px + door.nx * 1.4 + door.tx * 1.9, z: pz + door.nz * 1.4 + door.tz * 1.9, ry, u, f: door,
+      // a wall light beside the door, on the side away from the planter
+      lamp: { x: px + door.nx * 0.2 - door.tx * 1.55, y: 2.25, z: pz + door.nz * 0.2 - door.tz * 1.55, ry } };
   }
   // windows: wood frame, pale blue glass, a white cross; skipped where the door stands
   fs.forEach((f) => {

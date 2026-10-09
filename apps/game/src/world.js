@@ -334,7 +334,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     mainRoads.forEach((r) => { const P = r.fit ? r.fit.pts : r.pts; for (let i = 0; i < P.length - 1; i += 1) { const [ax, az] = P[i], [bx, bz] = P[i + 1]; const dx = bx - ax, dz = bz - az; const t = Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / (dx * dx + dz * dz || 1))); d = Math.min(d, Math.hypot(x - ax - dx * t, z - az - dz * t)); } });
     return d;
   };
-  const lotTrees = [], doorPlants = [], lotFences = [];
+  const lotTrees = [], doorPlants = [], lotFences = [], porchLamps = [];
   // A plot may not reach the pavement or the carriageway, nor overlap a plot already laid out:
   // map footprints often do both, so each plot is pulled back toward its centre until it is clear.
   const reserve = [];
@@ -420,6 +420,9 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     b.pts = est.pts; b.bb = bbox(est.pts); b.top = est.top;
     if (est.tree) lotTrees.push(est.tree);
     if (est.door) doorPlants.push({ x: est.door.x, z: est.door.z });
+    // porch lights: two in three on a motion sensor (on only when someone comes near), the rest on all night
+    // the fitting sits on the wall (mx, mz); the light it casts is placed 0.9 m out so it falls on the step, not the wall
+    if (est.door?.lamp) { const L = est.door.lamp; porchLamps.push({ mx: L.x, mz: L.z, x: L.x + Math.sin(L.ry) * 0.9, y: 2.4, z: L.z + Math.cos(L.ry) * 0.9, ry: L.ry, my: L.y, sensor: rng() < 0.67, power: 0, color: 0xffc27a, kind: 'porch' }); }
     est.fences.forEach((f) => lotFences.push({ name: 'fence', ...f, h: 1.0 }));
   });
 
@@ -543,6 +546,21 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     }
   });
   trees.push(...furniture.trees, ...lotTrees);
+
+  // footpath bollards: footways and paths get low lights every 14 m, so no walkway is dark (world bible 4.3)
+  roads.filter((r) => isFootway(r)).forEach((r) => {
+    samplePolyline(r.pts, 14).forEach((s, k) => {
+      const side = k % 2 ? 1 : -1, x = s.x - s.tz * 1.3 * side, z = s.z + s.tx * 1.3 * side;
+      if (Math.hypot(x, z) > R * 1.02 || inAnyBuilding(x, z, 0.5) || laid.some((l) => pointInPoly(x, z, l.pts))) return;
+      if (carriage.some(([a, c, h]) => { const dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1, w = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / L2)); return Math.hypot(x - a[0] - dx * w, z - a[1] - dz * w) < h + 0.4; })) return;
+      if (lamps.some((l) => Math.hypot(l.x - x, l.z - z) < 8)) return;
+      mb.cyl(x, 0, z, 0.09, 0.11, 0.85, 8, PAL.metal, { grad: 0.2 });
+      bulbs.push({ x, y: 0.92, z, s: 0.12 });
+      glows.push({ x, z, r: 3.2 });
+      lamps.push({ x, y: 0.95, z, delay: delayFor(x, z), kind: 'path', power: 16 });
+      kitColliders.push({ name: 'bollard', cx: x, cz: z, hx: 0.12, hz: 0.12, ry: 0 });
+    });
+  });
 
   // electric poles with wires along the longest main road (a Lagos detail)
   const longest = [...roads].filter((r) => ['primary', 'secondary', 'trunk'].includes(r.cls))
@@ -851,10 +869,20 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   }
 
   // is a world-space point inside a building volume? (camera collision)
+  // what the camera must not pass through: big props and overhead things (not fences, poles or steps)
+  const camBoxes = [];
+  const camRefresh = () => { camBoxes.length = 0; [...kitColliders, ...claims].forEach((c) => { if (/fence|pole|lamp|bollard|rail|step|sign|post|tree|palm|drain/i.test(c.name || c.kind || '') || Math.max(c.hx, c.hz) < 0.6) return; camBoxes.push(c); }); };
   function solidAt(x, y, z) {
+    if (camBoxes.dirty !== false) { camRefresh(); camBoxes.dirty = false; }
     for (const s of solid) {
       if (y > s.top || y < 0 || x < s.bb.x0 || x > s.bb.x1 || z < s.bb.z0 || z > s.bb.z1) continue;
       if (pointInPoly(x, z, s.pts)) return true;
+    }
+    // props and things overhead (a billboard face, the bridge deck) block the camera too
+    for (const c of camBoxes) {
+      if (y < (c.y0 ?? 0) || y > (c.y1 ?? (c.h ?? 2.5))) continue;
+      const dx = x - c.cx, dz = z - c.cz, cs = Math.cos(c.ry || 0), sn = Math.sin(c.ry || 0), lx = dx * cs - dz * sn, lz = dx * sn + dz * cs;
+      if (Math.abs(lx) < c.hx + 0.15 && Math.abs(lz) < c.hz + 0.15) return true;
     }
     return false;
   }
@@ -872,7 +900,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     roofs: blds.filter((b) => !plotIds.has(b) && b.top && b.pts.length >= 3).map((b) => ({ x: b.c[0], z: b.c[1], y: b.top, area: b.area, pts: b.pts })),
     blockedAt: (x, z, r = 0.35) => { const v = { x, z }; resolve(v, r); return Math.hypot(v.x - x, v.z - z) > 0.01; },
     // footprints of things that have no collider (a billboard face, a bridge deck, drains), for the layout audit
-    claims, claim: (c) => claims.push(c), bridge: world_bridge, crossings, junctionAt,
+    claims, claim: (c) => { claims.push(c); camBoxes.dirty = true; }, bridge: world_bridge, crossings, junctionAt, porchLamps,
     // the ground under someone's feet: steps, landings and decks they can reach (a 0.55 m step up at most)
     groundAt: (x, z, feet = 0) => {
       let g = 0;
@@ -886,7 +914,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     // land use, for anything placed after the world is built (estate-layout skill)
     onCarriageway: (x, z, pad = 0) => carriage.some(([a, c, h]) => { const dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / L2)); return Math.hypot(x - a[0] - dx * u, z - a[1] - dz * u) < h + pad; }),
     inPlot: (x, z, pad = 0) => laid.some((l) => x > l.bb.x0 - pad && x < l.bb.x1 + pad && z > l.bb.z0 - pad && z < l.bb.z1 + pad && (pointInPoly(x, z, l.pts) || (pad > 0 && nearestOnPoly(x, z, l.pts).d < pad))),
-    kit, kitColliders, addColliders: (list) => { list.forEach((c) => { kitColliders.push(c); indexBox(c); }); nav = null; },
+    kit, kitColliders, addColliders: (list) => { list.forEach((c) => { kitColliders.push(c); indexBox(c); }); nav = null; camBoxes.dirty = true; },
     // walkable paths around everything solid, by the movement rules (navgrid.js); built on first use
     plan: (a, b, opt) => navGrid().plan(a, b, opt),
     costAt: (x, z) => navGrid().costAt(x, z),
