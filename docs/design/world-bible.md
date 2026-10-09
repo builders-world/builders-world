@@ -344,6 +344,10 @@ Litter gathers along the kerbs, most of it near food spots and bus stops: pure w
 
 Land claims (the registry that stops two things being built in one place) are ground, not walls: only a claim with a height band, such as a billboard face, blocks the camera.
 
+### 7.8 Passes and Wi-Fi
+
+A little real-life friction, on purpose, because the people this world is for live with it. Eko Design Studio is for members: you register at the door (name, role, a day pass for 500 Efforts or a month for 3,000) and a membership card goes in your bag; after that you tap it to get in, and you renew when it runs out. Every resident has a district resident card from the day they arrive. Each workplace has its own Wi-Fi: Eko's password is on the membership card, the Hub's and the Loft's are on their notice boards. The district network (Yaba-Connect) is for residents, password on the resident card; from inside a building it is faint and slow. A laptop that is not on a network cannot browse, and `git push` fails the way it does in life. Networks you have joined are remembered and reconnect when you are back in range. The bag's Cards tab shows your cards and saved networks (`src/look/passes.js`).
+
 ## 8. Shaders, textures and lighting
 
 ### 8.1 Textures
