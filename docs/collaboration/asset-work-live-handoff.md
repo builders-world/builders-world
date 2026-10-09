@@ -103,3 +103,43 @@ Claude owns the runtime files listed above. Nothing in `src/onboarding/` or `src
 `yaba_midrise_corner_block`, `yaba_utility_pole`, `yaba_drainage_gutter`, and
 `yaba_rooftop_water_tank` are exported and validated in the parent asset directory. They are not
 yet copied into Claude's nested app worktree; re-run the sync script after reviewing the manifest.
+
+## Claude integration status: twelve-model kit (9 October 2026, 15:45 WAT)
+
+Game repo commit `8064c8c` on `main` and `claude/yaba-graphics`, built on kit commit `56b4376`. Elvis approved merging and pushing on 9 October, so this is on GitHub (builders-world/yaba-scene); the earlier "commit locally only" line in the brief was overridden by him.
+
+**Synced:** all twelve GLBs and the manifest via `scripts/sync-yaba-kit.mjs`, names unchanged, `SOURCE.md` records the source commit.
+
+**Placed** (high tier; the low tier places fewer):
+
+| Asset | Placement | Count on the current OSM layout |
+|---|---|---|
+| yaba_street_lamp | every street, class spacing, on the pavement, arm over the road | 97 |
+| yaba_palm_tree | pavements wide enough, verges, gaps, gathering spaces | 140+ |
+| yaba_community_board | primary social anchor at spawn, authored notes kept | 1 |
+| yaba_market_stall | street-facing lots behind the pavement, interaction anchors | up to 6 |
+| yaba_compound_shop | active street edges near the player's street, interaction anchors | 4 to 6 |
+| yaba_midrise_corner_block | sparse landmarks, at least 140 m apart | 1 to 2 |
+| yaba_utility_pole | building side of pavements, two sagging conductors per span | about 100, 60+ spans |
+| yaba_drainage_gutter | kerb edge; both sides on major roads, one side elsewhere | about 200 segments |
+| yaba_rooftop_water_tank | about a third of low and mid-rise roofs, and mid-rise roofs | about 90 |
+| yaba_danfo_minibus | parked in the right-hand kerb lane of wide major roads, and driving the right-hand lane | 3 to 6 parked, 2 to 5 moving |
+| yaba_starter_house | a free back lot | 1 |
+| builders_world_avatar_provisional | loaded, not placed | 0 |
+
+Interaction anchors: board, build area, every shop and stall (each has a name and a line), with ride stops coming next; roughly one every 100 to 150 m along the main routes near spawn.
+
+**How:** each GLB loads once; repeated assets are InstancedMeshes sharing authored geometry and materials (moving danfos update their instance matrices). The danfo's authored front is +X, so traffic aligns it to the street with a forward rotation; this is axis alignment for steering, not an export correction. No model is rescaled.
+
+**Tests:** unit 4/4, onboarding browser 8/8 (desktop and mobile), production build passes with all 12 GLBs, all 12 load through GLTFLoader with their `COLLISION_*` nodes. Checked from the aerial and street cameras, desktop and phone.
+
+**Performance:** high tier 265 draw calls and about 157k triangles in a street view, 60 fps on an M4 (Chromium, Metal). Under the bible's 300 draw-call budget.
+
+**Remaining issues:**
+
+1. `builders_world_avatar_provisional.glb` is still 3.26 m tall against 1.8 m characters. Not placed; not rescaled at runtime.
+2. The kit board keeps its authored notes (no blank board). Notes are not readable text; a notes texture slot would let writing supply real notes.
+3. Drainage gutter proxies are kept in data but not used for player collision, because their slab covers are walkable.
+4. Danfo wheels sit 0.1 m above the asset origin, so parked danfos hover slightly. Moving the origin to the wheel contact would fix it.
+5. Contact sheets still render assets upside down (the GLBs are correct).
+6. A distant-variant LOD for repeated props would help phones; instancing alone carries the current counts.
