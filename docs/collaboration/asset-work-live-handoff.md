@@ -57,7 +57,7 @@ This file is the local collaboration checkpoint for Claude and the other Builder
 ## Local outputs ready for Claude
 
 - Source and rerun command: `assets/source/blender/generated-kit/build_yaba_assets.py`.
-- Structural report: `assets/exports/models/yaba-kit/asset-validation.json` (all six GLBs pass).
+- Structural report: `assets/exports/models/yaba-kit/asset-validation.json` (all twelve GLBs pass).
 - Manifest: `assets/exports/models/yaba-kit/asset-manifest.json`.
 - Review sheet: `assets/exports/renders/yaba-kit-contact-sheet.png`; individual cards share the GLB stem names.
 - Named visual crops: `assets/reference/generated-visual-direction/extracted-crops/`.
@@ -98,3 +98,8 @@ The kit lamp's authored amber material is unchanged; only its emissive intensity
 4. Palms in the kit do not sway in the wind like the old code-built palms. A `wind` vertex attribute or a named frond group would let the street animate them without touching materials.
 
 Claude owns the runtime files listed above. Nothing in `src/onboarding/` or `src/ui.js` was changed.
+
+**New street-scale kit available for the next sync:** `yaba_danfo_minibus`, `yaba_compound_shop`,
+`yaba_midrise_corner_block`, `yaba_utility_pole`, `yaba_drainage_gutter`, and
+`yaba_rooftop_water_tank` are exported and validated in the parent asset directory. They are not
+yet copied into Claude's nested app worktree; re-run the sync script after reviewing the manifest.
