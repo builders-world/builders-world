@@ -61,7 +61,7 @@ export function rigAvatar(root) {
   }
 
   // ---------- the pose: targets from the gait, eased so states blend ----------
-  const cur = { phase: 0, walk: 0, run: 0, air: 0, land: 0 };
+  const cur = { phase: 0, walk: 0, run: 0, air: 0, land: 0, wave: 0 };
   const J = (o) => o; // joints are written directly below
   void J;
   const ease = (k, dt) => 1 - Math.exp(-dt * k);
@@ -112,6 +112,14 @@ export function rigAvatar(root) {
     };
     armPose(L, ph, -1);
     armPose(R, ph + Math.PI, 1);
+    // a wave: the right arm up, the forearm swinging, for about a second and a half
+    if (cur.wave > 0) {
+      cur.wave = Math.max(0, cur.wave - dt);
+      const w = Math.min(1, cur.wave * 3, (1.5 - cur.wave) * 5), kk = ease(18, dt);
+      set(R.shoulder, 'x', lerp(R.shoulder.rotation.x, -2.7, w), kk);
+      set(R.shoulder, 'z', lerp(R.shoulder.rotation.z, 0.35, w), kk);
+      R.elbow.rotation.x = lerp(R.elbow.rotation.x, -0.5 + 0.45 * Math.sin((s.t || 0) * 14), w);
+    }
 
     // the hips ride the stance leg: highest as the legs pass, lowest at heel strike; a run adds flight
     const hipA = Math.abs(hipAmp * Math.sin(ph));
@@ -128,8 +136,9 @@ export function rigAvatar(root) {
     set(pelvis, 'z', 0.02 * walk * Math.sin(ph) * (1 - run), k);
   }
   function landed(v) { cur.land = Math.min(1, Math.abs(v) / 6); }
+  function wave() { cur.wave = 1.5; }
   function dispose() { own.forEach((g) => g.dispose()); }
-  const rig = { pelvis, chest, neck, L, R, attach, update, landed, dispose };
+  const rig = { pelvis, chest, neck, L, R, attach, update, landed, wave, dispose };
   root.userData.rig = rig;
   return rig;
 }

@@ -112,7 +112,7 @@ const NOTES = [
   ['#f6a8a0', 'Who wants to fix the stairway lights with me?'],
 ];
 
-export function createHud({ world, props, camera, reduced, onInteract, weatherFeed, onEquip, onUse, onRide, isExtraOpen, closeExtra, getPrompt }) {
+export function createHud({ world, props, camera, reduced, onInteract, weatherFeed, onEquip, onUse, onRide, isExtraOpen, closeExtra, getPrompt, onChat }) {
   loadFont();
   const style = document.createElement('style');
   style.textContent = CSS;
@@ -237,6 +237,7 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     if (boardEl.classList.contains('on')) { closeBoard(); return true; }
     if (onUse?.(lastPlayer, active)) return true; // rides: get in, get out, hire at a stop
     if (!active) return false;
+    if (active.id.startsWith('npc:')) { onChat?.(active.id.slice(4)); return true; }
     sfx('interact');
     if (active.id === 'board') openBoard();
     else if (active.line) toast(`${active.name}: ${active.line}`, 4500); // shops and stalls along the street

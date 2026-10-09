@@ -7,6 +7,7 @@ import { createGear } from './gear.js';
 import { createLife } from './life.js';
 import { dressDistrict } from './district.js';
 import { createRides } from './rides.js';
+import { createChat } from './chat.js';
 import { createInteriors, PLACES, namePlaces } from './interior.js';
 import { sunPosition, sunDirection } from './sun.js';
 import { shared } from '../shaders.js';
@@ -100,7 +101,10 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     else { scene.fog = savedFog; }
   }
   let savedFog = null;
+  const chat = createChat({ camera, avatar, getEnv: () => live, reduced });
+  (props.people || []).forEach((p) => chat.add(p));
   const hud = createHud({
+    onChat: (name) => { const p = chat.people.find((q) => q.name === name); if (p) chat.sayHi(p); },
     onUse: (player, active) => {
       if (interiors?.active) {
         const r = interiors.use(player.x, player.z);
@@ -268,6 +272,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     fill.position.set(camera.position.x * 0.6 + player.x * 0.4, 3.2, camera.position.z * 0.6 + player.z * 0.4);
     if (rainMesh) rainMesh.userData.cam.value.copy(camera.position);
     props.update(dt, t, player);
+    if (!interiors?.active) chat.update(dt, player);
     hud.update(dt, t, player, yaw);
     // lightning only when there is a thunderstorm where the weather comes from
     if (night && !reduced && cur.storm > 0.5) {
@@ -320,6 +325,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { update, renderReflection, setSize, dispose, hud, props, bodies, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

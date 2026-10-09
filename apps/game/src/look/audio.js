@@ -122,6 +122,8 @@ export function createAudio() {
     arrive: () => { const t = ctx.currentTime; [74, 79, 83, 86].forEach((n, k) => tone(sfxBus, midi(n), t + k * 0.08, { type: 'triangle', peak: 0.08, dec: 0.5 })); },
     door: () => { const t = ctx.currentTime; tone(sfxBus, midi(76), t, { type: 'sine', peak: 0.08, dec: 0.5 }); tone(sfxBus, midi(72), t + 0.18, { type: 'sine', peak: 0.08, dec: 0.7 }); },
     interact: () => tone(sfxBus, midi(81), ctx.currentTime, { type: 'sine', peak: 0.07, dec: 0.25 }),
+    // a speech blip: two quick soft notes, higher for you than for others
+    chat: (o = {}) => { const t = ctx.currentTime, b = o.me ? 79 : 72 + Math.floor(Math.random() * 5); tone(sfxBus, midi(b), t, { type: 'sine', peak: 0.04, dec: 0.08 }); tone(sfxBus, midi(b + 4), t + 0.07, { type: 'sine', peak: 0.035, dec: 0.1 }); },
   };
   function play(name, opt) { if (!ctx || !settings.sfx || !SFX[name]) return; SFX[name](opt); }
 

@@ -306,7 +306,8 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
     av.root.position.set(p.x, 0, p.z);
     av.root.rotation.y = Math.atan2(N.x, N.z);
     root.add(av.root);
-    builders.push({ name, obj: av.root, live: true, dispose: av.dispose, rig: rigAvatar(av.root) });
+    builders.push({ name, obj: av.root, live: true, dispose: av.dispose, rig: rigAvatar(av.root), tier: name === 'Kemi' ? 1 : 2 });
+    interact.push({ id: `npc:${name}`, label: `Say hi to ${name}`, x: p.x, z: p.z, r: 2.2 });
   });
 
   // a community build area in the next open gap, with a bin already added and a bench waiting
@@ -489,13 +490,14 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
     });
   }
 
-  // people walking the pavement: unnamed, so nobody mistakes them for builders
+  // people walking the pavement: residents, not builders (no name tags), each with a register for the
+  // chat bubbles: tier 0 is well-off (mostly English, a smart jacket), 2 is working-class (mostly Pidgin)
   if (!lowQuality) {
-    const cols = ['#c25b4a', '#e0c36a', '#5a7fb0', '#d9d2c3'];
-    cols.forEach((c, i) => {
-      const av = createAvatarModel({ color: c, style: i % 2 ? 'jacket' : 'tee' });
+    const RES = [['Chidi', '#c25b4a', 2], ['Amaka', '#e0c36a', 0], ['Bayo', '#5a7fb0', 1], ['Zainab', '#d9d2c3', 0], ['Emeka', '#7fb35e', 2], ['Funke', '#e98a6a', 1]];
+    RES.forEach(([name, c, tier], i) => {
+      const av = createAvatarModel({ color: c, style: tier === 0 ? 'jacket' : tier === 1 ? 'hoodie' : 'tee' });
       root.add(av.root);
-      walkers.push({ obj: av.root, dispose: av.dispose, rig: rigAvatar(av.root), s: -10 + i * 11, dir: i % 2 ? 1 : -1, out: 0.6 + (i % 2) * 0.9, speed: 1.1 + rng() * 0.4 });
+      walkers.push({ name, tier, obj: av.root, dispose: av.dispose, rig: rigAvatar(av.root), s: -14 + i * 9, dir: i % 2 ? 1 : -1, out: 0.6 + (i % 2) * 0.9, speed: 1.1 + rng() * 0.4 });
     });
   }
 
@@ -545,5 +547,7 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
 
   // people as circles, for the player to bump into
   const bodies = () => [...walkers, ...builders].map((w) => ({ x: w.obj.position.x, z: w.obj.position.z, r: 0.33 }));
-  return { root, lamps, interact, builders, bodies, update, dispose, viewYaw, materials: M, hubAt, kitPlaced, billboardFace, objective: interact[0], area: interact.find((i) => i.id === 'build') };
+  // everyone who can talk, for the chat bubbles
+  const people = [...builders.map((b) => ({ id: b.name, name: b.name, obj: b.obj, rig: b.rig, tier: b.tier })), ...walkers.map((w) => ({ id: w.name, name: w.name, obj: w.obj, rig: w.rig, tier: w.tier }))];
+  return { root, lamps, interact, builders, bodies, people, update, dispose, viewYaw, materials: M, hubAt, kitPlaced, billboardFace, objective: interact[0], area: interact.find((i) => i.id === 'build') };
 }
