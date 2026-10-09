@@ -14,7 +14,8 @@ export default async function handler(req, res) {
   const b = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
   const id = str(b.id, 40).replace(/[^A-Za-z0-9_-]/g, '');
   const district = str(b.district, 40).toLowerCase() || 'yaba';
-  if (id.length < 8) return res.status(400).json({ error: 'id required' });
+  if (id.length < 8) return res.json({ offline: true, players: [] });
+  if (!process.env.MONGODB_URI) return res.json({ offline: true, players: [] });
   const now = new Date();
   const me = {
     id, district, name: str(b.name, 24) || 'Builder', handle: str(b.handle, 39).replace(/[^A-Za-z0-9-]/g, ''),
@@ -33,6 +34,7 @@ export default async function handler(req, res) {
     const others = await players.find({ district, seen: { $gte: since }, id: { $ne: id } }, { projection: { _id: 0, district: 0 } }).sort({ seen: -1 }).limit(60).toArray();
     return res.json({ you: id, online: others.length + 1, players: others.map((p) => ({ ...p, t: new Date(p.seen).getTime(), seen: undefined })) });
   } catch (e) {
-    return res.status(503).json({ error: 'the world server is not reachable right now' });
+    // answered, not failed: the game drops to solo play without an error in anyone's console
+    return res.json({ offline: true, players: [] });
   }
 }

@@ -58,8 +58,9 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
     pending = { say: '', emote: '' };
     try {
       const r = await fetch('/api/presence', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-      if (!r.ok) throw new Error(r.status);
+      if (!r.ok || !(r.headers.get('content-type') || '').includes('json')) { ok = false; fails = 9; chip.classList.remove('on'); chip.querySelector('span').textContent = 'Offline · playing solo'; return; }
       const j = await r.json();
+      if (j.offline) throw new Error('offline');
       ok = true; fails = 0;
       chip.classList.add('on'); chip.querySelector('span').textContent = j.online === 1 ? 'Online · just you here' : `Online · ${j.online} here`;
       const seen = new Set();
