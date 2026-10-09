@@ -6,7 +6,7 @@ Every request Elvis has made, with where it stands. Updated 9 October 2026, 17:4
 
 | Copy | Address | What it shows |
 |---|---|---|
-| Live on Vercel | https://buildersworld.vercel.app/?world=1 (onboarding at https://buildersworld.vercel.app/) | `main` as of `02300c1`, deployed 9 October from the Vercel CLI (project buildersworld, account obileonardo). Redeploy with `vercel deploy --prod` from the game folder. |
+| Live on Vercel | https://buildersworld.vercel.app/?world=1 (onboarding at https://buildersworld.vercel.app/) | `main` as of `dc03f4a`, deployed 9 October from the Vercel CLI (project buildersworld, account obileonardo). Redeploy with `vercel deploy --prod` from the game folder. |
 | The game, branch `main` (merged) | http://127.0.0.1:5173/?world=1 (onboarding at http://127.0.0.1:5173/) | Everything below marked Done. Claude's worktree on 5181 is the same plus work in progress. |
 | GitHub | builders-world/yaba-scene and builders-world/builders-world, branch `main` | Pushed after each item, approved by Elvis on 9 October. |
 
@@ -54,6 +54,10 @@ Every request Elvis has made, with where it stands. Updated 9 October 2026, 17:4
 | 25 | Gutters blocking the road | Done, pushed: sunk to kerb height, never across a carriageway | yaba-scene `src/look/district.js` | `f815c93` |
 | 26 | UI in the references' style, not generic | Done, pushed: paper and ink kit, illustrated map, wardrobe-ring bag, glyph phone, paper HUD. Codex's top-left card and Street/Aerial buttons still use the old look (its files) | yaba-scene `src/look/uikit.js`, `menus.js`, `hud.js` | `40f8614` |
 | 27 | The street in the arrival scene's illustration style | Done, pushed: clay light, palette and planter trees; world bible 7.1 and 11.1 updated | yaba-scene `src/look/*`, `src/world.js` | `2d4907d` |
+| 28 | Trees blocking roads at junctions | Done, pushed: trees and lamps checked against every carriageway | yaba-scene `src/look/streets.js` | `02300c1` |
+| 29 | Houses like the arrival scene's house | Done, pushed: every map footprint dressed in the starter house's parts | yaba-scene `src/look/houses.js` | `dc03f4a` |
+| 30 | Every house on its own estate: lawn, fence, room (California suburb first) | Done, pushed: lawn, white picket fence, gate, path, back-garden tree, door planter. Next: fill empty ground with new lots | yaba-scene `src/look/houses.js`, `src/world.js` | `dc03f4a` |
+| 31 | Flickering buildings and gutters | Done, pushed: coplanar surfaces separated, logarithmic depth buffer | yaba-scene `src/main.js`, `src/shaders.js`, `src/world.js` | `dc03f4a` |
 | 24a | Help panel still says V is street or aerial | Proposed to Codex (its file `index.html`): change to V camera, B aerial | live handoff | |
 
 ## Decisions waiting on Elvis
