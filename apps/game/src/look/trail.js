@@ -98,12 +98,14 @@ export function createTrail({ reduced }) {
   return { group, update, dispose };
 }
 
-// The click-to-walk marker: a cream disc in a teal ring, above every ground layer.
+// The click-to-walk marker: a white disc in a golden-yellow ring, above every ground layer.
 export function walkMarker() {
   const g = new THREE.Group();
   const off = { transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -4 };
-  g.add(new THREE.Mesh(new THREE.CircleGeometry(0.42, 28).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: 0xf7efdc, opacity: 0.9, ...off })));
-  g.add(new THREE.Mesh(new THREE.RingGeometry(0.5, 0.68, 32).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: 0x2a9d94, opacity: 0.95, ...off })));
+  // white and yellow (Elvis, 9 October): a white disc in a warm golden ring with a deeper gold edge
+  g.add(new THREE.Mesh(new THREE.CircleGeometry(0.42, 28).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: 0xffffff, opacity: 0.95, ...off })));
+  g.add(new THREE.Mesh(new THREE.RingGeometry(0.5, 0.66, 32).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: 0xffc23d, opacity: 1, ...off })));
+  g.add(new THREE.Mesh(new THREE.RingGeometry(0.66, 0.7, 32).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: 0xd9940f, opacity: 1, ...off })));
   g.children.forEach((m) => { m.position.y = Y; m.renderOrder = 3; });
   return g;
 }
