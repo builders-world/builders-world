@@ -110,7 +110,7 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
   const panel = document.createElement('div');
   panel.id = 'lkr';
   panel.innerHTML = `<style>
-    #lkr { position: fixed; z-index: 31; right: 186px; top: 74px; width: min(380px, calc(100vw - 32px)); padding: 18px; border-radius: 20px; display: none;
+    #lkr { position: fixed; z-index: 31; right: 186px; top: 74px; width: min(380px, calc(100vw - 32px)); max-height: calc(100vh - 150px); overflow-y: auto; overscroll-behavior: contain; padding: 18px; border-radius: 20px; display: none;
       background: #f7efdc; color: #3b2a20; font: 600 14px/1.45 "Baloo 2", ui-rounded, system-ui, sans-serif; box-shadow: 0 5px 0 rgba(59,42,32,.2), 0 18px 40px rgba(10,14,30,.28); border-radius: 26px; }
     #lkr.on { display: block; }
     #lkr h3 { margin: 0 0 4px; font: 800 24px/1.1 "Baloo 2", ui-rounded, system-ui, sans-serif; }
@@ -137,6 +137,13 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
   }
   function render() {
     const places = props.places || [];
+    if (ride && (ride.phase === 'arriving' || ride.phase === 'waiting')) {
+      body.innerHTML = `<h3>Your ${ride.T.name.toLowerCase()} is ${ride.phase === 'waiting' ? 'here' : 'on its way'}</h3><div class="sub">${ride.phase === 'waiting' ? 'Walk up to it and press E to get in.' : 'Wait at the kerb, it is coming to you.'}</div>
+        <button class="go cancel">Cancel the ride · ${effortsMark(14)}${fmt(ride.fare || 0)} back</button><button class="x" style="margin-top:6px;width:100%;text-align:center">Close</button>`;
+      body.querySelector('.cancel').onclick = () => { cancel(); closePanel(); };
+      body.querySelector('.x').onclick = closePanel;
+      return;
+    }
     const kinds = choice.from.app ? ['taxi', 'danfo', 'keke'] : [choice.kind];
     body.innerHTML = `<h3>Hire a ride</h3><div class="sub">You have ${effortsMark(13)}${fmt(walletEngine().balance())}. ${choice.from.app ? 'A driver comes to you.' : TYPES[choice.kind].name + ' from this stop.'}</div>
       ${choice.from.app ? `<div class="lkr-lbl">Vehicle</div><div class="row">${kinds.map((k) => `<button data-k="${k}" class="${choice.kind === k ? 'sel' : ''}">${TYPES[k].name}<br><small>${effortsMark(11)}${fmt(FARE[k])}</small></button>`).join('')}${(world.place?.city ?? 'Lagos') === 'Lagos' ? '<button disabled>Okada: not allowed in Yaba</button>' : ''}</div>` : ''}
@@ -150,7 +157,7 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
     body.querySelector('.go').onclick = () => {
       const fare = fareOf(choice);
       if (!walletEngine().spend(fare, `${TYPES[choice.kind].name} ride`)) { toast(`Not enough Efforts for this ride. Push some commits and come back.`); return; }
-      closePanel(); summon(choice);
+      closePanel(); summon(choice, fare);
     };
     body.querySelector('.x').onclick = closePanel;
   }
@@ -198,7 +205,8 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
     return path.length > 1 ? path : null;
   }
 
-  function summon(c) {
+  function summon(c, fare = 0) {
+    if (ride) remove(); // one ride at a time: a new call sends the old one away
     const T = TYPES[c.kind];
     const pickup = c.from.kerb || { x: c.from.x, z: c.from.z };
     const approach = approachFor(pickup.x, pickup.z) || [{ x: pickup.x + 30, z: pickup.z }, pickup];
@@ -206,7 +214,7 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
     group.add(mesh);
     const lanePath = laneOf(approach, 1.9);
     if (c.from.kerb) lanePath.push({ x: c.from.kerb.x, z: c.from.kerb.z }); // pull in to the kerb at the stop
-    ride = { kind: c.kind, T, mesh, mode: c.mode, phase: 'arriving', path: lanePath, s: 0, v: 0, yaw: 0, steer: 0,
+    ride = { kind: c.kind, T, mesh, mode: c.mode, phase: 'arriving', fare, path: lanePath, s: 0, v: 0, yaw: 0, steer: 0,
       pos: new THREE.Vector3(lanePath[0].x, 0, lanePath[0].z), dest: c.dest, pickup };
     const a = lanePath[0], b = lanePath[1];
     ride.yaw = Math.atan2(b.x - a.x, b.z - a.z);
@@ -227,6 +235,22 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
     onState?.({ ride: true, phase: ride.phase, seated: true });
   }
 
+  function remove() {
+    if (!ride) return;
+    if (!ride.mesh.userData.shared) ride.mesh.traverse((o) => o.geometry?.dispose());
+    ride.mesh.removeFromParent();
+    ride = null;
+  }
+  // changed your mind before getting in: the driver goes, the fare comes back
+  function cancel() {
+    if (!ride || (ride.phase !== 'arriving' && ride.phase !== 'waiting')) return false;
+    const fare = ride.fare || 0, name = ride.T.name.toLowerCase();
+    remove();
+    if (fare) walletEngine().earn?.(fare, `Cancelled ${name} ride, refunded`);
+    onState?.({ ride: false, exitAt: null });
+    toast(`Ride cancelled.${fare ? ` ${fmt(fare)} Efforts back in your wallet.` : ''}`, 2600);
+    return true;
+  }
   function alight(player) {
     if (!ride) return;
     // step out onto the pavement on the right, clear of buildings
@@ -247,7 +271,7 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
     const ahead = pointAlong(ride.path, Math.min(L, ride.s + 8));
     const here = pointAlong(ride.path, ride.s);
     let bend = Math.abs(Math.atan2(Math.sin(ahead.yaw - here.yaw), Math.cos(ahead.yaw - here.yaw)));
-    const target = Math.min(ride.T.cruise * (1 - Math.min(0.7, bend)), Math.sqrt(Math.max(0, 2 * 4 * (L - ride.s))));
+    const target = ride.stopping ? 0 : Math.min(ride.T.cruise * (1 - Math.min(0.7, bend)), Math.sqrt(Math.max(0, 2 * 4 * (L - ride.s))));
     ride.v += Math.max(-6 * dt, Math.min(2.5 * dt, target - ride.v));
     if (reduced) ride.v = Math.min(ride.v, ride.T.cruise * 0.6);
     ride.s = Math.min(L, ride.s + ride.v * dt);
@@ -255,7 +279,7 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
     ride.pos.set(p.x, 0, p.z);
     let dy = p.yaw - ride.yaw; dy = Math.atan2(Math.sin(dy), Math.cos(dy));
     ride.yaw += dy * (1 - Math.exp(-dt * 6));
-    return L - ride.s < 0.4 && ride.v < 0.3;
+    return (ride.stopping || L - ride.s < 0.4) && ride.v < 0.3;
   }
 
   // a simple bicycle model: throttle, brake, steering that tightens with speed
@@ -295,7 +319,7 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
         toast(ride.mode === 'drive' ? 'Your ride is here. Press E to get in and drive.' : 'Your ride is here. Press E to get in.');
       }
     } else if (ride.phase === 'riding') {
-      if (follow(dt)) { const p = alight(); toast('You have arrived.'); return { exit: p }; }
+      if (follow(dt)) { const early = ride.stopping, p = alight(); toast(early ? 'Pulled over. Mind the traffic.' : 'You have arrived.'); return { exit: p }; }
     } else if (ride.phase === 'driving') drive(dt, keys);
     if (ride) {
       ride.mesh.position.copy(ride.pos);
@@ -309,7 +333,10 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
     if (!ride) return false;
     if (ride.phase === 'waiting' && Math.hypot(player.x - ride.pos.x, player.z - ride.pos.z) < 8) { board(); return true; }
     if (ride.phase === 'riding' || ride.phase === 'driving') {
-      if (Math.abs(ride.v) > 1.5) { toast('Slow down first.'); return true; }
+      if (Math.abs(ride.v) > 1.5) {
+        if (ride.phase === 'riding') { if (!ride.stopping) { ride.stopping = true; toast('Asking the driver to pull over...', 2200); } return true; }
+        toast('Slow down first: S to brake.'); return true;
+      }
       const p = alight(); onState?.({ ride: false, exitAt: p }); return true;
     }
     return false;
@@ -325,7 +352,7 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
   return {
     update, use, openPanel, dispose, stops,
     isMenuOpen: () => panel.classList.contains('on'), closeMenu: closePanel,
-    get active() { return !!ride; },
+    get active() { return !!ride; }, cancel, get pending() { return !!ride && (ride.phase === 'arriving' || ride.phase === 'waiting'); },
     // the hired vehicle, while you are not in it, is something to walk around
     body: () => (ride && ride.phase !== 'riding' && ride.phase !== 'driving' ? { cx: ride.pos.x, cz: ride.pos.z, hx: ride.T.radius, hz: ride.T.wheelbase / 2 + 0.6, ry: ride.yaw } : null),
     get debug() { return ride && { phase: ride.phase, x: ride.pos.x, z: ride.pos.z, s: ride.s, L: pathLength(ride.path), v: ride.v, pickup: ride.pickup }; }, get seated() { return !!ride && (ride.phase === 'riding' || ride.phase === 'driving'); },

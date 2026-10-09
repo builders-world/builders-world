@@ -181,6 +181,7 @@ async function main() {
   }
 
   function setAerial(flag) {
+    if (flag && street?.inside) { (street?.hud.toast ?? chrome.toast)('Step outside to see the aerial view.', 2200); return; } // indoors the city is not drawn
     if (flag === cam.aerial) return;
     modes[cam.aerial ? 'aerial' : 'street'] = { pitch: cam.pitchT, dist: cam.distT };
     cam.aerial = flag;
@@ -199,6 +200,7 @@ async function main() {
     return p;
   }
   function goto(id) {
+    if (street?.inside) { (street?.hud.toast ?? chrome.toast)('Leave the building first: walk out through the door.', 2600); return; }
     const pl = world.plots.find((p) => p.b.id === id);
     if (!pl) return;
     cut(() => {
@@ -219,7 +221,7 @@ async function main() {
   }
 
   const chrome = initChrome({
-    onView: (a) => cut(() => setAerial(a)),
+    onView: (a) => (a && street?.inside ? setAerial(true) : cut(() => setAerial(a))),
     onTheme: () => setTheme(themeName === 'night' ? 'day' : 'night'),
     onZoom: (dir) => { const [lo, hi] = limits(); cam.distT = Math.max(lo, Math.min(hi, cam.distT * (1 + dir * 0.22))); },
     setHold: (k, on) => { holds[k] = on; },
@@ -238,14 +240,19 @@ async function main() {
   // ---- input ----
   const keys = new Set();
   addEventListener('keydown', (e) => {
-    if (e.target.closest?.('input, textarea, select')) return; // typing in a field is not playing
+    if (e.target.closest?.('input, textarea, select')) {
+      // typing in a field is not playing, but Esc always gets you out of it (and out of the panel it is in)
+      if (e.key !== 'Escape' || e.target.closest('#lk-say')) return;
+      e.target.blur();
+    }
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const k = e.key.toLowerCase();
     // phone, map and bag take their keys first, and hold movement while open
     if (!e.repeat && street?.hud.menuKey(k)) { e.preventDefault(); keys.clear(); return; }
-    if (street?.hud.isOpen() && !street?.benchSeated && ['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(k)) return;
+    if (['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(k)) street?.hud.walkAway?.(); // walking off closes the notice board
+    if (street?.hud.isOpen() && !street?.canWalkOff && ['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(k)) return;
     if (k === 'v') { if (!e.repeat) { if (cam.aerial) cut(() => setAerial(false)); else cycleView(); } }
-    else if (k === 'b') { if (!e.repeat) cut(() => setAerial(!cam.aerial)); }
+    else if (k === 'b') { if (!e.repeat) { if (street?.inside && !cam.aerial) setAerial(true); else cut(() => setAerial(!cam.aerial)); } }
     else if (k === 'c') { if (!e.repeat) setTravel(!travel.on); }
     else if (k >= '1' && k <= '6' && k.length === 1) { if (!e.repeat) street?.chat?.emote(+k, player); }
     else if (k === 'n') { if (!e.repeat) { audio.wake(); audio.set('music', !audio.settings.music); (street?.hud.toast ?? chrome.toast)(audio.settings.music ? 'Music on' : 'Music off', 1400); } }
@@ -253,6 +260,7 @@ async function main() {
     else if (k === 'h') { if (!e.repeat) document.body.classList.toggle('nohud'); }
     else if (k === '?' || k === '/') chrome.toggleHelp();
     else if (k === 'e' && !e.repeat && street?.hud.interact()) { /* handled by the street */ }
+    else if (k === 'f' && !e.repeat && street?.seatAction?.('close')) { /* close the laptop at your desk */ }
     else if (k === 'escape') { street?.hud.close(); chrome.unpin(); chrome.hideCard(); chrome.toggleList(false); chrome.toggleHelp(false); }
     else if (k === '=' || k === '+') zoomKey(-1);
     else if (k === '-' || k === '_') zoomKey(1);
@@ -442,8 +450,8 @@ async function main() {
     fwd.set(Math.sin(cam.yaw), 0, Math.cos(cam.yaw));
     right.set(-Math.cos(cam.yaw), 0, Math.sin(cam.yaw));
     mv.set(0, 0, 0);
-    // on a street bench, any move key or the stick stands you up
-    if (seated && street?.benchSeated && (['w', 's', 'a', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].some((k) => keys.has(k)) || Math.abs(input.state.move.x) + Math.abs(input.state.move.y) > 0.3)) street.standUp();
+    // on a bench or at a desk (screen closed), any move key or the stick gets you up
+    if (seated && street?.canWalkOff && (['w', 's', 'a', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].some((k) => keys.has(k)) || Math.abs(input.state.move.x) + Math.abs(input.state.move.y) > 0.3)) street.standUp();
     if (!cam.aerial && !riding && !seated) {
       if (keys.has('w') || keys.has('arrowup')) mv.add(fwd);
       if (keys.has('s') || keys.has('arrowdown')) mv.sub(fwd);

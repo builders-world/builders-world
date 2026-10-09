@@ -57,7 +57,7 @@ const SNIPPET = [
   '// ✓ 3 commits verified',
 ];
 
-export function createInteriors({ scene, reduced, toast, getEnv }) {
+export function createInteriors({ scene, reduced, toast, getEnv, onPackUp }) {
   const built = {};
   let current = null; // { key, group, colliders, seats, interact }
   const fade = document.createElement('div');
@@ -74,7 +74,8 @@ export function createInteriors({ scene, reduced, toast, getEnv }) {
     #lki aside h4 { margin: 0 0 10px; font: 700 12px/1 system-ui; letter-spacing: .1em; text-transform: uppercase; color: #8b949e; }
     #lki aside div { padding: 6px 8px; border-radius: 6px; color: #c9d1d9; }
     #lki aside div.on { background: #1f6feb33; color: #fff; }
-    #lki main { padding: 18px 22px; overflow: auto; position: relative; }
+    #lki main { padding: 66px 22px 18px; overflow: auto; position: relative; }
+    #lki .bar { flex-wrap: wrap; justify-content: flex-end; left: 18px; }
     #lki pre { margin: 0; white-space: pre-wrap; }
     #lki .bar { position: absolute; right: 18px; top: 14px; display: flex; gap: 8px; }
     #lki button { font: 600 12px system-ui; border: 0; border-radius: 8px; padding: 8px 12px; cursor: pointer; background: #21262d; color: #e6edf3; }
@@ -87,11 +88,13 @@ export function createInteriors({ scene, reduced, toast, getEnv }) {
     const you = BUILDERS.find((b) => b.id === 'you');
     lki.innerHTML = `<aside><h4>Repositories</h4>${(you?.repoList || []).map(([r], i) => `<div class="${i ? '' : 'on'}">${r}</div>`).join('')}
       <h4 style="margin-top:18px">This desk</h4><div>${current ? PLACES[current.key].name : ''}</div></aside>
-      <main><div class="bar"><button class="p">Commit and push</button><button class="x">Close (Esc)</button></div>
+      <main><div class="bar"><button class="p">Commit and push</button><button class="x">Close the screen (Esc)</button><button class="c">Close laptop (F)</button><button class="u">Pack up and leave</button></div>
       <pre>${SNIPPET.join('\n').replace(/</g, '&lt;')}</pre>
       <div class="term">$ git status\nOn branch main\nYour branch is up to date with 'origin/main'.</div></main>`;
     lki.classList.add('on');
     lki.querySelector('.x').onclick = closeComputer;
+    lki.querySelector('.c').onclick = () => closeLaptop();
+    lki.querySelector('.u').onclick = () => onPackUp?.();
     lki.querySelector('.p').onclick = () => {
       lki.querySelector('.term').textContent = '$ git push origin main\nThis desk is a preview. Real pushes count when GitHub verifies them, wherever you work.';
     };
@@ -280,6 +283,23 @@ export function createInteriors({ scene, reduced, toast, getEnv }) {
     return { x: ORIGIN.x + desk.x, z: ORIGIN.z + desk.z + 0.55, yaw: Math.PI };
   }
   function stand() { seated = null; laptop?.removeFromParent(); laptop = null; closeComputer(); }
+  const lidOpen = () => !!laptop && laptop.userData.lid.rotation.x > -0.5;
+  // close the lid; it stays on the desk
+  function closeLaptop() {
+    closeComputer();
+    if (!lidOpen()) return false;
+    const lid = laptop.userData.lid; lid.userData.opening = false; lid.userData.closing = true;
+    sfx('close'); toast('Laptop closed. E to open it again, Esc to pack up and leave.', 3000);
+    return true;
+  }
+  // close the lid, slide the laptop into your bag, stand up: resolves when you are on your feet
+  function packUp() {
+    if (!seated) return Promise.resolve(false);
+    closeComputer();
+    const wasOpen = lidOpen();
+    if (wasOpen) { const lid = laptop.userData.lid; lid.userData.opening = false; lid.userData.closing = true; }
+    return new Promise((res) => setTimeout(() => { stand(); sfx('close'); toast('Laptop in your bag. See you next time.', 2200); res(true); }, wasOpen && !reduced ? 450 : 60));
+  }
 
   // E inside: returns an action for the caller (walk out, sit, open laptop) or handles it here
   function use(px, pz) {
@@ -287,7 +307,7 @@ export function createInteriors({ scene, reduced, toast, getEnv }) {
     const x = px - ORIGIN.x, z = pz - ORIGIN.z;
     if (seated) {
       const lid = laptop.userData.lid;
-      if (lid.rotation.x < -0.5) { lid.userData.opening = true; toast('Laptop open. Press E again to use it, Esc to stand up.'); return { handled: true }; }
+      if (lid.rotation.x < -0.5) { lid.userData.closing = false; lid.userData.opening = true; toast('Laptop open. E to use it, F to close it, Esc to pack up and leave.', 3200); return { handled: true }; }
       openComputer();
       return { handled: true };
     }
@@ -304,7 +324,7 @@ export function createInteriors({ scene, reduced, toast, getEnv }) {
 
   function prompt(px, pz) {
     if (!current) return null;
-    if (seated) return laptop?.userData.lid.rotation.x < -0.5 ? 'Open your laptop' : 'Use your computer';
+    if (seated) return lidOpen() ? 'Use your computer' : 'Open your laptop';
     const x = px - ORIGIN.x, z = pz - ORIGIN.z;
     let best = null, bd = Infinity;
     current.interact.forEach((it) => { const d = Math.hypot(it.x - x, it.z - z); if (d < it.r && d < bd) { bd = d; best = it; } });
@@ -345,10 +365,15 @@ export function createInteriors({ scene, reduced, toast, getEnv }) {
       lid.rotation.x = Math.min(0.25, lid.rotation.x + dt * (reduced ? 100 : 3));
       if (lid.rotation.x >= 0.25) lid.userData.opening = false;
     }
+    if (laptop?.userData.lid.userData.closing) {
+      const lid = laptop.userData.lid;
+      lid.rotation.x = Math.max(-Math.PI / 2, lid.rotation.x - dt * (reduced ? 100 : 4));
+      if (lid.rotation.x <= -Math.PI / 2) lid.userData.closing = false;
+    }
   }
 
   return {
-    enter, leave, use, prompt, resolve, solidAt, update, stand, closeComputer,
+    enter, leave, use, prompt, resolve, solidAt, update, stand, closeComputer, closeLaptop, packUp, get lidOpen() { return lidOpen(); },
     get active() { return !!current; }, get seated() { return !!seated; }, get room() { return current; }, origin: ORIGIN, get computerOpen() { return lki.classList.contains('on'); },
     dispose() { Object.values(built).forEach((b) => { b.people.forEach((p) => p.dispose()); b.group.traverse((o) => o.geometry?.dispose()); b.group.removeFromParent(); }); fade.remove(); screen.remove(); },
   };

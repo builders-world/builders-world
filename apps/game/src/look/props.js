@@ -397,13 +397,16 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   }
 
   // the creative hub, only if a wide enough lot is free
-  let hubAt = null;
-  const hSpot = findArea(bSpot.a - 12, 7.6, 4.8);
+  // a quarter larger when the lot allows (Elvis, 9 October 2026: places you can enter should look it)
+  let hubAt = null, hubGroup = null, hs = 1.25;
+  let hSpot = findArea(bSpot.a - 12, 7.6 * hs, 4.8 * hs);
+  if (!hSpot) { hs = 1; hSpot = findArea(bSpot.a - 12, 7.6, 4.8); }
   if (hSpot) {
-    const hp = place(hub(M), hSpot.a, hSpot.c, faceRoad);
-    world.addColliders([{ name: 'hub', cx: hp.x, cz: hp.z, hx: 3.7, hz: 2.3, ry: faceRoad }]);
-    hubAt = { x: hp.x - N.x * 3.2, z: hp.z - N.z * 3.2 };
-    lamps.push({ x: hp.x - N.x * 2.6, y: 2.9, z: hp.z - N.z * 2.6, power: 40, boost: 25, color: 0xffb060 });
+    hubGroup = hub(M); hubGroup.scale.setScalar(hs);
+    const hp = place(hubGroup, hSpot.a, hSpot.c, faceRoad);
+    world.addColliders([{ name: 'hub', cx: hp.x, cz: hp.z, hx: 3.7 * hs, hz: 2.3 * hs, ry: faceRoad }]);
+    hubAt = { x: hp.x - N.x * 3.2 * hs, z: hp.z - N.z * 3.2 * hs };
+    lamps.push({ x: hp.x - N.x * 2.6 * hs, y: 2.9 * hs, z: hp.z - N.z * 2.6 * hs, power: 40, boost: 25, color: 0xffb060 });
   }
 
   // string lights over the pavement, from the board to the mural
@@ -577,5 +580,5 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   const bodies = () => [...walkers, ...builders].map((w) => ({ x: w.obj.position.x, z: w.obj.position.z, r: 0.33 }));
   // everyone who can talk, for the chat bubbles
   const people = [...builders.map((b) => ({ id: b.name, name: b.name, obj: b.obj, rig: b.rig, tier: b.tier })), ...walkers.map((w) => ({ id: w.name, name: w.name, obj: w.obj, rig: w.rig, tier: w.tier }))];
-  return { root, lamps, interact, builders, bodies, people, update, dispose, viewYaw, materials: M, hubAt, kitPlaced, billboardFace, billboardMesh, areaGroup: area, objective: interact[0], area: interact.find((i) => i.id === 'build') };
+  return { root, lamps, interact, builders, bodies, people, update, dispose, viewYaw, materials: M, hubAt, hubGroup, kitPlaced, billboardFace, billboardMesh, areaGroup: area, objective: interact[0], area: interact.find((i) => i.id === 'build') };
 }
