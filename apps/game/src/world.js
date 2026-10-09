@@ -29,23 +29,17 @@ const NIGHT = {
 };
 
 // Daylight: same chunky silhouettes, white and pale blue-grey, the same amber accent.
+// the light theme shares the clay palette (world bible 7.1); only its light differs
 const DAY = {
-  walls: ['#c3cde3', '#ccd5e8', '#b9c5de', '#d3dbed', '#c0cae1'],
-  dark: ['#d9dfeb', '#dfe4ef', '#d1d8e7', '#e4e9f3'],
-  teal: '#2a9d94', tealDark: '#1f8077',
-  road: '#b9c2d5', kerb: '#f1f4f9', path: '#f4f6fa', paint: '#ffffff', ground: '#e8ecf4',
-  foliage: ['#9ccfc4', '#8fc6bb', '#a6d6cb'], trunk: '#aab2c4', metal: '#9aa5bd', slate: '#8d9ab6',
-  podium: '#b3bfd8', capSlab: '#cfd7e8', tank: '#b4bfd6', ac: '#b9c3d9', far: '#d6dcea', roofCap: '#cfd6e6',
-  wire: '#9aa5bd', tower: '#bcc6dc', kiosk: '#c8d0e3', board: '#cdd5e7', monoA: '#c1cbe0', monoB: '#b6c1d9',
-  cabin: '#a2aec8', wheel: '#4a546b',
+  ...Object.fromEntries(Object.entries(NIGHT).filter(([k]) => k !== 'env')),
   env: {
-    day: 1, bg: '#eaf0f9', fog: '#eaf0f9', fogNear: 1.1, fogFar: 5.2, exposure: 1.0, tone: 'none',
+    day: 1, bg: '#c6d5c7', fog: '#c6d5c7', fogNear: 1.1, fogFar: 5.2, exposure: 1.15, tone: 'aces',
     bloom: { on: false, strength: 0, radius: 0.4, threshold: 1 },
-    hemi: { sky: 0xffffff, ground: 0xdde3f0, i: 0.98 },
+    hemi: { sky: 0xd7e6e4, ground: 0x817151, i: 2.5 },
     wet: 0, rain: 0, lights: 0,
-    key: { color: 0xffffff, i: 1.1 }, rim: { color: 0xdfe8ff, i: 0.25 },
-    pane: '#a9b9da', bulb: [0.9, 0.52, 0.1],
-    sky: { top: '#c5d5f0', mid: '#dbe5f6', hor: '#f3f6fc' }, stars: false,
+    key: { color: 0xffe0ac, i: 3.3 }, rim: { color: 0xb8d9df, i: 0.8 },
+    pane: '#a9c2bf', bulb: [0.9, 0.52, 0.1],
+    sky: { top: '#9fbfc4', mid: '#c6d5c7', hor: '#d7ded0' }, stars: false,
   },
 };
 

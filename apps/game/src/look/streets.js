@@ -132,6 +132,19 @@ export function band(out, pts, nrm, from, to, y, push) {
 export function streetFurniture(roads, { inBuilding, inside }) {
   const lamps = [], trees = [];
   const tooClose = (list, x, z, d) => list.some((p) => Math.hypot(p.x - x, p.z - z) < d);
+  // every carriageway as segments, so nothing on one street's pavement stands in a crossing road
+  const carriage = [];
+  roads.forEach((r, ri) => {
+    if (!r.fit) return;
+    const { pts, half } = r.fit;
+    for (let k = 0; k < pts.length - 1; k++) carriage.push({ ri, ax: pts[k][0], az: pts[k][1], bx: pts[k + 1][0], bz: pts[k + 1][1], h: Math.max(half[k], half[k + 1]) });
+  });
+  const inRoad = (x, z, own, clear) => carriage.some((c) => {
+    if (c.ri === own) return false;
+    const dx = c.bx - c.ax, dz = c.bz - c.az, L2 = dx * dx + dz * dz || 1;
+    const u = Math.max(0, Math.min(1, ((x - c.ax) * dx + (z - c.az) * dz) / L2));
+    return Math.hypot(x - c.ax - dx * u, z - c.az - dz * u) < c.h + clear;
+  });
   roads.forEach((r, ri) => {
     if (!r.fit) return;
     const C = classOf(r), { pts, nrm, half, paveL, paveR } = r.fit;
@@ -150,7 +163,7 @@ export function streetFurniture(roads, { inBuilding, inside }) {
         const sg = side === 0 ? 1 : -1;
         const off = half[i] + Math.min(0.6, pave - 0.3);
         const x = pts[i][0] + nrm[i][0] * off * sg, z = pts[i][1] + nrm[i][1] * off * sg;
-        if (!inside(x, z) || inBuilding(x, z) || tooClose(lamps, x, z, C.lamp * 0.6)) continue;
+        if (!inside(x, z) || inBuilding(x, z) || inRoad(x, z, ri, 0.5) || tooClose(lamps, x, z, C.lamp * 0.6)) continue;
         lamps.push({ x, z, nx: nrm[i][0] * sg, nz: nrm[i][1] * sg, cls: r.cls });
         break;
       }
@@ -162,7 +175,8 @@ export function streetFurniture(roads, { inBuilding, inside }) {
         if (pave < 2.5) return;
         const off = half[i] + Math.max(1.0, pave * 0.6);
         const x = pts[i][0] + nrm[i][0] * off * sg, z = pts[i][1] + nrm[i][1] * off * sg;
-        if (!inside(x, z) || inBuilding(x, z) || tooClose(lamps, x, z, 3) || tooClose(trees, x, z, 6)) return;
+        // the planter is about 0.8 m across the street; keep it and its canopy clear of every other road
+        if (!inside(x, z) || inBuilding(x, z) || inRoad(x, z, ri, 1.6) || tooClose(lamps, x, z, 3) || tooClose(trees, x, z, 6)) return;
         trees.push({ x, z });
       });
     }
