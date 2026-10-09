@@ -172,7 +172,22 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
   const gutterT = get('yaba_drainage_gutter');
   if (gutterT) {
     const spots = [];
-    world.roads.forEach((r) => {
+    // every carriageway as segments with their half width, so no gutter piece ever lies across a road:
+    // runs stop at the kerb at junctions, where the water goes under the road in a culvert
+    const carriage = [];
+    world.roads.forEach((r, ri) => {
+      if (!r.fit) return;
+      const { pts, half } = r.fit;
+      for (let k = 0; k < pts.length - 1; k++) carriage.push({ ri, ax: pts[k][0], az: pts[k][1], bx: pts[k + 1][0], bz: pts[k + 1][1], h: Math.max(half[k], half[k + 1]) });
+    });
+    const onRoad = (x, z, own) => carriage.some((c) => {
+      if (c.ri === own) return false;
+      const dx = c.bx - c.ax, dz = c.bz - c.az, L2 = dx * dx + dz * dz || 1;
+      const u = Math.max(0, Math.min(1, ((x - c.ax) * dx + (z - c.az) * dz) / L2));
+      return Math.hypot(x - c.ax - dx * u, z - c.az - dz * u) < c.h + 0.9;
+    });
+    const halfLen = footprint(gutterT).w / 2;
+    world.roads.forEach((r, ri) => {
       if (!r.fit) return;
       const { pts, nrm, half, paveL, paveR } = r.fit;
       let acc = 0;
@@ -188,7 +203,10 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
           const off = half[i] + 0.55;
           const x = pts[i][0] + nrm[i][0] * off * side, z = pts[i][1] + nrm[i][1] * off * side;
           if (Math.hypot(x, z) > R * (lowQuality ? 0.5 : 0.75)) return;
-          spots.push({ x, z, ry: Math.atan2(-tz, tx) });
+          // the piece and both its ends must clear every other carriageway
+          if ([0, 1, -1].some((e) => onRoad(x + tx * halfLen * e, z + tz * halfLen * e, ri))) return;
+          // sunk into the verge: the walls stand a kerb's height proud and the slabs sit near flush
+          spots.push({ x, z, y: -0.36, ry: Math.atan2(-tz, tx) });
         });
       }
     });
