@@ -28,6 +28,12 @@ This file is the local collaboration checkpoint for Claude and the other Builder
 | Yaba starter house | `assets/exports/models/yaba-kit/yaba_starter_house.glb` | exported / validated |
 | Yaba palm tree | `assets/exports/models/yaba-kit/yaba_palm_tree.glb` | exported / validated |
 | Provisional builder avatar | `assets/exports/models/yaba-kit/builders_world_avatar_provisional.glb` | exported / validated; provisional |
+| Yaba danfo minibus | `assets/exports/models/yaba-kit/yaba_danfo_minibus.glb` | exported / validated |
+| Yaba compound shop | `assets/exports/models/yaba-kit/yaba_compound_shop.glb` | exported / validated |
+| Yaba mid-rise corner block | `assets/exports/models/yaba-kit/yaba_midrise_corner_block.glb` | exported / validated |
+| Yaba utility pole | `assets/exports/models/yaba-kit/yaba_utility_pole.glb` | exported / validated |
+| Yaba roadside drainage gutter | `assets/exports/models/yaba-kit/yaba_drainage_gutter.glb` | exported / validated |
+| Yaba rooftop water tank | `assets/exports/models/yaba-kit/yaba_rooftop_water_tank.glb` | exported / validated |
 
 ## Technical contract
 
@@ -56,7 +62,8 @@ This file is the local collaboration checkpoint for Claude and the other Builder
 - Review sheet: `assets/exports/renders/yaba-kit-contact-sheet.png`; individual cards share the GLB stem names.
 - Named visual crops: `assets/reference/generated-visual-direction/extracted-crops/`.
 - Rebuild crop set: `python3 assets/source/reference/make_yaba_reference_crops.py`.
-- Three.js `GLTFLoader` parse smoke test passed for all six exports; each loaded scene contains the expected mesh hierarchy.
+- Three.js `GLTFLoader` parse smoke test passed for all twelve exports; each loaded scene contains the expected mesh hierarchy.
+- Screen-recording review and level-design priorities: `docs/design/yaba-screen-recording-review.md`.
 
 Last checkpoint: procedural kit exported, collision proxies added, GLB structure validated, and reference crops/contact sheet generated. The latest parent-repo checkpoint is local and unpushed; the short SHA is available from `git log -1`. The files are local so Claude can read them from the shared workspace while remote Git remains paused.
 

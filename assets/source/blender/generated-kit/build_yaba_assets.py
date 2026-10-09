@@ -49,6 +49,13 @@ PALETTE = {
     "cloth": "#D2D6C7",
     "charcoal": "#182326",
     "glass": "#9CC1BF",
+    "glass_dark": "#27414A",
+    "danfo_yellow": "#E7A92F",
+    "rubber": "#151B1D",
+    "warning": "#E55C3C",
+    "water_blue": "#2E6878",
+    "sign_white": "#F1E8D1",
+    "rust": "#8B4D35",
 }
 
 
@@ -271,12 +278,110 @@ def make_avatar(materials, meshes):
     return c
 
 
+def make_danfo_minibus(materials, meshes):
+    """A compact Lagos danfo silhouette for readable street movement."""
+    c, r = new_asset("yaba_danfo_minibus", "Yaba danfo minibus")
+    box(c, r, meshes, materials, "danfo_lower_body", (0, 0.95, 0), (4.8, 1.12, 1.86), "danfo_yellow")
+    box(c, r, meshes, materials, "danfo_upper_body", (0.1, 1.72, 0), (4.25, 0.72, 1.72), "cream")
+    box(c, r, meshes, materials, "danfo_black_belt", (0, 1.28, 0), (4.86, 0.18, 1.92), "charcoal")
+    box(c, r, meshes, materials, "danfo_yellow_belt", (0, 1.45, 0), (4.88, 0.16, 1.94), "danfo_yellow")
+    box(c, r, meshes, materials, "danfo_roof", (0.05, 2.18, 0), (4.42, 0.16, 1.86), "danfo_yellow")
+    for side in (-1, 1):
+        box(c, r, meshes, materials, f"danfo_side_window_front_{side}", (-1.25, 1.83, side * 0.88), (1.15, 0.58, 0.04), "glass_dark")
+        box(c, r, meshes, materials, f"danfo_side_window_rear_{side}", (0.75, 1.83, side * 0.88), (1.45, 0.58, 0.04), "glass_dark")
+    box(c, r, meshes, materials, "danfo_front_window", (2.16, 1.82, 0), (0.04, 0.6, 1.45), "glass_dark")
+    box(c, r, meshes, materials, "danfo_rear_window", (-2.16, 1.82, 0), (0.04, 0.6, 1.45), "glass_dark")
+    box(c, r, meshes, materials, "danfo_front_bumper", (2.48, 0.52, 0), (0.16, 0.24, 1.72), "charcoal")
+    box(c, r, meshes, materials, "danfo_route_panel", (0.15, 2.28, 0), (1.5, 0.12, 0.7), "sign_white")
+    for x in (-1.45, 1.45):
+        for z in (-0.98, 0.98):
+            add_object(c, r, meshes["cylinder"], f"danfo_wheel_{x}_{z}", (x, 0.52, z), (0.42, 0.42, 0.13), materials["rubber"], role="render")
+            add_object(c, r, meshes["cylinder"], f"danfo_hub_{x}_{z}", (x, 0.52, z * 1.01), (0.17, 0.17, 0.145), materials["metal"], role="render")
+    box(c, r, meshes, materials, "COLLISION_danfo", (0, 1.15, 0), (4.9, 2.25, 1.95), "charcoal", role="collision")
+    return c
+
+
+def make_compound_shop(materials, meshes):
+    """Street-facing low-rise compound/shop mass for Yaba's neighborhood fabric."""
+    c, r = new_asset("yaba_compound_shop", "Yaba compound shop")
+    box(c, r, meshes, materials, "shop_shell", (0, 2.7, 0), (8.2, 5.2, 5.8), "plaster")
+    box(c, r, meshes, materials, "shop_front_band", (0, 4.95, 2.94), (8.1, 0.34, 0.16), "teal")
+    box(c, r, meshes, materials, "shop_left_shutter", (-2.35, 2.25, 2.98), (2.65, 2.2, 0.12), "wood_light")
+    box(c, r, meshes, materials, "shop_left_opening", (-2.35, 2.25, 3.08), (2.25, 1.68, 0.04), "glass_dark")
+    box(c, r, meshes, materials, "shop_door", (0.25, 2.25, 3.08), (1.05, 2.25, 0.1), "deep_teal")
+    box(c, r, meshes, materials, "shop_right_window", (2.55, 2.35, 3.08), (1.8, 1.8, 0.06), "glass")
+    box(c, r, meshes, materials, "shop_awning", (0, 3.75, 3.48), (7.8, 0.18, 1.45), "coral", (0.12, 0, 0))
+    box(c, r, meshes, materials, "shop_sign", (-0.8, 4.48, 3.2), (3.25, 0.62, 0.08), "sign_white")
+    box(c, r, meshes, materials, "shop_sign_accent", (-0.8, 4.48, 3.27), (2.45, 0.12, 0.04), "amber")
+    box(c, r, meshes, materials, "shop_step", (0, 0.32, 3.35), (7.5, 0.28, 1.0), "concrete")
+    for x in (-3.4, 3.4):
+        box(c, r, meshes, materials, f"shop_pillar_{x}", (x, 2.5, 3.18), (0.28, 4.7, 0.28), "concrete")
+    box(c, r, meshes, materials, "COLLISION_compound_shop", (0, 2.7, 0), (8.3, 5.3, 5.9), "charcoal", role="collision")
+    return c
+
+
+def make_midrise_corner_block(materials, meshes):
+    """A repeated mid-rise landmark with a teal roofline and warm windows."""
+    c, r = new_asset("yaba_midrise_corner_block", "Yaba mid-rise corner block")
+    box(c, r, meshes, materials, "midrise_mass", (0, 6.4, 0), (10.5, 12.8, 8.2), "blue_gray")
+    box(c, r, meshes, materials, "midrise_lower_plinth", (0, 0.75, 0), (10.8, 1.5, 8.5), "deep_teal")
+    box(c, r, meshes, materials, "midrise_roof_cap", (0, 13.0, 0), (10.9, 0.38, 8.6), "teal")
+    for floor in range(4):
+        y = 3.1 + floor * 2.55
+        for x in (-3.6, -1.2, 1.2, 3.6):
+            box(c, r, meshes, materials, f"midrise_window_front_{floor}_{x}", (x, y, 4.16), (1.25, 1.0, 0.05), "amber_soft" if (floor + int(x)) % 3 else "glass_dark")
+            box(c, r, meshes, materials, f"midrise_window_side_{floor}_{x}", (5.26, y, x * 0.72), (0.05, 1.0, 1.25), "amber_soft" if floor % 2 else "glass_dark")
+    box(c, r, meshes, materials, "midrise_shopfront", (0, 1.55, 4.2), (8.8, 1.25, 0.08), "sign_white")
+    box(c, r, meshes, materials, "midrise_vertical_accent", (-4.45, 6.5, 4.22), (0.28, 11.2, 0.08), "amber")
+    box(c, r, meshes, materials, "COLLISION_midrise", (0, 6.4, 0), (10.6, 13.0, 8.3), "charcoal", role="collision")
+    return c
+
+
+def make_utility_pole(materials, meshes):
+    """Concrete/wood utility pole with a cheap, readable wire silhouette."""
+    c, r = new_asset("yaba_utility_pole", "Yaba utility pole")
+    cylinder(c, r, meshes, materials, "utility_pole", (0, 4.4, 0), 0.16, 8.8, "wood")
+    box(c, r, meshes, materials, "utility_crossarm", (0, 7.35, 0), (3.0, 0.15, 0.15), "wood_light")
+    for x in (-1.0, 0, 1.0):
+        cylinder(c, r, meshes, materials, f"utility_insulator_{x}", (x, 7.62, 0), 0.11, 0.34, "cream")
+    for z in (-0.55, 0.55):
+        box(c, r, meshes, materials, f"utility_wire_{z}", (0, 7.88, z), (8.5, 0.035, 0.035), "charcoal")
+    box(c, r, meshes, materials, "utility_notice_band", (0, 3.8, -0.18), (0.48, 0.8, 0.04), "warning")
+    cylinder(c, r, meshes, materials, "COLLISION_utility_pole", (0, 4.4, 0), 0.32, 8.9, "charcoal", role="collision")
+    return c
+
+
+def make_drainage_gutter(materials, meshes):
+    """Open roadside drain segment to give the rain scene a Lagos-specific edge."""
+    c, r = new_asset("yaba_drainage_gutter", "Yaba roadside drainage gutter")
+    box(c, r, meshes, materials, "drain_channel", (0, 0.06, 0), (8.0, 0.12, 0.72), "wet")
+    box(c, r, meshes, materials, "drain_left_wall", (0, 0.28, -0.48), (8.0, 0.5, 0.14), "concrete")
+    box(c, r, meshes, materials, "drain_right_wall", (0, 0.28, 0.48), (8.0, 0.5, 0.14), "concrete")
+    for x in (-3.0, -1.0, 1.0, 3.0):
+        box(c, r, meshes, materials, f"drain_cover_{x}", (x, 0.38, 0), (1.3, 0.12, 1.1), "concrete")
+    box(c, r, meshes, materials, "COLLISION_drainage", (0, 0.35, 0), (8.1, 0.65, 1.2), "charcoal", role="collision")
+    return c
+
+
+def make_rooftop_water_tank(materials, meshes):
+    """A rooftop tank silhouette that makes the district read as Lagos rather than a generic city."""
+    c, r = new_asset("yaba_rooftop_water_tank", "Yaba rooftop water tank")
+    for x in (-0.55, 0.55):
+        for z in (-0.55, 0.55):
+            box(c, r, meshes, materials, f"tank_leg_{x}_{z}", (x, 1.0, z), (0.14, 2.0, 0.14), "metal")
+    cylinder(c, r, meshes, materials, "tank_body", (0, 2.2, 0), 0.9, 1.8, "water_blue")
+    cylinder(c, r, meshes, materials, "tank_cap", (0, 3.2, 0), 0.64, 0.16, "charcoal")
+    cylinder(c, r, meshes, materials, "tank_pipe", (0.9, 1.1, 0), 0.06, 1.2, "metal")
+    box(c, r, meshes, materials, "COLLISION_water_tank", (0, 2.1, 0), (2.0, 3.4, 2.0), "charcoal", role="collision")
+    return c
+
+
 def setup_preview(materials, meshes, collections):
     scene = bpy.context.scene
     floor = bpy.data.objects.new("preview_ground", meshes["cube"])
     scene.collection.objects.link(floor)
     floor.location = (0, -0.08, 0)
-    floor.scale = (16, 0.08, 12)
+    floor.scale = (24, 0.08, 18)
     floor.data.materials.append(materials["wet"])
     sun_data = bpy.data.lights.new("preview_sun", type="AREA")
     sun_data.energy = 900
@@ -297,9 +402,9 @@ def setup_preview(materials, meshes, collections):
     cam_data = bpy.data.cameras.new("preview_camera")
     cam = bpy.data.objects.new("preview_camera", cam_data)
     scene.collection.objects.link(cam)
-    cam.location = (18, 13, 20)
+    cam.location = (30, 20, 34)
     cam_data.lens = 48
-    look_at(cam, (0, 2, 0))
+    look_at(cam, (0, 4, 4))
     scene.camera = cam
     scene.render.engine = "BLENDER_EEVEE"
     scene.render.resolution_x = 1280
@@ -315,6 +420,12 @@ def setup_preview(materials, meshes, collections):
         "yaba_palm_tree": (9, 0, -1),
         "yaba_starter_house": (0, 0, 7),
         "builders_world_avatar_provisional": (8, 0, 6),
+        "yaba_danfo_minibus": (-14, 0, 8),
+        "yaba_compound_shop": (-5, 0, 9),
+        "yaba_midrise_corner_block": (8, 0, 9),
+        "yaba_utility_pole": (-13, 0, 16),
+        "yaba_drainage_gutter": (-2, 0, 16),
+        "yaba_rooftop_water_tank": (8, 0, 16),
     }
     for collection in collections:
         root = bpy.data.objects.get(collection.name.replace("ASSET_", ""))
@@ -418,6 +529,12 @@ def main():
         ("yaba_palm_tree", "Yaba palm tree", make_palm_tree),
         ("yaba_starter_house", "Yaba starter house", make_starter_house),
         ("builders_world_avatar_provisional", "Builders World provisional builder avatar", make_avatar),
+        ("yaba_danfo_minibus", "Yaba danfo minibus", make_danfo_minibus),
+        ("yaba_compound_shop", "Yaba compound shop", make_compound_shop),
+        ("yaba_midrise_corner_block", "Yaba mid-rise corner block", make_midrise_corner_block),
+        ("yaba_utility_pole", "Yaba utility pole", make_utility_pole),
+        ("yaba_drainage_gutter", "Yaba roadside drainage gutter", make_drainage_gutter),
+        ("yaba_rooftop_water_tank", "Yaba rooftop water tank", make_rooftop_water_tank),
     ]
     collections = []
     manifest_assets = []
@@ -428,6 +545,12 @@ def main():
         "yaba_palm_tree": "COLLISION_palm_trunk",
         "yaba_starter_house": "COLLISION_house",
         "builders_world_avatar_provisional": "COLLISION_avatar",
+        "yaba_danfo_minibus": "COLLISION_danfo",
+        "yaba_compound_shop": "COLLISION_compound_shop",
+        "yaba_midrise_corner_block": "COLLISION_midrise",
+        "yaba_utility_pole": "COLLISION_utility_pole",
+        "yaba_drainage_gutter": "COLLISION_drainage",
+        "yaba_rooftop_water_tank": "COLLISION_water_tank",
     }
     for asset_id, label, builder in builders:
         collection = builder(materials, meshes)

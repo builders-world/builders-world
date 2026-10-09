@@ -57,6 +57,87 @@
       "ok": true
     },
     {
+      "file": "assets/exports/models/yaba-kit/yaba_compound_shop.glb",
+      "bytes": 19516,
+      "nodes": 14,
+      "meshes": 11,
+      "materials": [
+        "BW_charcoal",
+        "BW_coral",
+        "BW_deep_teal",
+        "BW_teal",
+        "BW_glass_dark",
+        "BW_wood_light",
+        "BW_concrete",
+        "BW_glass",
+        "BW_plaster",
+        "BW_sign_white",
+        "BW_amber"
+      ],
+      "collision_nodes": [
+        "COLLISION_compound_shop"
+      ],
+      "checks": {
+        "glb_version_2": true,
+        "named_root": true,
+        "has_meshes": true,
+        "has_pbr_materials": true,
+        "has_collision_proxy": true,
+        "root_has_export_correction": true
+      },
+      "ok": true
+    },
+    {
+      "file": "assets/exports/models/yaba-kit/yaba_danfo_minibus.glb",
+      "bytes": 17620,
+      "nodes": 23,
+      "meshes": 7,
+      "materials": [
+        "BW_charcoal",
+        "BW_glass_dark",
+        "BW_metal",
+        "BW_danfo_yellow",
+        "BW_sign_white",
+        "BW_cream",
+        "BW_rubber"
+      ],
+      "collision_nodes": [
+        "COLLISION_danfo"
+      ],
+      "checks": {
+        "glb_version_2": true,
+        "named_root": true,
+        "has_meshes": true,
+        "has_pbr_materials": true,
+        "has_collision_proxy": true,
+        "root_has_export_correction": true
+      },
+      "ok": true
+    },
+    {
+      "file": "assets/exports/models/yaba-kit/yaba_drainage_gutter.glb",
+      "bytes": 6188,
+      "nodes": 9,
+      "meshes": 3,
+      "materials": [
+        "BW_charcoal",
+        "BW_wet",
+        "BW_concrete"
+      ],
+      "collision_nodes": [
+        "COLLISION_drainage"
+      ],
+      "checks": {
+        "glb_version_2": true,
+        "named_root": true,
+        "has_meshes": true,
+        "has_pbr_materials": true,
+        "has_collision_proxy": true,
+        "root_has_export_correction": true
+      },
+      "ok": true
+    },
+    {
       "file": "assets/exports/models/yaba-kit/yaba_market_stall.glb",
       "bytes": 18696,
       "nodes": 20,
@@ -85,6 +166,34 @@
       "ok": true
     },
     {
+      "file": "assets/exports/models/yaba-kit/yaba_midrise_corner_block.glb",
+      "bytes": 18896,
+      "nodes": 39,
+      "meshes": 8,
+      "materials": [
+        "BW_charcoal",
+        "BW_deep_teal",
+        "BW_blue_gray",
+        "BW_teal",
+        "BW_sign_white",
+        "BW_amber",
+        "BW_amber_soft",
+        "BW_glass_dark"
+      ],
+      "collision_nodes": [
+        "COLLISION_midrise"
+      ],
+      "checks": {
+        "glb_version_2": true,
+        "named_root": true,
+        "has_meshes": true,
+        "has_pbr_materials": true,
+        "has_collision_proxy": true,
+        "root_has_export_correction": true
+      },
+      "ok": true
+    },
+    {
       "file": "assets/exports/models/yaba-kit/yaba_palm_tree.glb",
       "bytes": 14368,
       "nodes": 17,
@@ -98,6 +207,29 @@
       ],
       "collision_nodes": [
         "COLLISION_palm_trunk"
+      ],
+      "checks": {
+        "glb_version_2": true,
+        "named_root": true,
+        "has_meshes": true,
+        "has_pbr_materials": true,
+        "has_collision_proxy": true,
+        "root_has_export_correction": true
+      },
+      "ok": true
+    },
+    {
+      "file": "assets/exports/models/yaba-kit/yaba_rooftop_water_tank.glb",
+      "bytes": 12920,
+      "nodes": 9,
+      "meshes": 5,
+      "materials": [
+        "BW_charcoal",
+        "BW_water_blue",
+        "BW_metal"
+      ],
+      "collision_nodes": [
+        "COLLISION_water_tank"
       ],
       "checks": {
         "glb_version_2": true,
@@ -152,6 +284,31 @@
       ],
       "collision_nodes": [
         "COLLISION_lamp_pole"
+      ],
+      "checks": {
+        "glb_version_2": true,
+        "named_root": true,
+        "has_meshes": true,
+        "has_pbr_materials": true,
+        "has_collision_proxy": true,
+        "root_has_export_correction": true
+      },
+      "ok": true
+    },
+    {
+      "file": "assets/exports/models/yaba-kit/yaba_utility_pole.glb",
+      "bytes": 14944,
+      "nodes": 10,
+      "meshes": 6,
+      "materials": [
+        "BW_charcoal",
+        "BW_wood_light",
+        "BW_cream",
+        "BW_warning",
+        "BW_wood"
+      ],
+      "collision_nodes": [
+        "COLLISION_utility_pole"
       ],
       "checks": {
         "glb_version_2": true,
