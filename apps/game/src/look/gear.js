@@ -50,12 +50,18 @@ export function createGear(avatar) {
     return g;
   })();
 
-  Object.values(parts).forEach((p) => { p.visible = false; avatar.add(p); });
+  // with a rig, gear rides the bone it sits on: the backpack on the chest, the rest on the head
+  const rig = avatar.userData.rig;
+  const holders = {};
+  Object.entries(parts).forEach(([id, p]) => {
+    p.visible = false;
+    holders[id] = rig ? rig.attach(p, id === 'backpack' ? 'chest' : 'head') : (avatar.add(p), p);
+  });
 
   return {
     set(id, on) { if (parts[id]) parts[id].visible = on; },
     dispose() {
-      Object.values(parts).forEach((p) => { p.traverse((o) => o.geometry?.dispose()); p.removeFromParent(); });
+      Object.entries(parts).forEach(([id, p]) => { p.traverse((o) => o.geometry?.dispose()); p.removeFromParent(); holders[id]?.removeFromParent(); });
       [dark, amber, canvas, metal].forEach((m) => m.dispose());
     },
   };

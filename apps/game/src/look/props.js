@@ -3,6 +3,7 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { shared } from '../shaders.js';
 import { mulberry32 } from '../mesh.js';
 import { createAvatarModel } from '../onboarding/avatar.js';
+import { rigAvatar } from './anim.js';
 import { wallMaterial } from './surfaces.js';
 import { frondTexture, leafTexture, boardTexture, muralTexture, buildSignTexture, hubSignTexture } from './textures.js';
 import { instanceAsset, collidersFor, footprint } from './kit.js';
@@ -305,7 +306,7 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
     av.root.position.set(p.x, 0, p.z);
     av.root.rotation.y = Math.atan2(N.x, N.z);
     root.add(av.root);
-    builders.push({ name, obj: av.root, live: true, dispose: av.dispose });
+    builders.push({ name, obj: av.root, live: true, dispose: av.dispose, rig: rigAvatar(av.root) });
   });
 
   // a community build area in the next open gap, with a bin already added and a bench waiting
@@ -490,7 +491,7 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
     cols.forEach((c, i) => {
       const av = createAvatarModel({ color: c, style: i % 2 ? 'jacket' : 'tee' });
       root.add(av.root);
-      walkers.push({ obj: av.root, dispose: av.dispose, s: -10 + i * 11, dir: i % 2 ? 1 : -1, out: 0.6 + (i % 2) * 0.9, speed: 1.1 + rng() * 0.4 });
+      walkers.push({ obj: av.root, dispose: av.dispose, rig: rigAvatar(av.root), s: -10 + i * 11, dir: i % 2 ? 1 : -1, out: 0.6 + (i % 2) * 0.9, speed: 1.1 + rng() * 0.4 });
     });
   }
 
@@ -512,8 +513,12 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
       if (!reduced) w.s += w.dir * w.speed * dt;
       if (w.s > 34 || w.s < -16) w.dir *= -1;
       const p = at(w.s, -0.2 - w.out);
-      w.obj.position.set(p.x, reduced ? 0 : Math.abs(Math.sin(t * 7 + w.s)) * 0.04, p.z);
+      w.obj.position.set(p.x, 0, p.z);
       w.obj.rotation.y = alongRoad + (w.dir > 0 ? 0 : Math.PI);
+      if (!reduced) w.rig?.update(dt, { speed: w.speed, t });
+    });
+    builders.forEach((b) => { if (!reduced) b.rig?.update(dt, { speed: 0, t: t + b.name.length }); });
+    walkers.forEach(() => {
     });
   }
 

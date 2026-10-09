@@ -11,6 +11,7 @@ import { loadProfile } from './onboarding/state.js';
 import { createAvatarModel } from './onboarding/avatar.js';
 import { createLook, blueHourSky, pickQuality, createWeather } from './look/index.js';
 import { loadKit } from './look/kit.js';
+import { rigAvatar } from './look/anim.js';
 
 const q = new URLSearchParams(location.search);
 const arrivalProfile = loadProfile();
@@ -114,6 +115,7 @@ async function main() {
   // ---- avatar: the shared provisional avatar, until the final design arrives ----
   const avatar = new THREE.Group();
   const body = createAvatarModel(resident ? arrivalProfile.avatar : { color: '#e2b13c', style: 'jacket' }).root;
+  const rig = rigAvatar(body); // jointed legs and arms: walk, run, jump
   avatar.add(body);
   scene.add(avatar);
   if (resident) {
@@ -235,6 +237,7 @@ async function main() {
     else if (k === 'escape') { street?.hud.close(); chrome.unpin(); chrome.hideCard(); chrome.toggleList(false); chrome.toggleHelp(false); }
     else if (k === '=' || k === '+') zoomKey(-1);
     else if (k === '-' || k === '_') zoomKey(1);
+    else if (k === ' ') { e.preventDefault(); if (!e.repeat) jumpQueued = true; }
     else { keys.add(k); if (['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(k)) { walkTarget = null; marker.visible = false; } }
   });
   function zoomKey(dir) { const [lo, hi] = limits(); cam.distT = Math.max(lo, Math.min(hi, cam.distT * (1 + dir * 0.12))); }
@@ -296,6 +299,7 @@ async function main() {
   }
 
   let riding = false, savedDist = cam.distT, seated = false, savedOutside = null;
+  let jumpQueued = false, jumpV = 0, jumpY = 0;
 
   // camera views, after GTA V: V cycles near, mid and far third person and first person; vehicles add a
   // cinematic camera. On foot and in a vehicle each keep their own choice, like its independent camera modes.
@@ -392,13 +396,16 @@ async function main() {
       }
     }
     const moving = mv.lengthSq() > 0;
+    // walk by default, run with Shift (world bible 7.4); indoors you walk like indoors
+    const running = keys.has('shift') && !inside && !seated;
+    const pace = inside ? 1.9 : running ? 6.4 : 2.8;
     if (moving) {
       mv.normalize();
       last.copy(player);
-      player.addScaledVector(mv, (inside ? 2.6 : 5.2) * dt); // indoors you walk like indoors
+      player.addScaledVector(mv, pace * dt);
       if (inside) C.resolve(player); else world.resolve(player, 0.8);
       if (walkTarget) {
-        stuck = player.distanceTo(last) < 5.2 * dt * 0.25 ? stuck + dt : 0;
+        stuck = player.distanceTo(last) < pace * dt * 0.25 ? stuck + dt : 0;
         if (stuck > 0.5) { walkTarget = null; marker.visible = false; stuck = 0; }
       }
       let dh = Math.atan2(mv.x, mv.z) - heading;
@@ -407,8 +414,17 @@ async function main() {
     }
     avatar.position.copy(player);
     avatar.rotation.y = heading;
-    body.position.y = seated ? -0.42 : moving && !reduced ? Math.abs(Math.sin(t * 9)) * 0.05 : 0;
-    body.rotation.z = moving && !reduced ? Math.sin(t * 9) * 0.04 : 0;
+    // jump: real gravity, from the ground only, not while riding or seated
+    if (jumpQueued && jumpY === 0 && !riding && !seated && !cam.aerial) jumpV = 4.6;
+    jumpQueued = false;
+    if (jumpV !== 0 || jumpY > 0) {
+      jumpV -= 13 * dt; jumpY += jumpV * dt;
+      if (jumpY <= 0) { if (jumpV < -1) rig?.landed(jumpV); jumpY = 0; jumpV = 0; }
+    }
+    avatar.position.y = jumpY;
+    const groundSpeed = moving ? player.distanceTo(last) / Math.max(dt, 1e-4) : 0;
+    if (rig && !reduced) rig.update(dt, { speed: Math.min(groundSpeed, 8), running, air: jumpY > 0.02, t, seated });
+    else body.position.y = seated ? -0.42 : 0;
 
     // damped third-person follow; district-to-district is a cut, never a flight
     if (cam.aerial) focus.set(0, 6, 0); else focus.set(player.x, 1.75, player.z);
