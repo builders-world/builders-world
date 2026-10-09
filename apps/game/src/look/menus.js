@@ -222,7 +222,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   root.innerHTML = `<div id="lkm-dim"></div><div id="lkm-set" class="bw-paper" role="dialog" aria-label="Settings"></div><div id="lkm-wal" class="bw-paper" role="dialog" aria-label="Wallet"></div><div id="lkm-phone" role="dialog" aria-label="Phone"><div class="scr"></div></div>
     <div id="lkm-map" role="dialog" aria-label="Map of ${placeName(world)}"></div><div id="lkm-bag" role="dialog" aria-label="Bag"></div>
     <div class="lkm-hints" hidden></div><div id="lkm-guide" role="dialog" aria-label="Controls"></div>
-    <div id="lkm-tip"><span><b>Tab</b>Phone</span><span><b>M</b>Map</span><span><b>I</b>Bag</span><span><b>E</b>Interact</span><span><b>Shift</b>Run</span><span><b>Space</b>Jump</span><span><b>V</b>Camera</span><span><b>C</b>Travel</span><span><b>N</b>Music</span><span><b style="white-space:nowrap">1–6</b>Emote</span></div>`;
+    <div id="lkm-tip"><span><b>Tab</b>Phone</span><span><b>M</b>Map</span><span><b>I</b>Bag</span><span><b>E</b>Interact</span><span><b>Shift</b>Run</span><span><b>Space</b>Jump</span><span><b>V</b>Camera</span><span><b>C</b>Travel</span><span><b>N</b>Music</span><span><b style="white-space:nowrap">1–6</b>Emote</span><span><b>Enter</b>Chat</span></div>`;
   document.body.appendChild(root);
   const $ = (s) => root.querySelector(s);
   const dim = $('#lkm-dim'), phone = $('#lkm-phone'), mapEl = $('#lkm-map'), bagEl = $('#lkm-bag'), hints = $('.lkm-hints'), guide = $('#lkm-guide'), setEl = $('#lkm-set'), walEl = $('#lkm-wal');

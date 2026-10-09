@@ -115,6 +115,7 @@ export function createChat({ camera, avatar, getEnv, reduced }) {
     const GEST = { '👋': null, '😄': 'laugh', '👍': 'thumbs', '🔥': 'dance', '🙏': 'thanks', '🎉': 'cheer' };
     if (e === '👋') avatar?.userData.rig?.wave?.(); else avatar?.userData.rig?.play?.(GEST[e]);
     say(avatar, e, { me: true, emoji: true, hold: 2.2 });
+    dispatchEvent(new CustomEvent('bw:emote', { detail: e })); // other players see it too
     // the nearest person within 6 m answers
     let best = null, bd = 6;
     people.forEach((p) => { const d = Math.hypot(p.obj.position.x - player.x, p.obj.position.z - player.z); if (d < bd) { bd = d; best = p; } });
@@ -193,5 +194,8 @@ export function createChat({ camera, avatar, getEnv, reduced }) {
     last = player;
   }
   function dispose() { root.remove(); style.remove(); }
-  return { add, update, sayHi, emote, nearest, dispose, get people() { return people; }, get last() { return last; } };
+  // other players (online.js) and your own typed messages
+  const sayFrom = (obj, text, name, emoji = false) => say(obj, text, { name, emoji, hold: emoji ? 2.4 : 5 });
+  const sayMine = (text) => say(avatar, text, { me: true, hold: 5 });
+  return { add, update, sayHi, emote, nearest, dispose, sayFrom, sayMine, get people() { return people; }, get last() { return last; } };
 }

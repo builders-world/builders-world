@@ -16,6 +16,7 @@ import { walkMarker } from './look/trail.js';
 import { SKIN_CSS, loadFont } from './look/uikit.js';
 import { audioEngine, sfx } from './look/audio.js';
 import { createInput } from './look/input.js';
+import { createOnline } from './look/online.js';
 import { weather as wx } from './look/surfaces.js';
 import { pushOutDynamic } from './look/physics.js';
 
@@ -322,6 +323,9 @@ async function main() {
   let riding = false, savedDist = cam.distT, seated = false, savedOutside = null;
   let jumpQueued = false, jumpV = 0, jumpY = 0, stepAcc = 0, groundY = 0;
   const idle = { t: 0, on: false, shot: -1, until: 0 };
+  // other players, through the database (online.js); ?offline=1 plays solo
+  let lastSpeed = 0;
+  const online = q.get('offline') === '1' ? null : createOnline({ scene, camera, chat: { sayFrom: (...a) => street?.chat?.sayFrom(...a), sayMine: (t) => street?.chat?.sayMine(t) }, getPlayer: () => ({ x: player.x, z: player.z, y: groundY }), getHeading: () => heading, getSpeed: () => lastSpeed, district: place.name, profile: resident ? arrivalProfile : null, toast: (t) => street?.hud.toast(t) });
   ['keydown', 'pointerdown', 'pointermove', 'wheel', 'touchstart'].forEach((ev) => addEventListener(ev, () => { idle.t = 0; }, { passive: true, capture: true }));
   const audio = audioEngine();
   // touch stick and controllers: their buttons become the same key presses the keyboard makes
@@ -469,7 +473,7 @@ async function main() {
       player.addScaledVector(mv, pace * dt);
       // static world first (a jump clears low fences), then everything that moves
       // static world first (a jump clears low fences; on a bridge you are above what is below), then everything that moves
-      if (inside) C.resolve(player); else { world.resolve(player, PLAYER_R, groundY + jumpY); if (groundY < 1) pushOutDynamic(player, 0.4, street?.bodies?.() || []); world.resolve(player, PLAYER_R, groundY + jumpY); }
+      if (inside) C.resolve(player); else { world.resolve(player, PLAYER_R, groundY + jumpY); if (groundY < 1) pushOutDynamic(player, 0.4, [...(street?.bodies?.() || []), ...(online?.bodies() || [])]); world.resolve(player, PLAYER_R, groundY + jumpY); }
       if (walkTarget) {
         stuck = player.distanceTo(last) < pace * dt * 0.25 ? stuck + dt : 0;
         // blocked by someone walking past: plan again from here, twice, then give up politely
@@ -503,10 +507,12 @@ async function main() {
     } else if (inside || riding) { groundY = 0; }
     avatar.position.y = groundY + jumpY;
     const groundSpeed = moving ? player.distanceTo(last) / Math.max(dt, 1e-4) : 0;
+    lastSpeed = groundSpeed;
     if (rig && !reduced) rig.update(dt, { speed: Math.min(groundSpeed, 8), running, air: jumpY > 0.02, t, seated });
     else body.position.y = seated ? -0.42 : 0;
     // a footstep every stride, on whatever is underfoot
     if (moving && jumpY === 0 && !riding) { stepAcc += groundSpeed * dt; const stride = running ? 1.25 : 0.72; if (stepAcc > stride) { stepAcc = 0; sfx('step', { run: running, grass: !inside && !world.isFree(player.x, player.z, 0, { lots: false }) && world.isFree(player.x, player.z, 0, { lots: true }) }); } }
+    online?.update(dt);
     audio.update(dt, { day: shared.uDay.value, rain: wx.uRain.value, inside, riding, speed: street?.rides?.()?.debug?.v ?? 0 });
 
     // damped third-person follow; district-to-district is a cut, never a flight
@@ -640,7 +646,7 @@ async function main() {
 
   window.__bw = {
     get world() { return world; }, camera, cam, player, renderer, scene, via,
-    get theme() { return themeName; }, setTheme, get look() { return street; }, quality, composer, weather: weatherFeed, get kit() { return kit; }, goto, setAerial, cycleView, setTravel, get travel() { return travel.on; }, idle, audio, get view() { return (riding ? 'ride:' : 'foot:') + (riding ? viewOf('ride') : viewOf('foot')).id; }, get walkTarget() { return walkTarget; }, get walkPath() { return walkPath; }, walkTo, get groundY() { return groundY; },
+    get theme() { return themeName; }, setTheme, get look() { return street; }, quality, composer, weather: weatherFeed, get kit() { return kit; }, goto, setAerial, cycleView, setTravel, get travel() { return travel.on; }, idle, get online() { return online; }, audio, get view() { return (riding ? 'ride:' : 'foot:') + (riding ? viewOf('ride') : viewOf('foot')).id; }, get walkTarget() { return walkTarget; }, get walkPath() { return walkPath; }, walkTo, get groundY() { return groundY; },
     ready: true,
   };
 }
