@@ -1,0 +1,168 @@
+{
+  "schema": "builders-world.asset-validation.v1",
+  "assets": [
+    {
+      "file": "assets/exports/models/yaba-kit/builders_world_avatar_provisional.glb",
+      "bytes": 16156,
+      "nodes": 15,
+      "meshes": 7,
+      "materials": [
+        "BW_amber",
+        "BW_deep_teal",
+        "BW_cream",
+        "BW_charcoal",
+        "BW_skin",
+        "BW_cloth"
+      ],
+      "collision_nodes": [
+        "COLLISION_avatar"
+      ],
+      "checks": {
+        "glb_version_2": true,
+        "named_root": true,
+        "has_meshes": true,
+        "has_pbr_materials": true,
+        "has_collision_proxy": true,
+        "root_has_export_correction": true
+      },
+      "ok": true
+    },
+    {
+      "file": "assets/exports/models/yaba-kit/yaba_community_board.glb",
+      "bytes": 19956,
+      "nodes": 16,
+      "meshes": 9,
+      "materials": [
+        "BW_concrete",
+        "BW_wood_light",
+        "BW_amber",
+        "BW_cream",
+        "BW_coral",
+        "BW_mural_teal",
+        "BW_deep_teal",
+        "BW_wood",
+        "BW_charcoal"
+      ],
+      "collision_nodes": [
+        "COLLISION_board"
+      ],
+      "checks": {
+        "glb_version_2": true,
+        "named_root": true,
+        "has_meshes": true,
+        "has_pbr_materials": true,
+        "has_collision_proxy": true,
+        "root_has_export_correction": true
+      },
+      "ok": true
+    },
+    {
+      "file": "assets/exports/models/yaba-kit/yaba_market_stall.glb",
+      "bytes": 18696,
+      "nodes": 20,
+      "meshes": 8,
+      "materials": [
+        "BW_cream",
+        "BW_coral",
+        "BW_teal",
+        "BW_charcoal",
+        "BW_wood",
+        "BW_amber",
+        "BW_leaf_light",
+        "BW_wood_light"
+      ],
+      "collision_nodes": [
+        "COLLISION_stall"
+      ],
+      "checks": {
+        "glb_version_2": true,
+        "named_root": true,
+        "has_meshes": true,
+        "has_pbr_materials": true,
+        "has_collision_proxy": true,
+        "root_has_export_correction": true
+      },
+      "ok": true
+    },
+    {
+      "file": "assets/exports/models/yaba-kit/yaba_palm_tree.glb",
+      "bytes": 14368,
+      "nodes": 17,
+      "meshes": 5,
+      "materials": [
+        "BW_charcoal",
+        "BW_leaf_light",
+        "BW_leaf",
+        "BW_concrete",
+        "BW_wood"
+      ],
+      "collision_nodes": [
+        "COLLISION_palm_trunk"
+      ],
+      "checks": {
+        "glb_version_2": true,
+        "named_root": true,
+        "has_meshes": true,
+        "has_pbr_materials": true,
+        "has_collision_proxy": true,
+        "root_has_export_correction": true
+      },
+      "ok": true
+    },
+    {
+      "file": "assets/exports/models/yaba-kit/yaba_starter_house.glb",
+      "bytes": 19816,
+      "nodes": 24,
+      "meshes": 10,
+      "materials": [
+        "BW_charcoal",
+        "BW_deep_teal",
+        "BW_wood_light",
+        "BW_amber",
+        "BW_wood",
+        "BW_cream",
+        "BW_concrete",
+        "BW_leaf_light",
+        "BW_plaster",
+        "BW_glass"
+      ],
+      "collision_nodes": [
+        "COLLISION_house"
+      ],
+      "checks": {
+        "glb_version_2": true,
+        "named_root": true,
+        "has_meshes": true,
+        "has_pbr_materials": true,
+        "has_collision_proxy": true,
+        "root_has_export_correction": true
+      },
+      "ok": true
+    },
+    {
+      "file": "assets/exports/models/yaba-kit/yaba_street_lamp.glb",
+      "bytes": 14612,
+      "nodes": 8,
+      "meshes": 6,
+      "materials": [
+        "BW_charcoal",
+        "BW_metal",
+        "BW_concrete",
+        "BW_amber"
+      ],
+      "collision_nodes": [
+        "COLLISION_lamp_pole"
+      ],
+      "checks": {
+        "glb_version_2": true,
+        "named_root": true,
+        "has_meshes": true,
+        "has_pbr_materials": true,
+        "has_collision_proxy": true,
+        "root_has_export_correction": true
+      },
+      "ok": true
+    }
+  ],
+  "ok": true
+}
