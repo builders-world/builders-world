@@ -9,6 +9,7 @@ import { mulberry32 } from '../mesh.js';
 import { buildPlayerHome, HOME_LINES } from './rooms.js';
 import { decorate, DECOR_LINES } from './decor.js';
 import { buildImmigration } from './travel.js';
+import { buildAirport, buildCabin } from './airport.js';
 import { walletEngine, effortsMark, fmt } from './wallet.js';
 import { session } from '../session.js';
 
@@ -73,7 +74,7 @@ const SNIPPET = [
   '// ✓ 3 commits verified',
 ];
 
-export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, onOrder, onTeller, country = 'Nigeria' }) {
+export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, onOrder, onTeller, country = 'Nigeria', city = 'Lagos' }) {
   const built = {};
   let current = null; // { key, group, colliders, seats, interact }
   const fade = document.createElement('div');
@@ -465,7 +466,7 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
 
   function enter(key, host) {
     if (key === 'home' && host?.self) key = 'myhome'; // your own home is the seven-room house (rooms.js)
-    const VENUE = { immigration: () => buildImmigration({ ORIGIN, scene, name: PLACES.immigration.name, country }), cafe: () => buildCafe({ ORIGIN, scene, onOrder }), gym: () => buildGym({ ORIGIN, scene, toast }), bank: () => buildBank({ ORIGIN, scene, toast, onTeller }) };
+    const VENUE = { airport: () => buildAirport({ ORIGIN, scene, city }), cabin: () => buildCabin({ ORIGIN, scene }), immigration: () => buildImmigration({ ORIGIN, scene, name: PLACES.immigration.name, country }), cafe: () => buildCafe({ ORIGIN, scene, onOrder }), gym: () => buildGym({ ORIGIN, scene, toast }), bank: () => buildBank({ ORIGIN, scene, toast, onTeller }) };
     if (!built[key]) built[key] = key === 'myhome' ? buildPlayerHome({ ORIGIN, scene, screenTex: laptopScreen.map }) : key === 'home' ? buildHome() : VENUE[key] ? VENUE[key]() : build(key);
     current = built[key];
     if (key === 'home' || key === 'myhome') current.setHost(host);
@@ -474,7 +475,7 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
       current.group.visible = true;
       fade.style.opacity = '0';
       sfx('door');
-      toast(key === 'immigration' ? `${PLACES.immigration.name}. Take a number: counter 1 for passports, 2 for travel authorisations; the board on the left shows where you can fly.` : key === 'cafe' ? 'Kofo Cafe. Order at the counter, or take a table and work. The Wi-Fi is on the menu board.' : key === 'gym' ? 'Yaba Fitness. Treadmills, weights, the bag. First visit is on the house.' : key === 'bank' ? 'Yaba Builders Bank. Join the queue for a teller, or ask about a loan.' : key === 'myhome' ? `Home sweet home: ${host.addr}. Living room, kitchen and bedroom at the front; your workspace, lab and studio at the back.` : key === 'home' ? `${host.first}'s home. ${host.pidgin ? 'Make yourself at home o.' : 'Make yourself at home.'}` : `${PLACES[key].name}. ${PLACES[key].kind}. Find a free desk, or grab something at the cafeteria.`, 4500);
+      toast(key === 'airport' ? `${current.A.name}. Departures on the left: check in, security, ${'passport control'}, your gate. Arrivals on the right.` : key === 'cabin' ? 'Boarding complete. Find your seat by the window.' : key === 'immigration' ? `${PLACES.immigration.name}. Take a number: counter 1 for passports, 2 for travel authorisations; the board on the left shows where you can fly.` : key === 'cafe' ? 'Kofo Cafe. Order at the counter, or take a table and work. The Wi-Fi is on the menu board.' : key === 'gym' ? 'Yaba Fitness. Treadmills, weights, the bag. First visit is on the house.' : key === 'bank' ? 'Yaba Builders Bank. Join the queue for a teller, or ask about a loan.' : key === 'myhome' ? `Home sweet home: ${host.addr}. Living room, kitchen and bedroom at the front; your workspace, lab and studio at the back.` : key === 'home' ? `${host.first}'s home. ${host.pidgin ? 'Make yourself at home o.' : 'Make yourself at home.'}` : `${PLACES[key].name}. ${PLACES[key].kind}. Find a free desk, or grab something at the cafeteria.`, 4500);
       res({ x: ORIGIN.x + current.door.x, z: ORIGIN.z + current.door.z - 1.5, yaw: Math.PI });
     }, reduced ? 0 : 360));
   }
@@ -541,6 +542,9 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
     if (best.id === 'in:exit') return { exit: true };
     if (best.id === 'in:host') { const h = current.host; const lines = h.pidgin ? ['You go take Zobo or Chapman? Siddon, make yourself comfortable.', `Abeg no mind the place. ${h.kids?.length ? `${h.kids[0]} scatter am this morning.` : 'Na small house but e sweet.'}`, `Me? I dey hustle: ${h.dream.toLowerCase()}.`] : ['Can I get you some Zobo? Or Chapman? Sit, sit.', `Sorry about the mess. ${h.kids?.length ? `${h.kids[0]} was busy this morning.` : 'It is small, but it is home.'}`, `My dream? ${h.dream}.`]; current.lineAt = ((current.lineAt ?? -1) + 1) % lines.length; toast(`${h.first}: "${lines[current.lineAt]}"`, 4500); return { handled: true }; }
     if (best.id === 'in:wardrobe') { dispatchEvent(new Event('bw:wardrobe')); return { handled: true }; }
+    // the airport (airport.js, run by the look layer); its two doors lead out
+    if (best.id === 'ap:out' || best.id === 'ap:exit') return { exit: true };
+    if (best.id.startsWith('ap:')) { dispatchEvent(new CustomEvent('bw:air', { detail: best.id.slice(3) })); return { handled: true }; }
     // the Immigration Centre's desks and board (travel.js, opened by the look layer)
     if (['in:passport', 'in:eta', 'in:fly', 'in:ask', 'in:ticket', 'in:bio'].includes(best.id)) { dispatchEvent(new CustomEvent('bw:travel', { detail: best.id.slice(3) })); return { handled: true }; }
     if (DECOR_LINES[best.id]) { const l = DECOR_LINES[best.id]; toast(l[Math.floor(Math.random() * l.length)], 3400); return { handled: true }; }

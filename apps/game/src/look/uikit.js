@@ -158,6 +158,8 @@ const APP = {
   work: `<rect x="10" y="10" width="28" height="19" rx="2" ${G}/><path d="M5 34h38l-3 5H8z" ${G}/><path d="M20 16l-3 3 3 3M28 16l3 3-3 3" fill="none" stroke="${C.paper}" stroke-width="2.6" stroke-linecap="round"/>`,
   gym: `<rect x="5" y="17" width="6" height="14" rx="2" ${G}/><rect x="37" y="17" width="6" height="14" rx="2" ${G}/><rect x="11" y="13" width="5" height="22" rx="2" ${G}/><rect x="32" y="13" width="5" height="22" rx="2" ${G}/><path d="M16 24h16" stroke="${C.ink}" stroke-width="4"/>`,
   wallet: `<rect x="6" y="12" width="36" height="26" rx="6" ${G}/><rect x="28" y="21" width="14" height="9" rx="3" ${L}/><circle cx="33" cy="25.5" r="2" ${G}/><path d="M10 12l18-6 4 6" fill="none" stroke="${C.ink}" stroke-width="3.5" stroke-linejoin="round"/>`,
+  // Fly: a plane climbing
+  plane: `<path d="M6 30l14-4 10-16c2-3 6-2 5 2l-5 13 11-3 4-6 4 1-2 9 5 5-3 2-6-3-11 3-6 12c-2 3-6 2-5-2l3-10-13 4z" ${G}/>`,
   // Cities: the globe, with a pin on Lagos
   globe: `<circle cx="24" cy="25" r="16" ${L} stroke="${C.ink}" stroke-width="3.5"/><path d="M8 25h32M24 9c-6 5-6 27 0 32M24 9c6 5 6 27 0 32" fill="none" stroke="${C.ink}" stroke-width="2.5"/><path d="M33 20s-6-5-6-9a6 6 0 0 1 12 0c0 4-6 9-6 9z" fill="${C.coral}" stroke="${C.ink}" stroke-width="2.5" stroke-linejoin="round"/><circle cx="33" cy="11" r="2" ${L}/>`,
   // Aerial: a drone looking down

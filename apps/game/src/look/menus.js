@@ -337,6 +337,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     ['Wallet', 'wallet', '#b7e0a0', () => openWallet()],
     ['Aerial', 'aerial', '#c9e3f2', () => { close(); dispatchEvent(new KeyboardEvent('keydown', { key: 'b' })); }],
     ['Cities', 'globe', '#f4c98a', () => { close(); location.search = '?world=1&view=cities'; }],
+    ['Fly', 'plane', '#bfe3f7', () => { close(); dispatchEvent(new Event('bw:fly')); }],
     ['Weather', 'weather', '#aebcff', () => { const w = weatherFeed?.state; toast(w ? `${w.loc.label}: ${w.label}${w.tempC != null ? `, ${Math.round(w.tempC)}°C` : ''}. Updated every 10 minutes.` : 'Weather is loading.'); }],
     ['Pets', 'paw', '#c9e3a8', () => { close(); dispatchEvent(new Event('bw:shelter')); }],
     ['Wardrobe', 'hanger', '#f6c7b8', () => { close(); dispatchEvent(new Event('bw:wardrobe')); }],

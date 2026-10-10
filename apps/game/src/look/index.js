@@ -35,9 +35,12 @@ import { buildLandmarks } from './landmarks.js';
 import { createSports } from './sports/index.js';
 import { TIERS, trackDetail, cullDetail } from './quality.js';
 import { walletEngine } from './wallet.js';
+import { sfx } from './audio.js';
 import { createInteriors, PLACES, namePlaces } from './interior.js';
-import { openPassportDesk, openEtaDesk, openTravelBoard, dialogOpen as travelDialogOpen, closeDialog as closeTravelDialog } from './travel.js';
+import { papers, openPassportDesk, openEtaDesk, openTravelBoard, dialogOpen as travelDialogOpen, closeDialog as closeTravelDialog } from './travel.js';
 import { AIRPORTS } from './travelrules.js';
+import { openCheckIn, flyPanel, openAirportTaxi, airDialogOpen, TRIP_KEY, SHUTTLE } from './airport.js';
+import { CITIES } from './cities.js';
 import { sunPosition, sunDirection } from './sun.js';
 import { shared } from '../shaders.js';
 
@@ -237,7 +240,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       return false;
     },
     onRide: (player) => (interiors?.active ? hud.toast('Step outside to call a ride: the driver cannot come in.', 2600) : rides?.openPanel('taxi', { app: true, x: player.x, z: player.z })),
-    isExtraOpen: () => travelDialogOpen() || rides?.isMenuOpen() || interiors?.computerOpen || !!benchSeat || !!passes?.registering || !!gates?.isOpen || !!wardrobe?.isOpen || !!pets?.isOpen || !!food?.isOpen || !!sports?.isOpen,
+    isExtraOpen: () => airDialogOpen() || travelDialogOpen() || rides?.isMenuOpen() || interiors?.computerOpen || !!benchSeat || !!passes?.registering || !!gates?.isOpen || !!wardrobe?.isOpen || !!pets?.isOpen || !!food?.isOpen || !!sports?.isOpen,
     closeExtra: () => {
       rides?.closeMenu();
       if (passes?.registering) { passes.closeRegister(); return; }
@@ -295,7 +298,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   gates = createGates({ world, scene: group, props, lives, passes, toast: hud.toast, getHour: () => live?.hour ?? 12,
     // another player said yes at their door: in you go, they are there to meet you
     enterPlayerHome: (host) => { doorOut = { x: host.door.x, z: host.door.z, yaw: host.door.ry ?? 0 }; interiors.enter('home', host).then((p) => { setInside(`${host.first}'s home`); pendingMove = { ...p, mode: 'inside' }; passes.arrive('home'); }); } });
-  interiors = createInteriors({ country: AIRPORTS[world.place?.city || 'Lagos']?.country || 'Nigeria', scene, reduced, toast: hud.toast, getEnv: () => live || { day: 1 }, onPackUp: () => standUp(), net: passes, onOrder: (k) => food?.menu(k), onTeller: () => hud.openWallet({ atm: true }) });
+  interiors = createInteriors({ city: world.place?.city || 'Lagos', country: AIRPORTS[world.place?.city || 'Lagos']?.country || 'Nigeria', scene, reduced, toast: hud.toast, getEnv: () => live || { day: 1 }, onPackUp: () => standUp(), net: passes, onOrder: (k) => food?.menu(k), onTeller: () => hud.openWallet({ atm: true }) });
   // everything that moves and can be bumped into: people, traffic, the waiting hired vehicle
   const bodies = () => [...(props.bodies?.() || []), ...lives.bodies(), ...(mobility?.bodies() || []), ...(dressing?.bodies?.() || []), ...(traffic?.bodies() || []), rides?.body?.()].filter(Boolean);
   rides = createRides({ world, scene: group, nav: hud.nav, props, reduced, toast: hud.toast, getBodies: () => [...(props.bodies?.() || []), ...(dressing?.bodies?.() || [])],
@@ -645,6 +648,55 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       else if (what === 'bio') hud.toast('The biometrics booth: your photo and fingerprints are taken at counter 1 when you apply.', 3400);
     });
   }
+  // ---------- the airport (airport.js): taxi there, check in, security, passport control, gate, fly, arrive ----------
+  const air = { pass: null, secured: false, stamped: false, arrived: null };
+  const cityHere = world.place?.city || 'Lagos';
+  const airRoom = () => (interiors?.room?.key === 'airport' ? interiors.room : null);
+  const stampPassport = (text) => { const P = papers(passes, cityHere); if (!P.passport) return false; passes.addCard({ ...P.passport, stamps: [...(P.passport.stamps || []), text] }); return true; };
+  const day = () => new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }).toUpperCase();
+  function enterAirport(arriving = null) {
+    if (interiors?.active) return;
+    doorOut = { x: world.spawn.x, z: world.spawn.z, yaw: 0 };
+    interiors.enter('airport').then((p) => {
+      setInside(interiors.room.A.name);
+      air.arrived = arriving; interiors.room.reset(air);
+      if (arriving) { const o = interiors.origin, a = interiors.room.arrive; pendingMove = { mode: 'inside', x: o.x + a.x, z: o.z + a.z + 1.2, yaw: 0 }; hud.toast(arriving.intl ? `Welcome to ${cityHere}. Immigration first, then baggage reclaim.` : `Welcome to ${cityHere}. Baggage reclaim is ahead.`, 3600); }
+      else pendingMove = { ...p, mode: 'inside' };
+    });
+  }
+  addEventListener('bw:fly', () => { if (interiors?.active) { hud.toast('Go outside first, then take a taxi to the airport.', 2400); return; } openAirportTaxi({ city: cityHere, onGo: () => { if (!walletEngine().spend(SHUTTLE, `Taxi to ${AIRPORTS[cityHere]?.code}`)) { hud.toast(`The taxi is ${SHUTTLE} Efforts.`, 2400); return; } hud.toast('The taxi drops you at departures.', 2200); enterAirport(); } }); });
+  addEventListener('bw:air', (e) => {
+    const R = airRoom(); if (!R) return;
+    const what = e.detail, myName2 = (() => { try { return JSON.parse(localStorage.getItem('bw-arrivals-v1') || '{}').name || ''; } catch { return ''; } })();
+    if (what === 'checkin') { if (air.pass) { hud.toast(`You are checked in: ${air.pass.no} to ${air.pass.to}, gate ${air.pass.gate}.`, 3000); return; } openCheckIn({ room: R, passes, city: cityHere, name: myName2, toast: hud.toast, onPass: (bp) => { air.pass = bp; air.secured = false; air.stamped = false; R.openSecurity(); } }); return; }
+    if (what === 'security') { if (!air.pass) { hud.toast('Check in first: the airline desks are behind you.', 2600); return; } if (air.secured) { hud.toast('You are through security.', 1800); return; } sfx('interact'); hud.toast('Bag and laptop on the belt... walk through the arch... beep... clear. Through you go.', 3200); air.secured = true; if (!air.pass.intl) R.openAirside(false); return; }
+    if (what === 'passport') { if (!air.secured) { hud.toast('Security first.', 2000); return; } if (!air.pass.intl) { hud.toast('Domestic passengers use the corridor on the right.', 2400); return; } if (air.stamped) { hud.toast('Your passport is stamped. On to the gate.', 2000); return; } if (!stampPassport(`${air.pass.fromCode} OUT ${day()}`)) { hud.toast('You need a passport for this flight.', 2600); return; } sfx('arrive'); air.stamped = true; R.openPassportControl(); hud.toast(`Stamped: ${air.pass.fromCode} OUT ${day()}. Have a good trip.`, 2800); return; }
+    if (what === 'gate') {
+      if (!air.pass) { hud.toast('No boarding pass yet. Check in at the desks.', 2400); return; }
+      const bp = air.pass; hud.toast(`Now boarding ${bp.no} to ${bp.to}. Seat ${bp.seat}.`, 2600);
+      interiors.enter('cabin').then(() => {
+        setInside(`${bp.no} to ${bp.to}`);
+        const o = interiors.origin, s2 = interiors.room.seat; pendingMove = { mode: 'inside', x: o.x + 0.6, z: o.z + s2.z, yaw: 0 };
+        setTimeout(() => dispatchEvent(new CustomEvent('bw:shot', { detail: { from: { x: o.x + 1.3, y: 1.25, z: o.z + s2.z + 0.1 }, at: { x: o.x + 0.2, y: 1.0, z: o.z + s2.z - 8 }, first: true } })), 500);
+        flyPanel({ bp, onLanded: () => {
+          try { localStorage.setItem(TRIP_KEY, JSON.stringify({ to: bp.to, from: bp.from, intl: bp.intl, toCode: bp.toCode, no: bp.no, at: Date.now() })); } catch { /* */ }
+          const c = CITIES.find((q) => q.city === bp.to);
+          location.search = c?.live ? '?world=1' : `?world=1&name=${encodeURIComponent(c.district)}&city=${encodeURIComponent(c.city)}&lat=${c.lat}&lon=${c.lon}&r=${c.r}`;
+        } });
+      });
+      return;
+    }
+    if (what === 'arrivals') { if (!air.arrived) { hud.toast('This is the arrivals hall.', 1800); return; } if (!air.arrived.intl) { hud.toast('Domestic arrivals: straight through.', 2000); R.openArrivals(); return; } if (!stampPassport(`${air.arrived.toCode} IN ${day()}`)) { hud.toast('No passport? Wait here, an officer is coming.', 2800); return; } sfx('arrive'); R.openArrivals(); hud.toast(`Stamped: ${air.arrived.toCode} IN ${day()}. Welcome to ${cityHere}.`, 3000); return; }
+    if (what === 'bag') { hud.toast('Your bag comes round on the belt. Got it.', 2200); return; }
+    if (what === 'board') { hud.toast(R.flights.map((f) => `${f.time} ${f.no} ${f.to}`).join(' · '), 5000); return; }
+    if (what === 'cafe') { if (walletEngine().spend(300, 'Airport coffee')) hud.toast('An airport flat white: 300 Efforts, twice the street price.', 2600); return; }
+    if (what === 'dutyfree') { hud.toast('Perfume, chocolate, a Lagos fridge magnet. You look, you do not buy.', 2600); }
+  });
+  // an arrival: you landed here a moment ago (the page was loaded for this city), so you start in arrivals
+  let arrivingNow = null;
+  try { const trip = JSON.parse(localStorage.getItem(TRIP_KEY) || 'null'); if (trip && trip.to === cityHere && Date.now() - trip.at < 15 * 60000) { arrivingNow = trip; localStorage.removeItem(TRIP_KEY); } } catch { /* */ }
+  if (arrivingNow) setTimeout(() => enterAirport(arrivingNow), 400);
+
   // ---------- where you start (world bible 6.6) ----------
   // Everyone has a home. New players start inside it; returning players come back to where they were
   // (or home, if that is where they left off). Saved every 5 s. Automated test runs keep the street start
@@ -656,7 +708,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     const goHome = () => { const host = gates?.enterHome?.(); if (!host || interiors?.active) return false; doorOut = { x: host.door.x, z: host.door.z, yaw: host.door.ry ?? 0 }; interiors.enter('home', host).then((p) => { setInside('Your home'); pendingMove = { ...p, mode: 'inside' }; passes.arrive('myhome'); }); return true; };
     const automated = navigator.webdriver && qs.get('start') !== 'home';
     if (!automated) {
-      if (qs.get('start') === 'home' || !last || (last.district === district && last.inside === 'myhome')) setTimeout(goHome, 300);
+      if (arrivingNow) { /* the airport takes you in */ } else if (qs.get('start') === 'home' || !last || (last.district === district && last.inside === 'myhome')) setTimeout(goHome, 300);
       else if (last.district === district && Number.isFinite(last.x)) { const q = world.nearestReachable?.(last.x, last.z) || last; pendingMove = { mode: 'stand', x: q.x, z: q.z }; }
     }
     let street = null;
