@@ -307,8 +307,8 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
       }
     });
     put('yaba_danfo_minibus', parked);
-    const n = lowQuality ? 2 : 5;
-    moving = movingInstances(danfoT, n, -Math.PI / 2);
+    const n = 0; // moving traffic is the traffic system now (traffic.js); these stay parked
+    moving = movingInstances(danfoT, Math.max(1, n), -Math.PI / 2);
     group.add(moving.group);
     const routes = majors.length ? majors : world.roads.filter((r) => r.fit);
     for (let k = 0; k < n; k++) {

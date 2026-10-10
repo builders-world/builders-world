@@ -21,6 +21,7 @@ import { createProfiler } from './profiler.js';
 import { createWardrobe } from './wardrobe.js';
 import { createPets } from './pets.js';
 import { createFood } from './food.js';
+import { createTraffic } from './traffic.js';
 import { walletEngine } from './wallet.js';
 import { createInteriors, PLACES, namePlaces } from './interior.js';
 import { sunPosition, sunDirection } from './sun.js';
@@ -131,7 +132,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     };
   })();
 
-  let food = null, pets = null, petIt = null, wardrobe = null, profiler = null, onlineRef = null, building = null, gates = null, visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
+  let traffic = null, food = null, pets = null, petIt = null, wardrobe = null, profiler = null, onlineRef = null, building = null, gates = null, visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
   // the tech places you can walk into (world bible 6.6)
   const doors = [];
   if (props.hubAt) doors.push({ key: 'hub', at: props.hubAt });
@@ -248,6 +249,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   group.add(hud.route);
   passes = passesEngine({ toast: hud.toast, district: world.place?.name || 'Yaba' });
   wardrobe = createWardrobe({ toast: hud.toast });
+  traffic = createTraffic({ world, scene: group, reduced, lowQuality: quality === 'low', getPeople: () => lives.residents.filter((r) => r.obj.visible).map((r) => r.obj.position) });
   food = createFood({ scene: group, props, toast: hud.toast, getEnv: () => live, reduced, addLamps: (l) => { props.lamps.push(...l); lights?.setLamps([...world.lamps, ...props.lamps, ...(world.porchLamps || [])]); } });
   pets = createPets({ scene: group, camera, world, toast: hud.toast, isIndoors: () => !!interiors?.active });
   petIt = { id: 'pet', label: 'Pet', x: 0, z: 0, r: 0 }; props.interact.push(petIt);
@@ -259,7 +261,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     enterPlayerHome: (host) => { doorOut = { x: host.door.x, z: host.door.z, yaw: host.door.ry ?? 0 }; interiors.enter('home', host).then((p) => { setInside(`${host.first}'s home`); pendingMove = { ...p, mode: 'inside' }; passes.arrive('home'); }); } });
   interiors = createInteriors({ scene, reduced, toast: hud.toast, getEnv: () => live || { day: 1 }, onPackUp: () => standUp(), net: passes });
   // everything that moves and can be bumped into: people, traffic, the waiting hired vehicle
-  const bodies = () => [...(props.bodies?.() || []), ...lives.bodies(), ...(dressing?.bodies?.() || []), rides?.body?.()].filter(Boolean);
+  const bodies = () => [...(props.bodies?.() || []), ...lives.bodies(), ...(dressing?.bodies?.() || []), ...(traffic?.bodies() || []), rides?.body?.()].filter(Boolean);
   rides = createRides({ world, scene: group, nav: hud.nav, props, reduced, toast: hud.toast, getBodies: () => [...(props.bodies?.() || []), ...(dressing?.bodies?.() || [])],
     onState: (st) => { if (st.ride === false && st.exitAt) pendingExit = st.exitAt; } });
   const civic = buildCivic(world, group, { rides });
@@ -413,7 +415,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     props.update(dt, t, player);
     if (!interiors?.active) { lives.update(dt, t, player); chat.update(dt, player); rec.update(t); litter?.update(dt); building?.update(dt); }
     profiler?.update(dt);
-    if (!interiors?.active) food?.update(dt, player);
+    if (!interiors?.active) { food?.update(dt, player); traffic?.update(dt, player); }
     pets?.update(dt, player, yaw ?? 0);
     if (petIt && pets?.pet) { petIt.x = pets.pos.x; petIt.z = pets.pos.z; petIt.r = interiors?.active ? 0 : 1.4; petIt.label = `Pet ${pets.pet.name}`; }
     // estate gates: no pass, no entry (gates.js)
@@ -510,6 +512,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get traffic() { return traffic; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

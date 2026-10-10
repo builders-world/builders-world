@@ -122,6 +122,8 @@ export function createAudio() {
     arrive: () => { const t = ctx.currentTime; [74, 79, 83, 86].forEach((n, k) => tone(sfxBus, midi(n), t + k * 0.08, { type: 'triangle', peak: 0.08, dec: 0.5 })); },
     door: () => { const t = ctx.currentTime; tone(sfxBus, midi(76), t, { type: 'sine', peak: 0.08, dec: 0.5 }); tone(sfxBus, midi(72), t + 0.18, { type: 'sine', peak: 0.08, dec: 0.7 }); },
     interact: () => tone(sfxBus, midi(81), ctx.currentTime, { type: 'sine', peak: 0.07, dec: 0.25 }),
+    // a car horn: two short square-wave beeps, deeper for a danfo or the BRT
+    horn: (o = {}) => { const t = ctx.currentTime, f = ['danfo', 'brt'].includes(o.kind) ? [220, 277] : o.kind === 'keke' ? [520, 620] : [349, 440]; [0, 0.22].forEach((k) => f.forEach((fr) => { const osc = ctx.createOscillator(), g = ctx.createGain(); osc.type = 'square'; osc.frequency.value = fr; osc.connect(g).connect(sfxBus); g.gain.setValueAtTime(0.0001, t + k); g.gain.exponentialRampToValueAtTime(0.025, t + k + 0.02); g.gain.setValueAtTime(0.025, t + k + 0.15); g.gain.exponentialRampToValueAtTime(0.0001, t + k + 0.19); osc.start(t + k); osc.stop(t + k + 0.2); })); },
     // three knocks on a wooden door
     knock: () => { const t = ctx.currentTime; [0, 0.2, 0.4].forEach((k) => { noise(sfxBus, t + k, { type: 'lowpass', f: 380, dur: 0.07, peak: 0.22 }); tone(sfxBus, 95, t + k, { type: 'sine', peak: 0.16, dec: 0.1 }); }); },
     // litter into the bag: a short crinkle and a soft up-note
