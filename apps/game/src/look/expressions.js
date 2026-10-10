@@ -399,6 +399,9 @@ export const REACT = {
 
 export function hashSeed(s) { let h = 2166136261; for (const ch of String(s)) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return (h >>> 0) / 4294967296; }
 
+// the director the game is running, for the emote audit and tests
+export let director = null;
+
 export function createEmotes({ people, getPlayer, getEnv, isPlayer = () => false }) {
   const state = new WeakMap(); // root -> { temper, bag, recent, next, style }
   const live = []; // { id, x, z, until }
@@ -487,5 +490,7 @@ export function createEmotes({ people, getPlayer, getEnv, isPlayer = () => false
     }
   }
   const xz = (root) => { const p = root.getWorldPosition(tmp); return [p.x, p.z]; };
-  return { update, event, start, choose, who, get live() { return live; }, history };
+  director = { update, event, start, choose, who, get live() { return live; }, history };
+  if (typeof window !== 'undefined') window.__bwEmotes = director; // for the emote audit, like window.__bwInput
+  return director;
 }

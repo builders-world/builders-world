@@ -372,7 +372,7 @@ async function main() {
     else if (k === 'b') { if (!e.repeat) { if (street?.inside && !cam.aerial) setAerial(true); else cut(() => setAerial(!cam.aerial)); } }
     else if (k === 'c') { if (!e.repeat) setTravel(!travel.on); }
     else if (k >= '1' && k <= '6' && k.length === 1) { if (!e.repeat) street?.chat?.emote(+k, player); }
-    else if (k === 'g' && !e.repeat) street?.openEmotes?.();
+    else if (k === 'g' && !e.repeat) dispatchEvent(new CustomEvent('bw:emotes')); // the emote sheet (look/emotepanel.js)
     else if (k === 'n') { if (!e.repeat) { audio.wake(); audio.set('music', !audio.settings.music); (street?.hud.toast ?? chrome.toast)(audio.settings.music ? 'Music on' : 'Music off', 1400); } }
     else if (k === 't') { if (!e.repeat) setTheme(themeName === 'night' ? 'day' : 'night'); }
     else if (k === 'h') { if (!e.repeat) document.body.classList.toggle('nohud'); }
