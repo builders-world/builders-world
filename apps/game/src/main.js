@@ -426,6 +426,7 @@ async function main() {
         // on a street bench the camera swings round to a three-quarter front view, so you see yourself sit
         if (move.mode === 'sit' && street?.benchSeated) { cam.yaw = cam.yawT = move.yaw + 2.5; cam.pitchT = Math.max(cam.pitchT, 0.32); }
         seated = move.mode === 'sit';
+        if (move.mode === 'push') { walkTarget = null; walkPath = null; marker.visible = false; if (travel.on) setTravel(false); } // turned back at a gate
         if (move.mode === 'inside') { savedOutside = { dist: cam.distT, pitch: cam.pitchT }; cam.distT = cam.dist = 4.5; cam.pitchT = cam.pitch = 0.32; }
         if (move.mode === 'outside' && savedOutside) { cam.distT = savedOutside.dist; cam.pitchT = savedOutside.pitch; world.resolve(player, PLAYER_R); }
         snap = true;

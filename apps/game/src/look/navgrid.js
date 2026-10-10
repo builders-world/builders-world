@@ -13,7 +13,7 @@
 
 const CELL = 0.5, AGENT = 0.42;
 
-export function buildNavGrid({ R, solids, boxes, roads, lots, pointInPoly, nearestOnPoly }) {
+export function buildNavGrid({ R, solids, boxes, roads, lots, pointInPoly, nearestOnPoly, private: priv = [] }) {
   const half = R * 1.08, N = Math.ceil((half * 2) / CELL);
   const cost = new Float32Array(N * N).fill(1);
   const BLOCK = Infinity;
@@ -40,6 +40,8 @@ export function buildNavGrid({ R, solids, boxes, roads, lots, pointInPoly, neare
     }
   });
   // private lots
+  // estate closes: walk through only if that is where you are going (gated, world bible 7.5c)
+  priv.forEach((b) => { const r = Math.hypot(b.hx, b.hz), cs = Math.cos(b.ry || 0), sn = Math.sin(b.ry || 0); each(b.cx - r, b.cz - r, b.cx + r, b.cz + r, (i, j, c) => { if (cost[c] !== 1) return; const [x, z] = center(i, j), dx = x - b.cx, dz = z - b.cz, lx = dx * cs - dz * sn, lz = dx * sn + dz * cs; if (Math.abs(lx) < b.hx && Math.abs(lz) < b.hz) cost[c] = 3; }); });
   lots.forEach((l) => each(l.bb.x0, l.bb.z0, l.bb.x1, l.bb.z1, (i, j, c) => { if (cost[c] === 1) { const [x, z] = center(i, j); if (pointInPoly(x, z, l.pts)) cost[c] = 4; } }));
   // solid things, grown by the walker's radius
   solids.forEach((s) => each(s.bb.x0 - AGENT, s.bb.z0 - AGENT, s.bb.x1 + AGENT, s.bb.z1 + AGENT, (i, j, c) => {

@@ -46,6 +46,7 @@ const CSS = `
 .bw-card { position: relative; width: 100%; max-width: 380px; aspect-ratio: 1.586; box-sizing: border-box; padding: 16px 18px; border-radius: 18px; color: #1d1a16; overflow: hidden; font-family: ${FONT};
   box-shadow: 0 4px 0 rgba(0,0,0,.18), 0 14px 30px rgba(10,14,30,.25); }
 .bw-card.eko { background: linear-gradient(135deg, #f2c94c, #e8a93a); } .bw-card.resident { background: linear-gradient(135deg, #8fcf7c, #4f9a55); color: #0f2a13; }
+.bw-card.tenant { background: linear-gradient(135deg, #7fd1c7, #2a9d94); color: #0b2b28; } .bw-card.visitor { background: linear-gradient(135deg, #c9b8f0, #8a6fd1); color: #1f1338; }
 .bw-card .org { font: 900 15px/1 ${FONT}; letter-spacing: .06em; } .bw-card .kind { font: 700 11px/1 ${FONT}; letter-spacing: .14em; opacity: .75; margin-top: 4px; }
 .bw-card .nm { position: absolute; left: 18px; bottom: 44px; font: 800 21px/1.1 ${FONT}; } .bw-card .role { position: absolute; left: 18px; bottom: 26px; font: 700 12.5px/1 ${FONT}; opacity: .8; }
 .bw-card .no { position: absolute; left: 18px; bottom: 10px; font: 700 11.5px/1 ui-monospace, Menlo, monospace; opacity: .85; }
@@ -90,6 +91,14 @@ export function createPasses({ toast, district = 'Yaba' } = {}) {
   }
   function cardHTML(c) {
     const until = new Date(c.until).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    // estate passes: a resident's pass for a rented home, a visitor's pass for a few days
+    if (c.kind === 'tenant' || c.kind === 'visitor') {
+      const when = c.kind === 'visitor' ? new Date(c.until).toLocaleString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : until;
+      return `<div class="bw-card ${c.kind} ${c.until < now() ? 'expired' : ''}">
+        <div class="org">${esc(c.estate.toUpperCase())}</div><div class="kind">${c.kind === 'tenant' ? 'RESIDENT PASS' : 'VISITOR PASS'}</div><div class="qr">${qr(c.no)}</div>
+        <div class="nm">${esc(c.name)}</div><div class="role">${esc(c.kind === 'tenant' ? c.addr : `Visiting ${c.host}`)}</div><div class="no">${c.no} · until ${when}</div>
+        <div class="wifi">${c.kind === 'tenant' ? `Wi-Fi ${esc(c.wifi?.ssid || '')}<br>pass ${esc(c.wifi?.pass || '')}` : `Gate ${c.gate}`}</div></div>`;
+    }
     const net = c.kind === 'eko' ? NETS.studio : NETS.district;
     const org = c.kind === 'eko' ? PLACES.studio.name.toUpperCase() : `${district.toUpperCase()} DISTRICT`;
     const kind = c.kind === 'eko' ? (PLANS[c.plan]?.name || 'Member').toUpperCase() : 'RESIDENT CARD';
@@ -148,7 +157,8 @@ export function createPasses({ toast, district = 'Yaba' } = {}) {
   // in range: the building's own network, strong; the district network, faint through the walls
   function inRange(place) {
     if (!place) return [];
-    const own = NETS[place];
+    const t = place === 'myhome' ? tenancy() : null;
+    const own = t ? t.wifi : NETS[place];
     return [own && { ...own, bars: 4 }, { ...NETS.district, bars: 1 }].filter(Boolean);
   }
   function arrive(place) {
@@ -167,10 +177,19 @@ export function createPasses({ toast, district = 'Yaba' } = {}) {
   }
   const forgetLink = () => { link = null; };
 
+  // ---------- estate passes and reputation (gates.js) ----------
+  function addCard(c) { cards = cards.filter((x) => !(x.kind === c.kind && (c.kind === 'tenant' || x.estate === c.estate))); cards.push({ no: number(c.kind === 'tenant' ? 'RES' : 'VIS'), name: myName() || 'Guest', issued: now(), ...c }); save(); return cards[cards.length - 1]; }
+  const visitorFor = (estate) => cards.filter((c) => c.kind === 'visitor' && c.estate === estate).sort((a, b) => b.until - a.until)[0] || null;
+  const tenancy = () => cards.find((c) => c.kind === 'tenant' && c.until > now()) || null;
+  const access = (estate) => { const t = tenancy(); if (t && t.estate === estate) return 'resident'; const v = visitorFor(estate); return v && v.until > now() ? 'visitor' : null; };
+  let repScore = store.get('bw-rep', 50);
+  const repLabel = (r = repScore) => (r < 30 ? 'On the watch list' : r < 60 ? 'Neighbour' : r < 80 ? 'Good neighbour' : 'Pillar of the community');
+  function addRep(d, why) { repScore = Math.max(0, Math.min(100, repScore + d)); store.set('bw-rep', repScore); if (why) toast?.(`Reputation ${d > 0 ? '+' : ''}${d}: ${why}`, 2600); return repScore; }
   function dispose() { style.remove(); reg.remove(); }
   return {
     valid, card, cardHTML, cards: () => cards.slice().sort((a, b) => (a.kind === 'eko' ? -1 : 1) - (b.kind === 'eko' ? -1 : 1)),
     openRegister, closeRegister, get registering() { return reg.classList.contains('on'); },
+    addCard, visitorFor, tenancy, access, addRep, get rep() { return repScore; }, repLabel,
     inRange, arrive, join, forgetLink, get link() { return link; }, known: () => ({ ...known }), NETS, dispose,
   };
 }

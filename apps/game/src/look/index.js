@@ -15,6 +15,7 @@ import { createLitter } from './litter.js';
 import { buildPlaceFronts, hubSign } from './places.js';
 import { buildEstateSigns } from './estatesigns.js';
 import { passesEngine, MEMBERS_ONLY } from './passes.js';
+import { createGates } from './gates.js';
 import { walletEngine } from './wallet.js';
 import { createInteriors, PLACES, namePlaces } from './interior.js';
 import { sunPosition, sunDirection } from './sun.js';
@@ -125,7 +126,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     };
   })();
 
-  let visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
+  let gates = null, visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
   // the tech places you can walk into (world bible 6.6)
   const doors = [];
   if (props.hubAt) doors.push({ key: 'hub', at: props.hubAt });
@@ -158,6 +159,13 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       if (benchSeat) { standUp(); return true; }
       if (active?.id?.startsWith('life:')) return lives.talk(active.id);
       // people's homes: knock; go in only when they have asked you in (lives.js)
+      if (active?.id?.startsWith('gate:')) return gates.open(active.id);
+      if (active?.id === 'myhome') {
+        const host = gates.enterHome(); if (!host) return false;
+        doorOut = { x: host.door.x, z: host.door.z, yaw: host.door.ry ?? 0 };
+        interiors.enter('home', host).then((p) => { setInside('Your home'); pendingMove = { ...p, mode: 'inside' }; passes.arrive('myhome'); });
+        return true;
+      }
       if (active?.id?.startsWith('knock:')) return lives.knock(active.id);
       if (active?.id?.startsWith('visit:')) {
         const host = lives.visit(active.id); if (!host) return false;
@@ -200,10 +208,11 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       return false;
     },
     onRide: (player) => (interiors?.active ? hud.toast('Step outside to call a ride: the driver cannot come in.', 2600) : rides?.openPanel('taxi', { app: true, x: player.x, z: player.z })),
-    isExtraOpen: () => rides?.isMenuOpen() || interiors?.computerOpen || !!benchSeat || !!passes?.registering,
+    isExtraOpen: () => rides?.isMenuOpen() || interiors?.computerOpen || !!benchSeat || !!passes?.registering || !!gates?.isOpen,
     closeExtra: () => {
       rides?.closeMenu();
       if (passes?.registering) { passes.closeRegister(); return; }
+      if (gates?.isOpen) { gates.close(); return; }
       if (interiors?.computerOpen) interiors.closeComputer();
       else if (interiors?.seated || benchSeat) standUp();
     },
@@ -223,6 +232,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   });
   group.add(hud.route);
   passes = passesEngine({ toast: hud.toast, district: world.place?.name || 'Yaba' });
+  gates = createGates({ world, scene: group, props, lives, passes, toast: hud.toast, getHour: () => live?.hour ?? 12 });
   interiors = createInteriors({ scene, reduced, toast: hud.toast, getEnv: () => live || { day: 1 }, onPackUp: () => standUp(), net: passes });
   // everything that moves and can be bumped into: people, traffic, the waiting hired vehicle
   const bodies = () => [...(props.bodies?.() || []), ...lives.bodies(), ...(dressing?.bodies?.() || []), rides?.body?.()].filter(Boolean);
@@ -378,6 +388,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     if (rainMesh) rainMesh.userData.cam.value.copy(camera.position);
     props.update(dt, t, player);
     if (!interiors?.active) { lives.update(dt, t, player); chat.update(dt, player); rec.update(t); litter?.update(dt); }
+    // estate gates: no pass, no entry (gates.js)
+    if (!pendingMove) { const push = gates?.update(dt, player, !!interiors?.active || !!benchSeat); if (push) pendingMove = { mode: 'push', ...push }; }
     syncSeat();
     hud.update(dt, t, player, yaw);
     // lightning only when there is a thunderstorm where the weather comes from

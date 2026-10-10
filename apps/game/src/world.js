@@ -955,7 +955,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   }
 
   let nav = null;
-  const navGrid = () => (nav ??= buildNavGrid({ R, solids: solid, boxes: kitColliders, roads, lots, pointInPoly, nearestOnPoly }));
+  const navGrid = () => (nav ??= buildNavGrid({ R, solids: solid, boxes: kitColliders, roads, lots, pointInPoly, nearestOnPoly, private: estatePlan.flatMap((E) => E.closes) }));
 
   // free for a prop: outside every footprint and off the carriageway
   function isFree(x, z, pad = 0.6, { lots: onLots = false } = {}) {

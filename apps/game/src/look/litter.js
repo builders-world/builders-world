@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { signTexture } from './props.js';
 import { findSite } from './parks.js';
 import { walletEngine, fmt } from './wallet.js';
+import { passesEngine } from './passes.js';
 import { sfx } from './audio.js';
 import { C, FONT } from './uikit.js';
 
@@ -190,6 +191,7 @@ export function createLitter({ world, scene, props, toast, used = [], reduced, d
     wallet.earn(n * per, where === 'recycle' ? `Recycled ${n} piece${n > 1 ? 's' : ''} of litter` : `${n} piece${n > 1 ? 's' : ''} in a street bin`);
     sfx('arrive');
     toast(`${where === 'recycle' ? 'Weighed and recycled' : 'In the bin'}: ${n} piece${n > 1 ? 's' : ''}. +${fmt(n * per)} Efforts`, 3600);
+    if (n >= 3) setTimeout(() => passesEngine().addRep?.(Math.min(5, Math.floor(n / 3)), 'kept the streets clean'), 1800);
     return true;
   }
 
@@ -215,7 +217,7 @@ export function createLitter({ world, scene, props, toast, used = [], reduced, d
       const name = (getName?.() || 'A builder').slice(0, 24);
       b.funded = Math.min(NEED, b.funded + STEP); if (!b.names.includes(name)) b.names.push(name);
       sfx('interact');
-      if (b.funded >= NEED) { build(b, true); toast(`The bin is up! Funded by ${who(b)}.`, 3600); } else toast(`Thank you. ${fmt(NEED - b.funded)} Efforts to go for this bin.`, 3000);
+      if (b.funded >= NEED) { build(b, true); toast(`The bin is up! Funded by ${who(b)}.`, 3600); setTimeout(() => passesEngine().addRep?.(5, 'put up a street bin'), 2000); } else toast(`Thank you. ${fmt(NEED - b.funded)} Efforts to go for this bin.`, 3000);
       label(b);
       store.set(`bw-bins-${district}`, binSpots.filter((q) => q.funded).map((q) => ({ spot: q.id, funded: q.funded, names: q.names })));
       if (!solo) fetch('/api/bins', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ district, spot: b.id, name }) })

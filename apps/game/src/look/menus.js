@@ -587,6 +587,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     bagEl.style.backgroundImage = `url("data:image/svg+xml,${encodeURIComponent(backdropSVG())}")`;
     bagEl.innerHTML = `${tabsHTML()}<div class="name">Cards</div>
       <div class="cardsview">${list.map((c) => P.cardHTML(c)).join('')}
+        <div class="wifis bw-paper"><h4>Reputation: ${P.rep} / 100</h4><p>${P.repLabel()}. Clean the streets, fund bins and visit politely to raise it; climbing estate walls lowers it.</p></div>
         <div class="wifis bw-paper"><h4>Saved Wi-Fi</h4>${known.map((k) => `<div class="w">${k}</div>`).join('') || '<p>None yet. Join a network from your laptop at a desk; the password is on a notice board or on your card.</p>'}</div></div>
       <div class="acts"><button class="bw-chip cl"><b>I</b>Close</button></div>`;
     bagEl.querySelectorAll('.tabs button').forEach((b) => { b.onclick = () => { bagTab = b.dataset.t; openBag(); }; });

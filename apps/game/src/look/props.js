@@ -397,10 +397,9 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   }
 
   // the creative hub, only if a wide enough lot is free
-  // a quarter larger when the lot allows (Elvis, 9 October 2026: places you can enter should look it)
-  let hubAt = null, hubGroup = null, hs = 1.25;
-  let hSpot = findArea(bSpot.a - 12, 7.6 * hs, 4.8 * hs);
-  if (!hSpot) { hs = 1; hSpot = findArea(bSpot.a - 12, 7.6, 4.8); }
+  // as much as half again larger when the lot allows (Elvis, 9 October 2026: places you can enter should look it)
+  let hubAt = null, hubGroup = null, hs = 1, hSpot = null;
+  for (const k of [1.45, 1.25, 1]) { hSpot = findArea(bSpot.a - 12, 7.6 * k, 4.8 * k); if (hSpot) { hs = k; break; } }
   if (hSpot) {
     hubGroup = hub(M); hubGroup.scale.setScalar(hs);
     const hp = place(hubGroup, hSpot.a, hSpot.c, faceRoad);

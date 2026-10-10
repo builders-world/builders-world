@@ -339,10 +339,13 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net }
       setHost(h) {
         people.splice(0).forEach((p) => { p.root.removeFromParent(); p.dispose?.(); });
         room.host = h; room.lineAt = -1;
-        const me = createAvatarModel({ color: h.color, style: h.style }); me.root.position.set(1.6, 0, -1.2); me.root.rotation.y = 2.6; g.add(me.root); people.push(me);
-        if (h.spouse) { const sp = createAvatarModel({ color: '#8a5aa0', style: 'classic' }); sp.root.position.set(-1.6, -0.42, -3.55); g.add(sp.root); people.push(sp); }
-        (h.kids || []).filter((k) => !k.startsWith('baby')).slice(0, 2).forEach((k, i) => { const kid = createAvatarModel({ color: ['#f6a8a0', '#7fb3d5'][i], style: 'tee' }); kid.root.scale.setScalar(0.62); kid.root.position.set(-2.8 + i * 1.1, 0, -1.3); kid.root.rotation.y = Math.PI; g.add(kid.root); people.push(kid); });
-        room.interact = [
+        if (!h.self) { const me = createAvatarModel({ color: h.color, style: h.style }); me.root.position.set(1.6, 0, -1.2); me.root.rotation.y = 2.6; g.add(me.root); people.push(me); }
+        if (h.spouse && !h.self) { const sp = createAvatarModel({ color: '#8a5aa0', style: 'classic' }); sp.root.position.set(-1.6, -0.42, -3.55); g.add(sp.root); people.push(sp); }
+        (h.self ? [] : h.kids || []).filter((k) => !k.startsWith('baby')).slice(0, 2).forEach((k, i) => { const kid = createAvatarModel({ color: ['#f6a8a0', '#7fb3d5'][i], style: 'tee' }); kid.root.scale.setScalar(0.62); kid.root.position.set(-2.8 + i * 1.1, 0, -1.3); kid.root.rotation.y = Math.PI; g.add(kid.root); people.push(kid); });
+        room.interact = h.self ? [
+          { id: 'in:exit', label: 'Go out', x: door.x, z: door.z + 0.4, r: 1.8 },
+          { id: 'in:rest', label: 'Put your feet up', x: -2.2, z: -2.9, r: 1.6 },
+        ] : [
           { id: 'in:exit', label: `Leave ${h.first}'s home`, x: door.x, z: door.z + 0.4, r: 1.8 },
           { id: 'in:host', label: `Talk to ${h.first}`, x: 1.6, z: -1.2, r: 2.0 },
           { id: 'in:photos', label: 'Look at the family photos', x: -3.9, z: -2.6, r: 1.5 },
@@ -366,7 +369,7 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net }
       current.group.visible = true;
       fade.style.opacity = '0';
       sfx('door');
-      toast(key === 'home' ? `${host.first}'s home. ${host.pidgin ? 'Make yourself at home o.' : 'Make yourself at home.'}` : `${PLACES[key].name}. ${PLACES[key].kind}. Find a free desk, or grab something at the cafeteria.`, 4500);
+      toast(key === 'home' && host.self ? `Home sweet home: ${host.addr}.` : key === 'home' ? `${host.first}'s home. ${host.pidgin ? 'Make yourself at home o.' : 'Make yourself at home.'}` : `${PLACES[key].name}. ${PLACES[key].kind}. Find a free desk, or grab something at the cafeteria.`, 4500);
       res({ x: ORIGIN.x + current.door.x, z: ORIGIN.z + current.door.z - 1.5, yaw: Math.PI });
     }, reduced ? 0 : 360));
   }
@@ -429,6 +432,7 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net }
     if (!best) return null;
     if (best.id === 'in:exit') return { exit: true };
     if (best.id === 'in:host') { const h = current.host; const lines = h.pidgin ? ['You go take Zobo or Chapman? Siddon, make yourself comfortable.', `Abeg no mind the place. ${h.kids?.length ? `${h.kids[0]} scatter am this morning.` : 'Na small house but e sweet.'}`, `Me? I dey hustle: ${h.dream.toLowerCase()}.`] : ['Can I get you some Zobo? Or Chapman? Sit, sit.', `Sorry about the mess. ${h.kids?.length ? `${h.kids[0]} was busy this morning.` : 'It is small, but it is home.'}`, `My dream? ${h.dream}.`]; current.lineAt = ((current.lineAt ?? -1) + 1) % lines.length; toast(`${h.first}: "${lines[current.lineAt]}"`, 4500); return { handled: true }; }
+    if (best.id === 'in:rest') { toast(['Home sweet home.', 'The fan hums. Yaba is loud outside and quiet in here.', 'You could get used to this.'][Math.floor(Math.random() * 3)], 3000); return { handled: true }; }
     if (best.id === 'in:photos') { const h = current.host; toast(`Family photos: ${[h.spouse && `${h.first} and ${h.spouse} on their wedding day`, h.kids?.length && `${h.kids.join(' and ')}`, 'a beach day at Elegushi', 'a graduation in Akoka'].filter(Boolean).join(', ')}.`, 5200); return { handled: true }; }
     if (best.id === 'in:board') { const n = net?.NETS?.[current.key]; toast(`Demo night is Thursday at 7pm. ${current.key === 'studio' ? 'Members\' Wi-Fi is on your membership card.' : n ? `Wi-Fi ${n.ssid}, password ${n.pass}.` : ''}`, 5200); return { handled: true }; }
     if (best.id === 'in:cafe') { const items = ['Zobo', 'Chapman', 'coffee', 'puff-puff', 'jollof and plantain']; toast(`Your ${items[Math.floor(Math.random() * items.length)]} is ready at the counter. Free for builders today.`); return { handled: true }; }
