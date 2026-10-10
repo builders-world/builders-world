@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { createAvatarModel } from '../onboarding/avatar.js';
 import { rigAvatar } from './anim.js';
 import { prepareLook, dress } from './style.js';
+import { petModel, animatePet } from './pets.js';
 import { C, FONT } from './uikit.js';
 import { walletEngine } from './wallet.js';
 
@@ -62,7 +63,7 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
     if (busy || document.hidden) return;
     busy = true;
     const P = getPlayer();
-    const body = { id, district, x: P.x, z: P.z, y: P.y || 0, yaw: getHeading(), speed: getSpeed(), ...me(), say: pending.say, emote: pending.emote, home: getHome?.() || '', knock: pending.knock, answer: pending.answer, card: publicCard() };
+    const body = { id, district, x: P.x, z: P.z, y: P.y || 0, yaw: getHeading(), speed: getSpeed(), ...me(), say: pending.say, emote: pending.emote, home: getHome?.() || '', knock: pending.knock, answer: pending.answer, card: publicCard(), pet: (() => { try { return JSON.parse(localStorage.getItem('bw-pet') || 'null'); } catch { return null; } })() };
     pending = { say: '', emote: '' };
     try {
       const r = await fetch('/api/presence', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
@@ -81,12 +82,14 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
       j.players.forEach((p) => {
         seen.add(p.id);
         const r2 = remote.get(p.id) || spawn(p);
+        const pk = p.pet ? `${p.pet.kind}|${p.pet.breed}` : '';
+        if (r2.petKey !== pk) { r2.petKey = pk; r2.pet?.removeFromParent(); r2.pet = pk ? petModel(p.pet.kind, p.pet.breed) : null; if (r2.pet) { r2.pet.position.copy(r2.obj.position); scene.add(r2.pet); } }
         const lk = JSON.stringify(p.look?.full || null); if (r2.lookKey !== lk) { r2.lookKey = lk; if (p.look?.full) dress(r2.obj, p.look.full, r2.rig); }
         r2.from.copy(r2.obj.position); r2.to.set(p.x, p.y || 0, p.z); r2.t0 = performance.now(); r2.yaw = p.yaw; r2.speed = p.speed; r2.name = p.name; r2.tag.textContent = p.name;
         if (p.say && p.say.t > r2.lastSay) { r2.lastSay = p.say.t; chat?.sayFrom?.(r2.obj, p.say.text, p.name); }
         if (p.emote && p.emote.t > r2.lastEmote) { r2.lastEmote = p.emote.t; chat?.sayFrom?.(r2.obj, p.emote.e, p.name, true); }
       });
-      remote.forEach((r2, k) => { if (!seen.has(k)) { r2.obj.removeFromParent(); r2.tag.remove(); r2.dispose?.(); remote.delete(k); } });
+      remote.forEach((r2, k) => { if (!seen.has(k)) { r2.pet?.removeFromParent(); r2.obj.removeFromParent(); r2.tag.remove(); r2.dispose?.(); remote.delete(k); } });
     } catch {
       fails++;
       if (fails > 2) { ok = false; chip.classList.remove('on'); chip.querySelector('span').textContent = 'Offline · playing solo'; }
@@ -124,6 +127,11 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
       const dh = Math.atan2(Math.sin(r.yaw - r.obj.rotation.y), Math.cos(r.yaw - r.obj.rotation.y));
       r.obj.rotation.y += dh * (1 - Math.exp(-dt * 10));
       r.rig?.update(dt, { speed: k < 1 ? Math.min(r.speed, 7) : 0, running: r.speed > 4, t: now / 1000 });
+      if (r.pet) { // their pet trots behind them
+        const bx = r.obj.position.x - Math.sin(r.obj.rotation.y) * 1.2 + 0.5, bz = r.obj.position.z - Math.cos(r.obj.rotation.y) * 1.2, dx = bx - r.pet.position.x, dz = bz - r.pet.position.z, d = Math.hypot(dx, dz);
+        let sp = 0; if (d > 0.3) { sp = Math.min(d * 3, 6); r.pet.position.x += (dx / d) * sp * dt; r.pet.position.z += (dz / d) * sp * dt; r.pet.rotation.y = Math.atan2(dx, dz); }
+        animatePet(r.pet, dt, now / 1000, sp, { sit: sp < 0.1 ? 1 : 0 });
+      }
       v.copy(r.obj.position); v.y += 2.15;
       const far = v.distanceTo(camera.position); v.project(camera);
       const vis = v.z < 1 && far < 45 && Math.abs(v.x) < 1.1 && Math.abs(v.y) < 1.1;

@@ -38,6 +38,8 @@ export default async function handler(req, res) {
   const say = str(b.say, 140), emote = str(b.emote, 8);
   // homes and visits (world bible 7.9): where you live, and knocks and answers between players
   me.home = str(b.home, 80);
+  const PETS = { dog: ['awuku', 'boerboel', 'gsd', 'lab', 'poodle'], cat: ['tabby', 'black', 'calico', 'siamese', 'persian'] };
+  me.pet = b.pet && PETS[b.pet.kind]?.includes(b.pet.breed) ? { kind: b.pet.kind, breed: b.pet.breed, name: str(b.pet.name, 16) } : null;
   // the public profile a player chose to share (Settings, Public profile): usernames only, never links
   const u = (v) => str(v, 40).replace(/[^A-Za-z0-9_.-]/g, '');
   const c = b.card || {};
