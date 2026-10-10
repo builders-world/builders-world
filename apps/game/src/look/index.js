@@ -248,7 +248,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   group.add(hud.route);
   passes = passesEngine({ toast: hud.toast, district: world.place?.name || 'Yaba' });
   wardrobe = createWardrobe({ toast: hud.toast });
-  food = createFood({ scene: group, props, toast: hud.toast, getEnv: () => live, reduced });
+  food = createFood({ scene: group, props, toast: hud.toast, getEnv: () => live, reduced, addLamps: (l) => { props.lamps.push(...l); lights?.setLamps([...world.lamps, ...props.lamps, ...(world.porchLamps || [])]); } });
   pets = createPets({ scene: group, camera, world, toast: hud.toast, isIndoors: () => !!interiors?.active });
   petIt = { id: 'pet', label: 'Pet', x: 0, z: 0, r: 0 }; props.interact.push(petIt);
   addEventListener('bw:shelter', () => { hud.close(); pets.openShelter(); });

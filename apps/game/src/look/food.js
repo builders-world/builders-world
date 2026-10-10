@@ -44,7 +44,7 @@ const CSS = `
 #lk-food svg { display: inline-block; vertical-align: -2px; }
 `;
 
-export function createFood({ scene, props, toast, getEnv, reduced }) {
+export function createFood({ scene, props, toast, getEnv, reduced, addLamps }) {
   const style = document.createElement('style'); style.textContent = CSS; document.head.appendChild(style);
   const panel = document.createElement('div'); panel.id = 'lk-food'; panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-label', 'Order food'); document.body.appendChild(panel);
   const group = new THREE.Group(); group.name = 'food'; scene.add(group);
@@ -71,7 +71,8 @@ export function createFood({ scene, props, toast, getEnv, reduced }) {
       [[-0.4, -0.18], [0.4, -0.18], [-0.4, 0.18], [0.4, 0.18]].forEach(([a, b]) => g.add(new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.85, 0.04).translate(a, 0.42, b), metal)));
       g.add(new THREE.Mesh(new THREE.BoxGeometry(0.82, 0.05, 0.38).translate(0, 0.9, 0), coal));
       for (let k = 0; k < 7; k++) g.add(kind === 'suya' ? new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.035, 0.34).translate(-0.33 + k * 0.11, 0.96, 0), meat) : new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.22, 8).rotateX(Math.PI / 2).translate(-0.3 + k * 0.1, 0.96, 0), new THREE.MeshStandardMaterial({ color: 0xd9a63a, roughness: 0.7 })));
-      const glow = new THREE.PointLight(0xff6a2a, 3, 3.5, 2); glow.position.set(0, 1.05, 0); g.add(glow); st.glow = glow;
+      // the coals' glow goes through the shared lamp pool (a light per grill would cost every material)
+      addLamps?.([{ x: gx, y: 1.1, z: gz, power: 10, color: 0xff6a2a, kind: 'fire' }]); st.coal = coal;
       st.smokeAt = new THREE.Vector3(gx, 1.05, gz);
       if (kind === 'suya') {
         // a cooler of zobo, and a kerosene lantern that comes on after dark
@@ -122,8 +123,9 @@ export function createFood({ scene, props, toast, getEnv, reduced }) {
   function update(dt, player) {
     t += dt; puffT -= dt;
     const night = (getEnv?.()?.day ?? 1) < 0.5;
+    coal.emissiveIntensity = 1.2 + Math.sin(t * 7) * 0.25 + Math.sin(t * 13) * 0.15; // the coals flicker
     stalls.forEach((st) => {
-      if (st.glow) st.glow.intensity = 2.4 + Math.sin(t * 7 + st.ry) * 0.6 + Math.sin(t * 13) * 0.3;
+
       if (st.lantern) st.lantern.visible = night;
       // smoke from the grills near you
       if (st.smokeAt && puffT <= 0 && !reduced && Math.hypot(st.smokeAt.x - player.x, st.smokeAt.z - player.z) < 40) {
