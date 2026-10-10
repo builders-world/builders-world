@@ -178,8 +178,11 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
   // ---------- more stalls, spread along the routes ----------
   const stallT = get('yaba_market_stall');
   if (stallT) {
-    const spots = spaced(lots(stallT, { step: 8 }), lowQuality ? 3 : 5, 45, placed);
+    // customers stand on the pavement in front: no street tree in that strip (4.4 m wide, out to 4 m)
+    const clearFront = (s) => (world.trees || []).every((t) => { const dx = t.x - s.x, dz = t.z - s.z, f = dx * Math.sin(s.ry) + dz * Math.cos(s.ry), u = dx * Math.cos(s.ry) - dz * Math.sin(s.ry); return !(f > 0 && f < 4 + 1.4 && Math.abs(u) < 2.2 + 0.8); });
+    const spots = spaced(lots(stallT, { step: 8 }).filter(clearFront), lowQuality ? 3 : 5, 45, placed);
     put('yaba_market_stall', spots);
+    stallAwnings(group, world, spots);
     spots.forEach((s, i) => {
       placed.push(s);
       const [name, line] = STALL_NAMES[i % STALL_NAMES.length];
@@ -419,4 +422,26 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
   const bodies = () => movers.map((m) => m.body).filter(Boolean);
 
   return { bankDoor, group, interact, lamps, update, bodies, counts, pois, shops: placed.filter((p) => p.road && interact.some((i) => i.id.startsWith('shop:'))), landmarks: mids };
+}
+
+// The market stall's own roof covers only the table, so whoever sells from it stood in the sun or, worse,
+// inside the counter. Each stall gets its canvas carried on: 1.1 m out over the back, where the trader
+// stands, on two poles, and 0.8 m over the front for the customers. The stall is 4.35 x 2.8 m with the
+// roof at 3.0 to 3.13 m (yaba_market_stall); its front faces +z.
+export function stallAwnings(group, world, spots) {
+  if (!spots.length) return;
+  const canvas = [], poles = [], cols = [];
+  spots.forEach((s) => {
+    const m = new THREE.Matrix4().compose(new THREE.Vector3(s.x, 0, s.z), new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), s.ry), new THREE.Vector3(1, 1, 1));
+    const flap = (z0, z1, y0, y1) => { const L = Math.abs(z1 - z0), g = new THREE.BoxGeometry(4.3, 0.05, Math.hypot(L, y0 - y1)); g.rotateX(Math.atan2(y0 - y1, L) * Math.sign(z1 - z0)); g.translate(0, (y0 + y1) / 2, (z0 + z1) / 2); return g.applyMatrix4(m); };
+    canvas.push(flap(-1.38, -2.5, 3.02, 2.8), flap(1.38, 2.2, 3.02, 2.88));
+    [-1, 1].forEach((sd) => {
+      poles.push(new THREE.CylinderGeometry(0.04, 0.04, 2.8, 6).translate(sd * 2.05, 1.4, -2.45).applyMatrix4(m));
+      const p = new THREE.Vector3(sd * 2.05, 0, -2.45).applyMatrix4(m); cols.push({ name: 'stall_pole', cx: p.x, cz: p.z, hx: 0.06, hz: 0.06, ry: 0 });
+    });
+  });
+  const teal = new THREE.MeshStandardMaterial({ color: 0x7db6b0, roughness: 0.85, side: THREE.DoubleSide }), wood = new THREE.MeshStandardMaterial({ color: 0xb79f87, roughness: 0.8 });
+  const a = new THREE.Mesh(mergeGeometries(canvas), teal); a.castShadow = true; a.name = 'stall_awnings';
+  group.add(a, new THREE.Mesh(mergeGeometries(poles), wood));
+  world.addColliders?.(cols);
 }
