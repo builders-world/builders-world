@@ -10,24 +10,17 @@ import { THEMES } from '../world.js';
 const H = 6.2, SPAN = 36, RAMP = 46;
 const box = (w, h, d, x = 0, y = 0, z = 0) => new THREE.BoxGeometry(w, h, d).translate(x, y, z);
 
-export function buildFlyover({ world, scene }) {
+// Where flyovers go: junctions a major road runs straight through, with room for both ramps on the
+// straight, the best first (trunk over primary over secondary, then nearest the start), each clear of
+// the ones already chosen and of anything in `taken` ([x, z] points). Planned before the footbridges
+// (world.js), so the two are laid out together and never meet.
+export function planFlyovers({ roads, junctionAt, spawn, max = 2, taken = [] }) {
   const MAJOR = ['trunk', 'primary', 'secondary'];
-  // a junction a major road runs straight through, with room for both ramps on the straight
-  let best = null;
-  // nothing else may stand where the deck and ramps go: the footbridge (deck, landings, stairs) and any
-  // land already claimed for a structure. Points are sampled 1 m apart along each of them.
-  const taken = [];
-  const b = world.bridge;
-  if (b?.ends?.length === 2) { const [e0, e1] = b.ends, L = Math.hypot(e1.x - e0.x, e1.z - e0.z); for (let t = 0; t <= L; t += 1) taken.push([e0.x + (e1.x - e0.x) * t / L, e0.z + (e1.z - e0.z) * t / L]); b.ends.forEach((e) => taken.push([e.foot.x, e.foot.z])); }
-  (world.claims || []).filter((c) => /bridge|landmark|venue|flyover/.test(c.kind || '')).forEach((c) => {
-    const cs = Math.cos(c.ry || 0), sn = Math.sin(c.ry || 0);
-    for (let u = -c.hx; u <= c.hx; u += Math.max(1, c.hx / 4)) for (let v = -c.hz; v <= c.hz; v += Math.max(1, c.hz / 4)) taken.push([c.cx + u * cs + v * sn, c.cz - u * sn + v * cs]);
-  });
-  const clear = (cx, cz, ux, uz, halfW) => taken.every(([px, pz]) => { const dx = px - cx, dz = pz - cz; return Math.abs(dx * ux + dz * uz) > SPAN / 2 + RAMP + 3 || Math.abs(-dx * uz + dz * ux) > halfW + 3; });
-  world.roads.filter((r) => r.fit && MAJOR.includes(r.cls)).forEach((r) => {
+  const cands = [];
+  roads.filter((r) => r.fit && MAJOR.includes(r.cls)).forEach((r) => {
     const { pts, half } = r.fit;
     for (let i = 2; i < pts.length - 2; i++) {
-      if (!world.junctionAt?.(pts[i], r)) continue;
+      if (!junctionAt?.(pts[i], r)) continue;
       // walk out both ways, checking it stays straight for half the span plus a ramp
       const need = SPAN / 2 + RAMP;
       const dir = [pts[i + 1][0] - pts[i - 1][0], pts[i + 1][1] - pts[i - 1][1]], dl = Math.hypot(...dir) || 1, ux = dir[0] / dl, uz = dir[1] / dl;
@@ -36,12 +29,40 @@ export function buildFlyover({ world, scene }) {
         let L = 0, j = i;
         while (L < need && ok) { const k = j + s; if (k < 0 || k >= pts.length) { ok = false; break; } const sx = pts[k][0] - pts[j][0], sz = pts[k][1] - pts[j][1], sl = Math.hypot(sx, sz) || 1; if (Math.abs((sx / sl) * ux + (sz / sl) * uz) < 0.985) ok = false; L += sl; j = k; }
       }
-      if (!ok || !clear(pts[i][0], pts[i][1], ux, uz, Math.max(...half.slice(i - 2, i + 3)))) continue;
-      const score = (r.cls === 'trunk' ? 3 : r.cls === 'primary' ? 2 : 1) * 1000 - Math.hypot(pts[i][0] - world.spawn.x, pts[i][1] - world.spawn.z);
-      if (!best || score > best.score) best = { r, i, x: pts[i][0], z: pts[i][1], ux, uz, half: Math.max(...half.slice(i - 2, i + 3)), score };
+      if (!ok) continue;
+      const score = (r.cls === 'trunk' ? 3 : r.cls === 'primary' ? 2 : 1) * 1000 - Math.hypot(pts[i][0] - spawn.x, pts[i][1] - spawn.z);
+      cands.push({ r, i, x: pts[i][0], z: pts[i][1], ux, uz, half: Math.max(...half.slice(i - 2, i + 3)), score, SPAN, RAMP });
     }
   });
-  if (!best) return null;
+  // a run: the deck and both ramps, as a box along the road
+  const inRun = (f, px, pz, pad) => { const dx = px - f.x, dz = pz - f.z; return Math.abs(dx * f.ux + dz * f.uz) < SPAN / 2 + RAMP + pad && Math.abs(-dx * f.uz + dz * f.ux) < f.half + pad; };
+  const out = [];
+  for (const c of cands.sort((a, b) => b.score - a.score)) {
+    if (out.length >= max) break;
+    if (taken.some(([px, pz]) => inRun(c, px, pz, 3))) continue;
+    // two flyovers never share a stretch of road: their runs (and 20 m between) stay apart
+    if (out.some((f) => Math.hypot(f.x - c.x, f.z - c.z) < 2 * (SPAN / 2 + RAMP) + 20)) continue;
+    out.push(c);
+  }
+  out.inRun = (px, pz, pad = 0) => out.some((f) => inRun(f, px, pz, pad));
+  return out;
+}
+
+export function buildFlyover({ world, scene }) {
+  // what world.js planned (footbridges were kept clear of it); otherwise plan now, clear of the footbridges
+  let plan = world.flyoverPlan;
+  if (!plan) {
+    const taken = [];
+    (world.bridges || (world.bridge ? [world.bridge] : [])).forEach((b) => { if (b?.ends?.length !== 2) return; const [e0, e1] = b.ends, L = Math.hypot(e1.x - e0.x, e1.z - e0.z); for (let t = 0; t <= L; t += 1) taken.push([e0.x + (e1.x - e0.x) * t / L, e0.z + (e1.z - e0.z) * t / L]); b.ends.forEach((e) => taken.push([e.foot.x, e.foot.z])); });
+    plan = planFlyovers({ roads: world.roads, junctionAt: world.junctionAt, spawn: world.spawn, max: 2, taken });
+  }
+  if (!plan.length) return null;
+  const built = plan.map((best) => buildOne(world, scene, best));
+  // one face for everyone who asks (traffic.js): the first flyover's numbers, and questions answered for all of them
+  return { ...built[0], list: built, heightFor: (px, pz, road) => Math.max(0, ...built.map((f) => f.heightFor(px, pz, road))), over: (px, pz, road) => built.some((f) => (!road || road === f.road) && f.over(px, pz)) };
+}
+
+function buildOne(world, scene, best) {
   const { x, z, ux, uz } = best, nx = -uz, nz = ux;
   const W = Math.min(best.half * 2 - 0.6, 11); // the deck covers the carriageway, both directions
   const group = new THREE.Group(); group.name = 'flyover'; scene.add(group);
