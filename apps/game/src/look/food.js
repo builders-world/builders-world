@@ -32,7 +32,7 @@ const MENUS = {
     hello: 'Cold malt, zobo, gala, plantain chips. What you need?', made: 'cup',
     items: [['Malt (cold)', 250, 'From the fridge'], ['Gala', 150, 'The sausage roll every danfo sells'], ['Plantain chips', 200, 'Sweet or salty']] },
 };
-const kindOf = (name = '') => (/Suya/.test(name) ? 'suya' : /Corn/.test(name) ? 'corn' : /Fruit/.test(name) ? 'fruit' : /Kitchen/.test(name) ? 'kitchen' : /Cafe/.test(name) ? 'cafe' : /kiosk/i.test(name) ? 'kiosk' : null);
+const kindOf = (name = '') => (/Suya/.test(name) ? 'suya' : /\bCorn\b/.test(name) ? 'corn' : /Fruit/.test(name) ? 'fruit' : /Kitchen/.test(name) ? 'kitchen' : /Cafe/.test(name) ? 'cafe' : /kiosk/i.test(name) ? 'kiosk' : null);
 
 const CSS = `
 #lk-food { position: fixed; right: 16px; top: 74px; z-index: 33; width: min(360px, calc(100vw - 32px)); max-height: calc(100vh - 160px); overflow-y: auto; display: none; padding: 18px; border-radius: 24px; background: ${C.paper}; color: ${C.ink}; font-family: ${FONT};
@@ -44,7 +44,7 @@ const CSS = `
 #lk-food svg { display: inline-block; vertical-align: -2px; }
 `;
 
-export function createFood({ scene, props, toast, getEnv, reduced, addLamps }) {
+export function createFood({ scene, props, toast, getEnv, reduced, addLamps, world }) {
   const style = document.createElement('style'); style.textContent = CSS; document.head.appendChild(style);
   const panel = document.createElement('div'); panel.id = 'lk-food'; panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-label', 'Order food'); document.body.appendChild(panel);
   const group = new THREE.Group(); group.name = 'food'; scene.add(group);
@@ -57,16 +57,21 @@ export function createFood({ scene, props, toast, getEnv, reduced, addLamps }) {
   // a vendor behind every food counter, and the suya spot's grill
   props.interact.filter((it) => it.at && kindOf(it.name)).forEach((it) => {
     const kind = kindOf(it.name), M = MENUS[kind], { x, z, ry, depth } = it.at, fx = Math.sin(ry), fz = Math.cos(ry), tx = Math.cos(ry), tz = -Math.sin(ry);
-    const back = depth > 3 ? depth - 2.4 : -0.7, side = depth > 3 ? 0 : 0.5; // behind the counter: inside a shop, or behind a stall
+    // behind the counter: inside a shop, or just behind a stall's table (it reaches 1.13 m back) under its
+    // awning (district.js); where a wall stands right behind the stall, beside it instead
+    let back = depth > 3 ? depth - 2.4 : -1.6, side = 0;
+    if (depth <= 3 && world?.blockedAt?.(x - fx * 1.6, z - fz * 1.6, 0.3)) { back = 0.4; side = -2.55; }
     const av = createAvatarModel({ color: M.look.topColor, style: 'tee' }); prepareLook(av.root); const rig = rigAvatar(av.root); dress(av.root, M.look, rig);
     av.root.position.set(x + fx * back + tx * side, 0, z + fz * back + tz * side); av.root.rotation.y = ry; group.add(av.root);
+    if (depth <= 3) world?.addColliders?.([{ name: 'vendor', cx: av.root.position.x, cz: av.root.position.z, hx: 0.3, hz: 0.3, ry, h: 1.8 }]); // you cannot walk through the trader
     // where you stand to order: just in front of the counter
     const eyeAt = depth > 3 ? depth - 0.4 : 2.35;
     const st = { it, kind, M, av, rig, front: { x: it.x, z: it.z }, eye: { x: x + fx * eyeAt + tx * side * 0.5, z: z + fz * eyeAt + tz * side * 0.5 }, vendor: av.root.position.clone(), ry, busy: 0, making: null };
     if (kind === 'suya' || kind === 'corn') {
       // the grill: a drum on legs, coals that glow, skewers or cobs on the mesh
       // beside the stall, where the smoke can go up
-      const gx = x + tx * 1.55 + fx * 0.1, gz = z + tz * 1.55 + fz * 0.1, g = new THREE.Group(); g.position.set(gx, 0, gz); g.rotation.y = ry; group.add(g);
+      // a stall's table is 4.1 m wide: the grill stands beside it
+      const gs = depth > 3 ? 1.55 : 2.6, gx = x + tx * gs + fx * 0.1, gz = z + tz * gs + fz * 0.1, g = new THREE.Group(); g.position.set(gx, 0, gz); g.rotation.y = ry; group.add(g);
       g.add(new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.08, 0.45).translate(0, 0.85, 0), metal));
       [[-0.4, -0.18], [0.4, -0.18], [-0.4, 0.18], [0.4, 0.18]].forEach(([a, b]) => g.add(new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.85, 0.04).translate(a, 0.42, b), metal)));
       g.add(new THREE.Mesh(new THREE.BoxGeometry(0.82, 0.05, 0.38).translate(0, 0.9, 0), coal));
@@ -76,8 +81,8 @@ export function createFood({ scene, props, toast, getEnv, reduced, addLamps }) {
       st.smokeAt = new THREE.Vector3(gx, 1.05, gz);
       if (kind === 'suya') {
         // a cooler of zobo, and a kerosene lantern that comes on after dark
-        const cl = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.4, 0.35).translate(0, 0.2, 0), new THREE.MeshStandardMaterial({ color: 0x2a6fb0, roughness: 0.5 })); cl.position.set(x - tx * 1.4 + fx * 0.2, 0, z - tz * 1.4 + fz * 0.2); cl.rotation.y = ry; group.add(cl);
-        const lamp = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.07, 0.18, 10), new THREE.MeshBasicMaterial({ color: new THREE.Color(2.2, 1.6, 0.8) })); lamp.position.set(x + tx * 1.55 + fx * 0.1, 1.55, z + tz * 1.55 + fz * 0.1); group.add(lamp); st.lantern = lamp;
+        const cl = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.4, 0.35).translate(0, 0.2, 0), new THREE.MeshStandardMaterial({ color: 0x2a6fb0, roughness: 0.5 })); cl.position.set(x - tx * (gs - 0.2) + fx * (depth > 3 ? 0.2 : 1.6), 0, z - tz * (gs - 0.2) + fz * (depth > 3 ? 0.2 : 1.6)); cl.rotation.y = ry; group.add(cl);
+        const lamp = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.07, 0.18, 10), new THREE.MeshBasicMaterial({ color: new THREE.Color(2.2, 1.6, 0.8) })); lamp.position.set(gx, 1.55, gz); group.add(lamp); st.lantern = lamp;
       }
     }
     stalls.push(st);
