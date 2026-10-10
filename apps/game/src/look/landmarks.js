@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { signTexture } from './props.js';
+import { cityInfo } from './cityinfo.js';
+import { buildKind, buildSkyline } from './landkit.js';
 
 // Yaba's landmarks (world bible 4.7): the places anyone from Yaba knows. The district is a few hundred
 // metres across and the real places are spread over kilometres, so each is built inside the district
@@ -115,16 +117,33 @@ export function buildLandmarks({ world, scene, props, used = [] }) {
     for (let u = -W / 2; u <= W / 2; u += 2) for (let v = -D / 2; v <= D / 2; v += 2) { const px = x + u * cs + v * sn, pz = z - u * sn + v * cs; if (!freeAt(px, pz)) return false; }
     return !used.some((q) => Math.abs(q.x - x) < (q.W + Math.max(W, D)) / 2 + 2 && Math.abs(q.z - z) < (q.D + Math.max(W, D)) / 2 + 2);
   };
-  YABA_LANDMARKS.forEach((L) => {
-    const mdl = MODELS[L.key](); const { W, D } = mdl;
+  // Yaba's are modelled one by one; every other city's real places come from the kits (cityinfo.js, landkit.js)
+  const info = cityInfo(), list = info.landmarks ? info.landmarks.map((L) => ({ ...L, build: () => buildKind(L) })) : YABA_LANDMARKS.map((L) => ({ ...L, build: MODELS[L.key] }));
+  // a kit model is built from its front edge back; centre it on its real footprint so the fit test sees all of it
+  const centred = (mdl) => {
+    const bb = new THREE.Box3().setFromObject(mdl.g), cx = (bb.min.x + bb.max.x) / 2, cz = (bb.min.z + bb.max.z) / 2;
+    mdl.g.children.forEach((o) => { o.position.x -= cx; o.position.z -= cz; });
+    mdl.cols = mdl.cols.map(([x, z, w, d]) => [x - cx, z - cz, w, d]);
+    mdl.W = bb.max.x - bb.min.x + 1; mdl.D = bb.max.z - bb.min.z + 1; mdl.front = bb.max.z - cz;
+    return mdl;
+  };
+  list.forEach((L) => {
+    let mdl = L.build(); if (info.landmarks) mdl = centred(mdl);
     const [tx, tz] = toXZ(L.lat, L.lon), dist = Math.hypot(tx, tz) || 1, ux = tx / dist, uz = tz / dist;
-    // the spot: as far out toward the real place as there is room, searching inward and to the sides
-    let spot = null;
-    for (let r = Math.min(dist, R * 0.85); r > R * 0.15 && !spot; r -= 6) for (const side of [0, 1, -1, 2, -2, 3, -3]) {
-      const a = Math.atan2(ux, uz) + side * 0.18, x = Math.sin(a) * r, z = Math.cos(a) * r, ry = faceRoad(x, z);
-      if (fits(x, z, ry, W, D)) { spot = { x, z, ry }; break; }
+    // the spot: as far out toward the real place as there is room, searching inward and to the sides; a real place
+    // too big for the room there is built a little smaller rather than left out (never below two thirds)
+    let spot = null, k = 1;
+    for (const sc of info.landmarks ? [1, 0.82, 0.66] : [1]) {
+      const W = mdl.W * sc, D = mdl.D * sc;
+      for (let r = Math.min(dist, R * 0.85); r > R * 0.15 && !spot; r -= 6) for (const side of [0, 1, -1, 2, -2, 3, -3]) {
+        const a = Math.atan2(ux, uz) + side * 0.18, x = Math.sin(a) * r, z = Math.cos(a) * r, ry = faceRoad(x, z);
+        if (fits(x, z, ry, W, D)) { spot = { x, z, ry }; break; }
+      }
+      if (spot) { k = sc; break; }
     }
     if (!spot) return;
+    if (k !== 1) { mdl.g.scale.setScalar(k); mdl.cols = mdl.cols.map(([x, z, w, d]) => [x * k, z * k, w * k, d * k]); mdl.h *= k; }
+    const W = mdl.W * k, D = mdl.D * k;
     used.push({ x: spot.x, z: spot.z, W: Math.max(W, D), D: Math.max(W, D) });
     mdl.g.position.set(spot.x, 0, spot.z); mdl.g.rotation.y = spot.ry; group.add(mdl.g);
     const cs = Math.cos(spot.ry), sn = Math.sin(spot.ry);
@@ -136,8 +155,14 @@ export function buildLandmarks({ world, scene, props, used = [] }) {
     out.push({ ...L, ...spot });
   });
 
+  // the far famous shapes, on the skyline at their real bearing and at the size they really look from here
+  (info.skyline || []).forEach((S) => {
+    const [tx, tz] = toXZ(S.lat, S.lon), d = Math.hypot(tx, tz) || 1, far = Math.max(R * 2.6, Math.min(d, R * 4));
+    const g = buildSkyline(S); g.position.set((tx / d) * far, 0, (tz / d) * far); g.scale.setScalar(Math.min(1, far / d)); g.rotation.y = Math.atan2(-tx, -tz);
+    group.add(g); out.push({ key: S.key, name: S.name, far: true });
+  });
   // the National Stadium, Surulere: too far to bring in, so it stands on the skyline at its real bearing
-  {
+  if (!info.landmarks) {
     const [tx, tz] = toXZ(6.4987, 3.3652), d = Math.hypot(tx, tz), far = Math.max(R * 2.6, Math.min(d, R * 4));
     const g = new THREE.Group(); g.position.set((tx / d) * far, 0, (tz / d) * far);
     const bowl = new THREE.Mesh(new THREE.CylinderGeometry(40, 34, 18, 32, 1, true), new THREE.MeshStandardMaterial({ color: 0xe9e4d6, roughness: 0.9, side: THREE.DoubleSide, fog: true }));

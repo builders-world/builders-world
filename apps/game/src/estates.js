@@ -19,9 +19,14 @@ export const LOT_W = 16, LOT_D = 22, CLOSE_W = 7, FRONT_STRIP = 4, BACK_STRIP = 
 export const GATE_W = 2 * LOT_D + CLOSE_W; // one gate's block, measured along the main road
 export const SINGLE_W = LOT_D + CLOSE_W; // a single-sided close, for narrower land
 
-const NAMES = ['Onike Court', 'Alagomeji Gardens', 'Sabo Estate', 'Iwaya Gardens', 'Akoka Residences', 'Jibowu Court', 'Adekunle Mews', 'Abule-Ijesha Close',
+let NAMES;
+const LAGOS_NAMES = ['Onike Court', 'Alagomeji Gardens', 'Sabo Estate', 'Iwaya Gardens', 'Akoka Residences', 'Jibowu Court', 'Adekunle Mews', 'Abule-Ijesha Close',
   'Makoko View', 'Oyingbo Court', 'Ebute Metta Gardens', 'Herbert Macaulay Mews', 'Tejuosho Court', 'Ojuelegba Gardens', 'Fadeyi Estate', 'Igbobi Close',
   'Unilag Staff Gardens', 'Montgomery Court', 'Hughes Gardens', 'Alhaji Masha Estate', 'Commercial Avenue Court', 'Queen Street Gardens', 'Murtala Mews', 'Sabo Gardens'];
+
+NAMES = LAGOS_NAMES;
+/** Estates are named after the city's own streets and places (cityinfo.js); Lagos names stay in Lagos. */
+export function setEstateNames(list) { NAMES = list?.length ? list : LAGOS_NAMES; }
 
 const MAJOR = { trunk: 0, primary: 1, secondary: 2, tertiary: 3, residential: 4, unclassified: 5, service: 6, living_street: 6 };
 

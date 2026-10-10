@@ -3,6 +3,7 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { instanceAsset, collidersFor, movingInstances, footprint } from './kit.js';
 import { mulberry32 } from '../mesh.js';
 import { signTexture } from './props.js';
+import { cityInfo } from './cityinfo.js';
 
 // District dressing with the expanded Yaba kit (world bible 6.3, 6.7, 7.2):
 // active street edges (compound shops, stalls), sparse landmarks (mid-rise corner blocks),
@@ -123,7 +124,7 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
     const front = fwd({ x: g.position.x, z: g.position.z, ry: bankAt.ry }, 1.3);
     interact.push({ id: 'atm', label: 'Use the ATM', x: front.x, z: front.z, r: 2.4 });
     lamps.push({ x: front.x, y: 2.8, z: front.z, power: 10, boost: 10, color: 0xbff5e6 });
-    poi('atm', 'Yaba Builders Bank ATM', front.x, front.z);
+    poi('atm', `${cityInfo().places?.bank || 'Builders Bank'} ATM`, front.x, front.z);
     bankDoor = fwd({ x: p0.x, z: p0.z, ry: bankAt.ry }, 1.4); // the entrance between the ATMs
   }
 
@@ -166,7 +167,7 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
     put('yaba_compound_shop', spots);
     spots.forEach((s, i) => {
       placed.push(s);
-      const [name, line] = SHOP_NAMES[i % SHOP_NAMES.length];
+      const shops = cityInfo().shops || SHOP_NAMES, [name, line] = shops[i % shops.length];
       const fx = -Math.sin(s.ry + Math.PI), fz = -Math.cos(s.ry + Math.PI);
       interact.push({ id: `shop:${i}`, label: `Visit ${name}`, x: s.x + Math.sin(s.ry) * 4.8, z: s.z + Math.cos(s.ry) * 4.8, r: 3.5, line, name, at: { x: s.x, z: s.z, ry: s.ry, depth: 4.8 } });
       poi(/Kitchen|Cafe/.test(name) ? (/Cafe/.test(name) ? 'cafe' : 'food') : 'shop', name, s.x + Math.sin(s.ry) * 4.8, s.z + Math.cos(s.ry) * 4.8);
@@ -185,7 +186,7 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
     stallAwnings(group, world, spots);
     spots.forEach((s, i) => {
       placed.push(s);
-      const [name, line] = STALL_NAMES[i % STALL_NAMES.length];
+      const stalls = cityInfo().stalls || STALL_NAMES, [name, line] = stalls[i % stalls.length];
       interact.push({ id: `stall:${i}`, label: `Stop at the ${name.toLowerCase()}`, x: s.x + Math.sin(s.ry) * 2.4, z: s.z + Math.cos(s.ry) * 2.4, r: 3.2, line, name, at: { x: s.x, z: s.z, ry: s.ry, depth: 2.4 } });
       poi(/POS/.test(name) ? 'shop' : 'food', name, s.x + Math.sin(s.ry) * 2.4, s.z + Math.cos(s.ry) * 2.4);
       lamps.push({ x: s.x, y: 2.6, z: s.z, power: 16, boost: 6, color: 0xffb35c });

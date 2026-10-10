@@ -24,6 +24,8 @@ import { createInput } from './look/input.js';
 import { createOnline } from './look/online.js';
 import { weather as wx } from './look/surfaces.js';
 import { pushOutDynamic } from './look/physics.js';
+import { setEstateNames } from './estates.js';
+import { CITY_INFO } from './look/cityinfo.js';
 
 const q = new URLSearchParams(location.search);
 const TEST_PACE = +(q.get('pace') ?? 1); // tests walk faster; players never see this
@@ -280,6 +282,7 @@ async function main() {
     shared.uDay.value = name === 'day' ? 1 : 0;
     if (world) { scene.remove(world.scene); disposeTree(world.scene); }
     if (sky) { scene.remove(sky); disposeTree(sky); }
+    setEstateNames(CITY_INFO[place.city]?.estates); // estates named after this city's streets, not Yaba's
     world = buildWorld(manifest, via, name, kit);
     world.place = { name: place.name, city: place.city };
     sky = world.env.wet ? blueHourSky() : buildSky(name);

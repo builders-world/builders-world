@@ -13,6 +13,7 @@ import { buildAirport, buildCabin } from './airport.js';
 import { walletEngine, effortsMark, fmt } from './wallet.js';
 import { session } from '../session.js';
 import { workspaceDoor } from './doorway.js';
+import { cityInfo } from './cityinfo.js';
 
 // Enterable workspaces (world bible 6.6): reception and board, hot desks, focus pods, a meeting room,
 // a cafeteria and a lounge. Metrics from the bible: ceiling 3.6 m, desks 0.75 m high and 1.4 m wide,
@@ -38,11 +39,10 @@ export const PLACES = {
 
 // the three places take the district's name, so Wuse gets a Wuse hub, not a Yaba one
 export function namePlaces(district = 'Yaba', city = 'Lagos') {
-  if (district === 'Yaba') return;
-  PLACES.hub.name = `${district} Creative Hub`;
-  PLACES.loft.name = `${city} Builders Loft`;
-  PLACES.studio.name = `${district} Design Studio`;
-  PLACES.immigration.name = `${district} Immigration Centre`;
+  // every place carries the city's own name (cityinfo.js): Kilimani gets no Yaba Fitness
+  const P = cityInfo().places || {};
+  for (const k of Object.keys(PLACES)) if (P[k]) PLACES[k].name = P[k];
+  void district; void city;
 }
 
 function canvasTex(w, h, draw) {
@@ -136,8 +136,8 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
     const you = BUILDERS.find((b) => b.id === 'you');
     return `<div class="page"><div class="addr">builders.world/home</div><h2>Good to see you online</h2>
       <div class="cards"><div><b>github.com/${esc(you?.handle || 'you')}</b><br>${(you?.repoList || []).length} repositories, ${you?.commits ?? 0} commits this year</div>
-      <div><b>Yaba tech jobs</b><br>Product designer at a fintech, React Native at a logistics startup, Rust contractor</div>
-      <div><b>This week in Yaba</b><br>Demo night Thursday 7pm. Rust study group, room 2. Design crit at Eko on Saturday.</div></div>
+      <div><b>${cityInfo().district} tech jobs</b><br>${cityInfo().board?.jobs || ''}</div>
+      <div><b>This week in ${cityInfo().district}</b><br>${cityInfo().board?.week || ''}</div></div>
       ${L.bars < 2 ? '<p class="slow">You are on the district Wi-Fi from inside: it works, slowly. The building\'s own network is faster.</p>' : ''}</div>`;
   }
   // ---------- the desk computer: the venue's own machine, for a fee or free with a membership ----------

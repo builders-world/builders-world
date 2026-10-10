@@ -4,6 +4,7 @@ import { rigAvatar } from './anim.js';
 import { C, FONT } from './uikit.js';
 import { sfx } from './audio.js';
 import { prepareLook, dress, lookFor } from './style.js';
+import { cityInfo } from './cityinfo.js';
 const WOMEN = new Set(['Amaka', 'Zainab', 'Funke', 'Grace', 'Ifeoma', 'Halima']);
 
 // The people of the district (world bible 11.5). Each resident has a home on a real street, a job at a
@@ -16,7 +17,7 @@ const TRAITS = {
   cheerful: { pace: 1.0, chat: 1.0, label: 'greets everybody' },
   shy: { pace: 0.95, chat: 0.35, label: 'quiet, kind once you know them' },
   dreamer: { pace: 0.85, chat: 0.7, label: 'head in the clouds, notebook in hand' },
-  grumpy: { pace: 1.1, chat: 0.45, label: 'complains about NEPA, means well' },
+  grumpy: { pace: 1.1, chat: 0.45, label: 'complains about the power cuts, means well' },
   elder: { pace: 0.7, chat: 0.9, label: 'everybody calls them Mummy or Baba' },
 };
 const PEOPLE = [
@@ -44,7 +45,7 @@ const EVENTS = [
   { id: 'pet', needs: (p) => !p.pet, mood: 0.5, days: 3, en: (p, k) => `I adopted a puppy! His name is ${k}.`, pd: (p, k) => `I don get small dog, ${k} be him name!`, newPet: true },
   { id: 'interview', mood: 0.3, days: 2, en: () => 'Final interview tomorrow. Wish me luck.', pd: () => 'Interview na tomorrow, abeg pray for me.' },
 ];
-const BABY_NAMES = ['Ada', 'Ife', 'Tomi', 'Kamsi', 'Zina', 'Oyin', 'Ruth', 'Amara'], PUPPY = ['Rex', 'Toby', 'Bobby', 'Chief'];
+const BABY_NAMES_LAGOS = ['Ada', 'Ife', 'Tomi', 'Kamsi', 'Zina', 'Oyin', 'Ruth', 'Amara'], PUPPY = ['Rex', 'Toby', 'Bobby', 'Chief'];
 
 // a stable random number from strings: the same person on the same day gets the same answer
 const hash = (str) => { let h = 2166136261; for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return (h >>> 0) / 4294967296; };
@@ -84,7 +85,9 @@ export function createLives({ world, scene, getEnv, getPois, reduced, lowQuality
 
   // homes: real front doors; people live near the start so you meet them
   const doors = (world.doorPlants || []).slice().sort((a, b) => Math.hypot(a.x - world.spawn.x, a.z - world.spawn.z) - Math.hypot(b.x - world.spawn.x, b.z - world.spawn.z));
-  const roster = PEOPLE.slice(0, lowQuality ? 6 : PEOPLE.length);
+  // each city's own people live these lives: Kevin and Wanjiru in Kilimani, Kwame and Ama in Osu (cityinfo.js)
+  const cast = cityInfo().cast || [];
+  const roster = PEOPLE.map((d, i) => ({ ...d, fem: WOMEN.has(d.name.split(' ')[0]), ...(cast[i] || {}) })).slice(0, lowQuality ? 6 : PEOPLE.length);
   const residents = roster.map((d, i) => {
     // home is the doorstep (not the planter beside it): where they go in and out, and where you knock
     const dp = doors[i * 2 + 1] || doors[i], home = dp?.step ? { ...dp.step } : dp ? { x: dp.x, z: dp.z } : { x: world.spawn.x + i, z: world.spawn.z };
@@ -92,7 +95,7 @@ export function createLives({ world, scene, getEnv, getPois, reduced, lowQuality
     if (d.trait === 'elder') av.root.scale.setScalar(0.96);
     prepareLook(av.root);
     const rig = rigAvatar(av.root);
-    dress(av.root, lookFor(d.name, { fem: WOMEN.has(d.name.split(' ')[0]), elder: d.trait === 'elder' || d.age > 50, tier: d.tier }), rig); // everyone dresses their own way (style.js)
+    dress(av.root, lookFor(d.name, { fem: d.fem, elder: d.trait === 'elder' || d.age > 50, tier: d.tier }), rig); // everyone dresses their own way (style.js)
     av.root.position.set(home.x, 0, home.z);
     group.add(av.root);
     let street = null, sd = 1e9; world.roads.forEach((rd) => { if (!rd.name) return; rd.pts.forEach(([x, z]) => { const dd = Math.hypot(x - home.x, z - home.z); if (dd < sd) { sd = dd; street = rd.name; } }); });
@@ -105,7 +108,7 @@ export function createLives({ world, scene, getEnv, getPois, reduced, lowQuality
       const pool = EVENTS.filter((e) => !e.needs || e.needs(r));
       const e = pool[Math.floor(hash(`${d.name}|${day(n)}|e`) * pool.length)];
       if (!e || n >= e.days) continue;
-      const k = e.kid ? BABY_NAMES[Math.floor(roll * 100) % BABY_NAMES.length] : e.newPet ? PUPPY[Math.floor(roll * 100) % PUPPY.length] : null;
+      const k = e.kid ? (cityInfo().babies || BABY_NAMES_LAGOS)[Math.floor(roll * 100) % (cityInfo().babies || BABY_NAMES_LAGOS).length] : e.newPet ? PUPPY[Math.floor(roll * 100) % PUPPY.length] : null;
       if (e.kid) r.kids.push(`baby ${k}`);
       if (e.newPet) r.pet = { kind: 'dog', name: k };
       r.events.push({ ...e, k, ago: n });
@@ -246,7 +249,7 @@ export function createLives({ world, scene, getEnv, getPois, reduced, lowQuality
   }
 
   // ---------- what they say, which now comes from their life ----------
-  const sp = (r) => (Math.random() < [0.1, 0.5, 0.9][r.tier] ? 'pd' : 'en');
+  const sp = (r) => (cityInfo().country === 'Nigeria' && Math.random() < [0.1, 0.5, 0.9][r.tier] ? 'pd' : 'en'); // Nigerian Pidgin only in Nigeria
   function lifeLine(r) {
     const e = r.events[r.events.length - 1];
     if (e && Math.random() < 0.55) return e[sp(r)](r, e.k);
@@ -302,7 +305,7 @@ export function createLives({ world, scene, getEnv, getPois, reduced, lowQuality
   function visit(id) {
     const r = residents.find((x) => `visit:${x.id}` === id); if (!r || !(r.invited > clock)) return null;
     r.visiting = true; r.invited = 0; r.answering = 0;
-    return { id: r.id, first: r.first, name: r.name, job: r.job, color: r.color, style: r.style, look: r.obj.userData.look, fem: WOMEN.has(r.first), spouse: r.spouse, kids: r.kids, pet: r.pet, dream: r.dream, pidgin: sp(r) === 'pd', door: { ...r.home } };
+    return { id: r.id, first: r.first, name: r.name, job: r.job, color: r.color, style: r.style, look: r.obj.userData.look, fem: r.fem, spouse: r.spouse, kids: r.kids, pet: r.pet, dream: r.dream, pidgin: sp(r) === 'pd', door: { ...r.home } };
   }
   function leaveVisit(id) { const r = residents.find((x) => x.id === id); if (r) r.visiting = false; }
   const bodies = () => residents.filter((r) => r.obj.visible).map((r) => ({ x: r.obj.position.x, z: r.obj.position.z, r: 0.33 }));

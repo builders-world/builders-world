@@ -244,10 +244,13 @@ export function skyline(world) {
   const m = new THREE.Matrix4();
   // a skyline cluster in the direction you face at spawn, like the reference image
   const ahead = world.spawnYaw;
-  for (let i = 0; i < 60; i++) {
+  // as many towers as the city really has: Lagos and Nairobi have a skyline, Uyo has one tall tower
+  const dense = { Lagos: 1, Nairobi: 0.9, Abuja: 0.6, Accra: 0.55, 'Port Harcourt': 0.4, Uyo: 0.2 }[world.place?.city || 'Lagos'] ?? 0.5, count = Math.round(60 * dense);
+  towers.count = count; glow.count = count;
+  for (let i = 0; i < count; i++) {
     const a = ahead + (r() - 0.5) * 1.6;
     const d = R * (2.2 + r() * 1.1);
-    const w = 14 + r() * 22, h = 40 + Math.pow(r(), 1.6) * 140;
+    const w = 14 + r() * 22, h = (40 + Math.pow(r(), 1.6) * 140) * (0.45 + 0.55 * dense);
     const ry = r() * 3, dd = w * (0.7 + r() * 0.6);
     m.compose(new THREE.Vector3(Math.sin(a) * d, 0, Math.cos(a) * d), new THREE.Quaternion().setFromEuler(new THREE.Euler(0, ry, 0)), new THREE.Vector3(w, h, dd));
     towerList.push({ x: Math.sin(a) * d, z: Math.cos(a) * d, w, d: dd, h, ry });
@@ -284,7 +287,7 @@ export function skyline(world) {
     const p = new THREE.Mesh(new THREE.BoxGeometry(1.6, 14, 1.6).translate(0, 7, 0), deckMat); p.position.x = x;
     if (Math.abs(x) > 8) bridge.add(p);
   }
-  group.add(bridge);
+  if ((world.place?.city || 'Lagos') === 'Lagos') group.add(bridge); // the Lekki-Ikoyi Link belongs on the Lagos skyline only
   // neon and animated adverts (neon.js)
   const neon = dressSkyline(towerList, { center: world.center ? { x: 0, z: 0 } : { x: 0, z: 0 }, reduced: false });
   group.add(neon.group);
