@@ -6,6 +6,8 @@ import { dress, lookFor } from './style.js';
 import { buildCafe, buildGym, buildBank } from './venues.js';
 import { BUILDERS } from '../builders.js';
 import { mulberry32 } from '../mesh.js';
+import { walletEngine, effortsMark, fmt } from './wallet.js';
+import { session } from '../session.js';
 
 // Enterable workspaces (world bible 6.6): reception and board, hot desks, focus pods, a meeting room,
 // a cafeteria and a lounge. Metrics from the bible: ceiling 3.6 m, desks 0.75 m high and 1.4 m wide,
@@ -14,6 +16,9 @@ import { mulberry32 } from '../mesh.js';
 const ORIGIN = new THREE.Vector3(3000, 0, 0);
 const W = 26, D = 18, H = 3.6;
 const box = (w, h, d, x = 0, y = 0, z = 0) => new THREE.BoxGeometry(w, h, d).translate(x, y, z);
+const LID_OPEN = -0.24, LID_SHUT = Math.PI / 2 - 0.02;
+// the desk computers: what a session costs (Efforts), free with a membership card
+export const DESK_FEE = { cafe: 200, hub: 300, loft: 300, studio: 0 };
 
 export const PLACES = {
   hub: { name: 'Yaba Creative Hub', kind: 'Shared workspace', accent: 0x2a9d94, floor: 0x8a8f96, seed: 3 },
@@ -98,6 +103,18 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
     #lki .page { font: 14px/1.5 system-ui; color: #e6edf3; } #lki .page h2 { font: 700 22px system-ui; margin: 10px 0; } #lki .addr { padding: 7px 12px; border-radius: 999px; background: #161b22; color: #8b949e; font: 12px ui-monospace, monospace; }
     #lki .page .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; } #lki .page .cards div { padding: 12px; border-radius: 10px; background: #161b22; }
     #lki .page.off { display: grid; place-items: center; text-align: center; min-height: 50vh; } #lki .dino { font: 28px monospace; color: #8b949e; } #lki .slow { color: #e3b341; }
+    #lki.on.lock { display: grid; grid-template-columns: 1fr; place-items: center; background: radial-gradient(circle at 50% 30%, #1d3a4a, #0b1622 70%); }
+    #lki .login { width: min(340px, 80vw); display: grid; justify-items: center; gap: 10px; text-align: center; font: 14px/1.45 system-ui; color: #e6edf3; }
+    #lki .login .av { width: 84px; height: 84px; border-radius: 50%; display: grid; place-items: center; background: #2a9d94; color: #fff; font: 800 34px/1 system-ui; box-shadow: 0 0 0 4px rgba(255,255,255,.12); }
+    #lki .login h3 { margin: 4px 0 0; font: 700 20px/1.2 system-ui; } #lki .login .h { color: #8b949e; font: 600 13px system-ui; margin-top: -6px; }
+    #lki .login .where { padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.08); color: #c9d1d9; font: 600 12px system-ui; }
+    #lki .login p { margin: 0; color: #c9d1d9; font: 13px/1.45 system-ui; }
+    #lki .login input { width: 100%; box-sizing: border-box; border: 1px solid #30363d; border-radius: 10px; padding: 11px 12px; background: rgba(1,4,9,.6); color: #e6edf3; font: 15px system-ui; outline: none; }
+    #lki .login input:focus { border-color: #2a9d94; box-shadow: 0 0 0 3px rgba(42,157,148,.3); }
+    #lki .login .go { width: 100%; padding: 11px; border-radius: 10px; background: #2a9d94; color: #fff; font: 700 14px system-ui; }
+    #lki .login .err { min-height: 18px; color: #ff7b72; font: 600 12.5px system-ui; }
+    #lki .login .links { display: flex; gap: 14px; } #lki .login .links button { background: none; padding: 4px; color: #8b949e; font: 600 12.5px system-ui; text-decoration: underline; }
+    #lki aside .who { margin-bottom: 12px; padding: 8px 10px; border-radius: 8px; background: #12301f; color: #7ee787; font: 600 12px/1.35 system-ui; }
   </style><div id="lki" role="dialog" aria-label="Your computer"></div>`;
   document.body.appendChild(screen);
   const lki = screen.querySelector('#lki');
@@ -115,20 +132,92 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
       <div><b>This week in Yaba</b><br>Demo night Thursday 7pm. Rust study group, room 2. Design crit at Eko on Saturday.</div></div>
       ${L.bars < 2 ? '<p class="slow">You are on the district Wi-Fi from inside: it works, slowly. The building\'s own network is faster.</p>' : ''}</div>`;
   }
+  // ---------- the desk computer: the venue's own machine, for a fee or free with a membership ----------
+  // You sign in to it with your own profile and a password you set the first time, which every desk
+  // computer in Builders World asks for. It is on the building's own network, so no Wi-Fi to join.
+  // The password is a game password, kept on this device as a salted hash: not your GitHub password.
+  let desk = null; // { lit, signedIn }
+  const PASS_KEY = 'bw-desk-pass';
+  const me = () => { const name = session.me?.account?.name || (() => { try { return JSON.parse(localStorage.getItem('bw-arrivals-v1') || '{}').name; } catch { return ''; } })() || 'Builder'; return { name, handle: session.me?.account?.login || '' }; };
+  const readPass = () => { try { return JSON.parse(localStorage.getItem(PASS_KEY) || 'null'); } catch { return null; } };
+  async function hash(salt, pass) {
+    const text = `${salt}:${pass}`;
+    if (crypto?.subtle) { const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text)); return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join(''); }
+    let h = 2166136261; for (const ch of text) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return `f${(h >>> 0).toString(16)}`; // no crypto (plain http): still not stored in the clear
+  }
+  const deskFee = () => (current ? DESK_FEE[current.key] ?? 200 : 0);
+  const member = () => !!net?.valid?.('eko');
+  function useDesk() {
+    if (!seated || !current) return false;
+    if (lidOpen()) { const lid = laptop.userData.lid; lid.userData.opening = false; lid.userData.closing = true; } // your laptop shuts while you use theirs
+    if (!desk) {
+      const fee = deskFee();
+      if (fee && !member() && !seated.paid) {
+        if (!walletEngine().spend(fee, `${PLACES[current.key].name}: desk computer`)) { toast(`The desk computer is ${fmt(fee)} Efforts a session, and you are short. Use your laptop, or come back with a membership card.`, 3800); return true; }
+        seated.paid = true; // signing out and back in at this desk costs nothing more
+        toast(`Paid ${fmt(fee)} Efforts for the desk computer. It is yours until you stand up.`, 2800);
+      } else if (fee) toast('Free with your membership card.', 2200);
+      const lit = new THREE.Mesh(new THREE.PlaneGeometry(0.56, 0.32).translate(0, 1.1, -0.23), new THREE.MeshBasicMaterial({ color: 0x1d3a4a }));
+      lit.position.set(seated.x, 0, seated.z + 0.003); current.group.add(lit);
+      desk = { lit, signedIn: false };
+      sfx('open');
+    }
+    if (desk.signedIn) openComputer(); else openLock();
+    return true;
+  }
+  function openLock(err = '') {
+    const rec = readPass(), who = me();
+    lki.classList.add('on', 'lock');
+    lki.innerHTML = `<div class="login"><div class="av">${esc((who.name || '?').trim()[0]?.toUpperCase() || '?')}</div><h3>${esc(who.name)}</h3>${who.handle ? `<div class="h">@${esc(who.handle)}</div>` : ''}
+      <span class="where">${esc(PLACES[current.key].name)} · desk computer</span>
+      ${rec ? '<input type="password" class="p1" placeholder="Password" aria-label="Your desk password" autocomplete="off">'
+        : '<p>First time on a desk computer: make a password. Every desk in Builders World will ask for it. Not your GitHub password.</p><input type="password" class="p1" placeholder="New password (4 or more)" aria-label="New password" autocomplete="off"><input type="password" class="p2" placeholder="Type it again" aria-label="Type the password again" autocomplete="off">'}
+      <div class="err">${esc(err)}</div><button class="go">${rec ? 'Sign in' : 'Create and sign in'}</button>
+      <div class="links">${rec ? '<button class="forgot">Forgot it?</button>' : ''}<button class="x">Not now (Esc)</button></div></div>`;
+    const p1 = lki.querySelector('.p1'), p2 = lki.querySelector('.p2');
+    const submit = async () => {
+      const a = p1.value;
+      if (!rec) {
+        if (a.length < 4) return openLock('Use 4 characters or more.');
+        if (a !== p2.value) return openLock('The two passwords do not match.');
+        const salt = Math.random().toString(36).slice(2, 10);
+        try { localStorage.setItem(PASS_KEY, JSON.stringify({ salt, hash: await hash(salt, a) })); } catch { /* */ }
+      } else if (await hash(rec.salt, a) !== rec.hash) return openLock('That is not the password.');
+      desk.signedIn = true; net?.wire?.(current.key); sfx('arrive');
+      toast(`Signed in as ${who.name}. On the ${PLACES[current.key].name} network.`, 2400);
+      lki.classList.remove('lock'); openComputer();
+    };
+    lki.querySelector('.go').onclick = submit;
+    [p1, p2].filter(Boolean).forEach((inp) => { inp.onkeydown = (e) => { e.stopPropagation(); if (e.key === 'Enter') { e.preventDefault(); submit(); } if (e.key === 'Escape') closeComputer(); }; });
+    lki.querySelector('.x').onclick = closeComputer;
+    lki.querySelector('.forgot')?.addEventListener('click', () => { try { localStorage.removeItem(PASS_KEY); } catch { /* */ } openLock('Password cleared. Make a new one.'); });
+    setTimeout(() => p1.focus(), 30);
+  }
+  function signOut(quiet = false) {
+    if (!desk) return false;
+    desk.lit.removeFromParent(); desk.lit.geometry.dispose(); desk.lit.material.dispose();
+    if (net?.link?.wired) net.forgetLink();
+    desk = null; closeComputer();
+    if (!quiet) { sfx('close'); toast('Signed out. The desk computer is ready for the next person.', 2400); }
+    return true;
+  }
+
   function openComputer() {
+    if (desk && !desk.signedIn) return openLock();
+    lki.classList.remove('lock');
     const you = BUILDERS.find((b) => b.id === 'you'), L = net?.link || null, nets = current ? net?.inRange(current.key) || [] : [];
-    lki.innerHTML = `<aside>
+    lki.innerHTML = `<aside>${desk?.signedIn ? `<div class="who">${esc(PLACES[current.key].name)} desk computer<br>Signed in as ${esc(me().name)}</div>` : ''}
       <button class="wf ${L ? 'up' : ''}" aria-expanded="${wifiOpen}">${bars(L ? L.bars : 0)} ${L ? esc(L.ssid) : 'Wi-Fi: not connected'}</button>
       ${wifiOpen ? `<div class="nets">${nets.map((n) => `<button data-s="${esc(n.ssid)}" class="${L?.ssid === n.ssid ? 'on' : ''}">${bars(n.bars)} ${esc(n.ssid)} <span class="lock">locked</span></button>
         ${joining === n.ssid ? `<div class="pw"><input type="password" placeholder="Password" aria-label="Password for ${esc(n.ssid)}" autocomplete="off"><button class="join">Join</button><div class="err">${esc(wifiErr)}</div></div>` : ''}`).join('') || '<div class="none">No networks here.</div>'}</div>` : ''}
       <h4 style="margin-top:14px">View</h4><div class="tab ${view === 'code' ? 'on' : ''}" data-v="code">Code</div><div class="tab ${view === 'web' ? 'on' : ''}" data-v="web">Browser</div>
       <h4 style="margin-top:14px">Repositories</h4>${(you?.repoList || []).map(([r], i) => `<div class="${i ? '' : 'on'}">${r}</div>`).join('')}
       <h4 style="margin-top:14px">This desk</h4><div>${current ? PLACES[current.key].name : ''}</div></aside>
-      <main><div class="bar"><button class="p">Commit and push</button><button class="x">Close the screen (Esc)</button><button class="c">Close laptop (F)</button><button class="u">Pack up and leave</button></div>
+      <main><div class="bar"><button class="p">Commit and push</button><button class="x">Close the screen (Esc)</button>${desk?.signedIn ? '<button class="c">Sign out (O)</button>' : '<button class="c">Close laptop (F)</button>'}<button class="u">Pack up and leave</button></div>
       ${view === 'code' ? `<pre>${SNIPPET.join('\n').replace(/</g, '&lt;')}</pre><div class="term">${pushed || "$ git status\nOn branch main\nYour branch is up to date with 'origin/main'."}</div>` : browserView(L)}</main>`;
     lki.classList.add('on');
     lki.querySelector('.x').onclick = closeComputer;
-    lki.querySelector('.c').onclick = () => closeLaptop();
+    lki.querySelector('.c').onclick = () => (desk?.signedIn ? signOut() : closeLaptop());
     lki.querySelector('.u').onclick = () => onPackUp?.();
     lki.querySelector('.wf').onclick = () => { wifiOpen = !wifiOpen; joining = null; wifiErr = ''; openComputer(); };
     lki.querySelectorAll('.tab').forEach((t) => { t.onclick = () => { view = t.dataset.v; pageAt = performance.now(); openComputer(); if (view === 'web' && L && L.bars < 2) setTimeout(() => lki.classList.contains('on') && view === 'web' && openComputer(), 2700); }; });
@@ -395,18 +484,20 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
     laptop = new THREE.Group();
     const base = new THREE.Mesh(box(0.34, 0.02, 0.24, 0, 0.785, 0.05), laptopMat);
     const lid = new THREE.Group();
-    lid.position.set(0, 0.795, -0.07);
+    lid.position.set(0, 0.801, -0.07); // on top of the base (0.795), by half the lid's thickness
     lid.add(new THREE.Mesh(box(0.34, 0.22, 0.012, 0, 0.11, 0), laptopMat));
     lid.add(new THREE.Mesh(new THREE.PlaneGeometry(0.3, 0.19).translate(0, 0.11, 0.008), laptopScreen));
-    lid.rotation.x = -Math.PI / 2; // closed to begin with
+    // the hinge is at the back of the base (you sit at +z): open, the screen leans back away from you;
+    // closed, it lies forward on the keyboard, screen down
+    lid.rotation.x = LID_SHUT; // closed to begin with
     laptop.add(base, lid);
     laptop.position.set(desk.x, 0, desk.z);
     laptop.userData.lid = lid;
     current.group.add(laptop);
     return { x: ORIGIN.x + desk.x, z: ORIGIN.z + desk.z + 0.55, yaw: Math.PI };
   }
-  function stand() { seated = null; laptop?.removeFromParent(); laptop = null; closeComputer(); }
-  const lidOpen = () => !!laptop && laptop.userData.lid.rotation.x > -0.5;
+  function stand() { signOut(true); if (seated) seated.paid = false; seated = null; laptop?.removeFromParent(); laptop = null; closeComputer(); }
+  const lidOpen = () => !!laptop && laptop.userData.lid.rotation.x < 1.0;
   // close the lid; it stays on the desk
   function closeLaptop() {
     closeComputer();
@@ -429,8 +520,9 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
     if (!current) return null;
     const x = px - ORIGIN.x, z = pz - ORIGIN.z;
     if (seated) {
+      if (desk) { if (desk.signedIn) openComputer(); else openLock(); return { handled: true }; }
       const lid = laptop.userData.lid;
-      if (lid.rotation.x < -0.5) { lid.userData.closing = false; lid.userData.opening = true; toast('Laptop open. E to use it, F to close it, Esc to pack up and leave.', 3200); return { handled: true }; }
+      if (!lidOpen()) { lid.userData.closing = false; lid.userData.opening = true; toast('Laptop open. E to use it, F to close it, Esc to pack up and leave.', 3200); return { handled: true }; }
       openComputer();
       return { handled: true };
     }
@@ -451,7 +543,7 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
 
   function prompt(px, pz) {
     if (!current) return null;
-    if (seated) return lidOpen() ? 'Use your computer' : 'Open your laptop';
+    if (seated) return desk ? 'Use the desk computer' : lidOpen() ? 'Use your computer' : 'Open your laptop';
     const x = px - ORIGIN.x, z = pz - ORIGIN.z;
     let best = null, bd = Infinity;
     current.interact.forEach((it) => { const d = Math.hypot(it.x - x, it.z - z); if (d < it.r && d < bd) { bd = d; best = it; } });
@@ -492,18 +584,18 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
     current.sun.intensity = 1.6 * env.day;
     if (laptop?.userData.lid.userData.opening) {
       const lid = laptop.userData.lid;
-      lid.rotation.x = Math.min(0.25, lid.rotation.x + dt * (reduced ? 100 : 3));
-      if (lid.rotation.x >= 0.25) lid.userData.opening = false;
+      lid.rotation.x = Math.max(LID_OPEN, lid.rotation.x - dt * (reduced ? 100 : 3));
+      if (lid.rotation.x <= LID_OPEN) lid.userData.opening = false;
     }
     if (laptop?.userData.lid.userData.closing) {
       const lid = laptop.userData.lid;
-      lid.rotation.x = Math.max(-Math.PI / 2, lid.rotation.x - dt * (reduced ? 100 : 4));
-      if (lid.rotation.x <= -Math.PI / 2) lid.userData.closing = false;
+      lid.rotation.x = Math.min(LID_SHUT, lid.rotation.x + dt * (reduced ? 100 : 4));
+      if (lid.rotation.x >= LID_SHUT) lid.userData.closing = false;
     }
   }
 
   return {
-    enter, leave, use, prompt, resolve, solidAt, update, stand, closeComputer, closeLaptop, packUp, get lidOpen() { return lidOpen(); },
+    enter, leave, use, prompt, resolve, solidAt, update, stand, closeComputer, closeLaptop, packUp, useDesk, signOut: () => signOut(), get deskOn() { return !!desk; }, deskFee, get member() { return member(); }, get lidOpen() { return lidOpen(); },
     get active() { return !!current; }, get seated() { return !!seated; }, get room() { return current; }, origin: ORIGIN, get computerOpen() { return lki.classList.contains('on'); },
     dispose() { Object.values(built).forEach((b) => { b.people.forEach((p) => p.dispose()); b.group.traverse((o) => o.geometry?.dispose()); b.group.removeFromParent(); }); fade.remove(); screen.remove(); },
   };
