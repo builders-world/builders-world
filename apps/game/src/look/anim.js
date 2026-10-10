@@ -148,6 +148,9 @@ export function rigAvatar(root) {
     const reach = feet.map((ft) => ft.y + Math.sqrt(Math.max(0.01, (LEG * 0.985) ** 2 - ft.z * ft.z)));
     const softMin = (a, b, w = 0.012) => Math.min(a, b) - w * Math.log(Math.exp(-(a - Math.min(a, b)) / w) + Math.exp(-(b - Math.min(a, b)) / w));
     hipH = softMin(hipH, softMin(reach[0], reach[1]));
+    // standing still the hips sit at full height, so the legs are straight: the walk's slightly lowered hips left a
+    // standing person with knees bent 30 degrees and thighs forward, which read from the side as a slanted body
+    hipH = lerp(HIP_Y, hipH, Math.min(1, walk * 3));
     cur.hipH = hipH; // no easing: a lagging hip overstretches the leg and the knee snaps straight
     const legIK = (j, ft) => {
       const dy = ft.y - cur.hipH, dz = ft.z, d = Math.min(LEG - 1e-4, Math.max(0.12, Math.hypot(dy, dz)));
@@ -178,6 +181,9 @@ export function rigAvatar(root) {
     };
     armPose(L, L.hip.rotation.x, -1);
     armPose(R, R.hip.rotation.x, 1);
+    // the sideways tilts and the chest's bow only ever come from gestures and emotes (below): ease them back to
+    // upright every frame, or a head tilt from an emote stayed for good (a neck left at 11 degrees, a slanted chest)
+    set(neck, 'z', 0, k); set(chest, 'z', 0, k); set(pelvis, 'x', 0, k); set(root, 'z', 0, k);
     // ---- gestures and idle moments: layered on the pose, faded in and out ----
     // standing still, people fidget now and then: look around, check the phone, stretch, shift weight
     if (!s.seated && speed < 0.1 && !s.air) {
