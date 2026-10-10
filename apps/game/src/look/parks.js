@@ -164,7 +164,8 @@ export function buildParks({ world, scene, pond, area, uTime, addLamps, reduced 
 
 // a W x D rectangle of open public ground, nearest the start, clear of everything in `used` (which it extends)
 export function findSite(world, used, W, D) {
-  const free = (x, z) => (world.costAt ? world.costAt(x, z) < 2.6 : world.isFree(x, z, 0.5));
+  // open ground only: walkable, and never a carriageway (roads are walkable too, so they are ruled out here)
+  const free = (x, z) => (world.costAt ? world.costAt(x, z) < 2.6 : world.isFree(x, z, 0.5)) && !world.onCarriageway?.(x, z, 0.6);
   for (let r = 10; r < world.radius * 0.95; r += 5) for (let k = 0; k < 20; k++) {
     const a = (k / 20) * Math.PI * 2 + r * 0.37, x = world.spawn.x + Math.cos(a) * r, z = world.spawn.z + Math.sin(a) * r;
     if (Math.hypot(x, z) > world.radius * 0.9 || used.some((u) => Math.abs(u.x - x) < (u.W + W) / 2 + 3 && Math.abs(u.z - z) < (u.D + D) / 2 + 3)) continue;

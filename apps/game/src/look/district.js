@@ -280,7 +280,10 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
         const P = (i, d) => [pts[i][0] + nrm[i][0] * (off(i) + d) * sg, pts[i][1] + nrm[i][1] * (off(i) + d) * sg];
         let lastSlab = -1e9, runStart = -1;
         for (let i = 0; i < pts.length - 1; i++) {
-          const ok = pv[i] >= 1.4 && pv[i + 1] >= 1.4 && !nearJ(i) && !nearJ(i + 1) && Math.hypot(...P(i, 0)) < R * (lowQuality ? 0.55 : 0.8);
+          // never in a carriageway: where two one-way roads run side by side, one's pavement line is the other's lane
+          const inRoad = (a) => world.onCarriageway?.(a[0], a[1], 0.45);
+          const ok = pv[i] >= 1.4 && pv[i + 1] >= 1.4 && !nearJ(i) && !nearJ(i + 1) && Math.hypot(...P(i, 0)) < R * (lowQuality ? 0.55 : 0.8)
+            && !inRoad(P(i, 0)) && !inRoad(P(i + 1, 0)) && !inRoad([(P(i, 0)[0] + P(i + 1, 0)[0]) / 2, (P(i, 0)[1] + P(i + 1, 0)[1]) / 2]);
           if (!ok) { if (runStart >= 0 && i - runStart >= 1) { const [ex, ez] = P(i, 0); slabs.push({ x: ex, z: ez, i, grate: true }); } runStart = -1; continue; }
           if (runStart < 0) { runStart = i; const [sx, sz] = P(i, 0); slabs.push({ x: sx, z: sz, i, grate: true }); }
           const y = (h) => h;
@@ -378,10 +381,13 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
         parked.push({ x, z, ry: Math.atan2(tx, tz) - Math.PI / 2 });
       }
     });
-    put('yaba_danfo_minibus', parked);
-    const n = 0; // moving traffic is the traffic system now (traffic.js); these stay parked
-    moving = movingInstances(danfoT, Math.max(1, n), -Math.PI / 2);
-    group.add(moving.group);
+    // parked danfos stood in the kerb lane, where the traffic system (traffic.js) now drives: they are
+    // left out, and danfos load at the motor park and drive in the traffic instead (Elvis, 10 October 2026)
+    void parked;
+    // moving danfos are the traffic system's too; none are made here (a single unplaced copy used to sit
+    // at the middle of the district as a stray box)
+    const n = 0;
+    if (n > 0) { moving = movingInstances(danfoT, n, -Math.PI / 2); group.add(moving.group); }
     const routes = majors.length ? majors : world.roads.filter((r) => r.fit);
     for (let k = 0; k < n; k++) {
       const r = routes[k % routes.length];
