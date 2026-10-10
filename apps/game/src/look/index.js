@@ -22,6 +22,7 @@ import { createWardrobe } from './wardrobe.js';
 import { createPets } from './pets.js';
 import { createFood } from './food.js';
 import { createTraffic } from './traffic.js';
+import { buildFlyover } from './flyover.js';
 import { createStreetLife } from './streetlife.js';
 import { createMobility } from './mobility.js';
 import { walletEngine } from './wallet.js';
@@ -254,7 +255,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   group.add(hud.route);
   passes = passesEngine({ toast: hud.toast, district: world.place?.name || 'Yaba' });
   wardrobe = createWardrobe({ toast: hud.toast });
-  traffic = createTraffic({ world, scene: group, reduced, lowQuality: quality === 'low', getPeople: () => lives.residents.filter((r) => r.obj.visible).map((r) => r.obj.position) });
+  const flyover = buildFlyover({ world, scene: group });
+  traffic = createTraffic({ world, scene: group, flyover, reduced, lowQuality: quality === 'low', getPeople: () => lives.residents.filter((r) => r.obj.visible).map((r) => r.obj.position) });
   food = createFood({ scene: group, props, toast: hud.toast, getEnv: () => live, reduced, addLamps: (l) => { props.lamps.push(...l); lights?.setLamps([...world.lamps, ...props.lamps, ...(world.porchLamps || [])]); } });
   pets = createPets({ scene: group, camera, world, toast: hud.toast, isIndoors: () => !!interiors?.active });
   petIt = { id: 'pet', label: 'Pet', x: 0, z: 0, r: 0 }; props.interact.push(petIt);
@@ -521,6 +523,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get traffic() { return traffic; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get traffic() { return traffic; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

@@ -59,7 +59,7 @@ export function vehicle(kind, i) {
   return g;
 }
 
-export function createTraffic({ world, scene, reduced, lowQuality, getPeople }) {
+export function createTraffic({ world, scene, reduced, lowQuality, getPeople, flyover }) {
   const group = new THREE.Group(); group.name = 'traffic'; scene.add(group);
   // ---------- the drivable graph: nodes at shared road points, edges along the roads ----------
   const nodes = [], index = new Map(), key = (x, z) => `${Math.round(x * 2)},${Math.round(z * 2)}`;
@@ -67,7 +67,7 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople }) 
   world.roads.filter((r) => r.fit && DRIVE.includes(r.cls)).forEach((r) => {
     const pts = r.fit.pts, lane = Math.max(1.5, Math.min(3.4, (r.w || 7) / 4));
     let prev = node(pts[0][0], pts[0][1]);
-    for (let i = 1; i < pts.length; i++) { const id = node(pts[i][0], pts[i][1]); if (id === prev) continue; const L = Math.hypot(nodes[id].x - nodes[prev].x, nodes[id].z - nodes[prev].z); nodes[prev].out.push({ to: id, L, lane, major: MAJOR.includes(r.cls) }); nodes[id].out.push({ to: prev, L, lane, major: MAJOR.includes(r.cls) }); prev = id; }
+    for (let i = 1; i < pts.length; i++) { const id = node(pts[i][0], pts[i][1]); if (id === prev) continue; const L = Math.hypot(nodes[id].x - nodes[prev].x, nodes[id].z - nodes[prev].z); nodes[prev].out.push({ to: id, L, lane, major: MAJOR.includes(r.cls), road: r }); nodes[id].out.push({ to: prev, L, lane, major: MAJOR.includes(r.cls), road: r }); prev = id; }
   });
   const usable = nodes.map((n, i) => i).filter((i) => nodes[i].out.length);
   // ---------- traffic lights at the big junctions ----------
@@ -143,24 +143,26 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople }) 
       const toEnd = c.e.L - c.s;
       // red or amber at the junction ahead: stop at the line
       const sig = sigAt.get(c.e.to);
-      if (sig) { const ph = Math.abs(Math.sin(Math.atan2(-p.dx, -p.dz) - sig.axis)) < 0.5 ? 0 : 1; const st = stateOf(sig, ph); if (st !== 'green' && toEnd > 4 && toEnd < 9 + c.v) want = Math.min(want, Math.max(0, (toEnd - 7) * 1.2)); }
+      const flying = flyover && c.e.road === flyover.road && flyover.over(p.x, p.z); // over the junction, no light
+      if (sig && !flying) { const ph = Math.abs(Math.sin(Math.atan2(-p.dx, -p.dz) - sig.axis)) < 0.5 ? 0 : 1; const st = stateOf(sig, ph); if (st !== 'green' && toEnd > 4 && toEnd < 9 + c.v) want = Math.min(want, Math.max(0, (toEnd - 7) * 1.2)); }
       // slow for the bend at the end of the segment
       if (toEnd < 8) want = Math.min(want, 5 + toEnd * 0.4);
       // keep a distance from the car ahead in the same lane
       for (let j = 0; j < cars.length; j++) {
-        if (j === k) continue; const q = P[j], ax = q.x - p.x, az = q.z - p.z, along = ax * p.dx + az * p.dz, across = Math.abs(-ax * p.dz + az * p.dx);
+        // (one up on the flyover and one under it are not in each other's way)
+        if (j === k || Math.abs(cars[j].mesh.position.y - c.mesh.position.y) > 2.5) continue; const q = P[j], ax = q.x - p.x, az = q.z - p.z, along = ax * p.dx + az * p.dz, across = Math.abs(-ax * p.dz + az * p.dx);
         if (along > 0 && along < 14 && across < 1.6 && p.dx * q.dx + p.dz * q.dz > 0.3) want = Math.min(want, Math.max(0, (along - DESIGNS[c.kind].len / 2 - DESIGNS[cars[j].kind].len / 2 - 1.5) * 1.1));
       }
       // people in the road ahead: stop, and after a moment, the horn
       let blocked = false;
-      [player, ...people].forEach((h, hi) => { if (!h) return; const ax = h.x - p.x, az = h.z - p.z, along = ax * p.dx + az * p.dz, across = Math.abs(-ax * p.dz + az * p.dx); if (along > 0 && along < 7 && across < 1.5) { want = Math.min(want, Math.max(0, (along - 3.5) * 1.5)); if (hi === 0 && along < 6) blocked = true; } });
+      [player, ...people].forEach((h, hi) => { if (!h || c.mesh.position.y > 2.5) return; const ax = h.x - p.x, az = h.z - p.z, along = ax * p.dx + az * p.dz, across = Math.abs(-ax * p.dz + az * p.dx); if (along > 0 && along < 7 && across < 1.5) { want = Math.min(want, Math.max(0, (along - 3.5) * 1.5)); if (hi === 0 && along < 6) blocked = true; } });
       if (blocked && c.v < 0.3) { c.horn += dt; if (c.horn > 1.6 && Math.hypot(player.x - p.x, player.z - p.z) < 25) { sfx('horn', { kind: c.kind }); c.horn = -3; } } else c.horn = Math.min(c.horn, 0) + dt * 0;
       if (reduced) want = Math.min(want, c.max * 0.6);
       c.v += Math.max(-7 * dt, Math.min(2.4 * dt, want - c.v));
       c.s += c.v * dt;
       if (c.s >= c.e.L) { const at = c.e.to; if (watchers.some((fn) => fn(c, at))) { c.gone = true; return; } const nx = pickNext(c.from, at); c.s -= c.e.L; c.from = at; c.e = nx; if (c.s > c.e.L) c.s = 0; }
       const q = posOf(c), yaw = Math.atan2(q.dx, q.dz);
-      c.mesh.position.set(q.x, 0, q.z);
+      c.mesh.position.set(q.x, flyover ? flyover.heightFor(q.x, q.z, c.e.road) : 0, q.z);
       const dy = Math.atan2(Math.sin(yaw - c.mesh.rotation.y), Math.cos(yaw - c.mesh.rotation.y)); c.mesh.rotation.y += dy * (1 - Math.exp(-dt * 6));
       c.mesh.userData.tail.color.setHex(want < c.v - 0.5 ? 0xff2a2a : 0x701010);
       c.body = { cx: q.x, cz: q.z, hx: DESIGNS[c.kind].w / 2 + 0.05, hz: DESIGNS[c.kind].len / 2, ry: c.mesh.rotation.y };
