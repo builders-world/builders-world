@@ -225,6 +225,17 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
         interiors.enter('home', host).then((p) => { setInside('Your home'); pendingMove = { ...p, mode: 'inside' }; passes.arrive('myhome'); });
         return true;
       }
+      // the parks (parkland.js): plaques to read, ice cream, the board game, the chess tables (a route to the Chess Corner)
+      if (active?.id?.startsWith('park:')) {
+        if (active.chess) {
+          const cc = props.pois?.find((q) => q.kind === 'chess' || /chess corner/i.test(q.name || ''));
+          if (cc) { hud.setRoute?.({ x: cc.x, z: cc.z }, cc.name); hud.toast(`The garden tables are for friendly games; the Chess Corner has the regulars and real clocks. Route set: ${Math.round(Math.hypot(cc.x - player.x, cc.z - player.z))} m.`, 3600); }
+          else hud.toast('The garden tables are for friendly games. Two regulars set up here on Sunday afternoons.', 3200);
+          return true;
+        }
+        if (active.cost && !walletEngine().spend(active.cost, active.label)) { hud.toast(`That is ${active.cost} Efforts.`, 2200); return true; }
+        sfx('interact'); hud.toast(active.say, 5200); return true;
+      }
       if (active?.id?.startsWith('knock:')) return lives.knock(active.id);
       if (active?.id?.startsWith('visit:')) {
         const host = lives.visit(active.id); if (!host) return false;
@@ -522,6 +533,13 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   props.pois?.filter((q) => q.kind === 'build').forEach((q) => { q.x = props.area.x; q.z = props.area.z; }); // the build area moved into the park
   // Greenrey: large open land becomes laterite, yards, car parks and building plots; grass stays in the gaps (greenrey.js)
   if (!off.has('greenrey')) { try { greenrey = buildGreenrey({ renderer, scene, world, group, park: parks.park }); } catch (err) { console.warn('Greenrey skipped', err); } }
+  // the parks greenrey laid out on the open green land (parkland.js): benches to sit on, the parks on the map, things to do
+  if (greenrey?.parks) {
+    const P = greenrey.parks, base = seats.length;
+    P.seats.forEach((st, i) => { seats.push(st); props.interact.push({ id: `seat:${base + i}`, label: 'Sit on the bench', x: st.x + Math.sin(st.yaw) * 0.5, z: st.z + Math.cos(st.yaw) * 0.5, r: 1.3 }); });
+    props.pois?.push(...P.pois);
+    props.interact.push(...P.interact);
+  }
 
   // ---------- graphics tier: sun shadows, lamps, distances, texture sharpness, sky reflections ----------
   const shadowFocus = new THREE.Vector3();

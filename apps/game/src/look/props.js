@@ -6,6 +6,7 @@ import { createAvatarModel } from '../onboarding/avatar.js';
 import { prepareLook, dress, lookFor } from './style.js';
 import { rigAvatar } from './anim.js';
 import { wallMaterial } from './surfaces.js';
+import { plantAll, pickTree, trunkCollider } from './flora.js';
 import { frondTexture, leafTexture, boardTexture, muralTexture, buildSignTexture, hubSignTexture } from './textures.js';
 import { instanceAsset, collidersFor, footprint, surfacesFor } from './kit.js';
 
@@ -459,12 +460,18 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   // palms where world.js planted trees, plus plants by the board
   const palm = palmGeometry();
   // street trees are clay planter trees, as in the arrival scene; palms stay as accents by the board
-  const treeSpots = world.trees.map((t) => ({ x: t.x, z: t.z, r: t.r, ry: rng() * Math.PI * 2 }));
-  if (treeSpots.length) {
-    const clayMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.75 });
-    const r3 = mulberry32(77);
-    root.add(instanced(clayTreeGeometry(), clayMat, treeSpots, () => 2.3 + r3() * 0.7));
-    world.addColliders(treeSpots.map((t) => ({ name: 'clay_tree', cx: t.x, cz: t.z, hx: t.r ?? 0.75, hz: t.r ?? 0.75, ry: 0 })));
+  // Street trees are the city's own species (flora.js), planted young in square tree pits; neighbouring trees share
+  // a species, so a street reads as an avenue. Back-garden trees are garden trees: mango, frangipani, a flame tree.
+  const city = world.place?.city || 'Lagos', r3 = mulberry32(77);
+  const garden = new Set((world.lotTrees || []).map((t) => `${t.x.toFixed(2)},${t.z.toFixed(2)}`));
+  const avenue = (x, z) => { const h = Math.abs(Math.sin(Math.floor(x / 70) * 127.1 + Math.floor(z / 70) * 311.7) * 43758.5453) % 1; return pickTree(city, 'street', () => h); };
+  const GARDEN = ['mango', 'frangipani', 'flamboyant', 'pinkTrumpet', 'mango', 'goldenShower', city === 'Nairobi' ? 'jacaranda' : 'coconut'];
+  const streetTrees = world.trees.map((t, i) => { const g2 = garden.has(`${t.x.toFixed(2)},${t.z.toFixed(2)}`); return { kind: g2 ? GARDEN[i % GARDEN.length] : avenue(t.x, t.z), x: t.x, z: t.z, s: (g2 ? 0.6 : 0.55) + r3() * 0.15, ry: r3() * 6.28, garden: g2 }; });
+  if (streetTrees.length) {
+    root.add(plantAll(streetTrees, 'street_trees'));
+    const pits = streetTrees.filter((t) => !t.garden);
+    if (pits.length) root.add(instanced(new THREE.BoxGeometry(1.0, 0.05, 1.0).translate(0, 0.025, 0), new THREE.MeshStandardMaterial({ color: 0x5a4334, roughness: 1 }), pits.map((t) => ({ x: t.x, z: t.z, y: 0.12, ry: 0 }))));
+    world.addColliders(streetTrees.map((t) => ({ ...trunkCollider(t), name: 'street_tree' })));
   }
   const palmSpots = [];
   // palms line the far pavement of the hero street, and stand at the back of the open gaps
@@ -493,8 +500,35 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   [[-2.9, 0.4], [2.9, 0.4], [-2.9, 1.6], [2.9, 1.6]].forEach(([u, v]) => tryPlant(bSpot.a + u, bSpot.c + v));
   if (aSpot) [[-3.1, -1], [3.1, -1], [-3.1, 1.2], [3.1, 1.2]].forEach(([u, v]) => tryPlant(aSpot.a + u, aSpot.c + v));
   // potted plants by the board and the build area, the arrival scene's own planters
-  root.add(instanced(clayTreeGeometry(), new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.75 }), [...plantSpots, ...(world.doorPlants || []).map((d) => ({ x: d.x, z: d.z, ry: rng() * 6 }))], () => 1.05 + rng() * 0.35));
+  // potted plants by the board and the build area, and by every front door: a mix, as people choose them
+  const POTS = ['pot', 'palmPot', 'croton', 'pot', 'hibiscus', 'palmPot', 'ixora'];
+  root.add(plantAll([...plantSpots.map((q, i) => ({ kind: i % 2 ? 'palmPot' : 'pot', x: q.x, z: q.z, ry: q.ry, s: 1.1 })), ...(world.doorPlants || []).map((d, i) => { const kind = POTS[i % POTS.length]; return { kind, x: d.x, z: d.z, ry: rng() * 6, s: kind === 'pot' || kind === 'palmPot' ? 1 : 0.75 }; })], 'door_plants'));
   void banana;
+  // Home gardens (Elvis, 10 October 2026: "shrubs, flowers... people decorating their homes with gardens"): every estate
+  // house gets flower beds under its front windows either side of the door, and shrubs in the corners of its lot,
+  // each household its own mix; never on the path to the door, the driveway, or against a wall or fence.
+  {
+    const gardens = [], planter = new Map((world.doorPlants || []).map((d) => [d.addr, d]));
+    const SHRUBS = ['bougainvillea', 'hibiscus', 'croton', 'ixora', 'canna', 'rose', 'bougainvillea', 'hibiscus'];
+    const clear = (x, z, r) => { const q = { x, z }; world.resolve?.(q, r); return Math.hypot(q.x - x, q.z - z) < 0.04; };
+    const cars = world.carSpots || [];
+    (world.addresses || []).forEach((A, hi) => {
+      const st = A.door, dp = planter.get(A.addr); if (!st || !dp || !A.pts) return;
+      // the way the front door faces: from the middle of the lot out through the step
+      let nx = Math.sin(st.ry), nz = Math.cos(st.ry); if (nx * (st.x - A.x) + nz * (st.z - A.z) < 0) { nx = -nx; nz = -nz; }
+      let tx = (dp.x - st.x + nx * 0.5) / 1.9, tz = (dp.z - st.z + nz * 0.5) / 1.9; const tl = Math.hypot(tx, tz) || 1; tx /= tl; tz /= tl;
+      const fx = st.x - nx * 1.9, fz = st.z - nz * 1.9, mix = (k) => SHRUBS[(hi * 3 + k) % SHRUBS.length];
+      const nearPath = (x, z) => { const u = (x - st.x) * nx + (z - st.z) * nz, w = Math.abs((x - st.x) * tx + (z - st.z) * tz); return u > -0.5 && u < 12 && w < 1.5; };
+      const ok = (x, z, r = 0.55) => !nearPath(x, z) && !cars.some((c) => Math.hypot(c.x - x, c.z - z) < 3.4) && clear(x, z, r);
+      // beds under the windows, along the wall, either side of the door
+      [-3.1, 3.7].forEach((t) => { const x = fx + nx * 0.85 + tx * t, z = fz + nz * 0.85 + tz * t; if (ok(x, z, 0.5)) gardens.push({ kind: 'bed', x, z, ry: st.ry, s: 1 }); });
+      // shrubs in the lot's corners, pulled in from the fence
+      const [cx, cz] = [A.x, A.z];
+      A.pts.forEach(([px, pz], k) => { const dx = cx - px, dz = cz - pz, L = Math.hypot(dx, dz) || 1, x = px + (dx / L) * 1.25, z = pz + (dz / L) * 1.25; if (ok(x, z)) gardens.push({ kind: mix(k), x, z, ry: (hi + k) * 1.3, s: 0.85 + ((hi + k) % 3) * 0.12 }); });
+    });
+    if (gardens.length) root.add(plantAll(gardens, 'home_gardens'));
+    world.homeGardens = gardens.length;
+  }
 
   // danfos: two parked at the kerb ahead, three driving the main road
   const road = world.mainRoad;
