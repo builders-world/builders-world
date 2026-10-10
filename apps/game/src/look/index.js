@@ -47,6 +47,7 @@ import { shared } from '../shaders.js';
 import { setCity, cityInfo } from './cityinfo.js';
 import { BUILDERS } from '../builders.js';
 import { createOfficials } from './officials.js';
+import { createCompass } from './compass.js';
 
 // sun shadows cover the ground round the player; they fade out towards the edge of that area, so there
 // is never a line on the street where shadows stop
@@ -84,6 +85,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   const off = new Set((new URLSearchParams(location.search).get('no') || '').split(','));
 
   setCity(world.place?.city || 'Lagos', world.place?.name || 'Yaba'); // what makes this city itself (cityinfo.js)
+  const compass = createCompass({ camera }); // which way you face, across the top (compass.js)
   // the demo builders say where they are: the city you are in, not always Lagos
   if (world.place?.city && world.place.city !== 'Lagos') BUILDERS.forEach((b) => { if (b.tagline) b.tagline = b.tagline.replace(/^Lagos\./, `${world.place.city}.`); });
   namePlaces(world.place?.name, world.place?.city);
@@ -631,6 +633,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     if (!interiors?.active) { lives.update(dt, t, player); chat.update(dt, player); rec.update(t); litter?.update(dt, player); building?.update(dt); }
     profiler?.update(dt);
     if (moveHint.classList.contains('on') && lastPlayer) { if (hintFrom === null) hintFrom = { x: lastPlayer.x, z: lastPlayer.z, t: 0 }; else if (hintFrom) { hintFrom.t += dt; if (Math.hypot(lastPlayer.x - hintFrom.x, lastPlayer.z - hintFrom.z) > 4 || hintFrom.t > 20) moveHint.classList.remove('on'); } }
+    compass?.update();
     if (homeAct) { homeAct.t += dt; if (homeAct.dur && homeAct.t >= homeAct.dur) endAct(true); if (!interiors?.active) homeAct = null; }
     if (!interiors?.active) { food?.update(dt, player); if (traffic?.addBlocker) { rideBlock ||= traffic.addBlocker({ r: 1.4 }); const rv = rides?.vehicle; rideBlock.on = !!(rv && world.onCarriageway?.(rv.x, rv.z, 0.6)); if (rv) { rideBlock.x = rv.x; rideBlock.z = rv.z; rideBlock.r = rv.r; } }
       traffic?.update(dt, player); slife?.update(dt, player); officials?.update(dt); mobility?.update(dt, t); sports?.update(dt); }
@@ -758,7 +761,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       try { localStorage.setItem(LAST, JSON.stringify({ district, ...(street || {}), inside, at: Date.now() })); } catch { /* */ }
     }, 5000);
   }
-  addEventListener('bw:jumpto', (e) => { const d = e.detail || {}; if (interiors?.active) { hud.toast('Go outside first, then jump.', 2200); return; } const q = world.nearestReachable(d.x + 1.6, d.z + 1.6) || { x: d.x, z: d.z }; pendingMove = { mode: 'stand', x: q.x, z: q.z }; hud.toast(`You are with ${d.name || 'them'}.`, 2000); });
+  addEventListener('bw:jumpto', (e) => { const d = e.detail || {}; if (interiors?.active) { hud.toast('Go outside first, then jump.', 2200); return; } const q = world.nearestReachable(d.x + 1.6, d.z + 1.6) || { x: d.x, z: d.z }; pendingMove = { mode: 'stand', x: q.x, z: q.z }; hud.toast(d.quick ? `Quick travel: you are at ${d.name || 'your marker'}.` : `You are with ${d.name || 'them'}.`, 2200); if (d.quick) sfx('arrive'); });
   // a teleport for the player (into or out of a place, sitting, standing), taken once
   // getting up, from a bench or a desk: at a desk the laptop closes and goes in your bag first
   let leaving = false;
@@ -855,6 +858,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   function takeMove() { const m = pendingMove; pendingMove = null; return m; }
 
   function dispose() {
+    compass.dispose();
     if (interiors?.active) setInside(null);
     interiors?.dispose();
     rides?.dispose();
