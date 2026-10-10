@@ -36,6 +36,8 @@ import { createSports } from './sports/index.js';
 import { TIERS, trackDetail, cullDetail } from './quality.js';
 import { walletEngine } from './wallet.js';
 import { createInteriors, PLACES, namePlaces } from './interior.js';
+import { openPassportDesk, openEtaDesk, openTravelBoard, dialogOpen as travelDialogOpen, closeDialog as closeTravelDialog } from './travel.js';
+import { AIRPORTS } from './travelrules.js';
 import { sunPosition, sunDirection } from './sun.js';
 import { shared } from '../shaders.js';
 
@@ -149,7 +151,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   // the estates: gate signs, house numbers, cars in the driveways (estatesigns.js)
   const estateSigns = buildEstateSigns({ world, scene: group });
   const placeUsed = [];
-  const fronts = buildPlaceFronts({ world, scene: group, keys: ['loft', 'studio', 'gym'], used: placeUsed,
+  const fronts = buildPlaceFronts({ world, scene: group, keys: ['loft', 'studio', 'gym', 'immigration'], used: placeUsed,
     addLamps: (l) => props.lamps.push(...l) });
   doors.push(...fronts.doors);
   // Yaba's landmarks, each on the side it really lies (landmarks.js)
@@ -220,7 +222,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
           interiors.enter(key).then((p) => {
             setInside(PLACES[key].name); pendingMove = { ...p, mode: 'inside' };
             const L = passes.arrive(key), own = passes.NETS[key];
-            setTimeout(() => hud.toast(L ? `Your laptop joined ${L.ssid}.` : `Your laptop is offline in here. ${key === 'studio' ? 'The members\' Wi-Fi is on your card' : `Wi-Fi ${own?.ssid}: the password is on the notice board`}.`, 4000), 4800);
+            if (L || own || key === 'studio') setTimeout(() => hud.toast(L ? `Your laptop joined ${L.ssid}.` : `Your laptop is offline in here. ${key === 'studio' ? 'The members\' Wi-Fi is on your card' : `Wi-Fi ${own?.ssid}: the password is on the notice board`}.`, 4000), 4800);
           });
         };
         // members only: register at the door, or tap your card
@@ -235,7 +237,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       return false;
     },
     onRide: (player) => (interiors?.active ? hud.toast('Step outside to call a ride: the driver cannot come in.', 2600) : rides?.openPanel('taxi', { app: true, x: player.x, z: player.z })),
-    isExtraOpen: () => rides?.isMenuOpen() || interiors?.computerOpen || !!benchSeat || !!passes?.registering || !!gates?.isOpen || !!wardrobe?.isOpen || !!pets?.isOpen || !!food?.isOpen || !!sports?.isOpen,
+    isExtraOpen: () => travelDialogOpen() || rides?.isMenuOpen() || interiors?.computerOpen || !!benchSeat || !!passes?.registering || !!gates?.isOpen || !!wardrobe?.isOpen || !!pets?.isOpen || !!food?.isOpen || !!sports?.isOpen,
     closeExtra: () => {
       rides?.closeMenu();
       if (passes?.registering) { passes.closeRegister(); return; }
@@ -293,7 +295,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   gates = createGates({ world, scene: group, props, lives, passes, toast: hud.toast, getHour: () => live?.hour ?? 12,
     // another player said yes at their door: in you go, they are there to meet you
     enterPlayerHome: (host) => { doorOut = { x: host.door.x, z: host.door.z, yaw: host.door.ry ?? 0 }; interiors.enter('home', host).then((p) => { setInside(`${host.first}'s home`); pendingMove = { ...p, mode: 'inside' }; passes.arrive('home'); }); } });
-  interiors = createInteriors({ scene, reduced, toast: hud.toast, getEnv: () => live || { day: 1 }, onPackUp: () => standUp(), net: passes, onOrder: (k) => food?.menu(k), onTeller: () => hud.openWallet({ atm: true }) });
+  interiors = createInteriors({ country: AIRPORTS[world.place?.city || 'Lagos']?.country || 'Nigeria', scene, reduced, toast: hud.toast, getEnv: () => live || { day: 1 }, onPackUp: () => standUp(), net: passes, onOrder: (k) => food?.menu(k), onTeller: () => hud.openWallet({ atm: true }) });
   // everything that moves and can be bumped into: people, traffic, the waiting hired vehicle
   const bodies = () => [...(props.bodies?.() || []), ...lives.bodies(), ...(mobility?.bodies() || []), ...(dressing?.bodies?.() || []), ...(traffic?.bodies() || []), rides?.body?.()].filter(Boolean);
   rides = createRides({ world, scene: group, nav: hud.nav, props, reduced, toast: hud.toast, getBodies: () => [...(props.bodies?.() || []), ...(dressing?.bodies?.() || [])],
@@ -629,6 +631,20 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   }
 
   // Jump (map, Online now): straight to another player, a couple of metres away on open ground
+  // ---------- papers: the Immigration Centre's desks (travel.js) ----------
+  {
+    const here = world.place?.city || 'Lagos', myName = () => { try { return JSON.parse(localStorage.getItem('bw-arrivals-v1') || '{}').name || ''; } catch { return ''; } };
+    const desk = { passes, here, place: PLACES.immigration.name, toast: hud.toast, myName };
+    let ticket = 40 + Math.floor(Math.random() * 30);
+    addEventListener('bw:travel', (e) => {
+      const what = e.detail;
+      if (what === 'passport') openPassportDesk(desk);
+      else if (what === 'eta') openEtaDesk(desk);
+      else if (what === 'fly' || what === 'ask') openTravelBoard(desk);
+      else if (what === 'ticket') { ticket += 1; hud.toast(`Your number is ${String(ticket).padStart(3, '0')}. Counter 1 for passports, counter 2 for travel authorisations.`, 3600); }
+      else if (what === 'bio') hud.toast('The biometrics booth: your photo and fingerprints are taken at counter 1 when you apply.', 3400);
+    });
+  }
   // ---------- where you start (world bible 6.6) ----------
   // Everyone has a home. New players start inside it; returning players come back to where they were
   // (or home, if that is where they left off). Saved every 5 s. Automated test runs keep the street start
