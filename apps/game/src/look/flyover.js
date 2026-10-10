@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { signTexture } from './props.js';
+import { THEMES } from '../world.js';
 
 // The flyover (world bible 9.6): the main road climbs over its busiest junction on a concrete deck, the
 // way Lagos does it at Ojuelegba and Jibowu. Through traffic goes over; the cross street and the
@@ -13,6 +14,16 @@ export function buildFlyover({ world, scene }) {
   const MAJOR = ['trunk', 'primary', 'secondary'];
   // a junction a major road runs straight through, with room for both ramps on the straight
   let best = null;
+  // nothing else may stand where the deck and ramps go: the footbridge (deck, landings, stairs) and any
+  // land already claimed for a structure. Points are sampled 1 m apart along each of them.
+  const taken = [];
+  const b = world.bridge;
+  if (b?.ends?.length === 2) { const [e0, e1] = b.ends, L = Math.hypot(e1.x - e0.x, e1.z - e0.z); for (let t = 0; t <= L; t += 1) taken.push([e0.x + (e1.x - e0.x) * t / L, e0.z + (e1.z - e0.z) * t / L]); b.ends.forEach((e) => taken.push([e.foot.x, e.foot.z])); }
+  (world.claims || []).filter((c) => /bridge|landmark|venue|flyover/.test(c.kind || '')).forEach((c) => {
+    const cs = Math.cos(c.ry || 0), sn = Math.sin(c.ry || 0);
+    for (let u = -c.hx; u <= c.hx; u += Math.max(1, c.hx / 4)) for (let v = -c.hz; v <= c.hz; v += Math.max(1, c.hz / 4)) taken.push([c.cx + u * cs + v * sn, c.cz - u * sn + v * cs]);
+  });
+  const clear = (cx, cz, ux, uz, halfW) => taken.every(([px, pz]) => { const dx = px - cx, dz = pz - cz; return Math.abs(dx * ux + dz * uz) > SPAN / 2 + RAMP + 3 || Math.abs(-dx * uz + dz * ux) > halfW + 3; });
   world.roads.filter((r) => r.fit && MAJOR.includes(r.cls)).forEach((r) => {
     const { pts, half } = r.fit;
     for (let i = 2; i < pts.length - 2; i++) {
@@ -25,7 +36,7 @@ export function buildFlyover({ world, scene }) {
         let L = 0, j = i;
         while (L < need && ok) { const k = j + s; if (k < 0 || k >= pts.length) { ok = false; break; } const sx = pts[k][0] - pts[j][0], sz = pts[k][1] - pts[j][1], sl = Math.hypot(sx, sz) || 1; if (Math.abs((sx / sl) * ux + (sz / sl) * uz) < 0.985) ok = false; L += sl; j = k; }
       }
-      if (!ok) continue;
+      if (!ok || !clear(pts[i][0], pts[i][1], ux, uz, Math.max(...half.slice(i - 2, i + 3)))) continue;
       const score = (r.cls === 'trunk' ? 3 : r.cls === 'primary' ? 2 : 1) * 1000 - Math.hypot(pts[i][0] - world.spawn.x, pts[i][1] - world.spawn.z);
       if (!best || score > best.score) best = { r, i, x: pts[i][0], z: pts[i][1], ux, uz, half: Math.max(...half.slice(i - 2, i + 3)), score };
     }
@@ -34,7 +45,7 @@ export function buildFlyover({ world, scene }) {
   const { x, z, ux, uz } = best, nx = -uz, nz = ux;
   const W = Math.min(best.half * 2 - 0.6, 11); // the deck covers the carriageway, both directions
   const group = new THREE.Group(); group.name = 'flyover'; scene.add(group);
-  const concrete = new THREE.MeshStandardMaterial({ color: 0xc9c2b4, roughness: 0.9 }), dark = new THREE.MeshStandardMaterial({ color: 0x4a4d52, roughness: 0.95 });
+  const concrete = new THREE.MeshStandardMaterial({ color: 0xc9c2b4, roughness: 0.9 }), dark = new THREE.MeshStandardMaterial({ color: THEMES.night.road, roughness: 0.8 }); // the same asphalt as the road below it
   const paint = new THREE.MeshBasicMaterial({ color: 0xf2efe6 });
   // the height along the road: up the ramp, level over the junction, down the other side
   const heightAt = (s) => { const a = Math.abs(s); if (a <= SPAN / 2) return H; if (a >= SPAN / 2 + RAMP) return 0; const u = 1 - (a - SPAN / 2) / RAMP; return H * (u * u * (3 - 2 * u)); };
@@ -77,6 +88,8 @@ export function buildFlyover({ world, scene }) {
   world.addColliders?.(walls);
   // the camera does not pass through the deck
   world.claim?.({ kind: 'flyover_deck', cx: x, cz: z, hx: W / 2, hz: SPAN / 2 + 8, ry, y0: H - 0.6, y1: H + 1.1 });
+  // and the whole run, ramps too, is land set aside, so nothing placed after it (a venue, a park, the audit) lands on it
+  world.claims?.push({ kind: 'flyover_run', cx: x, cz: z, hx: W / 2 + 0.5, hz: SPAN / 2 + RAMP, ry });
   return {
     group, road: best.r, x, z, ux, uz, W, H, SPAN, RAMP,
     // how high a car is here, if it is on the flyover's road and inside its span
