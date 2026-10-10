@@ -117,14 +117,25 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
   if (busiest) {
     const av = createAvatarModel({ color: '#f2c418', style: 'tee' }); prepareLook(av.root); const rig = rigAvatar(av.root);
     dress(av.root, { body: 'm', skin: '#7a4a2e', hair: 'fila', hairColor: '#1b1714', top: 'tee', topColor: '#f2c418', bottom: 'trousers', bottomColor: '#6b1d2a', shoes: 'boots', shoeColor: '#1d2028', acc: [] }, rig);
-    const e = busiest.n.out[0], o = nodes[e.to], L = Math.hypot(o.x - busiest.n.x, o.z - busiest.n.z) || 1;
-    // on a little island at the corner, out of the cars' way
-    let px = 0, pz = 0;
-    for (let off = e.lane + 3; off < e.lane * 3 + 9; off += 0.5) { px = busiest.n.x + ((o.z - busiest.n.z) / L) * off; pz = busiest.n.z - ((o.x - busiest.n.x) / L) * off; if (!world.onCarriageway?.(px, pz, 1.0)) break; }
-    av.root.position.set(px, 0.15, pz); av.root.rotation.y = Math.atan2(busiest.n.x - px, busiest.n.z - pz); group.add(av.root);
-    const isle = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.7, 0.15, 14).translate(0, 0.075, 0), new THREE.MeshStandardMaterial({ color: 0xd9d2c3, roughness: 0.8 })); isle.position.set(px, 0, pz); group.add(isle);
-    warden = { av, rig, x: px, z: pz, next: 2 };
-    world.addColliders?.([{ name: 'warden_island', cx: px, cz: pz, hx: 0.6, hz: 0.6, ry: 0 }]);
+    // on a little island at the corner, out of the cars' way: try each road out of the junction, both sides, until the island is clear of every carriageway
+    let px = busiest.n.x, pz = busiest.n.z, found = false;
+    for (const ed of busiest.n.out) {
+      const q = nodes[ed.to], Lq = Math.hypot(q.x - busiest.n.x, q.z - busiest.n.z) || 1;
+      for (const sd of [1, -1]) {
+        for (let off = ed.lane + 3; off < ed.lane * 3 + 9 && !found; off += 0.5) {
+          const tx = busiest.n.x + ((q.z - busiest.n.z) / Lq) * off * sd, tz = busiest.n.z - ((q.x - busiest.n.x) / Lq) * off * sd;
+          if (!world.onCarriageway?.(tx, tz, 1.4)) { px = tx; pz = tz; found = true; }
+        }
+        if (found) break;
+      }
+      if (found) break;
+    }
+    if (found) {
+      av.root.position.set(px, 0.15, pz); av.root.rotation.y = Math.atan2(busiest.n.x - px, busiest.n.z - pz); group.add(av.root);
+      const isle = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.7, 0.15, 14).translate(0, 0.075, 0), new THREE.MeshStandardMaterial({ color: 0xd9d2c3, roughness: 0.8 })); isle.position.set(px, 0, pz); group.add(isle);
+      warden = { av, rig, x: px, z: pz, next: 2 };
+      world.addColliders?.([{ name: 'warden_island', cx: px, cz: pz, hx: 0.6, hz: 0.6, ry: 0 }]);
+    }
   }
 
   // ---------- the cars ----------

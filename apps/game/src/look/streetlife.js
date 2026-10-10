@@ -32,7 +32,7 @@ export function createStreetLife({ world, scene, props, traffic, chat, toast, ge
 
   // ---------- Yaba Motor Park ----------
   let park = null;
-  const pAt = findSite(world, used, 32, 22);
+  const pAt = findSite(world, used, 34, 24); // a metre of margin round the 32 by 22 it claims
   if (pAt && traffic) {
     const g = new THREE.Group(); g.position.set(pAt.x, 0, pAt.z); group.add(g);
     const tar = new THREE.Mesh(new THREE.PlaneGeometry(32, 22).rotateX(-Math.PI / 2), new THREE.MeshStandardMaterial({ color: 0x55585c, roughness: 0.95, polygonOffset: true, polygonOffsetFactor: -1 })); tar.position.y = 0.09; g.add(tar);
@@ -79,7 +79,7 @@ export function createStreetLife({ world, scene, props, traffic, chat, toast, ge
 
   // ---------- Yaba Police Division ----------
   let police = null;
-  const sAt = findSite(world, used, 16, 14);
+  const sAt = findSite(world, used, 18, 16); // a metre of margin round the 16 by 14 it claims
   if (sAt) {
     const g = new THREE.Group(); g.position.set(sAt.x, 0, sAt.z); group.add(g);
     const wall = new THREE.MeshStandardMaterial({ color: 0xe9ecef, roughness: 0.85 }), blue = new THREE.MeshStandardMaterial({ color: 0x1f3d7a, roughness: 0.6 });

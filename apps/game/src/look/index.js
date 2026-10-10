@@ -27,6 +27,7 @@ import { createStreetLife } from './streetlife.js';
 import { createMobility } from './mobility.js';
 import { cullPeople } from './anim.js';
 import { createSpotify, trackUrl } from './spotify.js';
+import { buildLandmarks } from './landmarks.js';
 import { walletEngine } from './wallet.js';
 import { createInteriors, PLACES, namePlaces } from './interior.js';
 import { sunPosition, sunDirection } from './sun.js';
@@ -150,6 +151,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   const fronts = buildPlaceFronts({ world, scene: group, keys: ['loft', 'studio', 'gym'], used: placeUsed,
     addLamps: (l) => props.lamps.push(...l) });
   doors.push(...fronts.doors);
+  // Yaba's landmarks, each on the side it really lies (landmarks.js)
+  const landmarks = buildLandmarks({ world, scene: group, props, used: placeUsed });
   // the bank's banking hall, and Kofo Cafe, open their doors too (venues.js)
   if (dressing?.bankDoor) doors.push({ key: 'bank', at: dressing.bankDoor });
   const cafeFront = props.interact.find((i) => i.name === 'Kofo Cafe');
@@ -560,6 +563,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 
