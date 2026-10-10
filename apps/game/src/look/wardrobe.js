@@ -17,7 +17,9 @@ const CSS = `
 #lk-ward .chips button.on { border-color: ${C.teal}; background: #e2f3ef; }
 #lk-ward .sw { display: flex; flex-wrap: wrap; gap: 8px; } #lk-ward .sw button { width: 32px; height: 32px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 0 0 2px #e3d4b4; cursor: pointer; padding: 0; }
 #lk-ward .sw button.on { box-shadow: 0 0 0 3px ${C.teal}; }
-#lk-ward footer { display: flex; gap: 8px; padding: 12px 18px 16px; border-top: 2px dashed #e3d4b4; } #lk-ward footer button { flex: 1; border: 0; border-radius: 999px; padding: 12px; font: 800 15px/1 ${FONT}; cursor: pointer; background: #eadfc6; color: ${C.ink}; }
+#lk-ward footer { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 10px; padding: 12px 18px 16px; border-top: 2px dashed #e3d4b4; }
+#lk-ward footer button { box-sizing: border-box; height: 44px; margin: 0; border: 0; border-radius: 999px; padding: 0 14px; display: flex; align-items: center; justify-content: center; font: 800 15px/1 ${FONT}; cursor: pointer; background: #eadfc6; color: ${C.ink}; box-shadow: 0 3px 0 rgba(59,42,32,.18); transform: none; }
+#lk-ward footer button:hover { filter: brightness(1.04); } #lk-ward footer button:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(59,42,32,.18); }
 #lk-ward footer .go { background: ${C.teal}; color: #fff; }
 `;
 const GROUPS = [['body', 'Body'], ['skin', 'Skin', true], ['hair', 'Hair'], ['hairColor', 'Hair colour', true], ['top', 'Top'], ['topColor', 'Top colour and print', true], ['bottom', 'Bottoms'], ['bottomColor', 'Bottoms colour', true], ['shoes', 'Shoes'], ['shoeColor', 'Shoe colour', true], ['acc', 'Accessories']];

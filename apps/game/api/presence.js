@@ -7,7 +7,7 @@ import { db } from './_db.js';
 
 const str = (v, n) => String(v ?? '').replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, n);
 // the wardrobe look (src/look/style.js): known values only; colours as #rrggbb
-const LOOK = { body: ['m', 'f'], hair: ['low', 'fade', 'afro', 'locs', 'braids', 'cornrows', 'bun', 'bald', 'gele', 'fila'], top: ['jacket', 'hoodie', 'tee', 'ankara', 'adire', 'kaftan', 'agbada', 'dress'],
+const LOOK = { body: ['m', 'f'], hair: ['low', 'fade', 'afro', 'locs', 'braids', 'cornrows', 'bun', 'long', 'ponytail', 'bald', 'gele', 'fila'], top: ['jacket', 'hoodie', 'tee', 'ankara', 'adire', 'kaftan', 'agbada', 'dress'],
   bottom: ['trousers', 'shorts', 'skirt', 'wrapper'], shoes: ['sneakers', 'sandals', 'boots', 'heels', 'loafers'] };
 const ACC = ['earrings', 'beads', 'glasses', 'bag', 'watch'], HEX = /^#[0-9a-fA-F]{6}$/;
 const cleanLook = (l) => {

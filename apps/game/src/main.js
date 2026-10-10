@@ -238,7 +238,7 @@ async function main() {
   let mirrorSave = null, shotCam = null;
   addEventListener('bw:shot', (e) => { shotCam = e.detail || null; });
   addEventListener('bw:mirror', (e) => {
-    if (e.detail) { mirrorSave = mirrorSave || { yaw: cam.yawT, dist: cam.distT, pitch: cam.pitchT }; cam.yawT = heading + Math.PI; cam.distT = 3.6; cam.pitchT = 0.12; }
+    if (e.detail) { mirrorSave = mirrorSave || { yaw: cam.yawT, dist: cam.distT, pitch: cam.pitchT }; cam.yawT = heading + Math.PI; cam.distT = 4.9; cam.pitchT = 0.06; }
     else if (mirrorSave) { cam.yawT = mirrorSave.yaw; cam.distT = mirrorSave.dist; cam.pitchT = mirrorSave.pitch; mirrorSave = null; }
   });
   addEventListener('bw:style', (e) => { dress(body, e.detail, rig); try { localStorage.setItem('bw-style', JSON.stringify(body.userData.look)); } catch { /* */ } });
