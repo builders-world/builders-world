@@ -11,7 +11,8 @@ import { passesEngine } from './passes.js';
 import { PAD_MAP } from './input.js';
 import { LABEL } from './quality.js';
 import { onlineNow } from './online.js';
-import { WALLET_CSS, walletSVG } from './walletui.js';
+import { WALLET_CSS, walletSVG, breakdown, moneySVG } from './walletui.js';
+import { cardArt } from './cardart.js';
 import { C, FONT, KIT_CSS, loadFont, pattern, backdropSVG, personFor, portraitSVG, figureSVG, art, appIcon, placeArt, ribbonSVG } from './uikit.js';
 
 const CSS = `${KIT_CSS}
@@ -890,34 +891,60 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   // ---------- wallet (and the ATM, which is the same wallet on a machine) ----------
   const wallet = walletEngine();
   // the wallet: drawn open with your cards and cash; click it for the overview on a square sheet beside it
-  function openWallet({ atm = false, panel = atm } = {}) {
+  // the wallet: tap the cards (left) to take them out in a column, tap the cash (right) to count it out
+  // in notes and coins; the overview (balance, GitHub, spending) is a tap away from either
+  function openWallet({ atm = false, panel = atm, view = atm ? 'overview' : 'cards' } = {}) {
     const w = wallet;
     const hist = w.history.map((h) => `<li><span>${h.what}</span><b${h.earn ? ' class="in"' : ''}>${h.earn ? '+' : '−'}${effortsMark(12)}${fmt(h.amount)}</b></li>`).join('') || '<li class="none">Nothing spent or earned yet.</li>';
-    let cards = []; try { cards = passesEngine().cards(); } catch { /* */ }
+    let cards = [], P = null; try { P = passesEngine(); cards = P.cards(); } catch { /* */ }
+    const bal = w.balance(), money = breakdown(bal), who = (() => { try { return loadProfile()?.name || ''; } catch { return ''; } })();
+    const bank = `<div class="bw-card" style="--c1:#3fb6a8;--c2:#1f6f68;--ink:#06231f">${cardArt('lagos')}<div class="org">YABA BUILDERS BANK</div><div class="dist">Debit card</div><div class="kind">EFFORTS ACCOUNT</div><span class="chip"></span>
+      <div class="nm">${who || 'Builder'}</div><div class="role">Balance ${fmt(bal)} Efforts</div><div class="no">•••• •••• •••• 4728</div></div>`;
     walEl.classList.toggle('atm', atm);
     walEl.classList.toggle('panel', !!panel);
-    walEl.innerHTML = `<div class="wl" tabindex="0" role="button" aria-label="Open your wallet">${walletSVG({ cards, balance: fmt(w.balance()), mark: effortsMark(20, C.ink) })}<span class="tip">Click the wallet to see your balance</span></div>
+    walEl.dataset.view = view;
+    walEl.innerHTML = `<div class="wl">${walletSVG({ cards, balance: fmt(bal), mark: effortsMark(20, C.ink) })}
+        <button class="half l" aria-label="Your cards (${cards.length + 1})"></button><button class="half r" aria-label="Your cash: ${fmt(bal)} Efforts"></button>
+        <span class="tip">Cards on the left · cash on the right</span></div>
       <div class="wp"><div class="in">
+        <div class="col cards"><h3>Cards<small>${cards.length + 1} in your wallet · tap the cards again to put them back</small></h3>${bank}${cards.map((c) => P.cardHTML(c)).join('')}</div>
+        <div class="col money"><h3>Cash<small>What ${fmt(bal)} Efforts looks like in your wallet</small></h3>
+          <div class="total">${effortsMark(28)}<b>${fmt(bal)}</b><small>${money.reduce((a, d) => a + d.n, 0)} notes and coins</small></div>
+          ${money.map((d, i) => `<div class="stack" style="animation-delay:${0.06 * i}s">${moneySVG(d)}<span><b>${d.n} × ${d.kind === 'bundle' ? '100,000' : fmt(d.v)}</b><small>${d.kind === 'bundle' ? d.sub : d.name}</small></span><span class="sum">${fmt(d.n * d.v)}</span></div>`).join('') || '<p class="colhint">Empty for now. Push a commit: every one is 1,000 Efforts.</p>'}
+          <button class="bw-chip ovb" style="align-self:flex-start"><b>→</b>Balance and spending</button></div>
+        <div class="ov">
         <h3>${atm ? 'ATM' : 'Wallet'}<small>${atm ? 'Yaba Builders Bank' : 'Efforts, earned by shipping'}</small></h3>
-        <div class="bal">${effortsMark(32)}<b>${fmt(w.balance())}</b><small>${cards.length + 1} card${cards.length ? 's' : ''}<br>and cash</small></div>
+        <div class="bal">${effortsMark(32)}<b>${fmt(bal)}</b><small>${cards.length + 1} card${cards.length ? 's' : ''}<br>and cash</small></div>
         <p class="how">${w.demo ? `Demo balance: ${w.commits} commits. <a href="${w.signInUrl()}">Sign in with GitHub</a> and every commit you push is <span style="white-space:nowrap">${effortsMark(11)}1,000</span>.` : w.counted ? `${fmt(w.commits)} ${w.source === 'contributions' ? 'contributions' : 'commits'} in the last year on GitHub as <b>@${w.handle}</b>, at <span style="white-space:nowrap">${effortsMark(11)}1,000</span> each.` : `Counting your commits on GitHub as <b>@${w.handle}</b>…`}</p>
         ${w.demo ? '' : '<form class="gh"><button class="bw-chip"><b>↵</b>Count again</button></form>'}
         ${w.status ? `<p class="st">${w.status}</p>` : ''}
         <h4>Recent</h4><ul>${hist}</ul>
-        <div class="row"><button class="bw-chip back"><b>←</b>Wallet</button><button class="bw-chip done"><b>Esc</b>Done</button></div>
+        <div class="row"><button class="bw-chip back"><b>←</b>Wallet</button><button class="bw-chip done"><b>Esc</b>Done</button></div></div>
       </div></div>`;
-    const wl = walEl.querySelector('.wl');
-    const toggle = () => { walEl.classList.toggle('panel'); sfx(walEl.classList.contains('panel') ? 'open' : 'close'); if (walEl.classList.contains('panel')) setTimeout(() => walEl.querySelector('.gh button')?.focus({ preventScroll: true }), 350); };
-    wl.onclick = toggle; wl.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } };
-    walEl.querySelector('.back').onclick = () => { walEl.classList.remove('panel'); wl.focus(); };
-    const gh = walEl.querySelector('.gh'); if (gh) gh.onsubmit = async (e) => { e.preventDefault(); await w.link(); openWallet({ atm, panel: true }); };
+    const halves = { cards: walEl.querySelector('.half.l'), money: walEl.querySelector('.half.r') };
+    const mark = () => { Object.entries(halves).forEach(([k, b]) => b.classList.toggle('on', walEl.classList.contains('panel') && walEl.dataset.view === k)); };
+    // tapping a half opens its column, tapping it again puts it away
+    const choose = (v) => {
+      const same = walEl.classList.contains('panel') && walEl.dataset.view === v;
+      if (same) { walEl.classList.remove('panel'); sfx('close'); }
+      else { walEl.dataset.view = v; walEl.classList.add('panel'); sfx('open'); const col = walEl.querySelector(`.col.${v}`); if (col) { col.scrollTop = 0; col.querySelectorAll('.bw-card, .stack').forEach((el, i) => { el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; el.style.animationDelay = `${0.07 * i}s`; }); } }
+      mark();
+    };
+    halves.cards.onclick = () => choose('cards'); halves.money.onclick = () => choose('money');
+    walEl.querySelector('.ovb').onclick = () => { walEl.dataset.view = 'overview'; mark(); };
+    walEl.querySelector('.back').onclick = () => { walEl.classList.remove('panel'); mark(); halves.cards.focus(); };
+    // the arrow keys: left for the cards, right for the cash
+    walEl.onkeydown = (e) => { if (e.key === 'ArrowLeft') { e.preventDefault(); choose('cards'); } if (e.key === 'ArrowRight') { e.preventDefault(); choose('money'); } };
+    const gh = walEl.querySelector('.gh'); if (gh) gh.onsubmit = async (e) => { e.preventDefault(); await w.link(); openWallet({ atm, panel: true, view: 'overview' }); };
     walEl.querySelector('.done').onclick = close;
     // a click on the empty space round the wallet puts it away
     walEl.onclick = (e) => { if (e.target === walEl) close(); };
+    mark();
     show(walEl, null);
-    if (!panel) wl.focus({ preventScroll: true });
+    // focus on the wallet itself (arrow keys work at once) without lighting up either half
+    walEl.tabIndex = -1; walEl.style.outline = 'none'; walEl.focus({ preventScroll: true });
   }
-  wallet.onChange(() => { if (open === walEl) openWallet({ atm: walEl.classList.contains('atm'), panel: walEl.classList.contains('panel') }); });
+  wallet.onChange(() => { if (open === walEl) openWallet({ atm: walEl.classList.contains('atm'), panel: walEl.classList.contains('panel'), view: walEl.dataset.view }); });
 
   return { key, close, isOpen: () => !!open, openPhone, openMap, openBag, openSettings, openWallet, showGuide, dispose };
 }
