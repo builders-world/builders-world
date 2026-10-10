@@ -36,8 +36,9 @@ const CSS = `${KIT_CSS}
 #lkm-phone .app:hover i, #lkm-phone .app:focus-visible i { transform: translateY(-3px) scale(1.05); box-shadow: inset 0 -5px 0 rgba(59,42,32,.14), 0 0 0 4px #fff, 0 0 0 7px ${C.amber}; }
 #lkm-phone .app:focus-visible { outline: none; }
 #lkm-phone .dots { margin-top: auto; display: flex; justify-content: center; gap: 8px; padding-top: 10px; }
-#lkm-phone .dots i { width: 12px; height: 12px; border-radius: 50%; background: #d9ccb2; }
-#lkm-phone .dots i.on { background: #fff; box-shadow: 0 0 0 3px ${C.teal}; }
+#lkm-phone .dots button { width: 12px; height: 12px; padding: 0; border: 0; border-radius: 50%; background: #d9ccb2; cursor: pointer; }
+#lkm-phone .dots button.on { background: #fff; box-shadow: 0 0 0 3px ${C.teal}; }
+#lkm-phone .dots button:focus-visible { outline: none; box-shadow: 0 0 0 3px ${C.amber}; }
 
 /* map: the district as an illustrated island on the lagoon */
 #lkm-map { position: fixed; inset: 0; z-index: 31; display: grid; grid-template-columns: 250px 1fr 230px; gap: 18px; padding: 26px 28px 74px; box-sizing: border-box;
@@ -274,23 +275,43 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     ['Ride', 'car', '#f7d36b', () => { close(); onRide?.(); }],
     ['Build', 'build', '#9fd6ef', () => { close(); onRoute?.(props.area, 'Community build area'); }],
     ['Wallet', 'wallet', '#b7e0a0', () => openWallet()],
-    ['Aerial', 'cities', '#c9e3f2', () => { close(); dispatchEvent(new KeyboardEvent('keydown', { key: 'b' })); }],
-    ['Cities', 'cities', '#f4c98a', () => { close(); location.search = '?world=1&view=cities'; }],
+    ['Aerial', 'aerial', '#c9e3f2', () => { close(); dispatchEvent(new KeyboardEvent('keydown', { key: 'b' })); }],
+    ['Cities', 'globe', '#f4c98a', () => { close(); location.search = '?world=1&view=cities'; }],
     ['Weather', 'weather', '#aebcff', () => { const w = weatherFeed?.state; toast(w ? `${w.loc.label}: ${w.label}${w.tempC != null ? `, ${Math.round(w.tempC)}°C` : ''}. Updated every 10 minutes.` : 'Weather is loading.'); }],
-    ['Pets', 'people', '#c9e3a8', () => { close(); dispatchEvent(new Event('bw:shelter')); }],
-    ['Wardrobe', 'people', '#f6c7b8', () => { close(); dispatchEvent(new Event('bw:wardrobe')); }],
+    ['Pets', 'paw', '#c9e3a8', () => { close(); dispatchEvent(new Event('bw:shelter')); }],
+    ['Wardrobe', 'hanger', '#f6c7b8', () => { close(); dispatchEvent(new Event('bw:wardrobe')); }],
     ['Settings', 'settings', '#d8cfbd', () => openSettings()],
+    ['Sports', 'sport', '#f6c3a0', () => {
+      // the nearest court, pool or chess table: a route there
+      const P = getPlayer?.() || { x: 0, z: 0 };
+      const spots = (props.pois || []).filter((q) => q.kind === 'recreation' && /Sports|Arena|Chess/.test(q.name)).sort((a, b) => Math.hypot(a.x - P.x, a.z - P.z) - Math.hypot(b.x - P.x, b.z - P.z));
+      close();
+      if (!spots.length) { toast('No sports here yet.'); return; }
+      onRoute?.(spots[0], spots[0].name); toast(`${spots[0].name}: follow the line. Tennis, padel, basketball, the pool, table tennis and chess are all playable.`, 3600);
+    }],
     ['Help', 'help', '#f0e1bd', () => { close(); showGuide(); }],
   ];
   const SIGNAL = `<svg viewBox="0 0 24 24"><path d="M3 18h3v3H3zM8 14h3v7H8zM13 10h3v11h-3zM18 6h3v15h-3z" fill="currentColor"/></svg>`;
   const LOCPIN = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 18s-5-5-5-8a5 5 0 0 1 10 0c0 3-5 8-5 8z" fill="currentColor"/></svg>`;
-  function openPhone() {
+  // twelve apps a page; the dots, a swipe, the scroll wheel or the arrow keys turn the page
+  const PAGE = 12;
+  let phonePage = 0;
+  function openPhone(page = 0, focusK = null) {
     const time = weatherFeed ? weatherFeed.localTime() : new Date().toTimeString().slice(0, 5);
+    const pages = Math.ceil(APPS.length / PAGE);
+    phonePage = Math.max(0, Math.min(pages - 1, page));
+    const list = APPS.map((a, k) => [a, k]).slice(phonePage * PAGE, phonePage * PAGE + PAGE);
     phone.querySelector('.scr').innerHTML = `
       <div class="bar">${SIGNAL}<span>${time}</span>${LOCPIN}</div>
       <h2>Builders</h2>
-      <div class="grid">${APPS.map(([n, i, c], k) => `<button class="app" data-k="${k}" aria-label="${n}"><i style="background:${c}">${appIcon(i)}</i><span>${n}</span></button>`).join('')}</div>
-      <div class="dots"><i class="on"></i><i></i></div>`;
+      <div class="grid">${list.map(([[n, i, c], k]) => `<button class="app" data-k="${k}" aria-label="${n}"><i style="background:${c}">${appIcon(i)}</i><span>${n}</span></button>`).join('')}</div>
+      <div class="dots">${Array.from({ length: pages }, (_, k) => `<button class="${k === phonePage ? 'on' : ''}" data-page="${k}" aria-label="Page ${k + 1}"></button>`).join('')}</div>`;
+    phone.querySelectorAll('[data-page]').forEach((d) => { d.onclick = () => openPhone(+d.dataset.page); });
+    const grid = phone.querySelector('.grid');
+    let wheelT = 0, sx = null;
+    grid.onwheel = (e) => { const d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY; if (Math.abs(d) < 12 || performance.now() - wheelT < 450) return; wheelT = performance.now(); e.preventDefault(); openPhone(phonePage + (d > 0 ? 1 : -1)); };
+    grid.onpointerdown = (e) => { sx = e.clientX; };
+    grid.onpointerup = (e) => { if (sx != null && Math.abs(e.clientX - sx) > 50) openPhone(phonePage + (e.clientX < sx ? 1 : -1)); sx = null; };
     const title = phone.querySelector('h2');
     phone.querySelectorAll('.app').forEach((b) => {
       const name = APPS[+b.dataset.k][0];
@@ -298,8 +319,21 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
       b.onmouseenter = b.onfocus = () => { title.textContent = name; };
     });
     phone.querySelector('.grid').onmouseleave = () => { title.textContent = phone.contains(document.activeElement) ? document.activeElement.getAttribute('aria-label') || 'Builders' : 'Builders'; };
-    show(phone, [['Esc', 'Put away'], ['Enter', 'Open']]);
-    phone.querySelector('.app')?.focus();
+    show(phone, [['Esc', 'Put away'], ['Enter', 'Open'], ['← →', 'More apps']]);
+    ((focusK != null && phone.querySelector(`.app[data-k="${focusK}"]`)) || phone.querySelector('.app'))?.focus();
+  }
+  // arrow keys walk the grid, and off its edge onto the next or previous page
+  function phoneArrow(k) {
+    const btns = [...phone.querySelectorAll('.app')], cur = btns.indexOf(document.activeElement), i = cur < 0 ? 0 : cur;
+    const col = i % 3, step = { arrowright: 1, arrowleft: -1, arrowdown: 3, arrowup: -3 }[k];
+    let j = i + step;
+    if ((k === 'arrowright' && (col === 2 || j >= btns.length)) || (k === 'arrowleft' && col === 0)) {
+      const pages = Math.ceil(APPS.length / PAGE), np = phonePage + (k === 'arrowright' ? 1 : -1);
+      if (np >= 0 && np < pages) { const firstK = np * PAGE; openPhone(np, k === 'arrowright' ? firstK : Math.min(APPS.length - 1, firstK + PAGE - 1)); }
+      return;
+    }
+    j = Math.max(0, Math.min(btns.length - 1, j));
+    btns[j]?.focus();
   }
 
   // ---------- map ----------
@@ -665,6 +699,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   // keys from the street: returns true when a menu used the key
   function key(k) {
     if (k === 'tab') { open === phone ? close() : openPhone(); return true; }
+    if (open === phone && ['arrowright', 'arrowleft', 'arrowup', 'arrowdown'].includes(k)) { phoneArrow(k); return true; }
     if (k === 'm') { open === mapEl ? close() : openMap(); return true; }
     if (k === 'i') { open === bagEl ? close() : openBag(); return true; }
     if ((open === setEl || open === walEl) && k !== 'escape') return true;

@@ -158,6 +158,16 @@ const APP = {
   work: `<rect x="10" y="10" width="28" height="19" rx="2" ${G}/><path d="M5 34h38l-3 5H8z" ${G}/><path d="M20 16l-3 3 3 3M28 16l3 3-3 3" fill="none" stroke="${C.paper}" stroke-width="2.6" stroke-linecap="round"/>`,
   gym: `<rect x="5" y="17" width="6" height="14" rx="2" ${G}/><rect x="37" y="17" width="6" height="14" rx="2" ${G}/><rect x="11" y="13" width="5" height="22" rx="2" ${G}/><rect x="32" y="13" width="5" height="22" rx="2" ${G}/><path d="M16 24h16" stroke="${C.ink}" stroke-width="4"/>`,
   wallet: `<rect x="6" y="12" width="36" height="26" rx="6" ${G}/><rect x="28" y="21" width="14" height="9" rx="3" ${L}/><circle cx="33" cy="25.5" r="2" ${G}/><path d="M10 12l18-6 4 6" fill="none" stroke="${C.ink}" stroke-width="3.5" stroke-linejoin="round"/>`,
+  // Cities: the globe, with a pin on Lagos
+  globe: `<circle cx="24" cy="25" r="16" ${L} stroke="${C.ink}" stroke-width="3.5"/><path d="M8 25h32M24 9c-6 5-6 27 0 32M24 9c6 5 6 27 0 32" fill="none" stroke="${C.ink}" stroke-width="2.5"/><path d="M33 20s-6-5-6-9a6 6 0 0 1 12 0c0 4-6 9-6 9z" fill="${C.coral}" stroke="${C.ink}" stroke-width="2.5" stroke-linejoin="round"/><circle cx="33" cy="11" r="2" ${L}/>`,
+  // Aerial: a drone looking down
+  aerial: `<path d="M12 14l24 20M36 14L12 34" stroke="${C.ink}" stroke-width="4" stroke-linecap="round"/><g ${G}><ellipse cx="10" cy="12" rx="7" ry="2.6"/><ellipse cx="38" cy="12" rx="7" ry="2.6"/><ellipse cx="10" cy="36" rx="7" ry="2.6"/><ellipse cx="38" cy="36" rx="7" ry="2.6"/></g><rect x="16" y="18" width="16" height="12" rx="4" ${G}/><circle cx="24" cy="24" r="3.6" fill="${C.sea}"/><path d="M20 34l-3 8M28 34l3 8" stroke="${C.ink}" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 3"/>`,
+  // Pets: a paw print
+  paw: `<ellipse cx="24" cy="32" rx="10" ry="8.5" ${G}/><ellipse cx="11" cy="21" rx="4.2" ry="5.4" ${G} transform="rotate(-18 11 21)"/><ellipse cx="19" cy="13" rx="4.2" ry="5.6" ${G}/><ellipse cx="29" cy="13" rx="4.2" ry="5.6" ${G}/><ellipse cx="37" cy="21" rx="4.2" ry="5.4" ${G} transform="rotate(18 37 21)"/><ellipse cx="24" cy="33" rx="4" ry="2.5" fill="${C.coral}" opacity=".9"/>`,
+  // Wardrobe: a shirt on a hanger
+  hanger: `<path d="M24 12a3.5 3.5 0 1 1 3.5-3.5" fill="none" stroke="${C.ink}" stroke-width="2.5" stroke-linecap="round"/><path d="M24 12v3M8 22l16-7 16 7" fill="none" stroke="${C.ink}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 20l-7 6 4 5 4-3v14h18V28l4 3 4-5-7-6-5-1a5 5 0 0 1-10 0z" ${G}/><path d="M21 19a3 3 0 0 0 6 0" fill="none" stroke="${C.paper}" stroke-width="2"/>`,
+  // Sports: a basketball
+  sport: `<circle cx="24" cy="24" r="16" fill="${C.coral}" stroke="${C.ink}" stroke-width="3.5"/><path d="M8 24h32M24 8v32M12.5 12.5c6 5 6 18 0 23M35.5 12.5c-6 5-6 18 0 23" fill="none" stroke="${C.ink}" stroke-width="2.5"/>`,
   help: `<path d="M8 10h32v22H22l-8 7v-7H8z" ${G} stroke="${C.ink}" stroke-width="2" stroke-linejoin="round"/><path d="M20 17a4 4 0 1 1 5 4c-1 1-1 2-1 3" fill="none" stroke="${C.paper}" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="28" r="1.8" ${L}/>`,
 };
 export const appIcon = (id) => `<svg viewBox="0 0 48 48" width="44" height="44" aria-hidden="true">${APP[id] || ''}</svg>`;
