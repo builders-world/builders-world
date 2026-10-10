@@ -36,7 +36,7 @@ export function blueHourSky() {
         vec3 col = band(vec3(0.020, 0.040, 0.115), vec3(0.060, 0.110, 0.290), vec3(0.230, 0.270, 0.470), y);
         vec3 night = band(vec3(0.006, 0.010, 0.030), vec3(0.016, 0.026, 0.070), vec3(0.070, 0.070, 0.120), y);
         night += vec3(0.16, 0.10, 0.07) * (1.0 - smoothstep(0.0, 0.14, y)); // the city's own glow on the horizon
-        vec3 day = band(vec3(0.360, 0.520, 0.560), vec3(0.540, 0.650, 0.580), vec3(0.700, 0.740, 0.640), y); // sage, as in the arrival scene
+        vec3 day = band(vec3(0.200, 0.470, 0.820), vec3(0.430, 0.680, 0.900), vec3(0.780, 0.870, 0.900), y); // a bright Lagos blue (Elvis, 10 Oct 2026: more vibrant)
         col = mix(col, night, uNight);
         col = mix(col, day, uDay);
         // warm light toward the sun when it is low

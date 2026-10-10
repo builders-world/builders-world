@@ -130,7 +130,7 @@ const inPoly = (x, z, pts) => { let c = false; for (let i = 0, j = pts.length - 
 // the 0.5 m walk map sees the path as unbroken at any angle (0.84 + 0.71 diagonal + fence)
 export const WALK = 1.7;
 const distToPoly = (x, z, pts) => { let d = Infinity; for (let i = 0; i < pts.length; i++) { const [ax, az] = pts[i], [bx, bz] = pts[(i + 1) % pts.length], dx = bx - ax, dz = bz - az, L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / L2)); d = Math.min(d, Math.hypot(x - ax - dx * u, z - az - dz * u)); } return d; };
-export const ESTATE = { lawn: ['#9cc163', '#93bb5c', '#a3c76b'], picket: '#f7f1df', path: '#d6d0c0' };
+export const ESTATE = { lawn: ['#83bd56', '#7fb853', '#88c25b'], picket: '#f7f1df', path: '#d6d0c0' };
 
 /**
  * A house on its own lot, California-suburb style: the map footprint is the lot.

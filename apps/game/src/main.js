@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { loadManifest, DEFAULT_PLACE } from './osm.js';
 import { buildWorld, buildSky } from './world.js';
@@ -73,6 +74,16 @@ composer.addPass(new RenderPass(scene, camera));
 const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.7, 0.5, 0.42);
 let street = null;
 composer.addPass(bloom);
+// a light grade before output: a little more saturation and contrast, so the clay reads bright and
+// lively rather than washed out (Elvis, 10 October 2026)
+const grade = new ShaderPass({
+  uniforms: { tDiffuse: { value: null }, uSat: { value: 1.12 }, uCon: { value: 1.05 } },
+  vertexShader: 'varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+  fragmentShader: `uniform sampler2D tDiffuse; uniform float uSat, uCon; varying vec2 vUv;
+    void main() { vec4 c = texture2D(tDiffuse, vUv); float l = dot(c.rgb, vec3(0.2126, 0.7152, 0.0722));
+      vec3 g = mix(vec3(l), c.rgb, uSat); g = (g - 0.18) * uCon + 0.18; gl_FragColor = vec4(max(g, 0.0), c.a); }`,
+});
+composer.addPass(grade);
 composer.addPass(new OutputPass());
 
 // 60 frames a second (Elvis, 10 October 2026): the resolution follows the frame time. Over 18 ms on
@@ -724,6 +735,7 @@ async function main() {
     chrome.update(camera, player, !cam.aerial);
     street?.update(dt, t, player, cam.yaw, shared.uArrival.value);
     street?.renderReflection();
+    grade.uniforms.uSat.value = 0.94 + 0.18 * shared.uDay.value; // vivid by day, calmer under the lamps at night
     if (q.get('post') === '0') renderer.render(scene, camera); else composer.render();
     if (q.get('govern') !== '0') govern();
   }

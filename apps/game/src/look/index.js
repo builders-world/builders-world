@@ -39,9 +39,9 @@ const C = (hex) => new THREE.Color(hex);
 const smooth = (e0, e1, x) => { const t = Math.max(0, Math.min(1, (x - e0) / (e1 - e0))); return t * t * (3 - 2 * t); };
 const PAL = {
   // the clay look from the arrival scene (world bible 7.1): high soft sky light, warm sun, sage air
-  hemiSky: { night: C(0x34446e), blue: C(0x6f80b4), day: C(0xd7e6e4) },
+  hemiSky: { night: C(0x34446e), blue: C(0x6f80b4), day: C(0xd4ebff) },
   hemiGround: { night: C(0x1c1914), blue: C(0x3a3426), day: C(0x817151) },
-  fog: { night: C(0x1a2340), blue: C(0x4a5878), day: C(0xc6d5c7), gold: C(0xd9bf9c), storm: C(0x6a7470) },
+  fog: { night: C(0x1a2340), blue: C(0x4a5878), day: C(0xc4dcec), gold: C(0xe6c49a), storm: C(0x6a7470) },
   sun: { gold: C(0xffb87a), day: C(0xffe0ac), moon: C(0x9fb2ff) },
   fill: { day: C(0xb8d9df), night: C(0x3a6aa0) },
 };
@@ -373,7 +373,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       scene.fog.near = R * (0.08 - 0.06 * thick);
       // from the aerial view you look through far more air, so let the haze thin out
       const high = smooth(25, 90, camera.position.y);
-      scene.fog.far = R * (1.9 - 1.3 * thick) * (1 + 2.2 * high);
+      scene.fog.far = R * (1.9 + 1.1 * day - 1.3 * thick) * (1 + 2.2 * high);
       scene.fog.near = scene.fog.near * (1 + 4 * high);
       // the mist sits close: at its thickest you see about 70 m, less in the aerial view's long sightlines
       scene.fog.far += (R * 0.32 * (1 + 1.6 * high) - scene.fog.far) * mist;

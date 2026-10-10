@@ -315,28 +315,6 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
     }
   }
 
-  // ---------- grass: tufts over lawns and verges, so open ground has texture up close (one draw call) ----------
-  {
-    const blade = (a, h) => new THREE.PlaneGeometry(0.07, h).translate(0, h / 2, 0).rotateY(a);
-    const tuft = mergeGeometries([blade(0, 0.22), blade(1.05, 0.18), blade(2.1, 0.25), blade(0.5, 0.15).translate(0.04, 0, 0.03)]);
-    const spots = [];
-    const N = lowQuality ? 4000 : 14000;
-    for (let k = 0; k < N * 3 && spots.length < N; k++) {
-      // densest where people walk
-      const a = rng() * Math.PI * 2, r = 4 + Math.pow(rng(), 0.8) * R * 0.6, x = world.spawn.x + Math.cos(a) * r, z = world.spawn.z + Math.sin(a) * r;
-      // grass, not paving: open ground or a garden, never the road, the pavement, a path or a building
-      if (world.onCarriageway?.(x, z, 0.4) || !world.isFree(x, z, 0.3, { lots: true }) || world.isFree(x, z, 0.3, { lots: false }) === false && !world.inPlot?.(x, z)) continue;
-      if (world.costAt?.(x, z) > 50) continue;
-      spots.push({ x, z, ry: rng() * 6.28, s: 0.55 + rng() * 0.55 });
-    }
-    const mat = new THREE.MeshStandardMaterial({ color: 0x7f9a4e, roughness: 0.95, side: THREE.DoubleSide });
-    const im = new THREE.InstancedMesh(tuft, mat, Math.max(1, spots.length));
-    const m = new THREE.Matrix4(), q = new THREE.Quaternion(), Y = new THREE.Vector3(0, 1, 0), col = new THREE.Color();
-    spots.forEach((p, k) => { im.setMatrixAt(k, m.compose(new THREE.Vector3(p.x, 0.03, p.z), q.setFromAxisAngle(Y, p.ry), new THREE.Vector3(p.s, p.s, p.s))); im.setColorAt(k, col.setHSL(0.2 + rng() * 0.05, 0.32 + rng() * 0.12, 0.42 + rng() * 0.1)); });
-    im.count = spots.length; im.frustumCulled = false; group.add(im);
-    counts.grass = spots.length;
-  }
-
   // ---------- vacant land: bush, scrub trees and the famous painted warnings (world bible 4.6) ----------
   // Open ground deep in a block, away from roads and plots, grows over the way Lagos land does while it
   // waits for a developer: shrub clumps, a few trees, and a painted sign on a block post.
@@ -344,12 +322,14 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
     const clumps = [], trees = [], signs = [];
     const deep = (x, z) => world.costAt?.(x, z) === 1 && !world.inPlot?.(x, z, 3) && !world.onCarriageway?.(x, z, 9) && world.isFree(x, z, 2.5, { lots: false });
     // seeds, each growing a thicket: a tree or two and a spread of shrubs round it
-    for (let k = 0; k < (lowQuality ? 1200 : 3200); k++) {
+    for (let k = 0; k < (lowQuality ? 140 : 320); k++) {
       const a = rng() * Math.PI * 2, r = Math.sqrt(rng()) * R * 0.85, x0 = Math.cos(a) * r, z0 = Math.sin(a) * r;
       if (!deep(x0, z0)) continue;
-      if (rng() < 0.45) trees.push({ x: x0, z: z0, s: 0.8 + rng() * 0.6 });
-      const n = 3 + Math.floor(rng() * 6);
-      for (let j = 0; j < n; j++) { const x = x0 + (rng() - 0.5) * 6, z = z0 + (rng() - 0.5) * 6; if (deep(x, z)) clumps.push({ x, z, s: 0.5 + rng() * 0.9, ry: rng() * 6.28 }); }
+      // sparse (Elvis, 10 October 2026: too many trees): the odd tree with a shrub or two at its foot
+      if (trees.some((t) => Math.hypot(t.x - x0, t.z - z0) < 22)) continue;
+      trees.push({ x: x0, z: z0, s: 0.8 + rng() * 0.6 });
+      const n = rng() < 0.5 ? 0 : 1 + Math.floor(rng() * 2);
+      for (let j = 0; j < n; j++) { const x = x0 + (rng() - 0.5) * 3, z = z0 + (rng() - 0.5) * 3; if (deep(x, z)) clumps.push({ x, z, s: 0.5 + rng() * 0.9, ry: rng() * 6.28 }); }
       if (rng() < 0.03 && signs.length < 6) signs.push({ x: x0 + 2.5, z: z0, ry: rng() * 6.28 });
     }
     const leaf = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.9, flatShading: true });

@@ -16,7 +16,7 @@ const NIGHT = {
   walls: ['#ded8c8', '#f2ecd9', '#c9c2b2', '#e6d3b3', '#cfd9c8', '#e9c9a8', '#d6cdb8', '#bcd2d6'],
   dark: ['#b9b09e', '#a9b3a2', '#c4a98c', '#a7b4b6', '#b5ab98'],
   teal: '#326952', tealDark: '#263832',
-  road: '#8f8b80', kerb: '#d8d1bf', path: '#c3bdae', paint: '#f2ecd9', ground: '#a4ab7c',
+  road: '#8a8781', kerb: '#e2dccb', path: '#d1c7b1', paint: '#f6f1df', ground: '#79a85a',
   foliage: ['#45694c', '#7d9263', '#5b7d55'], trunk: '#a87950', metal: '#7b867d', slate: '#8b958c',
   podium: '#b3ab9a', capSlab: '#a9a395', tank: '#e9e3d2', ac: '#c9c3b4', far: '#a9b6ad', roofCap: '#a8a294',
   wire: '#3a3a34', tower: '#b5bfb4', kiosk: '#c9b48e', board: '#5a4632', monoA: '#b8c2b6', monoB: '#c3ccbf',
@@ -39,7 +39,7 @@ const DAY = {
   env: {
     day: 1, bg: '#c6d5c7', fog: '#c6d5c7', fogNear: 1.1, fogFar: 5.2, exposure: 1.15, tone: 'aces',
     bloom: { on: false, strength: 0, radius: 0.4, threshold: 1 },
-    hemi: { sky: 0xd7e6e4, ground: 0x817151, i: 2.5 },
+    hemi: { sky: 0xd4ebff, ground: 0x8a7a52, i: 2.5 },
     wet: 0, rain: 0, lights: 0,
     key: { color: 0xffe0ac, i: 3.3 }, rim: { color: 0xb8d9df, i: 0.8 },
     pane: '#a9c2bf', bulb: [0.9, 0.52, 0.1],
