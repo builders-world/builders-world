@@ -586,7 +586,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     fill.position.set(camera.position.x * 0.6 + player.x * 0.4, 3.2, camera.position.z * 0.6 + player.z * 0.4);
     if (rainMesh) rainMesh.userData.cam.value.copy(camera.position);
     props.update(dt, t, player);
-    if (!interiors?.active) { lives.update(dt, t, player); chat.update(dt, player); rec.update(t); litter?.update(dt); building?.update(dt); }
+    if (!interiors?.active) { lives.update(dt, t, player); chat.update(dt, player); rec.update(t); litter?.update(dt, player); building?.update(dt); }
     profiler?.update(dt);
     if (!interiors?.active) { food?.update(dt, player); traffic?.update(dt, player); slife?.update(dt, player); mobility?.update(dt, t); sports?.update(dt); }
     pets?.update(dt, player, yaw ?? 0);
