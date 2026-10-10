@@ -82,6 +82,8 @@ export function dressHouse(mb, b, h, o) {
     doorAt = { x: px + door.nx * 1.4 + door.tx * 1.9, z: pz + door.nz * 1.4 + door.tz * 1.9, ry, u, f: door,
       // where you stand to knock, and where the people who live here go in and out
       step: { x: px + door.nx * 1.9, z: pz + door.nz * 1.9, ry },
+      // the stone threshold and the step in front of it: surfaces you stand on, not walk through
+      treads: [{ cx: px + door.nx * 0.55, cz: pz + door.nz * 0.55, hx: 1.05, hz: 0.5, ry, top: 0.24 }, { cx: px + door.nx * 1.25, cz: pz + door.nz * 1.25, hx: 1.25, hz: 0.25, ry, top: 0.12 }],
       // a wall light beside the door, on the side away from the planter
       lamp: { x: px + door.nx * 0.2 - door.tx * 1.55, y: 2.25, z: pz + door.nz * 0.2 - door.tz * 1.55, ry } };
   }

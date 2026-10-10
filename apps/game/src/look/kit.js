@@ -90,6 +90,24 @@ export function collidersFor(template, spots) {
   return out;
 }
 
+// What a kit model's parts mean for walking: steps are surfaces you stand on (their top is your
+// floor), planters and the like are solid. Read from the part names, in world space for each spot.
+export function surfacesFor(template, spots) {
+  const treads = [], solids = [];
+  spots.forEach((s) => {
+    const cs = Math.cos(s.ry || 0), sn = Math.sin(s.ry || 0);
+    template.meshes.forEach((m) => {
+      const isStep = /step/i.test(m.name), isSolid = /planter|pot|bollard|bin/i.test(m.name);
+      if (!isStep && !isSolid) return;
+      m.geometry.computeBoundingBox();
+      const b = m.geometry.boundingBox.clone().applyMatrix4(m.matrix), c = b.getCenter(new THREE.Vector3()), size = b.getSize(new THREE.Vector3());
+      const box = { name: `${template.id}_${m.name}`, cx: s.x + c.x * cs + c.z * sn, cz: s.z - c.x * sn + c.z * cs, hx: size.x / 2, hz: size.z / 2, ry: s.ry || 0 };
+      if (isStep) treads.push({ ...box, top: b.max.y }); else solids.push({ ...box, h: b.max.y });
+    });
+  });
+  return { treads, solids };
+}
+
 // A point on the asset (such as a lamp's glow) in world space for a given spot.
 export function anchorAt(template, name, spot) {
   const a = template.anchors[name];

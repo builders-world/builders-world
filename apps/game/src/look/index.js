@@ -25,6 +25,7 @@ import { createTraffic } from './traffic.js';
 import { buildFlyover } from './flyover.js';
 import { createStreetLife } from './streetlife.js';
 import { createMobility } from './mobility.js';
+import { cullPeople } from './anim.js';
 import { walletEngine } from './wallet.js';
 import { createInteriors, PLACES, namePlaces } from './interior.js';
 import { sunPosition, sunDirection } from './sun.js';
@@ -300,6 +301,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   const district = world.center?.lat != null ? world.center : { lat: 6.5095, lon: 3.3715 };
   const kitLampAmber = [...new Set((world.kit?.get('yaba_street_lamp')?.meshes || []).map((m) => m.material).filter((m) => m.emissive && m.emissive.getHex()))];
   let live = null;
+  const MIST = new THREE.Color();
 
   function environment(dt) {
     const wx = weatherFeed?.state;
@@ -318,6 +320,10 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     cur.windDir = target.wind?.dir ?? cur.windDir;
     first = false;
 
+    // morning mist (Elvis, 10 October 2026): it lies over the city before dawn, is thickest as the sun
+    // comes up, and burns off as the sun climbs, gone by mid-morning; evenings stay clear
+    const ltM = weatherFeed ? weatherFeed.localTime().split(':').map(Number) : [12, 0], hourL = ltM[0] + ltM[1] / 60;
+    const mist = hourL < 12 && hourL > 2 ? smooth(-14, -4, e) * (1 - smooth(4, 34, e)) * 0.9 * (1 - 0.6 * cur.rain) : 0;
     const day = smooth(-4, 12, e);
     const deep = 1 - smooth(-16, -7, e);
     const gold = smooth(-6, 1, e) * (1 - smooth(4, 16, e)) * (1 - 0.7 * cur.cloud);
@@ -325,7 +331,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     const lamps = Math.max(1 - smooth(-2, 6, e), Math.min(1, overcastDark) * day * 0.8);
 
     // sun or moon
-    const sunI = day * 3.2 * (1 - 0.68 * cur.cloud) * (1 - 0.45 * cur.fog) * (1 - 0.5 * cur.storm);
+    const sunI = day * 3.2 * (1 - 0.68 * cur.cloud) * (1 - 0.45 * Math.max(cur.fog, mist)) * (1 - 0.5 * cur.storm);
     const moonI = (1 - day) * 0.3 * (1 - 0.5 * cur.cloud);
     const rig = world.rig;
     if (sunI >= moonI) {
@@ -348,13 +354,17 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     if (scene.fog) {
       mix3(tmpA, PAL.fog.blue, PAL.fog.night, PAL.fog.day, nightAmt, day);
       tmpA.lerp(PAL.fog.gold, gold * 0.6).lerp(PAL.fog.storm, cur.storm * 0.6 * day);
+      tmpA.lerp(MIST.copy(PAL.fog.day).lerp(PAL.fog.gold, 0.35).offsetHSL(0, -0.1, 0.06 * day), mist * 0.7); // mist: pale, warm where the sun is in it
       scene.fog.color.copy(tmpA);
-      const thick = Math.max(cur.fog, cur.rain * 0.45);
+      const thick = Math.max(cur.fog, cur.rain * 0.45, mist);
       scene.fog.near = R * (0.08 - 0.06 * thick);
       // from the aerial view you look through far more air, so let the haze thin out
       const high = smooth(25, 90, camera.position.y);
       scene.fog.far = R * (1.9 - 1.3 * thick) * (1 + 2.2 * high);
       scene.fog.near = scene.fog.near * (1 + 4 * high);
+      // the mist sits close: at its thickest you see about 70 m, less in the aerial view's long sightlines
+      scene.fog.far += (R * 0.32 * (1 + 1.6 * high) - scene.fog.far) * mist;
+      scene.fog.near += (1.5 - scene.fog.near) * mist;
     }
     renderer.toneMappingExposure = 1.05 + 0.1 * day;
     if (bloom) { bloom.strength = 0.45 - 0.3 * day; bloom.threshold = 0.85 + 0.75 * day; }
@@ -364,11 +374,11 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     if (u) {
       u.uSunDir.value.copy(sunDir);
       u.uNight.value = deep; u.uDay.value = day; u.uGold.value = gold;
-      u.uCloud.value = cur.cloud; u.uStorm.value = cur.storm; u.uFog.value = Math.max(cur.fog, cur.rain * 0.4);
+      u.uCloud.value = cur.cloud; u.uStorm.value = cur.storm; u.uFog.value = Math.max(cur.fog, cur.rain * 0.4, mist * 0.8);
       u.uFogCol.value.copy(scene.fog ? scene.fog.color : tmpA);
     }
 
-    sky2?.userData.update?.(dt, day, Math.max(lamps, 1 - day));
+    sky2?.userData.update?.(dt, day, Math.max(lamps, 1 - day), mist, scene.fog?.color);
     // street
     shared.uLamps.value = lamps;
     shared.uDay.value = day; // daylight fades lamp pools and the monument sweep
@@ -419,7 +429,16 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   slife = createStreetLife({ world, scene: group, props, traffic, chat, toast: hud.toast, getEnv: () => live, used: rec.used, reduced });
   props.pois?.filter((q) => q.kind === 'build').forEach((q) => { q.x = props.area.x; q.z = props.area.z; }); // the build area moved into the park
 
+  let cullT = 0;
   function update(dt, t, player, yaw, arrival) {
+    // people far from the camera are not drawn or animated; hidden rooms and the hidden street skip their matrix updates
+    cullT -= dt;
+    if (cullT <= 0) {
+      cullT = 0.2;
+      if (!interiors?.active) cullPeople(camera, quality === 'low' ? 35 : 60);
+      scene.children.forEach((c) => { c.matrixWorldAutoUpdate = c.visible; });
+      group.children.forEach((c) => { c.matrixWorldAutoUpdate = c.visible; });
+    }
     if (night && !interiors?.active) environment(dt);
     interiors?.update(dt, t);
     life?.update(dt, t, player);

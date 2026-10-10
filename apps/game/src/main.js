@@ -55,8 +55,10 @@ const quality = pickQuality(q);
 const canvas = document.getElementById('c');
 // Depth: layers sit 3 cm or more apart and the near plane is 0.3 m, which resolves them past the fog line.
 // A logarithmic depth buffer also works (?logz=1) but costs about 4.5 ms a frame, so it is opt-in.
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance', logarithmicDepthBuffer: q.get('logz') === '1' });
-renderer.setPixelRatio(Math.min(devicePixelRatio, quality === 'low' ? 1 : 1.5));
+// the post stack draws into its own multisampled buffer, so the canvas needs no antialiasing of its own
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: q.get('post') === '0', powerPreference: 'high-performance', logarithmicDepthBuffer: q.get('logz') === '1' });
+const BASE_PR = Math.min(devicePixelRatio, quality === 'low' ? 1 : 1.5);
+renderer.setPixelRatio(BASE_PR);
 renderer.setSize(innerWidth, innerHeight, false);
 
 const scene = new THREE.Scene();
@@ -72,6 +74,26 @@ const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.
 let street = null;
 composer.addPass(bloom);
 composer.addPass(new OutputPass());
+
+// 60 frames a second (Elvis, 10 October 2026): the resolution follows the frame time. Over 18 ms on
+// average and it steps down; comfortably under 14 ms for a while and it steps back up. Pixels are what
+// cost most here, so this keeps the frame rate on any machine at the best sharpness it can afford.
+const governor = { scale: 1, sum: 0, n: 0, good: 0, last: performance.now(), min: quality === 'low' ? 0.5 : 0.6 };
+function govern() {
+  const now = performance.now(), dt = now - governor.last; governor.last = now;
+  if (dt > 250 || document.hidden) return; // a stall or a background tab says nothing about the GPU
+  governor.sum += dt; governor.n++;
+  if (governor.n < 45) return;
+  const avg = governor.sum / governor.n; governor.sum = 0; governor.n = 0;
+  let next = governor.scale;
+  if (avg > 18.5) { next = Math.max(governor.min, governor.scale - (avg > 26 ? 0.15 : 0.08)); governor.good = 0; }
+  else if (avg < 14) { if (++governor.good >= 3) { next = Math.min(1, governor.scale + 0.05); governor.good = 0; } }
+  else governor.good = 0;
+  if (Math.abs(next - governor.scale) > 0.001) {
+    governor.scale = next;
+    renderer.setPixelRatio(BASE_PR * next); composer.setPixelRatio(BASE_PR * next); composer.setSize(innerWidth, innerHeight); street?.setSize(innerWidth, innerHeight);
+  }
+}
 
 addEventListener('resize', () => {
   renderer.setSize(innerWidth, innerHeight, false);
@@ -702,12 +724,13 @@ async function main() {
     street?.update(dt, t, player, cam.yaw, shared.uArrival.value);
     street?.renderReflection();
     if (q.get('post') === '0') renderer.render(scene, camera); else composer.render();
+    if (q.get('govern') !== '0') govern();
   }
   frame();
 
   window.__bw = {
     get world() { return world; }, camera, cam, player, renderer, scene, via,
-    get theme() { return themeName; }, setTheme, get look() { return street; }, quality, composer, weather: weatherFeed, get kit() { return kit; }, goto, setAerial, cycleView, setTravel, get travel() { return travel.on; }, idle, get online() { return online; }, audio, get view() { return (riding ? 'ride:' : 'foot:') + (riding ? viewOf('ride') : viewOf('foot')).id; }, get walkTarget() { return walkTarget; }, get walkPath() { return walkPath; }, walkTo, get groundY() { return groundY; },
+    get theme() { return themeName; }, setTheme, get look() { return street; }, quality, composer, weather: weatherFeed, get kit() { return kit; }, goto, setAerial, cycleView, setTravel, get travel() { return travel.on; }, idle, get online() { return online; }, audio, get view() { return (riding ? 'ride:' : 'foot:') + (riding ? viewOf('ride') : viewOf('foot')).id; }, get walkTarget() { return walkTarget; }, get walkPath() { return walkPath; }, walkTo, get groundY() { return groundY; }, get resScale() { return governor.scale; },
     ready: true,
   };
 }

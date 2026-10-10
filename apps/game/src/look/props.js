@@ -7,7 +7,7 @@ import { prepareLook, dress, lookFor } from './style.js';
 import { rigAvatar } from './anim.js';
 import { wallMaterial } from './surfaces.js';
 import { frondTexture, leafTexture, boardTexture, muralTexture, buildSignTexture, hubSignTexture } from './textures.js';
-import { instanceAsset, collidersFor, footprint } from './kit.js';
+import { instanceAsset, collidersFor, footprint, surfacesFor } from './kit.js';
 
 const V3 = THREE.Vector3;
 const box = (w, h, d, x = 0, y = 0, z = 0) => new THREE.BoxGeometry(w, h, d).translate(x, y, z);
@@ -450,6 +450,8 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
       const p = at(s.a, s.c), spot = { x: p.x, z: p.z, ry: faceRoad };
       root.add(instanceAsset(houseT, [spot]));
       world.addColliders(collidersFor(houseT, [spot]));
+      // its steps carry you up to the door, and its planters are solid (kit.js)
+      const surf = surfacesFor(houseT, [spot]); world.addWalkables?.(surf.treads); world.addColliders(surf.solids);
       kitPlaced.yaba_starter_house = [spot];
     }
   }

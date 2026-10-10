@@ -206,10 +206,6 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     return { ...b, area, c, compact: (4 * Math.PI * area) / (per * per || 1), bb: bbox(pts) };
   }).filter((b) => b.area > 14 && b.pts.length >= 3);
 
-  // measure every street against its real building lines (world bible 4.3)
-  const clearance = makeClearance(blds, pointInPoly);
-  fitStreets(roads, clearance);
-
   const cand = blds
     .filter((b) => b.area >= 70 && b.area <= 1500 && b.compact >= 0.42 && Math.hypot(b.c[0], b.c[1]) < R * 0.7)
     .sort((a, b) => b.area - a.area);
@@ -238,6 +234,10 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     }
   }
   const plotIds = new Set(picked);
+  // measure every street against the building lines that stay (the builders' plots): the map's other
+  // footprints are replaced by planned estates, so measuring against them left pavements cut short
+  // beside empty ground (Elvis, 10 October 2026)
+  fitStreets(roads, makeClearance(picked, pointInPoly));
 
   // --- spawn: nearest road point to the player's plot, stepped toward it ---
   const you = assign.get('you') || blds[0];
@@ -277,7 +277,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   gb.box(0, -0.6, 0, R * 14, 0.6, R * 14, PAL.ground, { grad: 0, vary: 0 });
 
   // roads: carriageways fitted between building lines, pavements on what is left, paint on main roads
-  const kerbTris = [], roadTris = [], pathTris = [], paintTris = [];
+  const kerbTris = [], roadTris = [], pathTris = [], paintTris = [], edgeTris = [], jointTris = [];
   const crossings = [];
   // where streets meet: a point another fitted road also passes through (within 1.5 m)
   const nodeUse = new Map();
@@ -291,6 +291,32 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     band(roadTris, pts, nrm, neg, half, 0.14, pushTri);
     band(kerbTris, pts, nrm, half, half.map((h, i) => h + paveL[i]), 0.11, pushTri);
     band(kerbTris, pts, nrm, half.map((h, i) => -h - paveR[i]), neg, 0.11, pushTri);
+    // kerbstones: a pale raised edge where the pavement meets the road, both sides
+    // (broken at junctions, where the road turns the corner and the kerb goes with it)
+    const cum = [0]; for (let i = 1; i < pts.length; i++) cum.push(cum[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
+    const jn = pts.map((p, i) => i).filter((i) => junctionAt(pts[i], r)).map((i) => cum[i]);
+    const nearJ = (i) => jn.some((c) => Math.abs(c - cum[i]) < half[i] + 6.5);
+    [1, -1].forEach((sg) => {
+      const pv = sg > 0 ? paveL : paveR; let run = [];
+      const flush = () => { if (run.length > 1) ribbon(edgeTris, run, 0.18, 0.2); run = []; };
+      pts.forEach((p, i) => { if (pv[i] < 0.5 || nearJ(i)) { flush(); return; } run.push([p[0] + nrm[i][0] * (half[i] + 0.09) * sg, p[1] + nrm[i][1] * (half[i] + 0.09) * sg]); });
+      flush();
+    });
+    // paving joints across the pavement every 1.2 m, so it reads as slabs, not a flat colour
+    [1, -1].forEach((sg) => {
+      const pv = sg > 0 ? paveL : paveR; let acc = 0;
+      for (let i = 1; i < pts.length; i++) {
+        const seg = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+        for (let s = 1.2 - acc; s < seg; s += 1.2) {
+          const u = s / seg, w = pv[i]; if (w < 0.9 || nearJ(i)) continue;
+          const cx = pts[i - 1][0] + (pts[i][0] - pts[i - 1][0]) * u, cz = pts[i - 1][1] + (pts[i][1] - pts[i - 1][1]) * u, nx = nrm[i][0] * sg, nz = nrm[i][1] * sg;
+          const a0 = half[i] + 0.2, a1 = half[i] + w - 0.05, tx = -nz * 0.025, tz = nx * 0.025;
+          const A = [cx + nx * a0 - tx, 0.125, cz + nz * a0 - tz], B = [cx + nx * a1 - tx, 0.125, cz + nz * a1 - tz], Cc = [cx + nx * a1 + tx, 0.125, cz + nz * a1 + tz], D = [cx + nx * a0 + tx, 0.125, cz + nz * a0 + tz];
+          pushTri(jointTris, A, B, Cc); pushTri(jointTris, A, Cc, D);
+        }
+        acc = (acc + seg) % 1.2;
+      }
+    });
     // lane markings (world bible 4.3): a dashed centre line on any two-lane street, lane dividers on wide
     // roads, solid edge lines on main roads; all paint sits at 17 cm, above every other ground layer
     const minHalf = Math.min(...half);
@@ -324,6 +350,8 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     });
   });
   if (kerbTris.length) gb.raw(kerbTris, PAL.kerb);
+  if (edgeTris.length) gb.raw(edgeTris, '#ece7da');
+  if (jointTris.length) gb.raw(jointTris, '#b9b19e');
   if (pathTris.length) gb.raw(pathTris, PAL.path);
   if (roadTris.length) gb.raw(roadTris, PAL.road);
   if (paintTris.length) gb.raw(paintTris, PAL.paint);
@@ -335,7 +363,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     mainRoads.forEach((r) => { const P = r.fit ? r.fit.pts : r.pts; for (let i = 0; i < P.length - 1; i += 1) { const [ax, az] = P[i], [bx, bz] = P[i + 1]; const dx = bx - ax, dz = bz - az; const t = Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / (dx * dx + dz * dz || 1))); d = Math.min(d, Math.hypot(x - ax - dx * t, z - az - dz * t)); } });
     return d;
   };
-  const lotTrees = [], doorPlants = [], lotFences = [], porchLamps = [];
+  const lotTrees = [], doorPlants = [], lotFences = [], porchLamps = [], doorTreads = [];
   // A plot may not reach the pavement or the carriageway, nor overlap a plot already laid out:
   // map footprints often do both, so each plot is pulled back toward its centre until it is clear.
   const reserve = [];
@@ -460,6 +488,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
       if (est.garage) estateGarages.push(est.garage);
       if (est.car && rng() < 0.6) carSpots.push({ ...est.car, addr });
       if (est.door) doorPlants.push({ x: est.door.x, z: est.door.z, step: est.door.step, addr, no: L.no });
+      (est.door?.treads || []).forEach((t) => doorTreads.push(t));
       addresses.push({ x: L.c[0], z: L.c[1], no: L.no, gate: L.gate, estate: E.name, addr, door: est.door?.step || null, lamp: est.door?.lamp || null, pts: L.pts });
       // porch lights: two in three on a motion sensor (on only when someone comes near), the rest on all night
       if (est.door?.lamp) { const Lp = est.door.lamp; porchLamps.push({ mx: Lp.x, mz: Lp.z, x: Lp.x + Math.sin(Lp.ry) * 0.9, y: 2.4, z: Lp.z + Math.cos(Lp.ry) * 0.9, ry: Lp.ry, my: Lp.y, sensor: rng() < 0.67, power: 0, color: 0xffc27a, kind: 'porch' }); }
@@ -547,7 +576,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   // A deck 5.2 m up across the main road, a landing at each end, and a stair flight down each side
   // running alongside the road. Steps, landings and deck are walkable (groundAt); railings stop you
   // stepping off; anything standing where the stairs go (a lamp, a tree) gives way.
-  const walkables = []; // flat surfaces: { cx, cz, hx, hz, ry, top }
+  const walkables = [...doorTreads]; // flat surfaces: { cx, cz, hx, hz, ry, top } (doorsteps first)
   const bridgeBoxes = []; // footprints, to clear lamps and trees
   {
     const { H, RISE, nSteps, RUN, FLIGHT, FW, LAND } = BRIDGE;
@@ -1042,6 +1071,8 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     // footprints of things that have no collider (a billboard face, a bridge deck, drains), for the layout audit
     claims, claim: (c) => { claims.push(c); camBoxes.dirty = true; }, bridge: world_bridge, crossings, junctionAt, porchLamps,
     // the ground under someone's feet: steps, landings and decks they can reach (a 0.55 m step up at most)
+    // surfaces placed after the world is built (a kit house's steps): you stand on them
+    addWalkables: (list) => { list.forEach((w) => walkables.push(w)); },
     groundAt: (x, z, feet = 0) => {
       let g = 0;
       for (const w of walkables) {

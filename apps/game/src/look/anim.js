@@ -8,6 +8,23 @@ import * as THREE from 'three';
 const HIP_Y = 0.82, THIGH = 0.34, SHIN = 0.33, SHOULDER_Y = 1.25, UPPER = 0.23, FORE = 0.24;
 const near = (a, b, e = 0.012) => Math.abs(a - b) < e;
 
+// Level of detail for people (performance, world bible 7.2): every rigged avatar is registered; far
+// from the camera its parts are not drawn, its matrices are not updated and its pose is not worked out.
+// The root's own visibility stays the business of whoever owns the avatar (indoors, asleep...).
+export const PEOPLE = new Set();
+const tmpV = { x: 0, y: 0, z: 0 };
+export function cullPeople(camera, dist = 60) {
+  const cx = camera.position.x, cz = camera.position.z, d2 = dist * dist;
+  for (const root of PEOPLE) {
+    if (!root.parent) { PEOPLE.delete(root); continue; }
+    const e = root.matrixWorld.elements, dx = e[12] - cx, dz = e[14] - cz, far = dx * dx + dz * dz > d2;
+    if (far === !!root.userData.far) continue;
+    root.userData.far = far;
+    root.children.forEach((c) => { c.visible = !far; c.matrixWorldAutoUpdate = !far; });
+  }
+  void tmpV;
+}
+
 export function rigAvatar(root) {
   const kids = [...root.children];
   const find = (fn) => kids.filter((o) => o.isMesh && fn(o.position));
@@ -16,6 +33,7 @@ export function rigAvatar(root) {
   const arms = find((p) => near(Math.abs(p.x), 0.32) && near(p.y, 1.04));
   const hands = find((p) => near(Math.abs(p.x), 0.345) && near(p.y, 0.76));
   if (legs.length !== 2 || arms.length !== 2) return null; // not the shared avatar: leave it alone
+  PEOPLE.add(root);
   const own = [];
   const box = (w, h, d, y, mat) => { const g = new THREE.BoxGeometry(w, h, d).translate(0, y, 0); own.push(g); return new THREE.Mesh(g, mat); };
   const group = (parent, x, y, z) => { const g = new THREE.Group(); g.position.set(x, y, z); parent.add(g); return g; };
@@ -73,6 +91,7 @@ export function rigAvatar(root) {
    * @param s      { speed: ground speed m/s, running: bool, air: bool, vy: vertical speed, t: time, seated: bool }
    */
   function update(dt, s) {
+    if (root.userData.far) return; // out of sight: no pose to work out
     const speed = s.speed || 0;
     const k = ease(16, dt);
     cur.walk = lerp(cur.walk, Math.min(1, speed / 1.2) * (s.air ? 0 : 1), ease(10, dt));

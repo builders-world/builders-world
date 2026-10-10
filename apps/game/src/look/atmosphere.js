@@ -289,10 +289,14 @@ export function skyline(world) {
   const neon = dressSkyline(towerList, { center: world.center ? { x: 0, z: 0 } : { x: 0, z: 0 }, reduced: false });
   group.add(neon.group);
   const DAY = new THREE.Color(0xb9c4c2), DUSK = new THREE.Color(0x3a4258), NIGHT = new THREE.Color(0x141a2c);
-  group.userData.update = (dt, day, night) => {
-    // towers read as a clay silhouette by day, a deep blue at dusk and night
+  group.userData.update = (dt, day, night, mist = 0, fogCol = null) => {
+    // towers read as a clay silhouette by day, a deep blue at dusk and night; in the morning mist they
+    // fade into it (they ignore the scene's fog, being so far off, so the mist is applied here)
     towerMat.color.copy(NIGHT).lerp(DUSK, Math.min(1, day * 3)).lerp(DAY, Math.max(0, day * 1.4 - 0.4));
-    winMat.opacity = 0.25 + 0.75 * night;
+    // (emissive, so it holds even in the dim dawn light that leaves the lit colour dark)
+    if (fogCol && mist > 0) { towerMat.emissive.copy(fogCol).multiplyScalar(Math.min(0.95, mist * 1.2)); towerMat.color.multiplyScalar(1 - Math.min(0.9, mist)); } else towerMat.emissive.setRGB(0, 0, 0);
+    winMat.opacity = (0.25 + 0.75 * night) * (1 - Math.min(1, mist * 1.2));
+    neon.group.visible = mist < 0.45;
     neon.update(dt, night);
   };
   group.userData.neon = neon;

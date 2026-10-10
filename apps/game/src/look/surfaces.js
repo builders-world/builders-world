@@ -83,6 +83,27 @@ function withWorldPos(shader) {
   shader.fragmentShader = shader.fragmentShader.replace('#include <common>', '#include <common>\nvarying vec3 vWPos;');
 }
 
+
+// Grass and earth (Elvis, 10 October 2026: "parchments are green, not fully detailed"): wherever the base
+// colour reads as lawn or open ground (green over blue, not redder than green), the ground gets broad
+// light and dark patches, a finer mottling, a blade-scale grain, a few worn earth spots and a touch of
+// yellowing in the sun. Roads, kerbs and pavements are untouched: their colours fail the test.
+const GRASS = `
+  {
+    vec3 gc = diffuseColor.rgb;
+    float gmask = smoothstep(-0.02, 0.02, gc.g - gc.r) * smoothstep(0.08, 0.15, gc.g - gc.b);
+    if (gmask > 0.001) {
+      // (the noise sits near its middle, so stretch it to use the whole range)
+      float big = smoothstep(0.32, 0.68, texture2D(tNoise, vWPos.xz * 0.012).r), mid = smoothstep(0.3, 0.7, texture2D(tNoise, vWPos.xz * 0.07).g), blade = smoothstep(0.25, 0.75, texture2D(tNoise, vWPos.xz * 1.6).b);
+      // lush deeper-green patches, drier yellow ones, worn earth, all broken up by a blade-scale grain
+      vec3 g = gc * (0.78 + 0.36 * big) * (0.9 + 0.2 * mid) * (0.84 + 0.3 * blade);
+      g = mix(g, g * vec3(0.78, 0.92, 0.7), smoothstep(0.6, 0.85, big) * 0.7);
+      g = mix(g, g * vec3(1.12, 1.06, 0.8), smoothstep(0.55, 0.85, mid) * 0.55);
+      g = mix(g, vec3(0.58, 0.49, 0.35) * (0.8 + 0.35 * blade), smoothstep(0.32, 0.14, big) * 0.6);
+      diffuseColor.rgb = mix(gc, g, gmask);
+    }
+  }`;
+
 // ---------- the wet street ----------
 // Vertex colour keeps the road, kerb and path layout. Puddles come from a broad
 // noise field; they are darker, smoother and reflect the mirror target.
@@ -123,6 +144,7 @@ export function wetGroundMaterial() {
         vec4 nz = texture2D(tNoise, vWPos.xz * 0.018);
         wetGrain = texture2D(tNoise, vWPos.xz * 0.45).g;
         wetPuddle = smoothstep(0.5, 0.58, nz.r + (wetGrain - 0.5) * 0.08) * uWet;
+        ${GRASS}
         diffuseColor.rgb *= 0.93 + 0.14 * wetGrain;
         diffuseColor.rgb *= mix(1.0, 0.62, uWet) * mix(1.0, 0.55, wetPuddle);`)
       .replace('#include <roughnessmap_fragment>', `
@@ -164,6 +186,7 @@ export function wallMaterial({ wetBottom = true } = {}) {
         uniform sampler2D tNoise; uniform float uWet; varying vec3 vWNrm; float wallWet;`)
       .replace('#include <color_fragment>', `#include <color_fragment>
         vec3 an = abs(vWNrm);
+        if (an.y > 0.9) ${GRASS}
         vec2 uvw = an.y > 0.6 ? vWPos.xz : (an.x > an.z ? vWPos.zy : vWPos.xy);
         float mott = texture2D(tNoise, uvw * 0.11).r;
         float fine = texture2D(tNoise, uvw * 0.9).g;
@@ -177,6 +200,6 @@ export function wallMaterial({ wetBottom = true } = {}) {
       .replace('#include <roughnessmap_fragment>', `
         float roughnessFactor = mix(0.86, 0.38, wallWet);`);
   };
-  m.customProgramCacheKey = () => `bw-wall-${wetBottom}`;
+  m.customProgramCacheKey = () => `bw-wall2-${wetBottom}`;
   return m;
 }

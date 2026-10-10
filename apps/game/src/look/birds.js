@@ -26,9 +26,14 @@ function flapMaterial(uTime) {
       .replace('#include <begin_vertex>', `#include <begin_vertex>
         float ph = instanceMatrix[3].x * 1.7 + instanceMatrix[3].z * 2.3;
         float w = abs(position.x) > 0.06 ? 1.0 : 0.0;
-        transformed.y += w * sin(uTime * 16.0 + ph) * abs(position.x) * 0.9 * aFlap;`);
+        transformed.y += w * sin(uTime * 16.0 + ph) * abs(position.x) * 0.9 * aFlap;
+        // on the ground (not flapping) the wings fold along the body instead of lying spread like a cross
+        float fold = 1.0 - clamp(aFlap * 4.0, 0.0, 1.0);
+        transformed.x = mix(transformed.x, sign(position.x) * 0.05, w * fold);
+        transformed.y += w * fold * 0.025;
+        transformed.z = mix(transformed.z, transformed.z * 0.8 - 0.03, w * fold);`);
   };
-  m.customProgramCacheKey = () => 'bw-bird2';
+  m.customProgramCacheKey = () => 'bw-bird3';
   return m;
 }
 

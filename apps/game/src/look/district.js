@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { instanceAsset, collidersFor, movingInstances, footprint } from './kit.js';
 import { mulberry32 } from '../mesh.js';
 import { signTexture } from './props.js';
@@ -188,99 +189,188 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
     });
   }
 
-  // ---------- neighbourhood streets: utility poles and their wires ----------
-  const poleT = get('yaba_utility_pole');
-  if (poleT) {
-    const poles = [], wires = [];
+  // ---------- electricity: timber poles, crossarms, insulators, transformers and sagging lines ----------
+  // (world bible 4.3). One run of poles down every street, on the pavement's inner edge (clear of the
+  // drain behind it and the lamps at the kerb), a crossarm across the street carrying three conductors
+  // on porcelain insulators, a telecom cable lower down, a transformer on every fourth pole.
+  {
+    const poles = [], spans = [];
+    const lampsAt = [...(world.lamps || [])];
     world.roads.forEach((r) => {
       if (!r.fit || !NEIGHBOURHOOD.concat(MAJOR).includes(r.cls)) return;
       const { pts, nrm, half, paveL, paveR } = r.fit;
+      const side = paveR.reduce((a, b) => a + b, 0) >= paveL.reduce((a, b) => a + b, 0) ? -1 : 1; // the wider pavement, the whole street long
       let acc = 17, prev = null;
       for (let i = 1; i < pts.length - 1; i++) {
         acc += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
-        if (acc < 34) continue;
-        const side = paveR[i] >= paveL[i] ? -1 : 1, pave = side < 0 ? paveR[i] : paveL[i];
-        if (pave < 0.7) { prev = null; continue; }
-        const off = half[i] + pave - 0.35; // building side of the pavement, away from the lamps at the kerb
+        if (acc < 32) continue;
+        const pave = side < 0 ? paveR[i] : paveL[i];
+        if (pave < 0.9) { prev = null; continue; }
+        const off = half[i] + (pave >= 1.4 ? pave - 0.85 : pave - 0.35);
         const x = pts[i][0] + nrm[i][0] * off * side, z = pts[i][1] + nrm[i][1] * off * side;
-        // verge or pavement only: never on any carriageway, never in a plot (estate-layout skill)
-        if (Math.hypot(x, z) > R * 0.95 || world.onCarriageway?.(x, z, 0.6) || world.inPlot?.(x, z, 0.5) || world.kitColliders.some((c) => Math.hypot(c.cx - x, c.cz - z) < 1.6)) { prev = null; continue; }
+        if (Math.hypot(x, z) > R * 0.95 || world.onCarriageway?.(x, z, 0.5) || world.inPlot?.(x, z, 0.4) || world.kitColliders.some((c) => Math.hypot(c.cx - x, c.cz - z) < 1.4) || lampsAt.some((l) => Math.hypot(l.x - x, l.z - z) < 2.2)) { prev = null; continue; }
         acc = 0;
         const tx = -nrm[i][1], tz = nrm[i][0];
-        const pole = { x, z, ry: Math.atan2(-tz, tx) };
+        const pole = { x, z, ry: Math.atan2(tx, tz), nx: nrm[i][0] * side, nz: nrm[i][1] * side, trafo: poles.length % 4 === 1 };
         poles.push(pole);
-        if (prev && Math.hypot(prev.x - x, prev.z - z) < 48) wires.push([prev, pole]);
+        if (prev && Math.hypot(prev.x - x, prev.z - z) < 46) spans.push([prev, pole]);
         prev = pole;
       }
     });
-    put('yaba_utility_pole', poles);
-    // two sagging conductors per span, from the end of one pole's arm to the start of the next
-    const pts = [];
-    const arm = (p, ax, az) => [p.x + Math.cos(p.ry) * ax + Math.sin(p.ry) * az, p.z - Math.sin(p.ry) * ax + Math.cos(p.ry) * az];
-    wires.forEach(([a, b]) => {
-      [-0.55, 0.55].forEach((oz) => {
-        const [ax, az] = arm(a, 4.2, oz), [bx, bz] = arm(b, -4.2, oz);
-        const span = Math.hypot(bx - ax, bz - az), sag = 0.35 + span * 0.012;
-        for (let k = 0; k < 10; k++) {
-          const t0 = k / 10, t1 = (k + 1) / 10;
-          const y0 = 7.9 - sag * 4 * t0 * (1 - t0), y1 = 7.9 - sag * 4 * t1 * (1 - t1);
-          pts.push(ax + (bx - ax) * t0, y0, az + (bz - az) * t0, ax + (bx - ax) * t1, y1, az + (bz - az) * t1);
+    if (poles.length) {
+      const wood = new THREE.MeshStandardMaterial({ color: 0x7a5a3c, roughness: 0.95 }), steel = new THREE.MeshStandardMaterial({ color: 0x6f767c, roughness: 0.5, metalness: 0.6 });
+      const porcelain = new THREE.MeshStandardMaterial({ color: 0xe9e4d6, roughness: 0.35 }), trafoMat = new THREE.MeshStandardMaterial({ color: 0x8c949a, roughness: 0.55, metalness: 0.4 });
+      const H = 9.2, ARM = 7.9;
+      const poleGeo = new THREE.CylinderGeometry(0.11, 0.16, H, 8).translate(0, H / 2, 0);
+      const armGeo = new THREE.BoxGeometry(2.6, 0.12, 0.12).translate(0, ARM, 0); // across the street (local x)
+      const braceGeo = mergeGeometries([new THREE.BoxGeometry(0.05, 0.9, 0.05).rotateZ(0.75).translate(-0.4, ARM - 0.38, 0), new THREE.BoxGeometry(0.05, 0.9, 0.05).rotateZ(-0.75).translate(0.4, ARM - 0.38, 0)]);
+      const insGeo = mergeGeometries([-1.1, 0, 1.1].map((x) => new THREE.CylinderGeometry(0.05, 0.07, 0.22, 8).translate(x, ARM + 0.17, 0)));
+      const trafoGeo = mergeGeometries([new THREE.CylinderGeometry(0.34, 0.34, 0.9, 12).translate(0, 6.2, 0.38), new THREE.BoxGeometry(0.8, 0.08, 0.2).translate(0, 6.0, 0.18), new THREE.CylinderGeometry(0.05, 0.05, 0.25, 6).translate(-0.15, 6.78, 0.38), new THREE.CylinderGeometry(0.05, 0.05, 0.25, 6).translate(0.15, 6.78, 0.38)]);
+      const inst = (geo, mat, list) => { const im = new THREE.InstancedMesh(geo, mat, Math.max(1, list.length)); const m = new THREE.Matrix4(), q = new THREE.Quaternion(), sc = new THREE.Vector3(1, 1, 1), Y = new THREE.Vector3(0, 1, 0); list.forEach((p, k) => im.setMatrixAt(k, m.compose(new THREE.Vector3(p.x, 0, p.z), q.setFromAxisAngle(Y, p.ry + Math.PI / 2), sc))); im.count = list.length; group.add(im); return im; };
+      inst(poleGeo, wood, poles); inst(armGeo, wood, poles); inst(braceGeo, steel, poles); inst(insGeo, porcelain, poles);
+      inst(trafoGeo, trafoMat, poles.filter((p) => p.trafo));
+      world.addColliders?.(poles.map((p) => ({ name: 'utility_pole', cx: p.x, cz: p.z, hx: 0.17, hz: 0.17, ry: 0 })));
+      // the lines: three conductors from insulator to insulator and a telecom cable, each sagging
+      const tubes = [], cable = [];
+      const across = (p, d) => [p.x + p.nx * d, p.z + p.nz * d];
+      const sagLine = (out, a, b, y, r, sag) => {
+        const N = 10, SIDES = 4;
+        for (let k = 0; k < N; k++) {
+          const t0 = k / N, t1 = (k + 1) / N, P0 = [a[0] + (b[0] - a[0]) * t0, y - sag * 4 * t0 * (1 - t0), a[1] + (b[1] - a[1]) * t0], P1 = [a[0] + (b[0] - a[0]) * t1, y - sag * 4 * t1 * (1 - t1), a[1] + (b[1] - a[1]) * t1];
+          const g = new THREE.CylinderGeometry(r, r, 1, SIDES, 1, true), d = new THREE.Vector3(P1[0] - P0[0], P1[1] - P0[1], P1[2] - P0[2]), L = d.length();
+          g.scale(1, L, 1); g.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.normalize())); g.translate((P0[0] + P1[0]) / 2, (P0[1] + P1[1]) / 2, (P0[2] + P1[2]) / 2);
+          out.push(g);
         }
+      };
+      spans.forEach(([a, b]) => {
+        const span = Math.hypot(b.x - a.x, b.z - a.z), sag = 0.25 + span * 0.011;
+        [-1.1, 0, 1.1].forEach((d) => sagLine(tubes, across(a, d), across(b, d), ARM + 0.28, 0.018, sag));
+        sagLine(cable, across(a, 0.2), across(b, 0.2), 5.6, 0.028, sag * 1.4);
       });
-    });
-    if (pts.length) {
-      const g = new THREE.BufferGeometry();
-      g.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
-      group.add(new THREE.LineSegments(g, new THREE.LineBasicMaterial({ color: 0x15171c })));
+      const wireMat = new THREE.MeshBasicMaterial({ color: 0x1b1d22 });
+      if (tubes.length) group.add(new THREE.Mesh(mergeGeometries(tubes), wireMat));
+      if (cable.length) group.add(new THREE.Mesh(mergeGeometries(cable), wireMat));
+      counts.wire_spans = spans.length; counts.poles = poles.length;
     }
-    counts.wire_spans = wires.length;
   }
 
   // ---------- drainage gutters at the kerb ----------
-  const gutterT = get('yaba_drainage_gutter');
-  if (gutterT) {
-    const spots = [];
-    // every carriageway as segments with their half width, so no gutter piece ever lies across a road:
-    // runs stop at the kerb at junctions, where the water goes under the road in a culvert
-    const carriage = [];
-    world.roads.forEach((r, ri) => {
-      if (!r.fit) return;
-      const { pts, half } = r.fit;
-      for (let k = 0; k < pts.length - 1; k++) carriage.push({ ri, ax: pts[k][0], az: pts[k][1], bx: pts[k + 1][0], bz: pts[k + 1][1], h: Math.max(half[k], half[k + 1]) });
-    });
-    const onRoad = (x, z, own) => carriage.some((c) => {
-      if (c.ri === own) return false;
-      const dx = c.bx - c.ax, dz = c.bz - c.az, L2 = dx * dx + dz * dz || 1;
-      const u = Math.max(0, Math.min(1, ((x - c.ax) * dx + (z - c.az) * dz) / L2));
-      return Math.hypot(x - c.ax - dx * u, z - c.az - dz * u) < c.h + 0.9;
-    });
-    const halfLen = footprint(gutterT).w / 2;
-    world.roads.forEach((r, ri) => {
+  // ---------- open drains (world bible 4.3): a continuous concrete channel along the back of every
+  // pavement, both sides of the street, broken only at junctions where the water goes under the road.
+  // A dark water line between two concrete lips, a crossing slab in front of every gate and shop, and
+  // a grating at each end. (The kit's gutter piece, stamped every 8 m, read as a ladder: Elvis, 10 Oct 2026.)
+  {
+    const water = [], lips = [], slabs = [];
+    // where people cross: estate gates (and their access lanes), plus shop and stall fronts once placed
+    const crossings = [];
+    (world.estates || []).forEach((E) => E.gates.forEach((g) => crossings.push({ x: g.x - g.inward[0] * 1.5, z: g.z - g.inward[1] * 1.5, r: 4.5 })));
+    interact.filter((i) => /^(shop|stall|enter):/.test(i.id)).forEach((i) => crossings.push({ x: i.x, z: i.z, r: 3 }));
+    const crossingAt = (x, z) => crossings.find((c) => Math.hypot(c.x - x, c.z - z) < c.r);
+    const quad = (out, a, b, c, d) => out.push(...a, ...b, ...c, ...a, ...c, ...d);
+    world.roads.forEach((r) => {
       if (!r.fit) return;
       const { pts, nrm, half, paveL, paveR } = r.fit;
-      let acc = 0;
-      for (let i = 1; i < pts.length - 1; i++) {
-        acc += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
-        if (acc < 8) continue;
-        acc = 0;
-        const tx = -nrm[i][1], tz = nrm[i][0];
-        const both = MAJOR.includes(r.cls); // neighbourhood streets drain to one side
-        [[1, paveL[i]], [-1, paveR[i]]].forEach(([side, pave]) => {
-          if (pave < 1.3) return;
-          if (!both && side !== (paveL[i] >= paveR[i] ? 1 : -1)) return;
-          const off = half[i] + 0.55;
-          const x = pts[i][0] + nrm[i][0] * off * side, z = pts[i][1] + nrm[i][1] * off * side;
-          if (Math.hypot(x, z) > R * (lowQuality ? 0.5 : 0.75)) return;
-          // the piece and both its ends must clear every other carriageway
-          if ([0, 1, -1].some((e) => onRoad(x + tx * halfLen * e, z + tz * halfLen * e, ri))) return;
-          // sunk into the verge: the walls stand a kerb's height proud and the slabs sit near flush
-          spots.push({ x, z, y: -0.24, ry: Math.atan2(-tz, tx) }); // covers 9 cm above the pavement, never level with it
-          world.claim?.({ kind: 'drain', cx: x, cz: z, hx: halfLen, hz: 0.55, ry: Math.atan2(-tz, tx) });
-        });
-      }
+      const cum = [0]; for (let i = 1; i < pts.length; i++) cum.push(cum[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
+      const jn = pts.map((p, i) => i).filter((i) => world.junctionAt?.(pts[i], r)).map((i) => cum[i]);
+      const nearJ = (i) => jn.some((c) => Math.abs(c - cum[i]) < half[i] + 7);
+      [1, -1].forEach((sg) => {
+        const pv = sg > 0 ? paveL : paveR;
+        // the line along the back of the pavement, and the channel built on it in short straight pieces
+        const off = (i) => half[i] + pv[i] - 0.32;
+        const P = (i, d) => [pts[i][0] + nrm[i][0] * (off(i) + d) * sg, pts[i][1] + nrm[i][1] * (off(i) + d) * sg];
+        let lastSlab = -1e9, runStart = -1;
+        for (let i = 0; i < pts.length - 1; i++) {
+          const ok = pv[i] >= 1.4 && pv[i + 1] >= 1.4 && !nearJ(i) && !nearJ(i + 1) && Math.hypot(...P(i, 0)) < R * (lowQuality ? 0.55 : 0.8);
+          if (!ok) { if (runStart >= 0 && i - runStart >= 1) { const [ex, ez] = P(i, 0); slabs.push({ x: ex, z: ez, i, grate: true }); } runStart = -1; continue; }
+          if (runStart < 0) { runStart = i; const [sx, sz] = P(i, 0); slabs.push({ x: sx, z: sz, i, grate: true }); }
+          const y = (h) => h;
+          const strip = (out, d0, d1, h) => { const a = P(i, d0), b = P(i + 1, d0), c = P(i + 1, d1), d = P(i, d1); quad(out, [a[0], y(h), a[1]], [b[0], y(h), b[1]], [c[0], y(h), c[1]], [d[0], y(h), d[1]]); };
+          // at a gate or a shop front the drain is covered: a run of slabs instead of open water
+          const [mx, mz] = P(i, 0), mx2 = P(i + 1, 0);
+          if (crossingAt((mx + mx2[0]) / 2, (mz + mx2[1]) / 2)) { const L = Math.hypot(mx2[0] - mx, mx2[1] - mz); for (let u = 0.5; u < L; u += 1.0) slabs.push({ x: mx + (mx2[0] - mx) * (u / L), z: mz + (mx2[1] - mz) * (u / L), i }); continue; }
+          strip(water, -0.17, 0.17, 0.118);
+          strip(lips, -0.27, -0.17, 0.16); strip(lips, 0.17, 0.27, 0.16);
+          // a crossing slab every 12 m or so, the way people bridge a drain to their door
+          if (cum[i] - lastSlab > 12 && i > runStart + 1) { lastSlab = cum[i]; const [sx, sz] = P(i, 0); slabs.push({ x: sx, z: sz, i }); }
+        }
+        // slab and grating orientation follows the road
+        slabs.forEach((sl) => { if (sl.ry === undefined) { sl.ry = Math.atan2(-nrm[sl.i][1], nrm[sl.i][0]); } });
+      });
     });
-    // gutters have walkable slab covers: their proxies are not used for player collision
-    put('yaba_drainage_gutter', spots, { collide: false });
+    const geo = (arr) => { const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(arr, 3)); g.computeVertexNormals(); return g; };
+    if (water.length) {
+      // the wet channel: dark, a little glossy, never flickering against the pavement (3 cm layers, bible 7.1)
+      group.add(new THREE.Mesh(geo(water), new THREE.MeshStandardMaterial({ color: 0x2f3b36, roughness: 0.25, metalness: 0.1, polygonOffset: true, polygonOffsetFactor: -2 })));
+      group.add(new THREE.Mesh(geo(lips), new THREE.MeshStandardMaterial({ color: 0xbdb6a6, roughness: 0.9, polygonOffset: true, polygonOffsetFactor: -3 })));
+      const slabGeo = new THREE.BoxGeometry(1.0, 0.05, 0.62), grateGeo = new THREE.BoxGeometry(0.5, 0.03, 0.42);
+      const S = slabs.filter((q) => !q.grate), Gr = slabs.filter((q) => q.grate);
+      const slabMesh = new THREE.InstancedMesh(slabGeo, new THREE.MeshStandardMaterial({ color: 0xcfc8b8, roughness: 0.9 }), Math.max(1, S.length));
+      const grateMesh = new THREE.InstancedMesh(grateGeo, new THREE.MeshStandardMaterial({ color: 0x3a3f45, roughness: 0.5, metalness: 0.6 }), Math.max(1, Gr.length));
+      const m = new THREE.Matrix4(), q = new THREE.Quaternion(), sc = new THREE.Vector3(1, 1, 1), Y = new THREE.Vector3(0, 1, 0);
+      S.forEach((sl, k) => slabMesh.setMatrixAt(k, m.compose(new THREE.Vector3(sl.x, 0.165, sl.z), q.setFromAxisAngle(Y, sl.ry + Math.PI / 2), sc)));
+      Gr.forEach((sl, k) => grateMesh.setMatrixAt(k, m.compose(new THREE.Vector3(sl.x, 0.135, sl.z), q.setFromAxisAngle(Y, sl.ry + Math.PI / 2), sc)));
+      slabMesh.count = S.length; grateMesh.count = Gr.length;
+      group.add(slabMesh, grateMesh);
+      counts.drain_slabs = S.length;
+    }
+  }
+
+  // ---------- grass: tufts over lawns and verges, so open ground has texture up close (one draw call) ----------
+  {
+    const blade = (a, h) => new THREE.PlaneGeometry(0.07, h).translate(0, h / 2, 0).rotateY(a);
+    const tuft = mergeGeometries([blade(0, 0.22), blade(1.05, 0.18), blade(2.1, 0.25), blade(0.5, 0.15).translate(0.04, 0, 0.03)]);
+    const spots = [];
+    const N = lowQuality ? 4000 : 14000;
+    for (let k = 0; k < N * 3 && spots.length < N; k++) {
+      // densest where people walk
+      const a = rng() * Math.PI * 2, r = 4 + Math.pow(rng(), 0.8) * R * 0.6, x = world.spawn.x + Math.cos(a) * r, z = world.spawn.z + Math.sin(a) * r;
+      // grass, not paving: open ground or a garden, never the road, the pavement, a path or a building
+      if (world.onCarriageway?.(x, z, 0.4) || !world.isFree(x, z, 0.3, { lots: true }) || world.isFree(x, z, 0.3, { lots: false }) === false && !world.inPlot?.(x, z)) continue;
+      if (world.costAt?.(x, z) > 50) continue;
+      spots.push({ x, z, ry: rng() * 6.28, s: 0.55 + rng() * 0.55 });
+    }
+    const mat = new THREE.MeshStandardMaterial({ color: 0x7f9a4e, roughness: 0.95, side: THREE.DoubleSide });
+    const im = new THREE.InstancedMesh(tuft, mat, Math.max(1, spots.length));
+    const m = new THREE.Matrix4(), q = new THREE.Quaternion(), Y = new THREE.Vector3(0, 1, 0), col = new THREE.Color();
+    spots.forEach((p, k) => { im.setMatrixAt(k, m.compose(new THREE.Vector3(p.x, 0.03, p.z), q.setFromAxisAngle(Y, p.ry), new THREE.Vector3(p.s, p.s, p.s))); im.setColorAt(k, col.setHSL(0.2 + rng() * 0.05, 0.32 + rng() * 0.12, 0.42 + rng() * 0.1)); });
+    im.count = spots.length; im.frustumCulled = false; group.add(im);
+    counts.grass = spots.length;
+  }
+
+  // ---------- vacant land: bush, scrub trees and the famous painted warnings (world bible 4.6) ----------
+  // Open ground deep in a block, away from roads and plots, grows over the way Lagos land does while it
+  // waits for a developer: shrub clumps, a few trees, and a painted sign on a block post.
+  {
+    const clumps = [], trees = [], signs = [];
+    const deep = (x, z) => world.costAt?.(x, z) === 1 && !world.inPlot?.(x, z, 3) && !world.onCarriageway?.(x, z, 9) && world.isFree(x, z, 2.5, { lots: false });
+    // seeds, each growing a thicket: a tree or two and a spread of shrubs round it
+    for (let k = 0; k < (lowQuality ? 1200 : 3200); k++) {
+      const a = rng() * Math.PI * 2, r = Math.sqrt(rng()) * R * 0.85, x0 = Math.cos(a) * r, z0 = Math.sin(a) * r;
+      if (!deep(x0, z0)) continue;
+      if (rng() < 0.45) trees.push({ x: x0, z: z0, s: 0.8 + rng() * 0.6 });
+      const n = 3 + Math.floor(rng() * 6);
+      for (let j = 0; j < n; j++) { const x = x0 + (rng() - 0.5) * 6, z = z0 + (rng() - 0.5) * 6; if (deep(x, z)) clumps.push({ x, z, s: 0.5 + rng() * 0.9, ry: rng() * 6.28 }); }
+      if (rng() < 0.03 && signs.length < 6) signs.push({ x: x0 + 2.5, z: z0, ry: rng() * 6.28 });
+    }
+    const leaf = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.9, flatShading: true });
+    const shrub = mergeGeometries([new THREE.IcosahedronGeometry(0.55, 0).scale(1, 0.7, 1).translate(0, 0.35, 0), new THREE.IcosahedronGeometry(0.4, 0).scale(1, 0.7, 1).translate(0.45, 0.25, 0.2), new THREE.IcosahedronGeometry(0.35, 0).translate(-0.35, 0.22, -0.25)]);
+    const sm = new THREE.InstancedMesh(shrub, leaf, Math.max(1, clumps.length)), m = new THREE.Matrix4(), q = new THREE.Quaternion(), Y = new THREE.Vector3(0, 1, 0), col = new THREE.Color();
+    clumps.forEach((c, k) => { sm.setMatrixAt(k, m.compose(new THREE.Vector3(c.x, 0, c.z), q.setFromAxisAngle(Y, c.ry), new THREE.Vector3(c.s, c.s, c.s))); sm.setColorAt(k, col.setHSL(0.22 + rng() * 0.06, 0.3 + rng() * 0.15, 0.3 + rng() * 0.12)); });
+    sm.count = clumps.length; group.add(sm);
+    const trunkG = new THREE.CylinderGeometry(0.1, 0.15, 2.6, 6).translate(0, 1.3, 0), crownG = mergeGeometries([new THREE.IcosahedronGeometry(1.3, 0).translate(0, 3.1, 0), new THREE.IcosahedronGeometry(0.9, 0).translate(0.7, 2.7, 0.3)]);
+    const tm = new THREE.InstancedMesh(trunkG, new THREE.MeshStandardMaterial({ color: 0x6b4a30, roughness: 0.9 }), Math.max(1, trees.length)), cm = new THREE.InstancedMesh(crownG, leaf, Math.max(1, trees.length));
+    trees.forEach((t, k) => { const M = m.compose(new THREE.Vector3(t.x, 0, t.z), q.setFromAxisAngle(Y, rng() * 6), new THREE.Vector3(t.s, t.s, t.s)); tm.setMatrixAt(k, M); cm.setMatrixAt(k, M); cm.setColorAt(k, col.setHSL(0.27 + rng() * 0.05, 0.35, 0.28 + rng() * 0.08)); });
+    tm.count = cm.count = trees.length; group.add(tm, cm);
+    world.addColliders?.(trees.map((t) => ({ name: 'scrub_tree', cx: t.x, cz: t.z, hx: 0.2, hz: 0.2, ry: 0 })));
+    const LINES = ['THIS LAND IS NOT FOR SALE', 'NOT FOR SALE · BEWARE OF 419', 'THIS PROPERTY BELONGS TO THE FAMILY', 'NO DUMPING · NOT FOR SALE'];
+    signs.forEach((sg, k) => {
+      const g = new THREE.Group(); g.position.set(sg.x, 0, sg.z); g.rotation.y = sg.ry; group.add(g);
+      g.add(new THREE.Mesh(new THREE.BoxGeometry(1.6, 1.3, 0.25).translate(0, 0.65, 0), new THREE.MeshStandardMaterial({ color: 0xc9c2b2, roughness: 0.95 })));
+      const p = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 0.9), new THREE.MeshStandardMaterial({ map: signTexture(LINES[k % LINES.length], { bg: '#e8e2d2', fg: '#9b2f2f', w: 512, h: 300 }), roughness: 0.9 }));
+      p.position.set(0, 0.75, 0.13); g.add(p);
+      world.addColliders?.([{ name: 'land_sign', cx: sg.x, cz: sg.z, hx: 0.8, hz: 0.13, ry: sg.ry, h: 1.3 }]);
+    });
+    counts.bush = clumps.length; counts.scrub_trees = trees.length; counts.land_signs = signs.length;
   }
 
   // ---------- rooftop water tanks on some low and mid-rise roofs ----------
