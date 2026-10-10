@@ -9,6 +9,13 @@ const store = {
 
 // A minor-pentatonic-friendly highlife progression in G: I - IV - I - V, two beats each, round and round.
 const BPM = 100, BEAT = 60 / BPM, SIX = BEAT / 4;
+// Radio stations (world bible 11.9): every one is made by this engine as you listen, so all of it is
+// the game's own music, safe to stream and post. Licensed tracks can be added as stations later.
+export const STATIONS = [
+  { id: 'yabafm', name: 'Yaba FM 99.1', sub: 'Highlife all day', bpm: 100, shift: 0, kick: 1, clave: 1, bell: 1 },
+  { id: 'lofi', name: 'Lagos Lo-Fi 101.5', sub: 'Slow, soft, for coding', bpm: 76, shift: -3, kick: 0.6, clave: 0, bell: 0.5 },
+  { id: 'groove', name: 'Afro Groove 95.3', sub: 'Faster, heavier', bpm: 114, shift: 2, kick: 1.4, clave: 1, bell: 1.2 },
+];
 const midi = (n) => 440 * 2 ** ((n - 69) / 12);
 const CHORDS = [[55, 59, 62, 67], [60, 64, 67, 72], [55, 59, 62, 67], [62, 66, 69, 74], [52, 55, 59, 64], [60, 64, 67, 72], [55, 59, 62, 67], [62, 66, 69, 74]];
 const ROOTS = [43, 48, 43, 50, 40, 48, 43, 50];
@@ -20,7 +27,8 @@ const CLAVE = [1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0];    // 3-2 son cl
 const MELODY = [67, 69, 71, 74, 76, 79, 81];                          // G major pentatonic for the bell line
 
 export function createAudio() {
-  const settings = { music: store.get('bw-music', true), sfx: store.get('bw-sfx', true), ambience: store.get('bw-amb', true), volume: store.get('bw-vol', 0.7) };
+  const settings = { music: store.get('bw-music', true), sfx: store.get('bw-sfx', true), ambience: store.get('bw-amb', true), volume: store.get('bw-vol', 0.7), creator: store.get('bw-creator', false) };
+  let station = 0, radio = false, radioHp = null, radioLp = null, hiss = null;
   let ctx = null, meter = null, master, musicBus, sfxBus, ambBus, ambFilter, noiseBuf, started = false;
   const listeners = new Set();
   const state = { day: 1, rain: 0, inside: false, riding: false, speed: 0 };
@@ -35,7 +43,11 @@ export function createAudio() {
     const comp = ctx.createDynamicsCompressor(); comp.threshold.value = -14; comp.ratio.value = 3;
     master.connect(comp).connect(ctx.destination);
     meter = ctx.createAnalyser(); meter.fftSize = 2048; comp.connect(meter); // for tests: is anything audible?
-    musicBus = ctx.createGain(); musicBus.gain.value = settings.music ? 0.5 : 0; musicBus.connect(master);
+    musicBus = ctx.createGain(); musicBus.gain.value = settings.music ? 0.5 : 0;
+    // the radio: in a vehicle the music comes through a small speaker (band-limited), otherwise wide open
+    radioHp = ctx.createBiquadFilter(); radioHp.type = 'highpass'; radioHp.frequency.value = 20;
+    radioLp = ctx.createBiquadFilter(); radioLp.type = 'lowpass'; radioLp.frequency.value = 20000;
+    musicBus.connect(radioHp).connect(radioLp).connect(master);
     sfxBus = ctx.createGain(); sfxBus.gain.value = settings.sfx ? 0.8 : 0; sfxBus.connect(master);
     ambFilter = ctx.createBiquadFilter(); ambFilter.type = 'lowpass'; ambFilter.frequency.value = 18000;
     ambBus = ctx.createGain(); ambBus.gain.value = settings.ambience ? 0.6 : 0; ambBus.connect(ambFilter).connect(master);
@@ -68,22 +80,23 @@ export function createAudio() {
   // ---------- music: a scheduler that writes a little ahead of time ----------
   function schedule() {
     if (!ctx || ctx.state !== 'running') return;
-    while (nextNote < ctx.currentTime + 0.12) { playStep(nextNote, step); nextNote += SIX; step = (step + 1) % 16; if (step === 0) bar = (bar + 1) % 64; }
+    const st = STATIONS[station], six = 60 / st.bpm / 4;
+    while (nextNote < ctx.currentTime + 0.12) { playStep(nextNote, step); nextNote += six; step = (step + 1) % 16; if (step === 0) bar = (bar + 1) % 64; }
   }
   function playStep(t, s) {
-    if (!settings.music) return;
-    const night = 1 - state.day, ci = Math.floor(bar / 1) % CHORDS.length, chord = CHORDS[ci];
+    if (!settings.music || tracks.playing) return; // real tracks play instead (below), the band rests
+    const st = STATIONS[station], night = 1 - state.day, ci = Math.floor(bar / 1) % CHORDS.length, chord = CHORDS[ci].map((n) => n + st.shift);
     const sparse = night > 0.6; // after dark the band plays quieter: no kick, softer guitar
     // pad on the first step of each bar: warm and slow
     if (s === 0) chord.forEach((n, k) => tone(musicBus, midi(n - 12), t, { type: 'triangle', a: 0.4, peak: 0.035, dec: BEAT * 4, filter: 900, detune: k * 4 - 6 }));
     // highlife guitar: bright plucks on the figure
     const fi = FIGURE[s]; if (fi >= 0) tone(musicBus, midi(chord[fi] + 12), t, { type: 'triangle', peak: sparse ? 0.05 : 0.08, dec: 0.22, filter: 3200 });
-    if (BASS[s]) tone(musicBus, midi(ROOTS[ci] + (s === 14 ? 7 : 0)), t, { type: 'sine', a: 0.01, peak: 0.22, dec: 0.32 });
-    if (!sparse && KICK[s] && bar % 16 > 1) { const o = ctx.createOscillator(), g = ctx.createGain(); o.frequency.setValueAtTime(110, t); o.frequency.exponentialRampToValueAtTime(42, t + 0.12); o.connect(g).connect(musicBus); env(g, t, 0.003, 0.35, 0.18); o.start(t); o.stop(t + 0.25); }
-    if (CLAVE[s] && bar % 8 > 0) tone(musicBus, 2400, t, { type: 'sine', peak: sparse ? 0.03 : 0.05, dec: 0.05 });
+    if (BASS[s]) tone(musicBus, midi(ROOTS[ci] + st.shift + (s === 14 ? 7 : 0)), t, { type: 'sine', a: 0.01, peak: 0.22, dec: 0.32 });
+    if (!sparse && st.kick && KICK[s] && bar % 16 > 1) { const o = ctx.createOscillator(), g = ctx.createGain(); o.frequency.setValueAtTime(110, t); o.frequency.exponentialRampToValueAtTime(42, t + 0.12); o.connect(g).connect(musicBus); env(g, t, 0.003, 0.35 * st.kick, 0.18); o.start(t); o.stop(t + 0.25); }
+    if (st.clave && CLAVE[s] && bar % 8 > 0) tone(musicBus, 2400, t, { type: 'sine', peak: sparse ? 0.03 : 0.05, dec: 0.05 });
     if (s % 2 === 0) noise(musicBus, t, { type: 'highpass', f: 7000, dur: 0.04, peak: (s % 4 === 2 ? 0.05 : 0.025) * (sparse ? 0.5 : 1) });
     // a bell melody now and then, never the same twice
-    if ((bar % 4 === 2 || bar % 4 === 3) && (s === 2 || s === 7 || s === 10) && Math.random() < 0.6) tone(musicBus, midi(MELODY[Math.floor(Math.random() * MELODY.length)]), t, { type: 'sine', peak: 0.06, dec: 0.6 });
+    if ((bar % 4 === 2 || bar % 4 === 3) && (s === 2 || s === 7 || s === 10) && Math.random() < 0.6) tone(musicBus, midi(MELODY[Math.floor(Math.random() * MELODY.length)] + st.shift), t, { type: 'sine', peak: 0.06 * st.bell, dec: st.bpm < 90 ? 1.2 : 0.6 });
   }
 
   // ---------- ambience: a city hum, rain, birds by day, crickets at night, distant horns ----------
@@ -158,6 +171,8 @@ export function createAudio() {
     if (hum) hum.g.gain.setTargetAtTime(state.inside ? 0.03 : 0.08, t, 0.5);
     ambFilter.frequency.setTargetAtTime(state.inside ? 700 : 18000, t, 0.3); // walls muffle the street
     setEngine(!!state.riding);
+    if (!!state.riding !== radio) setRadio(!!state.riding);
+    tickTracks();
     if (engine) { const k = Math.min(1, Math.abs(state.speed) / 14); engine.o.frequency.setTargetAtTime(38 + 50 * k, t, 0.2); engine.o2.frequency.setTargetAtTime(19 + 25 * k, t, 0.2); engine.fl.frequency.setTargetAtTime(320 + 500 * k, t, 0.2); }
     if (!settings.ambience || state.inside) return;
     birdT -= dt; hornT -= dt; cricketT -= dt;
@@ -169,13 +184,65 @@ export function createAudio() {
     }
   }
 
+  // ---------- tracks: licensed music files in public/music, listed in playlist.json ----------
+  // { "day": [{ "file": "sunny-accra-groove.mp3", "title": "...", "artist": "...", "licence": "Pixabay" }], "night": [...] }
+  // They crossfade one into the next, the night list after dark, through the same bus (so the radio
+  // filter applies in a vehicle). Creator mode, or no playlist, means the game's own generated music.
+  const tracks = { list: null, playing: false, el: [null, null], cur: 0, src: [null, null], g: [null, null], now: null, fading: false };
+  fetch('./music/playlist.json').then((r) => (r.ok ? r.json() : null)).then((j) => { if (j && (j.day?.length || j.night?.length)) tracks.list = j; }).catch(() => {});
+  function pickTrack() {
+    const L = tracks.list, set = (state.day < 0.35 && L.night?.length ? L.night : L.day?.length ? L.day : L.night) || [];
+    if (!set.length) return null;
+    let t; do { t = set[Math.floor(Math.random() * set.length)]; } while (set.length > 1 && t === tracks.now);
+    return t;
+  }
+  function startTrack() {
+    const t = pickTrack(); if (!t || !ctx) return;
+    const k = 1 - tracks.cur;
+    if (!tracks.el[k]) { const a = new Audio(); a.crossOrigin = 'anonymous'; a.preload = 'auto'; tracks.el[k] = a; tracks.src[k] = ctx.createMediaElementSource(a); tracks.g[k] = ctx.createGain(); tracks.g[k].gain.value = 0; tracks.src[k].connect(tracks.g[k]).connect(musicBus); a.onended = () => { if (tracks.cur === k) startTrack(); }; }
+    const a = tracks.el[k]; a.src = `./music/${t.file}`; a.currentTime = 0;
+    a.play().then(() => {
+      const now = ctx.currentTime;
+      tracks.g[k].gain.cancelScheduledValues(now); tracks.g[k].gain.setValueAtTime(0, now); tracks.g[k].gain.linearRampToValueAtTime(1.6, now + 3);
+      const old = tracks.g[tracks.cur]; if (old) { old.gain.cancelScheduledValues(now); old.gain.setValueAtTime(old.gain.value, now); old.gain.linearRampToValueAtTime(0, now + 3); const oe = tracks.el[tracks.cur]; setTimeout(() => oe?.pause(), 3200); }
+      tracks.cur = k; tracks.now = t; tracks.playing = true; listeners.forEach((fn) => fn(settings));
+    }).catch(() => { tracks.playing = false; });
+  }
+  function stopTracks() { tracks.el.forEach((a) => a?.pause()); tracks.playing = false; tracks.now = null; }
+  let lastNight = null;
+  function tickTracks() {
+    const want = !!tracks.list && settings.music && !settings.creator;
+    if (want && !tracks.playing) startTrack();
+    if (!want && tracks.playing) stopTracks();
+    // dusk or dawn: move to the other list at the end of a crossfade
+    const night = state.day < 0.35; if (tracks.playing && lastNight !== null && night !== lastNight) startTrack(); lastNight = night;
+  }
+
+  // ---------- the radio ----------
+  function setRadio(on) {
+    radio = on; if (!ctx) return;
+    const t = ctx.currentTime;
+    radioHp.frequency.setTargetAtTime(on ? 320 : 20, t, 0.15); radioLp.frequency.setTargetAtTime(on ? 3600 : 20000, t, 0.15);
+    musicBus.gain.setTargetAtTime(settings.music ? (on ? 0.75 : 0.5) : 0, t, 0.2);
+    if (on && !hiss) { const src = ctx.createBufferSource(); src.buffer = noiseBuf; src.loop = true; const fl = ctx.createBiquadFilter(); fl.type = 'bandpass'; fl.frequency.value = 3000; const g = ctx.createGain(); g.gain.value = 0.004; src.connect(fl).connect(g).connect(master); src.start(); hiss = { src, g }; }
+    if (!on && hiss) { hiss.src.stop(); hiss = null; }
+    if (on) tuneBlip();
+  }
+  function tuneBlip() { if (!ctx) return; const t = ctx.currentTime; noise(sfxBus, t, { type: 'bandpass', f: 2200, dur: 0.35, peak: 0.08 }); }
+  function nextStation() {
+    // with a playlist, the radio's first station is the playlist (skip to the next track); then the generated stations
+    if (tracks.playing) { startTrack(); tuneBlip(); return { name: 'Yaba FM 99.1', sub: tracks.now ? `${tracks.now.title} · ${tracks.now.artist}` : 'Next track' }; }
+    station = (station + 1) % STATIONS.length; tuneBlip(); listeners.forEach((fn) => fn(settings)); return STATIONS[station];
+  }
+
   // ---------- settings ----------
   function set(key, value) {
     settings[key] = value;
-    store.set({ music: 'bw-music', sfx: 'bw-sfx', ambience: 'bw-amb', volume: 'bw-vol' }[key], value);
+    store.set({ music: 'bw-music', sfx: 'bw-sfx', ambience: 'bw-amb', volume: 'bw-vol', creator: 'bw-creator' }[key], value);
+    if (key === 'creator') document.body.classList.toggle('bw-creator', !!value);
     if (ctx) {
       const t = ctx.currentTime;
-      musicBus.gain.setTargetAtTime(settings.music ? 0.5 : 0, t, 0.3);
+      musicBus.gain.setTargetAtTime(settings.music ? (radio ? 0.75 : 0.5) : 0, t, 0.3);
       sfxBus.gain.setTargetAtTime(settings.sfx ? 0.8 : 0, t, 0.1);
       ambBus.gain.setTargetAtTime(settings.ambience ? 0.6 : 0, t, 0.3);
       master.gain.setTargetAtTime(settings.volume, t, 0.1);
@@ -200,7 +267,8 @@ export function createAudio() {
   }
   // loudness of the mix right now (RMS, 0..1), for tests and a future meter
   const level = () => { if (!meter) return 0; const a = new Float32Array(meter.fftSize); meter.getFloatTimeDomainData(a); let s = 0; for (const v of a) s += v * v; return Math.sqrt(s / a.length); };
-  return { wake, play, update, set, settings, onChange, dispose, level, get started() { return started; }, get context() { return ctx; } };
+  document.body.classList.toggle('bw-creator', !!settings.creator);
+  return { wake, play, update, set, settings, onChange, dispose, level, nextStation, get track() { return tracks.now; }, get trackDebug() { return tracks.el.map((a) => a && { t: +a.currentTime.toFixed(1), d: a.duration, ended: a.ended, paused: a.paused, src: a.src.split('/').pop() }); }, get station() { return tracks.playing ? { name: 'Yaba FM 99.1', sub: tracks.now ? `${tracks.now.title} · ${tracks.now.artist}` : '' } : STATIONS[station]; }, get radio() { return radio; }, get started() { return started; }, get context() { return ctx; } };
 }
 
 // one engine per page

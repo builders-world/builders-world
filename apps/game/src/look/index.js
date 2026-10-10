@@ -26,6 +26,7 @@ import { buildFlyover } from './flyover.js';
 import { createStreetLife } from './streetlife.js';
 import { createMobility } from './mobility.js';
 import { cullPeople } from './anim.js';
+import { createSpotify, trackUrl } from './spotify.js';
 import { walletEngine } from './wallet.js';
 import { createInteriors, PLACES, namePlaces } from './interior.js';
 import { sunPosition, sunDirection } from './sun.js';
@@ -136,7 +137,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     };
   })();
 
-  let mobility = null, slife = null, traffic = null, food = null, pets = null, petIt = null, wardrobe = null, profiler = null, onlineRef = null, building = null, gates = null, visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
+  let spotify = null, mobility = null, slife = null, traffic = null, food = null, pets = null, petIt = null, wardrobe = null, profiler = null, onlineRef = null, building = null, gates = null, visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
   // the tech places you can walk into (world bible 6.6)
   const doors = [];
   if (props.hubAt) doors.push({ key: 'hub', at: props.hubAt });
@@ -261,6 +262,18 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   group.add(hud.route);
   passes = passesEngine({ toast: hud.toast, district: world.place?.name || 'Yaba' });
   wardrobe = createWardrobe({ toast: hud.toast });
+  // Spotify now-playing: a chip on your screen and a line others see (spotify.js); creator mode hides it
+  const npCss = document.createElement('style');
+  npCss.textContent = `#lk-np { position: fixed; left: 14px; bottom: 192px; z-index: 15; display: none; align-items: center; gap: 8px; max-width: min(320px, calc(100vw - 28px)); padding: 6px 12px 6px 8px; border-radius: 999px; background: #121212; color: #fff; font: 700 12.5px/1.2 "Baloo 2", system-ui, sans-serif; text-decoration: none; box-shadow: 0 3px 0 rgba(0,0,0,.25); }
+    #lk-np.on { display: flex; } #lk-np i { width: 18px; height: 18px; border-radius: 50%; background: #1ed760; flex: none; } #lk-np span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; } #lk-np small { opacity: .7; font-weight: 600; }
+    body.bw-creator #lk-np, body.nohud #lk-np, body.bw-cine #lk-np { display: none !important; }`;
+  document.head.appendChild(npCss);
+  const npChip = document.createElement('a'); npChip.id = 'lk-np'; npChip.target = '_blank'; npChip.rel = 'noopener'; document.body.appendChild(npChip);
+  spotify = createSpotify({ onChange: (np) => {
+    npChip.classList.toggle('on', !!np);
+    if (np) { npChip.innerHTML = `<i></i><span>${np.t.replace(/[<>&]/g, '')} <small>· ${np.a.replace(/[<>&]/g, '')}</small></span>`; const u = trackUrl(np); if (u) npChip.href = u; else npChip.removeAttribute('href'); }
+  } });
+  addEventListener('bw:spotify', () => { if (spotify.connected) { spotify.disconnect(); hud.toast('Spotify disconnected.', 1800); } else spotify.connect().then((ok) => { if (!ok) hud.toast('Spotify sign-in is not set up yet: it needs a Spotify app ID.', 3600); }); });
   const flyover = buildFlyover({ world, scene: group });
   traffic = createTraffic({ world, scene: group, flyover, reduced, lowQuality: quality === 'low', getPeople: () => [...lives.residents.filter((r) => r.obj.visible).map((r) => r.obj.position), ...(slife?.walkers || []).map((w) => w.obj.position)] });
   food = createFood({ scene: group, props, toast: hud.toast, getEnv: () => live, reduced, addLamps: (l) => { props.lamps.push(...l); lights?.setLamps([...world.lamps, ...props.lamps, ...(world.porchLamps || [])]); } });
@@ -547,6 +560,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get traffic() { return traffic; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

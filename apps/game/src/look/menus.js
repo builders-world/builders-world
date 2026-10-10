@@ -681,6 +681,9 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
       ${row('music', 'Music', 'A highlife loop made as you play. N turns it on or off.')}
       ${row('ambience', 'City sounds', 'Traffic hum, birds, rain, horns, crickets at night.')}
       ${row('sfx', 'Sound effects', 'Footsteps, doors, taps and chimes.')}
+      <button class="bw-chip" data-sp style="margin:6px 0 4px"><b>♪</b>${window.__bw?.look?.spotify?.connected ? 'Disconnect Spotify' : 'Show what I play on Spotify'}</button>
+      <p class="note">Your Spotify keeps playing in Spotify; the game only shows the track, on your screen and to people nearby.</p>
+      ${row('creator', 'Creator mode', 'Safe to stream and post: only the game\'s own music plays, and Spotify now-playing is hidden. Everything in Builders World\'s soundtrack is made in your browser, so nothing can be claimed.')}
       <label class="vol"><b>Volume</b><input type="range" min="0" max="1" step="0.05" value="${st.volume}"></label>
       <p class="note">Every sound is made in your browser as you play. No recordings, so nothing to license.</p>
       <h4 class="sec">Public profile</h4>
@@ -710,6 +713,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
       if (el.type === 'checkbox') el.checked = !!pub[k]; else el.value = pub[k] || '';
       el.oninput = el.onchange = () => { pub[k] = el.type === 'checkbox' ? el.checked : el.value.trim(); store.set('bw-public', pub); };
     });
+    setEl.querySelector('[data-sp]').onclick = () => { close(); dispatchEvent(new Event('bw:spotify')); };
     setEl.querySelector('.done').onclick = close;
     show(setEl, null);
     setEl.querySelector('input')?.focus();

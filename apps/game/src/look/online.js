@@ -63,7 +63,7 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
     if (busy || document.hidden) return;
     busy = true;
     const P = getPlayer();
-    const body = { id, district, x: P.x, z: P.z, y: P.y || 0, yaw: getHeading(), speed: getSpeed(), ...me(), say: pending.say, emote: pending.emote, home: getHome?.() || '', knock: pending.knock, answer: pending.answer, card: publicCard(), pet: (() => { try { return JSON.parse(localStorage.getItem('bw-pet') || 'null'); } catch { return null; } })() };
+    const body = { id, district, x: P.x, z: P.z, y: P.y || 0, yaw: getHeading(), speed: getSpeed(), ...me(), say: pending.say, emote: pending.emote, home: getHome?.() || '', knock: pending.knock, answer: pending.answer, np: document.body.classList.contains('bw-creator') ? null : window.__bw?.look?.spotify?.now || null, card: publicCard(), pet: (() => { try { return JSON.parse(localStorage.getItem('bw-pet') || 'null'); } catch { return null; } })() };
     pending = { say: '', emote: '' };
     try {
       const r = await fetch('/api/presence', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });

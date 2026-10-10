@@ -297,6 +297,7 @@ async function main() {
     else if (k === 'e' && !e.repeat && street?.hud.interact()) { /* handled by the street */ }
     else if (k === 'f' && !e.repeat && street?.seatAction?.('close')) { /* close the laptop at your desk */ }
     else if (k === 'p' && !e.repeat && street?.profiler) street.profiler.toggle(); // the profiler: who is that?
+    else if (k === 'r' && !e.repeat && riding) { audio.wake(); const st = audio.nextStation(); (street?.hud.toast ?? chrome.toast)(`📻 ${st.name} · ${st.sub}`, 2200); } // the radio
     else if ((k === 'g' || k === 'l' || k === 'y') && !e.repeat && street?.pets?.act({ g: 'ball', l: 'laser', y: 'whistle' }[k])) { /* play with your pet */ }
     else if (k === 'escape') { street?.hud.close(); chrome.unpin(); chrome.hideCard(); chrome.toggleList(false); chrome.toggleHelp(false); }
     else if (k === '=' || k === '+') zoomKey(-1);
@@ -482,7 +483,7 @@ async function main() {
       player.copy(rs.exit); onStreetGround(player);
       if (riding) { riding = false; applyView('foot'); }
     } else if (rs?.pos) {
-      if (!riding) { savedDist = cam.distT; riding = true; applyView('ride'); }
+      if (!riding) { savedDist = cam.distT; riding = true; applyView('ride'); const st = audio.station; if (st && audio.settings.music) (street?.hud.toast ?? chrome.toast)(`📻 ${st.name} on the radio · R to change station`, 2600); }
       player.set(rs.pos.x, 0, rs.pos.z);
       heading = rs.yaw;
       cam.distT = rs.cam * viewOf('ride').k;

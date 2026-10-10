@@ -61,7 +61,7 @@ export function createProfiler({ camera, lives, props, getOnline, toast }) {
     const design = c.showSocials ? [c.dribbble && `<a href="https://dribbble.com/${user(c.dribbble)}" target="_blank" rel="noopener">Dribbble</a>`, c.behance && `<a href="https://www.behance.net/${user(c.behance)}" target="_blank" rel="noopener">Behance</a>`].filter(Boolean).join(' · ') : '';
     return `<h3>${esc(s.name)}</h3><div class="k">BUILDER · ONLINE NOW</div>
       ${row('ROLE', esc(c.role))}${row('GITHUB', h ? `<a href="https://github.com/${h}" target="_blank" rel="noopener">@${esc(h)}</a>` : '')}
-      ${row('COMMITS', c.showCommits && c.commits != null ? `${Number(c.commits).toLocaleString()} this year` : '')}${row('SOCIALS', socials)}${row('DESIGN', design)}${row('LIVES', esc(s.rec?.home || ''))}
+      ${row('COMMITS', c.showCommits && c.commits != null ? `${Number(c.commits).toLocaleString()} this year` : '')}${row('SOCIALS', socials)}${row('DESIGN', design)}${row('LIVES', esc(s.rec?.home || ''))}${s.rec?.np?.t ? row('LISTENING', `${s.rec.np.id ? `<a href="https://open.spotify.com/track/${s.rec.np.id}" target="_blank" rel="noopener">` : ''}${esc(s.rec.np.t)} · ${esc(s.rec.np.a)}${s.rec.np.id ? '</a>' : ''}`) : ''}
       ${!c.role && !c.showSocials && !c.showCommits ? '<div class="hint">Keeps their profile private.</div>' : ''}`;
   }
 
