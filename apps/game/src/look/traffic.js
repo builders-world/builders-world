@@ -5,6 +5,8 @@ import { rigAvatar } from './anim.js';
 import { prepareLook, dress } from './style.js';
 import { signTexture } from './props.js';
 import { sfx } from './audio.js';
+import { bikeModel } from './mobility.js';
+import { lookFor } from './style.js';
 
 // Traffic (world bible 9.3). Cars drive the real road network in the right-hand lane, junction to
 // junction, choosing a way at each one. Saloons, hatchbacks, SUVs, pickups, yellow taxis with a TAXI
@@ -29,11 +31,18 @@ const DESIGNS = {
   brt: { len: 11, w: 2.5, speed: 8, paint: 0x2f5fb0, sign: 'BRT', body: () => [box(2.5, 2.4, 11, 0, 1.55, 0)], glass: () => [box(2.52, 0.9, 9.5, 0, 2.05, -0.3), box(2.2, 1.1, 0.05, 0, 1.9, 5.51)], dark: () => [wheel(-1.15, 3.8, 0.48), wheel(1.15, 3.8, 0.48), wheel(-1.15, -3.5, 0.48), wheel(1.15, -3.5, 0.48), box(2.54, 0.25, 11.02, 0, 0.9, 0)] },
 };
 const PAINT = [0xf7f3ea, 0x2b2b2e, 0xb8bec4, 0x9b2f2f, 0x2f4f7f, 0x3f6b4b, 0x6b4a8a, 0xc9702a, 0x8a8f96];
+DESIGNS.cycle = { len: 1.8, w: 0.7, speed: 4.6 };
 const MIX = ['saloon', 'saloon', 'hatch', 'suv', 'pickup', 'taxi', 'taxi', 'danfo', 'danfo', 'danfo', 'keke', 'keke', 'saloon', 'suv', 'hatch', 'brt'];
 const ROUTES = ['YABA - OSHODI', 'CMS - OBALENDE', 'OJUELEGBA', 'IKEJA ALONG', 'MILE 12', 'AJAH', 'UNILAG GATE', 'TBS - CMS'];
 const geoCache = {};
 
 export function vehicle(kind, i) {
+  if (kind === 'cycle') { // a bike and its rider, pedalling (the rider is posed each frame)
+    const g = new THREE.Group(), bike = bikeModel([0x2a9d94, 0xe46f4f, 0x3a4f7a][i % 3]); g.add(bike);
+    const av = createAvatarModel({ color: '#888', style: 'tee' }); prepareLook(av.root); const rig = rigAvatar(av.root); dress(av.root, lookFor(`cyclist-${i}`, { fem: i % 2 === 1, tier: 2 }), rig); av.root.position.y = 0.32; av.root.position.z = -0.08; g.add(av.root);
+    g.userData = { kind, D: DESIGNS.cycle, tail: new THREE.MeshBasicMaterial(), bike, rig };
+    return g;
+  }
   const D = DESIGNS[kind], g = new THREE.Group();
   geoCache[kind] = geoCache[kind] || { body: mergeGeometries(D.body()), glass: mergeGeometries(D.glass()), dark: mergeGeometries(D.dark(D.len)) };
   const G = geoCache[kind];
@@ -123,8 +132,9 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
   const rng = (() => { let a = 1234567; return () => { a = (a + 0x6d2b79f5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; })();
   const cars = [];
   const pickNext = (from, to) => { const n = nodes[to], opts = n.out.filter((e) => e.to !== from); const list = opts.length ? opts : n.out; return list[Math.floor(rng() * list.length)]; };
-  for (let k = 0; k < N; k++) {
-    const kind = MIX[k % MIX.length], start = usable[Math.floor(rng() * usable.length)], e = nodes[start].out[Math.floor(rng() * nodes[start].out.length)];
+  const CYCLISTS = reduced ? 1 : 3;
+  for (let k = 0; k < N + CYCLISTS; k++) {
+    const kind = k >= N ? 'cycle' : MIX[k % MIX.length], start = usable[Math.floor(rng() * usable.length)], e = nodes[start].out[Math.floor(rng() * nodes[start].out.length)];
     const mesh = vehicle(kind, k); group.add(mesh);
     cars.push({ kind, mesh, from: start, e, s: rng() * e.L, v: 0, max: DESIGNS[kind].speed * (0.85 + rng() * 0.3), wait: 0, horn: 0 });
   }
@@ -165,6 +175,7 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
       c.mesh.position.set(q.x, flyover ? flyover.heightFor(q.x, q.z, c.e.road) : 0, q.z);
       const dy = Math.atan2(Math.sin(yaw - c.mesh.rotation.y), Math.cos(yaw - c.mesh.rotation.y)); c.mesh.rotation.y += dy * (1 - Math.exp(-dt * 6));
       c.mesh.userData.tail.color.setHex(want < c.v - 0.5 ? 0xff2a2a : 0x701010);
+      if (c.kind === 'cycle') { const u = c.mesh.userData, a = t * (2 + c.v * 1.4); u.bike.userData.crank.rotation.x = a; u.bike.userData.wheels.forEach((w) => { w.rotation.x -= dt * c.v * 3.2; }); const r = u.rig; if (r) { r.update(dt, { speed: 0, t }); r.L.hip.rotation.x = -0.9 + Math.sin(a) * 0.45; r.R.hip.rotation.x = -0.9 - Math.sin(a) * 0.45; r.L.knee.rotation.x = 1.0 - Math.cos(a) * 0.45; r.R.knee.rotation.x = 1.0 + Math.cos(a) * 0.45; r.L.shoulder.rotation.x = -0.7; r.R.shoulder.rotation.x = -0.7; r.chest.rotation.x = 0.25; } }
       c.body = { cx: q.x, cz: q.z, hx: DESIGNS[c.kind].w / 2 + 0.05, hz: DESIGNS[c.kind].len / 2, ry: c.mesh.rotation.y };
     });
     for (let k = cars.length - 1; k >= 0; k--) if (cars[k].gone) cars.splice(k, 1);

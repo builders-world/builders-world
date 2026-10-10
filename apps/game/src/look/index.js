@@ -261,7 +261,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   passes = passesEngine({ toast: hud.toast, district: world.place?.name || 'Yaba' });
   wardrobe = createWardrobe({ toast: hud.toast });
   const flyover = buildFlyover({ world, scene: group });
-  traffic = createTraffic({ world, scene: group, flyover, reduced, lowQuality: quality === 'low', getPeople: () => lives.residents.filter((r) => r.obj.visible).map((r) => r.obj.position) });
+  traffic = createTraffic({ world, scene: group, flyover, reduced, lowQuality: quality === 'low', getPeople: () => [...lives.residents.filter((r) => r.obj.visible).map((r) => r.obj.position), ...(slife?.walkers || []).map((w) => w.obj.position)] });
   food = createFood({ scene: group, props, toast: hud.toast, getEnv: () => live, reduced, addLamps: (l) => { props.lamps.push(...l); lights?.setLamps([...world.lamps, ...props.lamps, ...(world.porchLamps || [])]); } });
   pets = createPets({ scene: group, camera, world, toast: hud.toast, isIndoors: () => !!interiors?.active });
   petIt = { id: 'pet', label: 'Pet', x: 0, z: 0, r: 0 }; props.interact.push(petIt);
@@ -414,7 +414,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   litter = createLitter({ world, scene: group, props, toast: hud.toast, used: rec.used, reduced, district: (world.place?.name || 'yaba').toLowerCase(),
     getName: () => (walletEngine().handle ? `@${walletEngine().handle}` : 'A builder') });
   // the motor park, the police, the hawkers, today's events (streetlife.js): after the parks and litter take their land
-  mobility = createMobility({ world, scene: group, props, avatar, toast: hud.toast, used: rec.used, reduced });
+  mobility = createMobility({ world, scene: group, props, avatar, toast: hud.toast, used: rec.used, reduced, park: parks.park });
   try { JSON.parse(localStorage.getItem('bw-bag-equipped') || '[]').forEach((id) => mobility.equip(id, true)); } catch { /* */ }
   slife = createStreetLife({ world, scene: group, props, traffic, chat, toast: hud.toast, getEnv: () => live, used: rec.used, reduced });
   props.pois?.filter((q) => q.kind === 'build').forEach((q) => { q.x = props.area.x; q.z = props.area.z; }); // the build area moved into the park

@@ -34,7 +34,7 @@ function boardModel(kind) {
   return g;
 }
 
-export function createMobility({ world, scene, props, avatar, toast, used = [], reduced }) {
+export function createMobility({ world, scene, props, avatar, toast, used = [], reduced, park }) {
   const group = new THREE.Group(); group.name = 'mobility'; scene.add(group);
   // ---------- docks ----------
   const docks = [];
@@ -136,8 +136,8 @@ export function createMobility({ world, scene, props, avatar, toast, used = [], 
     pathLoop(loop, 4.2, 'skate', lookFor('skater-1', { tier: 2 }), 'Dayo');
     pathLoop([...loop].reverse(), 3.8, 'skate', lookFor('skater-2', { fem: true, tier: 1 }), 'Temi');
   }
-  const pond = (props.pois || []).find((q) => /Pond Park/.test(q.name));
-  if (pond) { const loop = []; for (let i = 0; i <= 32; i++) { const a = (i / 32) * Math.PI * 2; loop.push({ x: pond.x + Math.cos(a) * 9, z: pond.z + Math.sin(a) * 7 }); } const ok = loop.every((p) => world.costAt?.(p.x, p.z) < 50); if (ok) pathLoop(loop, 3.2, 'skates', lookFor('rollergirl', { fem: true, tier: 0 }), 'Ify'); }
+  // round the pond on its paved loop (1.8 m out from the water, parks.js)
+  if (park) { const loop = []; for (let i = 0; i <= 40; i++) { const a = (i / 40) * Math.PI * 2; loop.push({ x: park.x + Math.cos(a) * (park.rx - 1.2), z: park.z + Math.sin(a) * (park.rz - 1.2) }); } pathLoop(loop, 3.2, 'skates', lookFor('rollergirl', { fem: true, tier: 0 }), 'Ify'); }
 
   function update(dt, tt) {
     riders.forEach((r) => {

@@ -129,6 +129,24 @@ export function createStreetLife({ world, scene, props, traffic, chat, toast, ge
     sfx('interact'); chat?.sayFrom?.(h.obj, 'Thank you o! God bless you!', h.name); toast(`${h.item}: ${fmt(h.price)} Efforts.`, 2000); return true;
   }
 
+  // ---------- people about their day: walking from place to place on the pavements ----------
+  const walkers = [];
+  const spots = (props.pois || []).filter((q) => ['food', 'shop', 'cafe', 'bus', 'park', 'atm', 'work'].includes(q.kind));
+  const WALKERS = reduced ? 4 : 10;
+  for (let k = 0; k < WALKERS && spots.length > 1; k++) {
+    const w = person(lookFor(`walker-${k}`, { fem: k % 2 === 1, elder: k % 5 === 4, tier: k % 3 }), `walker-${k}`);
+    w.name = ['Uche', 'Bimpe', 'Femi', 'Ngozi', 'Baba Tunde', 'Lola', 'Seyi', 'Chioma', 'Obinna', 'Mama Kemi'][k];
+    const s0 = spots[(k * 7) % spots.length]; const q0 = world.nearestReachable?.(s0.x + (k % 3) - 1, s0.z) || s0;
+    w.obj.position.set(q0.x, 0, q0.z); group.add(w.obj);
+    walkers.push({ ...w, path: null, at: 0, wait: k * 0.7, pace: 1.1 + (k % 4) * 0.12 - (k % 5 === 4 ? 0.3 : 0) });
+    people.push(w);
+  }
+  function nextLeg(w) {
+    const to = spots[Math.floor(Math.random() * spots.length)];
+    const p = world.plan?.(w.obj.position, { x: to.x + (Math.random() - 0.5) * 3, z: to.z + (Math.random() - 0.5) * 3 });
+    w.path = p && p.length > 1 ? p : null; w.at = 1;
+  }
+
   // ---------- today's events ----------
   const events = [];
   // a danfo broken down by the kerb, hazards blinking, passengers pushing
@@ -198,6 +216,17 @@ export function createStreetLife({ world, scene, props, traffic, chat, toast, ge
       h.it.x = px; h.it.z = pz;
       h.said -= dt; if (h.out > 0.6 && h.said <= 0) { h.said = 7 + Math.random() * 5; talk(h, h.call, 22, player); }
     });
+    // walkers: walk the planned path, pause at the place, set off again
+    walkers.forEach((w) => {
+      if (!w.path) { w.wait -= dt; w.rig?.update(dt, { speed: 0, t }); if (w.wait <= 0) { nextLeg(w); w.wait = 4 + Math.random() * 8; } return; }
+      const aim = w.path[Math.min(w.at, w.path.length - 1)], p = w.obj.position, dx = aim.x - p.x, dz = aim.z - p.z, d = Math.hypot(dx, dz);
+      if (d < 0.5) { w.at++; if (w.at >= w.path.length) w.path = null; return; }
+      // step aside for you, as people do
+      const pd = Math.hypot(player.x - p.x, player.z - p.z), slow = pd < 1.2 ? 0.25 : 1;
+      p.x += (dx / d) * w.pace * slow * dt; p.z += (dz / d) * w.pace * slow * dt;
+      const want = Math.atan2(dx, dz), dh = Math.atan2(Math.sin(want - w.obj.rotation.y), Math.cos(want - w.obj.rotation.y)); w.obj.rotation.y += dh * (1 - Math.exp(-dt * 8));
+      w.rig?.update(dt, { speed: w.pace * slow, t });
+    });
     // events
     events.forEach((e) => {
       e.said -= dt;
@@ -225,7 +254,7 @@ export function createStreetLife({ world, scene, props, traffic, chat, toast, ge
     });
   }
   const today = () => events.map((e) => (e.kind === 'breakdown' ? 'A danfo has broken down on the main road' : e.kind === 'football' ? 'Kids play football on the lawn after school (4 to 7pm)' : `An owambe party at ${e.addr}`));
-  const bodies = () => [...hawkers.map((h) => ({ x: h.obj.position.x, z: h.obj.position.z, r: 0.33 }))];
+  const bodies = () => [...hawkers, ...walkers].map((h) => ({ x: h.obj.position.x, z: h.obj.position.z, r: 0.33 }));
   function dispose() { group.removeFromParent(); }
-  return { update, buy, today, bodies, park, police, hawkers, events, dispose };
+  return { update, buy, today, bodies, park, police, hawkers, walkers, events, people: () => people, dispose };
 }
