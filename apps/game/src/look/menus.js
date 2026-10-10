@@ -311,7 +311,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     atm: { label: 'ATMs', glyph: 'atm', color: '#2a9d94' }, food: { label: 'Food', glyph: 'food', color: '#e46f4f' },
     cafe: { label: 'Cafes', glyph: 'cafe', color: '#a87950' }, fuel: { label: 'Fuel', glyph: 'fuel', color: '#e46f4f' },
     bus: { label: 'Rides', glyph: 'bus', color: '#f2b33d' }, work: { label: 'Workspaces', glyph: 'work', color: '#4a64b0' },
-    shop: { label: 'Shops', glyph: 'shop', color: '#7d5aa6' }, park: { label: 'Parks', glyph: 'build', color: '#5f9a45' }, recycle: { label: 'Recycling', glyph: 'recycle', color: '#4f8a4a' }, gym: { label: 'Gyms', glyph: 'gym', color: '#326952' },
+    shop: { label: 'Shops', glyph: 'shop', color: '#7d5aa6' }, park: { label: 'Parks', glyph: 'build', color: '#5f9a45' }, recycle: { label: 'Recycling', glyph: 'recycle', color: '#4f8a4a' }, police: { label: 'Police', glyph: 'people', color: '#1f3d7a' }, gym: { label: 'Gyms', glyph: 'gym', color: '#326952' },
   };
   const poiIcon = {};
   Object.entries(KINDS).forEach(([k, d]) => {

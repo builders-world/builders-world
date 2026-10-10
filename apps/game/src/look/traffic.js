@@ -33,7 +33,7 @@ const MIX = ['saloon', 'saloon', 'hatch', 'suv', 'pickup', 'taxi', 'taxi', 'danf
 const ROUTES = ['YABA - OSHODI', 'CMS - OBALENDE', 'OJUELEGBA', 'IKEJA ALONG', 'MILE 12', 'AJAH', 'UNILAG GATE', 'TBS - CMS'];
 const geoCache = {};
 
-function vehicle(kind, i) {
+export function vehicle(kind, i) {
   const D = DESIGNS[kind], g = new THREE.Group();
   geoCache[kind] = geoCache[kind] || { body: mergeGeometries(D.body()), glass: mergeGeometries(D.glass()), dark: mergeGeometries(D.dark(D.len)) };
   const G = geoCache[kind];
@@ -158,17 +158,23 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople }) 
       if (reduced) want = Math.min(want, c.max * 0.6);
       c.v += Math.max(-7 * dt, Math.min(2.4 * dt, want - c.v));
       c.s += c.v * dt;
-      if (c.s >= c.e.L) { const nx = pickNext(c.from, c.e.to); c.s -= c.e.L; c.from = c.e.to; c.e = nx; if (c.s > c.e.L) c.s = 0; }
+      if (c.s >= c.e.L) { const at = c.e.to; if (watchers.some((fn) => fn(c, at))) { c.gone = true; return; } const nx = pickNext(c.from, at); c.s -= c.e.L; c.from = at; c.e = nx; if (c.s > c.e.L) c.s = 0; }
       const q = posOf(c), yaw = Math.atan2(q.dx, q.dz);
       c.mesh.position.set(q.x, 0, q.z);
       const dy = Math.atan2(Math.sin(yaw - c.mesh.rotation.y), Math.cos(yaw - c.mesh.rotation.y)); c.mesh.rotation.y += dy * (1 - Math.exp(-dt * 6));
       c.mesh.userData.tail.color.setHex(want < c.v - 0.5 ? 0xff2a2a : 0x701010);
       c.body = { cx: q.x, cz: q.z, hx: DESIGNS[c.kind].w / 2 + 0.05, hz: DESIGNS[c.kind].len / 2, ry: c.mesh.rotation.y };
     });
+    for (let k = cars.length - 1; k >= 0; k--) if (cars[k].gone) cars.splice(k, 1);
     // the officer waves the traffic on now and then
     if (warden) { warden.next -= dt; warden.rig?.update(dt, { speed: 0, t }); if (warden.next <= 0) { warden.rig?.wave?.(); warden.next = 2.5 + rng() * 2; } }
   }
+  // for the motor park (streetlife.js): take a passing car off the road at a node, put one back on
+  const watchers = [];
+  function onNode(fn) { watchers.push(fn); }
+  function nearestNode(x, z) { let best = -1, bd = Infinity; usable.forEach((i) => { const d = Math.hypot(nodes[i].x - x, nodes[i].z - z); if (d < bd) { bd = d; best = i; } }); return best; }
+  function release(kind, mesh, at) { const e = nodes[at].out[Math.floor(rng() * nodes[at].out.length)]; const c = { kind, mesh, from: at, e, s: 0.5, v: 2, max: DESIGNS[kind].speed, wait: 0, horn: 0 }; if (!mesh.parent) group.add(mesh); cars.push(c); return c; }
   const bodies = () => cars.map((c) => c.body).filter(Boolean);
   function dispose() { group.removeFromParent(); }
-  return { update, bodies, cars, signals, warden, nodes, dispose, get count() { return cars.length; } };
+  return { update, bodies, cars, signals, warden, nodes, onNode, nearestNode, release, stateOf, dispose, get count() { return cars.length; } };
 }
