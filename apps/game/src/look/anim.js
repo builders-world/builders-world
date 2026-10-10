@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { attachFace } from './expressions.js';
 
 // Character animation (world bible 7.4): a jointed rig over the shared avatar, so people walk,
 // run and jump instead of bobbing. Codex's avatar file is untouched: its single-box legs and arms are
@@ -82,7 +83,7 @@ export function rigAvatar(root) {
   }
 
   // ---------- the pose: targets from the gait, eased so states blend ----------
-  const cur = { phase: 0, walk: 0, run: 0, air: 0, land: 0, wave: 0, g: null, still: 0, nextIdle: 4 };
+  const cur = { phase: 0, walk: 0, run: 0, air: 0, land: 0, wave: 0, g: null, e: null, still: 0, nextIdle: 4 };
   const J = (o) => o; // joints are written directly below
   void J;
   const ease = (k, dt) => 1 - Math.exp(-dt * k);
@@ -193,13 +194,29 @@ export function rigAvatar(root) {
     set(neck, 'y', -chest.rotation.y * 0.8 - pelvis.rotation.y, k);
     set(neck, 'x', -chest.rotation.x * 0.6 + 0.32 * (s.slump || 0), k); // sad people look at the ground
     set(pelvis, 'z', 0.02 * walk * Math.sin(ph) * (1 - run), k);
+    // ---- an emote (expressions.js): its own body move, blended over everything above ----
+    if (cur.e) {
+      const E = cur.e; E.t += dt;
+      if (E.t >= E.dur || (E.full && walk > 0.3)) { cur.e = null; E.done?.(); }
+      else {
+        const w = Math.min(1, E.t * 4, (E.dur - E.t) * 4), amp = E.amp ?? 1;
+        // an emote that is not "full" leaves the legs to the walk
+        const P = (name, axis, v) => { const j = JOINTS[name]; if (!j || (!E.full && /hip|knee|ankle/.test(name) && walk > 0.1)) return; j.rotation[axis] = lerp(j.rotation[axis], v * amp, w); };
+        E.fn(P, E.t, E.t / E.dur, (m) => { pelvis.position.y += m * w; });
+      }
+    }
+    root.userData.face?.update(dt);
   }
+  const JOINTS = { pelvis, chest, neck, 'L.hip': L.hip, 'L.knee': L.knee, 'L.ankle': L.ankle, 'L.shoulder': L.shoulder, 'L.elbow': L.elbow, 'R.hip': R.hip, 'R.knee': R.knee, 'R.ankle': R.ankle, 'R.shoulder': R.shoulder, 'R.elbow': R.elbow };
+  // start an emote: { fn(P, t, u, lift), dur, full, amp, done }; a new one ends the last
+  function emote(spec) { if (cur.e) cur.e.done?.(); cur.e = { ...spec, t: 0 }; cur.g = null; }
   function landed(v) { cur.land = Math.min(1, Math.abs(v) / 6); }
   function wave() { cur.wave = 1.5; }
   const DUR = { cheer: 2.0, thumbs: 1.6, laugh: 1.8, thanks: 1.8, dance: 3.2, look: 2.6, phone: 4.5, stretch: 2.2, shift: 3.5 };
   function play(name) { if (!DUR[name]) return; cur.g = { name, t: 0, dur: DUR[name], idle: ['look', 'phone', 'stretch', 'shift'].includes(name) }; }
   function dispose() { own.forEach((g) => g.dispose()); }
-  const rig = { pelvis, chest, neck, L, R, attach, update, landed, wave, play, dispose };
+  const rig = { pelvis, chest, neck, L, R, attach, update, landed, wave, play, dispose, emote, emoting: () => !!cur.e, moving: () => cur.walk > 0.3 };
   root.userData.rig = rig;
+  attachFace(root, rig); // eyes, brows and a mouth that can change (expressions.js)
   return rig;
 }

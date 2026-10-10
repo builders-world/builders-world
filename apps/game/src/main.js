@@ -233,6 +233,7 @@ async function main() {
   prepareLook(body);
   const rig = rigAvatar(body); // jointed legs and arms: walk, run, jump
   body.userData.rig = rig;
+  body.userData.isPlayer = true; // the emote director leaves you alone (expressions.js)
   // your look from the wardrobe (style.js), kept on this device and sent with your presence
   try { const saved = JSON.parse(localStorage.getItem('bw-style') || 'null'); if (saved) dress(body, saved, rig); } catch { /* */ }
   // the wardrobe turns the camera round to face you, like a mirror
@@ -371,6 +372,7 @@ async function main() {
     else if (k === 'b') { if (!e.repeat) { if (street?.inside && !cam.aerial) setAerial(true); else cut(() => setAerial(!cam.aerial)); } }
     else if (k === 'c') { if (!e.repeat) setTravel(!travel.on); }
     else if (k >= '1' && k <= '6' && k.length === 1) { if (!e.repeat) street?.chat?.emote(+k, player); }
+    else if (k === 'g' && !e.repeat) dispatchEvent(new CustomEvent('bw:emotes')); // the emote sheet (look/emotepanel.js)
     else if (k === 'n') { if (!e.repeat) { audio.wake(); audio.set('music', !audio.settings.music); (street?.hud.toast ?? chrome.toast)(audio.settings.music ? 'Music on' : 'Music off', 1400); } }
     else if (k === 't') { if (!e.repeat) setTheme(themeName === 'night' ? 'day' : 'night'); }
     else if (k === 'h') { if (!e.repeat) document.body.classList.toggle('nohud'); }

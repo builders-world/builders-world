@@ -5,6 +5,7 @@
 import * as THREE from 'three';
 import { sfx } from './audio.js';
 import { FONT, C } from './uikit.js';
+import { BY_ID, QUICK, REACT, playEmote } from './expressions.js';
 
 const PIDGIN_SHARE = [0.1, 0.5, 0.9];
 const pick = (a) => a[Math.floor(Math.random() * a.length)];
@@ -33,7 +34,6 @@ const MOODS = {
   excited: { emoji: '🎉', en: 'Demo night is Thursday!', pd: 'Thursday na demo night, you go come?' },
 };
 // your emotes, and how people answer them
-const EMOTES = ['👋', '😄', '👍', '🔥', '🙏', '🎉'];
 const ANSWER = {
   '👋': null, // a wave gets a proper greeting back
   '😄': { en: ['😄', 'Ha! Good mood today.'], pd: ['😄', 'You dey happy o!'] },
@@ -98,10 +98,12 @@ export function createChat({ camera, avatar, getEnv, reduced }) {
     return line('greet', p);
   }
 
+  // two people greeting: different greetings, a beat apart
   function converse(a, b) {
-    a.rig?.wave?.();
+    const g = [...REACT.greet].sort(() => Math.random() - 0.5);
+    playEmote(a.obj, g[0]);
     say(a.obj, greeting(a), { name: a.name });
-    setTimeout(() => { if (Math.random() < 0.5) b.rig?.wave?.(); say(b.obj, line('reply', b), { name: b.name }); }, 1300);
+    setTimeout(() => { playEmote(b.obj, g[1]); say(b.obj, line('reply', b), { name: b.name }); }, 1300);
   }
 
   // the player says hi (E near someone), or sends an emote (1-6)
@@ -109,24 +111,29 @@ export function createChat({ camera, avatar, getEnv, reduced }) {
     meCool = clock + 2;
     avatar?.userData.rig?.wave?.();
     say(avatar, `Hi ${p.name}! 👋`, { me: true });
-    setTimeout(() => { p.rig?.wave?.(); say(p.obj, `${line('reply', p)}`, { name: p.name }); }, 1100);
+    setTimeout(() => { playEmote(p.obj, pick(REACT.greet)); say(p.obj, `${line('reply', p)}`, { name: p.name }); }, 1100);
     p.coolMe = clock + 30;
   }
-  function emote(n, player) {
-    const e = EMOTES[n - 1]; if (!e || clock < meCool) return;
+  // your emote: a number key (the quick six) or any emote id from the sheet (G)
+  const ANSWER_TO = { greet: ['wave', 'ekaaro', 'welldone', 'beckon'], laugh: ['laugh', 'giggle', 'ehen', 'cheeky', 'guns'], dance: ['shaku', 'zanku', 'groove'], win: ['cheer', 'victory', 'jump', 'clap', 'fistpump'], thanks: ['thanks', 'bow', 'pray'], sad: ['sad', 'cry', 'sigh'] };
+  const kindOf = (id) => Object.entries(ANSWER_TO).find(([, ids]) => ids.includes(id))?.[0] || null;
+  function emote(which, player) {
+    const id = typeof which === 'number' ? QUICK[which - 1] : which, E = BY_ID[id];
+    if (!E || clock < meCool) return;
     meCool = clock + 1.2;
-    const GEST = { '👋': null, '😄': 'laugh', '👍': 'thumbs', '🔥': 'dance', '🙏': 'thanks', '🎉': 'cheer' };
-    if (e === '👋') avatar?.userData.rig?.wave?.(); else avatar?.userData.rig?.play?.(GEST[e]);
-    say(avatar, e, { me: true, emoji: true, hold: 2.2 });
-    dispatchEvent(new CustomEvent('bw:emote', { detail: e })); // other players see it too
-    // the nearest person within 6 m answers
+    if (avatar) playEmote(avatar, id);
+    say(avatar, E.emoji, { me: true, emoji: true, hold: 2.2 });
+    dispatchEvent(new CustomEvent('bw:emote', { detail: id })); // other players see it too (presence carries up to 8 letters)
+    // people around answer in kind, each with a different emote (expressions.js director)
+    const kind = kindOf(id);
+    if (kind) dispatchEvent(new CustomEvent('bw:react', { detail: { kind: kind === 'dance' ? 'dance' : kind === 'win' ? 'win' : kind, x: player.x, z: player.z, r: 9, max: 4 } }));
+    // and the nearest within 6 m says something
     let best = null, bd = 6;
     people.forEach((p) => { const d = Math.hypot(p.obj.position.x - player.x, p.obj.position.z - player.z); if (d < bd) { bd = d; best = p; } });
     if (!best) return;
     setTimeout(() => {
-      if (e === '👋') { best.rig?.wave?.(); say(best.obj, greeting(best), { name: best.name }); return; }
-      best.rig?.play?.({ '😄': 'laugh', '👍': 'thumbs', '🔥': 'cheer', '🙏': 'thanks', '🎉': 'cheer' }[e]);
-      const opts = ANSWER[e][speaks(best)], t = pick(opts);
+      if (kind === 'greet') { say(best.obj, greeting(best), { name: best.name }); return; }
+      const opts = ANSWER[{ laugh: '😄', win: '🎉', thanks: '🙏', dance: '🔥' }[kind] || '👍'][speaks(best)], t = pick(opts);
       say(best.obj, t, { name: best.name, emoji: [...t].length <= 2 });
     }, 900);
     best.coolMe = clock + 20;
