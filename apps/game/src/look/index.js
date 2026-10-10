@@ -607,6 +607,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     return r;
   }
 
+  // Jump (map, Online now): straight to another player, a couple of metres away on open ground
+  addEventListener('bw:jumpto', (e) => { const d = e.detail || {}; if (interiors?.active) { hud.toast('Go outside first, then jump.', 2200); return; } const q = world.nearestReachable(d.x + 1.6, d.z + 1.6) || { x: d.x, z: d.z }; pendingMove = { mode: 'stand', x: q.x, z: q.z }; hud.toast(`You are with ${d.name || 'them'}.`, 2000); });
   // a teleport for the player (into or out of a place, sitting, standing), taken once
   // getting up, from a bench or a desk: at a desk the laptop closes and goes in your bag first
   let leaving = false;

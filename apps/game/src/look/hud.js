@@ -5,6 +5,7 @@ import { createTrail } from './trail.js';
 import { audioEngine, sfx } from './audio.js';
 import { walletEngine, effortsMark, fmt } from './wallet.js';
 import { C as K, FONT, loadFont } from './uikit.js';
+import { onlineNow } from './online.js';
 
 // The in-world overlay from the reference screenshot: district and objective,
 // minimap, a route on the ground, a contextual prompt, name tags and the board.
@@ -289,6 +290,8 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     });
     const POI_COL = { atm: '#2a9d94', food: '#e46f4f', cafe: '#a87950', fuel: '#e46f4f', bus: '#f2b33d', work: '#4a64b0', shop: '#7d5aa6', gym: '#326952' };
     (props.pois || []).forEach((q) => { const c = POI_COL[q.kind]; if (!c) return; map.fillStyle = '#fff'; map.beginPath(); map.arc(q.x * k, q.z * k, 7, 0, 7); map.fill(); map.fillStyle = c; map.beginPath(); map.arc(q.x * k, q.z * k, 5, 0, 7); map.fill(); });
+    // other players, in the online green with a white ring, so you can go to them
+    onlineNow.players.forEach((q) => { if (q.id === onlineNow.me) return; map.fillStyle = '#fff'; map.beginPath(); map.arc(q.x * k, q.z * k, 9, 0, 7); map.fill(); map.fillStyle = '#3fbf6d'; map.beginPath(); map.arc(q.x * k, q.z * k, 6.5, 0, 7); map.fill(); });
     if (props.area) { map.fillStyle = '#3ad1c0'; map.beginPath(); map.arc(props.area.x * k, props.area.z * k, 6, 0, 7); map.fill(); }
     if (path) {
       map.strokeStyle = '#2a9d94'; map.lineWidth = 10; map.lineCap = 'round'; map.lineJoin = 'round';
