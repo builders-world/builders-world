@@ -284,7 +284,7 @@ async function main() {
     if (sky) { scene.remove(sky); disposeTree(sky); }
     setEstateNames(CITY_INFO[place.city]?.estates); // estates named after this city's streets, not Yaba's
     world = buildWorld(manifest, via, name, kit);
-    world.place = { name: place.name, city: place.city };
+    world.place = { name: place.name, city: place.city, lat: place.lat, lon: place.lon };
     sky = world.env.wet ? blueHourSky() : buildSky(name);
     scene.add(sky, world.scene);
     const E = world.env;
@@ -406,7 +406,7 @@ async function main() {
     drag.moved += Math.abs(dx) + Math.abs(dy);
     drag.x = e.clientX; drag.y = e.clientY;
     cam.yawT -= dx * 0.005;
-    cam.pitchT = Math.max(0.02, Math.min(1.35, cam.pitchT + dy * 0.004));
+    cam.pitchT = Math.max(minPitch(), Math.min(1.35, cam.pitchT + dy * 0.004));
   });
   canvas.addEventListener('wheel', (e) => {
     e.preventDefault();
@@ -514,16 +514,21 @@ async function main() {
   // Near is the default on foot (Elvis, 9 October); your own choice is remembered
   const viewIx = { foot: +(store.get('bw-view-foot') ?? 0) % 4, ride: +(store.get('bw-view-ride') ?? 1) % 5 };
   const viewOf = (kind) => VIEWS[kind][viewIx[kind]];
+  // the taxi to the airport starts on the cinematic camera; V takes you back to your own choice
+  let cineForce = false;
+  // under a tall roof (the airport's 20 m departures hall) you can tilt the camera up past level and see the ceiling
+  const minPitch = () => (street?.tallRoom ? -0.85 : 0.02);
   const cine = { t: 0, shot: -1, pos: new THREE.Vector3() };
   function applyView(kind) {
     const v = viewOf(kind);
     cam.pitchT = v.pitch;
-    if (kind === 'foot') cam.distT = inside() ? Math.min(v.dist, 4.5) : v.dist;
+    if (kind === 'foot') cam.distT = inside() ? Math.min(v.dist, street?.tallRoom ? 12 : 4.5) : v.dist;
     cine.t = 0; cine.shot = -1;
   }
   const inside = () => !!street?.inside;
   function cycleView() {
     const kind = riding ? 'ride' : 'foot';
+    if (riding && cineForce) cineForce = false;
     viewIx[kind] = (viewIx[kind] + 1) % VIEWS[kind].length;
     store.set(`bw-view-${kind}`, String(viewIx[kind]));
     applyView(kind);
@@ -546,7 +551,8 @@ async function main() {
 
     // controllers: poll every frame; the right stick turns and tilts the camera
     input.poll();
-    if (input.state.look.x || input.state.look.y) { cam.yawT -= input.state.look.x * 2.4 * dt; cam.pitchT = Math.max(0.02, Math.min(1.35, cam.pitchT + input.state.look.y * 1.3 * dt)); }
+    if (input.state.look.x || input.state.look.y) { cam.yawT -= input.state.look.x * 2.4 * dt; cam.pitchT = Math.max(minPitch(), Math.min(1.35, cam.pitchT + input.state.look.y * 1.3 * dt)); }
+    if (cam.pitchT < minPitch()) cam.pitchT = minPitch();
     // hold-to-rotate and Q/E
     const rot = (holds.rotL || keys.has('q') ? 1 : 0) - (holds.rotR || keys.has('e') ? 1 : 0);
     if (rot) cam.yawT += rot * 1.7 * dt;
@@ -571,7 +577,7 @@ async function main() {
         seated = move.mode === 'sit' || move.mode === 'pose';
         pose = move.mode === 'pose' ? move.pose : null; seatY = move.seatY ?? null;
         if (move.mode === 'push') { walkTarget = null; walkPath = null; marker.visible = false; if (travel.on) setTravel(false); } // turned back at a gate
-        if (move.mode === 'inside') { savedOutside = { dist: cam.distT, pitch: cam.pitchT }; cam.distT = cam.dist = 4.5; cam.pitchT = cam.pitch = 0.32; }
+        if (move.mode === 'inside') { savedOutside = { dist: cam.distT, pitch: cam.pitchT }; cam.distT = cam.dist = street?.tallRoom ? 7 : 4.5; cam.pitchT = cam.pitch = street?.tallRoom ? 0.24 : 0.32; } // a terminal's hall wants the camera further back
         if (move.mode === 'outside' && savedOutside) { cam.distT = savedOutside.dist; cam.pitchT = savedOutside.pitch; world.resolve(player, PLAYER_R); }
         snap = true;
       }
@@ -583,9 +589,9 @@ async function main() {
     const rs = street?.ride(dt, t, keys, player);
     if (rs?.exit) {
       player.copy(rs.exit); onStreetGround(player);
-      if (riding) { riding = false; applyView('foot'); }
+      if (riding) { riding = false; cineForce = false; applyView('foot'); }
     } else if (rs?.pos) {
-      if (!riding) { savedDist = cam.distT; riding = true; applyView('ride'); const st = audio.station; if (st && audio.settings.music) (street?.hud.toast ?? chrome.toast)(`📻 ${st.name} on the radio · R to change station`, 2600); }
+      if (!riding) { savedDist = cam.distT; riding = true; cineForce = !!rs.cine; applyView('ride'); const st = audio.station; if (st && audio.settings.music) (street?.hud.toast ?? chrome.toast)(`📻 ${st.name} on the radio · R to change station`, 2600); }
       player.set(rs.pos.x, 0, rs.pos.z);
       heading = rs.yaw;
       cam.distT = rs.cam * viewOf('ride').k;
@@ -708,10 +714,10 @@ async function main() {
 
     // damped third-person follow; district-to-district is a cut, never a flight
     if (cam.aerial) focus.set(0, 6, 0); else focus.set(player.x, 1.75 + groundY, player.z);
-    const cp = Math.cos(cam.pitch);
+    const camPitch = Math.max(0.05, cam.pitch), lookUp = Math.max(0, -cam.pitch), cp = Math.cos(camPitch);
     desired.set(
       focus.x - Math.sin(cam.yaw) * cp * cam.dist,
-      focus.y + Math.sin(cam.pitch) * cam.dist,
+      focus.y + Math.sin(camPitch) * cam.dist,
       focus.z - Math.cos(cam.yaw) * cp * cam.dist
     );
     if (!cam.aerial) {
@@ -727,22 +733,25 @@ async function main() {
       }
       desired.lerpVectors(focus, desired, free);
       if (desired.y < 0.8) desired.y = 0.8;
+      // looking up: the camera stays put and its aim rises, toward the roof
+      if (lookUp > 0) { focus.y += Math.tan(Math.min(1.25, lookUp * 1.45)) * Math.hypot(desired.x - focus.x, desired.z - focus.z); desired.y = Math.max(0.9, desired.y - lookUp * 0.8); }
     }
-    const view = riding ? viewOf('ride') : viewOf('foot');
+    const view = riding ? (cineForce ? VIEWS.ride[4] : viewOf('ride')) : viewOf('foot');
     let fixed = false;
     if (!cam.aerial && view.id === 'first') {
       // eye height in the head; in a vehicle the driver's eye line, set at the nose so the opaque
       // windscreen of the low-poly kit does not fill the view (GTA's bonnet camera does the same)
       const ahead = riding && rs ? rs.nose : 0.12, dir = riding && rs ? rs.yaw : cam.yaw;
       desired.set(player.x + Math.sin(dir) * ahead, riding && rs ? rs.seatY + 0.5 : seated ? 1.2 : 1.62, player.z + Math.cos(dir) * ahead);
-      const lookDown = (cam.pitch - 0.35) * 1.3;
+      const lookDown = Math.max(-1.3, (cam.pitch - 0.35) * 1.3);
       focus.set(desired.x + Math.sin(cam.yaw) * Math.cos(lookDown) * 10, desired.y - Math.sin(lookDown) * 10, desired.z + Math.cos(cam.yaw) * Math.cos(lookDown) * 10);
       fixed = true;
     } else if (!cam.aerial && riding && rs && view.id === 'cine') {
       // cinematic: held shots from the roadside, the bumper and the side, cutting every few seconds
       cine.t -= dt;
       if (cine.t <= 0) {
-        cine.shot = (cine.shot + 1) % 3; cine.t = 5.5;
+        cine.shot = (cine.shot + 1) % (cineForce ? 4 : 3); if (cineForce && cine.shot === 1) cine.shot = 2; // the airport run skips the bumper shot: too close to the taxi to see the city
+        cine.t = cine.shot === 3 ? 9 : 5.5;
         const fx = Math.sin(rs.yaw), fz = Math.cos(rs.yaw);
         if (cine.shot === 0) cine.pos.set(player.x + fx * 26 + fz * 6, 1.4, player.z + fz * 26 - fx * 6);
         snap = true;
@@ -750,7 +759,8 @@ async function main() {
       const fx = Math.sin(rs.yaw), fz = Math.cos(rs.yaw);
       if (cine.shot === 0) desired.copy(cine.pos);
       else if (cine.shot === 1) desired.set(player.x + fx * 4.5 + fz * 0.6, 0.7, player.z + fz * 4.5 - fx * 0.6);
-      else desired.set(player.x - fz * 7 - fx * 2, 1.9, player.z + fx * 7 - fz * 2);
+      else if (cine.shot === 2) desired.set(player.x - fz * 7 - fx * 2, 1.9, player.z + fx * 7 - fz * 2);
+      else { const a = t * 0.14; desired.set(player.x + Math.sin(a) * 26, 17, player.z + Math.cos(a) * 26); } // the drone: a slow orbit high over the taxi, the district all round
       focus.set(player.x, rs.seatY + 0.4, player.z);
       if (C.solidAt(desired.x, desired.y, desired.z)) desired.set(player.x - fx * rs.cam, 3.2, player.z - fz * rs.cam);
       fixed = true;

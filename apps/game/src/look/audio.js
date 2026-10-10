@@ -151,6 +151,9 @@ export function createAudio() {
     rim: () => { const t = ctx.currentTime; [610, 937, 1450].forEach((f, k) => tone(sfxBus, f, t, { type: 'sine', peak: 0.06 / (k + 1), dec: 0.35 })); },
     swish: () => { const t = ctx.currentTime; noise(sfxBus, t, { type: 'highpass', f: 2600, dur: 0.22, peak: 0.08, a: 0.03 }); },
     splash: (o = {}) => { const t = ctx.currentTime; noise(sfxBus, t, { type: 'lowpass', f: o.big ? 900 : 1600, dur: o.big ? 0.5 : 0.14, peak: o.big ? 0.2 : 0.06, a: 0.01 }); },
+    // the airport PA's three-note chime, and a jet taking off out on the runway (airport.js)
+    chime: () => { const t = ctx.currentTime; [79, 76, 72].forEach((n, k) => { tone(sfxBus, midi(n), t + k * 0.42, { type: 'sine', peak: 0.12, dec: 1.4 }); tone(sfxBus, midi(n + 12), t + k * 0.42, { type: 'sine', peak: 0.025, dec: 0.8 }); }); },
+    jet: () => { const t = ctx.currentTime; [[420, 'lowpass', 0.07], [1800, 'bandpass', 0.018]].forEach(([f, type, peak]) => { const s = ctx.createBufferSource(); s.buffer = noiseBuf; s.loop = true; const fl = ctx.createBiquadFilter(); fl.type = type; fl.frequency.value = f; const g = ctx.createGain(); s.connect(fl).connect(g).connect(sfxBus); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + 3); g.gain.exponentialRampToValueAtTime(0.0001, t + 9); s.start(t); s.stop(t + 9.1); }); },
     beep: (o = {}) => tone(sfxBus, o.high ? 1320 : 880, ctx.currentTime, { type: 'sine', peak: 0.1, dec: o.long ? 0.6 : 0.2 }),
     cheer: () => { const t = ctx.currentTime; noise(sfxBus, t, { type: 'bandpass', f: 1100, q: 0.6, dur: 1.4, peak: 0.12, a: 0.25 }); noise(sfxBus, t + 0.1, { type: 'bandpass', f: 2300, q: 0.8, dur: 1.1, peak: 0.06, a: 0.3 }); },
     pick: () => { const t = ctx.currentTime; noise(sfxBus, t, { type: 'highpass', f: 2400, dur: 0.09, peak: 0.06 }); tone(sfxBus, midi(84), t + 0.05, { type: 'sine', peak: 0.04, dec: 0.15 }); },

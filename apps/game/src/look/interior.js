@@ -482,7 +482,7 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
       current.group.visible = true;
       fade.style.opacity = '0';
       sfx('door');
-      toast(key === 'airport' ? `${current.A.name}. Departures on the left: check in, security, ${'passport control'}, your gate. Arrivals on the right.` : key === 'cabin' ? 'Boarding complete. Find your seat by the window.' : key === 'immigration' ? `${PLACES.immigration.name}. Take a number: counter 1 for passports, 2 for travel authorisations; the board on the left shows where you can fly.` : key === 'cafe' ? 'Kofo Cafe. Order at the counter, or take a table and work. The Wi-Fi is on the menu board.' : key === 'gym' ? 'Yaba Fitness. Treadmills, weights, the bag. First visit is on the house.' : key === 'bank' ? 'Yaba Builders Bank. Join the queue for a teller, or ask about a loan.' : key === 'myhome' ? `Home sweet home: ${host.addr}. Living room, kitchen and bedroom at the front; your workspace, lab and studio at the back.` : key === 'home' ? `${host.first}'s home. ${host.pidgin ? 'Make yourself at home o.' : 'Make yourself at home.'}` : `${PLACES[key].name}. ${PLACES[key].kind}. Find a free desk, or grab something at the cafeteria.`, 4500);
+      toast(key === 'airport' ? `${current.A.name}.` : key === 'cabin' ? 'Boarding complete. Find your seat by the window.' : key === 'immigration' ? `${PLACES.immigration.name}. Take a number: counter 1 for passports, 2 for travel authorisations; the board on the left shows where you can fly.` : key === 'cafe' ? 'Kofo Cafe. Order at the counter, or take a table and work. The Wi-Fi is on the menu board.' : key === 'gym' ? 'Yaba Fitness. Treadmills, weights, the bag. First visit is on the house.' : key === 'bank' ? 'Yaba Builders Bank. Join the queue for a teller, or ask about a loan.' : key === 'myhome' ? `Home sweet home: ${host.addr}. Living room, kitchen and bedroom at the front; your workspace, lab and studio at the back.` : key === 'home' ? `${host.first}'s home. ${host.pidgin ? 'Make yourself at home o.' : 'Make yourself at home.'}` : `${PLACES[key].name}. ${PLACES[key].kind}. Find a free desk, or grab something at the cafeteria.`, 4500);
       res({ x: ORIGIN.x + current.door.x * sc(), z: ORIGIN.z + (current.door.z - 1.5) * sc(), yaw: Math.PI });
     }, reduced ? 0 : 360));
   }
@@ -601,6 +601,7 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
   function solidAt(x, y, z) {
     if (!current) return false;
     const { x: lx, z: lz } = toLocal(x, z);
+    if (current.walls?.some(([x0, z0, x1, z1, h]) => y < h && lx > x0 && lx < x1 && lz > z0 && lz < z1)) return true; // a big room's inner walls (the airport)
     return y > (current.H ?? H) * scy() - 0.2 || Math.abs(lx) > (current.W ?? W) / 2 - 0.3 || Math.abs(lz) > (current.D ?? D) / 2 - 0.3;
   }
 
