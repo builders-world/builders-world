@@ -15,6 +15,8 @@ import { WALLET_CSS, walletSVG, breakdown, moneySVG } from './walletui.js';
 import { cardArt } from './cardart.js';
 import { C, FONT, KIT_CSS, loadFont, pattern, backdropSVG, personFor, portraitSVG, figureSVG, art, appIcon, placeArt, ribbonSVG } from './uikit.js';
 import { createRadio } from './radio.js';
+import { avatarPortrait } from './portraits.js';
+import { DEFAULT_LOOK } from './style.js';
 
 const CSS = `${KIT_CSS}
 #lkm-dim { position: fixed; inset: 0; z-index: 30; background: rgba(34,28,20,.42); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
@@ -66,10 +68,21 @@ const CSS = `${KIT_CSS}
 #lkm-map .ribbon svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 #lkm-map .ribbon b { position: relative; margin-top: -10px; font: 800 34px/1 ${FONT}; color: ${C.ink}; text-align: center; }
 #lkm-map .ribbon small { display: block; font: 700 12px/1.3 ${FONT}; letter-spacing: .16em; text-transform: uppercase; color: #7a5410; }
-#lkm-map canvas { width: min(100%, calc(100vh - 120px)); aspect-ratio: 1; cursor: pointer; }
-#lkm-map .bubble { position: absolute; pointer-events: none; transform: translate(-50%, calc(-100% - 22px)); background: #f2ead6; color: ${C.ink}; padding: 10px 22px; border-radius: 28px;
+#lkm-map canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: pointer; border-radius: 40px 60px 50px 40px / 50px 40px 60px 50px; box-shadow: inset 0 0 0 3px rgba(255,255,255,.4); }
+#lkm-map .mid { border-radius: 40px 60px 50px 40px / 50px 40px 60px 50px; box-shadow: 0 0 0 3px rgba(255,255,255,.35), 0 10px 30px rgba(20,60,55,.18); }
+#lkm-map .bubble { position: absolute; pointer-events: auto; text-align: center; transform: translate(-50%, calc(-100% - 22px)); background: #f2ead6; color: ${C.ink}; padding: 10px 22px; border-radius: 28px;
   font: 800 22px/1.1 ${FONT}; white-space: nowrap; display: none; box-shadow: 0 4px 0 rgba(59,42,32,.15); }
 #lkm-map .bubble::after { content: ''; position: absolute; left: 50%; bottom: -10px; width: 18px; height: 18px; background: #f2ead6; transform: translateX(-50%) rotate(45deg); border-radius: 3px; }
+#lkm-map .bubble b { display: block; font: 800 16px/1.2 ${FONT}; }
+#lkm-map .bubble small { display: block; margin-top: 2px; font: 700 12.5px/1.2 ${FONT}; color: ${C.ink2}; }
+#lkm-map .bubble button { margin-top: 8px; padding: 7px 14px; border: 0; border-radius: 999px; background: ${C.teal}; color: #fff; font: 800 13px/1 ${FONT}; cursor: pointer; }
+#lkm-map .bubble button:focus-visible { outline: 3px solid ${C.amber}; outline-offset: 2px; }
+#lkm-map .rhead { margin: -6px 2px 10px; color: #fff; font: 700 13px/1.3 ${FONT}; text-align: center; text-shadow: 0 1px 0 rgba(0,0,0,.15); }
+#lkm-map .rhead b { font-weight: 800; } #lkm-map .rhead .on { display: inline-flex; align-items: center; gap: 5px; } #lkm-map .rhead .on::before { content: ''; width: 9px; height: 9px; border-radius: 50%; background: #5fe08d; box-shadow: 0 0 0 2px #fff; }
+#lkm-map .rsearch { width: 100%; box-sizing: border-box; margin: 0 0 12px; padding: 9px 14px; border: 0; border-radius: 999px; background: ${C.paper}; color: ${C.ink}; font: 700 14px/1 ${FONT}; box-shadow: inset 0 0 0 2px rgba(59,42,32,.1); }
+#lkm-map .rsearch:focus-visible { outline: 3px solid ${C.amber}; }
+#lkm-map .res .hs img { width: 78px; height: 78px; object-fit: cover; margin-bottom: -2px; }
+#lkm-map .rall { display: block; margin: 12px auto 0; padding: 7px 14px; border: 0; border-radius: 999px; background: ${C.paper}; color: ${C.ink}; font: 800 13px/1 ${FONT}; cursor: pointer; }
 #lkm-map .places { display: grid; gap: 4px; }
 #lkm-map .places button { display: grid; justify-items: center; transition: transform .12s ease; }
 #lkm-map .onl { display: grid; gap: 6px; margin-bottom: 14px; }
@@ -242,7 +255,7 @@ body.nohud #lkm-tip { display: none; }
   #lkm-map { grid-template-columns: 1fr; grid-template-rows: auto auto auto; padding: 70px 12px 70px; overflow: auto; align-content: start; }
   #lkm-map .mid { order: -1; }
   #lkm-map .ribbon { top: -62px; width: 280px; height: 66px; } #lkm-map .ribbon b { font-size: 26px; }
-  #lkm-map canvas { width: 100%; }
+  #lkm-map canvas { width: 100%; } #lkm-map .mid { height: min(100vw, 64vh); }
   #lkm-map .col { padding-top: 62px; }
   #lkm-map .res { grid-template-columns: repeat(4, 1fr); }
   #lkm-map .res .hs { width: 70px; height: 68px; }
@@ -437,9 +450,28 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     badges[pl.id] = img;
   });
   const people = BUILDERS.map((b, i) => ({ b, look: personFor((b.seed ?? 1) * 31 + i * 5, b.id === 'you' ? { shirt: me.color } : {}) }));
+  // residents as they really look: their 3D avatar (portraits.js); you in your own saved look
+  const HAIRS_F = ['braids', 'gele', 'bun', 'afro'], HAIRS_M = ['low', 'afro', 'fade', 'locs'];
+  const look3d = ({ b, look }) => {
+    if (b.id === 'you') { try { const st = JSON.parse(localStorage.getItem('bw-style') || 'null'); if (st) return st; } catch { /* storage unavailable */ } return DEFAULT_LOOK; }
+    const fem = [2, 3, 4, 5].includes(look.style);
+    return { ...DEFAULT_LOOK, body: fem ? 'f' : 'm', skin: look.skin, hairColor: look.hair, hair: fem ? HAIRS_F[look.style - 2] : HAIRS_M[look.style % 4], top: ['tee', 'jacket', 'hoodie', 'ankara'][(b.seed ?? 0) % 4], topColor: look.shirt, bottom: fem && look.style === 3 ? 'skirt' : 'trousers', acc: look.glasses ? ['glasses'] : [] };
+  };
+  const portraitOf = (b) => { const p = people.find((q) => q.b === b); return p ? avatarPortrait(look3d(p), 160) : ''; };
+  const onlineIds = () => new Set(onlineNow.players.filter((q) => q.id !== onlineNow.me).map((q) => q.id));
+  const isOnline = (b) => b.id === 'you' || !!b.live || onlineIds().has(b.id);
+  const onlineCount = () => people.filter(({ b }) => isOnline(b)).length + onlineNow.players.filter((q) => q.id !== onlineNow.me && !people.some(({ b }) => b.id === q.id)).length;
+  const RES_SHOW = 8; let resQuery = '', resAll = false;
+  const resList = () => { const q = resQuery.trim().toLowerCase(); const list = people.filter(({ b }) => !q || b.name.toLowerCase().includes(q) || (b.handle || '').toLowerCase().includes(q)); return q || resAll ? list : list.slice(0, RES_SHOW); };
   let selRes = null, selPlace = null, panMoved = 0;
   const mapCanvas = document.createElement('canvas');
   mapCanvas.width = mapCanvas.height = 900;
+  // the map fills its whole window (Elvis, 10 October 2026: zoomed in, a square frame cut the map off); it is drawn
+  // in a 900 unit square, scaled to fit the window and centred in it (MK, OX, OY), the rest of the window is sea
+  let cw = 900, ch = 900, MK = 1, OX = 0, OY = 0;
+  const sizeMap = () => { const m = mapEl.querySelector('.mid'); if (!m) return; const rc = m.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1); cw = Math.max(300, Math.round(rc.width * dpr)); ch = Math.max(300, Math.round(rc.height * dpr)); mapCanvas.width = cw; mapCanvas.height = ch; MK = Math.min(cw, ch) / 900; OX = (cw - 900 * MK) / 2; OY = (ch - 900 * MK) / 2; };
+  const vis = (x, y) => x > -OX / MK && x < (cw - OX) / MK && y > -OY / MK && y < (ch - OY) / MK;
+  addEventListener('resize', () => { if (mapEl.classList.contains('on')) { sizeMap(); drawBigMap(); } });
   const MAPR = world.radius * 1.12;
   // the view: zoom and pan (world bible 11.3). base() is the whole-district map; toPx() is the screen
   const view = { z: 1, cx: 450, cy: 450 };
@@ -487,7 +519,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   const hash = (pts) => Math.abs(Math.round(pts[0][0] * 13 + pts[0][1] * 7));
   function drawBigMap() {
     const g = mapCanvas.getContext('2d');
-    g.clearRect(0, 0, 900, 900);
+    g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, cw, ch); g.setTransform(MK, 0, 0, MK, OX, OY);
     // grid over the lagoon, letters and numbers like a paper map
     g.strokeStyle = 'rgba(255,255,255,.45)'; g.setLineDash([10, 10]); g.lineWidth = 2;
     for (let i = 1; i < 7; i++) { const v = 45 + i * 115; g.beginPath(); g.moveTo(v, 40); g.lineTo(v, 860); g.stroke(); g.beginPath(); g.moveTo(40, v); g.lineTo(860, v); g.stroke(); }
@@ -496,7 +528,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     'ABCDEFG'.split('').forEach((l, i) => g.fillText(l, 20, 102 + i * 115));
     for (let i = 0; i < 7; i++) g.fillText(String(i + 1), 102 + i * 115, 884);
     // everything on the ground is drawn in district coordinates under the zoom; labels and icons stay crisp
-    g.save(); g.setTransform(view.z, 0, 0, view.z, 450 - view.cx * view.z, 450 - view.cy * view.z);
+    g.save(); g.setTransform(MK * view.z, 0, 0, MK * view.z, OX + MK * (450 - view.cx * view.z), OY + MK * (450 - view.cy * view.z));
     // sand rim, then land
     g.fillStyle = '#f1dfaa'; blob(g, 16); g.fill();
     g.fillStyle = '#e5cd92'; blob(g, 7); g.fill();
@@ -541,7 +573,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     // zoomed in: house numbers, then full addresses
     if (view.z >= 2.2) {
       g.font = `800 ${view.z >= 3.4 ? 12 : 11}px ${FONT}`; g.textAlign = 'center'; g.textBaseline = 'middle';
-      Z.lots.forEach((l) => { const [x, y] = toPx(l.c[0], l.c[1]); if (x < 0 || x > 900 || y < 0 || y > 900) return; const t = view.z >= 3.4 ? l.addr : String(l.no); const w = g.measureText(t).width + 10; g.fillStyle = 'rgba(247,239,220,.92)'; g.beginPath(); g.roundRect(x - w / 2, y - 9, w, 18, 9); g.fill(); g.fillStyle = C.ink; g.fillText(t, x, y + 1); });
+      Z.lots.forEach((l) => { const [x, y] = toPx(l.c[0], l.c[1]); if (!vis(x, y)) return; const t = view.z >= 3.4 ? l.addr : String(l.no); const w = g.measureText(t).width + 10; g.fillStyle = 'rgba(247,239,220,.92)'; g.beginPath(); g.roundRect(x - w / 2, y - 9, w, 18, 9); g.fill(); g.fillStyle = C.ink; g.fillText(t, x, y + 1); });
     }
     // street names: once per street, on its longest stretch, never on top of another
     g.font = `800 ${view.z > 1.5 ? 17 : 15}px ${FONT}`; g.textAlign = 'center'; g.textBaseline = 'middle';
@@ -584,7 +616,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
       if (!KINDS[q.kind] || !poiIcon[q.kind]?.complete) return;
       const [x, y] = toPx(q.x, q.z), on = !poiFilter || poiFilter === q.kind, r = poiFilter === q.kind ? 20 : 14;
       g.globalAlpha = on ? 1 : 0.3; g.drawImage(poiIcon[q.kind], x - r, y - r, r * 2, r * 2); g.globalAlpha = 1;
-      if (view.z >= 2.6 && x > 0 && x < 900 && y > 0 && y < 900) { g.font = `800 12px ${FONT}`; g.textAlign = 'center'; const w = g.measureText(q.name).width + 12; g.fillStyle = C.paper; g.beginPath(); g.roundRect(x - w / 2, y + r + 2, w, 18, 9); g.fill(); g.fillStyle = C.ink; g.textBaseline = 'middle'; g.fillText(q.name, x, y + r + 11); }
+      if (view.z >= 2.6 && vis(x, y)) { g.font = `800 12px ${FONT}`; g.textAlign = 'center'; const w = g.measureText(q.name).width + 12; g.fillStyle = C.paper; g.beginPath(); g.roundRect(x - w / 2, y + r + 2, w, 18, 9); g.fill(); g.fillStyle = C.ink; g.textBaseline = 'middle'; g.fillText(q.name, x, y + r + 11); }
     });
     // the route: white footsteps over a teal line
     const route = getPath?.();
@@ -605,14 +637,18 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   }
   function openMap(focusResidents = false) {
     mapEl.innerHTML = `
-      <div class="col">${(() => { const others = onlineNow.players.filter((q) => q.id !== onlineNow.me); return others.length ? `<h3>Online now</h3><div class="onl">${others.map((q) => `<div class="o"><button data-o="${q.id}"><i></i><span>${String(q.name).replace(/[<>&"]/g, '')}<small>${Math.round(Math.hypot(q.x - getPlayer().x, q.z - getPlayer().z))} m away</small></span></button><button class="j" data-j="${q.id}">Jump</button></div>`).join('')}</div>` : ''; })()}<h3>Residents</h3><div class="res">${people.map(({ b, look }) => `<button data-id="${b.id}" class="${selRes === b.id ? 'sel' : ''}" aria-label="${b.name}">
-        <span class="hs">${portraitSVG(look, 64)}${b.live ? '<i class="live" title="Building now"></i>' : ''}</span>${b.name.split(' ')[0]}</button>`).join('')}</div></div>
+      <div class="col">${(() => { const others = onlineNow.players.filter((q) => q.id !== onlineNow.me); return others.length ? `<h3>Online now</h3><div class="onl">${others.map((q) => `<div class="o"><button data-o="${q.id}"><i></i><span>${String(q.name).replace(/[<>&"]/g, '')}<small>${Math.round(Math.hypot(q.x - getPlayer().x, q.z - getPlayer().z))} m away</small></span></button><button class="j" data-j="${q.id}">Jump</button></div>`).join('')}</div>` : ''; })()}<h3>Residents</h3><div class="rhead"><b>${people.length}</b> resident${people.length === 1 ? '' : 's'} · <span class="on">${onlineCount()} online</span></div>
+        <input class="rsearch" type="search" placeholder="Search residents" aria-label="Search residents" value="${resQuery.replace(/"/g, '&quot;')}">
+        <div class="res">${resList().map(({ b }) => `<button data-id="${b.id}" class="${selRes === b.id ? 'sel' : ''}" aria-label="${b.name}">
+        <span class="hs"><img alt="" src="${portraitOf(b)}">${isOnline(b) ? '<i class="live" title="Online now"></i>' : ''}</span>${b.name.split(' ')[0]}</button>`).join('') || '<p class="hint">Nobody by that name lives here yet.</p>'}</div>
+        ${!resQuery && people.length > RES_SHOW ? `<button class="rall">${resAll ? 'Show fewer' : `View all ${people.length}`}</button>` : ''}</div>
       <div class="mid"><div class="ribbon">${ribbonSVG(380)}<b>${placeName(world)}<small>${world.place?.city ?? 'Lagos'}</small></b></div><div class="bubble"></div></div>
       <div class="col"><h3>Places</h3><div class="places">${places.map((p) => `<button data-p="${p.id}" class="${selPlace === p.id ? 'sel' : ''}">${placeArt(p.art)}<span>${p.name}<small>${p.sub}</small></span></button>`).join('')}</div>
         <h3 style="position:static;transform:none;display:inline-block;margin:16px 0 8px">Find nearest</h3>
         <div class="kinds">${Object.entries(KINDS).filter(([k]) => poisOf(k).length).map(([k, d]) => `<button data-kind="${k}" class="${poiFilter === k ? 'sel' : ''}"><i style="background:${d.color}">${appIcon(d.glyph)}</i><span>${d.label}<small>${poisOf(k).length}</small></span></button>`).join('')}</div>
         <p class="hint">Pick a resident, a place or a service, or tap any street, and a trail will lead you there.</p></div>`;
     mapEl.querySelector('.mid').prepend(mapCanvas);
+    sizeMap();
     // zoom: wheel or pinch about the pointer, + and - buttons; pan: drag
     const zbox = document.createElement('div'); zbox.className = 'zoom';
     zbox.innerHTML = '<button data-z="1" aria-label="Zoom in">+</button><button data-z="-1" aria-label="Zoom out">−</button><button data-z="0" aria-label="Whole district">⤢</button>';
@@ -622,7 +658,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     mapEl.querySelector('.mid').appendChild(legend);
     const zoomAt = (f, px = 450, py = 450) => { const bx = (px - 450) / view.z + view.cx, by = (py - 450) / view.z + view.cy; view.z *= f; clampView(); view.cx = bx - (px - 450) / view.z; view.cy = by - (py - 450) / view.z; clampView(); bubble.style.display = 'none'; drawBigMap(); };
     zbox.querySelectorAll('button').forEach((b) => { b.onclick = () => { const z = +b.dataset.z; if (z === 0) { view.z = 1; view.cx = view.cy = 450; bubble.style.display = 'none'; drawBigMap(); } else zoomAt(z > 0 ? 1.6 : 1 / 1.6); }; });
-    const toCanvas = (e) => { const r = mapCanvas.getBoundingClientRect(); return [((e.clientX - r.left) / r.width) * 900, ((e.clientY - r.top) / r.height) * 900]; };
+    const toCanvas = (e) => { const r = mapCanvas.getBoundingClientRect(); return [(((e.clientX - r.left) / r.width) * cw - OX) / MK, (((e.clientY - r.top) / r.height) * ch - OY) / MK]; };
     mapCanvas.onwheel = (e) => { e.preventDefault(); const [px, py] = toCanvas(e); zoomAt(Math.exp(-e.deltaY * 0.0022), px, py); };
     const ptrs = new Map(); let pinch0 = 0;
     mapCanvas.onpointerdown = (e) => { ptrs.set(e.pointerId, toCanvas(e)); panMoved = 0; mapCanvas.setPointerCapture(e.pointerId); if (ptrs.size === 2) { const [a, b] = [...ptrs.values()]; pinch0 = Math.hypot(a[0] - b[0], a[1] - b[1]); } };
@@ -636,16 +672,21 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     mapCanvas.onpointerup = mapCanvas.onpointercancel = (e) => { ptrs.delete(e.pointerId); pinch0 = 0; };
     drawBigMap();
     const bubble = mapEl.querySelector('.bubble');
+    // a picked marker says how far away it is, and offers to take you there at once (quick travel)
     const showBubble = (x, z, text) => {
       const r = mapCanvas.getBoundingClientRect(), m = mapEl.querySelector('.mid').getBoundingClientRect();
-      const [px, py] = toPx(x, z);
-      bubble.textContent = text; bubble.style.display = 'block';
-      bubble.style.left = `${r.left - m.left + (px / 900) * r.width}px`; bubble.style.top = `${r.top - m.top + (py / 900) * r.height}px`;
+      const [px, py] = toPx(x, z), me = getPlayer(), d = Math.hypot(x - me.x, z - me.z);
+      const far = d >= 1000 ? `${(d / 1000).toFixed(1)} km away` : d < 8 ? 'You are here' : `${Math.round(d)} m away · about ${Math.max(1, Math.round(d / 80))} min on foot`;
+      bubble.innerHTML = `<b>${String(text).replace(/[<>&]/g, '')}</b><small>${far}</small>${d >= 8 ? '<button class="qt">Quick travel</button>' : ''}`;
+      bubble.style.display = 'block';
+      bubble.style.left = `${r.left - m.left + ((px * MK + OX) / cw) * r.width}px`; bubble.style.top = `${r.top - m.top + ((py * MK + OY) / ch) * r.height}px`;
+      const qt = bubble.querySelector('.qt');
+      if (qt) qt.onclick = (e) => { e.stopPropagation(); close(); dispatchEvent(new CustomEvent('bw:jumpto', { detail: { x, z, name: text, quick: true } })); };
     };
     mapCanvas.onclick = (ev) => {
       const r = mapCanvas.getBoundingClientRect();
       if (panMoved > 6) return; // that was a drag, not a tap
-      const px = ((ev.clientX - r.left) / r.width) * 900, py = ((ev.clientY - r.top) / r.height) * 900;
+      const [px, py] = toCanvas(ev); void r;
       const [wx, wz] = fromPx(px, py);
       const s = snapToStreet?.(wx, wz);
       if (!s || s.d > 25) { toast('Pick a point on or near a street.'); return; }
@@ -653,6 +694,9 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
       onRoute?.({ x: s.x, z: s.z }, 'your marker', true);
       setTimeout(() => { drawBigMap(); showBubble(s.x, s.z, 'Your marker'); }, 50);
     };
+    const rs = mapEl.querySelector('.rsearch');
+    if (rs) rs.oninput = () => { resQuery = rs.value; const pos = rs.selectionStart; openMap(); const n = mapEl.querySelector('.rsearch'); n?.focus(); n?.setSelectionRange(pos, pos); };
+    const ra = mapEl.querySelector('.rall'); if (ra) ra.onclick = () => { resAll = !resAll; openMap(); };
     mapEl.querySelectorAll('.res button').forEach((b) => {
       b.onclick = () => {
         selRes = b.dataset.id; selPlace = null;

@@ -91,7 +91,7 @@ body.bw-cine #lk .pane, body.bw-cine #lk-map, body.bw-cine #lk-snd, body.bw-cine
 body.bw-inside #lk-map, body.bw-inside #lk-wx, body.bw-inside #lk-osm, body.bw-inside #lk-obj { display: none; }
 #lk-osm { position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%); font-size: 10.5px; color: rgba(238,242,255,.6); pointer-events: auto; }
 #lk-osm a { color: inherit; }
-#lk-toast { position: absolute; left: 50%; top: 22px; transform: translateX(-50%); padding: 10px 20px; border-radius: 999px; font: 700 15px/1.3 ${FONT}; opacity: 0; transition: opacity .3s; }
+#lk-toast { position: absolute; left: 50%; top: 58px; transform: translateX(-50%); padding: 10px 20px; border-radius: 999px; font: 700 15px/1.3 ${FONT}; opacity: 0; transition: opacity .3s; }
 #lk-toast.on { opacity: 1; }
 @media (max-width: 700px) {
   #lk-obj { top: 70px; min-width: 0; right: 120px; padding: 10px 12px; }
