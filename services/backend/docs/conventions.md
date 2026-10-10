@@ -44,7 +44,7 @@ translated in one place.
 - **The web API is pinned by snapshots** (`insta`) in `services/gateway/tests/snapshots`, with ids, timestamps and
   secrets masked. A change to a response fails the test and shows the diff; review the `.snap` diff in the commit.
 
-## SQL (when a database is added)
+## SQL
 
 Every statement is written once, as a function with typed parameters and a typed result, in the crate's `queries/`
 folder: `src/queries.rs` lists the files and `src/queries/<module>.rs` holds the SQL for that module. A module imports
