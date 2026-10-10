@@ -221,6 +221,8 @@ export function dress(root, look, rig) {
   } else if (L.bottom === 'shorts') {
     // shorts ride the thighs so they move with the legs
     [rig?.L, rig?.R].forEach((side) => { if (!side?.hip) return; const o = new THREE.Mesh(G.box, B); o.scale.set(fem ? 0.2 : 0.21, 0.24, 0.25); o.position.set(0, -0.11, 0); side.hip.add(o); parts.push(o); });
+    // and the seat that joins them, so no gap opens between the legs as they swing
+    if (!fem) { const seat = new THREE.Mesh(G.box, B); seat.scale.set(0.44, 0.12, 0.26); pelvisPut(seat, 0.8); }
   }
   // hips for the curvy frame, in whatever is worn there
   if (fem && !skirtLike) { const hip = new THREE.Mesh(G.box, L.bottom === 'shorts' ? B : F.trouser); hip.scale.set(0.46, 0.14, 0.27); pelvisPut(hip, 0.8); }
@@ -228,13 +230,17 @@ export function dress(root, look, rig) {
   // footwear: the avatar's own shoes, reshaped, plus a heel or a boot shaft
   F.shoes.forEach((s) => { s.scale.y = L.shoes === 'sandals' ? 0.07 : L.shoes === 'heels' ? 0.1 : L.shoes === 'loafers' ? 0.12 : 0.16; s.scale.z = L.shoes === 'heels' ? 0.3 : 0.36; });
   if (L.shoes === 'boots' || L.shoes === 'heels') {
-    // these ride the ankles, which only the rig knows: attach to its ankle joints when there is one
+    // a boot's shaft wraps the shin, so it rides the knee joint (the shin's own frame): on the ankle it
+    // turned with the foot, which the walk keeps level, and the bare shin showed above it at every
+    // bent knee. The shin runs 0.33 m down from the knee; the shaft covers its lower 0.22 m and is a
+    // little wider all round. A heel rides the ankle, with the foot.
     const S = mat(L.shoeColor);
     [rig?.L, rig?.R].forEach((side) => {
       if (!side?.ankle) return;
-      const o = L.shoes === 'boots' ? new THREE.Mesh(G.box, S) : new THREE.Mesh(G.box, S);
-      if (L.shoes === 'boots') { o.scale.set(0.2, 0.22, 0.24); o.position.set(0, 0.16, 0); } else { o.scale.set(0.05, 0.1, 0.05); o.position.set(0, 0.02, -0.12); }
-      side.ankle.add(o); parts.push(o);
+      const o = new THREE.Mesh(G.box, S);
+      if (L.shoes === 'boots') { o.scale.set(0.205, 0.23, 0.235); o.position.set(0, -0.33 + 0.115, 0); (side.knee || side.ankle).add(o); }
+      else { o.scale.set(0.05, 0.1, 0.05); o.position.set(0, 0.02, -0.12); side.ankle.add(o); }
+      parts.push(o);
     });
   }
   // accessories

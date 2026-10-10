@@ -125,7 +125,9 @@ export function createLitter({ world, scene, props, toast, used = [], reduced, d
   // ---------- bins: spots that need one, funded by players, shared with everyone ----------
   const binGeo = [box(0.62, 0.95, 0.62, 0, 0.475, 0), box(0.68, 0.08, 0.68, 0, 0.99, 0), box(0.2, 0.04, 0.05, 0, 0.9, 0.33)];
   const binMat = new THREE.MeshStandardMaterial({ color: 0x2f7d4f, roughness: 0.6 }), lidMat = new THREE.MeshStandardMaterial({ color: 0x235c3b, roughness: 0.6 });
-  const ghostMat = new THREE.MeshBasicMaterial({ color: 0x5f9a45, transparent: true, opacity: 0.28, depthWrite: false });
+// where a bin will go: its outline, not a see-through box (walking through a box tinted your legs green)
+  const ghostMat = new THREE.LineDashedMaterial({ color: 0x2f9a55, dashSize: 0.09, gapSize: 0.06 });
+  const ghostGeo = new THREE.EdgesGeometry(binGeo[0]);
   const ringMat = new THREE.MeshBasicMaterial({ color: 0xf2b33d, transparent: true, opacity: 0.85, depthWrite: false });
   const bins = [], bag = [];
   const binSpots = [];
@@ -143,7 +145,7 @@ export function createLitter({ world, scene, props, toast, used = [], reduced, d
   }
   binSpots.forEach((b) => {
     const g = new THREE.Group(); g.position.set(b.x, 0, b.z);
-    const ghost = new THREE.Mesh(binGeo[0], ghostMat);
+    const ghost = new THREE.LineSegments(ghostGeo, ghostMat); ghost.computeLineDistances();
     const ring = new THREE.Mesh(new THREE.RingGeometry(0.55, 0.68, 24, 1).rotateX(-Math.PI / 2), ringMat); ring.position.y = 0.13;
     const real = new THREE.Group(); real.visible = false;
     real.add(new THREE.Mesh(binGeo[0], binMat), new THREE.Mesh(binGeo[1], lidMat), new THREE.Mesh(binGeo[2], lidMat));
@@ -230,8 +232,10 @@ export function createLitter({ world, scene, props, toast, used = [], reduced, d
   }
 
   let grow = 18, poll = 30;
-  function update(dt) {
+  function update(dt, player) {
     grow -= dt; poll -= dt;
+    // the outline steps aside while you stand where the bin will go
+    if (player) binSpots.forEach((b) => { if (!b.built) b.ghost.visible = Math.hypot(player.x - b.x, player.z - b.z) > 0.9; });
     if (grow <= 0) {
       grow = 14 + Math.random() * 12;
       if (items.size < cap && spots.length) {
