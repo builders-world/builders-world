@@ -10,6 +10,7 @@ import { walletEngine, effortsMark, fmt } from './wallet.js';
 import { passesEngine } from './passes.js';
 import { PAD_MAP } from './input.js';
 import { LABEL } from './quality.js';
+import { onlineNow } from './online.js';
 import { WALLET_CSS, walletSVG } from './walletui.js';
 import { C, FONT, KIT_CSS, loadFont, pattern, backdropSVG, personFor, portraitSVG, figureSVG, art, appIcon, placeArt, ribbonSVG } from './uikit.js';
 
@@ -69,6 +70,13 @@ const CSS = `${KIT_CSS}
 #lkm-map .bubble::after { content: ''; position: absolute; left: 50%; bottom: -10px; width: 18px; height: 18px; background: #f2ead6; transform: translateX(-50%) rotate(45deg); border-radius: 3px; }
 #lkm-map .places { display: grid; gap: 4px; }
 #lkm-map .places button { display: grid; justify-items: center; transition: transform .12s ease; }
+#lkm-map .onl { display: grid; gap: 6px; margin-bottom: 14px; }
+#lkm-map .onl .o { display: flex; align-items: center; gap: 6px; padding: 6px 6px 6px 10px; border-radius: 16px; background: #fffaf0; border: 2px solid #e3d4b4; }
+#lkm-map .onl button { border: 0; background: none; color: inherit; font: inherit; cursor: pointer; padding: 0; }
+#lkm-map .onl [data-o] { flex: 1; display: flex; align-items: center; gap: 8px; text-align: left; font: 700 14px/1.2 ${FONT}; }
+#lkm-map .onl [data-o] i { flex: none; width: 12px; height: 12px; border-radius: 50%; background: #3fbf6d; box-shadow: 0 0 0 3px rgba(63,191,109,.25); }
+#lkm-map .onl small { display: block; font: 700 11.5px/1.2 ${FONT}; color: ${C.ink2}; }
+#lkm-map .onl .j { flex: none; padding: 6px 12px !important; border-radius: 999px; background: ${C.ink} !important; color: ${C.paper} !important; font: 700 13px/1 ${FONT} !important; }
 #lkm-map .places button span { margin-top: -10px; padding: 4px 12px; border-radius: 999px; background: ${C.paper}; font: 700 13px/1.15 ${FONT}; text-align: center; box-shadow: 0 3px 0 rgba(59,42,32,.15); }
 #lkm-map .places button small { display: block; color: ${C.ink2}; font-size: 11.5px; font-weight: 600; }
 #lkm-map .places button:hover, #lkm-map .places button.sel, #lkm-map .places button:focus-visible { transform: translateY(-3px) scale(1.04); outline: none; }
@@ -529,6 +537,9 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
       g.strokeStyle = C.teal; g.lineWidth = 12; g.lineCap = 'round'; g.lineJoin = 'round'; pathTo(); g.stroke();
       g.strokeStyle = '#fff'; g.lineWidth = 6; g.setLineDash([1, 13]); pathTo(); g.stroke(); g.setLineDash([]);
     }
+    // other players online: a green dot and their name
+    onlineNow.players.forEach((q) => { if (q.id === onlineNow.me) return; const [ox, oy] = toPx(q.x, q.z); g.fillStyle = '#fff'; g.beginPath(); g.arc(ox, oy, 11, 0, 7); g.fill(); g.fillStyle = '#3fbf6d'; g.beginPath(); g.arc(ox, oy, 8, 0, 7); g.fill();
+      g.font = `700 18px ${FONT}`; g.textAlign = 'center'; g.lineWidth = 5; g.strokeStyle = '#fff'; g.strokeText(q.name, ox, oy - 17); g.fillStyle = C.ink; g.fillText(q.name, ox, oy - 17); });
     // you are here: a coral pin
     const me2 = getPlayer();
     const [px, py] = toPx(me2.x, me2.z);
@@ -538,7 +549,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   }
   function openMap(focusResidents = false) {
     mapEl.innerHTML = `
-      <div class="col"><h3>Residents</h3><div class="res">${people.map(({ b, look }) => `<button data-id="${b.id}" class="${selRes === b.id ? 'sel' : ''}" aria-label="${b.name}">
+      <div class="col">${(() => { const others = onlineNow.players.filter((q) => q.id !== onlineNow.me); return others.length ? `<h3>Online now</h3><div class="onl">${others.map((q) => `<div class="o"><button data-o="${q.id}"><i></i><span>${String(q.name).replace(/[<>&"]/g, '')}<small>${Math.round(Math.hypot(q.x - getPlayer().x, q.z - getPlayer().z))} m away</small></span></button><button class="j" data-j="${q.id}">Jump</button></div>`).join('')}</div>` : ''; })()}<h3>Residents</h3><div class="res">${people.map(({ b, look }) => `<button data-id="${b.id}" class="${selRes === b.id ? 'sel' : ''}" aria-label="${b.name}">
         <span class="hs">${portraitSVG(look, 64)}${b.live ? '<i class="live" title="Building now"></i>' : ''}</span>${b.name.split(' ')[0]}</button>`).join('')}</div></div>
       <div class="mid"><div class="ribbon">${ribbonSVG(380)}<b>${placeName(world)}<small>${world.place?.city ?? 'Lagos'}</small></b></div><div class="bubble"></div></div>
       <div class="col"><h3>Places</h3><div class="places">${places.map((p) => `<button data-p="${p.id}" class="${selPlace === p.id ? 'sel' : ''}">${placeArt(p.art)}<span>${p.name}<small>${p.sub}</small></span></button>`).join('')}</div>
@@ -595,6 +606,10 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
         if (p) { const f = world.frontOf([p.center.x, p.center.z]); onRoute?.({ x: f.x, z: f.z }, `${p.b.name.split(' ')[0]}'s plot`, true); setTimeout(() => { drawBigMap(); showBubble(p.center.x, p.center.z, p.b.name.split(' ')[0]); }, 50); }
       };
     });
+    // players online: tap to walk to them, Jump to be there now
+    const onl = (id) => onlineNow.players.find((q) => q.id === id);
+    mapEl.querySelectorAll('.onl [data-o]').forEach((b) => { b.onclick = () => { const q = onl(b.dataset.o); if (!q) return; selPlace = null; selRes = null; onRoute?.({ x: q.x, z: q.z }, q.name, true); setTimeout(() => { drawBigMap(); showBubble(q.x, q.z, q.name); }, 50); }; });
+    mapEl.querySelectorAll('.onl [data-j]').forEach((b) => { b.onclick = () => { const q = onl(b.dataset.j); if (!q) return; dispatchEvent(new CustomEvent('bw:jumpto', { detail: { x: q.x, z: q.z, name: q.name } })); close(); }; });
     mapEl.querySelectorAll('.places button').forEach((b) => {
       b.onclick = () => {
         const p = places.find((x) => x.id === b.dataset.p);
