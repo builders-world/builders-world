@@ -461,6 +461,19 @@ live weather + sun ────────────────────�
 | First scene download | under 5 MB compressed | under 3 MB |
 | Time to playable | under 8 s on a mid-range phone connection (PRD) | same |
 
+### 10.1a Graphics settings (Elvis, 10 October 2026)
+
+Players choose how good the world looks against how fast it runs: Settings, Graphics, Quality. Auto is the default; it reads the graphics chip, memory and core count, errs low, and steps down a tier if the frame rate cannot hold even at the lowest resolution. Every tier keeps the flat illustrated look (7.1); higher tiers add light and shade, never surface noise.
+
+| Tier | Resolution | Edges | Light and shade | Distance |
+|---|---|---|---|---|
+| Low | 1x | none | no glow, 3 lamps at night | people 32 m, small things 80 m |
+| Medium | up to 1.25x | 2x smoothing | glow, 8 lamps | 45 m, 120 m |
+| High | up to 1.5x | 4x | sun shadows round you (45 m, fading at the edge), contact shading, 8x texture filtering, 14 lamps | 60 m, 170 m |
+| Ultra | up to 2x | 4x | longer, softer shadows (70 m), more contact shading, 16x filtering, sky reflections in glass and paint, 22 lamps | 95 m, 300 m |
+
+Shadows fade in with a strong sun and out under cloud, mist and at night; with shadows on, a little of the sky's fill goes to the sun so shade reads on pale paving. A frame-rate counter is in Settings. The resolution governor holds 60 fps inside every tier. Code: `src/look/quality.js`, `src/look/ao.js`.
+
 ### 10.2 Definition of done
 
 **An asset is done when:** it meets its budget, has collision and sockets, passes the validator, has a correct contact sheet with a 1.8 m reference, loads through GLTFLoader, and looks right at night in rain and in daylight.
