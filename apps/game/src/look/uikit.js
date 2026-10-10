@@ -187,6 +187,23 @@ export const ribbonSVG = (w = 360) => `<svg viewBox="0 0 ${w} 84" preserveAspect
 
 // shared CSS for paper surfaces and key chips
 export const KIT_CSS = `
+/* rows of buttons in dialogs (Elvis, 10 October 2026): every button is its own frame, with its own
+   hover; the row itself never lights up as one block. src/ui.js styles a list row as .row with a
+   hover background and padding, and the dialogs' button rows share the class name, so it is undone
+   here. In a row the buttons are the same width and height, side by side on one line, their label
+   and any icon centred. */
+body :is(#lk-reg, #lk-pets, #lk-food, #lk-gate, #lk-ask, #lk-pick, #lk-board, #lk-chess, #lkr, #lkm-wal, #lk-prof) .row { padding: 0; border-radius: 0; background: none; }
+body :is(#lk-reg, #lk-pets, #lk-food, #lk-gate, #lk-ask, #lk-pick, #lk-board, #lk-chess, #lkr, #lkm-wal, #lk-prof) .row:hover { background: none; }
+body :is(#lk-reg, #lk-pets, #lk-food, #lk-gate, #lk-ask, #lk-pick, #lk-board) .row { align-items: stretch; }
+body :is(#lk-reg, #lk-pets, #lk-food, #lk-gate, #lk-ask, #lk-pick, #lk-board) .row > button { flex: 1 1 0; min-width: 0; min-height: 46px; box-sizing: border-box; margin: 0;
+  display: inline-flex; align-items: center; justify-content: center; gap: 4px; line-height: 1.1; white-space: nowrap; transition: filter .12s ease, box-shadow .12s ease; }
+body :is(#lk-reg, #lk-pets, #lk-food, #lk-gate, #lk-ask, #lk-pick, #lk-board) .row > button svg { flex: none; vertical-align: middle; }
+body :is(#lk-reg, #lk-pets, #lk-food, #lk-gate, #lk-ask, #lk-pick, #lk-board) .row > button:hover:not([disabled]) { filter: brightness(1.06); box-shadow: inset 0 0 0 2px rgba(59,42,32,.14); }
+body :is(#lk-reg, #lk-pets, #lk-food, #lk-gate, #lk-ask, #lk-pick, #lk-board) .row > button:focus-visible { outline: 3px solid #f2b33d; outline-offset: 2px; }
+body :is(#lk-reg, #lk-pets) input[type=checkbox] { -webkit-appearance: none; appearance: none; flex: none; width: 22px; height: 22px; margin: 0; border: 2px solid #d9c9a6; border-radius: 7px; background: #fffaf0; display: grid; place-content: center; cursor: pointer; }
+body :is(#lk-reg, #lk-pets) input[type=checkbox]::after { content: ''; width: 10px; height: 6px; border: solid #fff; border-width: 0 0 3px 3px; transform: translateY(-1px) rotate(-45deg) scale(0); transition: transform .12s ease; }
+body :is(#lk-reg, #lk-pets) input[type=checkbox]:checked { background: #2a9d94; border-color: #2a9d94; } body :is(#lk-reg, #lk-pets) input[type=checkbox]:checked::after { transform: translateY(-1px) rotate(-45deg) scale(1); }
+body :is(#lk-reg, #lk-pets) input[type=checkbox]:focus-visible { outline: 3px solid #f2b33d; outline-offset: 2px; }
 /* a game, not a page (Elvis, 10 October 2026): nothing selects, no callout on a long press, no grey
    flash on a tap; text you type into still selects as normal */
 html, body, body * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
