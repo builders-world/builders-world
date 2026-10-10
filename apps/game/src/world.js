@@ -3,6 +3,7 @@ import { MeshBuilder, mulberry32 } from './mesh.js';
 import { BUILDERS, MONUMENTS, FLOOR_H, floorsFor, litProbability } from './builders.js';
 import { makeWindowMaterial, makeGlowMaterial, makeBeamMaterial } from './shaders.js';
 import { wetGroundMaterial, wallMaterial } from './look/surfaces.js';
+import { greenreyOn, EARTH } from './look/greenrey.js';
 import { instanceAsset, collidersFor, anchorAt } from './look/kit.js';
 import { makeClearance, fitStreets, band, streetFurniture, isFootway } from './look/streets.js';
 import { dressEstate, drawFence, fenceCollider, cutFence, WALK } from './look/houses.js';
@@ -274,7 +275,8 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   // --- static scene geometry ---
   const mb = new MeshBuilder();
   const gb = new MeshBuilder(); // ground surfaces get the wet street material
-  gb.box(0, -0.6, 0, R * 14, 0.6, R * 14, PAL.ground, { grad: 0, vary: 0 });
+  const baseGround = greenreyOn() ? EARTH : PAL.ground; // Greenrey: bare land is laterite, grass is painted where it belongs (look/greenrey.js)
+  gb.box(0, -0.6, 0, R * 14, 0.6, R * 14, baseGround, { grad: 0, vary: 0 });
 
   // roads: carriageways fitted between building lines, pavements on what is left, paint on main roads
   const kerbTris = [], roadTris = [], pathTris = [], paintTris = [], edgeTris = [], jointTris = [];
@@ -1069,7 +1071,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     roofs: blds.filter((b) => !plotIds.has(b) && b.top && b.pts.length >= 3).map((b) => ({ x: b.c[0], z: b.c[1], y: b.top, area: b.area, pts: b.pts })),
     blockedAt: (x, z, r = 0.35) => { const v = { x, z }; resolve(v, r); return Math.hypot(v.x - x, v.z - z) > 0.01; },
     // footprints of things that have no collider (a billboard face, a bridge deck, drains), for the layout audit
-    claims, claim: (c) => { claims.push(c); camBoxes.dirty = true; }, bridge: world_bridge, crossings, junctionAt, porchLamps,
+    claims, claim: (c) => { claims.push(c); camBoxes.dirty = true; }, groundColor: baseGround, roadColor: PAL.road, bridge: world_bridge, crossings, junctionAt, porchLamps,
     // the ground under someone's feet: steps, landings and decks they can reach (a 0.55 m step up at most)
     // surfaces placed after the world is built (a kit house's steps): you stand on them
     addWalkables: (list) => { list.forEach((w) => walkables.push(w)); },
