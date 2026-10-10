@@ -9,6 +9,7 @@ import { walletEngine, effortsMark, fmt } from './wallet.js';
 import { passesEngine } from './passes.js';
 import { PAD_MAP } from './input.js';
 import { LABEL } from './quality.js';
+import { WALLET_CSS, walletSVG } from './walletui.js';
 import { C, FONT, KIT_CSS, loadFont, pattern, backdropSVG, personFor, portraitSVG, figureSVG, art, appIcon, placeArt, ribbonSVG } from './uikit.js';
 
 const CSS = `${KIT_CSS}
@@ -225,10 +226,10 @@ const store = {
 const placeName = (world) => world.place?.name ?? 'Yaba';
 export function createMenus({ world, props, weatherFeed, getPlayer, getPath, snapToStreet, onRoute, onEquip, onPhoto, onRide, toast }) {
   const style = document.createElement('style');
-  style.textContent = CSS;
+  style.textContent = CSS + WALLET_CSS;
   document.head.appendChild(style);
   const root = document.createElement('div');
-  root.innerHTML = `<div id="lkm-dim"></div><div id="lkm-set" class="bw-paper" role="dialog" aria-label="Settings"></div><div id="lkm-wal" class="bw-paper" role="dialog" aria-label="Wallet"></div><div id="lkm-phone" role="dialog" aria-label="Phone"><div class="scr"></div></div>
+  root.innerHTML = `<div id="lkm-dim"></div><div id="lkm-set" class="bw-paper" role="dialog" aria-label="Settings"></div><div id="lkm-wal" class="wal2" role="dialog" aria-label="Wallet"></div><div id="lkm-phone" role="dialog" aria-label="Phone"><div class="scr"></div></div>
     <div id="lkm-map" role="dialog" aria-label="Map of ${placeName(world)}"></div><div id="lkm-bag" role="dialog" aria-label="Bag"></div>
     <div class="lkm-hints" hidden></div><div id="lkm-guide" role="dialog" aria-label="Controls"></div>
     <div id="lkm-tip"><span><b>Tab</b>Phone</span><span><b>M</b>Map</span><span><b>I</b>Bag</span><span><b>E</b>Interact</span><span><b>Shift</b>Run</span><span><b>Space</b>Jump</span><span><b>V</b>Camera</span><span><b>C</b>Travel</span><span><b>N</b>Music</span><span><b style="white-space:nowrap">1–6</b>Emote</span><span><b>Enter</b>Chat</span></div>`;
@@ -780,22 +781,35 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
 
   // ---------- wallet (and the ATM, which is the same wallet on a machine) ----------
   const wallet = walletEngine();
-  function openWallet({ atm = false } = {}) {
+  // the wallet: drawn open with your cards and cash; click it for the overview on a square sheet beside it
+  function openWallet({ atm = false, panel = atm } = {}) {
     const w = wallet;
     const hist = w.history.map((h) => `<li><span>${h.what}</span><b${h.earn ? ' class="in"' : ''}>${h.earn ? '+' : '−'}${effortsMark(12)}${fmt(h.amount)}</b></li>`).join('') || '<li class="none">Nothing spent or earned yet.</li>';
+    let cards = []; try { cards = passesEngine().cards(); } catch { /* */ }
     walEl.classList.toggle('atm', atm);
-    walEl.innerHTML = `<h3>${atm ? 'ATM' : 'Wallet'}<small>${atm ? 'Yaba Builders Bank' : 'Efforts, earned by shipping'}</small></h3>
-      <div class="bal">${effortsMark(40)}<b>${fmt(w.balance())}</b></div>
-      <p class="how">${w.demo ? `Demo balance: ${w.commits} commits. Link your GitHub and every commit you push is <span style="white-space:nowrap">${effortsMark(12)}1,000</span>.` : `${fmt(w.commits)} ${w.source === 'contributions' ? 'contributions' : 'commits'} in the last year on GitHub as <b>@${w.handle}</b>, at <span style="white-space:nowrap">${effortsMark(12)}1,000</span> each.`}</p>
-      <form class="gh"><input name="h" placeholder="GitHub username" value="${w.handle}" autocomplete="off" spellcheck="false" aria-label="GitHub username"><button class="bw-chip"><b>↵</b>${w.handle ? 'Update' : 'Link'}</button></form>
-      ${w.status ? `<p class="st">${w.status}</p>` : ''}
-      <h4>Spent</h4><ul>${hist}</ul>
-      <button class="bw-chip done"><b>Esc</b>Done</button>`;
-    walEl.querySelector('.gh').onsubmit = async (e) => { e.preventDefault(); await w.link(e.target.h.value); openWallet({ atm }); };
+    walEl.classList.toggle('panel', !!panel);
+    walEl.innerHTML = `<div class="wl" tabindex="0" role="button" aria-label="Open your wallet">${walletSVG({ cards, balance: fmt(w.balance()), mark: effortsMark(20, C.ink) })}<span class="tip">Click the wallet to see your balance</span></div>
+      <div class="wp"><div class="in">
+        <h3>${atm ? 'ATM' : 'Wallet'}<small>${atm ? 'Yaba Builders Bank' : 'Efforts, earned by shipping'}</small></h3>
+        <div class="bal">${effortsMark(32)}<b>${fmt(w.balance())}</b><small>${cards.length + 1} card${cards.length ? 's' : ''}<br>and cash</small></div>
+        <p class="how">${w.demo ? `Demo balance: ${w.commits} commits. Link your GitHub and every commit you push is <span style="white-space:nowrap">${effortsMark(11)}1,000</span>.` : `${fmt(w.commits)} ${w.source === 'contributions' ? 'contributions' : 'commits'} in the last year on GitHub as <b>@${w.handle}</b>, at <span style="white-space:nowrap">${effortsMark(11)}1,000</span> each.`}</p>
+        <form class="gh"><input name="h" placeholder="GitHub username" value="${w.handle}" autocomplete="off" spellcheck="false" aria-label="GitHub username"><button class="bw-chip"><b>↵</b>${w.handle ? 'Update' : 'Link'}</button></form>
+        ${w.status ? `<p class="st">${w.status}</p>` : ''}
+        <h4>Recent</h4><ul>${hist}</ul>
+        <div class="row"><button class="bw-chip back"><b>←</b>Wallet</button><button class="bw-chip done"><b>Esc</b>Done</button></div>
+      </div></div>`;
+    const wl = walEl.querySelector('.wl');
+    const toggle = () => { walEl.classList.toggle('panel'); sfx(walEl.classList.contains('panel') ? 'open' : 'close'); if (walEl.classList.contains('panel')) setTimeout(() => walEl.querySelector('.gh input')?.focus({ preventScroll: true }), 350); };
+    wl.onclick = toggle; wl.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } };
+    walEl.querySelector('.back').onclick = () => { walEl.classList.remove('panel'); wl.focus(); };
+    walEl.querySelector('.gh').onsubmit = async (e) => { e.preventDefault(); await w.link(e.target.h.value); openWallet({ atm, panel: true }); };
     walEl.querySelector('.done').onclick = close;
+    // a click on the empty space round the wallet puts it away
+    walEl.onclick = (e) => { if (e.target === walEl) close(); };
     show(walEl, null);
+    if (!panel) wl.focus({ preventScroll: true });
   }
-  wallet.onChange(() => { if (open === walEl) openWallet({ atm: walEl.classList.contains('atm') }); });
+  wallet.onChange(() => { if (open === walEl) openWallet({ atm: walEl.classList.contains('atm'), panel: walEl.classList.contains('panel') }); });
 
   return { key, close, isOpen: () => !!open, openPhone, openMap, openBag, openSettings, openWallet, showGuide, dispose };
 }
