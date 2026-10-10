@@ -14,6 +14,7 @@ import { onlineNow } from './online.js';
 import { WALLET_CSS, walletSVG, breakdown, moneySVG } from './walletui.js';
 import { cardArt } from './cardart.js';
 import { C, FONT, KIT_CSS, loadFont, pattern, backdropSVG, personFor, portraitSVG, figureSVG, art, appIcon, placeArt, ribbonSVG } from './uikit.js';
+import { createRadio } from './radio.js';
 
 const CSS = `${KIT_CSS}
 #lkm-dim { position: fixed; inset: 0; z-index: 30; background: rgba(34,28,20,.42); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
@@ -326,6 +327,8 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   dim.onclick = close;
 
   // ---------- phone ----------
+  let radioApp = null;
+  const radio = () => radioApp || (radioApp = createRadio({ city: world.place?.city || 'Lagos', toast }));
   const APPS = [
     ['Map', 'map', '#8ed3c4', () => openMap()],
     ['Bag', 'bag', '#f2c46b', () => openBag()],
@@ -338,6 +341,8 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     ['Aerial', 'aerial', '#c9e3f2', () => { close(); dispatchEvent(new KeyboardEvent('keydown', { key: 'b' })); }],
     ['Cities', 'globe', '#f4c98a', () => { close(); location.search = '?world=1&view=cities'; }],
     ['Fly', 'plane', '#bfe3f7', () => { close(); dispatchEvent(new Event('bw:fly')); }],
+    // the city's own FM stations, live (radio.js)
+    ['Radio', 'radio', '#f4b9a6', () => { close(); radio().open(); }],
     ['Weather', 'weather', '#aebcff', () => { const w = weatherFeed?.state; toast(w ? `${w.loc.label}: ${w.label}${w.tempC != null ? `, ${Math.round(w.tempC)}°C` : ''}. Updated every 10 minutes.` : 'Weather is loading.'); }],
     ['Pets', 'paw', '#c9e3a8', () => { close(); dispatchEvent(new Event('bw:shelter')); }],
     ['Wardrobe', 'hanger', '#f6c7b8', () => { close(); dispatchEvent(new Event('bw:wardrobe')); }],

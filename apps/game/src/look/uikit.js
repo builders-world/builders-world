@@ -170,6 +170,8 @@ const APP = {
   hanger: `<path d="M24 12a3.5 3.5 0 1 1 3.5-3.5" fill="none" stroke="${C.ink}" stroke-width="2.5" stroke-linecap="round"/><path d="M24 12v3M8 22l16-7 16 7" fill="none" stroke="${C.ink}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 20l-7 6 4 5 4-3v14h18V28l4 3 4-5-7-6-5-1a5 5 0 0 1-10 0z" ${G}/><path d="M21 19a3 3 0 0 0 6 0" fill="none" stroke="${C.paper}" stroke-width="2"/>`,
   // Sports: a basketball
   sport: `<circle cx="24" cy="24" r="16" fill="${C.coral}" stroke="${C.ink}" stroke-width="3.5"/><path d="M8 24h32M24 8v32M12.5 12.5c6 5 6 18 0 23M35.5 12.5c-6 5-6 18 0 23" fill="none" stroke="${C.ink}" stroke-width="2.5"/>`,
+  // Radio: a transistor radio with its dial and aerial
+  radio: `<path d="M14 14L34 6" stroke="${C.ink}" stroke-width="3" stroke-linecap="round"/><rect x="6" y="14" width="36" height="26" rx="6" ${G}/><circle cx="16" cy="27" r="6.5" ${L}/><circle cx="16" cy="27" r="2.4" fill="${C.coral}"/><rect x="26" y="20" width="12" height="6" rx="1.5" fill="${C.amber}"/><path d="M26 31h12M26 35h12" stroke="${C.paper}" stroke-width="2.4" stroke-linecap="round"/>`,
   help: `<path d="M8 10h32v22H22l-8 7v-7H8z" ${G} stroke="${C.ink}" stroke-width="2" stroke-linejoin="round"/><path d="M20 17a4 4 0 1 1 5 4c-1 1-1 2-1 3" fill="none" stroke="${C.paper}" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="28" r="1.8" ${L}/>`,
 };
 export const appIcon = (id) => `<svg viewBox="0 0 48 48" width="44" height="44" aria-hidden="true">${APP[id] || ''}</svg>`;
