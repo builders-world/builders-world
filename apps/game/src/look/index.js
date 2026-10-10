@@ -23,6 +23,7 @@ import { createPets } from './pets.js';
 import { createFood } from './food.js';
 import { createTraffic } from './traffic.js';
 import { buildFlyover } from './flyover.js';
+import { buildRoadSigns } from './roadsigns.js';
 import { buildGreenrey } from './greenrey.js';
 import { createStreetLife } from './streetlife.js';
 import { createMobility } from './mobility.js';
@@ -281,6 +282,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   addEventListener('bw:spotify', () => { if (spotify.connected) { spotify.disconnect(); hud.toast('Spotify disconnected.', 1800); } else spotify.connect().then((ok) => { if (!ok) hud.toast('Spotify sign-in is not set up yet: it needs a Spotify app ID.', 3600); }); });
   const flyover = buildFlyover({ world, scene: group });
   traffic = createTraffic({ world, scene: group, flyover, reduced, lowQuality: quality === 'low', getPeople: () => [...lives.residents.filter((r) => r.obj.visible).map((r) => r.obj.position), ...(slife?.walkers || []).map((w) => w.obj.position)] });
+  // direction boards, speed limits, school and pedestrian zones that slow the cars (roadsigns.js)
+  try { buildRoadSigns({ world, scene: group, traffic, landmarks }); } catch (err) { console.warn('road signs skipped', err); }
   food = createFood({ scene: group, props, world, toast: hud.toast, getEnv: () => live, reduced, addLamps: (l) => { props.lamps.push(...l); lights?.setLamps([...world.lamps, ...props.lamps, ...(world.porchLamps || [])]); } });
   pets = createPets({ scene: group, camera, world, toast: hud.toast, isIndoors: () => !!interiors?.active });
   petIt = { id: 'pet', label: 'Pet', x: 0, z: 0, r: 0 }; props.interact.push(petIt);

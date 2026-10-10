@@ -217,6 +217,8 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
     cars.forEach((c, k) => {
       const p = P[k];
       let want = c.max;
+      // school and pedestrian zones (roadsigns.js): their limit, whatever the road allows
+      for (const Z of world.slowZones || []) if ((p.x - Z.x) ** 2 + (p.z - Z.z) ** 2 < Z.r * Z.r) want = Math.min(want, Z.limit);
       const toEnd = c.e.L - c.s;
       // red or amber at the junction ahead: stop at the line
       const sig = sigAt.get(c.e.to);
