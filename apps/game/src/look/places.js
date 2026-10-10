@@ -77,6 +77,9 @@ export function buildPlaceFronts({ world, scene, keys, used, addLamps }) {
       if (open) { at = c; ry = r; }
     }
     if (!at) return;
+    // the building is turned to face the road, so what it covers is wider than the box findSite kept:
+    // keep its whole turned footprint (and the canopy) for itself, or a park can land in its corner
+    const u = used.find((q) => q.x === at.x && q.z === at.z); if (u) { const cs = Math.abs(Math.cos(ry)), sn = Math.abs(Math.sin(ry)); u.W = W * cs + (D + 4) * sn + 2; u.D = W * sn + (D + 4) * cs + 2; }
     const fx = Math.sin(ry), fz = Math.cos(ry);
     const b = storefront(key); b.position.set(at.x, 0, at.z); b.rotation.y = ry; group.add(b);
     world.addColliders([{ name: `place_${key}`, cx: at.x, cz: at.z, hx: W / 2, hz: D / 2, ry, h: H + 1.8 }]);

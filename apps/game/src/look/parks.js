@@ -170,7 +170,9 @@ export function findSite(world, used, W, D) {
     const a = (k / 20) * Math.PI * 2 + r * 0.37, x = world.spawn.x + Math.cos(a) * r, z = world.spawn.z + Math.sin(a) * r;
     if (Math.hypot(x, z) > world.radius * 0.9 || used.some((u) => Math.abs(u.x - x) < (u.W + W) / 2 + 3 && Math.abs(u.z - z) < (u.D + D) / 2 + 3)) continue;
     let ok = true;
-    for (let u = -W / 2; u <= W / 2 && ok; u += 1.5) for (let v = -D / 2; v <= D / 2 && ok; v += 1.5) if (!free(x + u, z + v)) ok = false;
+    // samples at most 1.5 m apart that always include the far edges (a fixed 1.5 m step could stop short of them)
+    const su = W / Math.ceil(W / 1.5), sv = D / Math.ceil(D / 1.5);
+    for (let u = -W / 2; u <= W / 2 + 1e-6 && ok; u += su) for (let v = -D / 2; v <= D / 2 + 1e-6 && ok; v += sv) if (!free(x + u, z + v)) ok = false;
     if (ok) { used.push({ x, z, W, D }); return { x, z }; }
   }
   return null;
