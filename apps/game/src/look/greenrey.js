@@ -5,6 +5,7 @@ import { signTexture } from './props.js';
 import { vehicle } from './traffic.js';
 import { mulberry32 } from '../mesh.js';
 import { clayTreeGeometry } from './props.js';
+import { bayLayout, drawAccessibleBay, drawParkSign, BAY_D } from './parking.js';
 
 // Greenrey (Elvis's name for this change, 10 October 2026, so it can be tracked and switched off as one):
 // grass only where it belongs. The narrow gaps between buildings stay grass; every large piece of open
@@ -165,6 +166,12 @@ export function buildGreenrey({ renderer, scene, world, group, park = null }) {
     const n = Math.min(3, Math.floor(z.area / 900));
     for (let k = 0; k < n && plots.length < 12; k++) { const w = 16 + Math.floor(rnd() * 3) * 2, d = 14 + Math.floor(rnd() * 2) * 2; const p = placeRect(z, w, d, 2.5, 2); if (p) plots.push({ ...p, w, d, kind: plots.length }); }
   });
+  // car parks all round the district (Elvis, 10 October 2026): the larger green spaces on a road give
+  // up a strip of their frontage to parking, so there is somewhere to leave a car on every side
+  zones.filter((z) => z.use === 'green' && z.area > 1200 && z.cells.some((c) => dRoad[c] < 3)).sort((a, b) => b.area - a.area).forEach((z) => {
+    if (parks.length >= 24) return;
+    for (const len of [25, 17.5, 12.5]) { const p = placeRect(z, len, 11, 1.5, 0.5); if (p) { parks.push({ ...p, len, green: true }); break; } }
+  });
 
   // ---------- 4. the ground: each surface traced smooth from the cells (marching squares) ----------
   const surface = (pick, color, y, vary = 0) => {
@@ -233,21 +240,27 @@ export function buildGreenrey({ renderer, scene, world, group, park = null }) {
 
   // ---------- 5. car parks: a concrete apron, painted bays, a few cars ----------
   const paint = [], apron = [];
+  let accessible = 0;
   parks.forEach((p, n) => {
     const cs = Math.cos(p.ang), sn = Math.sin(p.ang), at = (u, v) => [p.x + u * cs + v * sn, p.z - u * sn + v * cs];
     const front = Math.cos(p.face - p.ang) > 0 ? 1 : -1; // the road is on this side of v
     const a = box(p.len, 0.04, 11, 0, 0.03, 0); a.rotateY(p.ang); a.translate(p.x, 0, p.z); apron.push(a);
-    // bays at the back, 5 m deep; the aisle between them and the road
-    const bays = Math.floor(p.len / 2.5);
-    for (let b = 0; b <= bays; b++) { const [x, z] = at(-p.len / 2 + b * 2.5, -front * 3); const l = box(0.1, 0.02, 5, 0, 0.06, 0); l.rotateY(p.ang); l.translate(x, 0, z); paint.push(l); }
+    // bays at the back, 5 m deep; the aisle between them and the road. The accessible bays come first,
+    // each with its hatched transfer zone, a blue badge sign at its head (parking.js)
+    const layout = bayLayout(p.len), edges = new Set();
+    layout.forEach((b) => { edges.add(+(b.u - b.w / 2).toFixed(2)); edges.add(+(b.u + b.w / 2).toFixed(2)); if (b.transfer) edges.add(+(b.transfer.u + b.transfer.w / 2).toFixed(2)); });
+    edges.forEach((u) => { const [x, z] = at(u, -front * 3); const l = box(0.1, 0.02, BAY_D, 0, 0.06, 0); l.rotateY(p.ang); l.translate(x, 0, z); paint.push(l); });
     { const [x, z] = at(0, -front * 0.5); const l = box(p.len, 0.02, 0.1, 0, 0.06, 0); l.rotateY(p.ang); l.translate(x, 0, z); paint.push(l); }
-    // cars in about half the bays, nosed in
-    for (let b = 0; b < bays; b++) {
-      if (rnd() > 0.55) continue;
-      const kind = ['saloon', 'hatch', 'suv', 'taxi', 'saloon', 'pickup'][Math.floor(rnd() * 6)], car = vehicle(kind, n * 7 + b);
-      const [x, z] = at(-p.len / 2 + b * 2.5 + 1.25, -front * 3); car.position.set(x, 0, z); car.rotation.y = p.ang + (front > 0 ? Math.PI : 0);
+    layout.filter((b) => b.acc).forEach((b) => { const s = drawAccessibleBay(out, { at, ang: p.ang, bay: b, v0: -front * 3, front }); cols.push({ name: 'sign_post', cx: s.x, cz: s.z, hx: 0.08, hz: 0.08, ry: 0 }); accessible++; });
+    // the P sign at the corner on the street side
+    { const [x, z] = at(-p.len / 2 + 0.3, front * 4.9); drawParkSign(out, x, z, p.ang + Math.PI / 2); cols.push({ name: 'sign_post', cx: x, cz: z, hx: 0.08, hz: 0.08, ry: 0 }); }
+    // cars in about half the ordinary bays, nosed in; the odd accessible bay taken by someone with a badge
+    layout.forEach((b, k) => {
+      if (rnd() > (b.acc ? 0.25 : 0.55)) return;
+      const kind = ['saloon', 'hatch', 'suv', 'taxi', 'saloon', 'pickup'][Math.floor(rnd() * 6)], car = vehicle(b.acc ? 'hatch' : kind, n * 7 + k);
+      const [x, z] = at(b.u, -front * 3); car.position.set(x, 0, z); car.rotation.y = p.ang + (front > 0 ? Math.PI : 0);
       out.add(car); cols.push({ name: 'parked_car', cx: x, cz: z, hx: 1.0, hz: 2.3, ry: car.rotation.y, h: 1.5 });
-    }
+    });
     claims.push({ kind: 'car_park', cx: p.x, cz: p.z, hx: p.len / 2, hz: 5.5, ry: p.ang });
   });
   if (apron.length) out.add(new THREE.Mesh(mergeGeometries(apron), new THREE.MeshStandardMaterial({ color: 0xbdb6a7, roughness: 0.9, polygonOffset: true, polygonOffsetFactor: -1 })));
@@ -301,6 +314,6 @@ export function buildGreenrey({ renderer, scene, world, group, park = null }) {
 
   world.addColliders?.(cols);
   claims.forEach((c) => world.claim?.(c));
-  const sum = { open: zones.filter((z) => z.use !== 'grass').reduce((a, z) => a + z.area, 0), laterite: zones.filter((z) => z.use === 'laterite').reduce((a, z) => a + z.area, 0), green: zones.filter((z) => z.use === 'green').reduce((a, z) => a + z.area, 0), trees: treeSpots.length, paving: zones.filter((z) => z.use === 'paving').length, plots: plots.length, carParks: parks.length };
+  const sum = { open: zones.filter((z) => z.use !== 'grass').reduce((a, z) => a + z.area, 0), laterite: zones.filter((z) => z.use === 'laterite').reduce((a, z) => a + z.area, 0), green: zones.filter((z) => z.use === 'green').reduce((a, z) => a + z.area, 0), trees: treeSpots.length, paving: zones.filter((z) => z.use === 'paving').length, plots: plots.length, carParks: parks.length, accessibleBays: accessible, carParkSpots: parks.map((p) => ({ x: p.x, z: p.z, ang: p.ang, face: p.face, len: p.len })) };
   return { group: out, summary: sum };
 }
