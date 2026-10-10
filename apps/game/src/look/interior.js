@@ -7,6 +7,7 @@ import { buildCafe, buildGym, buildBank } from './venues.js';
 import { BUILDERS } from '../builders.js';
 import { mulberry32 } from '../mesh.js';
 import { buildPlayerHome, HOME_LINES } from './rooms.js';
+import { decorate, DECOR_LINES } from './decor.js';
 import { walletEngine, effortsMark, fmt } from './wallet.js';
 import { session } from '../session.js';
 
@@ -380,8 +381,10 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
       ...desks.map((d, i) => (used.has(i) ? null : { id: `in:desk:${i}`, label: 'Sit at this desk', x: d.x, z: d.z + 1.0, r: 1.3, desk: d })).filter(Boolean),
     ];
 
+    // and what makes this place itself (decor.js)
+    const own = decorate(key, { g, block, interact, H });
     scene.add(g);
-    return { key, group: g, colliders, interact, door, window, sun, people, desks };
+    return { key, group: g, colliders, interact, door, window, sun, people, desks, tick: own?.tick };
   }
 
   // ---------- a home: what you see when someone who lives here invites you in ----------
@@ -535,6 +538,7 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
     if (best.id === 'in:exit') return { exit: true };
     if (best.id === 'in:host') { const h = current.host; const lines = h.pidgin ? ['You go take Zobo or Chapman? Siddon, make yourself comfortable.', `Abeg no mind the place. ${h.kids?.length ? `${h.kids[0]} scatter am this morning.` : 'Na small house but e sweet.'}`, `Me? I dey hustle: ${h.dream.toLowerCase()}.`] : ['Can I get you some Zobo? Or Chapman? Sit, sit.', `Sorry about the mess. ${h.kids?.length ? `${h.kids[0]} was busy this morning.` : 'It is small, but it is home.'}`, `My dream? ${h.dream}.`]; current.lineAt = ((current.lineAt ?? -1) + 1) % lines.length; toast(`${h.first}: "${lines[current.lineAt]}"`, 4500); return { handled: true }; }
     if (best.id === 'in:wardrobe') { dispatchEvent(new Event('bw:wardrobe')); return { handled: true }; }
+    if (DECOR_LINES[best.id]) { const l = DECOR_LINES[best.id]; toast(l[Math.floor(Math.random() * l.length)], 3400); return { handled: true }; }
     if (HOME_LINES[best.id]) { const l = HOME_LINES[best.id]; toast(l[Math.floor(Math.random() * l.length)], 3200); return { handled: true }; }
     if (best.id === 'in:rest') { toast(['Home sweet home.', 'The fan hums. Yaba is loud outside and quiet in here.', 'You could get used to this.'][Math.floor(Math.random() * 3)], 3000); return { handled: true }; }
     if (best.id === 'in:photos') { const h = current.host; toast(`Family photos: ${[h.spouse && `${h.first} and ${h.spouse} on their wedding day`, h.kids?.length && `${h.kids.join(' and ')}`, 'a beach day at Elegushi', 'a graduation in Akoka'].filter(Boolean).join(', ')}.`, 5200); return { handled: true }; }
