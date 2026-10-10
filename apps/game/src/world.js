@@ -154,6 +154,14 @@ function dashes(out, pts, y, len = 2.4, gap = 5.2, w = 0.26) {
   }
 }
 
+// a bicycle painted on the road, about 1.5 m long, heading (tx, tz): two wheels and the frame
+function bikeStencil(out, x, z, tx, tz, y) {
+  const S = 1.5, nx = -tz, nz = tx, P = (u, v) => [x + (tx * u + nx * v) * S, z + (tz * u + nz * v) * S];
+  [-0.48, 0.48].forEach((cu) => { const ring = []; for (let k = 0; k <= 14; k++) { const a = (k / 14) * Math.PI * 2; ring.push(P(cu + Math.cos(a) * 0.27, Math.sin(a) * 0.27)); } ribbon(out, ring, 0.09, y); });
+  [[[-0.48, 0], [-0.1, 0]], [[-0.1, 0], [0.3, 0]], [[-0.48, 0], [-0.02, 0.0]], [[0.48, 0], [0.3, 0]], [[0.3, 0], [0.36, 0.2]], [[0.36, 0.2], [0.36, -0.2]], [[-0.1, 0], [-0.2, 0.14]], [[-0.3, 0.14], [-0.1, 0.14]]]
+    .forEach(([a, b]) => ribbon(out, [P(a[0], a[1]), P(b[0], b[1])], 0.1, y));
+}
+
 function samplePolyline(pts, step) {
   const out = [];
   let acc = 0;
@@ -279,7 +287,15 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   gb.box(0, -0.6, 0, R * 14, 0.6, R * 14, baseGround, { grad: 0, vary: 0 });
 
   // roads: carriageways fitted between building lines, pavements on what is left, paint on main roads
-  const kerbTris = [], roadTris = [], pathTris = [], paintTris = [], edgeTris = [], jointTris = [];
+  const kerbTris = [], roadTris = [], pathTris = [], paintTris = [], edgeTris = [], jointTris = [], cycleTris = [];
+  // cycle lanes on the highways (Elvis, 10 October 2026: "a section for cycling and for pedestrians"): a green
+  // lane at each kerb, 1.55 m, behind a solid white line, a bicycle painted every 30 m; the pavement beside it
+  // stays for people on foot (no cycling there, look/cycling.js puts up the signs and keeps bikes off it)
+  const cycleLanes = [], CYCLE_CLS = ['motorway', 'trunk', 'primary'], CYCLE_MIN_HALF = 5.2;
+  // a dual carriageway is two roads side by side: the lane goes at the outer kerb only, never by the median
+  const carriageSegs = [];
+  roads.forEach((r) => { if (!r.fit || isFootway(r)) return; const { pts, half } = r.fit; for (let k = 0; k < pts.length - 1; k++) carriageSegs.push({ r, ax: pts[k][0], az: pts[k][1], bx: pts[k + 1][0], bz: pts[k + 1][1], h: Math.max(half[k], half[k + 1]) }); });
+  const otherRoadAt = (x, z, own) => carriageSegs.some((c) => { if (c.r === own) return false; const dx = c.bx - c.ax, dz = c.bz - c.az, L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((x - c.ax) * dx + (z - c.az) * dz) / L2)); return Math.hypot(x - c.ax - dx * u, z - c.az - dz * u) < c.h + 0.3; });
   const crossings = [];
   // where streets meet: a point another fitted road also passes through (within 1.5 m)
   const nodeUse = new Map();
@@ -325,6 +341,27 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     if (minHalf >= 2.8) dashes(paintTris, pts, 0.17, 2.4, 4.2, 0.16);
     if (minHalf >= 5.6) [-1, 1].forEach((sg) => dashes(paintTris, pts.map((p, i) => [p[0] + nrm[i][0] * half[i] * 0.5 * sg, p[1] + nrm[i][1] * half[i] * 0.5 * sg]), 0.17, 1.6, 4.6, 0.13));
     if (['primary', 'secondary', 'trunk', 'motorway', 'tertiary'].includes(r.cls)) [-1, 1].forEach((sg) => ribbon(paintTris, pts.map((p, i) => [p[0] + nrm[i][0] * (half[i] - 0.35) * sg, p[1] + nrm[i][1] * (half[i] - 0.35) * sg]), 0.12, 0.17));
+    if (CYCLE_CLS.includes(r.cls) && !/flyover|bridge/i.test(r.name || '') && !r.bridge) [1, -1].forEach((sg) => {
+      // runs of the road wide enough for it, stopping short of each junction
+      let run = [];
+      const flush = () => {
+        if (run.length > 1) {
+          const at = (off) => run.map((i) => [pts[i][0] + nrm[i][0] * (half[i] - off) * sg, pts[i][1] + nrm[i][1] * (half[i] - off) * sg]);
+          const mid = at(1.225), len = mid.reduce((a, q, k) => a + (k ? Math.hypot(q[0] - mid[k - 1][0], q[1] - mid[k - 1][1]) : 0), 0);
+          if (len > 12) {
+            ribbon(cycleTris, mid, 1.55, 0.16);
+            ribbon(paintTris, at(2.05), 0.12, 0.17);
+            samplePolyline(mid, 30).forEach((q) => bikeStencil(paintTris, q.x, q.z, q.tx, q.tz, 0.17));
+            cycleLanes.push({ road: r, sg, pts: mid, len, outer: run.map((i) => half[i]), idx: run.slice() });
+            const side = (r.fit.cycle ||= { 1: new Set(), [-1]: new Set() })[sg]; run.forEach((i) => side.add(i));
+          }
+        }
+        run = [];
+      };
+      const pv = sg > 0 ? paveL : paveR;
+      pts.forEach((p, i) => { const o = half[i] + Math.max(pv[i], 0) + 1.2; if (half[i] < CYCLE_MIN_HALF || nearJ(i) || otherRoadAt(p[0] + nrm[i][0] * o * sg, p[1] + nrm[i][1] * o * sg, r)) { flush(); return; } run.push(i); });
+      flush();
+    });
     // zebra crossings just before each junction, so people cross where drivers expect them
     if (minHalf >= 2.8) [0, pts.length - 1].forEach((end) => {
       if (!junctionAt(pts[end], r)) return;
@@ -356,6 +393,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   if (jointTris.length) gb.raw(jointTris, '#b9b19e');
   if (pathTris.length) gb.raw(pathTris, PAL.path);
   if (roadTris.length) gb.raw(roadTris, PAL.road);
+  if (cycleTris.length) gb.raw(cycleTris, '#4e9a64');
   if (paintTris.length) gb.raw(paintTris, PAL.paint);
 
   // unclaimed buildings: each map footprint is a lot with a house set back on a lawn, behind a
@@ -1077,7 +1115,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     roofs: blds.filter((b) => !plotIds.has(b) && b.top && b.pts.length >= 3).map((b) => ({ x: b.c[0], z: b.c[1], y: b.top, area: b.area, pts: b.pts })),
     blockedAt: (x, z, r = 0.35) => { const v = { x, z }; resolve(v, r); return Math.hypot(v.x - x, v.z - z) > 0.01; },
     // footprints of things that have no collider (a billboard face, a bridge deck, drains), for the layout audit
-    claims, claim: (c) => { claims.push(c); camBoxes.dirty = true; }, groundColor: baseGround, roadColor: PAL.road, bridge: world_bridge, bridges: worldBridges, flyoverPlan, crossings, junctionAt, porchLamps,
+    claims, claim: (c) => { claims.push(c); camBoxes.dirty = true; }, groundColor: baseGround, roadColor: PAL.road, bridge: world_bridge, bridges: worldBridges, cycleLanes, flyoverPlan, crossings, junctionAt, porchLamps,
     // the ground under someone's feet: steps, landings and decks they can reach (a 0.55 m step up at most)
     // surfaces placed after the world is built (a kit house's steps): you stand on them
     addWalkables: (list) => { list.forEach((w) => walkables.push(w)); },

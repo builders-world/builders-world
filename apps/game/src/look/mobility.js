@@ -93,7 +93,15 @@ export function createMobility({ world, scene, props, avatar, toast, used = [], 
     if (on) mount(id === 'skateboard' ? 'skate' : 'skates'); else if (mode === (id === 'skateboard' ? 'skate' : 'skates')) { unmount(true); if (carry.skate) mount('skate'); else if (carry.skates) mount('skates'); }
   }
   // speed: a bike is quick, a board quicker than walking, skates in between
-  const pace = (running) => (mode === 'bike' ? (running ? 9 : 6.5) : mode === 'skate' ? (running ? 7 : 5) : mode === 'skates' ? (running ? 6.5 : 4.5) : null);
+  // on a pavement beside a cycle lane, or up on a footbridge, you get off and walk the bike (cycling.js)
+  let walkedAt = -99; const here = new THREE.Vector3();
+  const walking = () => {
+    if (mode !== 'bike' || !world.noCycling) return false;
+    avatar.getWorldPosition(here); if (!world.noCycling(here.x, here.z, here.y - 0.32)) return false;
+    const now = performance.now() / 1000; if (now - walkedAt > 12) toast('No cycling here: you walk the bike. Ride in the green cycle lane or on the road.', 3200); walkedAt = now;
+    return true;
+  };
+  const pace = (running) => (mode === 'bike' && walking() ? 1.9 : mode === 'bike' ? (running ? 9 : 6.5) : mode === 'skate' ? (running ? 7 : 5) : mode === 'skates' ? (running ? 6.5 : 4.5) : null);
   // the pose over the rig: pedalling, or one foot pushing
   let t = 0;
   function pose(rig, dt, speed, indoors) {
