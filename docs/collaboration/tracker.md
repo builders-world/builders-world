@@ -1,6 +1,6 @@
 # Builders World: request tracker
 
-Every request Elvis has made, with where it stands. Updated 9 October 2026, 17:40 WAT, by Claude. Whoever finishes or starts an item updates its row in the same commit.
+Every request Elvis has made, with where it stands. Updated 10 October 2026, 10:50 WAT, by Claude. Whoever finishes or starts an item updates its row in the same commit.
 
 ## Where to see the work
 
@@ -101,7 +101,13 @@ Every request Elvis has made, with where it stands. Updated 9 October 2026, 17:4
 | 79 | Grass too detailed, too many trees; the flat onboarding look; more vibrant colour | Done, pushed: flat ground back, one tree per 22 m on open land, brighter sky, grass and grade | yaba-scene `src/look/surfaces.js`, `district.js`, `main.js` | `50ef444` |
 | 80 | Popular Yaba landmarks in the map | Done, pushed: Yaba Tech gate and college, UNILAG gate, CcHub, Tejuosho Market, E-Centre, Queen's College, St. Dominic's, the National Stadium on the skyline; each toward its real bearing, with a fact and a map pin | yaba-scene `src/look/landmarks.js` | `a5780cd` |
 | 81 | Better lighting and textures; graphics settings by device; performance | Done, pushed: Auto, Low, Medium, High, Ultra in Settings (Auto reads graphics chip, memory, cores and steps down if it cannot hold the frame rate); High and Ultra: sun shadows, contact shading, sharper textures, more lamps, longer view; Ultra: full Retina sharpness, sky reflections; frame-rate counter. On an M4 at Retina: Low, Medium, High 60 fps, Ultra about 31 | yaba-scene `src/look/quality.js`, `look/ao.js`, `main.js` | `6d3d537` |
-| 82 | Sports centre (tennis, basketball, padel), indoor arena (swimming, indoor sports), chess with people; all playable with real rules | In progress (Claude) | yaba-scene | |
+| 82 | Sports centre (tennis, basketball, padel), indoor arena (swimming, indoor sports), chess with people; all playable with real rules | Done, pushed: tennis, padel doubles, table tennis on one physics engine (service boxes, faults, lets, deuce, tiebreaks, change of ends); basketball one on one to 11 (real rim and backboard, check, take it back, blocks, steals); 50 and 100 m freestyle (one-start rule, turns); Chess Corner (chess.js rules, three AI regulars, two on one keyboard, online invites); Aquatic and Indoor Arena with a sunken 25 m pool | yaba-scene `src/look/sports/` | `b40a4b2` |
+| 83 | Phone: duplicate icons; pages you cannot reach | Done, pushed: unique icons (drone, globe, paw, hanger, ball), a Sports app, pages by dots, swipe, wheel or arrow keys | yaba-scene `src/look/menus.js`, `uikit.js` | `9b42da8` |
+| 84 | Ultra at 30 fps or better | Done, pushed: Ultra keeps full sharpness above 30 fps, 2x edge smoothing, shadows at 30 Hz, no glow by day, half-size glow on sharp screens; under load ultra 15 to 33 fps, high 37 to 60 | yaba-scene `src/main.js`, `look/quality.js` | `5835a2f` |
+| 85 | Wallet as an illustrated wallet with cards and cash; square overview beside it | Done, pushed: leather bifold, cards rise from slots, Efforts notes and coins; click for the square overview | yaba-scene `src/look/walletui.js`, `menus.js` | `6efcf00` |
+| 86 | Start inside your own home (new players); returning players at home or the last known place; a multi-room home (Sims, GTA, LEGO Fortnite) with a workspace, a lab and a studio | Paused by Elvis (10 October) while a collaborator builds the database: designed, no code written. Plan in Claude's memory | yaba-scene `src/look/interior.js` (planned `rooms.js`) | |
+| 87 | Different interiors for each building: dev hub, design studio, loft, cafe | Paused by Elvis (10 October): designed, no code written | yaba-scene `src/look/interior.js` | |
+| 88 | A database for the game | Elvis's collaborator, on a branch from `main` (Claude paused) | | |
 | 48 | Bench building animation with hard hat and tools | Done, pushed: two builders in hard hats, hammer and saw, legs, slats, backrest with sawdust; you wear a hard hat; sittable | yaba-scene `src/look/build.js` | `4587d73` |
 | 57 | Roadside vendors and a little street chaos; random events; police stations; city traffic control | Done, pushed: hawkers at red lights, daily events (breakdown, football, owambe), Yaba Police Division, 7 signal junctions, a LASTMA officer | yaba-scene `src/look/streetlife.js`, `traffic.js` | `724761a`, `91f8fe8` |
 | 58 | Passenger cars, several designs; taxi and danfo roof signs | Done, pushed: saloon, hatch, SUV, pickup, taxi (TAXI sign), danfo (route board), keke, BRT, on real routes | yaba-scene `src/look/traffic.js` | `91f8fe8` |
