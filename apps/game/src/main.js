@@ -314,6 +314,8 @@ async function main() {
     chrome.unpin();
     // ground click: walk there, or from the aerial view cut down to that spot
     const hit = ray.intersectObjects([world.pick, world.solids], false)[0];
+    // from the air a roof or a wall is a fine place to aim: you come down on the nearest street to it
+    if (hit && hit.point.y > 0.5 && cam.aerial && world.nearestReachable) { const q = world.nearestReachable(hit.point.x, hit.point.z); if (q) { cut(() => { player.set(q.x, 0, q.z); onStreetGround(player); setAerial(false); snap = true; }); return; } }
     if (!hit || hit.point.y > 0.5) { chrome.toast('Click the street to walk there'); return; }
     pt.copy(hit.point);
     if (Math.hypot(pt.x, pt.z) > world.radius * 1.05) return;
