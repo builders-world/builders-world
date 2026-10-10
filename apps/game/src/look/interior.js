@@ -465,6 +465,9 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
 
   // ---------- inside: walking, sitting, the laptop ----------
   let seated = null, laptop = null;
+  // a room may be drawn larger than it is built (your home: rooms.js HOME_S, HOME_SY); positions convert through these
+  const sc = () => current?.S ?? 1, scy = () => current?.SY ?? 1;
+  const toLocal = (px, pz) => ({ x: (px - ORIGIN.x) / sc(), z: (pz - ORIGIN.z) / sc() });
   const laptopMat = new THREE.MeshStandardMaterial({ color: 0x9aa3b2, roughness: 0.35, metalness: 0.6 });
   const laptopScreen = new THREE.MeshBasicMaterial({ map: codeScreen(SNIPPET) });
 
@@ -480,7 +483,7 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
       fade.style.opacity = '0';
       sfx('door');
       toast(key === 'airport' ? `${current.A.name}. Departures on the left: check in, security, ${'passport control'}, your gate. Arrivals on the right.` : key === 'cabin' ? 'Boarding complete. Find your seat by the window.' : key === 'immigration' ? `${PLACES.immigration.name}. Take a number: counter 1 for passports, 2 for travel authorisations; the board on the left shows where you can fly.` : key === 'cafe' ? 'Kofo Cafe. Order at the counter, or take a table and work. The Wi-Fi is on the menu board.' : key === 'gym' ? 'Yaba Fitness. Treadmills, weights, the bag. First visit is on the house.' : key === 'bank' ? 'Yaba Builders Bank. Join the queue for a teller, or ask about a loan.' : key === 'myhome' ? `Home sweet home: ${host.addr}. Living room, kitchen and bedroom at the front; your workspace, lab and studio at the back.` : key === 'home' ? `${host.first}'s home. ${host.pidgin ? 'Make yourself at home o.' : 'Make yourself at home.'}` : `${PLACES[key].name}. ${PLACES[key].kind}. Find a free desk, or grab something at the cafeteria.`, 4500);
-      res({ x: ORIGIN.x + current.door.x, z: ORIGIN.z + current.door.z - 1.5, yaw: Math.PI });
+      res({ x: ORIGIN.x + current.door.x * sc(), z: ORIGIN.z + (current.door.z - 1.5) * sc(), yaw: Math.PI });
     }, reduced ? 0 : 360));
   }
 
@@ -508,7 +511,7 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
     laptop.position.set(desk.x, 0, desk.z);
     laptop.userData.lid = lid;
     current.group.add(laptop);
-    return { x: ORIGIN.x + desk.x, z: ORIGIN.z + desk.z + 0.55, yaw: Math.PI };
+    return { x: ORIGIN.x + desk.x * sc(), z: ORIGIN.z + (desk.z + 0.55) * sc(), yaw: Math.PI, seatY: (current.seatY ?? 0.46) * scy() };
   }
   function stand() { signOut(true); if (seated) seated.paid = false; seated = null; laptop?.removeFromParent(); laptop = null; closeComputer(); }
   const lidOpen = () => !!laptop && laptop.userData.lid.rotation.x < 1.0;
@@ -532,7 +535,7 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
   // E inside: returns an action for the caller (walk out, sit, open laptop) or handles it here
   function use(px, pz) {
     if (!current) return null;
-    const x = px - ORIGIN.x, z = pz - ORIGIN.z;
+    const { x, z } = toLocal(px, pz);
     if (seated) {
       if (desk) { if (desk.signedIn) openComputer(); else openLock(); return { handled: true }; }
       const lid = laptop.userData.lid;
@@ -541,7 +544,7 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
       return { handled: true };
     }
     let best = null, bd = Infinity;
-    current.interact.forEach((it) => { const d = Math.hypot(it.x - x, it.z - z); if (d < it.r && d < bd) { bd = d; best = it; } });
+    current.interact.forEach((it) => { if (it.needs && !current.state?.[it.needs]) return; const d = Math.hypot(it.x - x, it.z - z); if (d < it.r && d < bd) { bd = d; best = it; } });
     if (!best) return null;
     if (best.id === 'in:exit') return { exit: true };
     if (best.id === 'in:host') { const h = current.host; const lines = h.pidgin ? ['You go take Zobo or Chapman? Siddon, make yourself comfortable.', `Abeg no mind the place. ${h.kids?.length ? `${h.kids[0]} scatter am this morning.` : 'Na small house but e sweet.'}`, `Me? I dey hustle: ${h.dream.toLowerCase()}.`] : ['Can I get you some Zobo? Or Chapman? Sit, sit.', `Sorry about the mess. ${h.kids?.length ? `${h.kids[0]} was busy this morning.` : 'It is small, but it is home.'}`, `My dream? ${h.dream}.`]; current.lineAt = ((current.lineAt ?? -1) + 1) % lines.length; toast(`${h.first}: "${lines[current.lineAt]}"`, 4500); return { handled: true }; }
@@ -552,7 +555,11 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
     // the Immigration Centre's desks and board (travel.js, opened by the look layer)
     if (['in:passport', 'in:eta', 'in:fly', 'in:ask', 'in:ticket', 'in:bio'].includes(best.id)) { dispatchEvent(new CustomEvent('bw:travel', { detail: best.id.slice(3) })); return { handled: true }; }
     if (DECOR_LINES[best.id]) { const l = DECOR_LINES[best.id]; toast(l[Math.floor(Math.random() * l.length)], 3400); return { handled: true }; }
-    if (HOME_LINES[best.id]) { const l = HOME_LINES[best.id]; toast(l[Math.floor(Math.random() * l.length)], 3200); return { handled: true }; }
+    // your home's small things: a book to read on the sofa, the bedside lamp, the toilet (a fade, no pictures)
+    if (best.id === 'in:books') { current.set?.('book', true); const l = HOME_LINES['in:books']; toast(`${l[Math.floor(Math.random() * l.length)]} Read it on the sofa: sit down, then R.`, 3600); return { handled: true }; }
+    if (best.id === 'in:lamp') { const on = !current.state?.lamp; current.set?.('lamp', on); sfx('interact'); toast(on ? 'Lamp on. Warm.' : 'Lamp off.', 1400); return { handled: true }; }
+    if (best.id === 'in:toilet') { fade.style.opacity = '1'; setTimeout(() => { fade.style.opacity = '0'; toast('All done. Wash your hands at the basin.', 2400); }, reduced ? 0 : 900); return { handled: true }; }
+    if (HOME_LINES[best.id] && !best.act) { const l = HOME_LINES[best.id]; toast(l[Math.floor(Math.random() * l.length)], 3200); return { handled: true }; }
     if (best.id === 'in:rest') { toast(['Home sweet home.', 'The fan hums. Yaba is loud outside and quiet in here.', 'You could get used to this.'][Math.floor(Math.random() * 3)], 3000); return { handled: true }; }
     if (best.id === 'in:photos') { const h = current.host; toast(`Family photos: ${[h.spouse && `${h.first} and ${h.spouse} on their wedding day`, h.kids?.length && `${h.kids.join(' and ')}`, 'a beach day at Elegushi', 'a graduation in Akoka'].filter(Boolean).join(', ')}.`, 5200); return { handled: true }; }
     if (best.id === 'in:board') { const n = net?.NETS?.[current.key]; toast(`Demo night is Thursday at 7pm. ${current.key === 'studio' ? 'Members\' Wi-Fi is on your membership card.' : n ? `Wi-Fi ${n.ssid}, password ${n.pass}.` : ''}`, 5200); return { handled: true }; }
@@ -560,22 +567,23 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
     if (best.id === 'in:meet') { toast('Meeting room booked for 30 minutes. Voice rooms arrive with multiplayer.'); return { handled: true }; }
     if (best.use) { best.use(); return { handled: true }; }
     if (best.desk) return { sit: sit(best.desk) };
+    if (best.act) { const a = best.act; return { act: { ...a, id: best.id, label: best.label, x: ORIGIN.x + a.x * sc(), z: ORIGIN.z + a.z * sc(), seatY: (a.seatY ?? 0) * scy(), back: { x: ORIGIN.x + best.x * sc(), z: ORIGIN.z + best.z * sc() } } }; }
     return null;
   }
 
   function prompt(px, pz) {
     if (!current) return null;
     if (seated) return desk ? 'Use the desk computer' : lidOpen() ? 'Use your computer' : 'Open your laptop';
-    const x = px - ORIGIN.x, z = pz - ORIGIN.z;
+    const { x, z } = toLocal(px, pz);
     let best = null, bd = Infinity;
-    current.interact.forEach((it) => { const d = Math.hypot(it.x - x, it.z - z); if (d < it.r && d < bd) { bd = d; best = it; } });
+    current.interact.forEach((it) => { if (it.needs && !current.state?.[it.needs]) return; const d = Math.hypot(it.x - x, it.z - z); if (d < it.r && d < bd) { bd = d; best = it; } });
     return best?.label || null;
   }
 
   // collisions inside: walls and furniture as boxes, the player as a circle
   function resolve(pos, rad = 0.45) {
     if (!current) return;
-    const x = pos.x - ORIGIN.x, z = pos.z - ORIGIN.z;
+    const S = sc(), { x, z } = toLocal(pos.x, pos.z); rad /= S;
     const RW = current.W ?? W, RD = current.D ?? D;
     let nx = Math.max(-RW / 2 + rad + 0.2, Math.min(RW / 2 - rad - 0.2, x)), nz = Math.max(-RD / 2 + rad + 0.2, Math.min(RD / 2 - rad - 0.2, z));
     current.colliders.forEach(([x0, z0, x1, z1]) => {
@@ -588,12 +596,12 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
         }
       }
     });
-    pos.x = nx + ORIGIN.x; pos.z = nz + ORIGIN.z;
+    pos.x = nx * S + ORIGIN.x; pos.z = nz * S + ORIGIN.z;
   }
   function solidAt(x, y, z) {
     if (!current) return false;
-    const lx = x - ORIGIN.x, lz = z - ORIGIN.z;
-    return y > (current.H ?? H) - 0.2 || Math.abs(lx) > (current.W ?? W) / 2 - 0.3 || Math.abs(lz) > (current.D ?? D) / 2 - 0.3;
+    const { x: lx, z: lz } = toLocal(x, z);
+    return y > (current.H ?? H) * scy() - 0.2 || Math.abs(lx) > (current.W ?? W) / 2 - 0.3 || Math.abs(lz) > (current.D ?? D) / 2 - 0.3;
   }
 
   function update(dt, t) {
