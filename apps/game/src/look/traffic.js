@@ -112,6 +112,60 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
   const stateOf = (sig, phase) => { const t = (sig.t % CYCLE) - (phase ? CYCLE / 2 : 0), u = ((t % CYCLE) + CYCLE) % CYCLE; return u < 8.5 ? 'green' : u < 10.5 ? 'amber' : 'red'; };
   const sigAt = new Map(signals.map((s) => [s.i, s]));
 
+  // ---------- pedestrian signals on the zebras at those junctions ----------
+  // Each zebra near a signalled junction gets a head on both kerbs, facing the people about to cross. A
+  // zebra crosses one road; you may walk while that road's cars are held at red: the walking figure
+  // from a second after their red, the flashing hand for the last three seconds of it, the red hand
+  // otherwise. People wait at the kerb unless the figure is lit (world.pedWait).
+  const pedFace = (kind) => {
+    const cv = document.createElement('canvas'); cv.width = 64; cv.height = 96; const g = cv.getContext('2d');
+    g.fillStyle = '#141516'; g.fillRect(0, 0, 64, 96);
+    g.fillStyle = kind === 'walk' ? '#4dff9a' : kind === 'dark' ? '#2a1a14' : '#ff4a36';
+    if (kind === 'walk') { // the walking figure
+      g.beginPath(); g.arc(34, 22, 7, 0, 7); g.fill(); g.lineWidth = 7; g.lineCap = 'round'; g.strokeStyle = g.fillStyle;
+      g.beginPath(); g.moveTo(32, 32); g.lineTo(29, 56); g.lineTo(18, 78); g.moveTo(29, 56); g.lineTo(42, 78); g.moveTo(31, 38); g.lineTo(20, 52); g.moveTo(31, 38); g.lineTo(44, 50); g.stroke();
+    } else { // the raised hand
+      g.beginPath(); g.roundRect(20, 40, 26, 34, 8); g.fill();
+      [22, 29, 36, 43].forEach((x, k) => { g.beginPath(); g.roundRect(x - 2.5, 16 + (k === 0 || k === 3 ? 8 : 0), 6, 30, 3); g.fill(); });
+      g.beginPath(); g.roundRect(8, 46, 16, 7, 3); g.fill();
+    }
+    const tex = new THREE.CanvasTexture(cv); tex.colorSpace = THREE.SRGBColorSpace;
+    return new THREE.MeshBasicMaterial({ map: tex, color: kind === 'dark' ? 0xffffff : new THREE.Color(1.6, 1.6, 1.6) });
+  };
+  const PEDM = { walk: pedFace('walk'), stop: pedFace('stop'), dark: pedFace('dark') };
+  const peds = [];
+  (world.crossings || []).forEach((k) => {
+    // a zebra belongs to the nearest signalled junction within 26 m (two junctions close together must
+    // not both claim it, each with its own idea of when you may cross)
+    let sig = null, best = 26;
+    signals.forEach((g) => { const d = Math.hypot(k.x - g.x, k.z - g.z); if (d < best) { best = d; sig = g; } });
+    if (!sig) return;
+    const phase = Math.abs(Math.sin(Math.atan2(k.nz, -k.nx) - sig.axis)) < 0.5 ? 0 : 1; // the cars this zebra crosses
+    const ped = { sig, phase, x: k.x, z: k.z, nx: k.nx, nz: k.nz, hw: k.hw, faces: [], state: 'stop' };
+    [-1, 1].forEach((s) => {
+      let off = k.hw + 1.2, px = 0, pz = 0;
+      for (; off < k.hw + 5; off += 0.3) { px = k.x + k.nx * s * off - k.nz * 2.1; pz = k.z + k.nz * s * off + k.nx * 2.1; if (!world.onCarriageway?.(px, pz, 0.35)) break; }
+      if (world.onCarriageway?.(px, pz, 0.3) || world.inAnyBuilding?.(px, pz, 0.3) || poles.some((q) => Math.hypot(q.x - px, q.z - pz) < 1)) return;
+      const g = new THREE.Group(); g.position.set(px, 0, pz); g.rotation.y = Math.atan2(-k.nx * s, -k.nz * s); group.add(g); // facing across the road
+      g.add(new THREE.Mesh(box(0.1, 2.5, 0.1, 0, 1.25, 0), poleMat), new THREE.Mesh(box(0.34, 0.5, 0.2, 0, 2.45, 0), poleMat));
+      const face = new THREE.Mesh(new THREE.PlaneGeometry(0.26, 0.39), PEDM.stop); face.position.set(0, 2.45, 0.105); g.add(face); ped.faces.push(face);
+      world.addColliders?.([{ name: 'ped_signal', cx: px, cz: pz, hx: 0.08, hz: 0.08, ry: 0 }]);
+    });
+    if (ped.faces.length) peds.push(ped);
+  });
+  const pedState = (ped) => { const u = (((ped.sig.t % CYCLE) - (ped.phase ? CYCLE / 2 : 0)) % CYCLE + CYCLE) % CYCLE; return u >= 11 && u < 18.5 ? 'walk' : u >= 18.5 && u < 21.5 ? 'flash' : 'stop'; };
+  const tx = (k) => k.nz, tz = (k) => -k.nx;
+  // about to step off the kerb onto a signalled zebra whose figure is not lit: wait
+  world.pedWait = (pos, dx, dz) => {
+    const ax = pos.x + dx * 0.9, az = pos.z + dz * 0.9;
+    // the few signalled zebras first; only near one is the road itself looked up
+    // a zebra you are walking across (heading along its stripes), out to 9 m past them: on a dual
+    // carriageway the other half is crossed on the same signal
+    const ped = peds.find((k) => { const ox = ax - k.x, oz = az - k.z; return Math.abs(dx * k.nx + dz * k.nz) > 0.6 && Math.abs(ox * k.nx + oz * k.nz) < k.hw + 9 && Math.abs(ox * tx(k) + oz * tz(k)) < 2.4; });
+    if (!ped || ped.state === 'walk') return false;
+    return !!world.onCarriageway?.(ax, az, 0) && !world.onCarriageway?.(pos.x, pos.z, -0.2);
+  };
+
   // ---------- the LASTMA officer at the busiest junction ----------
   let warden = null;
   const busiest = junctions.sort((a, b) => b.n.out.length - a.n.out.length)[0];
@@ -156,6 +210,7 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
   let t = 0;
   function update(dt, player) {
     t += dt;
+    peds.forEach((k) => { k.state = pedState(k); const m = k.state === 'walk' ? PEDM.walk : k.state === 'flash' ? (Math.floor(t * 2.5) % 2 ? PEDM.stop : PEDM.dark) : PEDM.stop; k.faces.forEach((f) => { f.material = m; }); });
     signals.forEach((sig) => { sig.t += dt; sig.heads.forEach((h) => { const st = stateOf(sig, h.phase); h.lamps.forEach((m, j) => { m.material = ['red', 'amber', 'green'][j] === st ? lit[st] : off; }); }); });
     const people = getPeople?.() || [];
     const P = cars.map(posOf);
@@ -201,5 +256,5 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
   function release(kind, mesh, at) { const e = nodes[at].out[Math.floor(rng() * nodes[at].out.length)]; const c = { kind, mesh, from: at, e, s: 0.5, v: 2, max: DESIGNS[kind].speed, wait: 0, horn: 0 }; if (!mesh.parent) group.add(mesh); cars.push(c); return c; }
   const bodies = () => cars.map((c) => c.body).filter(Boolean);
   function dispose() { group.removeFromParent(); }
-  return { update, bodies, cars, signals, warden, nodes, onNode, nearestNode, release, stateOf, dispose, get count() { return cars.length; } };
+  return { peds, update, bodies, cars, signals, warden, nodes, onNode, nearestNode, release, stateOf, dispose, get count() { return cars.length; } };
 }

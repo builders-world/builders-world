@@ -6,14 +6,15 @@
 //
 // Movement rules, as costs:
 //   pavement and open ground   1    where people walk
-//   carriageway                6    crossing is fine, walking down the middle of the road is not
+//   zebra crossing             1.2  where people cross
+//   carriageway                9    crossing elsewhere costs a detour of about 20 m to a zebra
 //   a private lawn             4    only to reach that house (fences funnel you through the gate)
 //   next to a wall or fence   +1.5  keep a little clearance, as people do
 //   building, fence, prop      ∞    never
 
 const CELL = 0.5, AGENT = 0.42;
 
-export function buildNavGrid({ R, solids, boxes, roads, lots, pointInPoly, nearestOnPoly, private: priv = [] }) {
+export function buildNavGrid({ R, solids, boxes, roads, lots, pointInPoly, nearestOnPoly, private: priv = [], crossings = [] }) {
   const half = R * 1.08, N = Math.ceil((half * 2) / CELL);
   const cost = new Float32Array(N * N).fill(1);
   const BLOCK = Infinity;
@@ -35,9 +36,19 @@ export function buildNavGrid({ R, solids, boxes, roads, lots, pointInPoly, neare
       each(Math.min(ax, bx) - h, Math.min(az, bz) - h, Math.max(ax, bx) + h, Math.max(az, bz) + h, (i, j, c) => {
         if (cost[c] !== 1) return;
         const [x, z] = center(i, j), u = Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / L2));
-        if (Math.hypot(x - ax - dx * u, z - az - dz * u) < h) cost[c] = 6;
+        if (Math.hypot(x - ax - dx * u, z - az - dz * u) < h) cost[c] = 9;
       });
     }
+  });
+  // zebra crossings: the stripes run across the road (n), 3 m wide along it; a little longer than the
+  // carriageway so the cheap way starts at the kerb
+  crossings.forEach((k) => {
+    const tx = k.nz, tz = -k.nx, H = k.hw + 1.2, r = H + 2;
+    each(k.x - r, k.z - r, k.x + r, k.z + r, (i, j, c) => {
+      if (cost[c] !== 9) return;
+      const [x, z] = center(i, j), dx = x - k.x, dz = z - k.z;
+      if (Math.abs(dx * k.nx + dz * k.nz) < H && Math.abs(dx * tx + dz * tz) < 1.6) cost[c] = 1.2;
+    });
   });
   // private lots
   // estate closes: walk through only if that is where you are going (gated, world bible 7.5c)

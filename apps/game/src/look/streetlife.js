@@ -222,7 +222,8 @@ export function createStreetLife({ world, scene, props, traffic, chat, toast, ge
       const aim = w.path[Math.min(w.at, w.path.length - 1)], p = w.obj.position, dx = aim.x - p.x, dz = aim.z - p.z, d = Math.hypot(dx, dz);
       if (d < 0.5) { w.at++; if (w.at >= w.path.length) w.path = null; return; }
       // step aside for you, as people do
-      const pd = Math.hypot(player.x - p.x, player.z - p.z), slow = pd < 1.2 ? 0.25 : 1;
+      const pd = Math.hypot(player.x - p.x, player.z - p.z); let slow = pd < 1.2 ? 0.25 : 1;
+      if (world.pedWait?.(p, dx / d, dz / d)) slow = 0; // the red hand: wait at the kerb (traffic.js)
       p.x += (dx / d) * w.pace * slow * dt; p.z += (dz / d) * w.pace * slow * dt;
       const want = Math.atan2(dx, dz), dh = Math.atan2(Math.sin(want - w.obj.rotation.y), Math.cos(want - w.obj.rotation.y)); w.obj.rotation.y += dh * (1 - Math.exp(-dt * 8));
       w.rig?.update(dt, { speed: w.pace * slow, t });
