@@ -25,7 +25,7 @@ const glowMat = (r, g, b) => new THREE.MeshBasicMaterial({ color: new THREE.Colo
 
 // ---------- clay tree: the arrival scene's planter tree, at street size (world bible 7.1) ----------
 // A stone planter, a wood trunk and fat ellipsoid leaves in two greens, as one vertex-coloured mesh.
-function clayTreeGeometry() {
+export function clayTreeGeometry() {
   const parts = [colorize(cyl(0.34, 0.3, 0.6, 10, 0, 0.3, 0), "#c3bdae"), colorize(cyl(0.38, 0.38, 0.06, 10, 0, 0.6, 0), "#d6d0c0"),
     colorize(cyl(0.045, 0.065, 1.6, 7, 0, 1.4, 0), '#a87950')];
   for (let i = 0; i < 9; i++) {
@@ -459,12 +459,12 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   // palms where world.js planted trees, plus plants by the board
   const palm = palmGeometry();
   // street trees are clay planter trees, as in the arrival scene; palms stay as accents by the board
-  const treeSpots = world.trees.map((t) => ({ x: t.x, z: t.z, ry: rng() * Math.PI * 2 }));
+  const treeSpots = world.trees.map((t) => ({ x: t.x, z: t.z, r: t.r, ry: rng() * Math.PI * 2 }));
   if (treeSpots.length) {
     const clayMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.75 });
     const r3 = mulberry32(77);
     root.add(instanced(clayTreeGeometry(), clayMat, treeSpots, () => 2.3 + r3() * 0.7));
-    world.addColliders(treeSpots.map((t) => ({ name: 'clay_tree', cx: t.x, cz: t.z, hx: 0.75, hz: 0.75, ry: 0 })));
+    world.addColliders(treeSpots.map((t) => ({ name: 'clay_tree', cx: t.x, cz: t.z, hx: t.r ?? 0.75, hz: t.r ?? 0.75, ry: 0 })));
   }
   const palmSpots = [];
   // palms line the far pavement of the hero street, and stand at the back of the open gaps

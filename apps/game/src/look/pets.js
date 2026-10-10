@@ -51,6 +51,9 @@ export function petModel(kind, breedId) {
   head.add(B(0.17 * k, 0.15 * k, 0.16 * k));
   const snout = B(0.1 * k, 0.08 * k, 0.09 * k * br.snout + 0.02, br.points ? patch : fur); snout.position.set(0, -0.025 * k, 0.1 * k + 0.04 * k * br.snout); head.add(snout);
   const nose = B(0.035 * k, 0.03 * k, 0.02, dark); nose.position.set(0, -0.005 * k, snout.position.z + 0.045 * k * br.snout + 0.01); head.add(nose);
+  // a tongue, out when panting or begging (dogs)
+  const tongue = new THREE.Mesh(new THREE.BoxGeometry(0.04 * k, 0.012 * k, 0.07 * k), new THREE.MeshStandardMaterial({ color: 0xe36a7a, roughness: 0.6 }));
+  tongue.position.set(0, -0.06 * k, snout.position.z + 0.02 * k); tongue.rotation.x = 0.5; tongue.visible = false; head.add(tongue);
   [-1, 1].forEach((s) => {
     const eye = new THREE.Mesh(new THREE.SphereGeometry(0.014 * k, 6, 4), dark); eye.position.set(s * 0.045 * k, 0.025 * k, 0.081 * k); head.add(eye);
     const ear = B(0.05 * k, br.ears === 'up' ? 0.08 * k : 0.09 * k, 0.025 * k, br.points ? patch : fur);
@@ -67,20 +70,35 @@ export function petModel(kind, breedId) {
   const tm = B(br.tail === 'bush' ? 0.07 * k : 0.035 * k, br.tail === 'bush' ? 0.07 * k : 0.035 * k, tl * k, br.points ? patch : fur); tm.position.z = -tl * k / 2; tail.add(tm);
   if (br.tail === 'pom') { const pom = B(0.08 * k, 0.08 * k, 0.08 * k); pom.position.z = -tl * k; tail.add(pom); }
   tail.rotation.x = br.tail === 'curl' ? -1.1 : dog ? -0.5 : 0.6;
-  g.userData = { body, head, legs, tail, legH, bodyY, k, tailRest: tail.rotation.x, kind };
+  g.userData = { body, head, legs, tail, tongue, legH, bodyY, k, tailRest: tail.rotation.x, kind };
   return g;
 }
 
-// one animation step: gait from speed, a wagging tail, sitting down when still
-export function animatePet(g, dt, t, speed, { sit = 0, wag = 0 } = {}) {
-  const u = g.userData, phase = t * (6 + speed * 3);
-  u.legs.forEach((l, i) => { l.rotation.x = speed > 0.05 ? Math.sin(phase + (i === 0 || i === 3 ? 0 : Math.PI)) * Math.min(0.8, 0.3 + speed * 0.12) : 0; });
-  // sitting: the back end drops, the back legs fold forward
-  u.body.position.y = -sit * u.legH * 0.55 + (speed > 0.05 ? Math.abs(Math.sin(phase)) * 0.015 : 0);
-  u.body.rotation.x = -sit * 0.45;
-  u.legs[2].rotation.x += sit * -1.2; u.legs[3].rotation.x += sit * -1.2; u.legs[0].rotation.x += sit * 0.45; u.legs[1].rotation.x += sit * 0.45;
+// one animation step. Poses (0..1 each): sit, lie (down, chin on paws), beg (up on the hind legs, paws
+// out to you), bow (the play bow: front down, tail end up), scratch (a hind leg at the ear), plus hop
+// (metres of a jump) and tongue (panting). Whatever the pose, the lowest point is set on the ground, so
+// nothing sinks into it (a sitting dog used to pivot about a point at ground level and lose its rear).
+const _box = new THREE.Box3();
+export function animatePet(g, dt, t, speed, { sit = 0, wag = 0, lie = 0, beg = 0, bow = 0, scratch = 0, hop = 0, tongue = 0 } = {}) {
+  const u = g.userData, phase = t * (6 + speed * 3), moving = speed > 0.05;
+  // the gait: diagonal pairs, and a little side to side roll that grows with speed (the trot's waddle)
+  u.legs.forEach((l, i) => { l.rotation.set(moving ? Math.sin(phase + (i === 0 || i === 3 ? 0 : Math.PI)) * Math.min(0.8, 0.3 + speed * 0.12) : 0, 0, 0); });
+  u.body.rotation.set(0, 0, moving ? Math.sin(phase) * Math.min(0.08, 0.02 + speed * 0.01) : 0);
+  u.body.position.set(0, 0, 0);
+  // sit: the back end down (tilt about the hips), back legs folded forward, front legs kept upright
+  // (a negative tilt lifts the front: sitting a little, begging a lot; the play bow puts the front down)
+  const tilt = -0.5 * sit - 1.05 * beg + 0.3 * bow, flat = lie;
+  u.body.rotation.x = tilt * (1 - flat);
+  u.legs[2].rotation.x += -1.25 * sit - 1.4 * flat + 1.05 * beg - 0.3 * bow; u.legs[3].rotation.x += -1.25 * sit - 1.4 * flat + 1.05 * beg - 0.3 * bow;
+  u.legs[0].rotation.x += 0.5 * sit + 1.45 * flat + 0.2 * beg - 1.25 * bow; u.legs[1].rotation.x += 0.5 * sit + 1.45 * flat + 0.45 * beg - 1.25 * bow;
+  if (scratch) { u.legs[3].rotation.x = -1.6 * scratch + Math.sin(t * 28) * 0.25 * scratch; u.legs[3].rotation.z = -0.5 * scratch; }
+  u.head.rotation.set(0.35 * sit + 0.8 * beg + 0.3 * flat - 0.25 * bow + 0.4 * scratch, 0, 0.25 * scratch);
   u.tail.rotation.y = Math.sin(t * (wag ? 16 : 3)) * (wag ? 0.7 : 0.25);
-  u.head.rotation.x = sit * 0.35;
+  u.tail.rotation.x = u.tailRest - 0.5 * bow;
+  if (u.tongue) { u.tongue.visible = tongue > 0.3; u.tongue.position.y = -0.06 * u.k - 0.012 * u.k * Math.abs(Math.sin(t * 9)); }
+  // ground: the lowest point of the posed body sits on y = 0, then any hop lifts it
+  g.updateMatrixWorld(true); _box.setFromObject(u.body);
+  u.body.position.y = (g.position.y - _box.min.y) + hop + (moving ? Math.abs(Math.sin(phase)) * 0.015 : 0);
 }
 
 const CSS = `
@@ -176,6 +194,7 @@ export function createPets({ scene, camera, world, toast, isIndoors }) {
   }
 
   // ---------- each frame ----------
+  const idle = { act: null, t: 3, k: 0, moves: false, spot: null };
   function update(dt, player, yaw) {
     t += dt; lastPlayer.set(player.x, 0, player.z);
     if (!pet || !model) return;
@@ -210,7 +229,8 @@ export function createPets({ scene, camera, world, toast, isIndoors }) {
       const d = pos.distanceTo(lastPlayer);
       if (state === 'come' && d < 1.6) state = 'follow';
       if (state === 'sit' && love <= 0) state = 'follow';
-      if (state !== 'sit' && d > 1.8) { goal = new THREE.Vector3(player.x - Math.sin(yaw) * 1.3 + Math.cos(yaw) * 0.6, 0, player.z - Math.cos(yaw) * 1.3 - Math.sin(yaw) * 0.6); run = d > 6 || state === 'come'; }
+      // an idle act that moves the pet about (zoomies, sniffing, coming up to beg) steers it itself
+      if (state !== 'sit' && d > 1.8 && !idle.moves) { goal = new THREE.Vector3(player.x - Math.sin(yaw) * 1.3 + Math.cos(yaw) * 0.6, 0, player.z - Math.cos(yaw) * 1.3 - Math.sin(yaw) * 0.6); run = d > 6 || state === 'come'; }
     }
     let speed = 0;
     if (goal) {
@@ -222,9 +242,42 @@ export function createPets({ scene, camera, world, toast, isIndoors }) {
       }
     }
     model.position.set(pos.x, model.position.y * 0.8, pos.z);
-    const sitting = !goal && (state === 'sit' || pos.distanceTo(lastPlayer) < 2.2) ? 1 : 0;
-    model.userData.sit = (model.userData.sit || 0) + (sitting - (model.userData.sit || 0)) * (1 - Math.exp(-dt * 5));
-    animatePet(model, dt, t, speed, { sit: model.userData.sit, wag: love > 0 || (toy && pet.kind === 'dog') });
+    // ---- what a pet does when there is nothing to do (dogs: sniff about, zoomies, beg to be petted, lie down,
+    // scratch, a play bow, a little jump; cats: sit, loaf, stretch, groom). One at a time, never the same twice running.
+    const P = model.userData, idleNow = !goal && !toy && !laser && state !== 'come' && speed < 0.05;
+    idle.t -= dt;
+    if (!idleNow && !idle.moves) { idle.act = null; idle.t = Math.min(idle.t, 2 + Math.random() * 2); }
+    if (idleNow && idle.t <= 0) {
+      const dogActs = ['sit', 'sit', 'lie', 'sniff', 'zoomies', 'beg', 'scratch', 'bow', 'hop', 'pant'], catActs = ['sit', 'lie', 'lie', 'groom', 'stretch', 'sniff'];
+      const pool = (pet.kind === 'dog' ? dogActs : catActs).filter((a) => a !== idle.act);
+      idle.act = pool[Math.floor(Math.random() * pool.length)]; idle.t = { sit: 4, lie: 7, sniff: 5, zoomies: 4, beg: 3, scratch: 2, bow: 1.6, hop: 1.4, pant: 4, groom: 3, stretch: 2 }[idle.act] + Math.random() * 2; idle.k = 0;
+      if (idle.act === 'sniff') { const a = Math.random() * Math.PI * 2, r = 1.5 + Math.random() * 2; idle.spot = new THREE.Vector3(lastPlayer.x + Math.cos(a) * r, 0, lastPlayer.z + Math.sin(a) * r); }
+      if (idle.act === 'beg') toast?.(pet.kind === 'dog' ? `${pet.name} puts their paws up on you. E to pet them.` : '', 1800);
+    }
+    idle.k += dt;
+    // the moving ones steer the pet themselves
+    idle.moves = idleNow || idle.moves ? (idle.act === 'sniff' || idle.act === 'zoomies' || idle.act === 'beg') && idle.t > 0 : false;
+    let mv = 0;
+    if (idle.moves) {
+      // to beg, it comes right up to you first, then rears up with its paws on you
+      const toYou = Math.hypot(pos.x - lastPlayer.x, pos.z - lastPlayer.z) || 1;
+      const tgt = idle.act === 'sniff' ? idle.spot : idle.act === 'beg' ? new THREE.Vector3(lastPlayer.x + ((pos.x - lastPlayer.x) / toYou) * 0.5, 0, lastPlayer.z + ((pos.z - lastPlayer.z) / toYou) * 0.5) : new THREE.Vector3(lastPlayer.x + Math.cos(idle.k * 3.2) * 2.4, 0, lastPlayer.z + Math.sin(idle.k * 3.2) * 2.4);
+      const dx = tgt.x - pos.x, dz = tgt.z - pos.z, d = Math.hypot(dx, dz), v = idle.act === 'zoomies' ? 7 : idle.act === 'beg' ? 2.6 : 1.4;
+      if (d > 0.3) { pos.x += (dx / d) * Math.min(v, d * 4) * dt; pos.z += (dz / d) * Math.min(v, d * 4) * dt; world.resolve(pos, 0.22, 0); mv = Math.min(v, d * 4); const want = Math.atan2(dx, dz), dh = Math.atan2(Math.sin(want - model.rotation.y), Math.cos(want - model.rotation.y)); model.rotation.y += dh * (1 - Math.exp(-dt * 10)); }
+      model.position.set(pos.x, 0, pos.z);
+    }
+    // a begging pet turns to you
+    const upClose = Math.hypot(pos.x - lastPlayer.x, pos.z - lastPlayer.z) < 0.9;
+    if (idle.act === 'beg' && (idleNow || idle.moves) && upClose) { const want = Math.atan2(lastPlayer.x - pos.x, lastPlayer.z - pos.z), dh = Math.atan2(Math.sin(want - model.rotation.y), Math.cos(want - model.rotation.y)); model.rotation.y += dh * (1 - Math.exp(-dt * 6)); }
+    const on = (a) => (idleNow || idle.moves) && idle.act === a;
+    const ease = (key, want) => { P[key] = (P[key] || 0) + (want - (P[key] || 0)) * (1 - Math.exp(-dt * 6)); return P[key]; };
+    const sitting = (state === 'sit' && !goal) || on('sit') || on('groom') ? 1 : 0;
+    animatePet(model, dt, t, Math.max(speed, mv), {
+      sit: ease('sit', sitting), lie: ease('lie', on('lie') ? 1 : 0), beg: ease('beg', on('beg') && upClose ? 1 : 0), bow: ease('bow', on('bow') || on('stretch') ? 1 : 0),
+      scratch: ease('scr', on('scratch') || (on('groom') && pet.kind === 'cat') ? 1 : 0), hop: on('hop') ? Math.max(0, Math.sin(idle.k * 7)) * 0.35 : 0,
+      tongue: pet.kind === 'dog' && (on('pant') || on('beg') || on('zoomies') || speed > 4 || (toy && toy.phase === 'back')) ? 1 : 0,
+      wag: love > 0 || (toy && pet.kind === 'dog') || on('beg') || on('bow') || on('zoomies') || on('hop'),
+    });
     hearts.forEach((q) => { q.t += dt; q.h.position.y += dt * 0.6; q.h.material.opacity = Math.max(0, 1 - q.t / 1.4); });
     for (let i = hearts.length - 1; i >= 0; i--) if (hearts[i].t > 1.4) { hearts[i].h.removeFromParent(); hearts.splice(i, 1); }
   }
@@ -232,5 +285,5 @@ export function createPets({ scene, camera, world, toast, isIndoors }) {
   const near = (player) => !!(pet && model && model.visible && Math.hypot(pos.x - player.x, pos.z - player.z) < 2.2);
   spawn(world.spawn);
   function dispose() { group.removeFromParent(); panel.remove(); bar.remove(); style.remove(); }
-  return { update, act, near, get playing() { return toy ? toy.phase : null; }, openShelter, close, get isOpen() { return panel.classList.contains('on'); }, get pet() { return pet; }, get pos() { return pos; }, dispose };
+  return { update, act, near, get playing() { return toy ? toy.phase : null; }, get idleAct() { return idle.act; }, openShelter, close, get isOpen() { return panel.classList.contains('on'); }, get pet() { return pet; }, get pos() { return pos; }, dispose };
 }

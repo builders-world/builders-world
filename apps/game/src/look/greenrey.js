@@ -4,6 +4,7 @@ import { wetGroundMaterial } from './surfaces.js';
 import { signTexture } from './props.js';
 import { vehicle } from './traffic.js';
 import { mulberry32 } from '../mesh.js';
+import { clayTreeGeometry } from './props.js';
 
 // Greenrey (Elvis's name for this change, 10 October 2026, so it can be tracked and switched off as one):
 // grass only where it belongs. The narrow gaps between buildings stay grass; every large piece of open
@@ -101,9 +102,21 @@ export function buildGreenrey({ renderer, scene, world, group, park = null }) {
     while (h < qq.length) { const c = qq[h++]; cells.push(c); const i = c % N, j = (c - i) / N; for (const [di, dj] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { const ii = i + di, jj = j + dj; if (ii < 0 || jj < 0 || ii >= N || jj >= N) continue; const n = jj * N + ii; if (open[n] && zone[n] < 0) { zone[n] = id; qq.push(n); } } }
     const area = cells.length * cell * cell, nearRoad = cells.filter((c) => dRoad[c] < 3).length;
     let cx = 0, cz = 0; cells.forEach((c) => { cx += X(c % N); cz += Z((c - (c % N)) / N); }); cx /= cells.length; cz /= cells.length;
-    // a small piece facing a road is a paved yard; anything bigger is laterite with plots and car parks cut into it
-    const use = area < 260 ? 'grass' : nearRoad > 6 && area < 2200 ? 'paving' : 'laterite';
-    zones.push({ id, cells, area, use, cx, cz });
+    zones.push({ id, cells, area, use: area < 260 ? 'grass' : null, cx, cz, front: nearRoad > 6 });
+  }
+  // What each piece of open land becomes (Elvis, 10 October 2026: "reduce the mud by 80%, increase the greenery
+  // by 60%, add granite or concrete in a few places"): about a fifth of it red earth (worksites, where the
+  // building plots go), about a seventh paved in concrete or granite (yards facing a road), and the rest green,
+  // with trees. Pieces too big to be one thing stay green, with their worksites cut out of them.
+  {
+    const big = zones.filter((z) => !z.use), total = big.reduce((a, z) => a + z.area, 0);
+    let earth = 0, paved = 0;
+    const order = big.map((z) => [z, ((Math.sin(z.cx * 12.9898 + z.cz * 78.233) * 43758.5453) % 1 + 1) % 1]).sort((a, b) => a[1] - b[1]).map(([z]) => z);
+    order.forEach((z) => {
+      if ((z.front || z.area < 1500) && z.area < 2500 && paved + z.area <= total * 0.15) { z.use = 'paving'; z.granite = !z.front || z.id % 3 === 0; paved += z.area; return; }
+      if (z.area < total * 0.12 && earth + z.area <= total * 0.2) { z.use = 'laterite'; earth += z.area; return; }
+      z.use = 'green';
+    });
   }
 
   // grow each piece out to the plots and roads around it (up to 7 m), so its edges run along them instead of
@@ -146,11 +159,11 @@ export function buildGreenrey({ renderer, scene, world, group, park = null }) {
   const out = new THREE.Group(); out.name = 'greenrey'; group.add(out);
   const cols = [], claims = [], plots = [], parks = [];
   // car parks first (they want the road frontage), then plots behind them
-  zones.filter((z) => z.use !== 'grass').sort((a, b) => b.area - a.area).forEach((z) => {
+  zones.filter((z) => z.use === 'paving' || z.use === 'laterite').sort((a, b) => b.area - a.area).forEach((z) => {
     if (z.cells.some((c) => dRoad[c] < 3)) for (const len of [30, 20, 12.5]) { const p = placeRect(z, len, 11, 1.5, 0.5); if (p) { parks.push({ ...p, len }); break; } }
     if (z.use !== 'laterite') return;
-    const n = Math.min(4, Math.floor(z.area / 900));
-    for (let k = 0; k < n && plots.length < 22; k++) { const w = 16 + Math.floor(rnd() * 3) * 2, d = 14 + Math.floor(rnd() * 2) * 2; const p = placeRect(z, w, d, 2.5, 2); if (p) plots.push({ ...p, w, d, kind: plots.length }); }
+    const n = Math.min(3, Math.floor(z.area / 900));
+    for (let k = 0; k < n && plots.length < 12; k++) { const w = 16 + Math.floor(rnd() * 3) * 2, d = 14 + Math.floor(rnd() * 2) * 2; const p = placeRect(z, w, d, 2.5, 2); if (p) plots.push({ ...p, w, d, kind: plots.length }); }
   });
 
   // ---------- 4. the ground: each surface traced smooth from the cells (marching squares) ----------
@@ -191,14 +204,32 @@ export function buildGreenrey({ renderer, scene, world, group, park = null }) {
   // parks keep their grass: the park round the pond, the picnic lawn and the community garden
   const greens = (world.claims || []).filter((c) => c.kind === 'recreation');
   const inPark = (x, z) => (park && ((x - park.x) / (park.rx + 7)) ** 2 + ((z - park.z) / (park.rz + 7)) ** 2 < 1) || greens.some((c) => Math.abs(x - c.cx) < c.hx + 1.5 && Math.abs(z - c.cz) < c.hz + 1.5);
-  const grass = surface((c) => { if (built[c]) return false; const x = X(c % N), z = Z((c - (c % N)) / N); return (zone[c] < 0 && Math.hypot(x, z) < R) || inPark(x, z); }, GRASS, 0);
-  const pav = surface((c) => zone[c] >= 0 && useAt(c) === 'paving' && !inPark(X(c % N), Z((c - (c % N)) / N)), PAVING, 0);
-  // grass and paving are separate decals, paving pulled further forward so their soft edges never fight
-  [[grass, -4], [pav, -8]].forEach(([geo, units], k) => {
+  // the ground is grass already: paint the earth (worksites) and the paving (concrete, or speckled granite)
+  const earthGeo = surface((c) => zone[c] >= 0 && useAt(c) === 'laterite' && !inPark(X(c % N), Z((c - (c % N)) / N)), '#a3795c', 0, 0.06);
+  const concreteGeo = surface((c) => zone[c] >= 0 && useAt(c) === 'paving' && !zones[zone[c]].granite && !inPark(X(c % N), Z((c - (c % N)) / N)), PAVING, 0);
+  const graniteGeo = surface((c) => zone[c] >= 0 && useAt(c) === 'paving' && zones[zone[c]].granite && !inPark(X(c % N), Z((c - (c % N)) / N)), '#a19e97', 0, 0.08);
+  [[earthGeo, -4, 'greenrey_earth'], [concreteGeo, -8, 'greenrey_concrete'], [graniteGeo, -8, 'greenrey_granite']].forEach(([geo, units, nm]) => {
     if (!geo) return;
-    const m = new THREE.Mesh(geo, k ? (() => { const p2 = wetGroundMaterial(); p2.polygonOffset = true; p2.polygonOffsetFactor = -1; p2.polygonOffsetUnits = units; return p2; })() : mat);
-    m.receiveShadow = true; m.name = k ? 'greenrey_paving' : 'greenrey_grass'; out.add(m);
+    const m2 = wetGroundMaterial(); m2.polygonOffset = true; m2.polygonOffsetFactor = -1; m2.polygonOffsetUnits = units;
+    const m = new THREE.Mesh(geo, m2); m.receiveShadow = true; m.name = nm; out.add(m);
   });
+  void mat; void GRASS;
+  // trees on the green land, in clumps, clear of everything (the greenery, up by well over half)
+  const treeSpots = [];
+  zones.filter((z) => z.use === 'green').forEach((z) => {
+    const want = Math.round(z.area / 140);
+    for (let k = 0, tries = 0; k < want && tries < want * 12; tries++) {
+      const c = z.cells[Math.floor(rnd() * z.cells.length)], x = X(c % N) + (rnd() - 0.5) * cell, zz = Z((c - (c % N)) / N) + (rnd() - 0.5) * cell;
+      if (dBuilt[c] < 3 || dRoad[c] < 4 || taken[c] || treeSpots.some((q) => Math.hypot(q.x - x, q.z - zz) < 3.2)) continue;
+      treeSpots.push({ x, z: zz, s: 0.8 + rnd() * 0.6 }); k++;
+    }
+  });
+  if (treeSpots.length) {
+    const geo = clayTreeGeometry(), im = new THREE.InstancedMesh(geo, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.75 }), treeSpots.length), m4 = new THREE.Matrix4(), q = new THREE.Quaternion();
+    treeSpots.forEach((t, i) => im.setMatrixAt(i, m4.compose(new THREE.Vector3(t.x, 0, t.z), q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), rnd() * 6.28), new THREE.Vector3(t.s * 2.4, t.s * 2.4, t.s * 2.4))));
+    im.castShadow = true; im.name = 'greenrey_trees'; out.add(im);
+    treeSpots.forEach((t) => cols.push({ name: 'green_tree', cx: t.x, cz: t.z, hx: 0.35, hz: 0.35, ry: 0 }));
+  }
 
   // ---------- 5. car parks: a concrete apron, painted bays, a few cars ----------
   const paint = [], apron = [];
@@ -258,18 +289,18 @@ export function buildGreenrey({ renderer, scene, world, group, park = null }) {
   try {
     const cv = document.createElement('canvas'); cv.width = cv.height = N;
     const ctx = cv.getContext('2d'), img = ctx.createImageData(N, N);
-    const MAPC = { earth: [210, 160, 128], grass: [127, 179, 94], paving: [216, 208, 192] };
+    const MAPC = { earth: [196, 160, 128], grass: [127, 179, 94], paving: [216, 208, 192] };
     for (let j = 0; j < N; j++) for (let i = 0; i < N; i++) {
       const c = j * N + i, x = X(i), z = Z(j);
-      const k = built[c] ? 'grass' : zone[c] >= 0 ? (useAt(c) === 'paving' ? 'paving' : inPark(x, z) ? 'grass' : 'earth') : Math.hypot(x, z) < R ? 'grass' : 'earth';
+      const k = built[c] ? 'grass' : zone[c] >= 0 ? (useAt(c) === 'paving' ? 'paving' : useAt(c) === 'laterite' && !inPark(x, z) ? 'earth' : 'grass') : 'grass';
       const [r, g, b] = MAPC[k]; img.data.set([r, g, b, 255], c * 4);
     }
     ctx.putImageData(img, 0, 0);
-    world.landMap = { canvas: cv, E, outside: 'rgb(210,160,128)' };
+    world.landMap = { canvas: cv, E, outside: 'rgb(127,179,94)' };
   } catch { /* the minimap keeps its plain green */ }
 
   world.addColliders?.(cols);
   claims.forEach((c) => world.claim?.(c));
-  const sum = { open: zones.filter((z) => z.use !== 'grass').reduce((a, z) => a + z.area, 0), laterite: zones.filter((z) => z.use === 'laterite').length, paving: zones.filter((z) => z.use === 'paving').length, plots: plots.length, carParks: parks.length };
+  const sum = { open: zones.filter((z) => z.use !== 'grass').reduce((a, z) => a + z.area, 0), laterite: zones.filter((z) => z.use === 'laterite').reduce((a, z) => a + z.area, 0), green: zones.filter((z) => z.use === 'green').reduce((a, z) => a + z.area, 0), trees: treeSpots.length, paving: zones.filter((z) => z.use === 'paving').length, plots: plots.length, carParks: parks.length };
   return { group: out, summary: sum };
 }

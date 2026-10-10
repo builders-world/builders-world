@@ -3,7 +3,6 @@ import { MeshBuilder, mulberry32 } from './mesh.js';
 import { BUILDERS, MONUMENTS, FLOOR_H, floorsFor, litProbability } from './builders.js';
 import { makeWindowMaterial, makeGlowMaterial, makeBeamMaterial } from './shaders.js';
 import { wetGroundMaterial, wallMaterial } from './look/surfaces.js';
-import { greenreyOn, EARTH } from './look/greenrey.js';
 import { instanceAsset, collidersFor, anchorAt } from './look/kit.js';
 import { makeClearance, fitStreets, band, streetFurniture, isFootway } from './look/streets.js';
 import { dressEstate, drawFence, fenceCollider, cutFence, WALK } from './look/houses.js';
@@ -276,7 +275,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   // --- static scene geometry ---
   const mb = new MeshBuilder();
   const gb = new MeshBuilder(); // ground surfaces get the wet street material
-  const baseGround = greenreyOn() ? EARTH : PAL.ground; // Greenrey: bare land is laterite, grass is painted where it belongs (look/greenrey.js)
+  const baseGround = PAL.ground; // grass; Greenrey paints earth and paving onto some of the open land (look/greenrey.js)
   gb.box(0, -0.6, 0, R * 14, 0.6, R * 14, baseGround, { grad: 0, vary: 0 });
 
   // roads: carriageways fitted between building lines, pavements on what is left, paint on main roads
