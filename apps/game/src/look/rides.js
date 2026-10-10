@@ -236,7 +236,7 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
       const route = ride.dest ? nav.route({ x: ride.pos.x, z: ride.pos.z }, ride.dest.at) : null;
       if (!route) { toast('No road route to there. Try another place.'); alight(); return; }
       ride.path = laneOf(route); ride.s = 0; ride.phase = 'riding';
-      toast(`On the way to ${ride.dest.name}. E to get off early.`);
+      toast(ride.airport ? `On the way to ${ride.dest.name}. Sit back: V changes the camera.` : `On the way to ${ride.dest.name}. E to get off early.`);
     }
     onState?.({ ride: true, phase: ride.phase, seated: true });
   }
@@ -325,13 +325,13 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
         toast(ride.mode === 'drive' ? 'Your ride is here. Press E to get in and drive.' : 'Your ride is here. Press E to get in.');
       }
     } else if (ride.phase === 'riding') {
-      if (follow(dt)) { const early = ride.stopping, p = alight(); toast(early ? 'Pulled over. Mind the traffic.' : 'You have arrived.'); return { exit: p }; }
+      if (follow(dt)) { const early = ride.stopping, done = !early && ride.airport?.onArrive, p = alight(); if (done) { done(); return { exit: p }; } toast(early ? 'Pulled over. Mind the traffic.' : 'You have arrived.'); return { exit: p }; }
     } else if (ride.phase === 'driving') drive(dt, keys);
     if (ride) {
       ride.mesh.position.copy(ride.pos);
       ride.mesh.rotation.y = ride.yaw;
     }
-    return ride && (ride.phase === 'riding' || ride.phase === 'driving') ? { pos: ride.pos, yaw: ride.yaw, cam: ride.T.cam, seatY: ride.T.seatY, nose: ride.T.wheelbase * 0.5 + 1.05 } : null;
+    return ride && (ride.phase === 'riding' || ride.phase === 'driving') ? { pos: ride.pos, yaw: ride.yaw, cam: ride.T.cam, seatY: ride.T.seatY, nose: ride.T.wheelbase * 0.5 + 1.05, cine: !!ride.airport } : null;
   }
 
   // E: board when waiting nearby, get off when seated
@@ -348,6 +348,32 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
     return false;
   }
 
+  // the Travel app's ride to the airport (Elvis, 10 October 2026: "enter the taxi and look around the world while it
+  // drives you to the airport"): a taxi comes to you; once you are in, it drives out along the main roads toward the
+  // airport's side of the district with the camera on cinematic, and at the edge hands you over to the airport kerb.
+  // bearing: the airport's compass bearing from here (0 north, which is -z)
+  function airportRun({ x, z, bearing, name, onArrive }) {
+    const dx = Math.sin(bearing), dz = -Math.cos(bearing);
+    let best = null, bs = -Infinity;
+    world.roads.forEach((r) => { if (!r.fit || !MAIN.includes(r.cls)) return; r.fit.pts.forEach((p) => {
+      if (Math.hypot(p[0], p[1]) > world.radius * 0.88) return;
+      const sc = p[0] * dx + p[1] * dz + 0.35 * Math.hypot(p[0] - x, p[1] - z); // out toward the airport, and a decent drive
+      if (sc > bs) { bs = sc; best = { x: p[0], z: p[1] }; }
+    }); });
+    if (!best) return false;
+    summon({ kind: 'taxi', mode: 'passenger', from: { x, z }, dest: { name, at: best } }, 0);
+    ride.airport = { onArrive };
+    return true;
+  }
+  // skip the rest of the trip: the taxi goes, the airport takes you in
+  function skipAirport() {
+    if (!ride?.airport) return false;
+    const done = ride.airport.onArrive; if (!ride.mesh.userData.shared) ride.mesh.traverse((o) => o.geometry?.dispose());
+    ride.mesh.removeFromParent(); const wasIn = ride.phase === 'riding'; ride = null;
+    onState?.({ ride: false, exitAt: null }); done?.(wasIn);
+    return true;
+  }
+
   function dispose() {
     if (ride) ride.mesh.removeFromParent();
     panel.remove();
@@ -356,7 +382,7 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
   }
 
   return {
-    update, use, openPanel, dispose, stops,
+    update, use, openPanel, dispose, stops, airportRun, skipAirport, get airportRide() { return !!ride?.airport; }, get airportPhase() { return ride?.airport ? ride.phase : null; },
     isMenuOpen: () => panel.classList.contains('on'), closeMenu: closePanel,
     get active() { return !!ride; }, cancel, get pending() { return !!ride && (ride.phase === 'arriving' || ride.phase === 'waiting'); },
     // the hired vehicle, while you are not in it, is something to walk around
