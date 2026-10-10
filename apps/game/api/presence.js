@@ -1,4 +1,4 @@
-// POST /api/presence  { id, name, district, x, z, yaw, speed, look, say, emote }
+// POST /api/presence  { id, name, district, x, z, yaw, speed, look, say, emote, home, knock: { to, kind }, answer: { to, kind, ok } }
 //   -> { you, players: [{ id, name, x, z, yaw, speed, look, say, emote, t }], online }
 // Every player calls this about once a second: it records where you are and returns everyone else in
 // the same district seen in the last 12 seconds. Positions are clamped and text is trimmed; anything
@@ -24,11 +24,18 @@ export default async function handler(req, res) {
     seen: now,
   };
   const say = str(b.say, 140), emote = str(b.emote, 8);
+  // homes and visits (world bible 7.9): where you live, and knocks and answers between players
+  me.home = str(b.home, 80);
+  const pid = (v) => str(v, 40).replace(/[^A-Za-z0-9_-]/g, '');
+  const knock = b.knock && pid(b.knock.to).length >= 8 ? { to: pid(b.knock.to), kind: b.knock.kind === 'gate' ? 'gate' : 'door', t: now.getTime() } : null;
+  const answer = b.answer && pid(b.answer.to).length >= 8 ? { to: pid(b.answer.to), kind: b.answer.kind === 'gate' ? 'gate' : 'door', ok: b.answer.ok === true, t: now.getTime() } : null;
   try {
     const d = await db(), players = d.collection('players');
     const set = { ...me };
     if (say) set.say = { text: say, t: now.getTime() };
     if (emote) set.emote = { e: emote, t: now.getTime() };
+    if (knock) set.knock = knock;
+    if (answer) set.answer = answer;
     await players.updateOne({ id }, { $set: set }, { upsert: true });
     const since = new Date(now.getTime() - 12000);
     const others = await players.find({ district, seen: { $gte: since }, id: { $ne: id } }, { projection: { _id: 0, district: 0 } }).sort({ seen: -1 }).limit(60).toArray();

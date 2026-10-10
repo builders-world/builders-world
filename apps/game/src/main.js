@@ -341,7 +341,9 @@ async function main() {
   const idle = { t: 0, on: false, shot: -1, until: 0 };
   // other players, through the database (online.js); ?offline=1 plays solo
   let lastSpeed = 0;
-  const online = q.get('offline') === '1' ? null : createOnline({ scene, camera, chat: { sayFrom: (...a) => street?.chat?.sayFrom(...a), sayMine: (t) => street?.chat?.sayMine(t) }, getPlayer: () => ({ x: player.x, z: player.z, y: groundY }), getHeading: () => heading, getSpeed: () => lastSpeed, district: place.name, profile: resident ? arrivalProfile : null, toast: (t) => street?.hud.toast(t) });
+  const online = q.get('offline') === '1' ? null : createOnline({ scene, camera, chat: { sayFrom: (...a) => street?.chat?.sayFrom(...a), sayMine: (t) => street?.chat?.sayMine(t) }, getPlayer: () => ({ x: player.x, z: player.z, y: groundY }), getHeading: () => heading, getSpeed: () => lastSpeed, district: place.name, profile: resident ? arrivalProfile : null, toast: (t) => street?.hud.toast(t),
+    getHome: () => street?.passes?.tenancy?.()?.addr || '', onKnock: (p) => street?.gates?.knocked(p), onAnswer: (p) => street?.gates?.answered(p) });
+  street?.gates?.setOnline(online);
   ['keydown', 'pointerdown', 'pointermove', 'wheel', 'touchstart'].forEach((ev) => addEventListener(ev, () => { idle.t = 0; }, { passive: true, capture: true }));
   const audio = audioEngine();
   // touch stick and controllers: their buttons become the same key presses the keyboard makes

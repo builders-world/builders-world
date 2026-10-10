@@ -160,6 +160,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       if (active?.id?.startsWith('life:')) return lives.talk(active.id);
       // people's homes: knock; go in only when they have asked you in (lives.js)
       if (active?.id?.startsWith('gate:')) return gates.open(active.id);
+      if (active?.id?.startsWith('pknock:')) return gates.knockPlayer(active.id.slice(7));
       if (active?.id === 'myhome') {
         const host = gates.enterHome(); if (!host) return false;
         doorOut = { x: host.door.x, z: host.door.z, yaw: host.door.ry ?? 0 };
@@ -232,7 +233,9 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   });
   group.add(hud.route);
   passes = passesEngine({ toast: hud.toast, district: world.place?.name || 'Yaba' });
-  gates = createGates({ world, scene: group, props, lives, passes, toast: hud.toast, getHour: () => live?.hour ?? 12 });
+  gates = createGates({ world, scene: group, props, lives, passes, toast: hud.toast, getHour: () => live?.hour ?? 12,
+    // another player said yes at their door: in you go, they are there to meet you
+    enterPlayerHome: (host) => { doorOut = { x: host.door.x, z: host.door.z, yaw: host.door.ry ?? 0 }; interiors.enter('home', host).then((p) => { setInside(`${host.first}'s home`); pendingMove = { ...p, mode: 'inside' }; passes.arrive('home'); }); } });
   interiors = createInteriors({ scene, reduced, toast: hud.toast, getEnv: () => live || { day: 1 }, onPackUp: () => standUp(), net: passes });
   // everything that moves and can be bumped into: people, traffic, the waiting hired vehicle
   const bodies = () => [...(props.bodies?.() || []), ...lives.bodies(), ...(dressing?.bodies?.() || []), rides?.body?.()].filter(Boolean);
@@ -482,6 +485,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

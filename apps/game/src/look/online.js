@@ -24,7 +24,7 @@ body.nohud #lk-online, body.bw-cine #lk-online { display: none; }
   white-space: nowrap; box-shadow: 0 3px 0 rgba(0,0,0,.2); pointer-events: none; }
 `;
 
-export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSpeed, district, profile, toast }) {
+export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSpeed, district, profile, toast, getHome, onKnock, onAnswer }) {
   const style = document.createElement('style'); style.textContent = CSS; document.head.appendChild(style);
   const chip = document.createElement('div'); chip.id = 'lk-online'; chip.innerHTML = '<i></i><span>Connecting…</span>';
   const say = document.createElement('div'); say.id = 'lk-say'; say.innerHTML = '<input maxlength="140" placeholder="Say something to the street…" aria-label="Message"><b>Enter to send · Esc</b>';
@@ -34,10 +34,12 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
 
   let id = store.get('bw-pid', '');
   if (id.length < 8) { id = `p${Math.random().toString(36).slice(2, 10)}${Date.now().toString(36)}`; store.set('bw-pid', id); }
-  const me = () => ({ name: profile?.name || store.get('bw-gh', '') || 'Builder', handle: store.get('bw-gh', '').replace(/"/g, ''), look: profile?.avatar || { color: '#e2b13c', style: 'jacket' } });
+  const gh = () => store.get('bw-gh', '').replace(/"/g, ''); // the wallet saves it as JSON
+  const me = () => ({ name: profile?.name || (gh() ? `@${gh()}` : '') || 'Builder', handle: gh(), look: profile?.avatar || { color: '#e2b13c', style: 'jacket' } });
 
   const remote = new Map(); // id -> { obj, rig, tag, from, to, t0, lastSay, lastEmote }
-  let pending = { say: '', emote: '' }, busy = false, timer = 0, ok = null, fails = 0;
+  let pending = { say: '', emote: '' }, busy = false, timer = 0, ok = null, fails = 0, latest = [];
+  const seenKnock = new Map(), seenAnswer = new Map(), started = Date.now();
 
   function spawn(p) {
     const av = createAvatarModel({ color: p.look?.color, style: p.look?.style });
@@ -54,7 +56,7 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
     if (busy || document.hidden) return;
     busy = true;
     const P = getPlayer();
-    const body = { id, district, x: P.x, z: P.z, y: P.y || 0, yaw: getHeading(), speed: getSpeed(), ...me(), say: pending.say, emote: pending.emote };
+    const body = { id, district, x: P.x, z: P.z, y: P.y || 0, yaw: getHeading(), speed: getSpeed(), ...me(), say: pending.say, emote: pending.emote, home: getHome?.() || '', knock: pending.knock, answer: pending.answer };
     pending = { say: '', emote: '' };
     try {
       const r = await fetch('/api/presence', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
@@ -64,6 +66,12 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
       ok = true; fails = 0;
       chip.classList.add('on'); chip.querySelector('span').textContent = j.online === 1 ? 'Online · just you here' : `Online · ${j.online} here`;
       const seen = new Set();
+      latest = j.players;
+      // knocks on your door (or at your estate gate), and answers to yours
+      j.players.forEach((p) => {
+        if (p.knock && p.knock.to === id && p.knock.t > Math.max(started, seenKnock.get(p.id) || 0)) { seenKnock.set(p.id, p.knock.t); onKnock?.(p); }
+        if (p.answer && p.answer.to === id && p.answer.t > Math.max(started, seenAnswer.get(p.id) || 0)) { seenAnswer.set(p.id, p.answer.t); onAnswer?.(p); }
+      });
       j.players.forEach((p) => {
         seen.add(p.id);
         const r2 = remote.get(p.id) || spawn(p);
@@ -118,5 +126,7 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
   }
   const bodies = () => [...remote.values()].map((r) => ({ x: r.obj.position.x, z: r.obj.position.z, r: 0.33 }));
   function dispose() { remote.forEach((r) => { r.obj.removeFromParent(); r.dispose?.(); }); chip.remove(); say.remove(); tags.remove(); style.remove(); }
-  return { update, bodies, dispose, get count() { return remote.size; }, get online() { return ok; }, id };
+  const knock = (to, kind = 'door') => { pending.knock = { to, kind }; timer = Math.min(timer, 0.2); };
+  const answer = (to, ok2, kind = 'door') => { pending.answer = { to, ok: ok2, kind }; timer = Math.min(timer, 0.2); };
+  return { update, bodies, dispose, knock, answer, players: () => latest, get count() { return remote.size; }, get online() { return ok; }, id };
 }

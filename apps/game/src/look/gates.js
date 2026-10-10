@@ -26,7 +26,7 @@ const CSS = `
 #lk-gate svg { display: inline-block; vertical-align: -2px; }
 `;
 
-export function createGates({ world, scene, props, lives, passes, toast, getHour = () => new Date().getHours() }) {
+export function createGates({ world, scene, props, lives, passes, toast, getHour = () => new Date().getHours(), enterPlayerHome }) {
   const style = document.createElement('style'); style.textContent = CSS; document.head.appendChild(style);
   const panel = document.createElement('div'); panel.id = 'lk-gate'; panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-label', 'Gatehouse'); document.body.appendChild(panel);
   const group = new THREE.Group(); group.name = 'gatemen'; scene.add(group);
@@ -64,11 +64,13 @@ export function createGates({ world, scene, props, lives, passes, toast, getHour
     const greeting = say || (acc === 'resident' ? `Welcome home! Pass in.` : acc === 'visitor' ? `Your visitor pass is good until ${when(v.until)}. Go on in.` : `Good ${getHour() < 12 ? 'morning' : getHour() < 17 ? 'afternoon' : 'evening'}. Who are you here to see?`);
     panel.innerHTML = `<div class="box"><h3>${esc(E.name)}, Gate ${g.no}</h3><div class="sub">Gateman ${esc(g.guard)} · your reputation: ${passes.rep} (${passes.repLabel()})</div>
       <div class="say">${esc(g.guard)}: "${esc(greeting)}"</div>
+      ${acc || !playersHere(E.name).length ? '' : `<label>Builders who live here</label><div class="list">${playersHere(E.name).map((p) => `<button data-pvisit="${p.id}"><span>${esc(p.name)}<br><small>${esc(p.home.split(',')[0])} · online now</small></span><span>Call</span></button>`).join('')}</div>`}
       ${acc ? '' : `<label>Visit a resident</label><div class="list">${res.map((r) => `<button data-visit="${r.id}"><span>${esc(r.name)}<br><small>${esc(r.home.addr.split(',')[0])} · ${esc(r.job)}</small></span><span>Call</span></button>`).join('') || '<div class="sub">Nobody here you know yet.</div>'}</div>`}
       ${acc === 'resident' ? '' : `<label>Rent a home here · ${effortsMark(12)}${fmt(RENT)} for ${RENT_DAYS} days</label><div class="list">${vacant.slice(0, 6).map((h) => `<button data-rent="${esc(h.addr)}"><span>House ${esc(h.no)}<br><small>Gate ${h.gate} · 2 bedrooms, garage</small></span><span>Rent</span></button>`).join('') || '<div class="sub">No vacant houses here right now.</div>'}</div>`}
       <div class="row"><button class="x">${acc ? 'Thanks' : 'Leave'}</button></div></div>`;
     panel.querySelector('.x').onclick = close;
     panel.querySelectorAll('[data-visit]').forEach((b) => { b.onclick = () => call(b.dataset.visit); });
+    panel.querySelectorAll('[data-pvisit]').forEach((b) => { b.onclick = () => { const p = playersHere(at.E.name).find((q) => q.id === b.dataset.pvisit); if (!p) return; waiting = { id: p.id, kind: 'gate', estate: at.E.name, gate: at.g.no, name: p.name }; online.knock(p.id, 'gate'); render(`Ringing ${p.name}... (another builder; they answer from wherever they are)`); }; });
     panel.querySelectorAll('[data-rent]').forEach((b) => { b.onclick = () => rent(b.dataset.rent); });
   }
   // the guard rings the host on the intercom
@@ -135,6 +137,55 @@ export function createGates({ world, scene, props, lives, passes, toast, getHour
     return { self: true, first: 'Your', name: 'Your home', door: homeIt.door, pidgin: false, kids: [], dream: 'make this place feel like home', addr: t.addr };
   }
 
-  function dispose() { group.removeFromParent(); panel.remove(); style.remove(); }
-  return { open, close, update, enterHome, get isOpen() { return panel.classList.contains('on'); }, estates, dispose };
+  // ---------- other players: their homes, their doors, their answers (online.js) ----------
+  let online = null, waiting = null, pdoors = new Map();
+  const playersHere = (estate) => (online?.players() || []).filter((p) => p.home && p.home.endsWith(estate));
+  function syncPlayerDoors() {
+    const live = new Map((online?.players() || []).filter((p) => p.home).map((p) => [p.id, p]));
+    pdoors.forEach((it, pid) => { if (!live.has(pid)) { const k = props.interact.indexOf(it); if (k >= 0) props.interact.splice(k, 1); pdoors.delete(pid); } });
+    live.forEach((p, pid) => {
+      const h = (world.addresses || []).find((a) => a.addr === p.home); if (!h?.door) return;
+      let it = pdoors.get(pid);
+      if (!it) { it = { id: `pknock:${pid}`, x: h.door.x, z: h.door.z, r: 1.6, door: h.door }; props.interact.push(it); pdoors.set(pid, it); }
+      it.label = `Knock on ${p.name}'s door`;
+    });
+  }
+  function knockPlayer(pid) {
+    const p = (online?.players() || []).find((q) => q.id === pid), it = pdoors.get(pid); if (!p || !it) return false;
+    sfx('knock'); waiting = { id: pid, kind: 'door', name: p.name, door: it.door, look: p.look };
+    online.knock(pid, 'door'); toast(`You knock. Waiting for ${p.name}...`, 3000);
+    return true;
+  }
+  // someone knocks on your door, or rings you from your estate's gate
+  const ask = document.createElement('div'); ask.id = 'lk-ask'; document.body.appendChild(ask);
+  const askCss = document.createElement('style'); askCss.textContent = `#lk-ask { position: fixed; right: 16px; top: 84px; z-index: 37; display: none; width: min(340px, calc(100vw - 32px)); padding: 16px 18px; border-radius: 22px; background: ${C.paper}; color: ${C.ink}; font: 700 15px/1.4 ${FONT}; box-shadow: 0 5px 0 rgba(59,42,32,.22), 0 20px 50px rgba(10,14,30,.3); }
+    #lk-ask.on { display: block; } #lk-ask .row { display: flex; gap: 8px; margin-top: 12px; } #lk-ask button { flex: 1; border: 0; border-radius: 999px; padding: 10px; font: 800 14px/1 ${FONT}; cursor: pointer; background: #eadfc6; color: ${C.ink}; } #lk-ask button.y { background: ${C.teal}; color: #fff; }`;
+  document.head.appendChild(askCss);
+  function knocked(p) {
+    sfx('knock');
+    ask.innerHTML = `${esc(p.name)} is ${p.knock.kind === 'gate' ? 'at the gate of your estate, asking to visit you' : 'knocking at your door'}. Let them in?<div class="row"><button class="n">Not now</button><button class="y">Let them in</button></div>`;
+    ask.classList.add('on');
+    const reply = (ok) => { online?.answer(p.id, ok, p.knock.kind); ask.classList.remove('on'); toast(ok ? `You let ${p.name} in.` : `You told ${p.name} not now.`, 2200); };
+    ask.querySelector('.y').onclick = () => reply(true); ask.querySelector('.n').onclick = () => reply(false);
+    clearTimeout(knocked.t); knocked.t = setTimeout(() => ask.classList.remove('on'), 30000);
+  }
+  function answered(p) {
+    if (!waiting || waiting.id !== p.id) return;
+    const w = waiting; waiting = null;
+    if (!p.answer.ok) { toast(`${w.name} can't have visitors right now.`, 3000); if (at) render(`${w.name} says not now.`); return; }
+    if (w.kind === 'gate') {
+      const c = passes.addCard({ kind: 'visitor', estate: w.estate, gate: w.gate, host: w.name, until: Date.now() + VISIT_DAYS * DAY });
+      sfx('arrive'); if (at) render(`${w.name} says let you in. Your visitor pass is good until ${when(c.until)}.`); else toast(`${w.name} let you in: visitor pass in your bag.`, 3200);
+      return;
+    }
+    // at their door: they open it
+    toast(`${w.name} opens the door: come in!`, 2600);
+    enterPlayerHome?.({ first: w.name, name: w.name, color: w.look?.color || '#e2b13c', style: w.look?.style || 'jacket', kids: [], pidgin: false, dream: 'build something people love', door: w.door });
+  }
+  let syncT = 0;
+  const baseUpdate = update;
+  function update2(dt, player, indoors) { syncT -= dt; if (syncT <= 0 && online) { syncT = 1; syncPlayerDoors(); } return baseUpdate(dt, player, indoors); }
+
+  function dispose() { group.removeFromParent(); panel.remove(); style.remove(); ask.remove(); askCss.remove(); }
+  return { open, close, update: update2, enterHome, knocked, answered, knockPlayer, setOnline: (o) => { online = o; }, get isOpen() { return panel.classList.contains('on'); }, estates, dispose };
 }
