@@ -109,6 +109,7 @@ export function createFood({ scene, props, toast, getEnv, reduced, addLamps }) {
     if (!walletEngine().spend(price, `${name} at ${st.it.name}`)) { render(`Ah, you no get enough Efforts for ${name.toLowerCase()}. ${fmt(price)} na the price.`); return; }
     sfx('interact');
     render(st.kind === 'suya' ? 'Ehen! Make I cut am fresh for you.' : st.kind === 'cafe' ? 'Coming right up.' : 'No wahala, one minute.', true);
+    if (st.indoor) { setTimeout(() => { if (at !== st) return; sfx('arrive'); render('Here you go. Enjoy!'); toast(`${name}: ${['delicious', 'exactly what you needed', 'worth every Effort'][Math.floor(Math.random() * 3)]}.`, 2800); }, 2200); return; }
     st.making = { t: 0, name, parcel: null };
   }
   function close() {
@@ -161,5 +162,12 @@ export function createFood({ scene, props, toast, getEnv, reduced, addLamps }) {
   }
   const handles = (it) => !!stalls.find((s) => s.it === it);
   function dispose() { group.removeFromParent(); panel.remove(); style.remove(); }
-  return { open, close, handles, update, get isOpen() { return panel.classList.contains('on'); }, stalls, dispose };
+  // ordering indoors (the cafe's counter): the same menu, no camera cut
+  function menu(kind) {
+    const M = MENUS[kind]; if (!M) return false;
+    at = { it: { name: kind === 'cafe' ? 'Kofo Cafe' : M.vendor }, kind, M, vendor: new THREE.Vector3(), eye: { x: 0, z: 0 }, rig: null, making: null, indoor: true };
+    render(M.hello); panel.classList.add('on'); sfx('open');
+    return true;
+  }
+  return { open, close, handles, update, menu, get isOpen() { return panel.classList.contains('on'); }, stalls, dispose };
 }

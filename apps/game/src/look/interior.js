@@ -3,6 +3,7 @@ import { sfx } from './audio.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { createAvatarModel } from '../onboarding/avatar.js';
 import { dress, lookFor } from './style.js';
+import { buildCafe, buildGym, buildBank } from './venues.js';
 import { BUILDERS } from '../builders.js';
 import { mulberry32 } from '../mesh.js';
 
@@ -18,6 +19,9 @@ export const PLACES = {
   hub: { name: 'Yaba Creative Hub', kind: 'Shared workspace', accent: 0x2a9d94, floor: 0x8a8f96, seed: 3 },
   loft: { name: 'Lagos Builders Loft', kind: 'Co-working loft', accent: 0xe46f4f, floor: 0x7a6656, seed: 7 },
   studio: { name: 'Eko Design Studio', kind: 'Design and media studio', accent: 0xf2b33d, floor: 0x6a707c, seed: 11 },
+  cafe: { name: 'Kofo Cafe', kind: 'Coffee and a table to work at', accent: 0xa87950, floor: 0x8a5a36, seed: 13 },
+  gym: { name: 'Yaba Fitness', kind: 'Gym', accent: 0xe46f4f, floor: 0x3b3f45, seed: 17 },
+  bank: { name: 'Yaba Builders Bank', kind: 'Banking hall', accent: 0x2a9d94, floor: 0xd9d2c3, seed: 19 },
 };
 
 // the three places take the district's name, so Wuse gets a Wuse hub, not a Yaba one
@@ -58,7 +62,7 @@ const SNIPPET = [
   '// ✓ 3 commits verified',
 ];
 
-export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net }) {
+export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, onOrder, onTeller }) {
   const built = {};
   let current = null; // { key, group, colliders, seats, interact }
   const fade = document.createElement('div');
@@ -363,7 +367,8 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net }
   const laptopScreen = new THREE.MeshBasicMaterial({ map: codeScreen(SNIPPET) });
 
   function enter(key, host) {
-    if (!built[key]) built[key] = key === 'home' ? buildHome() : build(key);
+    const VENUE = { cafe: () => buildCafe({ ORIGIN, scene, onOrder }), gym: () => buildGym({ ORIGIN, scene, toast }), bank: () => buildBank({ ORIGIN, scene, toast, onTeller }) };
+    if (!built[key]) built[key] = key === 'home' ? buildHome() : VENUE[key] ? VENUE[key]() : build(key);
     current = built[key];
     if (key === 'home') current.setHost(host);
     fade.style.opacity = '1';
@@ -371,7 +376,7 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net }
       current.group.visible = true;
       fade.style.opacity = '0';
       sfx('door');
-      toast(key === 'home' && host.self ? `Home sweet home: ${host.addr}.` : key === 'home' ? `${host.first}'s home. ${host.pidgin ? 'Make yourself at home o.' : 'Make yourself at home.'}` : `${PLACES[key].name}. ${PLACES[key].kind}. Find a free desk, or grab something at the cafeteria.`, 4500);
+      toast(key === 'cafe' ? 'Kofo Cafe. Order at the counter, or take a table and work. The Wi-Fi is on the menu board.' : key === 'gym' ? 'Yaba Fitness. Treadmills, weights, the bag. First visit is on the house.' : key === 'bank' ? 'Yaba Builders Bank. Join the queue for a teller, or ask about a loan.' : key === 'home' && host.self ? `Home sweet home: ${host.addr}.` : key === 'home' ? `${host.first}'s home. ${host.pidgin ? 'Make yourself at home o.' : 'Make yourself at home.'}` : `${PLACES[key].name}. ${PLACES[key].kind}. Find a free desk, or grab something at the cafeteria.`, 4500);
       res({ x: ORIGIN.x + current.door.x, z: ORIGIN.z + current.door.z - 1.5, yaw: Math.PI });
     }, reduced ? 0 : 360));
   }
@@ -439,6 +444,7 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net }
     if (best.id === 'in:board') { const n = net?.NETS?.[current.key]; toast(`Demo night is Thursday at 7pm. ${current.key === 'studio' ? 'Members\' Wi-Fi is on your membership card.' : n ? `Wi-Fi ${n.ssid}, password ${n.pass}.` : ''}`, 5200); return { handled: true }; }
     if (best.id === 'in:cafe') { const items = ['Zobo', 'Chapman', 'coffee', 'puff-puff', 'jollof and plantain']; toast(`Your ${items[Math.floor(Math.random() * items.length)]} is ready at the counter. Free for builders today.`); return { handled: true }; }
     if (best.id === 'in:meet') { toast('Meeting room booked for 30 minutes. Voice rooms arrive with multiplayer.'); return { handled: true }; }
+    if (best.use) { best.use(); return { handled: true }; }
     if (best.desk) return { sit: sit(best.desk) };
     return null;
   }
@@ -479,6 +485,7 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net }
   function update(dt, t) {
     if (!current) return;
     if (current.fan && !reduced) current.fan.rotation.y += dt * 4;
+    current.tick?.(dt, t);
     const env = getEnv?.() || { day: 1 };
     // the window shows the real sky: bright by day, deep blue at night
     current.window.material.color.setRGB(0.15 + 0.75 * env.day, 0.22 + 0.7 * env.day, 0.45 + 0.6 * env.day);

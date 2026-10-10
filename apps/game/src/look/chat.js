@@ -202,5 +202,7 @@ export function createChat({ camera, avatar, getEnv, reduced }) {
   // other players (online.js) and your own typed messages
   const sayFrom = (obj, text, name, emoji = false) => say(obj, text, { name, emoji, hold: emoji ? 2.4 : 5 });
   const sayMine = (text) => say(avatar, text, { me: true, hold: 5 });
-  return { add, update, sayHi, emote, nearest, dispose, sayFrom, sayMine, setLife: (fn) => { lifeLine = fn; }, get people() { return people; }, get last() { return last; } };
+  // going indoors: the street's bubbles go (they would hang frozen on the screen)
+  const clear = () => { bubbles.forEach((b) => b.el.remove()); bubbles.length = 0; };
+  return { add, update, clear, sayHi, emote, nearest, dispose, sayFrom, sayMine, setLife: (fn) => { lifeLine = fn; }, get people() { return people; }, get last() { return last; } };
 }

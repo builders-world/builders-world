@@ -21,6 +21,9 @@ export function networksFor(district = 'Yaba') {
     studio: { ssid: 'Eko-Members', pass: 'ekomembers26', where: 'On your Eko membership card' },
     hub: { ssid: `${district}Hub-Guest`, pass: 'buildtogether', where: `On the notice board at the ${PLACES.hub.name}` },
     loft: { ssid: 'BuildersLoft', pass: 'shiplagos', where: `On the notice board at the ${PLACES.loft.name}` },
+    cafe: { ssid: 'KofoCafe-Guest', pass: 'flatwhite', where: 'On the menu board at Kofo Cafe' },
+    gym: { ssid: 'YabaFitness', pass: 'nopainnogain', where: 'At the gym front desk' },
+    bank: { ssid: 'YBB-Customer', pass: 'buildersbank', where: 'Ask a teller' },
     district: { ssid: `${district}-Connect`, pass: `${district.toLowerCase()}-resident`, where: `On your ${district} resident card` },
   };
 }

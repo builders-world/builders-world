@@ -102,6 +102,7 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
 
   // the bank: a branch in the first mid-rise block, ATMs set into its front wall, its name above
   const bankAt = mids[0];
+  let bankDoor = null;
   if (bankAt) {
     const fz = midT.bounds.max.z, g = new THREE.Group();
     const shell = new THREE.MeshStandardMaterial({ color: 0x2a9d94, roughness: 0.6 });
@@ -122,6 +123,7 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
     interact.push({ id: 'atm', label: 'Use the ATM', x: front.x, z: front.z, r: 2.4 });
     lamps.push({ x: front.x, y: 2.8, z: front.z, power: 10, boost: 10, color: 0xbff5e6 });
     poi('atm', 'Yaba Builders Bank ATM', front.x, front.z);
+    bankDoor = fwd({ x: p0.x, z: p0.z, ry: bankAt.ry }, 1.4); // the entrance between the ATMs
   }
 
   // the filling station: a forecourt on a main road, a canopy over two pump islands, a kiosk at the back
@@ -340,5 +342,5 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
   // moving danfos as boxes, for people and the player's car to bump into (world bible 7.5)
   const bodies = () => movers.map((m) => m.body).filter(Boolean);
 
-  return { group, interact, lamps, update, bodies, counts, pois, shops: placed.filter((p) => p.road && interact.some((i) => i.id.startsWith('shop:'))), landmarks: mids };
+  return { bankDoor, group, interact, lamps, update, bodies, counts, pois, shops: placed.filter((p) => p.road && interact.some((i) => i.id.startsWith('shop:'))), landmarks: mids };
 }

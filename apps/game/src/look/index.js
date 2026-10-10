@@ -145,11 +145,16 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   // the estates: gate signs, house numbers, cars in the driveways (estatesigns.js)
   const estateSigns = buildEstateSigns({ world, scene: group });
   const placeUsed = [];
-  const fronts = buildPlaceFronts({ world, scene: group, keys: ['loft', 'studio'], used: placeUsed,
+  const fronts = buildPlaceFronts({ world, scene: group, keys: ['loft', 'studio', 'gym'], used: placeUsed,
     addLamps: (l) => props.lamps.push(...l) });
   doors.push(...fronts.doors);
+  // the bank's banking hall, and Kofo Cafe, open their doors too (venues.js)
+  if (dressing?.bankDoor) doors.push({ key: 'bank', at: dressing.bankDoor });
+  const cafeFront = props.interact.find((i) => i.name === 'Kofo Cafe');
+  if (cafeFront) { cafeFront.id = 'enter:cafe'; cafeFront.label = `Enter ${PLACES.cafe.name}`; delete cafeFront.line; }
   doors.forEach((d) => props.interact.push({ id: `enter:${d.key}`, label: MEMBERS_ONLY[d.key] ? `${PLACES[d.key].name}: members only` : `Enter ${PLACES[d.key].name}`, x: d.at.x, z: d.at.z, r: 3.5 }));
   function setInside(name) {
+    if (name) chat.clear?.();
     world.scene.visible = !name; if (sky) sky.visible = !name; group.visible = !name;
     document.body.classList.toggle('bw-inside', !!name);
     if (name) { savedFog = scene.fog; scene.fog = null; renderer.toneMappingExposure = 1.0; if (bloom) { bloom.strength = 0.3; bloom.threshold = 0.95; } }
@@ -168,7 +173,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       if (benchSeat) { standUp(); return true; }
       if (active?.id?.startsWith('life:')) return lives.talk(active.id);
       // people's homes: knock; go in only when they have asked you in (lives.js)
-      if (active && food?.handles(active)) return food.open(active);
+      if (active && food?.handles(active) && !active.id?.startsWith('enter:')) return food.open(active);
       if (active?.id?.startsWith('dock:')) return mobility.use(active.id, player);
       if (mobility?.mode === 'bike' && !interiors?.active) { mobility.unmount(); return true; } // E hops off the bike
       if (active?.id?.startsWith('hawk:')) return slife.buy(active.id);
@@ -266,7 +271,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   gates = createGates({ world, scene: group, props, lives, passes, toast: hud.toast, getHour: () => live?.hour ?? 12,
     // another player said yes at their door: in you go, they are there to meet you
     enterPlayerHome: (host) => { doorOut = { x: host.door.x, z: host.door.z, yaw: host.door.ry ?? 0 }; interiors.enter('home', host).then((p) => { setInside(`${host.first}'s home`); pendingMove = { ...p, mode: 'inside' }; passes.arrive('home'); }); } });
-  interiors = createInteriors({ scene, reduced, toast: hud.toast, getEnv: () => live || { day: 1 }, onPackUp: () => standUp(), net: passes });
+  interiors = createInteriors({ scene, reduced, toast: hud.toast, getEnv: () => live || { day: 1 }, onPackUp: () => standUp(), net: passes, onOrder: (k) => food?.menu(k), onTeller: () => hud.openWallet({ atm: true }) });
   // everything that moves and can be bumped into: people, traffic, the waiting hired vehicle
   const bodies = () => [...(props.bodies?.() || []), ...lives.bodies(), ...(mobility?.bodies() || []), ...(dressing?.bodies?.() || []), ...(traffic?.bodies() || []), rides?.body?.()].filter(Boolean);
   rides = createRides({ world, scene: group, nav: hud.nav, props, reduced, toast: hud.toast, getBodies: () => [...(props.bodies?.() || []), ...(dressing?.bodies?.() || [])],
