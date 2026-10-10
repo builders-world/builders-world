@@ -3,6 +3,7 @@ import { walletEngine, effortsMark, fmt } from './wallet.js';
 import { PLACES } from './interior.js';
 import { sfx } from './audio.js';
 import { C, FONT } from './uikit.js';
+import { cityFor, cardArt } from './cardart.js';
 
 // Passes and Wi-Fi (world bible 6.7): a little real-life friction, on purpose. Eko Design Studio is
 // for members: you register at the door, pay in Efforts, and a membership card goes in your bag.
@@ -24,7 +25,7 @@ export function networksFor(district = 'Yaba') {
     cafe: { ssid: 'KofoCafe-Guest', pass: 'flatwhite', where: 'On the menu board at Kofo Cafe' },
     gym: { ssid: 'YabaFitness', pass: 'nopainnogain', where: 'At the gym front desk' },
     bank: { ssid: 'YBB-Customer', pass: 'buildersbank', where: 'Ask a teller' },
-    district: { ssid: `${district}-Connect`, pass: `${district.toLowerCase()}-resident`, where: `On your ${district} resident card` },
+    district: { ssid: `${district.replace(/\s+/g, '')}-Connect`, pass: `${district.toLowerCase().replace(/\s+/g, '')}-resident`, where: `On your ${district} card` },
   };
 }
 // who needs a card to get in
@@ -46,16 +47,19 @@ const CSS = `
 #lk-reg .err { color: #c0392b; font: 700 13.5px/1.3 ${FONT}; min-height: 18px; margin-top: 10px; }
 #lk-reg .row { display: flex; gap: 8px; margin-top: 6px; } #lk-reg .row button { flex: 1; border: 0; border-radius: 999px; padding: 12px; font: 800 15px/1 ${FONT}; cursor: pointer; }
 #lk-reg .go { background: ${C.teal}; color: #fff; } #lk-reg .x { background: #eadfc6; color: ${C.ink}; }
-.bw-card { position: relative; width: 100%; max-width: 380px; aspect-ratio: 1.586; box-sizing: border-box; padding: 16px 18px; border-radius: 18px; color: #1d1a16; overflow: hidden; font-family: ${FONT};
-  box-shadow: 0 4px 0 rgba(0,0,0,.18), 0 14px 30px rgba(10,14,30,.25); }
-.bw-card.eko { background: linear-gradient(135deg, #f2c94c, #e8a93a); } .bw-card.resident { background: linear-gradient(135deg, #8fcf7c, #4f9a55); color: #0f2a13; }
-.bw-card.tenant { background: linear-gradient(135deg, #7fd1c7, #2a9d94); color: #0b2b28; } .bw-card.visitor { background: linear-gradient(135deg, #c9b8f0, #8a6fd1); color: #1f1338; }
-.bw-card .org { font: 900 15px/1 ${FONT}; letter-spacing: .06em; } .bw-card .kind { font: 700 11px/1 ${FONT}; letter-spacing: .14em; opacity: .75; margin-top: 4px; }
-.bw-card .nm { position: absolute; left: 18px; bottom: 44px; font: 800 21px/1.1 ${FONT}; } .bw-card .role { position: absolute; left: 18px; bottom: 26px; font: 700 12.5px/1 ${FONT}; opacity: .8; }
-.bw-card .no { position: absolute; left: 18px; bottom: 10px; font: 700 11.5px/1 ui-monospace, Menlo, monospace; opacity: .85; }
-.bw-card .qr { position: absolute; right: 16px; top: 16px; width: 58px; height: 58px; background: #fff; border-radius: 8px; padding: 4px; display: grid; grid-template-columns: repeat(9, 1fr); gap: 0; }
+.bw-card { position: relative; width: 100%; max-width: 380px; aspect-ratio: 1.586; box-sizing: border-box; padding: 16px 18px; border-radius: 18px; color: var(--ink, #1d1a16); overflow: hidden; font-family: ${FONT};
+  background: linear-gradient(135deg, var(--c1, #8fcf7c), var(--c2, #4f9a55)); box-shadow: 0 4px 0 rgba(0,0,0,.18), 0 14px 30px rgba(10,14,30,.25); isolation: isolate; }
+.bw-card .art { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
+.bw-card::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.22) 45%, transparent 60%); } /* a sheen */
+.bw-card .org { font: 900 22px/1 ${FONT}; letter-spacing: .04em; } .bw-card .dist { font: 700 12px/1 ${FONT}; opacity: .8; margin-top: 4px; }
+.bw-card .kind { display: inline-block; margin-top: 8px; padding: 4px 9px; border-radius: 999px; background: rgba(255,255,255,.6); font: 800 10px/1 ${FONT}; letter-spacing: .14em; }
+.bw-card .chip { position: absolute; right: 86px; top: 22px; width: 34px; height: 26px; border-radius: 6px; background: linear-gradient(135deg, #f6dc8a, #c9a24a); box-shadow: inset 0 0 0 1.5px rgba(90,60,10,.35); }
+.bw-card .chip::after { content: ''; position: absolute; inset: 6px 9px; border: 1.5px solid rgba(90,60,10,.35); border-radius: 3px; }
+.bw-card .nm { position: absolute; left: 18px; bottom: 46px; font: 800 21px/1.1 ${FONT}; text-shadow: 0 1px 0 rgba(255,255,255,.35); } .bw-card .role { position: absolute; left: 18px; bottom: 28px; font: 700 12.5px/1 ${FONT}; opacity: .85; }
+.bw-card .no { position: absolute; left: 18px; bottom: 11px; font: 700 11px/1 ui-monospace, Menlo, monospace; opacity: .85; }
+.bw-card .qr { position: absolute; right: 16px; top: 16px; width: 54px; height: 54px; background: #fff; border-radius: 8px; padding: 4px; display: grid; grid-template-columns: repeat(9, 1fr); gap: 0; }
 .bw-card .qr i { background: #1d1a16; } .bw-card .qr i.o { background: transparent; }
-.bw-card .wifi { position: absolute; right: 14px; bottom: 10px; text-align: right; font: 700 11px/1.35 ui-monospace, Menlo, monospace; background: rgba(255,255,255,.55); padding: 5px 8px; border-radius: 8px; }
+.bw-card .wifi { position: absolute; right: 14px; bottom: 10px; text-align: right; font: 700 10.5px/1.35 ui-monospace, Menlo, monospace; background: rgba(255,255,255,.72); color: #1d1a16; padding: 5px 8px; border-radius: 8px; }
 .bw-card.expired::after { content: 'EXPIRED'; position: absolute; inset: 0; display: grid; place-items: center; font: 900 30px/1 ${FONT}; color: #c0392b; background: rgba(255,255,255,.55); transform: rotate(-12deg); }
 `;
 
@@ -78,7 +82,8 @@ export function createPasses({ toast, district = 'Yaba' } = {}) {
   if (!card('resident')) {
     cards.push({ kind: 'resident', no: number(district.slice(0, 2).toUpperCase()), name: myName() || 'Resident', role: `${district} resident`, issued: now(), until: now() + 3650 * DAY, district });
     save();
-    setTimeout(() => toast?.(`Your ${district} resident card is in your bag (I, Cards). It has the ${NETS.district.ssid} Wi-Fi password.`, 5200), 6500);
+    const visitor = cards.some((x) => x.kind === 'resident' && x.district && x.district !== district);
+    setTimeout(() => toast?.(`Your ${district} ${visitor ? 'visitor' : 'resident'} card is in your bag (I, Cards). It has the ${NETS.district.ssid} Wi-Fi password.`, 5200), 6500);
   }
 
   // ---------- the card, drawn ----------
@@ -92,22 +97,32 @@ export function createPasses({ toast, district = 'Yaba' } = {}) {
     }
     return s;
   }
+  // the district you came to live in (your arrivals city) gets the resident card; every other district
+  // you visit gives you a visitor's card, with that district's Wi-Fi on it
+  const home = () => { const own = cards.filter((x) => x.kind === 'resident'); const city = profile?.city; return own.find((x) => cityFor(x.district).city === city)?.district || own.sort((a, b) => a.issued - b.issued)[0]?.district || district; };
   function cardHTML(c) {
     const until = new Date(c.until).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    const style = (from, to, ink) => `style="--c1:${from};--c2:${to};--ink:${ink}"`;
     // estate passes: a resident's pass for a rented home, a visitor's pass for a few days
     if (c.kind === 'tenant' || c.kind === 'visitor') {
       const when = c.kind === 'visitor' ? new Date(c.until).toLocaleString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : until;
-      return `<div class="bw-card ${c.kind} ${c.until < now() ? 'expired' : ''}">
+      return `<div class="bw-card ${c.kind} ${c.until < now() ? 'expired' : ''}" ${c.kind === 'tenant' ? style('#7fd1c7', '#2a9d94', '#0b2b28') : style('#c9b8f0', '#8a6fd1', '#1f1338')}>${cardArt('estate')}
         <div class="org">${esc(c.estate.toUpperCase())}</div><div class="kind">${c.kind === 'tenant' ? 'RESIDENT PASS' : 'VISITOR PASS'}</div><div class="qr">${qr(c.no)}</div>
         <div class="nm">${esc(c.name)}</div><div class="role">${esc(c.kind === 'tenant' ? c.addr : `Visiting ${c.host}`)}</div><div class="no">${c.no} · until ${when}</div>
         <div class="wifi">${c.kind === 'tenant' ? `Wi-Fi ${esc(c.wifi?.ssid || '')}<br>pass ${esc(c.wifi?.pass || '')}` : `Gate ${c.gate}`}</div></div>`;
     }
-    const net = c.kind === 'eko' ? NETS.studio : NETS.district;
-    const org = c.kind === 'eko' ? PLACES.studio.name.toUpperCase() : `${district.toUpperCase()} DISTRICT`;
-    const kind = c.kind === 'eko' ? (PLANS[c.plan]?.name || 'Member').toUpperCase() : 'RESIDENT CARD';
-    return `<div class="bw-card ${c.kind === 'eko' ? 'eko' : 'resident'} ${c.until < now() ? 'expired' : ''}">
-      <div class="org">${org}</div><div class="kind">${kind}</div><div class="qr">${qr(c.no)}</div>
-      <div class="nm">${esc(c.name === 'Resident' && myName() ? myName() : c.name)}</div><div class="role">${esc(c.role)}</div><div class="no">${c.no} · valid to ${until}</div>
+    const name = esc(c.name === 'Resident' && myName() ? myName() : c.name);
+    if (c.kind === 'eko') {
+      const net = NETS.studio;
+      return `<div class="bw-card eko ${c.until < now() ? 'expired' : ''}" ${style('#f6d36a', '#e39a2e', '#3a2306')}>${cardArt('eko')}
+        <div class="org">EKO</div><div class="dist">${esc(PLACES.studio.name)}</div><div class="kind">${(PLANS[c.plan]?.name || 'Member').toUpperCase()}</div><span class="chip"></span><div class="qr">${qr(c.no)}</div>
+        <div class="nm">${name}</div><div class="role">${esc(c.role)}</div><div class="no">${c.no} · valid to ${until}</div><div class="wifi">Wi-Fi ${net.ssid}<br>pass ${net.pass}</div></div>`;
+    }
+    // a district card: its own city's colours and landmark, its own network
+    const d = c.district || district, city = cityFor(d), net = networksFor(d).district, isHome = d === home();
+    return `<div class="bw-card resident ${c.until < now() ? 'expired' : ''}" ${style(city.from, city.to, city.ink)} title="${esc(city.what)}">${cardArt(city.art)}
+      <div class="org">${esc(city.city.toUpperCase())}</div><div class="dist">${esc(d)} district</div><div class="kind">${isHome ? 'RESIDENT CARD' : 'VISITOR CARD'}</div><span class="chip"></span><div class="qr">${qr(c.no)}</div>
+      <div class="nm">${name}</div><div class="role">${isHome ? `${esc(d)} resident` : `Visiting ${esc(d)}`}</div><div class="no">${c.no} · valid to ${until}</div>
       <div class="wifi">Wi-Fi ${net.ssid}<br>pass ${net.pass}</div></div>`;
   }
   const esc = (t) => String(t).replace(/[<>&"]/g, (ch) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[ch]));
