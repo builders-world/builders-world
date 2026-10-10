@@ -165,7 +165,7 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
       const toEnd = c.e.L - c.s;
       // red or amber at the junction ahead: stop at the line
       const sig = sigAt.get(c.e.to);
-      const flying = flyover && c.e.road === flyover.road && flyover.over(p.x, p.z); // over the junction, no light
+      const flying = flyover && flyover.over(p.x, p.z, c.e.road); // over the junction, no light
       if (sig && !flying) { const ph = Math.abs(Math.sin(Math.atan2(-p.dx, -p.dz) - sig.axis)) < 0.5 ? 0 : 1; const st = stateOf(sig, ph); if (st !== 'green' && toEnd > 4 && toEnd < 9 + c.v) want = Math.min(want, Math.max(0, (toEnd - 7) * 1.2)); }
       // slow for the bend at the end of the segment
       if (toEnd < 8) want = Math.min(want, 5 + toEnd * 0.4);

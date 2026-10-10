@@ -9,6 +9,7 @@ import { makeClearance, fitStreets, band, streetFurniture, isFootway } from './l
 import { dressEstate, drawFence, fenceCollider, cutFence, WALK } from './look/houses.js';
 import { planEstates, nearWall, LOT_W, LOT_D } from './estates.js';
 import { pushOutBox } from './look/physics.js';
+import { planFlyovers } from './look/flyover.js';
 import { buildNavGrid } from './look/navgrid.js';
 
 const NIGHT = {
@@ -384,11 +385,14 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   // ---------- footbridge site, chosen before any garden is laid out (infrastructure reserves land first) ----------
   const BRIDGE = { H: 5.2, RISE: 0.18, RUN: 0.3, FW: 0.9, LAND: 1.25 }; BRIDGE.nSteps = Math.round(BRIDGE.H / BRIDGE.RISE); BRIDGE.FLIGHT = BRIDGE.nSteps * BRIDGE.RUN;
   const cores = blds.filter((b) => !plotIds.has(b)).map((b) => scaleAbout(b.pts, b.c, 0.55));
-  let bridgeSite = null;
+  const bridgeSites = [];
   const bridgeReserve = []; // boxes no garden may take
+  // the flyovers are planned first (look/flyover.js builds them): footbridges keep clear of their runs
+  const flyoverPlan = planFlyovers({ roads, junctionAt, spawn, max: 2 });
   {
     const { H, nSteps, RUN, FLIGHT, FW, LAND } = BRIDGE;
-    const main = [...roads].filter((r) => r.fit && ['primary', 'secondary', 'trunk', 'tertiary'].includes(r.cls)).sort((a, b) => perimeter(b.pts) - perimeter(a.pts))[0];
+    // up to three footbridges, on different main roads (longest first), 120 m or more apart
+    const mains = [...roads].filter((r) => r.fit && ['primary', 'secondary', 'trunk', 'tertiary'].includes(r.cls)).sort((a, b) => perimeter(b.pts) - perimeter(a.pts));
     const okBox = (cx, cz, hx, hz, ry) => {
       const cs = Math.cos(ry), sn = Math.sin(ry);
       for (let u = -1; u <= 1.001; u += 0.25) for (let v = -1; v <= 1.001; v += 0.5) {
@@ -400,12 +404,12 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
       }
       return true;
     };
-    let site = null;
-    if (main) {
+    const findSite = (main) => {
       const S = samplePolyline(main.fit.pts, 4), n0 = Math.floor(S.length * 0.2), n1 = Math.ceil(S.length * 0.8);
       const order = []; for (let k = n0; k < n1; k++) order.push(k); order.sort((p, q) => Math.abs(p - S.length / 2) - Math.abs(q - S.length / 2));
       for (const k of order) {
         const m = S[k], nx = -m.tz, nz = m.tx;
+        if (flyoverPlan.inRun(m.x, m.z, 18) || bridgeSites.some((b) => Math.hypot(b.m.x - m.x, b.m.z - m.z) < 120)) continue;
         // carriageway half and pavement width here
         let hw = 4, pv = 2; { let bd = Infinity; main.fit.pts.forEach((p, i) => { const d = Math.hypot(p[0] - m.x, p[1] - m.z); if (d < bd) { bd = d; hw = main.fit.half[i]; pv = Math.max(main.fit.paveL[i], main.fit.paveR[i]); } }); }
         const D = hw + pv + LAND + 0.4, ry = Math.atan2(nx, nz);
@@ -423,15 +427,16 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
           }
           return null;
         });
-        if (ends[0] && ends[1]) { site = { m, nx, nz, D, ry, ends }; break; }
+        if (ends[0] && ends[1]) return { m, nx, nz, D, ry, ends };
       }
-    }
-    bridgeSite = site;
-    if (site) site.ends.forEach(({ lx, lz, dir }) => {
+      return null;
+    };
+    for (const main of mains) { if (bridgeSites.length >= 3) break; const site = findSite(main); if (site) bridgeSites.push(site); }
+    bridgeSites.forEach((site) => site.ends.forEach(({ lx, lz, dir }) => {
       const { LAND: L2, FLIGHT: F2, FW: W2 } = BRIDGE, fc = L2 + F2 / 2;
       bridgeReserve.push({ cx: lx, cz: lz, hx: L2 + 0.8, hz: L2 + 0.8, ry: site.ry });
       bridgeReserve.push({ cx: lx + site.m.tx * fc * dir, cz: lz + site.m.tz * fc * dir, hx: F2 / 2 + 0.8, hz: W2 + 0.8, ry: site.ry });
-    });
+    }));
   }
   const inReserveBox = (x, z) => bridgeReserve.some((c) => { const dx = x - c.cx, dz = z - c.cz, cs = Math.cos(c.ry), sn = Math.sin(c.ry), lx = dx * cs - dz * sn, lz = dx * sn + dz * cs; return Math.abs(lx) < c.hx && Math.abs(lz) < c.hz; });
   const reserveCorners = () => bridgeReserve.flatMap((c) => { const cs = Math.cos(c.ry), sn = Math.sin(c.ry); return [[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([u, v]) => [c.cx + u * c.hx * cs + v * c.hz * sn, c.cz - u * c.hx * sn + v * c.hz * cs]); });
@@ -580,10 +585,10 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   // stepping off; anything standing where the stairs go (a lamp, a tree) gives way.
   const walkables = [...doorTreads]; // flat surfaces: { cx, cz, hx, hz, ry, top } (doorsteps first)
   const bridgeBoxes = []; // footprints, to clear lamps and trees
+  const worldBridges = [];
   {
     const { H, RISE, nSteps, RUN, FLIGHT, FW, LAND } = BRIDGE;
-    const site = bridgeSite;
-    if (site) {
+    bridgeSites.forEach((site) => {
       const { m, nx, nz, ry, ends } = site, tx = m.tx, tz = m.tz;
       // the deck runs from one landing to the other, wherever each one had to go
       const D1 = ends[0].D, D2 = ends[1].D, D = (D1 + D2) / 2, off = (D2 - D1) / 2, mx0 = m.x + nx * off, mz0 = m.z + nz * off;
@@ -652,8 +657,9 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
       const inB = (x, z, pad) => bridgeBoxes.some((c) => { const dx = x - c.cx, dz = z - c.cz, cs = Math.cos(c.ry), sn = Math.sin(c.ry), lxx = dx * cs - dz * sn, lzz = dx * sn + dz * cs; return Math.abs(lxx) < c.hx + pad && Math.abs(lzz) < c.hz + pad; });
       for (let k = furniture.lamps.length - 1; k >= 0; k--) if (inB(furniture.lamps[k].x, furniture.lamps[k].z, 0.6)) furniture.lamps.splice(k, 1);
       for (let k = furniture.trees.length - 1; k >= 0; k--) if (inB(furniture.trees[k].x, furniture.trees[k].z, 1.2)) furniture.trees.splice(k, 1);
-      world_bridge = { x: mx0, z: mz0, span: D * 2, height: H, ends: ends.map((e) => ({ x: e.lx, z: e.lz, foot: { x: e.lx + tx * (LAND + FLIGHT + 0.8) * e.dir, z: e.lz + tz * (LAND + FLIGHT + 0.8) * e.dir }, up: Math.atan2(-tx * e.dir, -tz * e.dir) })) };
-    }
+      worldBridges.push({ x: mx0, z: mz0, span: D * 2, height: H, ends: ends.map((e) => ({ x: e.lx, z: e.lz, foot: { x: e.lx + tx * (LAND + FLIGHT + 0.8) * e.dir, z: e.lz + tz * (LAND + FLIGHT + 0.8) * e.dir }, up: Math.atan2(-tx * e.dir, -tz * e.dir) })) });
+    });
+    world_bridge = worldBridges[0] || null;
   }
 
   furniture.lamps.forEach((l) => {
@@ -1072,7 +1078,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     roofs: blds.filter((b) => !plotIds.has(b) && b.top && b.pts.length >= 3).map((b) => ({ x: b.c[0], z: b.c[1], y: b.top, area: b.area, pts: b.pts })),
     blockedAt: (x, z, r = 0.35) => { const v = { x, z }; resolve(v, r); return Math.hypot(v.x - x, v.z - z) > 0.01; },
     // footprints of things that have no collider (a billboard face, a bridge deck, drains), for the layout audit
-    claims, claim: (c) => { claims.push(c); camBoxes.dirty = true; }, groundColor: baseGround, roadColor: PAL.road, bridge: world_bridge, crossings, junctionAt, porchLamps,
+    claims, claim: (c) => { claims.push(c); camBoxes.dirty = true; }, groundColor: baseGround, roadColor: PAL.road, bridge: world_bridge, bridges: worldBridges, flyoverPlan, crossings, junctionAt, porchLamps,
     // the ground under someone's feet: steps, landings and decks they can reach (a 0.55 m step up at most)
     // surfaces placed after the world is built (a kit house's steps): you stand on them
     addWalkables: (list) => { list.forEach((w) => walkables.push(w)); },
