@@ -8,6 +8,7 @@ import { audioEngine, sfx } from './audio.js';
 import { walletEngine, effortsMark, fmt } from './wallet.js';
 import { passesEngine } from './passes.js';
 import { PAD_MAP } from './input.js';
+import { LABEL } from './quality.js';
 import { C, FONT, KIT_CSS, loadFont, pattern, backdropSVG, personFor, portraitSVG, figureSVG, art, appIcon, placeArt, ribbonSVG } from './uikit.js';
 
 const CSS = `${KIT_CSS}
@@ -674,10 +675,29 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   function dispose() { root.remove(); style.remove(); }
   // ---------- settings: sound first ----------
   const audio = audioEngine();
+  // what each graphics tier gives you, and what this machine looks like to the browser
+  const GFX_NOTE = {
+    low: 'Fastest. A softer picture, a few lamps at night, no glow. For older laptops and phones.',
+    medium: 'A sharper picture with smooth edges, more lamps and the evening glow.',
+    high: 'Sun shadows that move with the time of day, soft shading in corners and under roofs, crisp textures at a slant.',
+    ultra: 'Everything at its best: full sharpness, longer and softer shadows, the sky reflected in glass and paint, more of the street in the distance. Needs a strong graphics chip and runs slower.',
+  };
+  const fpsOn = () => { try { return localStorage.getItem('bw-fps') === '1'; } catch { return false; } };
+  function gfxNote(choice) {
+    const gx = window.__bw?.graphics, i = gx?.info || {};
+    const tier = choice === 'auto' ? gx?.auto?.() || 'high' : choice;
+    const dev = [i.gpu, i.mem ? `${i.mem >= 8 ? `${i.mem} GB or more` : `about ${i.mem} GB`} of memory` : '', i.cores ? `${i.cores} cores` : ''].filter(Boolean).join(', ');
+    return `${GFX_NOTE[tier]}${dev ? `<br>This device: ${dev}.` : ''} Higher settings look better and run slower; the graphics chip matters most, then memory.`;
+  }
   function openSettings() {
-    const st = audio.settings, inp = window.__bwInput;
+    const st = audio.settings, inp = window.__bwInput, gx = window.__bw?.graphics;
     const row = (k, name, sub) => `<label class="sw"><span><b>${name}</b><small>${sub}</small></span><input type="checkbox" data-k="${k}" ${st[k] ? 'checked' : ''}><i></i></label>`;
     setEl.innerHTML = `<h3>Settings</h3>
+      <h4 class="sec" style="margin-top:4px">Graphics</h4>
+      <label class="vol"><b>Quality</b><select data-gfx>${['auto', 'low', 'medium', 'high', 'ultra'].map((k) => `<option value="${k}">${k === 'auto' ? `Auto (${LABEL[gx?.auto?.() || 'high']} on this device)` : LABEL[k]}</option>`).join('')}</select></label>
+      <p class="note" data-gfxnote></p>
+      <label class="sw"><span><b>Show frame rate</b><small>A small counter at the top of the screen, to see what each setting costs.</small></span><input type="checkbox" data-fps ${fpsOn() ? 'checked' : ''}><i></i></label>
+      <h4 class="sec">Sound</h4>
       ${row('music', 'Music', 'A highlife loop made as you play. N turns it on or off.')}
       ${row('ambience', 'City sounds', 'Traffic hum, birds, rain, horns, crickets at night.')}
       ${row('sfx', 'Sound effects', 'Footsteps, doors, taps and chimes.')}
@@ -702,6 +722,10 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
       <p class="note">${inp?.connected ? `Connected: <b>${inp.connected.replace(/\(.*\)/, '').trim()}</b>` : 'Connect a PlayStation 4 or 5, or an Xbox controller, by USB or Bluetooth and press any button.'}</p>
       <table class="pad">${PAD_MAP.map((m) => `<tr><td><kbd>${inp ? inp.padLabel(m.i) : m.i}</kbd></td><td>${m.what}</td></tr>`).join('')}<tr><td><kbd>Left stick</kbd></td><td>Walk (push all the way to run)</td></tr><tr><td><kbd>Right stick</kbd></td><td>Look around</td></tr></table>
       <button class="bw-chip done"><b>Esc</b>Done</button>`;
+    const gsel = setEl.querySelector('select[data-gfx]'), gnote = setEl.querySelector('[data-gfxnote]');
+    gsel.value = gx?.choice || 'auto'; gnote.innerHTML = gfxNote(gsel.value);
+    gsel.onchange = () => { dispatchEvent(new CustomEvent('bw:graphics', { detail: gsel.value })); gnote.innerHTML = gfxNote(gsel.value); };
+    setEl.querySelector('[data-fps]').onchange = (e) => dispatchEvent(new CustomEvent('bw:fps', { detail: e.target.checked }));
     setEl.querySelectorAll('input[type=checkbox][data-k]').forEach((c) => { c.onchange = () => { audio.wake(); audio.set(c.dataset.k, c.checked); }; });
     setEl.querySelector('input[type=range]:not([data-in])').oninput = (e) => { audio.wake(); audio.set('volume', +e.target.value); };
     const tsel = setEl.querySelector('select[data-in]'); if (tsel) { tsel.value = inp?.settings.touch ?? 'auto'; tsel.onchange = () => inp?.set('touch', tsel.value); }

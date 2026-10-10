@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { signTexture } from './props.js';
+import { trackDetail } from './quality.js';
 
 // What makes the planned estates readable at street level (world bible 7.5b): a sign over every gate
 // with the gate number and the estate's name, a number plaque beside every front door (1A, 2B...),
@@ -17,7 +18,7 @@ export function buildEstateSigns({ world, scene }) {
   estates.forEach((E) => E.gates.forEach((g) => {
     const tex = signTexture(`GATE ${g.no}`, { bg: '#263832', fg: '#f2c94c', w: 768, h: 150, sub: E.name });
     const [[ax, az], [bx, bz]] = g.post, cx = (ax + bx) / 2, cz = (az + bz) / 2, span = Math.hypot(bx - ax, bz - az);
-    const holder = new THREE.Group(); holder.position.set(cx, 0, cz); holder.rotation.y = g.ry; group.add(holder);
+    const holder = new THREE.Group(); holder.position.set(cx, 0, cz); holder.rotation.y = g.ry; group.add(trackDetail(holder, 0.8));
     holder.add(new THREE.Mesh(box(span + 0.6, 0.25, 0.3, 0, 2.95, 0), beam));
     [1, -1].forEach((sd) => {
       const m = new THREE.Mesh(new THREE.PlaneGeometry(Math.min(5.2, span - 0.4), 1.0), new THREE.MeshBasicMaterial({ map: tex, color: 0xdddddd }));

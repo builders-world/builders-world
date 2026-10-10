@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { createAvatarModel } from '../onboarding/avatar.js';
 import { rigAvatar } from './anim.js';
+import { trackDetail } from './quality.js';
 import { prepareLook, dress } from './style.js';
 import { signTexture } from './props.js';
 import { sfx } from './audio.js';
@@ -146,7 +147,7 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
   const CYCLISTS = reduced ? 1 : 3;
   for (let k = 0; k < N + CYCLISTS; k++) {
     const kind = k >= N ? 'cycle' : MIX[k % MIX.length], start = usable[Math.floor(rng() * usable.length)], e = nodes[start].out[Math.floor(rng() * nodes[start].out.length)];
-    const mesh = vehicle(kind, k); group.add(mesh);
+    const mesh = vehicle(kind, k); group.add(trackDetail(mesh));
     cars.push({ kind, mesh, from: start, e, s: rng() * e.L, v: 0, max: DESIGNS[kind].speed * (0.85 + rng() * 0.3), wait: 0, horn: 0 });
   }
 

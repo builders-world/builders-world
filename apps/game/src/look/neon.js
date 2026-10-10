@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
 // City lights for the skyline (world bible 7.1): neon edges on the towers and big animated ad screens,
 // like Hong Kong, Shanghai or Times Square, drawn in the game's own illustration style.
@@ -103,7 +104,16 @@ export function dressSkyline(towers, { center, reduced }) {
     [[-1, -1], [1, -1], [1, 1], [-1, 1]].forEach(([a, b]) => { if ((i + a + b) % 3 === 0) return; const m = new THREE.Mesh(new THREE.BoxGeometry(0.7, tw.h, 0.7).translate(0, tw.h / 2, 0), mat); m.position.set(a * hw, 0, b * hd); strips.push({ m, tw }); });
     [0.97, 0.6].forEach((f, k) => { if (k && i % 2) return; const band = new THREE.Mesh(new THREE.BoxGeometry(tw.w + 1.2, 0.9, tw.d + 1.2).translate(0, tw.h * f, 0), neonMats[(i + k + 2) % neonMats.length]); strips.push({ m: band, tw }); });
   });
-  strips.forEach(({ m, tw }) => { const holder = new THREE.Group(); holder.position.set(tw.x, 0, tw.z); holder.rotation.y = tw.ry; holder.add(m); group.add(holder); });
+  // one mesh per colour: the strips never move, and as separate meshes they cost a draw call each
+  const byMat = new Map();
+  strips.forEach(({ m, tw }) => {
+    m.updateMatrix();
+    const g = m.geometry.clone().applyMatrix4(new THREE.Matrix4().makeRotationY(tw.ry).setPosition(tw.x, 0, tw.z).multiply(m.matrix));
+    m.geometry.dispose();
+    if (!byMat.has(m.material)) byMat.set(m.material, []);
+    byMat.get(m.material).push(g);
+  });
+  byMat.forEach((geos, mat) => { group.add(new THREE.Mesh(mergeGeometries(geos), mat)); geos.forEach((g) => g.dispose()); });
 
   // ad screens on the tallest towers, turned to face the district
   const screens = [];

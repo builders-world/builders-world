@@ -13,6 +13,9 @@ const near = (a, b, e = 0.012) => Math.abs(a - b) < e;
 // The root's own visibility stays the business of whoever owns the avatar (indoors, asleep...).
 export const PEOPLE = new Set();
 const tmpV = { x: 0, y: 0, z: 0 };
+// someone built without a rig (a gateman who stands still) still joins the distance cull
+export function trackPerson(root) { PEOPLE.add(root); return root; }
+
 export function cullPeople(camera, dist = 60) {
   const cx = camera.position.x, cz = camera.position.z, d2 = dist * dist;
   for (const root of PEOPLE) {

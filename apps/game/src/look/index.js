@@ -28,10 +28,18 @@ import { createMobility } from './mobility.js';
 import { cullPeople } from './anim.js';
 import { createSpotify, trackUrl } from './spotify.js';
 import { buildLandmarks } from './landmarks.js';
+import { TIERS, trackDetail, cullDetail } from './quality.js';
 import { walletEngine } from './wallet.js';
 import { createInteriors, PLACES, namePlaces } from './interior.js';
 import { sunPosition, sunDirection } from './sun.js';
 import { shared } from '../shaders.js';
+
+// sun shadows cover the ground round the player; they fade out towards the edge of that area, so there
+// is never a line on the street where shadows stop
+THREE.ShaderChunk.shadowmap_pars_fragment = THREE.ShaderChunk.shadowmap_pars_fragment.replace(
+  'return mix( 1.0, shadow, shadowIntensity );',
+  'vec2 bwEdge = abs( shadowCoord.xy * 2.0 - 1.0 );\n\t\treturn mix( 1.0, shadow, shadowIntensity * ( 1.0 - smoothstep( 0.6, 0.97, max( bwEdge.x, bwEdge.y ) ) ) );'
+);
 
 export { blueHourSky } from './atmosphere.js';
 export { createWeather } from './weather.js';
@@ -47,22 +55,10 @@ const PAL = {
   fill: { day: C(0xb8d9df), night: C(0x3a6aa0) },
 };
 
-// Quality tiers. Low drops the mirror, most rain, most lights and the walkers,
-// so the same street still runs on a laptop with no real GPU.
-export function pickQuality(q) {
-  const asked = q.get('quality');
-  if (asked === 'low' || asked === 'high') return asked;
-  const coarse = matchMedia('(pointer: coarse)').matches;
-  return coarse || Math.min(innerWidth, innerHeight) < 600 ? 'low' : 'high';
-}
-
-const TIERS = {
-  high: { reflect: 0.5, rain: 9000, lights: 14 },
-  low: { reflect: 0, rain: 2500, lights: 3 },
-};
-
 export function createLook({ renderer, scene, camera, world, reduced, quality, sky, bloom, weatherFeed, avatar }) {
-  const tier = TIERS[quality] || TIERS.high;
+  // the graphics tier (quality.js); Low still drops the mirror, most rain and most lights
+  let gfx = TIERS[quality] || TIERS.high;
+  const tier = gfx;
   const env = world.env;
   const night = !!env.wet;
   weather.uWet.value = env.wet ? 1 : 0;
@@ -351,11 +347,11 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     const moonI = (1 - day) * 0.3 * (1 - 0.5 * cur.cloud);
     const rig = world.rig;
     if (sunI >= moonI) {
-      rig.moon.position.copy(sunDir).multiplyScalar(300);
+      rig.moon.position.copy(sunDir).multiplyScalar(300).add(shadowFocus);
       rig.moon.color.copy(PAL.sun.gold).lerp(PAL.sun.day, smooth(2, 22, e));
       rig.moon.intensity = sunI;
     } else {
-      rig.moon.position.copy(moonDir).multiplyScalar(300);
+      rig.moon.position.copy(moonDir).multiplyScalar(300).add(shadowFocus);
       rig.moon.color.copy(PAL.sun.moon);
       rig.moon.intensity = moonI;
     }
@@ -365,6 +361,17 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     rig.hemi.intensity = (0.6 - 0.15 * nightAmt + 1.9 * day) * (1 - 0.1 * cur.cloud) * (1 - 0.25 * cur.storm);
     rig.rim.color.copy(PAL.fill.night).lerp(PAL.fill.day, day);
     rig.rim.intensity = 0.35 * (1 - day) + 0.8 * day;
+    // sun shadows fade in with a strong sun and out under cloud, storm and mist; the moon casts none
+    if (rig.moon.castShadow) {
+      const k = sunI >= moonI ? smooth(0.4, 1.6, sunI) : 0;
+      rig.moon.shadow.intensity = 0.85 * k;
+      // with shadows on, a little of the sky's fill goes to the sun so shade reads on pale paving too
+      rig.moon.intensity *= 1 + 0.25 * k;
+      rig.hemi.intensity *= 1 - 0.22 * k;
+      rig.moon.shadow.autoUpdate = k > 0.01;
+    }
+    // the sky's light in shiny things (ultra): dim at night
+    if (scene.environment) scene.environmentIntensity = gfx.env * (0.12 + 0.88 * day);
 
     // fog and haze
     if (scene.fog) {
@@ -445,13 +452,95 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   slife = createStreetLife({ world, scene: group, props, traffic, chat, toast: hud.toast, getEnv: () => live, used: rec.used, reduced });
   props.pois?.filter((q) => q.kind === 'build').forEach((q) => { q.x = props.area.x; q.z = props.area.z; }); // the build area moved into the park
 
+  // ---------- graphics tier: sun shadows, lamps, distances, texture sharpness, sky reflections ----------
+  const shadowFocus = new THREE.Vector3();
+  const sunRig = world.rig.moon;
+  group.add(sunRig.target);
+  let envTex = null, sweepT = 0;
+  // what casts and catches a shadow: solid lit things. Flat decals, glass, glowing and see-through
+  // things neither cast nor catch; the ground and roads only catch
+  const FLAT = /Plane|Circle|Ring/;
+  function markShadows() {
+    const on = gfx.shadows > 0;
+    scene.traverse((o) => {
+      if (!o.isMesh || o.userData.noShadow) return;
+      const m = Array.isArray(o.material) ? o.material[0] : o.material;
+      const lit = m && (m.isMeshStandardMaterial || m.isMeshLambertMaterial || m.isMeshPhongMaterial) && !m.transparent;
+      o.receiveShadow = on && !!lit;
+      const flat = FLAT.test(o.geometry?.type || '') || o === world.ground;
+      if (!flat && o.geometry && !o.geometry.boundingBox) o.geometry.computeBoundingBox();
+      const bb = o.geometry?.boundingBox;
+      o.castShadow = on && !!lit && !flat && !!bb && bb.max.y - bb.min.y > 0.08;
+    });
+  }
+  function sharpen() {
+    const a = Math.min(gfx.aniso, renderer.capabilities.getMaxAnisotropy());
+    scene.traverse((o) => {
+      if (!o.material) return;
+      [].concat(o.material).forEach((m) => m?.isMaterial && ['map', 'emissiveMap', 'roughnessMap', 'normalMap'].forEach((k) => { const tx = m[k]; if (tx && !tx.isRenderTargetTexture && tx.anisotropy !== a) { tx.anisotropy = a; tx.needsUpdate = true; } }));
+    });
+  }
+  // a soft sky for reflections: blue overhead, warm at the horizon, earth below
+  function skyEnvironment() {
+    const pm = new THREE.PMREMGenerator(renderer);
+    const sc = new THREE.Scene();
+    const geo = new THREE.SphereGeometry(10, 32, 16), col = [];
+    const top = new THREE.Color(0x6aa8e8), hor = new THREE.Color(0xf2e2c4), bot = new THREE.Color(0x7c8a5c), c = new THREE.Color();
+    const pos = geo.attributes.position;
+    for (let i = 0; i < pos.count; i++) { const y = pos.getY(i) / 10; if (y >= 0) c.copy(hor).lerp(top, Math.pow(y, 0.6)); else c.copy(hor).lerp(bot, Math.min(1, -y * 3)); col.push(c.r, c.g, c.b); }
+    geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+    sc.add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.BackSide })));
+    const rt = pm.fromScene(sc, 0.04);
+    pm.dispose(); geo.dispose();
+    return rt.texture;
+  }
+  function setGraphics(t) {
+    gfx = t;
+    // sun shadows round the player
+    sunRig.castShadow = t.shadows > 0;
+    if (t.shadows) {
+      const sh = sunRig.shadow;
+      if (sh.mapSize.x !== t.shadows) { sh.mapSize.set(t.shadows, t.shadows); sh.map?.dispose(); sh.map = null; }
+      const c = sh.camera, r = t.shadowR;
+      // a tight depth range and small biases keep shadows attached to feet and walls, even with the sun low
+      c.left = -r; c.right = r; c.top = r; c.bottom = -r; c.near = 200; c.far = 420; c.updateProjectionMatrix();
+      sh.bias = -0.00012; sh.normalBias = 0.022; sh.radius = t.soft ? 3 : 1.5;
+    }
+    markShadows();
+    sharpen();
+    // night lamps
+    if (lights && lights.lights.length !== t.lights && !off.has('lights')) {
+      lights.dispose(); lights = new LampLights(group, t.lights);
+      lights.setLamps([...world.lamps, ...props.lamps, ...(world.porchLamps || [])]);
+    }
+    // the sky in shiny things
+    if (t.env && !envTex) envTex = skyEnvironment();
+    scene.environment = t.env ? envTex : null;
+  }
+  setGraphics(gfx);
+
   let cullT = 0;
   function update(dt, t, player, yaw, arrival) {
+    // the shadow camera follows you, snapped to its own texels so edges do not crawl as you walk
+    if (gfx.shadows) {
+      const d = sunRig.position.clone().sub(shadowFocus).normalize();
+      const right = new THREE.Vector3().crossVectors(THREE.Object3D.DEFAULT_UP, d).normalize(), up = new THREE.Vector3().crossVectors(d, right);
+      const texel = (2 * gfx.shadowR) / gfx.shadows;
+      const a = player.x * right.x + player.z * right.z, b = player.x * up.x + player.z * up.z;
+      const p = new THREE.Vector3(player.x, 0, player.z);
+      p.addScaledVector(right, Math.round(a / texel) * texel - a).addScaledVector(up, Math.round(b / texel) * texel - b);
+      sunRig.position.sub(shadowFocus).add(p);
+      shadowFocus.copy(p);
+      sunRig.target.position.copy(shadowFocus);
+      // new people, cars and props join the shadows every few seconds
+      sweepT -= dt;
+      if (sweepT <= 0) { sweepT = 4; markShadows(); }
+    }
     // people far from the camera are not drawn or animated; hidden rooms and the hidden street skip their matrix updates
     cullT -= dt;
     if (cullT <= 0) {
       cullT = 0.2;
-      if (!interiors?.active) cullPeople(camera, quality === 'low' ? 35 : 60);
+      if (!interiors?.active) { cullPeople(camera, gfx.people); cullDetail(camera, gfx.detail); }
       scene.children.forEach((c) => { c.matrixWorldAutoUpdate = c.visible; });
       group.children.forEach((c) => { c.matrixWorldAutoUpdate = c.visible; });
     }
@@ -563,6 +652,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { update, renderReflection, setSize, setGraphics, get graphics() { return gfx; }, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

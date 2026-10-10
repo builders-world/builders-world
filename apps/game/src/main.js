@@ -11,7 +11,9 @@ import { initChrome } from './ui.js';
 import { loadProfile } from './onboarding/state.js';
 import { createAvatarModel } from './onboarding/avatar.js';
 import { prepareLook, dress } from './look/style.js';
-import { createLook, blueHourSky, pickQuality, createWeather } from './look/index.js';
+import { createLook, blueHourSky, createWeather } from './look/index.js';
+import { TIERS, ORDER, LABEL, deviceInfo, autoTier, graphicsChoice, saveChoice } from './look/quality.js';
+import { ContactShadePass } from './look/ao.js';
 import { loadKit } from './look/kit.js';
 import { rigAvatar } from './look/anim.js';
 import { walkMarker } from './look/trail.js';
@@ -52,13 +54,15 @@ shared.uReduced.value = reduced ? 1 : 0;
 const still = q.get('still') === '1';
 if (q.get('hud') === '0') document.body.classList.add('nohud');
 
-const quality = pickQuality(q);
 const canvas = document.getElementById('c');
 // Depth: layers sit 3 cm or more apart and the near plane is 0.3 m, which resolves them past the fog line.
 // A logarithmic depth buffer also works (?logz=1) but costs about 4.5 ms a frame, so it is opt-in.
 // the post stack draws into its own multisampled buffer, so the canvas needs no antialiasing of its own
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: q.get('post') === '0', powerPreference: 'high-performance', logarithmicDepthBuffer: q.get('logz') === '1' });
-const BASE_PR = Math.min(devicePixelRatio, quality === 'low' ? 1 : 1.5);
+// graphics quality (look/quality.js): Auto reads the machine; the player can choose in Settings
+const gfx = { info: deviceInfo(renderer.getContext()), choice: graphicsChoice(q), downs: 0 };
+let quality = gfx.choice === 'auto' ? autoTier(gfx.info) : gfx.choice;
+let BASE_PR = Math.min(devicePixelRatio, TIERS[quality].pr);
 renderer.setPixelRatio(BASE_PR);
 renderer.setSize(innerWidth, innerHeight, false);
 
@@ -68,9 +72,13 @@ const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.3, 40
 
 const composer = new EffectComposer(
   renderer,
-  new THREE.WebGLRenderTarget(innerWidth, innerHeight, { type: THREE.HalfFloatType, samples: 4 })
+  new THREE.WebGLRenderTarget(innerWidth, innerHeight, { type: THREE.HalfFloatType, samples: TIERS[quality].msaa })
 );
 composer.addPass(new RenderPass(scene, camera));
+// contact shading straight after the scene, before bloom and the grade (high and ultra)
+const aoPass = new ContactShadePass(camera, 8);
+aoPass.enabled = false;
+composer.addPass(aoPass);
 const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.7, 0.5, 0.42);
 let street = null;
 composer.addPass(bloom);
@@ -89,7 +97,7 @@ composer.addPass(new OutputPass());
 // 60 frames a second (Elvis, 10 October 2026): the resolution follows the frame time. Over 18 ms on
 // average and it steps down; comfortably under 14 ms for a while and it steps back up. Pixels are what
 // cost most here, so this keeps the frame rate on any machine at the best sharpness it can afford.
-const governor = { scale: 1, sum: 0, n: 0, good: 0, last: performance.now(), min: quality === 'low' ? 0.5 : 0.6 };
+const governor = { scale: 1, sum: 0, n: 0, good: 0, last: performance.now(), min: TIERS[quality].govMin };
 function govern() {
   const now = performance.now(), dt = now - governor.last; governor.last = now;
   if (dt > 250 || document.hidden) return; // a stall or a background tab says nothing about the GPU
@@ -97,6 +105,15 @@ function govern() {
   if (governor.n < 45) return;
   const avg = governor.sum / governor.n; governor.sum = 0; governor.n = 0;
   let next = governor.scale;
+  // on Auto, a machine that cannot hold the frame rate even at the lowest resolution steps down a tier
+  if (gfx.choice === 'auto' && governor.scale <= governor.min + 0.001 && avg > 24) {
+    if (++gfx.downs >= 6 && ORDER.indexOf(quality) > 0) {
+      gfx.downs = 0;
+      applyGraphics(ORDER[ORDER.indexOf(quality) - 1]);
+      lookRef?.hud.toast(`Graphics set to ${LABEL[quality]} to keep things smooth. Change it in Settings.`, 4200);
+      return;
+    }
+  } else gfx.downs = 0;
   if (avg > 18.5) { next = Math.max(governor.min, governor.scale - (avg > 26 ? 0.15 : 0.08)); governor.good = 0; }
   else if (avg < 14) { if (++governor.good >= 3) { next = Math.min(1, governor.scale + 0.05); governor.good = 0; } }
   else governor.good = 0;
@@ -104,6 +121,53 @@ function govern() {
     governor.scale = next;
     renderer.setPixelRatio(BASE_PR * next); composer.setPixelRatio(BASE_PR * next); composer.setSize(innerWidth, innerHeight); street?.setSize(innerWidth, innerHeight);
   }
+}
+
+// switch tier while playing: resolution, edge smoothing, contact shading, bloom and shadows change here;
+// the street's own share (sun shadows, lamps, distances, texture sharpness) is in look/index.js
+let shadowType = null, lookRef = null, worldRef = null;
+function applyGraphics(name) {
+  const t = TIERS[name]; if (!t) return;
+  quality = name;
+  BASE_PR = Math.min(devicePixelRatio, t.pr);
+  governor.min = t.govMin; governor.scale = 1; governor.good = 0;
+  [composer.renderTarget1, composer.renderTarget2].forEach((rt) => {
+    let dirty = false;
+    if (rt.samples !== t.msaa) { rt.samples = t.msaa; dirty = true; }
+    if (t.ao && !rt.depthTexture) { rt.depthTexture = new THREE.DepthTexture(rt.width, rt.height, THREE.FloatType); dirty = true; }
+    else if (!t.ao && rt.depthTexture) { rt.depthTexture.dispose(); rt.depthTexture = null; dirty = true; }
+    if (dirty) rt.dispose();
+  });
+  aoPass.enabled = t.ao > 0; aoPass.setSamples(t.ao || 8);
+  bloom.enabled = t.bloom && (worldRef?.env.bloom.on ?? true);
+  const type = t.soft ? THREE.PCFSoftShadowMap : THREE.PCFShadowMap;
+  if (renderer.shadowMap.enabled !== t.shadows > 0 || (t.shadows && shadowType !== type)) {
+    renderer.shadowMap.enabled = t.shadows > 0; renderer.shadowMap.type = type; shadowType = type;
+    scene.traverse((o) => { if (o.material) [].concat(o.material).forEach((m) => { if (m?.isMaterial) m.needsUpdate = true; }); });
+  }
+  renderer.setPixelRatio(BASE_PR); composer.setPixelRatio(BASE_PR); composer.setSize(innerWidth, innerHeight);
+  lookRef?.setGraphics?.(t, name);
+  lookRef?.setSize?.(innerWidth, innerHeight);
+}
+addEventListener('bw:graphics', (e) => {
+  const c = e.detail;
+  if (c !== 'auto' && !ORDER.includes(c)) return;
+  gfx.choice = c; gfx.downs = 0; saveChoice(c);
+  applyGraphics(c === 'auto' ? autoTier(gfx.info) : c);
+});
+// a small frame counter for anyone choosing a tier (Settings, Show frame rate)
+const fpsEl = document.createElement('div');
+fpsEl.id = 'bw-fps';
+Object.assign(fpsEl.style, { position: 'fixed', bottom: '58px', left: '50%', transform: 'translateX(-50%)', zIndex: '30', padding: '3px 10px', borderRadius: '999px', background: '#f7efdc', color: '#3b2a20', font: '700 12px/1.3 "Baloo 2", system-ui, sans-serif', boxShadow: '0 2px 0 rgba(59,42,32,.22)', display: 'none', pointerEvents: 'none' });
+document.body.appendChild(fpsEl);
+const fpsMeter = { on: (() => { try { return localStorage.getItem('bw-fps') === '1'; } catch { return false; } })(), n: 0, t: performance.now() };
+addEventListener('bw:fps', (e) => { fpsMeter.on = !!e.detail; fpsEl.style.display = fpsMeter.on ? 'block' : 'none'; try { localStorage.setItem('bw-fps', fpsMeter.on ? '1' : '0'); } catch { /* */ } });
+if (fpsMeter.on) fpsEl.style.display = 'block';
+function countFps() {
+  if (!fpsMeter.on) return;
+  fpsMeter.n++;
+  const now = performance.now();
+  if (now - fpsMeter.t > 500) { fpsEl.textContent = `${Math.round((fpsMeter.n * 1000) / (now - fpsMeter.t))} fps · ${LABEL[quality]}`; fpsMeter.n = 0; fpsMeter.t = now; }
 }
 
 addEventListener('resize', () => {
@@ -219,11 +283,12 @@ async function main() {
     scene.background = new THREE.Color(E.bg);
     renderer.toneMapping = E.tone === 'aces' ? THREE.ACESFilmicToneMapping : THREE.NoToneMapping;
     renderer.toneMappingExposure = E.exposure;
-    bloom.enabled = E.bloom.on;
+    bloom.enabled = E.bloom.on && TIERS[quality].bloom;
     bloom.strength = E.bloom.strength; bloom.radius = E.bloom.radius; bloom.threshold = E.bloom.threshold;
     chrome.setWorld(world, via, place);
     street?.dispose();
     if (q.get('look') !== '0') street = createLook({ renderer, scene, camera, world, reduced, quality, sky, bloom, weatherFeed, avatar: body });
+    lookRef = street; worldRef = world;
   }
 
   function setAerial(flag) {
@@ -738,12 +803,14 @@ async function main() {
     grade.uniforms.uSat.value = 0.94 + 0.18 * shared.uDay.value; // vivid by day, calmer under the lamps at night
     if (q.get('post') === '0') renderer.render(scene, camera); else composer.render();
     if (q.get('govern') !== '0') govern();
+    countFps();
   }
+  applyGraphics(quality);
   frame();
 
   window.__bw = {
     get world() { return world; }, camera, cam, player, renderer, scene, via,
-    get theme() { return themeName; }, setTheme, get look() { return street; }, quality, composer, weather: weatherFeed, get kit() { return kit; }, goto, setAerial, cycleView, setTravel, get travel() { return travel.on; }, idle, get online() { return online; }, audio, get view() { return (riding ? 'ride:' : 'foot:') + (riding ? viewOf('ride') : viewOf('foot')).id; }, get walkTarget() { return walkTarget; }, get walkPath() { return walkPath; }, walkTo, get groundY() { return groundY; }, get resScale() { return governor.scale; },
+    get theme() { return themeName; }, setTheme, get look() { return street; }, get quality() { return quality; }, graphics: { info: gfx.info, get choice() { return gfx.choice; }, get tier() { return quality; }, auto: () => autoTier(gfx.info) }, composer, weather: weatherFeed, get kit() { return kit; }, goto, setAerial, cycleView, setTravel, get travel() { return travel.on; }, idle, get online() { return online; }, audio, get view() { return (riding ? 'ride:' : 'foot:') + (riding ? viewOf('ride') : viewOf('foot')).id; }, get walkTarget() { return walkTarget; }, get walkPath() { return walkPath; }, walkTo, get groundY() { return groundY; }, get resScale() { return governor.scale; },
     ready: true,
   };
 }

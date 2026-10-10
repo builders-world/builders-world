@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { signTexture } from './props.js';
+import { trackDetail } from './quality.js';
 
 // City furniture with names on it (world bible 4.4): Lagos street-name signs at junctions, fingerposts
 // pointing at real Yaba landmarks, and bus shelters at the danfo stops. Placement follows the land-use
@@ -52,7 +53,7 @@ export function buildCivic(world, scene, { rides } = {}) {
       g.add(plate, back2, new THREE.Mesh(box(1.94, 0.36, 0.08, 0, 2.7, 0), post));
       g.position.set(x, 0, z);
       g.rotation.y = Math.atan2(tx, tz) + Math.PI / 2; // the plate runs along the street it names
-      group.add(g);
+      group.add(trackDetail(g, 1.2));
       world.addColliders([{ name: 'street_sign', cx: x, cz: z, hx: 0.08, hz: 0.08, ry: 0 }]);
       added.push({ kind: 'street_sign', name: r.name, x, z });
     });
@@ -90,7 +91,7 @@ export function buildCivic(world, scene, { rides } = {}) {
       arm.add(blade, blade2, tip, new THREE.Mesh(box(1.6, 0.33, 0.05, 0.85, 0, 0), post));
       g.add(arm);
     });
-    group.add(g);
+    group.add(trackDetail(g, 1.2));
     world.addColliders([{ name: 'fingerpost', cx: sp.x, cz: sp.z, hx: 0.12, hz: 0.12, ry: 0 }]);
     added.push({ kind: 'fingerpost', x: sp.x, z: sp.z, to: ranked.map((l) => l.short || l.name) });
   }
@@ -112,7 +113,7 @@ export function buildCivic(world, scene, { rides } = {}) {
     g.add(new THREE.Mesh(box(3.0, 1.9, 0.04, 0, 1.25, -0.65), glass));
     g.add(new THREE.Mesh(box(2.4, 0.08, 0.4, 0, 0.48, -0.4), new THREE.MeshStandardMaterial({ color: 0xa87950, roughness: 0.8 })));
     const plate = new THREE.Mesh(new THREE.PlaneGeometry(1.6, 0.3), head); plate.position.set(0, 2.72, 0.76); g.add(plate);
-    group.add(g);
+    group.add(trackDetail(g, 1.2));
     // only the back panel and the posts are solid: you can step in under the canopy
     world.addColliders([{ name: 'shelter_back', cx: x - nx * 0.65, cz: z - nz * 0.65, hx: 1.55, hz: 0.06, ry }]);
     world.claim?.({ kind: 'bus_shelter', cx: x, cz: z, hx: 1.6, hz: 0.75, ry });

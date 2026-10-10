@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { createAvatarModel } from '../onboarding/avatar.js';
+import { trackPerson } from './anim.js';
 import { walletEngine, effortsMark, fmt } from './wallet.js';
 import { sfx } from './audio.js';
 import { C, FONT } from './uikit.js';
@@ -43,7 +44,7 @@ export function createGates({ world, scene, props, lives, passes, toast, getHour
     const guard = createAvatarModel({ color: '#3a4f7a', style: 'jacket' });
     const [px, pz] = g.post[1];
     guard.root.position.set(px + g.inward[0] * 1.2, 0, pz + g.inward[1] * 1.2);
-    guard.root.rotation.y = g.ry; group.add(guard.root);
+    guard.root.rotation.y = g.ry; group.add(trackPerson(guard.root));
     g.guard = GUARDS[(E.ei * 3 + gi) % GUARDS.length];
     g.out = { x: g.x - g.inward[0] * 2.6, z: g.z - g.inward[1] * 2.6 };
     props.interact.push({ id: `gate:${E.ei}:${gi}`, label: `Gatehouse: ${E.name}, Gate ${g.no}`, x: g.out.x, z: g.out.z, r: 3.2 });
