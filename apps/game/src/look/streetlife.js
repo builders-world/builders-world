@@ -24,7 +24,35 @@ const person = (look, seedName) => { const av = createAvatarModel({ color: '#888
 const TOUTS = ['Oshodi! Oshodi! Enter with your change!', 'CMS, Obalende, one chance!', 'Ojuelegba, Stadium, Costain!', 'Ikeja Along! Two more people!', 'Mile 12 Mile 12, we dey go now now!'];
 const HAWK = [['Gala! Gala!', 'Gala', 150], ['Pure water! Cold pure water!', 'Pure water', 50], ['Plantain chips, sweet and salty!', 'Plantain chips', 200], ['Charger! Earpiece!', 'Phone charger', 700]];
 
-export function createStreetLife({ world, scene, props, traffic, chat, toast, getEnv, used = [], reduced }) {
+// a paved access road along a path: tarmac with a kerb line each side, a dashed centre line, IN and OUT arrows at the mouth
+function accessRoad(pts) {
+  const g = new THREE.Group(), W = 6.2, y = 0.22, P = [], C = [], A = [];
+  const at = (i) => { const a = pts[Math.max(0, i - 1)], b = pts[Math.min(pts.length - 1, i + 1)], L = Math.hypot(b.x - a.x, b.z - a.z) || 1; return { nx: -(b.z - a.z) / L, nz: (b.x - a.x) / L }; };
+  pts.forEach((q, i) => { const { nx, nz } = at(i); [1, -1].forEach((s) => P.push(q.x + nx * s * W / 2, y, q.z + nz * s * W / 2)); [1, -1].forEach((s) => C.push(q.x + nx * s * (W / 2 - 0.15), y + 0.01, q.z + nz * s * (W / 2 - 0.15))); });
+  const strip = (arr, yo = 0) => { const idx = []; for (let i = 0; i < arr.length / 6 - 1; i++) { const a = i * 2, b = a + 1, c = a + 2, d = a + 3; idx.push(a, b, c, b, d, c); } const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(arr, 3)); geo.setIndex(idx); geo.computeVertexNormals(); if (yo) geo.translate(0, yo, 0); return geo; };
+  const tar = new THREE.Mesh(strip(P), new THREE.MeshStandardMaterial({ color: 0x4f5357, roughness: 0.95, side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -2 })); tar.receiveShadow = true; g.add(tar);
+  // the edge lines and the centre dashes
+  const paint = new THREE.MeshBasicMaterial({ color: 0xece6d4, side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -8 });
+  for (let i = 0; i < pts.length - 1; i++) {
+    const a = pts[i], b = pts[i + 1], L = Math.hypot(b.x - a.x, b.z - a.z), ry = Math.atan2(b.x - a.x, b.z - a.z);
+    for (let s = 0.6; s < L - 0.6; s += 2.4) { const m = new THREE.Mesh(new THREE.PlaneGeometry(0.14, 1.2).rotateX(-Math.PI / 2), paint); m.position.set(a.x + (b.x - a.x) * (s / L), y + 0.012, a.z + (b.z - a.z) * (s / L)); m.rotation.y = ry; g.add(m); }
+    [1, -1].forEach((sd) => { const { nx, nz } = at(i); const m = new THREE.Mesh(new THREE.PlaneGeometry(0.12, L).rotateX(-Math.PI / 2), paint); m.position.set((a.x + b.x) / 2 + nx * sd * (W / 2 - 0.2), y + 0.012, (a.z + b.z) / 2 + nz * sd * (W / 2 - 0.2)); m.rotation.y = ry; g.add(m); });
+  }
+  // IN and OUT just inside the mouth, one in each lane
+  if (pts.length > 1) {
+    const a = pts[0], b = pts[1], L = Math.hypot(b.x - a.x, b.z - a.z) || 1, ux = (b.x - a.x) / L, uz = (b.z - a.z) / L, nx = -uz, nz = ux, ry = Math.atan2(ux, uz);
+    const H = cityInfo().drive === 'left' ? -1 : 1; // each word in the lane that direction drives in
+    [['IN', H, Math.PI], ['OUT', -H, 0]].forEach(([word, sd, turn]) => {
+      const c = document.createElement('canvas'); c.width = 128; c.height = 192; const x = c.getContext('2d'); x.fillStyle = '#ece6d4'; x.font = '900 46px "Arial Black", sans-serif'; x.textAlign = 'center'; x.fillText(word, 64, 180);
+      x.beginPath(); x.moveTo(64, 10); x.lineTo(104, 70); x.lineTo(78, 70); x.lineTo(78, 130); x.lineTo(50, 130); x.lineTo(50, 70); x.lineTo(24, 70); x.closePath(); x.fill();
+      const t = new THREE.CanvasTexture(c); const m = new THREE.Mesh(new THREE.PlaneGeometry(1.3, 1.95).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ map: t, transparent: true, polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -8 }));
+      const d = Math.min(3.2, L * 0.6); m.position.set(a.x + ux * d + nx * sd * 1.5, y + 0.014, a.z + uz * d + nz * sd * 1.5); m.rotation.y = ry + turn; g.add(m);
+    });
+  }
+  return g;
+}
+
+export function createStreetLife({ world, scene, props, traffic, chat, toast, getEnv, used = [], reduced, parkAt = null }) {
   // the city's own motor park and police (cityinfo.js): a matatu stage in Kilimani, a trotro station in Osu
   const PARK = cityInfo().park || {}, POL = cityInfo().police || {};
   const group = new THREE.Group(); group.name = 'street-life'; scene.add(group);
@@ -36,9 +64,14 @@ export function createStreetLife({ world, scene, props, traffic, chat, toast, ge
 
   // ---------- Yaba Motor Park ----------
   let park = null;
-  const pAt = findSite(world, used, 34, 24); // a metre of margin round the 32 by 22 it claims
+  const pAt = parkAt || findSite(world, used, 34, 24); // a metre of margin round the 32 by 22 it claims (reserved early by index.js)
+  const PS = pAt?.S ?? 1; // a compact park is the same park at three quarters the size
   if (pAt && traffic) {
-    const g = new THREE.Group(); g.position.set(pAt.x, 0, pAt.z); group.add(g);
+    // the park faces its road: the gate goes on whichever long side is nearer a carriageway (turned round if need be)
+    const HD = 11.5 * (pAt.S ?? 1), roadDist = (x, z, ux, uz) => { for (let d = 0; d < 60; d += 1) if (world.onCarriageway?.(x + ux * d, z + uz * d, 0)) return d; return 99; };
+    const TH = roadDist(pAt.x, pAt.z - HD, 0, -1) < roadDist(pAt.x, pAt.z + HD, 0, 1) ? Math.PI : 0, cT = Math.cos(TH), sT = Math.sin(TH);
+    const W = (lx, lz) => ({ x: pAt.x + (lx * cT + lz * sT) * PS, z: pAt.z + (-lx * sT + lz * cT) * PS }); // park space to the world
+    const g = new THREE.Group(); g.position.set(pAt.x, 0, pAt.z); g.rotation.y = TH; g.scale.set(PS, 1, PS); group.add(g);
     const tar = new THREE.Mesh(new THREE.PlaneGeometry(32, 22).rotateX(-Math.PI / 2), new THREE.MeshStandardMaterial({ color: 0x55585c, roughness: 0.95, polygonOffset: true, polygonOffsetFactor: -1 })); tar.position.y = 0.09; g.add(tar);
     const paint = new THREE.MeshBasicMaterial({ color: 0xe8e2d0 });
     for (let k = 0; k < 6; k++) { g.add(new THREE.Mesh(box(0.12, 0.02, 6, -12.5 + k * 3.4, 0.11, -6.5), paint)); g.add(new THREE.Mesh(box(0.12, 0.02, 6, -12.5 + k * 3.4, 0.11, 6.5), paint)); }
@@ -49,34 +82,61 @@ export function createStreetLife({ world, scene, props, traffic, chat, toast, ge
     [-1, 1].forEach((s) => g.add(new THREE.Mesh(box(8, 0.1, 0.45, 10, 0.45, s * 1.2), new THREE.MeshStandardMaterial({ color: 0xa87950, roughness: 0.8 }))));
     g.add(new THREE.Mesh(box(3, 2.6, 2.4, 13.5, 1.3, -8.6), new THREE.MeshStandardMaterial({ color: 0x2f6b4f, roughness: 0.8 })));
     const sign = new THREE.Mesh(new THREE.PlaneGeometry(9, 1.4), new THREE.MeshBasicMaterial({ map: signTexture(PARK.name.toUpperCase(), { bg: '#2f6b4f', fg: '#f2c94c', w: 1200, h: 190, sub: PARK.sub || 'Oshodi · CMS · Ikeja · Ojuelegba · Mile 12' }), color: 0xdddddd }));
-    sign.position.set(0, 4.2, 11.05); g.add(sign); g.add(new THREE.Mesh(box(0.2, 4.9, 0.2, -4.4, 2.45, 11), post), new THREE.Mesh(box(0.2, 4.9, 0.2, 4.4, 2.45, 11), post));
-    world.addColliders?.([{ name: 'park_shed_office', cx: pAt.x + 13.5, cz: pAt.z - 8.6, hx: 1.5, hz: 1.2, ry: 0 }, { name: 'park_bench', cx: pAt.x + 10, cz: pAt.z - 1.2, hx: 4, hz: 0.25, ry: 0, h: 0.5 }, { name: 'park_bench', cx: pAt.x + 10, cz: pAt.z + 1.2, hx: 4, hz: 0.25, ry: 0, h: 0.5 }]);
-    world.claim?.({ kind: 'motor_park', cx: pAt.x, cz: pAt.z, hx: 16, hz: 11, ry: 0 });
+    // the gate: in the clear gap between the last bay and the shed, the sign over it
+    sign.position.set(5, 4.2, 11.05); g.add(sign); const postL = new THREE.Mesh(box(0.2, 4.9, 0.2, 0, 2.45, 11), post), postR = new THREE.Mesh(box(0.2, 4.9, 0.2, 0, 2.45, 11), post); g.add(postL, postR);
+    { const o = W(13.5, -8.6), b1 = W(10, -1.2), b2 = W(10, 1.2); world.addColliders?.([{ name: 'park_shed_office', cx: o.x, cz: o.z, hx: 1.5 * PS, hz: 1.2 * PS, ry: TH }, { name: 'park_bench', cx: b1.x, cz: b1.z, hx: 4 * PS, hz: 0.25, ry: TH, h: 0.5 }, { name: 'park_bench', cx: b2.x, cz: b2.z, hx: 4 * PS, hz: 0.25, ry: TH, h: 0.5 }]); }
+    world.claim?.({ kind: 'motor_park', cx: pAt.x, cz: pAt.z, hx: 16 * PS, hz: 11 * PS, ry: 0 });
     // bays: two rows, nose in
     const bays = [];
-    for (let k = 0; k < 5; k++) { bays.push({ x: pAt.x - 10.8 + k * 3.4, z: pAt.z - 6.5, ry: Math.PI, car: null }); bays.push({ x: pAt.x - 10.8 + k * 3.4, z: pAt.z + 6.5, ry: 0, car: null }); }
-    const gate = { x: pAt.x, z: pAt.z + 11.5 };
-    const entry = traffic.nearestNode(gate.x, gate.z), E = traffic.nodes[entry];
-    // the way in from the road: round buildings, not through them
-    const road = (world.plan?.({ x: E.x, z: E.z }, gate) || [{ x: E.x, z: E.z }, gate]).map((q) => ({ x: q.x, z: q.z }));
-    park = { g, bays, gate, entry, road, at: pAt, moving: [], touts: [], next: 10 };
+    for (let k = 0; k < 5; k++) { bays.push({ ...W(-10.8 + k * 3.4, -6.5), ry: Math.PI + TH, car: null, lz: -6.5 }); bays.push({ ...W(-10.8 + k * 3.4, 6.5), ry: TH, car: null, lz: 6.5 }); }
+    // the gate: where a minibus can drive straight in (the gap past the last bay, or the far end of the rows), and
+    // where a straight, clear driveway reaches the road (no lamp post, tree or building in the way)
+    let best = null;
+    for (const gx of PS < 1 ? [-14] : [5, -14]) {
+      const gate = W(gx, 11.5);
+      for (let k = -6; k <= 6; k++) {
+        const a = TH + (k / 24) * Math.PI * 2, ux = Math.sin(a), uz = Math.cos(a); let prev = null, ok = true;
+        const posts = (px, pz) => (world.kitColliders || []).some((c) => Math.abs(c.cx - px) < c.hx + 0.5 && Math.abs(c.cz - pz) < c.hz + 0.5);
+        const blocked = (x, z, near) => [-2.7, -1.8, -0.9, 0, 0.9, 1.8, 2.7].some((o) => { const px = x + uz * o, pz = z - ux * o; return posts(px, pz) || world.solidAt?.(px, 1, pz) || (!near && (world.inAnyBuilding?.(px, pz, 0.6) || world.inPlot?.(px, pz, 0.5))); });
+        for (let d = 0; d < 45; d += 0.5) { const x = gate.x + ux * d, z = gate.z + uz * d; if (world.onCarriageway?.(x, z, 0)) { if (prev && ok && (!best || d + Math.abs(k) * 0.8 < best.score)) best = { score: d + Math.abs(k) * 0.8, kerb: { x: x + ux * 0.4, z: z + uz * 0.4 }, gate, gx }; break; } if (blocked(x, z, d <= 1.5)) { ok = false; break; } prev = { x, z }; }
+      }
+    }
+    const gx = best?.gx ?? 5, gate = best?.gate || W(gx, 11.5), inside = W(gx, 3.2);
+    sign.position.x = gx; postL.position.x = gx - 4.4; postR.position.x = gx + 4.4;
+    const entry = traffic.nearestNode(best ? best.kerb.x : gate.x, best ? best.kerb.z : gate.z), E = traffic.nodes[entry];
+    const road = best ? [{ x: E.x, z: E.z }, best.kerb, gate] : (world.plan?.({ x: E.x, z: E.z }, gate) || [{ x: E.x, z: E.z }, gate]).map((q) => ({ x: q.x, z: q.z }));
+    // the access road (Elvis, 10 October 2026: "an entrance that does not obstruct the road"): from the kerb to the
+    // gate, paved and marked, so a minibus turning in leaves the main road at once and one leaving waits off it
+    const mi = Math.max(1, road.findIndex((q) => !world.onCarriageway?.(q.x, q.z, 0.8)));
+    const mouth = road[Math.min(mi, road.length - 1)];
+    let kerb = mouth;
+    { const a = road[mi - 1]; for (let u = 0; u <= 1.001; u += 0.04) { const x = a.x + (mouth.x - a.x) * u, z = a.z + (mouth.z - a.z) * u; if (!world.onCarriageway?.(x, z, 0)) { kerb = { x, z }; break; } } }
+    const access = [kerb, ...road.slice(mi), gate].filter((q, i, A) => !i || Math.hypot(q.x - A[i - 1].x, q.z - A[i - 1].z) > 0.8);
+    group.add(accessRoad(access));
+    // (claimed so nothing is built on it; the claim keeps back from the road it meets)
+    if (Math.hypot(gate.x - kerb.x, gate.z - kerb.z) > 7) world.claim?.({ kind: 'access_road', cx: kerb.x + (gate.x - kerb.x) * 0.65, cz: kerb.z + (gate.z - kerb.z) * 0.65, hx: 2.2, hz: 2.2, ry: 0 });
+    park = { g, bays, gate, inside, entry, road, access, kerb, at: pAt, W, cT, sT, moving: [], touts: [], next: 10 };
     // three bays full from the start, with their own danfos
     bays.filter((_, i) => i % 3 === 0).forEach((b, i) => { const m = vehicle(PARK.kind || 'danfo', 30 + i); m.position.set(b.x, 0, b.z); m.rotation.y = b.ry; group.add(m); b.car = { mesh: m, t: 20 + i * 12 }; });
     // touts by the bays
-    for (let k = 0; k < 3; k++) { const t = person(null, `tout-${k}`); t.name = (PARK.crew || ['Agbero', 'Baba Ijebu', 'Conductor'])[k]; t.obj.position.set(pAt.x - 9 + k * 7, 0, pAt.z); t.obj.rotation.y = k * 2; group.add(t.obj); park.touts.push(t); people.push(t); }
+    for (let k = 0; k < 3; k++) { const t = person(null, `tout-${k}`); t.name = (PARK.crew || ['Agbero', 'Baba Ijebu', 'Conductor'])[k]; { const q = W(-9 + k * 7, 0); t.obj.position.set(q.x, 0, q.z); } t.obj.rotation.y = k * 2; group.add(t.obj); park.touts.push(t); people.push(t); }
     // passing danfos turn in to load, now and then
     traffic.onNode((c, at) => {
       if (at !== entry || c.kind !== (PARK.kind || 'danfo') || park.moving.length > 1 || Math.random() > 0.5) return false;
       const b = bays.find((q) => !q.car && !q.claimed); if (!b) return false;
       b.claimed = true;
-      park.moving.push({ mesh: c.mesh, path: [...park.road, { x: b.x, z: pAt.z + (b.z > pAt.z ? 1.5 : -1.5) }, { x: b.x, z: b.z }], i: 1, bay: b, dir: 'in' });
+      // straight off the lane onto the access road, then in to its bay; a blocker for the traffic while it is on the road
+      park.moving.push({ mesh: c.mesh, path: [...park.access, inside, W(((b.x - pAt.x) * cT - (b.z - pAt.z) * sT), b.lz > 0 ? 1.5 : -1.5), { x: b.x, z: b.z }], i: 0, bay: b, dir: 'in', block: traffic.addBlocker?.({ r: 1.4 }) });
       return true;
     });
   }
   const parkPos = (m, dt) => {
     const aim = m.path[m.i], p = m.mesh.position, dx = aim.x - p.x, dz = aim.z - p.z, d = Math.hypot(dx, dz);
-    if (d < 0.4) { m.i++; return m.i >= m.path.length; }
-    const v = Math.min(5, d * 1.5 + 1); p.x += (dx / d) * v * dt; p.z += (dz / d) * v * dt;
+    // while any part of it is on the main road, the traffic waits for it (and it does not dawdle there)
+    const onRoad = !!world.onCarriageway?.(p.x, p.z, 1.2);
+    if (m.block) { m.block.on = onRoad; m.block.x = p.x; m.block.z = p.z; }
+    if (d < 0.6) { m.i++; return m.i >= m.path.length; }
+    const last = m.i === m.path.length - 1, v = onRoad ? 5.5 : last ? Math.min(3, d * 1.5 + 0.8) : 4; p.x += (dx / d) * Math.min(v * dt, d); p.z += (dz / d) * Math.min(v * dt, d);
     const want = Math.atan2(dx, dz) + (m.dir === 'in' && m.i === m.path.length - 1 ? 0 : 0), dy = Math.atan2(Math.sin(want - m.mesh.rotation.y), Math.cos(want - m.mesh.rotation.y)); m.mesh.rotation.y += dy * (1 - Math.exp(-dt * 4));
     return false;
   };
@@ -162,7 +222,7 @@ export function createStreetLife({ world, scene, props, traffic, chat, toast, ge
       const m = vehicle(PARK.kind || 'danfo', 7); m.position.set(x, 0, z); m.rotation.y = Math.atan2(pts[i + 1][0] - pts[i][0], pts[i + 1][1] - pts[i][1]); group.add(m);
       const crew = [0, 1, 2].map((k) => { const p = person(null, `push-${k}`); p.name = ['Driver', 'Conductor', 'Passenger'][k]; const fx = Math.sin(m.rotation.y), fz = Math.cos(m.rotation.y); p.obj.position.set(x - fx * (3.3 + k * 0.05) + Math.cos(m.rotation.y) * (k - 1) * 0.7, 0, z - fz * (3.3) - Math.sin(m.rotation.y) * (k - 1) * 0.7); p.obj.rotation.y = m.rotation.y; group.add(p.obj); people.push(p); return p; });
       world.addColliders?.([{ name: 'broken_danfo', cx: x, cz: z, hx: 1.05, hz: 2.7, ry: m.rotation.y, h: 2.2 }]);
-      events.push({ kind: 'breakdown', m, crew, lines: ['Make una push! One, two, three!', 'This engine don tire o.', 'Mechanic dey come!'], x, z, said: 0, blink: m.children.filter((c) => c.geometry?.parameters?.width === 0.28) });
+      events.push({ kind: 'breakdown', m, crew, lines: cityInfo().breakdownLines || ['Make una push! One, two, three!', 'This engine don tire o.', 'Mechanic dey come!'], x, z, said: 0, blink: m.children.filter((c) => c.geometry?.parameters?.width === 0.28) });
     }
   }
   // kids playing football on a lawn in the evening
@@ -198,12 +258,19 @@ export function createStreetLife({ world, scene, props, traffic, chat, toast, ge
     // the motor park: danfos in and out, touts calling
     if (park) {
       park.moving = park.moving.filter((m) => {
+        // leaving: it waits at the kerb, off the road, until the traffic leaves a gap, then pulls out
+        if (m.dir === 'out' && m.i === m.path.length - 1 && !m.merging) {
+          const k = park.kerb, gap = !traffic.cars.some((c) => Math.hypot(c.mesh.position.x - k.x, c.mesh.position.z - k.z) < 18);
+          if (Math.hypot(m.mesh.position.x - k.x, m.mesh.position.z - k.z) < 1 && !gap) { if (m.block) m.block.on = false; return true; }
+          if (gap) m.merging = true;
+        }
         if (!parkPos(m, dt)) return true;
+        if (m.block) { traffic.removeBlocker?.(m.block); m.block = null; }
         if (m.dir === 'in') { m.bay.car = { mesh: m.mesh, t: 18 + Math.random() * 20 }; m.bay.claimed = false; m.mesh.rotation.y = m.bay.ry; }
         else traffic.release(PARK.kind || 'danfo', m.mesh, park.entry);
         return false;
       });
-      park.bays.forEach((b) => { if (!b.car) return; b.car.t -= dt; if (b.car.t <= 0 && park.moving.length < 2) { const E = traffic.nodes[park.entry]; park.moving.push({ mesh: b.car.mesh, path: [{ x: b.x, z: park.at.z + (b.z > park.at.z ? 1.5 : -1.5) }, ...[...park.road].reverse()], i: 0, dir: 'out' }); b.car = null; } });
+      park.bays.forEach((b) => { if (!b.car) return; b.car.t -= dt; if (b.car.t <= 0 && park.moving.length < 2) { const E = traffic.nodes[park.entry]; park.moving.push({ mesh: b.car.mesh, path: [park.W(((b.x - park.at.x) * park.cT - (b.z - park.at.z) * park.sT), b.lz > 0 ? 1.5 : -1.5), park.inside, ...[...park.access].reverse(), { x: E.x, z: E.z }], i: 0, dir: 'out', block: traffic.addBlocker?.({ r: 1.4 }) }); b.car = null; } });
       park.next -= dt;
       if (park.next <= 0) { park.next = 6 + Math.random() * 6; const tt = park.touts[Math.floor(Math.random() * park.touts.length)]; talk(tt, (PARK.calls || TOUTS)[Math.floor(Math.random() * (PARK.calls || TOUTS).length)], 30, player); tt.rig?.wave?.(); }
       park.touts.forEach((tt) => tt.rig?.update(dt, { speed: 0, t }));

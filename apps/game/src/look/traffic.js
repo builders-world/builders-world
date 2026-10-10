@@ -81,6 +81,12 @@ const bikeLaneAt = (r, a, b) => {
   return C[sg].has(a) && C[sg].has(b) ? Math.min(half[a], half[b]) - 1.225 : 0;
 };
 
+// a traffic official in the city's own uniform (cityinfo.js officials)
+export function officialLook(O = {}, i = 0) {
+  return { body: i % 3 === 2 ? 'f' : 'm', skin: ['#7a4a2e', '#5c3a24', '#8a5a3a'][i % 3], hair: 'fila', hairColor: O.cap || '#1b1714', top: O.jacket ? 'jacket' : 'tee', topColor: O.top || '#efe3c4',
+    bottom: 'trousers', bottomColor: O.bottom || '#6b1d2a', shoes: 'boots', shoeColor: '#1d2028', acc: [] };
+}
+
 export function createTraffic({ world, scene, reduced, lowQuality, getPeople, flyover }) {
   const group = new THREE.Group(); group.name = 'traffic'; scene.add(group);
   // ---------- the drivable graph: nodes at shared road points, edges along the roads ----------
@@ -179,12 +185,12 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
     return !!world.onCarriageway?.(ax, az, 0) && !world.onCarriageway?.(pos.x, pos.z, -0.2);
   };
 
-  // ---------- the LASTMA officer at the busiest junction ----------
+  // ---------- the traffic officer at the busiest junction (LASTMA in Lagos, the traffic police in Nairobi...) ----------
   let warden = null;
   const busiest = junctions.sort((a, b) => b.n.out.length - a.n.out.length)[0];
   if (busiest) {
     const av = createAvatarModel({ color: '#f2c418', style: 'tee' }); prepareLook(av.root); const rig = rigAvatar(av.root);
-    dress(av.root, { body: 'm', skin: '#7a4a2e', hair: 'fila', hairColor: '#1b1714', top: 'tee', topColor: '#f2c418', bottom: 'trousers', bottomColor: '#6b1d2a', shoes: 'boots', shoeColor: '#1d2028', acc: [] }, rig);
+    dress(av.root, officialLook(cityInfo().officials, 0), rig); // the city's own traffic agency (cityinfo.js)
     // on a little island at the corner, out of the cars' way: try each road out of the junction, both sides, until the island is clear of every carriageway
     let px = busiest.n.x, pz = busiest.n.z, found = false;
     for (const ed of busiest.n.out) {
@@ -228,7 +234,7 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
   // cyclists keep to the cycle lane where the road has one (world.js paints it, 1.2 m in from the kerb)
   // (Kenya keeps left: there the lanes are on the other side of the road)
   const HAND = cityInfo().drive === 'left' ? -1 : 1;
-  const laneOf = (c) => (c.kind === 'cycle' && c.e.bike ? c.e.bike : c.e.lane) * HAND;
+  const laneOf = (c) => (c.kind === 'cycle' && c.e.bike ? c.e.bike : c.e.lane) * HAND * (c.flip ?? 1); // (flip: a U-turn crossing to the other side)
   const posOf = (c) => { const a = nodes[c.from], b = nodes[c.e.to], u = c.s / (c.e.L || 1), dx = (b.x - a.x) / (c.e.L || 1), dz = (b.z - a.z) / (c.e.L || 1), lane = laneOf(c); return { x: a.x + (b.x - a.x) * u - dz * lane, z: a.z + (b.z - a.z) * u + dx * lane, dx, dz }; };
   let t = 0;
   function update(dt, player) {
@@ -237,6 +243,7 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
     signals.forEach((sig) => { sig.t += dt; sig.heads.forEach((h) => { const st = stateOf(sig, h.phase); h.lamps.forEach((m, j) => { m.material = ['red', 'amber', 'green'][j] === st ? lit[st] : off; }); }); });
     const people = getPeople?.() || [];
     const P = cars.map(posOf);
+    playerHold = 0;
     cars.forEach((c, k) => {
       const p = P[k];
       let want = c.max;
@@ -255,11 +262,27 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
         if (j === k || Math.abs(cars[j].mesh.position.y - c.mesh.position.y) > 2.5) continue; const q = P[j], ax = q.x - p.x, az = q.z - p.z, along = ax * p.dx + az * p.dz, across = Math.abs(-ax * p.dz + az * p.dx);
         if (along > 0 && along < 14 && across < 1.6 && p.dx * q.dx + p.dz * q.dz > 0.3) want = Math.min(want, Math.max(0, (along - DESIGNS[c.kind].len / 2 - DESIGNS[cars[j].kind].len / 2 - 1.5) * 1.1));
       }
+      const byCar = want < 0.3;
+      // anything else on the road ahead (a minibus turning into the motor park, a ride waiting at the kerb): wait for it
+      let byThing = false;
+      for (const b of blockers) { if (!b.on) continue; const ax = b.x - p.x, az = b.z - p.z, along = ax * p.dx + az * p.dz, across = Math.abs(-ax * p.dz + az * p.dx); if (along > 0 && along < 16 && across < b.r + 1.1) { want = Math.min(want, Math.max(0, (along - DESIGNS[c.kind].len / 2 - b.r - 1.5) * 1.1)); byThing = byThing || want < 0.3; } }
       // people in the road ahead: stop, and after a moment, the horn
       let blocked = false;
       [player, ...people].forEach((h, hi) => { if (!h || c.mesh.position.y > 2.5) return; const ax = h.x - p.x, az = h.z - p.z, along = ax * p.dx + az * p.dz, across = Math.abs(-ax * p.dz + az * p.dx); if (along > 0 && along < 7 && across < 1.5) { want = Math.min(want, Math.max(0, (along - 3.5) * 1.5)); if (hi === 0 && along < 6) blocked = true; } });
+      if (blocked && c.v < 0.3) playerHold = Math.max(playerHold, (c.hold = (c.hold || 0) + dt)); else c.hold = 0;
       if (blocked && c.v < 0.3) { c.horn += dt; if (c.horn > 1.6 && Math.hypot(player.x - p.x, player.z - p.z) < 25) { sfx('horn', { kind: c.kind }); c.horn = -3; dispatchEvent(new CustomEvent('bw:react', { detail: { kind: 'horn', x: p.x, z: p.z, r: 14, max: 3, chance: 0.7 } })); } } else c.horn = Math.min(c.horn, 0) + dt * 0;
       if (reduced) want = Math.min(want, c.max * 0.6);
+      // stuck behind something that is not going to move (not a light, not a person crossing): after a while a
+      // traffic official sees it (officials.js) and waves the car round: it turns back the way it came
+      const sigRed = sig && !flying && toEnd < 9 + c.v;
+      if (c.v < 0.25 && (byCar || byThing) && !blocked && !sigRed) c.stuck = (c.stuck || 0) + dt; else c.stuck = 0;
+      if (c.stuck > 9 && !c.reported) { c.reported = true; dispatchEvent(new CustomEvent('bw:obstruction', { detail: { x: p.x, z: p.z, car: c } })); }
+      // (an officer on the way: wait for the wave, up to half a minute; nobody coming: the driver turns round alone)
+      if (c.stuck > 13 && (c.waved || !c.helped || c.stuck > 30)) {
+        const back = nodes[c.e.to].out.find((e) => e.to === c.from);
+        if (back) { const s0 = c.s; c.from = c.e.to; c.e = back; c.s = Math.max(0, back.L - s0); c.flip = -1; c.stuck = 0; c.reported = false; c.waved = false; c.helped = false; c.v = 0; }
+      }
+      if (c.flip !== undefined && c.flip < 1) c.flip = Math.min(1, c.flip + dt * 1.4);
       c.v += Math.max(-7 * dt, Math.min(2.4 * dt, want - c.v));
       c.s += c.v * dt;
       if (c.s >= c.e.L) { const at = c.e.to; if (watchers.some((fn) => fn(c, at))) { c.gone = true; return; } const nx = pickNext(c.from, at, c.kind === 'cycle', c.kind === 'keke'); c.s -= c.e.L; c.from = at; c.e = nx; if (c.s > c.e.L) c.s = 0; }
@@ -276,10 +299,15 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
   }
   // for the motor park (streetlife.js): take a passing car off the road at a node, put one back on
   const watchers = [];
+  // things on the road that are not in the traffic (a vehicle turning into the motor park, a ride at the kerb): cars wait for them
+  const blockers = [];
+  let playerHold = 0; // how long a car has been held up by you standing in the road, this frame
+  const addBlocker = (b) => { const h = { x: 0, z: 0, r: 1.2, on: false, ...b }; blockers.push(h); return h; };
+  const removeBlocker = (h) => { const i = blockers.indexOf(h); if (i >= 0) blockers.splice(i, 1); };
   function onNode(fn) { watchers.push(fn); }
   function nearestNode(x, z) { let best = -1, bd = Infinity; usable.forEach((i) => { const d = Math.hypot(nodes[i].x - x, nodes[i].z - z); if (d < bd) { bd = d; best = i; } }); return best; }
   function release(kind, mesh, at) { const e = nodes[at].out[Math.floor(rng() * nodes[at].out.length)]; const c = { kind, mesh, from: at, e, s: 0.5, v: 2, max: DESIGNS[kind].speed, wait: 0, horn: 0 }; if (!mesh.parent) group.add(mesh); cars.push(c); return c; }
   const bodies = () => cars.map((c) => c.body).filter(Boolean);
   function dispose() { group.removeFromParent(); }
-  return { peds, update, bodies, cars, signals, warden, nodes, onNode, nearestNode, release, stateOf, dispose, get count() { return cars.length; } };
+  return { peds, update, bodies, cars, signals, warden, nodes, onNode, nearestNode, release, stateOf, dispose, addBlocker, removeBlocker, get playerHold() { return playerHold; }, get count() { return cars.length; } };
 }
