@@ -111,6 +111,7 @@ export function createChat({ camera, avatar, getEnv, reduced }) {
     meCool = clock + 2;
     avatar?.userData.rig?.wave?.();
     say(avatar, `Hi ${p.name}! 👋`, { me: true });
+    dispatchEvent(new CustomEvent('bw:said', { detail: { kind: 'hi' } }));
     setTimeout(() => { playEmote(p.obj, pick(REACT.greet)); say(p.obj, `${line('reply', p)}`, { name: p.name }); }, 1100);
     p.coolMe = clock + 30;
   }
@@ -208,7 +209,7 @@ export function createChat({ camera, avatar, getEnv, reduced }) {
   function dispose() { root.remove(); style.remove(); }
   // other players (online.js) and your own typed messages
   const sayFrom = (obj, text, name, emoji = false) => say(obj, text, { name, emoji, hold: emoji ? 2.4 : 5 });
-  const sayMine = (text) => say(avatar, text, { me: true, hold: 5 });
+  const sayMine = (text) => { say(avatar, text, { me: true, hold: 5 }); dispatchEvent(new CustomEvent('bw:said', { detail: { kind: 'chat', len: String(text).length } })); };
   // going indoors: the street's bubbles go (they would hang frozen on the screen)
   const clear = () => { bubbles.forEach((b) => b.el.remove()); bubbles.length = 0; };
   return { add, update, clear, sayHi, emote, nearest, dispose, sayFrom, sayMine, setLife: (fn) => { lifeLine = fn; }, get people() { return people; }, get last() { return last; } };
