@@ -5,6 +5,7 @@ import { prepareLook, dress } from './style.js';
 import { petModel, animatePet } from './pets.js';
 import { C, FONT } from './uikit.js';
 import { walletEngine } from './wallet.js';
+import { BY_ID, playEmote } from './expressions.js';
 import { apiUrl } from '../api.js';
 import { session, authHeaders } from '../session.js';
 
@@ -91,7 +92,7 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
         const lk = JSON.stringify(p.look?.full || null); if (r2.lookKey !== lk) { r2.lookKey = lk; if (p.look?.full) dress(r2.obj, p.look.full, r2.rig); }
         r2.from.copy(r2.obj.position); r2.to.set(p.x, p.y || 0, p.z); r2.t0 = performance.now(); r2.yaw = p.yaw; r2.speed = p.speed; r2.name = p.name; r2.tag.textContent = p.name;
         if (p.say && p.say.t > r2.lastSay) { r2.lastSay = p.say.t; chat?.sayFrom?.(r2.obj, p.say.text, p.name); }
-        if (p.emote && p.emote.t > r2.lastEmote) { r2.lastEmote = p.emote.t; chat?.sayFrom?.(r2.obj, p.emote.e, p.name, true); }
+        if (p.emote && p.emote.t > r2.lastEmote) { r2.lastEmote = p.emote.t; const E = BY_ID[p.emote.e]; if (E) playEmote(r2.obj, E.id); chat?.sayFrom?.(r2.obj, E ? E.emoji : p.emote.e, p.name, true); }
       });
       remote.forEach((r2, k) => { if (!seen.has(k)) { r2.pet?.removeFromParent(); r2.obj.removeFromParent(); r2.tag.remove(); r2.dispose?.(); remote.delete(k); } });
     } catch {

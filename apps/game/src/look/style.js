@@ -103,7 +103,7 @@ export function dress(root, look, rig) {
   if (cap) cap.visible = ['low', 'fade', 'afro', 'bun', 'cornrows', 'long', 'ponytail'].includes(L.hair);
   F.brows.forEach((b) => { b.visible = true; });
   if (cap) cap.scale.set(0.208, L.hair === 'fade' ? 0.07 : 0.105, 0.19);
-  if (L.hair === 'afro') add(G.sphere, H, 0, 1.79, -0.03, 0.3, 0.24, 0.28);
+  if (L.hair === 'afro') add(G.sphere, H, 0, 1.84, -0.06, 0.3, 0.22, 0.26); // sits back off the brows, so the face shows
   if (L.hair === 'bun') add(G.sphere, H, 0, 1.86, -0.12, 0.1, 0.1, 0.1);
   // long hair: a fringe-less fall down the back to the shoulder blades, and over the ears
   if (L.hair === 'long') { add(G.sphere, H, 0, 1.76, -0.03, 0.225, 0.13, 0.21); add(G.box, H, 0, 1.47, -0.13, 0.4, 0.5, 0.1); [-1, 1].forEach((s2) => add(G.box, H, s2 * 0.2, 1.56, -0.02, 0.06, 0.3, 0.16)); }
@@ -143,7 +143,9 @@ export function dress(root, look, rig) {
   });
   // a face: lashes and lips for the curvy frame, as minifigs print them
   const skinCol = new THREE.Color(L.skin);
-  if (fem) {
+  // (a rigged person's face is drawn by expressions.js, which draws the lashes and lips itself)
+  root.userData.face?.setFem(fem);
+  if (fem && !root.userData.face) {
     const lash = mat('#1b1714');
     [-1, 1].forEach((s2) => add(G.box, lash, s2 * 0.105, 1.66, 0.165, 0.035, 0.012, 0.012, 0, s2 * 0.5));
     add(G.box, mat(`#${skinCol.clone().lerp(new THREE.Color('#b0414f'), 0.55).getHexString()}`), 0, 1.525, 0.182, 0.07, 0.022, 0.012);

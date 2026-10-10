@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { playEmote } from './expressions.js';
 import { createAvatarModel } from '../onboarding/avatar.js';
 import { rigAvatar } from './anim.js';
 import { prepareLook, dress } from './style.js';
@@ -154,6 +155,8 @@ export function createFood({ scene, props, toast, getEnv, reduced, addLamps, wor
         mk.parcel.position.set(st.vendor.x + (dx / d) * (d - 0.55) * k, 1.0 + k * 0.3, st.vendor.z + (dz / d) * (d - 0.55) * k);
         if (mk.t > 4.6 && !mk.done) {
           mk.done = true; sfx('arrive');
+          playEmote(st.av.root, st.kind === 'suya' ? 'thanks' : st.kind === 'cafe' ? 'nod' : 'welldone'); // the trader's thanks
+          dispatchEvent(new CustomEvent('bw:react', { detail: { kind: 'food', x: st.vendor.x, z: st.vendor.z, r: 7, max: 2, chance: 0.5 } }));
           const line = st.kind === 'suya' ? `Enjoy! I add extra yaji for you.` : st.kind === 'kitchen' ? 'Chop well o!' : st.kind === 'cafe' ? 'Enjoy, see you tomorrow!' : 'Enjoy!';
           render(line);
           toast(`${mk.name}: ${['delicious', 'exactly what you needed', 'worth every Effort'][Math.floor(Math.random() * 3)]}.`, 2800);

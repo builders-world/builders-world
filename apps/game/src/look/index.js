@@ -26,7 +26,9 @@ import { buildFlyover } from './flyover.js';
 import { buildGreenrey } from './greenrey.js';
 import { createStreetLife } from './streetlife.js';
 import { createMobility } from './mobility.js';
-import { cullPeople } from './anim.js';
+import { cullPeople, PEOPLE } from './anim.js';
+import { createEmotes } from './expressions.js';
+import { createEmotePanel } from './emotepanel.js';
 import { createSpotify, trackUrl } from './spotify.js';
 import { buildLandmarks } from './landmarks.js';
 import { createSports } from './sports/index.js';
@@ -317,6 +319,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   const district = world.center?.lat != null ? world.center : { lat: 6.5095, lon: 3.3715 };
   const kitLampAmber = [...new Set((world.kit?.get('yaba_street_lamp')?.meshes || []).map((m) => m.material).filter((m) => m.emissive && m.emissive.getHex()))];
   let live = null;
+  let emotes = null, emotePanel = null, wasWet = false; // expressions.js
   const MIST = new THREE.Color();
 
   function environment(dt) {
@@ -462,6 +465,13 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   mobility = createMobility({ world, scene: group, props, avatar, toast: hud.toast, used: rec.used, reduced, park: parks.park });
   try { JSON.parse(localStorage.getItem('bw-bag-equipped') || '[]').forEach((id) => mobility.equip(id, true)); } catch { /* */ }
   slife = createStreetLife({ world, scene: group, props, traffic, chat, toast: hud.toast, getEnv: () => live, used: rec.used, reduced });
+  // expressions (expressions.js): everyone emotes on their own clock, never in step with their neighbours,
+  // and reacts to what happens around them; any module can raise an event with bw:react
+  const meAt = new THREE.Vector3();
+  emotes = createEmotes({ people: () => PEOPLE, getPlayer: () => avatar?.getWorldPosition(meAt), getEnv: () => ({ hour: live?.hour ?? 12, rain: live?.rain ?? 0 }), isPlayer: (r) => !!r.userData.isPlayer });
+  addEventListener('bw:react', (e) => { const d = e.detail || {}; emotes.event(d.kind, d.x ?? meAt.x, d.z ?? meAt.z, d.r ?? 16, { max: d.max ?? 8, chance: d.chance ?? 0.85 }); });
+  emotePanel = createEmotePanel({ onPick: (id) => chat.emote(id, avatar?.getWorldPosition(meAt) || meAt) });
+  addEventListener('bw:emotes', () => emotePanel.toggle()); // G (main.js)
   // the Sports Centre, the Aquatic and Indoor Arena and the Chess Corner (sports/), on land still free
   if (!off.has('sports')) sports = createSports({ world, scene: group, props, used: rec.used, toast: hud.toast, avatar, getOnline: () => onlineRef, getMyName: () => (walletEngine().handle ? `@${walletEngine().handle}` : 'You') });
   props.pois?.filter((q) => q.kind === 'build').forEach((q) => { q.x = props.area.x; q.z = props.area.z; }); // the build area moved into the park
@@ -538,6 +548,9 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
 
   let cullT = 0;
   function update(dt, t, player, yaw, arrival) {
+    emotes?.update(dt);
+    // the rain starting is news to everyone out in it
+    const wet = (live?.rain ?? 0) > 0.25; if (wet && !wasWet) emotes?.event('rain', player.x, player.z, 35, { max: 8, chance: 0.7 }); wasWet = wet;
     // the shadow camera follows you, snapped to its own texels so edges do not crawl as you walk
     if (gfx.shadows) {
       const d = sunRig.position.clone().sub(shadowFocus).normalize();
@@ -582,7 +595,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     // lightning only when there is a thunderstorm where the weather comes from
     if (night && !reduced && cur.storm > 0.5) {
       nextStrike -= dt;
-      if (nextStrike <= 0) { flashT = 0; nextStrike = 25 + Math.random() * 35; }
+      if (nextStrike <= 0) { flashT = 0; nextStrike = 25 + Math.random() * 35; emotes?.event('storm', player.x, player.z, 30, { max: 6 }); }
       let f = 0;
       if (flashT >= 0) {
         flashT += dt;

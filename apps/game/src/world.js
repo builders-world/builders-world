@@ -987,7 +987,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   }
 
   let nav = null;
-  const navGrid = () => (nav ??= buildNavGrid({ R, solids: solid, boxes: kitColliders, roads, lots, pointInPoly, nearestOnPoly, private: estatePlan.flatMap((E) => E.closes) }));
+  const navGrid = () => (nav ??= buildNavGrid({ R, solids: solid, boxes: kitColliders, roads, lots, pointInPoly, nearestOnPoly, private: estatePlan.flatMap((E) => E.closes), crossings }));
 
   // the raster behind isFree's road test: a cell is marked when any point in it could be within a
   // road's clearance (its centre within clearance + the cell's half-diagonal), so unmarked means free
