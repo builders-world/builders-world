@@ -165,7 +165,7 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
       placed.push(s);
       const [name, line] = SHOP_NAMES[i % SHOP_NAMES.length];
       const fx = -Math.sin(s.ry + Math.PI), fz = -Math.cos(s.ry + Math.PI);
-      interact.push({ id: `shop:${i}`, label: `Visit ${name}`, x: s.x + Math.sin(s.ry) * 4.8, z: s.z + Math.cos(s.ry) * 4.8, r: 3.5, line, name });
+      interact.push({ id: `shop:${i}`, label: `Visit ${name}`, x: s.x + Math.sin(s.ry) * 4.8, z: s.z + Math.cos(s.ry) * 4.8, r: 3.5, line, name, at: { x: s.x, z: s.z, ry: s.ry, depth: 4.8 } });
       poi(/Kitchen|Cafe/.test(name) ? (/Cafe/.test(name) ? 'cafe' : 'food') : 'shop', name, s.x + Math.sin(s.ry) * 4.8, s.z + Math.cos(s.ry) * 4.8);
       lamps.push({ x: s.x + Math.sin(s.ry) * 3.6, y: 3.4, z: s.z + Math.cos(s.ry) * 3.6, power: 20, boost: 8, color: 0xffb35c });
       void fx; void fz;
@@ -180,7 +180,7 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
     spots.forEach((s, i) => {
       placed.push(s);
       const [name, line] = STALL_NAMES[i % STALL_NAMES.length];
-      interact.push({ id: `stall:${i}`, label: `Stop at the ${name.toLowerCase()}`, x: s.x + Math.sin(s.ry) * 2.4, z: s.z + Math.cos(s.ry) * 2.4, r: 3.2, line, name });
+      interact.push({ id: `stall:${i}`, label: `Stop at the ${name.toLowerCase()}`, x: s.x + Math.sin(s.ry) * 2.4, z: s.z + Math.cos(s.ry) * 2.4, r: 3.2, line, name, at: { x: s.x, z: s.z, ry: s.ry, depth: 2.4 } });
       poi(/POS/.test(name) ? 'shop' : 'food', name, s.x + Math.sin(s.ry) * 2.4, s.z + Math.cos(s.ry) * 2.4);
       lamps.push({ x: s.x, y: 2.6, z: s.z, power: 16, boost: 6, color: 0xffb35c });
     });

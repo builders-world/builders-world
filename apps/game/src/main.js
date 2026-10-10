@@ -134,7 +134,8 @@ async function main() {
   // your look from the wardrobe (style.js), kept on this device and sent with your presence
   try { const saved = JSON.parse(localStorage.getItem('bw-style') || 'null'); if (saved) dress(body, saved, rig); } catch { /* */ }
   // the wardrobe turns the camera round to face you, like a mirror
-  let mirrorSave = null;
+  let mirrorSave = null, shotCam = null;
+  addEventListener('bw:shot', (e) => { shotCam = e.detail || null; });
   addEventListener('bw:mirror', (e) => {
     if (e.detail) { mirrorSave = mirrorSave || { yaw: cam.yawT, dist: cam.distT, pitch: cam.pitchT }; cam.yawT = heading + Math.PI; cam.distT = 3.6; cam.pitchT = 0.12; }
     else if (mirrorSave) { cam.yawT = mirrorSave.yaw; cam.distT = mirrorSave.dist; cam.pitchT = mirrorSave.pitch; mirrorSave = null; }
@@ -682,7 +683,9 @@ async function main() {
       focus.set(player.x + (travel.shot === 2 ? fx * 6 : fx * 0.8), travel.shot === 2 ? 1.0 : 1.25, player.z + (travel.shot === 2 ? fz * 6 : fz * 0.8));
       fixed = true;
     }
-    if (fixed && !snap) { const k = idle.on ? 1 - Math.exp(-dt * 3) : travel.on ? 1 - Math.exp(-dt * 5) : 1 - Math.exp(-dt * (view.id === 'first' ? 30 : 4)); camPos.lerp(desired, k); look.lerp(focus, 1 - Math.exp(-dt * (travel.on ? 6 : 20))); }
+    // a feature can ask for a held shot: first person at a food stall's counter, for instance
+    if (shotCam) { desired.set(shotCam.from.x, shotCam.from.y, shotCam.from.z); focus.set(shotCam.at.x, shotCam.at.y, shotCam.at.z); fixed = true; }
+    if (fixed && !snap) { const k = shotCam ? 1 - Math.exp(-dt * 5) : idle.on ? 1 - Math.exp(-dt * 3) : travel.on ? 1 - Math.exp(-dt * 5) : 1 - Math.exp(-dt * (view.id === 'first' ? 30 : 4)); camPos.lerp(desired, k); look.lerp(focus, 1 - Math.exp(-dt * (travel.on ? 6 : 20))); }
     else if (snap) { camPos.copy(desired); look.copy(focus); snap = false; }
     else {
       const k = 1 - Math.exp(-dt * 6);
@@ -692,7 +695,7 @@ async function main() {
     camera.position.copy(camPos);
     camera.lookAt(look);
     // a wall pushed the camera into the avatar: hide it rather than show the inside of a head
-    avatar.visible = !riding && (cam.aerial || travel.on || (view.id !== 'first' && camPos.distanceTo(look) > 1.7));
+    avatar.visible = !riding && !shotCam?.first && (cam.aerial || travel.on || (view.id !== 'first' && camPos.distanceTo(look) > 1.7));
 
     chrome.update(camera, player, !cam.aerial);
     street?.update(dt, t, player, cam.yaw, shared.uArrival.value);
