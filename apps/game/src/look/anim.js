@@ -102,39 +102,69 @@ export function rigAvatar(root) {
     cur.run = lerp(cur.run, s.running && speed > 3 ? 1 : 0, ease(6, dt));
     cur.air = lerp(cur.air, s.air ? 1 : 0, ease(14, dt));
     cur.land = Math.max(0, cur.land - dt * 5);
-    // one full cycle is two steps; the step length grows with speed, so the feet never slide
-    const step = lerp(0.72, 1.25, cur.run);
-    if (!s.air) cur.phase += (speed * dt / step) * Math.PI;
-    const ph = cur.phase, run = cur.run, walk = cur.walk, air = cur.air;
-
-    const hipAmp = lerp(0.42, 0.78, run) * walk;
-    const legPose = (j, p) => {
-      const swing = Math.sin(p);                 // + forward
-      const rising = Math.max(0, Math.cos(p));   // the leg is swinging forward: lift the foot
-      let hip = -hipAmp * swing;
-      let knee = walk * (lerp(0.08, 0.35, run) + rising ** 1.4 * lerp(0.75, 1.65, run));
-      // airborne: one knee up, one trailing, like a jump in a cartoon done right
-      hip = lerp(hip, p === ph ? -0.7 : 0.25, air);
-      knee = lerp(knee, p === ph ? 1.3 : 0.9, air);
-      if (s.seated) { hip = -1.5; knee = 1.5; } // thighs level on the seat, shins down
-      set(j.hip, 'x', hip, k);
-      set(j.knee, 'x', knee, k);
-      set(j.ankle, 'x', -(j.hip.rotation.x + j.knee.rotation.x) * 0.55 + 0.12 * walk, k); // keep the sole near flat
+    // ---- the legs, by where the feet go (no sliding, no sinking) ----
+    // A walk cycle has each foot planted on the ground (stance) while the body passes over it, then
+    // swinging forward through the air. A planted foot stays put: in the body's frame it moves back at
+    // exactly the walking speed. Hip and knee angles are solved from where the ankle must be (two-bone
+    // IK), and the hips ride as high as the planted legs allow, which gives the bob. Cadence rises with
+    // speed so the stride stays within reach of these short legs.
+    const run = cur.run, walk = cur.walk, air = cur.air;
+    // speed, smoothed: people's speeds are measured frame by frame and jitter, which would jerk the stride
+    cur.sp = lerp(cur.sp ?? 0, s.air || s.seated ? 0 : speed, ease(8, dt));
+    const sp = cur.sp;
+    const duty = lerp(0.62, 0.36, run);                                // share of the cycle a foot is planted
+    // cycles a second (two steps each), quicker when a stride would overreach these short legs
+    const f = Math.max(lerp(0.9 + 0.38 * sp, 1.45 + 0.13 * sp, run), sp * duty / lerp(0.54, 0.85, run));
+    const T = sp * duty / f;                                           // how far a planted foot travels back
+    const lift = lerp(0.07, 0.16, run) * walk;
+    cur.cycle = ((cur.cycle ?? 0) + f * dt * Math.min(1, sp / 0.25)) % 1;
+    const FOOT = HIP_Y - THIGH - SHIN, LEG = THIGH + SHIN;
+    const footAt = (u) => {
+      u = ((u % 1) + 1) % 1;
+      if (u < duty) return { z: T / 2 - T * (u / duty), y: FOOT, stance: true };
+      // swing: a Hermite curve that leaves and lands at the planted foot's own speed (no jolt at
+      // lift-off or touch-down), and a lift that eases in and out
+      // (the end speeds are kept small: matching the planted speed exactly made the foot overshoot and the leg lock straight)
+      const q = (u - duty) / (1 - duty), m = -T * 0.3, q2 = q * q, q3 = q2 * q;
+      const z = (2 * q3 - 3 * q2 + 1) * (-T / 2) + (q3 - 2 * q2 + q) * m + (-2 * q3 + 3 * q2) * (T / 2) + (q3 - q2) * m;
+      const up = Math.sin(Math.PI * q);
+      return { z, y: FOOT + lift * up * up, stance: false, q };
     };
-    legPose(L, ph);
-    legPose(R, ph + Math.PI);
+    const feet = [footAt(cur.cycle), footAt(cur.cycle + 0.5)];
+    // the hips: a touch of bend at the knees, and no higher than a planted leg reaches
+    let hipH = HIP_Y - lerp(0.006, 0.07, run) * walk; // nearly straight at mid-stance when walking, sat lower in a run
+    // (both feet: a swinging foot reaching forward to land lowers the hips smoothly before it lands)
+    // a soft minimum, so the hips glide from one leg's support to the other's instead of kinking
+    const reach = feet.map((ft) => ft.y + Math.sqrt(Math.max(0.01, (LEG * 0.985) ** 2 - ft.z * ft.z)));
+    const softMin = (a, b, w = 0.012) => Math.min(a, b) - w * Math.log(Math.exp(-(a - Math.min(a, b)) / w) + Math.exp(-(b - Math.min(a, b)) / w));
+    hipH = softMin(hipH, softMin(reach[0], reach[1]));
+    cur.hipH = hipH; // no easing: a lagging hip overstretches the leg and the knee snaps straight
+    const legIK = (j, ft) => {
+      const dy = ft.y - cur.hipH, dz = ft.z, d = Math.min(LEG - 1e-4, Math.max(0.12, Math.hypot(dy, dz)));
+      const knee = Math.PI - Math.acos(Math.min(1, Math.max(-1, (THIGH * THIGH + SHIN * SHIN - d * d) / (2 * THIGH * SHIN))));
+      const toward = Math.atan2(-dz, -dy), off = Math.acos(Math.min(1, Math.max(-1, (THIGH * THIGH + d * d - SHIN * SHIN) / (2 * THIGH * d))));
+      let hip = toward - off, kn = knee;
+      // in the air, or seated, the old poses take over
+      hip = lerp(hip, j === L ? -0.7 : 0.25, air); kn = lerp(kn, j === L ? 1.3 : 0.9, air);
+      if (s.seated) { hip = -1.5; kn = 1.5; }
+      const kk = walk > 0.05 && !air ? 1 : k; // walking: exactly where the foot is, or it slides
+      set(j.hip, 'x', hip, kk); set(j.knee, 'x', kn, kk);
+      // the sole flat on the ground in stance; toes up a little as the foot swings through
+      set(j.ankle, 'x', -(j.hip.rotation.x + j.knee.rotation.x) + (ft.stance ? 0 : -0.25 * Math.sin(Math.PI * (ft.q || 0)) ** 2 * walk), kk);
+    };
+    legIK(L, feet[0]); legIK(R, feet[1]);
+    const ph = cur.cycle * Math.PI * 2 + Math.PI / 2; // for the arms and the twist: 0 where the left foot strikes
 
-    const armAmp = lerp(0.55, 0.95, run) * walk;
-    const armPose = (j, p, sgn) => {
-      const swing = Math.sin(p);                 // opposite leg
-      set(j.shoulder, 'x', s.seated ? -0.55 : armAmp * swing - 0.15 * air, k);
+    const armAmp = lerp(0.42, 0.9, run) * walk;
+    const armPose = (j, legHip, sgn) => {
+      // each arm swings against the leg on the same side
+      set(j.shoulder, 'x', s.seated ? -0.55 : -legHip * lerp(0.9, 1.3, run) * (armAmp > 0 ? 1 : 0) * Math.min(1, walk * 1.5) - 0.15 * air, k);
       set(j.shoulder, 'z', sgn * (0.08 + 0.55 * air + 0.04 * run), k);
-      // the forearm swings further forward than back, as real arms do
       if (s.seated) { set(j.elbow, 'x', -0.95, k); return; } // forearms forward onto the desk
-      set(j.elbow, 'x', -(lerp(0.22, 1.35, run) * walk + Math.max(0, -swing) * lerp(0.45, 0.25, run) * walk + 0.5 * air + 0.08), k);
+      set(j.elbow, 'x', -(lerp(0.25, 1.4, run) * walk + Math.max(0, legHip) * 0.4 * walk + 0.5 * air + 0.08), k);
     };
-    armPose(L, ph, -1);
-    armPose(R, ph + Math.PI, 1);
+    armPose(L, L.hip.rotation.x, -1);
+    armPose(R, R.hip.rotation.x, 1);
     // ---- gestures and idle moments: layered on the pose, faded in and out ----
     // standing still, people fidget now and then: look around, check the phone, stretch, shift weight
     if (!s.seated && speed < 0.1 && !s.air) {
@@ -181,17 +211,14 @@ export function rigAvatar(root) {
       R.elbow.rotation.x = lerp(R.elbow.rotation.x, -0.5 + 0.45 * Math.sin((s.t || 0) * 14), w);
     }
 
-    // the hips ride the stance leg: highest as the legs pass, lowest at heel strike; a run adds flight
-    const hipA = Math.abs(hipAmp * Math.sin(ph));
-    const drop = (THIGH + SHIN) * (1 - Math.cos(hipA)) * (1 - run * 0.4);
-    const flight = run * walk * 0.07 * Math.abs(Math.cos(ph));
+    // the hips at the height the planted legs allow (above), breathing when still
     const breathe = (1 - walk) * 0.006 * Math.sin((s.t || 0) * 2.2);
-    pelvis.position.y = HIP_Y - drop + flight + breathe - cur.land * 0.1 - (s.seated ? 0.36 : 0);
-    // lean into a run, a little hip and chest counter-twist, the head keeps looking ahead
-    set(chest, 'x', lerp(0.03, 0.2, run) * walk + 0.08 * air, k);
-    set(pelvis, 'y', -0.07 * walk * Math.sin(ph), k);
-    set(chest, 'y', 0.12 * walk * Math.sin(ph) * lerp(1, 1.4, run), k);
-    set(neck, 'y', -chest.rotation.y * 0.8 - pelvis.rotation.y, k);
+    pelvis.position.y = (walk > 0.02 && !s.seated ? cur.hipH : HIP_Y) + breathe - cur.land * 0.1 - (s.seated ? 0.36 : 0);
+    // lean into a run; a small hip and chest counter-twist, no side-to-side rocking; the head looks ahead
+    set(chest, 'x', lerp(0.04, 0.2, run) * walk + 0.08 * air, k);
+    set(pelvis, 'y', -0.05 * walk * Math.sin(ph), k);
+    set(chest, 'y', 0.07 * walk * Math.sin(ph) * lerp(1, 1.3, run), k);
+    set(neck, 'y', -chest.rotation.y * 0.9 - pelvis.rotation.y, k);
     set(neck, 'x', -chest.rotation.x * 0.6 + 0.32 * (s.slump || 0), k); // sad people look at the ground
     set(pelvis, 'z', 0.02 * walk * Math.sin(ph) * (1 - run), k);
     // ---- an emote (expressions.js): its own body move, blended over everything above ----

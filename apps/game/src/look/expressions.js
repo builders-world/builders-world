@@ -279,7 +279,7 @@ export function faceSheetCanvas(fem = false) { return sheets()[fem ? 'fem' : 'pl
 // 1.5% larger, from just above the brows to the chin; it takes the head's light and shadow.
 const PATCH = new THREE.SphereGeometry(1, 14, 12, Math.PI / 2 - 0.9, 1.8, 0.62, 1.55);
 export function attachFace(root, rig) {
-  if (!rig || root.userData.face) return root.userData.face;
+  if (!rig || root.userData.face || typeof document === 'undefined') return root.userData.face; // no page (a test): no face to draw
   const S = sheets();
   let fem = false;
   const tex = S.plain.tex.clone(); // shares the sheet's pixels; only its offset is this person's
