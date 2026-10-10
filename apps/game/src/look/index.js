@@ -23,6 +23,7 @@ import { createPets } from './pets.js';
 import { createFood } from './food.js';
 import { createTraffic } from './traffic.js';
 import { createStreetLife } from './streetlife.js';
+import { createMobility } from './mobility.js';
 import { walletEngine } from './wallet.js';
 import { createInteriors, PLACES, namePlaces } from './interior.js';
 import { sunPosition, sunDirection } from './sun.js';
@@ -133,7 +134,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     };
   })();
 
-  let slife = null, traffic = null, food = null, pets = null, petIt = null, wardrobe = null, profiler = null, onlineRef = null, building = null, gates = null, visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
+  let mobility = null, slife = null, traffic = null, food = null, pets = null, petIt = null, wardrobe = null, profiler = null, onlineRef = null, building = null, gates = null, visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
   // the tech places you can walk into (world bible 6.6)
   const doors = [];
   if (props.hubAt) doors.push({ key: 'hub', at: props.hubAt });
@@ -167,6 +168,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       if (active?.id?.startsWith('life:')) return lives.talk(active.id);
       // people's homes: knock; go in only when they have asked you in (lives.js)
       if (active && food?.handles(active)) return food.open(active);
+      if (active?.id?.startsWith('dock:')) return mobility.use(active.id, player);
+      if (mobility?.mode === 'bike' && !interiors?.active) { mobility.unmount(); return true; } // E hops off the bike
       if (active?.id?.startsWith('hawk:')) return slife.buy(active.id);
       if (active?.id === 'pet') return pets.act('pet');
       if (active?.id?.startsWith('gate:')) return gates.open(active.id);
@@ -232,7 +235,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     },
     getPrompt: (player) => (benchSeat || interiors?.seated ? null : interiors?.active ? interiors.prompt(player.x, player.z) : undefined), // seated: the seat bar takes over
     world, props, camera, reduced, weatherFeed: night ? weatherFeed : null,
-    onEquip: (id, on) => gear?.set(id, on),
+    onEquip: (id, on) => { gear?.set(id, on); mobility?.equip(id, on); },
     onInteract: (what) => {
       if (what !== 'place-bench' || !props.area) return;
       const ghost = props.root.children.find((c) => c.userData.ghost)?.userData.ghost;
@@ -263,7 +266,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     enterPlayerHome: (host) => { doorOut = { x: host.door.x, z: host.door.z, yaw: host.door.ry ?? 0 }; interiors.enter('home', host).then((p) => { setInside(`${host.first}'s home`); pendingMove = { ...p, mode: 'inside' }; passes.arrive('home'); }); } });
   interiors = createInteriors({ scene, reduced, toast: hud.toast, getEnv: () => live || { day: 1 }, onPackUp: () => standUp(), net: passes });
   // everything that moves and can be bumped into: people, traffic, the waiting hired vehicle
-  const bodies = () => [...(props.bodies?.() || []), ...lives.bodies(), ...(dressing?.bodies?.() || []), ...(traffic?.bodies() || []), rides?.body?.()].filter(Boolean);
+  const bodies = () => [...(props.bodies?.() || []), ...lives.bodies(), ...(mobility?.bodies() || []), ...(dressing?.bodies?.() || []), ...(traffic?.bodies() || []), rides?.body?.()].filter(Boolean);
   rides = createRides({ world, scene: group, nav: hud.nav, props, reduced, toast: hud.toast, getBodies: () => [...(props.bodies?.() || []), ...(dressing?.bodies?.() || [])],
     onState: (st) => { if (st.ride === false && st.exitAt) pendingExit = st.exitAt; } });
   const civic = buildCivic(world, group, { rides });
@@ -404,6 +407,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   litter = createLitter({ world, scene: group, props, toast: hud.toast, used: rec.used, reduced, district: (world.place?.name || 'yaba').toLowerCase(),
     getName: () => (walletEngine().handle ? `@${walletEngine().handle}` : 'A builder') });
   // the motor park, the police, the hawkers, today's events (streetlife.js): after the parks and litter take their land
+  mobility = createMobility({ world, scene: group, props, avatar, toast: hud.toast, used: rec.used, reduced });
+  try { JSON.parse(localStorage.getItem('bw-bag-equipped') || '[]').forEach((id) => mobility.equip(id, true)); } catch { /* */ }
   slife = createStreetLife({ world, scene: group, props, traffic, chat, toast: hud.toast, getEnv: () => live, used: rec.used, reduced });
   props.pois?.filter((q) => q.kind === 'build').forEach((q) => { q.x = props.area.x; q.z = props.area.z; }); // the build area moved into the park
 
@@ -419,7 +424,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     props.update(dt, t, player);
     if (!interiors?.active) { lives.update(dt, t, player); chat.update(dt, player); rec.update(t); litter?.update(dt); building?.update(dt); }
     profiler?.update(dt);
-    if (!interiors?.active) { food?.update(dt, player); traffic?.update(dt, player); slife?.update(dt, player); }
+    if (!interiors?.active) { food?.update(dt, player); traffic?.update(dt, player); slife?.update(dt, player); mobility?.update(dt, t); }
     pets?.update(dt, player, yaw ?? 0);
     if (petIt && pets?.pet) { petIt.x = pets.pos.x; petIt.z = pets.pos.z; petIt.r = interiors?.active ? 0 : 1.4; petIt.label = `Pet ${pets.pet.name}`; }
     // estate gates: no pass, no entry (gates.js)
@@ -516,6 +521,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get traffic() { return traffic; }, get streetLife() { return slife; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get traffic() { return traffic; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

@@ -202,6 +202,8 @@ const ITEMS = [
   { id: 'keyboard', tab: 'gadgets', icon: 'keyboard', name: 'Mechanical keyboard', desc: 'Loud, proud, and on every desk in the Creative Hub.', tag: 'Gadget' },
   { id: 'powerbank', tab: 'gadgets', icon: 'powerbank', name: 'Power bank', desc: 'For when the power goes in the middle of a deploy.', tag: 'Gadget' },
   { id: 'router', tab: 'gadgets', icon: 'router', name: 'MiFi router', desc: 'Your own data when the cafe wifi gives up.', tag: 'Gadget' },
+  { id: 'skateboard', tab: 'gadgets', icon: 'skateboard', name: 'Skateboard', desc: 'Carry it and you roll instead of walk. Shift for speed. The skate park is waiting.', tag: 'Gadget' },
+  { id: 'skates', tab: 'gadgets', icon: 'skates', name: 'Roller skates', desc: 'Put them on and glide. Round the pond is the best loop in Yaba.', tag: 'Gadget' },
   { id: 'notebook', tab: 'gadgets', icon: 'notebook', name: 'Notebook', desc: 'Paper still wins for system diagrams.', tag: 'Gadget' },
   { id: 'headphones', tab: 'wear', icon: 'headphones', name: 'Headphones', desc: 'Deep work mode. Shows on your avatar.', tag: 'Wearable', wear: true },
   { id: 'backpack', tab: 'wear', icon: 'backpack', name: 'Laptop backpack', desc: 'Carries the whole setup. Shows on your avatar.', tag: 'Wearable', wear: true },

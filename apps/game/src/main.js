@@ -521,7 +521,7 @@ async function main() {
     const moving = mv.lengthSq() > 0;
     // walk by default, run with Shift (world bible 7.4); indoors you walk like indoors
     const running = (keys.has('shift') || input.state.run) && !inside && !seated;
-    const pace = (inside ? 1.9 : running ? 6.4 : 2.8) * TEST_PACE;
+    const pace = (inside ? 1.9 : street?.mobility?.pace(running) ?? (running ? 6.4 : 2.8)) * TEST_PACE; // on a bike, a board or skates you go faster
     if (moving) {
       mv.normalize();
       last.copy(player);
@@ -568,6 +568,7 @@ async function main() {
     lastSpeed = groundSpeed;
     if (rig && !reduced) rig.update(dt, { speed: Math.min(groundSpeed, 8), running, air: jumpY > 0.02, t, seated });
     else body.position.y = seated ? -0.42 : 0;
+    street?.mobility?.pose(rig, dt, groundSpeed, inside); // on wheels: pedalling or pushing, over the walk
     // a footstep every stride, on whatever is underfoot
     if (moving && jumpY === 0 && !riding) { stepAcc += groundSpeed * dt; const stride = running ? 1.25 : 0.72; if (stepAcc > stride) { stepAcc = 0; sfx('step', { run: running, grass: !inside && !world.isFree(player.x, player.z, 0, { lots: false }) && world.isFree(player.x, player.z, 0, { lots: true }) }); } }
     online?.update(dt);
