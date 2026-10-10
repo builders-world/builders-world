@@ -25,7 +25,9 @@ import { createTraffic } from './traffic.js';
 import { buildFlyover } from './flyover.js';
 import { createStreetLife } from './streetlife.js';
 import { createMobility } from './mobility.js';
-import { cullPeople } from './anim.js';
+import { cullPeople, PEOPLE } from './anim.js';
+import { createEmotes } from './expressions.js';
+import { createEmotePanel } from './emotepanel.js';
 import { createSpotify, trackUrl } from './spotify.js';
 import { buildLandmarks } from './landmarks.js';
 import { createSports } from './sports/index.js';
@@ -135,7 +137,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     };
   })();
 
-  let spotify = null, sports = null, mobility = null, slife = null, traffic = null, food = null, pets = null, petIt = null, wardrobe = null, profiler = null, onlineRef = null, building = null, gates = null, visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
+  let emotes = null, emotePanel = null, wasWet = false, spotify = null, sports = null, mobility = null, slife = null, traffic = null, food = null, pets = null, petIt = null, wardrobe = null, profiler = null, onlineRef = null, building = null, gates = null, visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
   // the tech places you can walk into (world bible 6.6)
   const doors = [];
   if (props.hubAt) doors.push({ key: 'hub', at: props.hubAt });
@@ -464,6 +466,12 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   // the Sports Centre, the Aquatic and Indoor Arena and the Chess Corner (sports/), on land still free
   if (!off.has('sports')) sports = createSports({ world, scene: group, props, used: rec.used, toast: hud.toast, avatar, getOnline: () => onlineRef, getMyName: () => (walletEngine().handle ? `@${walletEngine().handle}` : 'You') });
   props.pois?.filter((q) => q.kind === 'build').forEach((q) => { q.x = props.area.x; q.z = props.area.z; }); // the build area moved into the park
+  // expressions (expressions.js): everyone emotes on their own clock, never in step with their neighbours,
+  // and reacts to what happens around them; any module can raise an event with bw:react
+  const meAt = new THREE.Vector3();
+  emotes = createEmotes({ people: () => PEOPLE, getPlayer: () => avatar?.getWorldPosition(meAt), getEnv: () => ({ hour: live?.hour ?? 12, rain: live?.rain ?? 0 }), isPlayer: (r) => !!r.userData.isPlayer });
+  addEventListener('bw:react', (e) => { const d = e.detail || {}; emotes.event(d.kind, d.x ?? meAt.x, d.z ?? meAt.z, d.r ?? 16, { max: d.max ?? 8, chance: d.chance ?? 0.85 }); });
+  emotePanel = createEmotePanel({ onPick: (id) => chat.emote(id, avatar?.getWorldPosition(meAt) || meAt) });
 
   // ---------- graphics tier: sun shadows, lamps, distances, texture sharpness, sky reflections ----------
   const shadowFocus = new THREE.Vector3();
@@ -535,6 +543,9 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
 
   let cullT = 0;
   function update(dt, t, player, yaw, arrival) {
+    emotes?.update(dt);
+    // the rain starting is news to everyone out in it
+    const wet = (live?.rain ?? 0) > 0.25; if (wet && !wasWet) emotes?.event('rain', player.x, player.z, 35, { max: 8, chance: 0.7 }); wasWet = wet;
     // the shadow camera follows you, snapped to its own texels so edges do not crawl as you walk
     if (gfx.shadows) {
       const d = sunRig.position.clone().sub(shadowFocus).normalize();
@@ -579,7 +590,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     // lightning only when there is a thunderstorm where the weather comes from
     if (night && !reduced && cur.storm > 0.5) {
       nextStrike -= dt;
-      if (nextStrike <= 0) { flashT = 0; nextStrike = 25 + Math.random() * 35; }
+      if (nextStrike <= 0) { flashT = 0; nextStrike = 25 + Math.random() * 35; emotes?.event('storm', player.x, player.z, 30, { max: 6 }); }
       let f = 0;
       if (flashT >= 0) {
         flashT += dt;
@@ -666,6 +677,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { get food() { return food; }, update, renderReflection, setSize, setGraphics, sport: () => sports?.pose() || null, get sports() { return sports; }, get graphics() { return gfx; }, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { get emotes() { return emotes; }, openEmotes: () => emotePanel?.toggle(), get food() { return food; }, update, renderReflection, setSize, setGraphics, sport: () => sports?.pose() || null, get sports() { return sports; }, get graphics() { return gfx; }, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

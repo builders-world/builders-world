@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { playEmote } from './expressions.js';
 import { createAvatarModel } from '../onboarding/avatar.js';
 import { rigAvatar } from './anim.js';
 import { prepareLook, dress, lookFor } from './style.js';
@@ -233,7 +234,7 @@ export function createStreetLife({ world, scene, props, traffic, chat, toast, ge
       if (e.kind === 'breakdown') {
         e.blink.forEach((b, k) => { b.material.color.setHex(Math.sin(t * 5) > 0 ? 0xffa21a : 0x553300); });
         e.crew.forEach((c) => c.rig?.update(dt, { speed: 0.25, t }));
-        if (e.said <= 0 && Math.hypot(e.x - player.x, e.z - player.z) < 25) { e.said = 6; talk(e.crew[Math.floor(Math.random() * 3)], e.lines[Math.floor(Math.random() * e.lines.length)], 25, player); }
+        if (e.said <= 0 && Math.hypot(e.x - player.x, e.z - player.z) < 25) { e.said = 6; const ln = e.lines[Math.floor(Math.random() * e.lines.length)]; talk(e.crew[Math.floor(Math.random() * 3)], ln, 25, player); dispatchEvent(new CustomEvent('bw:react', { detail: { kind: 'breakdown', x: e.x, z: e.z, r: 16, max: 5 } })); }
       }
       if (e.kind === 'football') {
         const on = hour > 16 && hour < 19; e.ball.visible = on; e.kids.forEach((k) => { k.obj.visible = on; });
@@ -245,11 +246,12 @@ export function createStreetLife({ world, scene, props, traffic, chat, toast, ge
         e.ball.position.set(from.x + (to.x - from.x) * u, 0.12 + Math.sin(u * Math.PI) * 0.6, from.z + (to.z - from.z) * u);
         if (u + dt / 1.4 >= 1) e.holder = (e.holder + 1 + (Math.floor(e.t) % 2)) % 4;
         e.kids.forEach((k, i) => { const s = spot(i), p = k.obj.position, dx = s.x - p.x, dz = s.z - p.z, d = Math.hypot(dx, dz); if (d > 0.05) { p.x += dx * Math.min(1, dt * 2); p.z += dz * Math.min(1, dt * 2); k.obj.rotation.y = Math.atan2(e.ball.position.x - p.x, e.ball.position.z - p.z); } k.rig?.update(dt, { speed: Math.min(3, d * 2), t, running: d > 0.6 }); });
-        if (e.said <= 0 && Math.hypot(e.at.x - player.x, e.at.z - player.z) < 22) { e.said = 5; talk(e.kids[Math.floor(Math.random() * 4)], e.lines[Math.floor(Math.random() * e.lines.length)], 22, player); }
+        if (e.said <= 0 && Math.hypot(e.at.x - player.x, e.at.z - player.z) < 22) { e.said = 5; const ln = e.lines[Math.floor(Math.random() * e.lines.length)]; talk(e.kids[Math.floor(Math.random() * 4)], ln, 22, player); dispatchEvent(new CustomEvent('bw:react', { detail: { kind: /goal/i.test(ln) ? 'goal' : /hand/i.test(ln) ? 'lose' : 'laugh', x: e.at.x, z: e.at.z, r: 14, max: 5 } })); }
       }
       if (e.kind === 'owambe') {
-        e.guests.forEach((g, i) => { g.rig?.update(dt, { speed: 0, t }); g.obj.rotation.y = Math.sin(t * 1.5 + i) * 0.6 + i; if (Math.random() < dt * 0.15) g.rig?.play?.('dance'); });
-        if (e.said <= 0 && Math.hypot(e.x - player.x, e.z - player.z) < 25) { e.said = 7; talk(e.guests[Math.floor(Math.random() * e.guests.length)], e.lines[Math.floor(Math.random() * e.lines.length)], 25, player); }
+        // each guest has their own dance and their own moment to change it, so the floor never moves as one
+        e.guests.forEach((g, i) => { g.rig?.update(dt, { speed: 0, t }); g.obj.rotation.y = Math.sin(t * 1.5 + i) * 0.6 + i; g.next = (g.next ?? i * 0.9) - dt; if (g.next <= 0 && !g.rig?.emoting?.()) { const moves = ['shaku', 'zanku', 'groove', 'clap', 'cheer', 'ehen', 'jump']; playEmote(g.obj, moves[(i + (g.turn = (g.turn || 0) + 1)) % moves.length], { speed: 0.9 + ((i * 0.37) % 0.25) }); g.next = 2.5 + Math.random() * 3; } });
+        if (e.said <= 0 && Math.hypot(e.x - player.x, e.z - player.z) < 25) { e.said = 7; talk(e.guests[Math.floor(Math.random() * e.guests.length)], e.lines[Math.floor(Math.random() * e.lines.length)], 25, player); dispatchEvent(new CustomEvent('bw:react', { detail: { kind: 'music', x: e.x, z: e.z, r: 18, max: 4 } })); }
       }
     });
   }
