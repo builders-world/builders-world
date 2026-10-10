@@ -93,19 +93,19 @@ Every request Elvis has made, with where it stands. Updated 9 October 2026, 17:4
 | 71 | NPCs inside their houses; knock, enter only when invited (NPCs and players) | Done for residents: they go in and out by the door; knock (no answer, asleep, invite, not today); invited visits to a living room with the family. Player homes: the same rule applies once players have homes in the shared world (needs login and plot claims) | yaba-scene `src/look/lives.js`, `interior.js` | |
 | 72 | Walk marker too bright at night | Done, pushed: dims and goes see-through at night | yaba-scene `src/look/trail.js` | `ba13b17` |
 | 73 | Estate planning: grid layout, uniform houses, gates, house numbers (1A, 1B), garages | Done, pushed: walled estates along real roads, gates onto closes, identical lots with garage and driveway, numbering by gate, gate signs, door plaques, close lamps, map addresses | yaba-scene `src/estates.js`, `src/look/houses.js`, `src/look/estatesigns.js` | `141ea7f` |
-| 48 | Bench building animation with hard hat and tools | Queued | | |
+| 48 | Bench building animation with hard hat and tools | Done, pushed: two builders in hard hats, hammer and saw, legs, slats, backrest with sawdust; you wear a hard hat; sittable | yaba-scene `src/look/build.js` | `4587d73` |
 | 57 | Roadside vendors and a little street chaos; random events; police stations; city traffic control | Queued | | |
 | 58 | Passenger cars, several designs; taxi and danfo roof signs | Queued | | |
-| 59 | Gated estates: residents' passes, invited visitors confirmed by the host, 3 to 4 day visits, reputation | Queued | | |
-| 49 | Watch Dogs-style tags and profiles (career, socials, commits, stars, design work) | Queued | | |
-| 50 | Women, Afrocentric fashion, hairstyles, accessories, footwear; an outfit editor for you and NPCs | Queued | | |
-| 51 | Pets: dog or cat, breeds, names, petting, ball, laser, whistle | Queued | | |
+| 59 | Gated estates: residents' passes, invited visitors confirmed by the host, 3 to 4 day visits, reputation | Done, pushed: gatemen, visitor passes (3 days, a day's wait), renting (resident pass, own door and Wi-Fi), reputation; players' homes take knocks and gate calls | yaba-scene `src/look/gates.js` | `9ab1b2d`, `7dd8981` |
+| 49 | Watch Dogs-style tags and profiles (career, socials, commits, stars, design work) | Done, pushed: P profiler; residents, builders, players (what they share in Settings) | yaba-scene `src/look/profiler.js` | `3fb14b4` |
+| 50 | Women, Afrocentric fashion, hairstyles, accessories, footwear; an outfit editor for you and NPCs | Done, pushed: wardrobe (body, skin, 10 hairstyles incl. gele and fila, Ankara, Adire, kaftan, agbada, dress, wrapper, 5 shoes, accessories); NPCs dress their own way | yaba-scene `src/look/style.js`, `wardrobe.js` | `5c4e9e0` |
+| 51 | Pets: dog or cat, breeds, names, petting, ball, laser, whistle | Done, pushed: shelter, 10 breeds, follow, pet, fetch, laser, whistle; seen online | yaba-scene `src/look/pets.js` | `6e249da` |
 | 52 | Food stalls with a first-person view of the vendor (suya); Nigerian street elements | Queued | | |
 | 53 | Populate the city with NPCs; NPC and player activities (cycling, skateboarding, roller skating) | Queued | | |
 | 54 | Bus parks (buses route through them), bike-rental docks, cycling | Queued | | |
 | 55 | Flyover road bridge for cars | Queued | | |
 | 56 | Enterable work places: cafes, gyms, studios, bank | Queued | | |
-| 24a | Help panel still says V is street or aerial | Proposed to Codex (its file `index.html`): change to V camera, B aerial | live handoff | |
+| 24a | Help panel still says V is street or aerial | Done (Elvis asked to finish partly-done items): help lists the current controls | yaba-scene `index.html` | `9ab1b2d` |
 
 ## Decisions waiting on Elvis
 
