@@ -5,6 +5,8 @@ import { walletEngine, fmt } from './wallet.js';
 import { passesEngine } from './passes.js';
 import { sfx } from './audio.js';
 import { C, FONT } from './uikit.js';
+import { apiUrl } from '../api.js';
+import { authHeaders } from '../session.js';
 
 // Keeping the streets clean (world bible 12.3). Litter collects along the kerbs, most of it where people
 // eat and wait: pure water sachets, bottles, cans, takeaway packs, black nylon bags. Pick it up (E) into
@@ -172,7 +174,7 @@ export function createLitter({ world, scene, props, toast, used = [], reduced, d
   apply(local);
   let online = false;
   const solo = new URLSearchParams(location.search).get('offline') === '1'; // tests and solo play never touch the shared world
-  if (!solo) fetch(`/api/bins?district=${encodeURIComponent(district)}`).then((r) => (r.ok && (r.headers.get('content-type') || '').includes('json') ? r.json() : null)).then((j) => { if (j && !j.offline) { online = true; apply(j.bins); } }).catch(() => {});
+  if (!solo) fetch(apiUrl(`/api/bins?district=${encodeURIComponent(district)}`)).then((r) => (r.ok && (r.headers.get('content-type') || '').includes('json') ? r.json() : null)).then((j) => { if (j && !j.offline) { online = true; apply(j.bins); } }).catch(() => {});
 
   // ---------- the street fills up slowly; bins keep it down ----------
   const initial = Math.min(spots.length, Math.round(20 + world.radius * 0.22));
@@ -220,7 +222,7 @@ export function createLitter({ world, scene, props, toast, used = [], reduced, d
       if (b.funded >= NEED) { build(b, true); toast(`The bin is up! Funded by ${who(b)}.`, 3600); setTimeout(() => passesEngine().addRep?.(5, 'put up a street bin'), 2000); } else toast(`Thank you. ${fmt(NEED - b.funded)} Efforts to go for this bin.`, 3000);
       label(b);
       store.set(`bw-bins-${district}`, binSpots.filter((q) => q.funded).map((q) => ({ spot: q.id, funded: q.funded, names: q.names })));
-      if (!solo) fetch('/api/bins', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ district, spot: b.id, name }) })
+      if (!solo) fetch(apiUrl('/api/bins'), { method: 'POST', headers: { 'Content-Type': 'application/json', ...authHeaders() }, body: JSON.stringify({ district, spot: b.id, name }) })
         .then((r) => (r.ok && (r.headers.get('content-type') || '').includes('json') ? r.json() : null)).then((j) => { if (j && !j.offline) apply(j.bins); }).catch(() => {});
       return true;
     }
@@ -239,7 +241,7 @@ export function createLitter({ world, scene, props, toast, used = [], reduced, d
       }
     }
     // bins other players fund appear without a reload
-    if (poll <= 0 && online) { poll = 30; fetch(`/api/bins?district=${encodeURIComponent(district)}`).then((r) => r.json()).then((j) => { if (j && !j.offline) apply(j.bins); }).catch(() => {}); }
+    if (poll <= 0 && online) { poll = 30; fetch(apiUrl(`/api/bins?district=${encodeURIComponent(district)}`)).then((r) => r.json()).then((j) => { if (j && !j.offline) apply(j.bins); }).catch(() => {}); }
     if (!reduced) { const k = 1 + Math.sin(performance.now() / 380) * 0.08; binSpots.forEach((b) => { if (!b.built) b.ring.scale.set(k, 1, k); }); }
   }
   function dispose() { group.removeFromParent(); chip.remove(); style.remove(); }

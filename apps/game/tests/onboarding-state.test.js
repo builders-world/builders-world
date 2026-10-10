@@ -2,8 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { freshProfile, canEnter, normalizeProfile, loadProfile, saveProfile, homeSeed, COLORS } from '../src/onboarding/state.js';
 
-const complete = () => ({ ...freshProfile(), step: 'home', name: 'Ada', role: 'developer', connection: { provider: 'GitHub', mode: 'demo' }, city: 'Lagos', district: 'Yaba' });
-test('later stages require identity, matching connection, and a valid district', () => {
+const complete = () => ({ ...freshProfile(), step: 'home', name: 'Ada', role: 'developer', connection: { provider: 'GitHub', mode: 'github' }, city: 'Lagos', district: 'Yaba' });
+test('later stages require identity, a GitHub sign-in, and a valid district', () => {
   const p = freshProfile();
   assert.equal(canEnter(p, 'role'), true);
   assert.equal(canEnter(p, 'connect'), false);
@@ -11,8 +11,10 @@ test('later stages require identity, matching connection, and a valid district',
   p.name = 'Ada'; p.role = 'designer';
   assert.equal(canEnter(p, 'connect'), true);
   p.connection = { provider: 'GitHub', mode: 'demo' };
+  assert.equal(canEnter(p, 'destination'), false, 'the old demo identity no longer counts');
+  p.connection = { provider: 'Dribbble', mode: 'github' };
   assert.equal(canEnter(p, 'destination'), false);
-  p.connection = { provider: 'Dribbble', mode: 'demo' };
+  p.connection = { provider: 'GitHub', mode: 'github' };
   assert.equal(canEnter(p, 'destination'), true);
   p.city = 'Lagos'; p.district = 'Made up';
   assert.equal(canEnter(p, 'flight'), false);

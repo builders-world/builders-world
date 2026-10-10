@@ -5,6 +5,8 @@ import { prepareLook, dress } from './style.js';
 import { petModel, animatePet } from './pets.js';
 import { C, FONT } from './uikit.js';
 import { walletEngine } from './wallet.js';
+import { apiUrl } from '../api.js';
+import { session, authHeaders } from '../session.js';
 
 // Other players (world bible 13): every second you send where you are to /api/presence and get back
 // everyone else in the district. They appear as avatars that glide between updates, walk with the
@@ -35,9 +37,9 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
   document.body.append(chip, say, tags);
   const input = say.querySelector('input');
 
-  let id = store.get('bw-pid', '');
-  if (id.length < 8) { id = `p${Math.random().toString(36).slice(2, 10)}${Date.now().toString(36)}`; store.set('bw-pid', id); }
-  const gh = () => store.get('bw-gh', '').replace(/"/g, ''); // the wallet saves it as JSON
+  // who you are in the world is the id the server gave your account; other players address knocks and games to it
+  const id = session.me?.account.id || '';
+  const gh = () => session.me?.account.login || '';
   const me = () => { let full = null; try { full = JSON.parse(localStorage.getItem('bw-style') || 'null'); } catch { /* */ } return { name: profile?.name || (gh() ? `@${gh()}` : '') || 'Builder', handle: gh(), look: { ...(profile?.avatar || { color: '#e2b13c', style: 'jacket' }), full } }; };
 
   // what you chose to share when someone profiles you (Settings, Public profile)
@@ -66,7 +68,7 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
     const body = { id, district, x: P.x, z: P.z, y: P.y || 0, yaw: getHeading(), speed: getSpeed(), ...me(), say: pending.say, emote: pending.emote, home: getHome?.() || '', knock: pending.knock, answer: pending.answer, play: pending.play, np: document.body.classList.contains('bw-creator') ? null : window.__bw?.look?.spotify?.now || null, card: publicCard(), pet: (() => { try { return JSON.parse(localStorage.getItem('bw-pet') || 'null'); } catch { return null; } })() };
     pending = { say: '', emote: '' };
     try {
-      const r = await fetch('/api/presence', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      const r = await fetch(apiUrl('/api/presence'), { method: 'POST', headers: { 'Content-Type': 'application/json', ...authHeaders() }, body: JSON.stringify(body) });
       if (!r.ok || !(r.headers.get('content-type') || '').includes('json')) { ok = false; fails = 9; chip.classList.remove('on'); chip.querySelector('span').textContent = 'Offline · playing solo'; return; }
       const j = await r.json();
       if (j.offline) throw new Error('offline');

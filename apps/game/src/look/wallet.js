@@ -1,3 +1,5 @@
+import { apiUrl } from '../api.js';
+import { session, signedIn, authHeaders, signInUrl } from '../session.js';
 // Efforts (world bible 12.1): the currency of Builders World. You earn it by shipping: every commit
 // you push is 1,000 Efforts. Link a GitHub username and the wallet counts your public commits;
 // until then it shows a demo balance. Spending is kept on this device.
@@ -21,15 +23,20 @@ export const fmt = (n) => Math.round(n).toLocaleString('en-NG');
 
 export function createWallet({ demoCommits = 12 } = {}) {
   const listeners = new Set();
+  // a kept count belongs to the account it was counted for; anyone else's (or from before sign-in existed) is not used
+  const handleNow = signedIn() ? session.me.account.login : '';
+  const mine = handleNow && store.get('bw-gh-for', '') === handleNow;
   const state = {
-    handle: store.get('bw-gh', ''),
-    commits: store.get('bw-gh-commits', null),
-    checked: store.get('bw-gh-at', 0),
+    // signed in, the GitHub account is the one you signed in with: it cannot be typed in or changed
+    handle: handleNow,
+    commits: mine ? store.get('bw-gh-commits', null) : null,
+    checked: mine ? store.get('bw-gh-at', 0) : 0,
     spent: store.get('bw-spent', []), // [{ what, amount, at }]
     bonus: store.get('bw-bonus', []), // Efforts earned in the world: cleaning the streets, recycling [{ what, amount, at }]
     status: '', source: store.get('bw-gh-src', 'commits'),
   };
-  const earned = () => (state.handle && state.commits !== null ? state.commits : demoCommits) * PER_COMMIT;
+  // a guest sees a demo balance; someone signed in has what their GitHub says, and nothing until it has been counted
+  const earned = () => (state.handle && state.commits !== null ? state.commits : signedIn() ? 0 : demoCommits) * PER_COMMIT;
   const spentTotal = () => state.spent.reduce((a, s) => a + s.amount, 0);
   const bonusTotal = () => state.bonus.reduce((a, s) => a + s.amount, 0);
   const balance = () => earned() + bonusTotal() - spentTotal();
@@ -39,30 +46,26 @@ export function createWallet({ demoCommits = 12 } = {}) {
   // on your behalf: exact commit contributions when the server has a token, the public contribution
   // calendar otherwise. Private work counts only if your GitHub profile shows private contributions.
   async function refresh(force = false) {
-    if (!state.handle) return;
+    if (!signedIn()) return;
     if (!force && Date.now() - state.checked < 10 * 60 * 1000 && state.commits !== null) return;
     state.status = 'Counting your commits...'; emit();
     try {
-      const r = await fetch(`/api/efforts?user=${encodeURIComponent(state.handle)}`);
+      const r = await fetch(apiUrl('/api/me/efforts'), { headers: authHeaders() });
+      if (r.status === 401) { state.status = 'Your sign-in has expired. Sign in again to count your commits.'; emit(); return; }
       if (r.status === 404) { state.status = 'No GitHub user by that name.'; state.commits = null; emit(); return; }
       const ct = r.headers.get('content-type') || '';
       if (!r.ok || !ct.includes('json')) throw new Error('no endpoint');
       const j = await r.json();
       state.commits = j.commits; state.source = j.source; state.checked = Date.now();
       state.status = j.commits === 0 ? 'Nothing public in the last year yet. Push something!' : '';
-      store.set('bw-gh-commits', state.commits); store.set('bw-gh-at', state.checked); store.set('bw-gh-src', j.source);
+      store.set('bw-gh-for', state.handle); store.set('bw-gh-commits', state.commits); store.set('bw-gh-at', state.checked); store.set('bw-gh-src', j.source);
     } catch {
       state.status = 'Could not reach GitHub just now; showing your last count.';
     }
     emit();
   }
-  function link(handle) {
-    state.handle = String(handle || '').trim().replace(/^@/, '').replace(/[^A-Za-z0-9-]/g, '').slice(0, 39);
-    state.commits = null; state.checked = 0;
-    store.set('bw-gh', state.handle); store.set('bw-gh-commits', null);
-    emit();
-    return refresh(true);
-  }
+  // counts again; the account is whoever is signed in, never a name typed in
+  function link() { return refresh(true); }
   function spend(amount, what) {
     if (amount > balance()) return false;
     state.spent.push({ what, amount, at: Date.now() });
@@ -81,8 +84,8 @@ export function createWallet({ demoCommits = 12 } = {}) {
   }
   const api = {
     balance, earned, spend, earn, link, refresh, bonus: bonusTotal,
-    get handle() { return state.handle; }, get commits() { return state.handle && state.commits !== null ? state.commits : demoCommits; },
-    get demo() { return !state.handle || state.commits === null; }, get status() { return state.status; }, get source() { return state.source; },
+    get handle() { return state.handle; }, get commits() { return state.handle && state.commits !== null ? state.commits : signedIn() ? 0 : demoCommits; },
+    get demo() { return !signedIn(); }, get counted() { return signedIn() && state.commits !== null; }, signInUrl, get status() { return state.status; }, get source() { return state.source; },
     get history() { return [...state.spent, ...state.bonus.map((b) => ({ ...b, earn: true }))].sort((a, b) => a.at - b.at).slice(-12).reverse(); },
     onChange: (fn) => { listeners.add(fn); return () => listeners.delete(fn); },
     PER_COMMIT,

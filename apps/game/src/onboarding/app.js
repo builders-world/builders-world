@@ -1,5 +1,6 @@
 import './style.css';
 import { createOnboardingScene } from './scenes.js';
+import { session, signedIn, signInUrl, signOut } from '../session.js';
 import { CITIES, COLORS, STYLES, STEPS, CHAPTERS, freshProfile, loadProfile, saveProfile, canEnter, cityFor, providerFor, homeSeed } from './state.js';
 
 const esc = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -27,7 +28,7 @@ document.body.innerHTML = `
     <button data-walk="forward" aria-label="Walk forward">↑</button>
     <div><button data-walk="left" aria-label="Walk left">←</button><button data-walk="back" aria-label="Walk backward">↓</button><button data-walk="right" aria-label="Walk right">→</button></div>
   </div>
-  <footer class="arrival-footer"><span id="local-status">LOCAL PREVIEW <i></i> Progress saved on this device</span><div><button data-action="help">Controls</button><button data-action="restart-dialog">Restart journey</button></div></footer>
+  <footer class="arrival-footer"><span id="local-status">LOCAL PREVIEW <i></i> Progress saved on this device</span><div><button data-action="help">Controls</button><button data-action="sign-out" id="sign-out" hidden>Sign out</button><button data-action="restart-dialog">Restart journey</button></div></footer>
   <div id="arrival-toast" role="status"></div>
   <dialog id="arrival-dialog" aria-labelledby="dialog-title"></dialog>
 `;
@@ -41,7 +42,14 @@ function toast(message) {
 }
 function persist() {
   saved = saveProfile(profile);
-  document.getElementById('local-status').innerHTML = saved ? 'LOCAL PREVIEW <i></i> Progress saved on this device' : 'LOCAL PREVIEW <i></i> Storage unavailable · keep this tab open';
+  const who = signedIn() ? `SIGNED IN · @${esc(session.me.account.login)}` : 'NOT SIGNED IN';
+  document.getElementById('local-status').innerHTML = saved ? `${who} <i></i> Progress saved on this device${signedIn() ? ' and to your account' : ''}` : `${who} <i></i> Storage unavailable · keep this tab open`;
+  document.getElementById('sign-out').hidden = !signedIn();
+}
+// Signed in with GitHub (boot() has already asked the server): that is the connection step done, and their GitHub name is a fair first answer to "what should we call you".
+if (signedIn()) {
+  profile.connection = { mode: 'github', provider: 'GitHub' };
+  if (!profile.name.trim()) profile.name = (session.me.profile?.name || session.me.account.name || session.me.account.login).slice(0, 32);
 }
 const button = (action, text, extra = '') => `<button class="primary" data-action="${action}" ${extra}>${text}<span aria-hidden="true">↗</span></button>`;
 const back = action => `<button class="back" data-action="${action}"><span aria-hidden="true">←</span> Back</button>`;
@@ -80,15 +88,16 @@ function render() {
       <fieldset class="role-options"><legend>I’m here as a</legend>${['developer', 'designer'].map(role => `<button class="choice ${profile.role === role ? 'selected' : ''}" data-role="${role}" aria-pressed="${profile.role === role}"><span class="role-icon" aria-hidden="true">${role === 'developer' ? '{ }' : '✳'}</span><span>${role === 'developer' ? 'Developer' : 'Designer'}<small>${role === 'developer' ? 'Code, products & possibilities' : 'Interfaces, ideas & experiences'}</small></span><i aria-hidden="true">${profile.role === role ? '✓' : '+'}</i></button>`).join('')}</fieldset>
       ${button('identity-next', 'Continue', !profile.name.trim() || !profile.role ? 'disabled' : '')}`;
   } else if (step === 'connect') {
-    const provider = providerFor(profile.role);
+    const known = signedIn();
+    const problem = { denied: 'GitHub did not let you in. You can try again.', github: 'GitHub could not confirm who you are. Please try again.', server: 'We could not finish signing you in. Please try again.' }[session.error];
     panel.innerHTML = `${back('role')}${attendant(`Good to meet you, ${esc(profile.name)}. Let’s bring a little of your work with you.`)}
       <h1 tabindex="-1">Your work is<br>your introduction.</h1>
-      <div class="provider-mark" aria-hidden="true">${provider === 'GitHub' ? '{ / }' : '✳'}</div>
-      <h2>${provider}</h2><p class="intro compact">${provider === 'GitHub' ? 'Connect the place where you build.' : 'Bring your design identity into the world.'}</p>
-      <div class="connection-state ${profile.connection ? 'connected' : ''}">${profile.connection ? '✓ Demo identity ready' : 'No account connected'}</div>
-      <p class="prototype-note">Prototype connection. No sign-in, account access, or verified metrics. Your real ${provider} account stays untouched.</p>
-      ${profile.connection ? button('destination', 'Choose your destination') : button('connect-demo', `Use demo ${provider} identity`)}
-      <p class="subtle">Real account connections will be added in a later pass.</p>`;
+      <div class="provider-mark" aria-hidden="true">{ / }</div>
+      <h2>GitHub</h2><p class="intro compact">Sign in with the place where you build. ${profile.role === 'designer' ? 'Designers: your Dribbble profile can be added later.' : ''}</p>
+      <div class="connection-state ${known ? 'connected' : ''}">${known ? `✓ Signed in as @${esc(session.me.account.login)}` : 'Not signed in'}</div>
+      ${problem ? `<p class="prototype-note" role="alert">${esc(problem)}</p>` : ''}
+      <p class="prototype-note">${known ? 'Your commits count towards your Efforts, and your choices are saved to your account.' : 'We only read what GitHub shows anyone: your username and name. We never see or touch your code.'}</p>
+      ${known ? button('destination', 'Choose your destination') : button('connect-github', 'Sign in with GitHub')}`;
   } else if (step === 'destination') {
     panel.innerHTML = `${back('connect')}${eyebrow('DOMESTIC CONNECTIONS')}
       <h1 tabindex="-1">Where do you<br>want to belong?</h1><p class="intro compact">Choose a city. Find your community.</p>
@@ -112,7 +121,7 @@ function render() {
       <h1 tabindex="-1">Welcome home,<br>${esc(profile.name)}.</h1>
       <p class="intro">Your first place in ${esc(profile.city)}.<br>Your next chapter starts here.</p>
       <div class="home-pass"><div class="pass-heading"><span>RESIDENT PASS</span><span>NG / ${city.code}</span></div><strong>${esc(profile.district)}</strong><p>${esc(profile.city)}, Nigeria</p><div class="pass-rule"></div><div class="pass-details"><span>${profile.role === 'designer' ? 'Designer' : 'Developer'}</span><span>Home ${String(homeSeed(profile) % 900 + 100)}</span></div></div>
-      <p class="prototype-note">Your starter home is generated from your demo identity. This is a local preview, not a permanent plot claim.${city.preview ? ' This city’s districts are still being defined.' : ''}</p>
+      <p class="prototype-note">Your starter home is generated from your GitHub identity. This is a local preview, not a permanent plot claim.${city.preview ? ' This city’s districts are still being defined.' : ''}</p>
       ${button(city.preview ? 'neighbourhood-preview' : 'enter-world', city.preview ? 'Explore your home preview' : 'Enter Yaba')}
       <button class="text-button" data-action="flight">Edit your avatar</button><button class="text-button" data-action="destination">Change destination</button>`;
   }
@@ -130,7 +139,6 @@ document.addEventListener('input', event => {
 document.addEventListener('click', event => {
   const el = event.target.closest('button'); if (!el || el.disabled) return;
   if (el.dataset.role) {
-    if (profile.role !== el.dataset.role) profile.connection = null;
     profile.role = el.dataset.role; persist(); render(); panel.querySelector(`[data-role="${profile.role}"]`).focus(); return;
   }
   if (el.dataset.city) {
@@ -150,7 +158,8 @@ document.addEventListener('click', event => {
   switch (action) {
     case 'checkin': go('role'); break;
     case 'identity-next': profile.name = profile.name.trim(); go('connect'); break;
-    case 'connect-demo': profile.connection = { mode: 'demo', provider: providerFor(profile.role) }; persist(); render(); panel.querySelector('[data-action="destination"]').focus(); toast('Demo identity ready. No real account was connected.'); break;
+    case 'connect-github': location.href = signInUrl(); break;
+    case 'sign-out': signOut().then(() => { profile.connection = null; profile.step = 'lobby'; persist(); location.reload(); }); break;
     case 'district': profile.district = cityFor(profile).district; persist(); render(); panel.querySelector('[data-action="board"]').focus(); break;
     case 'board': filmTime = 0; go('flight'); break;
     case 'land': go('home'); break;
