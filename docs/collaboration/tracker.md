@@ -128,7 +128,7 @@ Every request Elvis has made, with where it stands. Updated 10 October 2026, 10:
 | 106 | Wallet: cards column on the left, cash column on the right, cleaner shadows | Merged (#17) |
 | 107 | CI for the game (GitHub Actions) | Written, not pushed: GitHub refuses workflow files without the gh token's workflow scope (Elvis: gh auth refresh -s workflow) |
 | 108 | Make the in-world laptop browse real websites | Options given (embedded browser now; cloud browser later, needs spend); waiting on Elvis's go-ahead |
-| 109 | Push merged work live | Blocked: Railway does not deploy from main (no GitHub source connected); a laptop deploy was refused by the permission system; Vercel site is old code |
+| 109 | Push merged work live | Live on buildersworld.vercel.app (main at b71114a, 10 Oct 16:05); online play there is solo until the gateway's ALLOWED_ORIGINS includes the Vercel address. Railway (the official game) still needs its GitHub source connected to deploy main |
 | 48 | Bench building animation with hard hat and tools | Done, pushed: two builders in hard hats, hammer and saw, legs, slats, backrest with sawdust; you wear a hard hat; sittable | yaba-scene `src/look/build.js` | `4587d73` |
 | 57 | Roadside vendors and a little street chaos; random events; police stations; city traffic control | Done, pushed: hawkers at red lights, daily events (breakdown, football, owambe), Yaba Police Division, 7 signal junctions, a LASTMA officer | yaba-scene `src/look/streetlife.js`, `traffic.js` | `724761a`, `91f8fe8` |
 | 58 | Passenger cars, several designs; taxi and danfo roof signs | Done, pushed: saloon, hatch, SUV, pickup, taxi (TAXI sign), danfo (route board), keke, BRT, on real routes | yaba-scene `src/look/traffic.js` | `91f8fe8` |
