@@ -360,6 +360,8 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
     isMenuOpen: () => panel.classList.contains('on'), closeMenu: closePanel,
     get active() { return !!ride; }, cancel, get pending() { return !!ride && (ride.phase === 'arriving' || ride.phase === 'waiting'); },
     // the hired vehicle, while you are not in it, is something to walk around
+    // where the hired vehicle is, for the traffic to wait behind (it is not one of the traffic's own cars)
+    get vehicle() { return ride?.pos ? { x: ride.pos.x, z: ride.pos.z, r: ride.T.radius + 0.4 } : null; },
     body: () => (ride && ride.phase !== 'riding' && ride.phase !== 'driving' ? { cx: ride.pos.x, cz: ride.pos.z, hx: ride.T.radius, hz: ride.T.wheelbase / 2 + 0.6, ry: ride.yaw } : null),
     get debug() { return ride && { phase: ride.phase, x: ride.pos.x, z: ride.pos.z, s: ride.s, L: pathLength(ride.path), v: ride.v, pickup: ride.pickup }; }, get seated() { return !!ride && (ride.phase === 'riding' || ride.phase === 'driving'); },
   };

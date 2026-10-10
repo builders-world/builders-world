@@ -6,6 +6,8 @@
 // Yaba's landmarks are modelled one by one in landmarks.js; the others are built from kits by kind (landkit.js).
 
 const LAGOS = {
+  // traffic officials: LASTMA, in cream and maroon
+  officials: { agency: 'LASTMA', title: 'LASTMA officer', top: '#efe3c4', bottom: '#6b1d2a', cap: '#6b1d2a', lines: ['Oga, move your vehicle! You no fit stop for here.', 'Clear the road abeg, clear the road!', 'Keep moving, keep moving!'], player: 'Clear the road! Use the zebra crossing.' },
   city: 'Lagos', district: 'Yaba', country: 'Nigeria',
   places: {
     hub: 'Yaba Creative Hub', loft: 'Lagos Builders Loft', studio: 'Yaba Design Studio', cafe: 'Kofo Cafe', gym: 'Yaba Fitness',
@@ -36,6 +38,8 @@ const LAGOS = {
 };
 
 const ABUJA = {
+  // traffic officials: the Federal Road Safety Corps (FRSC), in blue
+  officials: { agency: 'FRSC', title: 'FRSC marshal', top: '#2f6fae', bottom: '#1d2f4f', cap: '#1d2f4f', lines: ['Driver, keep moving. No stopping here.', 'Move it, move it! Clear the junction.', 'Oga, you dey block the road o!'], player: 'Please clear the road. Use the zebra crossing.' },
   // the residents: the same lives as Yaba's, lived by this city's people (lives.js)
   cast: [
     {name: "Ibrahim Danjuma", spouse: "Zainab", kids: [], dream: "Ship a fintech app his mum in Kano can use without calling him"},
@@ -105,6 +109,9 @@ const ABUJA = {
 
 
 const ACCRA = {
+  breakdownLines: ['Push am! One, two, three!', 'This engine dey tire.', 'The fitter dey come!'],
+  // traffic officials: the Ghana Police MTTD, in police blue (cap colour a design choice)
+  officials: { agency: 'MTTD', title: 'MTTD officer', top: '#1b2f5c', bottom: '#111827', cap: '#f4f4f0', lines: ['Driver, move on! No stopping here.', 'Charley, clear the road!', 'Move, move! Keep the road free.'], player: 'Please, clear the road. Use the zebra crossing.' },
   // the residents: the same lives as Yaba's, lived by this city's people (lives.js)
   cast: [
     {name: "Kwame Mensah", spouse: "Akosua", kids: [], dream: "Ship a MoMo app his mum can use without calling him"},
@@ -175,6 +182,9 @@ const ACCRA = {
 };
 
 const NAIROBI = {
+  breakdownLines: ['Sukuma! Moja, mbili, tatu!', 'Hii engine imechoka.', 'Fundi anakuja!'],
+  // traffic officials: the traffic police, in a luminous green jacket and a white cap
+  officials: { agency: 'Traffic Police', title: 'traffic police officer', top: '#b8e62e', bottom: '#1d2f4f', cap: '#f4f4f0', jacket: true, lines: ['Songa! Songa mbele!', 'Wewe, toa gari hapo!', 'Keep moving, boss! Hakuna kusimama hapa.'], player: 'Toka barabarani! Use the zebra crossing.' },
   // the residents: the same lives as Yaba's, lived by this city's people (lives.js)
   cast: [
     {name: "Kevin Otieno", spouse: "Achieng", kids: [], dream: "Ship an M-Pesa app his mum can use without calling him"},
@@ -245,6 +255,8 @@ const NAIROBI = {
 };
 
 const PORT_HARCOURT = {
+  // traffic officials: TIMA-RIV, the Rivers State traffic authority (HQ on Moscow Road, Old GRA); uniform colours a design choice
+  officials: { agency: 'TIMA-RIV', title: 'TIMA-RIV officer', top: '#f2f2ee', bottom: '#1d2f4f', cap: '#1f5fa8', jacket: true, lines: ['Driver, comot for road! No stopping here.', 'Move am, move am!', 'Clear the road, abeg!'], player: 'Clear the road! Use the zebra crossing.' },
   // the residents: the same lives as Yaba's, lived by this city's people (lives.js)
   cast: [
     {name: "Tamuno Briggs", spouse: "Ibinabo", kids: []},
@@ -311,6 +323,8 @@ const PORT_HARCOURT = {
 };
 
 const UYO = {
+  // traffic officials: the Federal Road Safety Corps (FRSC), in blue
+  officials: { agency: 'FRSC', title: 'FRSC marshal', top: '#2f6fae', bottom: '#1d2f4f', cap: '#1d2f4f', lines: ['Driver, keep moving. No stopping here.', 'Move on, please. Clear the road.', 'Keep the road clear, sosongo!'], player: 'Please clear the road. Use the zebra crossing.' },
   // the residents: the same lives as Yaba's, lived by this city's people (lives.js)
   cast: [
     {name: "Ubong Udoh", spouse: "Imaobong", kids: []},

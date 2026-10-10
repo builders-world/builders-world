@@ -8,7 +8,7 @@ import { createLife } from './life.js';
 import { dressDistrict } from './district.js';
 import { createRides } from './rides.js';
 import { createChat } from './chat.js';
-import { buildParks, buildRecreation } from './parks.js';
+import { buildParks, buildRecreation, findSite } from './parks.js';
 import { createLives } from './lives.js';
 import { buildCivic } from './civic.js';
 import { createLitter } from './litter.js';
@@ -46,6 +46,7 @@ import { sunPosition, sunDirection } from './sun.js';
 import { shared } from '../shaders.js';
 import { setCity, cityInfo } from './cityinfo.js';
 import { BUILDERS } from '../builders.js';
+import { createOfficials } from './officials.js';
 
 // sun shadows cover the ground round the player; they fade out towards the edge of that area, so there
 // is never a line on the street where shadows stop
@@ -150,6 +151,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     };
   })();
 
+  let officials = null, rideBlock = null;
   let greenrey = null, spotify = null, sports = null, mobility = null, slife = null, traffic = null, food = null, pets = null, petIt = null, wardrobe = null, profiler = null, onlineRef = null, building = null, gates = null, visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
   // the tech places you can walk into (world bible 6.6)
   const doors = [];
@@ -309,7 +311,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     enterPlayerHome: (host) => { doorOut = { x: host.door.x, z: host.door.z, yaw: host.door.ry ?? 0 }; interiors.enter('home', host).then((p) => { setInside(`${host.first}'s home`); pendingMove = { ...p, mode: 'inside' }; passes.arrive('home'); }); } });
   interiors = createInteriors({ city: world.place?.city || 'Lagos', country: AIRPORTS[world.place?.city || 'Lagos']?.country || 'Nigeria', scene, reduced, toast: hud.toast, getEnv: () => live || { day: 1 }, onPackUp: () => standUp(), net: passes, onOrder: (k) => food?.menu(k), onTeller: () => hud.openWallet({ atm: true }) });
   // everything that moves and can be bumped into: people, traffic, the waiting hired vehicle
-  const bodies = () => [...(props.bodies?.() || []), ...lives.bodies(), ...(mobility?.bodies() || []), ...(dressing?.bodies?.() || []), ...(traffic?.bodies() || []), rides?.body?.()].filter(Boolean);
+  const bodies = () => [...(props.bodies?.() || []), ...lives.bodies(), ...(mobility?.bodies() || []), ...(dressing?.bodies?.() || []), ...(traffic?.bodies() || []), ...(officials?.bodies?.() || []), rides?.body?.()].filter(Boolean);
   rides = createRides({ world, scene: group, nav: hud.nav, props, reduced, toast: hud.toast, getBodies: () => [...(props.bodies?.() || []), ...(dressing?.bodies?.() || [])],
     onState: (st) => { if (st.ride === false && st.exitAt) pendingExit = st.exitAt; } });
   const civic = buildCivic(world, group, { rides });
@@ -470,7 +472,11 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     addLamps: (l) => { props.lamps.push(...l); lights?.setLamps([...world.lamps, ...props.lamps, ...(world.porchLamps || [])]); } });
   if (parks.park) props.pois?.push({ kind: 'park', name: parks.park.name, x: parks.park.x, z: parks.park.z });
   // places to play: skate park, water park, community garden, picnic lawn (parks.js)
-  const rec = buildRecreation({ world, scene: group, uTime: shared.uTime, reduced, taken: [...placeUsed, ...(parks.park ? [{ x: parks.park.x, z: parks.park.z, W: parks.park.rx * 2 + 10, D: parks.park.rz * 2 + 10 }] : [])] });
+  // the motor park (or matatu stage, trotro station) is reserved before the places to play: transport first
+  const recTaken = [...placeUsed, ...(parks.park ? [{ x: parks.park.x, z: parks.park.z, W: parks.park.rx * 2 + 10, D: parks.park.rz * 2 + 10 }] : [])];
+  // (a compact one, three quarters the size, where a full one will not fit)
+  const motorParkAt = (() => { const f = findSite(world, recTaken, 34, 24); if (f) return { ...f, S: 1 }; const c = findSite(world, recTaken, 26, 19); if (c) return { ...c, S: 0.75 }; const m = findSite(world, recTaken, 22, 16); return m ? { ...m, S: 0.62 } : null; })();
+  const rec = buildRecreation({ world, scene: group, uTime: shared.uTime, reduced, taken: recTaken });
   props.pois?.push(...rec.pois);
   // benches you can sit on: in the park, at the bus shelters
   seats = [...parks.benches, ...civic.added.filter((a) => a.seat).map((a) => a.seat)];
@@ -481,7 +487,9 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   // the motor park, the police, the hawkers, today's events (streetlife.js): after the parks and litter take their land
   mobility = createMobility({ world, scene: group, props, avatar, toast: hud.toast, used: rec.used, reduced, park: parks.park });
   try { JSON.parse(localStorage.getItem('bw-bag-equipped') || '[]').forEach((id) => mobility.equip(id, true)); } catch { /* */ }
-  slife = createStreetLife({ world, scene: group, props, traffic, chat, toast: hud.toast, getEnv: () => live, used: rec.used, reduced });
+  slife = createStreetLife({ world, scene: group, props, traffic, chat, toast: hud.toast, getEnv: () => live, used: rec.used, reduced, parkAt: motorParkAt });
+  // traffic officials in the city's own uniform: a marshal at the motor park, a patrol that clears jams (officials.js)
+  try { officials = createOfficials({ world, scene: group, traffic, park: slife?.park, chat, toast: hud.toast, getPlayer: () => lastPlayer }); } catch (err) { console.warn('officials skipped', err); }
   // expressions (expressions.js): everyone emotes on their own clock, never in step with their neighbours,
   // and reacts to what happens around them; any module can raise an event with bw:react
   const meAt = new THREE.Vector3();
@@ -604,7 +612,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     props.update(dt, t, player);
     if (!interiors?.active) { lives.update(dt, t, player); chat.update(dt, player); rec.update(t); litter?.update(dt, player); building?.update(dt); }
     profiler?.update(dt);
-    if (!interiors?.active) { food?.update(dt, player); traffic?.update(dt, player); slife?.update(dt, player); mobility?.update(dt, t); sports?.update(dt); }
+    if (!interiors?.active) { food?.update(dt, player); if (traffic?.addBlocker) { rideBlock ||= traffic.addBlocker({ r: 1.4 }); const rv = rides?.vehicle; rideBlock.on = !!(rv && world.onCarriageway?.(rv.x, rv.z, 0.6)); if (rv) { rideBlock.x = rv.x; rideBlock.z = rv.z; rideBlock.r = rv.r; } }
+      traffic?.update(dt, player); slife?.update(dt, player); officials?.update(dt); mobility?.update(dt, t); sports?.update(dt); }
     pets?.update(dt, player, yaw ?? 0);
     if (petIt && pets?.pet) { petIt.x = pets.pos.x; petIt.z = pets.pos.z; petIt.r = interiors?.active ? 0 : 1.4; petIt.label = `Pet ${pets.pet.name}`; }
     // estate gates: no pass, no entry (gates.js)
@@ -792,6 +801,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { get food() { return food; }, get greenrey() { return greenrey; }, update, renderReflection, setSize, setGraphics, sport: () => sports?.pose() || null, get sports() { return sports; }, get graphics() { return gfx; }, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get cycling() { return cycling; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { get food() { return food; }, get greenrey() { return greenrey; }, update, renderReflection, setSize, setGraphics, sport: () => sports?.pose() || null, get sports() { return sports; }, get graphics() { return gfx; }, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get cycling() { return cycling; }, get officials() { return officials; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 
