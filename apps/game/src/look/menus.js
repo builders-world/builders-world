@@ -678,6 +678,15 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
       ${row('sfx', 'Sound effects', 'Footsteps, doors, taps and chimes.')}
       <label class="vol"><b>Volume</b><input type="range" min="0" max="1" step="0.05" value="${st.volume}"></label>
       <p class="note">Every sound is made in your browser as you play. No recordings, so nothing to license.</p>
+      <h4 class="sec">Public profile</h4>
+      <p class="note">What other builders see when they profile you (P). Usernames only; leave a box empty to keep it private.</p>
+      <label class="vol"><b>Role</b><input type="text" data-pub="role" maxlength="40" placeholder="Product designer, backend dev..."></label>
+      <label class="vol"><b>X username</b><input type="text" data-pub="x" maxlength="40" placeholder="without the @"></label>
+      <label class="vol"><b>LinkedIn</b><input type="text" data-pub="linkedin" maxlength="40" placeholder="the part after linkedin.com/in/"></label>
+      <label class="vol"><b>Dribbble</b><input type="text" data-pub="dribbble" maxlength="40" placeholder="username"></label>
+      <label class="vol"><b>Behance</b><input type="text" data-pub="behance" maxlength="40" placeholder="username"></label>
+      <label class="sw"><span><b>Show my socials and design work</b><small>X, LinkedIn, Dribbble, Behance.</small></span><input type="checkbox" data-pub="showSocials"><i></i></label>
+      <label class="sw"><span><b>Show my commits this year</b><small>From your linked GitHub.</small></span><input type="checkbox" data-pub="showCommits"><i></i></label>
       <h4 class="sec">Controls</h4>
       <label class="vol"><b>Touch controls</b><select data-in="touch"><option value="auto">Automatic</option><option value="on">On</option><option value="off">Off</option></select></label>
       <label class="sw"><span><b>Invert camera up and down</b><small>For the right stick.</small></span><input type="checkbox" data-in="invertY" ${inp?.settings.invertY ? 'checked' : ''}><i></i></label>
@@ -689,6 +698,13 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     setEl.querySelector('input[type=range]:not([data-in])').oninput = (e) => { audio.wake(); audio.set('volume', +e.target.value); };
     const tsel = setEl.querySelector('select[data-in]'); if (tsel) { tsel.value = inp?.settings.touch ?? 'auto'; tsel.onchange = () => inp?.set('touch', tsel.value); }
     setEl.querySelectorAll('[data-in]:not(select)').forEach((el) => { el.oninput = el.onchange = () => inp?.set(el.dataset.in, el.type === 'checkbox' ? el.checked : +el.value); });
+    // public profile, kept on this device and shared with your presence (online.js)
+    const pub = store.get('bw-public', {});
+    setEl.querySelectorAll('[data-pub]').forEach((el) => {
+      const k = el.dataset.pub;
+      if (el.type === 'checkbox') el.checked = !!pub[k]; else el.value = pub[k] || '';
+      el.oninput = el.onchange = () => { pub[k] = el.type === 'checkbox' ? el.checked : el.value.trim(); store.set('bw-public', pub); };
+    });
     setEl.querySelector('.done').onclick = close;
     show(setEl, null);
     setEl.querySelector('input')?.focus();

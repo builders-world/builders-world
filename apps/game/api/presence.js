@@ -26,6 +26,10 @@ export default async function handler(req, res) {
   const say = str(b.say, 140), emote = str(b.emote, 8);
   // homes and visits (world bible 7.9): where you live, and knocks and answers between players
   me.home = str(b.home, 80);
+  // the public profile a player chose to share (Settings, Public profile): usernames only, never links
+  const u = (v) => str(v, 40).replace(/[^A-Za-z0-9_.-]/g, '');
+  const c = b.card || {};
+  me.card = { role: str(c.role, 40), x: u(c.x), linkedin: u(c.linkedin), dribbble: u(c.dribbble), behance: u(c.behance), showSocials: c.showSocials === true, showCommits: c.showCommits === true, commits: c.showCommits === true ? Math.max(0, Math.min(100000, Math.round(Number(c.commits) || 0))) : null };
   const pid = (v) => str(v, 40).replace(/[^A-Za-z0-9_-]/g, '');
   const knock = b.knock && pid(b.knock.to).length >= 8 ? { to: pid(b.knock.to), kind: b.knock.kind === 'gate' ? 'gate' : 'door', t: now.getTime() } : null;
   const answer = b.answer && pid(b.answer.to).length >= 8 ? { to: pid(b.answer.to), kind: b.answer.kind === 'gate' ? 'gate' : 'door', ok: b.answer.ok === true, t: now.getTime() } : null;

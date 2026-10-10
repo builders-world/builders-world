@@ -17,6 +17,7 @@ import { buildEstateSigns } from './estatesigns.js';
 import { passesEngine, MEMBERS_ONLY } from './passes.js';
 import { createGates } from './gates.js';
 import { buildBench } from './build.js';
+import { createProfiler } from './profiler.js';
 import { walletEngine } from './wallet.js';
 import { createInteriors, PLACES, namePlaces } from './interior.js';
 import { sunPosition, sunDirection } from './sun.js';
@@ -127,7 +128,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     };
   })();
 
-  let building = null, gates = null, visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
+  let profiler = null, onlineRef = null, building = null, gates = null, visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
   // the tech places you can walk into (world bible 6.6)
   const doors = [];
   if (props.hubAt) doors.push({ key: 'hub', at: props.hubAt });
@@ -238,6 +239,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   });
   group.add(hud.route);
   passes = passesEngine({ toast: hud.toast, district: world.place?.name || 'Yaba' });
+  profiler = createProfiler({ camera, lives, props, getOnline: () => onlineRef, toast: hud.toast });
   gates = createGates({ world, scene: group, props, lives, passes, toast: hud.toast, getHour: () => live?.hour ?? 12,
     // another player said yes at their door: in you go, they are there to meet you
     enterPlayerHome: (host) => { doorOut = { x: host.door.x, z: host.door.z, yaw: host.door.ry ?? 0 }; interiors.enter('home', host).then((p) => { setInside(`${host.first}'s home`); pendingMove = { ...p, mode: 'inside' }; passes.arrive('home'); }); } });
@@ -396,6 +398,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     if (rainMesh) rainMesh.userData.cam.value.copy(camera.position);
     props.update(dt, t, player);
     if (!interiors?.active) { lives.update(dt, t, player); chat.update(dt, player); rec.update(t); litter?.update(dt); building?.update(dt); }
+    profiler?.update(dt);
     // estate gates: no pass, no entry (gates.js)
     if (!pendingMove) { const push = gates?.update(dt, player, !!interiors?.active || !!benchSeat); if (push) pendingMove = { mode: 'push', ...push }; }
     syncSeat();
@@ -490,6 +493,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { update, renderReflection, setSize, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

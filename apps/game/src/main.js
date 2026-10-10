@@ -261,6 +261,7 @@ async function main() {
     else if (k === '?' || k === '/') chrome.toggleHelp();
     else if (k === 'e' && !e.repeat && street?.hud.interact()) { /* handled by the street */ }
     else if (k === 'f' && !e.repeat && street?.seatAction?.('close')) { /* close the laptop at your desk */ }
+    else if (k === 'p' && !e.repeat && street?.profiler) street.profiler.toggle(); // the profiler: who is that?
     else if (k === 'escape') { street?.hud.close(); chrome.unpin(); chrome.hideCard(); chrome.toggleList(false); chrome.toggleHelp(false); }
     else if (k === '=' || k === '+') zoomKey(-1);
     else if (k === '-' || k === '_') zoomKey(1);
@@ -343,7 +344,7 @@ async function main() {
   let lastSpeed = 0;
   const online = q.get('offline') === '1' ? null : createOnline({ scene, camera, chat: { sayFrom: (...a) => street?.chat?.sayFrom(...a), sayMine: (t) => street?.chat?.sayMine(t) }, getPlayer: () => ({ x: player.x, z: player.z, y: groundY }), getHeading: () => heading, getSpeed: () => lastSpeed, district: place.name, profile: resident ? arrivalProfile : null, toast: (t) => street?.hud.toast(t),
     getHome: () => street?.passes?.tenancy?.()?.addr || '', onKnock: (p) => street?.gates?.knocked(p), onAnswer: (p) => street?.gates?.answered(p) });
-  street?.gates?.setOnline(online);
+  street?.setOnline?.(online);
   ['keydown', 'pointerdown', 'pointermove', 'wheel', 'touchstart'].forEach((ev) => addEventListener(ev, () => { idle.t = 0; }, { passive: true, capture: true }));
   const audio = audioEngine();
   // touch stick and controllers: their buttons become the same key presses the keyboard makes

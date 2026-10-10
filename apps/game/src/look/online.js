@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { createAvatarModel } from '../onboarding/avatar.js';
 import { rigAvatar } from './anim.js';
 import { C, FONT } from './uikit.js';
+import { walletEngine } from './wallet.js';
 
 // Other players (world bible 13): every second you send where you are to /api/presence and get back
 // everyone else in the district. They appear as avatars that glide between updates, walk with the
@@ -37,6 +38,8 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
   const gh = () => store.get('bw-gh', '').replace(/"/g, ''); // the wallet saves it as JSON
   const me = () => ({ name: profile?.name || (gh() ? `@${gh()}` : '') || 'Builder', handle: gh(), look: profile?.avatar || { color: '#e2b13c', style: 'jacket' } });
 
+  // what you chose to share when someone profiles you (Settings, Public profile)
+  const publicCard = () => { let c = {}; try { c = JSON.parse(localStorage.getItem('bw-public') || '{}'); } catch { /* */ } return { ...c, commits: c.showCommits ? walletEngine().commits : null }; };
   const remote = new Map(); // id -> { obj, rig, tag, from, to, t0, lastSay, lastEmote }
   let pending = { say: '', emote: '' }, busy = false, timer = 0, ok = null, fails = 0, latest = [];
   const seenKnock = new Map(), seenAnswer = new Map(), started = Date.now();
@@ -56,7 +59,7 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
     if (busy || document.hidden) return;
     busy = true;
     const P = getPlayer();
-    const body = { id, district, x: P.x, z: P.z, y: P.y || 0, yaw: getHeading(), speed: getSpeed(), ...me(), say: pending.say, emote: pending.emote, home: getHome?.() || '', knock: pending.knock, answer: pending.answer };
+    const body = { id, district, x: P.x, z: P.z, y: P.y || 0, yaw: getHeading(), speed: getSpeed(), ...me(), say: pending.say, emote: pending.emote, home: getHome?.() || '', knock: pending.knock, answer: pending.answer, card: publicCard() };
     pending = { say: '', emote: '' };
     try {
       const r = await fetch('/api/presence', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
@@ -128,5 +131,6 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
   function dispose() { remote.forEach((r) => { r.obj.removeFromParent(); r.dispose?.(); }); chip.remove(); say.remove(); tags.remove(); style.remove(); }
   const knock = (to, kind = 'door') => { pending.knock = { to, kind }; timer = Math.min(timer, 0.2); };
   const answer = (to, ok2, kind = 'door') => { pending.answer = { to, ok: ok2, kind }; timer = Math.min(timer, 0.2); };
-  return { update, bodies, dispose, knock, answer, players: () => latest, get count() { return remote.size; }, get online() { return ok; }, id };
+  const people = () => [...remote].map(([pid, r]) => ({ id: pid, obj: r.obj, name: r.name, rec: latest.find((q) => q.id === pid) }));
+  return { update, bodies, dispose, knock, answer, players: () => latest, people, get count() { return remote.size; }, get online() { return ok; }, id };
 }
