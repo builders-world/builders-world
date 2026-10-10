@@ -3,6 +3,7 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { createAvatarModel } from '../onboarding/avatar.js';
 import { rigAvatar } from './anim.js';
 import { prepareLook, dress, lookFor } from './style.js';
+import { workspaceDoor } from './doorway.js';
 
 // More places to walk into (world bible 6.6): Kofo Cafe (sit at a table and work, order at the
 // counter), Yaba Fitness (treadmills, weights, a punching bag) and the banking hall of Yaba Builders
@@ -27,7 +28,9 @@ function shell({ ORIGIN, scene, W, D, H, floor, wall, accent }) {
   g.add(new THREE.HemisphereLight(0xfff1dc, 0x4a3f35, 0.85));
   const sun = new THREE.DirectionalLight(0xfff1dc, 0); sun.position.set(5, 7, 12); g.add(sun);
   [[-W / 4, 0], [W / 4, 0]].forEach(([x, z]) => { const l = new THREE.PointLight(0xffd7a0, 16, 14, 1.6); l.position.set(x, H - 0.6, z); g.add(l); });
-  return { g, M, add, colliders, block, window, sun, door: { x: -1.5, z: D / 2 - 1.2 } };
+  const door = { x: -1.5, z: D / 2 - 1.2 };
+  colliders.push(workspaceDoor(g, { x0: -3, x1: 1, z: D / 2, H, wall: M(wall, 0.85), outside: window.material, exitX: door.x }));
+  return { g, M, add, colliders, block, window, sun, door };
 }
 
 export function buildCafe({ ORIGIN, scene, onOrder }) {

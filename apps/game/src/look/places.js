@@ -3,6 +3,7 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { signTexture } from './props.js';
 import { findSite } from './parks.js';
 import { PLACES } from './interior.js';
+import { entrySign } from './doorway.js';
 
 // The places you can walk into (world bible 6.6) get buildings of their own: two storeys, a glass
 // ground floor, a canopy over the door, and the name across the front in big lit letters, so you can
@@ -31,7 +32,11 @@ function storefront(key) {
   g.add(new THREE.Mesh(box(W - 0.8, 3.0, 0.05, 0, 1.6, D / 2 - 1.2), warm));
   const mull = []; for (let x = -W / 2 + 0.3; x <= W / 2 - 0.29; x += 1.6) mull.push(box(0.1, 3.3, 0.12, x, 1.65, D / 2 - 0.05));
   g.add(new THREE.Mesh(mergeGeometries([...mull, box(2.2, 0.12, 0.14, 0, 2.6, D / 2 - 0.03)]), dark));
-  g.add(new THREE.Mesh(box(2.0, 2.5, 0.08, 0, 1.25, D / 2 - 0.02), dark));
+  // the door: a pair of glass leaves in a dark frame, pull handles, the warm room showing through
+  g.add(new THREE.Mesh(mergeGeometries([box(0.1, 2.5, 0.14, -1.0, 1.25, D / 2), box(0.1, 2.5, 0.14, 1.0, 1.25, D / 2), box(0.06, 2.5, 0.14, 0, 1.25, D / 2), box(2.1, 0.12, 0.14, 0, 0.06, D / 2), box(2.1, 0.1, 0.14, 0, 2.45, D / 2)]), dark));
+  g.add(new THREE.Mesh(mergeGeometries([box(0.9, 2.3, 0.03, -0.5, 1.25, D / 2), box(0.9, 2.3, 0.03, 0.5, 1.25, D / 2)]), glass));
+  g.add(new THREE.Mesh(mergeGeometries([box(0.04, 0.7, 0.05, -0.14, 1.1, D / 2 + 0.07), box(0.04, 0.7, 0.05, 0.14, 1.1, D / 2 + 0.07)]), new THREE.MeshStandardMaterial({ color: 0xd6d9dc, roughness: 0.25, metalness: 0.8 })));
+  entrySign(g, { x: 0, y: 2.8, z: D / 2 + 0.06, w: 1.1 });
   // a canopy over the door
   g.add(new THREE.Mesh(box(4.4, 0.16, 1.8, 0, 3.05, D / 2 + 0.85), trim));
   // upper floor windows, lit
