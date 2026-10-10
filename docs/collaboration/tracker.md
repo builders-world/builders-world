@@ -93,18 +93,20 @@ Every request Elvis has made, with where it stands. Updated 9 October 2026, 17:4
 | 71 | NPCs inside their houses; knock, enter only when invited (NPCs and players) | Done for residents: they go in and out by the door; knock (no answer, asleep, invite, not today); invited visits to a living room with the family. Player homes: the same rule applies once players have homes in the shared world (needs login and plot claims) | yaba-scene `src/look/lives.js`, `interior.js` | |
 | 72 | Walk marker too bright at night | Done, pushed: dims and goes see-through at night | yaba-scene `src/look/trail.js` | `ba13b17` |
 | 73 | Estate planning: grid layout, uniform houses, gates, house numbers (1A, 1B), garages | Done, pushed: walled estates along real roads, gates onto closes, identical lots with garage and driveway, numbering by gate, gate signs, door plaques, close lamps, map addresses | yaba-scene `src/estates.js`, `src/look/houses.js`, `src/look/estatesigns.js` | `141ea7f` |
+| 74 | Partly done: player homes private too; hub larger; help panel | Done, pushed: knocks and gate calls between players with a let-them-in prompt; hub up to 45% larger; help lists current controls | yaba-scene `src/look/gates.js`, `props.js`, `index.html` | `7dd8981`, `9ab1b2d` |
+| 75 | Load time | Done, pushed: 4.6 s to 1.8 s with identical layouts (road raster, incremental walk map, memoised planner) | yaba-scene `src/world.js`, `look/navgrid.js`, `src/estates.js` | `0290530` |
 | 48 | Bench building animation with hard hat and tools | Done, pushed: two builders in hard hats, hammer and saw, legs, slats, backrest with sawdust; you wear a hard hat; sittable | yaba-scene `src/look/build.js` | `4587d73` |
-| 57 | Roadside vendors and a little street chaos; random events; police stations; city traffic control | Queued | | |
-| 58 | Passenger cars, several designs; taxi and danfo roof signs | Queued | | |
+| 57 | Roadside vendors and a little street chaos; random events; police stations; city traffic control | Done, pushed: hawkers at red lights, daily events (breakdown, football, owambe), Yaba Police Division, 7 signal junctions, a LASTMA officer | yaba-scene `src/look/streetlife.js`, `traffic.js` | `724761a`, `91f8fe8` |
+| 58 | Passenger cars, several designs; taxi and danfo roof signs | Done, pushed: saloon, hatch, SUV, pickup, taxi (TAXI sign), danfo (route board), keke, BRT, on real routes | yaba-scene `src/look/traffic.js` | `91f8fe8` |
 | 59 | Gated estates: residents' passes, invited visitors confirmed by the host, 3 to 4 day visits, reputation | Done, pushed: gatemen, visitor passes (3 days, a day's wait), renting (resident pass, own door and Wi-Fi), reputation; players' homes take knocks and gate calls | yaba-scene `src/look/gates.js` | `9ab1b2d`, `7dd8981` |
 | 49 | Watch Dogs-style tags and profiles (career, socials, commits, stars, design work) | Done, pushed: P profiler; residents, builders, players (what they share in Settings) | yaba-scene `src/look/profiler.js` | `3fb14b4` |
 | 50 | Women, Afrocentric fashion, hairstyles, accessories, footwear; an outfit editor for you and NPCs | Done, pushed: wardrobe (body, skin, 10 hairstyles incl. gele and fila, Ankara, Adire, kaftan, agbada, dress, wrapper, 5 shoes, accessories); NPCs dress their own way | yaba-scene `src/look/style.js`, `wardrobe.js` | `5c4e9e0` |
 | 51 | Pets: dog or cat, breeds, names, petting, ball, laser, whistle | Done, pushed: shelter, 10 breeds, follow, pet, fetch, laser, whistle; seen online | yaba-scene `src/look/pets.js` | `6e249da` |
-| 52 | Food stalls with a first-person view of the vendor (suya); Nigerian street elements | Queued | | |
-| 53 | Populate the city with NPCs; NPC and player activities (cycling, skateboarding, roller skating) | Queued | | |
-| 54 | Bus parks (buses route through them), bike-rental docks, cycling | Queued | | |
-| 55 | Flyover road bridge for cars | Queued | | |
-| 56 | Enterable work places: cafes, gyms, studios, bank | Queued | | |
+| 52 | Food stalls with a first-person view of the vendor (suya); Nigerian street elements | Done, pushed: a vendor at every food counter, first person at the counter, real menus in Efforts, made and handed over; charcoal grills, smoke, zobo cooler, lantern | yaba-scene `src/look/food.js` | `26e3ccf` |
+| 53 | Populate the city with NPCs; NPC and player activities (cycling, skateboarding, roller skating) | Done, pushed: 10 walkers, 3 cyclists in traffic, skaters at the skate park, a roller skater round the pond; you can bike, skateboard and skate | yaba-scene `src/look/mobility.js`, `streetlife.js` | `3a6b8fd`, `556e11f` |
+| 54 | Bus parks (buses route through them), bike-rental docks, cycling | Done, pushed: Yaba Motor Park (danfos leave the traffic to load, touts, back out), four Yaba Bikes docks | yaba-scene `src/look/streetlife.js`, `mobility.js` | `724761a`, `3a6b8fd` |
+| 55 | Flyover road bridge for cars | Done, pushed: Murtala Muhammed Way flyover; through traffic drives over, cross traffic under | yaba-scene `src/look/flyover.js` | `b0574e5` |
+| 56 | Enterable work places: cafes, gyms, studios, bank | Done, pushed: Kofo Cafe (order, sit and work), Yaba Fitness (new storefront), the bank's banking hall; studios done earlier | yaba-scene `src/look/venues.js` | `0c07e95` |
 | 24a | Help panel still says V is street or aerial | Done (Elvis asked to finish partly-done items): help lists the current controls | yaba-scene `index.html` | `9ab1b2d` |
 
 ## Decisions waiting on Elvis

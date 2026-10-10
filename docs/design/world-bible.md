@@ -356,6 +356,30 @@ A little real-life friction, on purpose, because the people this world is for li
 
 Nobody walks into a home uninvited, resident or player. Residents go in and out by their own front door: they walk to the step, turn to the door and go in, and when their day takes them out they come out of it. Anyone can knock. Nobody home: no answer, and where they are. Asleep: a sleepy word through the door. Awake: they come to the door and either ask you in or say not today (people who know you, and people in a good mood, ask you in more often). Invited, you go into their living room with them and their family, and leave by the same door. Player homes follow the same rule: the owner invites, a knock asks; that arrives with player homes in the shared world (after GitHub login and plot claims).
 
+### 7.10 Style, pets, wheels and the street
+
+**Style (7.4a).** A style layer over the shared avatar (Codex's file untouched) dresses everyone: body, five skin tones; low cut, fade, afro, locs, braids, cornrows, bun, clean shave, gele, fila; jacket, hoodie, tee, Ankara, Adire, kaftan, agbada, Ankara dress; trousers, shorts, skirt, wrapper; sneakers, palm sandals, boots, heels, loafers; earrings, coral beads, glasses, a crossbody bag, a watch. The Wardrobe (phone or bag) turns the camera round like a mirror. Residents, workers and passers-by dress their own way, drawn from their name, age and means. Looks travel online as known values only.
+
+**The profiler (11.6).** P tags the people around you; the one you aim at opens into a profile. Residents show their lives, builders their work, players only what they share in Settings, Public profile (usernames only).
+
+**Pets (11.7).** Adopt a dog or a cat at the Yaba Animal Shelter (ten breeds, a name, 300 Efforts). It follows, sits, finds its way round, and comes along online. E pets it; G throws a ball (dogs fetch), L a laser, Y whistles.
+
+**Street food (11.8).** A vendor behind every food counter. E cuts to first person at the counter; order from a real menu and watch it made and handed across. Charcoal grills glow and smoke.
+
+**Wheels (9.5).** Yaba Bikes docks (100 Efforts a ride); a skateboard and roller skates in the bag. Skaters at the skate park, a roller skater round the pond, cyclists in traffic, walkers between places.
+
+**Traffic (9.3) and the flyover (9.6).** Vehicles drive the real road network in the right-hand lane: saloons, hatchbacks, SUVs, pickups, taxis with a TAXI sign, danfos with a route board, kekes and the BRT. They keep their distance, brake, stop at red at the signal junctions, give way to people and use the horn. A LASTMA officer works the busiest junction. Murtala Muhammed Way climbs a flyover over its busiest junction; through traffic goes over, the cross street under.
+
+**Street life (9.4).** Yaba Motor Park (danfos leave the traffic to load and go back out, touts call the routes), the Nigeria Police Force Yaba Division, hawkers between the cars at red lights, and the day's events: a breakdown with everyone pushing, kids' football after school, an owambe on Saturdays.
+
+**Places (6.6).** Kofo Cafe (order, or sit and work on its Wi-Fi), Yaba Fitness (treadmills, weights, the bag), and the banking hall of Yaba Builders Bank.
+
+**Building a bench (6.4).** A time-lapse: two builders in hard hats with a hammer and a saw, part by part, sawdust and all; you wear a hard hat while it goes up.
+
+### 7.5c Gated estates
+
+Every estate gate has a gateman. Residents come and go; anyone else signs in at the gatehouse: name a resident (or a player who lives there) and the guard rings them. Yes gives a visitor pass for three days, with a day's wait before the next. Or rent a vacant house (5,000 Efforts for 30 days): a resident pass, your own front door and Wi-Fi. Walk past the gate without a pass and you are turned back; climb a wall and it costs reputation. Reputation rises with cleaning the streets, funding bins and moving in.
+
 ## 8. Shaders, textures and lighting
 
 ### 8.1 Textures
