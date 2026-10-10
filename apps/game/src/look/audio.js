@@ -268,7 +268,7 @@ export function createAudio() {
   // loudness of the mix right now (RMS, 0..1), for tests and a future meter
   const level = () => { if (!meter) return 0; const a = new Float32Array(meter.fftSize); meter.getFloatTimeDomainData(a); let s = 0; for (const v of a) s += v * v; return Math.sqrt(s / a.length); };
   document.body.classList.toggle('bw-creator', !!settings.creator);
-  return { wake, play, update, set, settings, onChange, dispose, level, nextStation, get track() { return tracks.now; }, get trackDebug() { return tracks.el.map((a) => a && { t: +a.currentTime.toFixed(1), d: a.duration, ended: a.ended, paused: a.paused, src: a.src.split('/').pop() }); }, get station() { return tracks.playing ? { name: 'Yaba FM 99.1', sub: tracks.now ? `${tracks.now.title} · ${tracks.now.artist}` : '' } : STATIONS[station]; }, get radio() { return radio; }, get started() { return started; }, get context() { return ctx; } };
+  return { wake, play, update, set, settings, onChange, dispose, level, nextStation, get track() { return tracks.now; }, get station() { return tracks.playing ? { name: 'Yaba FM 99.1', sub: tracks.now ? `${tracks.now.title} · ${tracks.now.artist}` : '' } : STATIONS[station]; }, get radio() { return radio; }, get started() { return started; }, get context() { return ctx; } };
 }
 
 // one engine per page

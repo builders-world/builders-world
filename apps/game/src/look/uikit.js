@@ -177,6 +177,11 @@ export const ribbonSVG = (w = 360) => `<svg viewBox="0 0 ${w} 84" preserveAspect
 
 // shared CSS for paper surfaces and key chips
 export const KIT_CSS = `
+/* a game, not a page (Elvis, 10 October 2026): nothing selects, no callout on a long press, no grey
+   flash on a tap; text you type into still selects as normal */
+html, body, body * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
+input, textarea, select, [contenteditable="true"], input *, textarea * { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }
+
 .bw-paper { background: ${C.paper}; color: ${C.ink}; border-radius: 22px; box-shadow: 0 5px 0 rgba(59,42,32,.18), 0 18px 40px rgba(10,14,30,.28); font-family: ${FONT}; }
 .bw-chip { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 6px; border-radius: 999px; background: ${C.paper}; color: ${C.ink};
   font: 700 15px/1 ${FONT}; box-shadow: 0 3px 0 rgba(59,42,32,.2); }
