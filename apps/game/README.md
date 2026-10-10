@@ -7,14 +7,27 @@ Open `/?world=1` to visit the original Yaba scene directly. Completing the Lagos
 ## Onboarding preview
 
 - Walk in the lobby using WASD, arrow keys, or on-screen movement buttons; drag to look. **Walk to arrivals** goes directly to the attendant.
-- Choose a name and role. GitHub and Dribbble connections are explicitly simulated: no OAuth request or real account access occurs.
+- Choose a name and role, then **sign in with GitHub**. This is a real sign-in on the game's server (see Online play): the game reads only your GitHub username and name, never your code. Designers sign in with GitHub too for now; Dribbble comes later.
 - Choose Lagos, Abuja, Uyo, or Port Harcourt. Yaba is the only named district implemented. The other cities use a labeled founding-community preview and do not silently enter Yaba.
 - During the flight, watch the three-part animated seatback introduction and change outfit style/colour. Pause, replay, next chapter, and immediate landing work independently of avatar editing.
-- Your name, choices, avatar, and progress are stored in localStorage. Reload resumes the current step. **Restart journey** clears the onboarding choices after a confirmation. The introduction restarts when reloading the flight.
-- The final avatar design, art direction references, produced video, real country routing, authentication, shared home ownership, and career progression are future work. Nigeria is a fixed preview lobby, not detected location.
+- Your name, choices, avatar, and progress are stored in localStorage and, once you are signed in, saved to your account so they follow you to another device. Reload resumes the current step. **Restart journey** clears the onboarding choices after a confirmation. The introduction restarts when reloading the flight.
+- The final avatar design, art direction references, produced video, real country routing, shared home ownership, and career progression are future work. Nigeria is a fixed preview lobby, not detected location.
 - All work remains local on `codex/arrivals-onboarding`; nothing has been pushed.
 
 The shareable image brief is `BUILDERS_WORLD_VISUAL_BRIEF.md` at the parent Builders-World folder root. The detailed experience brief is `docs/design/immersive-onboarding.md` in that parent folder.
+
+## Online play (the server)
+
+Players, street bins and GitHub Efforts come from the Rust server in [open-world-backend](https://github.com/builders-world/open-world-backend) (`/api/presence`, `/api/bins`, `/api/efforts`).
+
+    # in the backend repo: Postgres and Redis up, then
+    cargo run -p gateway                 # :8080
+    # here
+    npm run dev                          # Vite proxies /api to :8080 (API_PROXY=http://host:port to change)
+
+You must be signed in with GitHub to be among other players and to count your commits as Efforts; signed out, the game is played solo with a demo balance. Setting up sign-in on the server is described in the backend's `.env.example` (`GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `PUBLIC_URL`).
+
+In production the web app and the API are separate services: build with `VITE_API_URL=https://<gateway domain>` and set the gateway's `ALLOWED_ORIGINS` to the web app's address. Without a reachable server the game plays solo and shows no error.
 
 ## Checks
 

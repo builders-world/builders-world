@@ -1,14 +1,31 @@
 import { test, expect } from '@playwright/test';
 
-async function checkIn(page, role = 'developer') {
-  await page.goto('/');
+// A stand-in for the game's server and for GitHub: signing in sends the browser straight back with a session, and the server then knows
+// who it is. Nothing leaves the machine.
+const TOKEN = 'a'.repeat(64);
+test.beforeEach(async ({ page }) => {
+  await page.route('**/api/**', async route => {
+    const url = new URL(route.request().url());
+    const signedIn = route.request().headers().authorization === `Bearer ${TOKEN}`;
+    if (url.pathname === '/api/auth/github') return route.fulfill({ status: 302, headers: { location: `/#bw-session=${TOKEN}` } });
+    if (url.pathname === '/api/me') return signedIn
+      ? route.fulfill({ json: { account: { id: 'u' + 'b'.repeat(32), login: 'elvis-obi', name: 'Elvis Obi' }, profile: null } })
+      : route.fulfill({ status: 401, json: { error: 'session_invalid' } });
+    if (url.pathname === '/api/me/profile') return route.fulfill({ json: {} });
+    return route.fulfill({ json: { offline: true, players: [], bins: [] } });
+  });
+});
+
+async function checkIn(page, role = 'developer', start = '/') {
+  await page.goto(start);
   await page.getByRole('button', { name: 'Walk to arrivals' }).click();
   await expect(page.getByRole('button', { name: 'Continue', exact: false })).toBeDisabled();
   await page.getByLabel('Your name', { exact: true }).fill('Elvis Obi');
   await page.locator(`[data-role="${role}"]`).click();
   await page.getByRole('button', { name: 'Continue', exact: false }).click();
-  await page.getByRole('button', { name: `Use demo ${role === 'designer' ? 'Dribbble' : 'GitHub'} identity` }).click();
-  await expect(page.getByRole('button', { name: 'Choose your destination' })).toBeFocused();
+  const signIn = page.getByRole('button', { name: 'Sign in with GitHub' });
+  if (await signIn.isVisible()) await signIn.click(); // already signed in when a test arrives with a session
+  await expect(page.getByText('Signed in as @elvis-obi')).toBeVisible();
   await page.getByRole('button', { name: 'Choose your destination' }).click();
 }
 async function board(page, city = 'Lagos') {
@@ -92,13 +109,15 @@ test('designer route, city changes, and honest previews for every destination', 
   await page.getByRole('button', { name: 'Back', exact: true }).click();
   await page.locator('[data-role="developer"]').click();
   await page.getByRole('button', { name: 'Continue', exact: false }).click();
-  await expect(page.getByRole('button', { name: 'Use demo GitHub identity' })).toBeVisible();
-  expect(await page.evaluate(() => window.__arrivals.profile.connection)).toBeNull();
+  // changing role does not sign you out: who you are on GitHub has nothing to do with what you make
+  await expect(page.getByRole('button', { name: 'Choose your destination' })).toBeVisible();
+  expect(await page.evaluate(() => window.__arrivals.profile.connection)).toEqual({ mode: 'github', provider: 'GitHub' });
 });
 
 test('reduced motion, malformed storage, and no false country detection', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.addInitScript(() => localStorage.setItem('bw-arrivals-v1', '{corrupt'));
+  // corrupt on the first load only: signing in sends the browser away and back, and that return must not wipe the progress again
+  await page.addInitScript(() => { if (!sessionStorage.getItem('seeded')) { sessionStorage.setItem('seeded', '1'); localStorage.setItem('bw-arrivals-v1', '{corrupt'); } });
   await page.goto('/');
   await page.getByRole('button', { name: 'Nigeria' }).click();
   await expect(page.getByRole('dialog')).toContainText('Your location has not been detected or requested');
@@ -112,7 +131,8 @@ test('reduced motion, malformed storage, and no false country detection', async 
 
 test('blocked persistence never hands the user a different resident identity', async ({ page }) => {
   await page.addInitScript(() => { Storage.prototype.setItem = () => { throw new Error('Test: storage blocked'); }; });
-  await checkIn(page); await board(page);
+  // with storage blocked nothing survives the trip to GitHub and back, so arrive already signed in (the session lives in memory)
+  await checkIn(page, 'developer', `/#bw-session=${TOKEN}`); await board(page);
   await page.getByRole('button', { name: 'Ready to land' }).click();
   await page.getByRole('button', { name: 'Enter Yaba' }).click();
   await expect(page.locator('#arrival-toast')).toContainText('Allow site storage');

@@ -792,17 +792,17 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
       <div class="wp"><div class="in">
         <h3>${atm ? 'ATM' : 'Wallet'}<small>${atm ? 'Yaba Builders Bank' : 'Efforts, earned by shipping'}</small></h3>
         <div class="bal">${effortsMark(32)}<b>${fmt(w.balance())}</b><small>${cards.length + 1} card${cards.length ? 's' : ''}<br>and cash</small></div>
-        <p class="how">${w.demo ? `Demo balance: ${w.commits} commits. Link your GitHub and every commit you push is <span style="white-space:nowrap">${effortsMark(11)}1,000</span>.` : `${fmt(w.commits)} ${w.source === 'contributions' ? 'contributions' : 'commits'} in the last year on GitHub as <b>@${w.handle}</b>, at <span style="white-space:nowrap">${effortsMark(11)}1,000</span> each.`}</p>
-        <form class="gh"><input name="h" placeholder="GitHub username" value="${w.handle}" autocomplete="off" spellcheck="false" aria-label="GitHub username"><button class="bw-chip"><b>↵</b>${w.handle ? 'Update' : 'Link'}</button></form>
+        <p class="how">${w.demo ? `Demo balance: ${w.commits} commits. <a href="${w.signInUrl()}">Sign in with GitHub</a> and every commit you push is <span style="white-space:nowrap">${effortsMark(11)}1,000</span>.` : w.counted ? `${fmt(w.commits)} ${w.source === 'contributions' ? 'contributions' : 'commits'} in the last year on GitHub as <b>@${w.handle}</b>, at <span style="white-space:nowrap">${effortsMark(11)}1,000</span> each.` : `Counting your commits on GitHub as <b>@${w.handle}</b>…`}</p>
+        ${w.demo ? '' : '<form class="gh"><button class="bw-chip"><b>↵</b>Count again</button></form>'}
         ${w.status ? `<p class="st">${w.status}</p>` : ''}
         <h4>Recent</h4><ul>${hist}</ul>
         <div class="row"><button class="bw-chip back"><b>←</b>Wallet</button><button class="bw-chip done"><b>Esc</b>Done</button></div>
       </div></div>`;
     const wl = walEl.querySelector('.wl');
-    const toggle = () => { walEl.classList.toggle('panel'); sfx(walEl.classList.contains('panel') ? 'open' : 'close'); if (walEl.classList.contains('panel')) setTimeout(() => walEl.querySelector('.gh input')?.focus({ preventScroll: true }), 350); };
+    const toggle = () => { walEl.classList.toggle('panel'); sfx(walEl.classList.contains('panel') ? 'open' : 'close'); if (walEl.classList.contains('panel')) setTimeout(() => walEl.querySelector('.gh button')?.focus({ preventScroll: true }), 350); };
     wl.onclick = toggle; wl.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } };
     walEl.querySelector('.back').onclick = () => { walEl.classList.remove('panel'); wl.focus(); };
-    walEl.querySelector('.gh').onsubmit = async (e) => { e.preventDefault(); await w.link(e.target.h.value); openWallet({ atm, panel: true }); };
+    const gh = walEl.querySelector('.gh'); if (gh) gh.onsubmit = async (e) => { e.preventDefault(); await w.link(); openWallet({ atm, panel: true }); };
     walEl.querySelector('.done').onclick = close;
     // a click on the empty space round the wallet puts it away
     walEl.onclick = (e) => { if (e.target === walEl) close(); };

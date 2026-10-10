@@ -17,12 +17,13 @@ export function freshProfile() {
   return { version: 1, step: 'lobby', country: 'Nigeria', name: '', role: '', connection: null, city: '', district: '', avatar: { color: COLORS[0], style: 'classic' } };
 }
 export function cityFor(profile) { return CITIES.find(c => c.name === profile.city); }
-export function providerFor(role) { return role === 'designer' ? 'Dribbble' : 'GitHub'; }
+// Everyone signs in with GitHub for now; designers' Dribbble profiles will be added when Dribbble opens its sign-in to us.
+export function providerFor() { return 'GitHub'; }
 export function canEnter(profile, step) {
   const index = STEPS.indexOf(step);
   if (index < 0) return false;
   if (index >= 2 && (!profile.name.trim() || !['developer', 'designer'].includes(profile.role))) return false;
-  if (index >= 3 && (!profile.connection || profile.connection.provider !== providerFor(profile.role) || profile.connection.mode !== 'demo')) return false;
+  if (index >= 3 && (!profile.connection || profile.connection.provider !== providerFor(profile.role) || profile.connection.mode !== 'github')) return false;
   if (index >= 4 && (!cityFor(profile) || profile.district !== cityFor(profile).district)) return false;
   return true;
 }
@@ -31,8 +32,8 @@ export function normalizeProfile(raw) {
   if (!raw || raw.version !== 1) return p;
   p.name = typeof raw.name === 'string' ? raw.name.slice(0, 32).trim() : '';
   p.role = ['developer', 'designer'].includes(raw.role) ? raw.role : '';
-  if (raw.connection?.mode === 'demo' && raw.connection.provider === providerFor(p.role)) {
-    p.connection = { mode: 'demo', provider: raw.connection.provider };
+  if (raw.connection?.mode === 'github' && raw.connection.provider === providerFor(p.role)) {
+    p.connection = { mode: 'github', provider: raw.connection.provider };
   }
   const city = CITIES.find(c => c.name === raw.city);
   if (city) { p.city = city.name; p.district = raw.district === city.district ? city.district : ''; }
