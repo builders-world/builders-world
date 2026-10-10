@@ -41,6 +41,8 @@ export function rigAvatar(root) {
   const own = [];
   const box = (w, h, d, y, mat) => { const g = new THREE.BoxGeometry(w, h, d).translate(0, y, 0); own.push(g); return new THREE.Mesh(g, mat); };
   const group = (parent, x, y, z) => { const g = new THREE.Group(); g.position.set(x, y, z); parent.add(g); return g; };
+  // a short cylinder lying across the limb at a joint: it looks the same at any bend
+  const hinge = (r, w, mat) => { const g = new THREE.CylinderGeometry(r, r, w, 14).rotateZ(Math.PI / 2); own.push(g); return new THREE.Mesh(g, mat); };
 
   const pelvis = group(root, 0, HIP_Y, 0);
   const chest = group(pelvis, 0, 0, 0);
@@ -61,6 +63,9 @@ export function rigAvatar(root) {
     hip.add(box(0.19, THIGH + 0.02, 0.23, -THIGH / 2, leg.material));
     const knee = group(hip, 0, -THIGH, 0);
     knee.add(box(0.175, SHIN + 0.02, 0.21, -SHIN / 2, leg.material));
+    // a rounded knee: the joint the thigh and shin turn about, so a bent leg stays one piece (Elvis, 10 October
+    // 2026: "it feels like the body is dismembering as it's walking"): no wedge of light opens behind the knee
+    knee.add(hinge(0.105, 0.172, leg.material));
     const ankle = group(knee, 0, -SHIN, 0.0);
     if (shoe) { shoe.position.set(0, 0.13 - (HIP_Y - THIGH - SHIN), 0.055); ankle.add(shoe); }
     const shoulder = group(chest, s * 0.31, SHOULDER_Y - HIP_Y, 0);
@@ -68,6 +73,7 @@ export function rigAvatar(root) {
     shoulder.add(box(0.14, UPPER + 0.02, 0.2, -UPPER / 2, arm.material));
     const elbow = group(shoulder, 0, -UPPER, 0);
     elbow.add(box(0.13, FORE, 0.18, -FORE / 2, arm.material));
+    elbow.add(hinge(0.09, 0.128, arm.material)); // and a rounded elbow, so the sleeve does not break in two
     if (hand) { hand.position.set(0, -FORE - 0.02, 0); elbow.add(hand); }
     return { hip, knee, ankle, shoulder, elbow };
   };
@@ -114,8 +120,12 @@ export function rigAvatar(root) {
     const sp = cur.sp;
     const duty = lerp(0.62, 0.36, run);                                // share of the cycle a foot is planted
     // cycles a second (two steps each), quicker when a stride would overreach these short legs
-    const f = Math.max(lerp(0.9 + 0.38 * sp, 1.45 + 0.13 * sp, run), sp * duty / lerp(0.54, 0.85, run));
-    const T = sp * duty / f;                                           // how far a planted foot travels back
+    // Above about 2 m/s (the player's walk) these short legs cannot reach a stride that keeps up, and the
+    // cadence ran to over three strides a second: a frantic shuffle. There the step stays at full reach and the
+    // planted foot is let slip a little instead, so the legs swing at a believable pace.
+    const reachMax = lerp(0.54, 0.85, run), hurry = Math.min(1, Math.max(0, (sp - 2) / 0.8)) * (1 - run);
+    const f = Math.max(lerp(0.9 + 0.38 * sp, 1.45 + 0.13 * sp, run), (sp * duty / reachMax) * lerp(1, 0.74, hurry));
+    const T = Math.min(reachMax, sp * duty / f);                       // how far a planted foot travels back
     const lift = lerp(0.07, 0.16, run) * walk;
     cur.cycle = ((cur.cycle ?? 0) + f * dt * Math.min(1, sp / 0.25)) % 1;
     const FOOT = HIP_Y - THIGH - SHIN, LEG = THIGH + SHIN;
@@ -158,10 +168,13 @@ export function rigAvatar(root) {
     const armAmp = lerp(0.42, 0.9, run) * walk;
     const armPose = (j, legHip, sgn) => {
       // each arm swings against the leg on the same side
-      set(j.shoulder, 'x', s.seated ? -0.55 : -legHip * lerp(0.9, 1.3, run) * (armAmp > 0 ? 1 : 0) * Math.min(1, walk * 1.5) - 0.15 * air, k);
-      set(j.shoulder, 'z', sgn * (0.08 + 0.55 * air + 0.04 * run), k);
+      // a full swing, so the hands pass the hips instead of hanging in front of them (seen from the side, a
+      // hand that barely moves sits right over the crotch)
+      set(j.shoulder, 'x', s.seated ? -0.55 : -legHip * lerp(1.35, 1.3, run) * (armAmp > 0 ? 1 : 0) * Math.min(1, walk * 1.5) - 0.15 * air, k);
+      set(j.shoulder, 'z', sgn * (0.08 + 0.05 * walk + 0.55 * air + 0.04 * run), k);
       if (s.seated) { set(j.elbow, 'x', -0.95, k); return; } // forearms forward onto the desk
-      set(j.elbow, 'x', -(lerp(0.25, 1.4, run) * walk + Math.max(0, legHip) * 0.4 * walk + 0.5 * air + 0.08), k);
+      // a walking arm stays nearly straight (a bent forearm crossing a sleeve of the same colour reads as the body breaking)
+      set(j.elbow, 'x', -(lerp(0.12, 1.4, run) * walk + Math.max(0, legHip) * lerp(0.28, 0.4, run) * walk + 0.5 * air + 0.06), k);
     };
     armPose(L, L.hip.rotation.x, -1);
     armPose(R, R.hip.rotation.x, 1);
@@ -216,8 +229,8 @@ export function rigAvatar(root) {
     pelvis.position.y = (walk > 0.02 && !s.seated ? cur.hipH : HIP_Y) + breathe - cur.land * 0.1 - (s.seated ? 0.36 : 0);
     // lean into a run; a small hip and chest counter-twist, no side-to-side rocking; the head looks ahead
     set(chest, 'x', lerp(0.04, 0.2, run) * walk + 0.08 * air, k);
-    set(pelvis, 'y', -0.05 * walk * Math.sin(ph), k);
-    set(chest, 'y', 0.07 * walk * Math.sin(ph) * lerp(1, 1.3, run), k);
+    set(pelvis, 'y', -0.035 * walk * Math.sin(ph), k);
+    set(chest, 'y', 0.045 * walk * Math.sin(ph) * lerp(1, 1.6, run), k);
     set(neck, 'y', -chest.rotation.y * 0.9 - pelvis.rotation.y, k);
     set(neck, 'x', -chest.rotation.x * 0.6 + 0.32 * (s.slump || 0), k); // sad people look at the ground
     set(pelvis, 'z', 0.02 * walk * Math.sin(ph) * (1 - run), k);
