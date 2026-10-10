@@ -3,6 +3,7 @@
 // Patterns borrowed from the references Elvis shared; the look stays Builders World.
 
 import { BUILDERS } from '../builders.js';
+import { greenreyOn } from './greenrey.js';
 import { loadProfile } from '../onboarding/state.js';
 import { audioEngine, sfx } from './audio.js';
 import { walletEngine, effortsMark, fmt } from './wallet.js';
@@ -733,6 +734,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
       <label class="vol"><b>Quality</b><select data-gfx>${['auto', 'low', 'medium', 'high', 'ultra'].map((k) => `<option value="${k}">${k === 'auto' ? `Auto (${LABEL[gx?.auto?.() || 'high']} on this device)` : LABEL[k]}</option>`).join('')}</select></label>
       <p class="note" data-gfxnote></p>
       <label class="sw"><span><b>Show frame rate</b><small>A small counter at the top of the screen, to see what each setting costs.</small></span><input type="checkbox" data-fps ${fpsOn() ? 'checked' : ''}><i></i></label>
+      <label class="sw"><span><b>Earth and yards (Greenrey)</b><small>Big open land is laterite, yards and building plots; grass stays between buildings and in parks. Off brings back the open grass. The street reloads.</small></span><input type="checkbox" data-greenrey ${greenreyOn() ? 'checked' : ''}><i></i></label>
       <h4 class="sec">Sound</h4>
       ${row('music', 'Music', 'A highlife loop made as you play. N turns it on or off.')}
       ${row('ambience', 'City sounds', 'Traffic hum, birds, rain, horns, crickets at night.')}
@@ -762,6 +764,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     gsel.value = gx?.choice || 'auto'; gnote.innerHTML = gfxNote(gsel.value);
     gsel.onchange = () => { dispatchEvent(new CustomEvent('bw:graphics', { detail: gsel.value })); gnote.innerHTML = gfxNote(gsel.value); };
     setEl.querySelector('[data-fps]').onchange = (e) => dispatchEvent(new CustomEvent('bw:fps', { detail: e.target.checked }));
+    setEl.querySelector('[data-greenrey]').onchange = (e) => { try { localStorage.setItem('bw-greenrey', e.target.checked ? '1' : '0'); } catch { /* */ } location.reload(); };
     setEl.querySelectorAll('input[type=checkbox][data-k]').forEach((c) => { c.onchange = () => { audio.wake(); audio.set(c.dataset.k, c.checked); }; });
     setEl.querySelector('input[type=range]:not([data-in])').oninput = (e) => { audio.wake(); audio.set('volume', +e.target.value); };
     const tsel = setEl.querySelector('select[data-in]'); if (tsel) { tsel.value = inp?.settings.touch ?? 'auto'; tsel.onchange = () => inp?.set('touch', tsel.value); }

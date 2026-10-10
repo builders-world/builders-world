@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { greenreyOn } from './greenrey.js';
 import { noiseTexture } from './textures.js';
 import { shared } from '../shaders.js';
 
@@ -96,14 +97,16 @@ export function wetGroundMaterial() {
       uTime: shared.uTime, uReduced: shared.uReduced,
       uWet: weather.uWet, uRain: weather.uRain,
       tReflect: weather.uReflect, uReflectMatrix: weather.uReflectMatrix, uHasReflect: weather.uHasReflect,
+      uGrassMatte: { value: greenreyOn() ? 1 : 0 },
     });
     withWorldPos(shader);
     shader.fragmentShader = shader.fragmentShader
       .replace('#include <common>', `#include <common>
         uniform sampler2D tNoise; uniform sampler2D tReflect; uniform mat4 uReflectMatrix;
-        uniform float uTime, uReduced, uWet, uRain, uHasReflect;
+        uniform float uTime, uReduced, uWet, uRain, uHasReflect, uGrassMatte;
         float wetPuddle;
         float wetGrain;
+        float grassy;
         vec2 ripple(vec2 p) {
           // a few expanding rings per metre cell, offset in time
           vec2 acc = vec2(0.0);
@@ -124,11 +127,13 @@ export function wetGroundMaterial() {
       .replace('#include <color_fragment>', `#include <color_fragment>
         vec4 nz = texture2D(tNoise, vWPos.xz * 0.018);
         wetGrain = texture2D(tNoise, vWPos.xz * 0.45).g;
-        wetPuddle = smoothstep(0.5, 0.58, nz.r + (wetGrain - 0.5) * 0.08) * uWet;
+        // grass soaks rain up instead of shining (Greenrey): green ground keeps no puddles and no gloss
+        grassy = uGrassMatte * smoothstep(0.03, 0.09, diffuseColor.g - max(diffuseColor.r, diffuseColor.b));
+        wetPuddle = smoothstep(0.5, 0.58, nz.r + (wetGrain - 0.5) * 0.08) * uWet * (1.0 - grassy);
         diffuseColor.rgb *= 0.93 + 0.14 * wetGrain;
-        diffuseColor.rgb *= mix(1.0, 0.62, uWet) * mix(1.0, 0.55, wetPuddle);`)
+        diffuseColor.rgb *= mix(1.0, 0.62, uWet * (1.0 - 0.6 * grassy)) * mix(1.0, 0.55, wetPuddle);`)
       .replace('#include <roughnessmap_fragment>', `
-        float roughnessFactor = mix(0.86, mix(0.36 + 0.2 * wetGrain, 0.12, wetPuddle), uWet);`)
+        float roughnessFactor = mix(mix(0.86, mix(0.36 + 0.2 * wetGrain, 0.12, wetPuddle), uWet), 0.92, grassy);`)
       .replace('#include <opaque_fragment>', `
         {
           vec2 rip = ripple(vWPos.xz) * uRain * (1.0 - uReduced) * (0.25 + 0.75 * wetPuddle);
@@ -141,7 +146,7 @@ export function wetGroundMaterial() {
           refl /= 3.0;
           vec3 V = normalize(vViewPosition);
           float fres = 0.05 + 0.95 * pow(1.0 - clamp(dot(V, normal), 0.0, 1.0), 5.0);
-          float amount = uWet * uHasReflect * mix(0.12, 0.85, wetPuddle) * mix(0.35, 1.0, fres);
+          float amount = uWet * uHasReflect * mix(0.12, 0.85, wetPuddle) * mix(0.35, 1.0, fres) * (1.0 - grassy);
           outgoingLight += refl * amount;
           // keep highlights inside half-float range so bloom never sees infinity
           outgoingLight = min(outgoingLight, vec3(24.0));

@@ -272,10 +272,12 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     const S = 312, C = S / 2, k = 1.9; // pixels per metre
     map.setTransform(1, 0, 0, 1, 0, 0);
     map.clearRect(0, 0, S, S);
-    map.fillStyle = '#7fb35e'; map.fillRect(0, 0, S, S);
+    const land = world.landMap; // Greenrey's land (greenrey.js): earth, grass and yards, when it is on
+    map.fillStyle = land ? land.outside : '#7fb35e'; map.fillRect(0, 0, S, S);
     map.translate(C, C);
     map.rotate(yaw - Math.PI); // camera forward points up
     map.translate(-player.x * k, -player.z * k);
+    if (land) { map.imageSmoothingEnabled = true; map.drawImage(land.canvas, -land.E * k, -land.E * k, land.E * 2 * k, land.E * 2 * k); }
     map.lineCap = 'round'; map.lineJoin = 'round';
     world.roads.forEach((r) => {
       if (['footway', 'path', 'cycleway', 'pedestrian'].includes(r.cls)) return;
