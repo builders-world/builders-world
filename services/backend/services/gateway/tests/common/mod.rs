@@ -79,6 +79,7 @@ pub fn config() -> Config {
         github_client_id: Some("client".into()),
         github_client_secret: Some("secret".into()),
         public_url: Some("https://api.example.com".into()),
+        github_redirect_url: None,
         github_token: None,
         allowed_origins: vec!["https://play.example.com".into()],
         rate_limit_per_minute: 1_000_000,

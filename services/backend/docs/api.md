@@ -14,7 +14,7 @@ solo play without an error in anyone's console. Presence answers `503 unavailabl
 
 1. The game sends the browser to `GET /api/auth/github?return=<the game's origin>`. `return` must be one of `ALLOWED_ORIGINS`.
 2. The server keeps a random `state` for ten minutes (usable once) and sends the browser to GitHub. No scope is requested: the game can read only what GitHub shows anyone (id, login, name).
-3. GitHub sends the browser to `GET /api/auth/github/callback?code&state`. The server checks the state, trades the code for who the person is, finds or makes their account (keyed by GitHub's numeric id, so renaming on GitHub does not make a new person) and opens a session of 30 days.
+3. GitHub sends the browser to `GET /api/auth/github/callback?code&state` (also answered at `/api/auth/oauth/github/callback`; with `GITHUB_REDIRECT_URL` set, GitHub is told to send it there, for example the game's own domain forwarding `/api` to the gateway). The server checks the state, trades the code for who the person is, finds or makes their account (keyed by GitHub's numeric id, so renaming on GitHub does not make a new person) and opens a session of 30 days.
 4. The browser is sent to `<origin>/#bw-session=<token>`, or `<origin>/#bw-error=<denied|github|server>`. A fragment is never sent to any server; the game reads it and removes it from the address bar.
 
 Only a SHA-256 hash of the token is stored. `POST /api/auth/logout` ends the session it is called with. Without `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` and `PUBLIC_URL` the sign-in routes answer `503`.

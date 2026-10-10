@@ -30,6 +30,8 @@ pub fn build_router(state: AppState) -> Router {
         .route("/api/me/efforts", get(handlers::public::efforts::mine))
         .route("/api/auth/github", get(handlers::public::auth::start))
         .route("/api/auth/github/callback", get(handlers::public::auth::finish))
+        // the same, at the address registered with the OAuth app when the game's domain forwards /api here
+        .route("/api/auth/oauth/github/callback", get(handlers::public::auth::finish))
         .route("/api/auth/logout", post(handlers::public::auth::logout))
         .layer(DefaultBodyLimit::max(http::MAX_BODY_BYTES))
         .layer(map_response(http::never_cache));
