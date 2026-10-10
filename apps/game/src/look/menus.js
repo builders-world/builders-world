@@ -274,6 +274,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     ['Aerial', 'cities', '#c9e3f2', () => { close(); dispatchEvent(new KeyboardEvent('keydown', { key: 'b' })); }],
     ['Cities', 'cities', '#f4c98a', () => { close(); location.search = '?world=1&view=cities'; }],
     ['Weather', 'weather', '#aebcff', () => { const w = weatherFeed?.state; toast(w ? `${w.loc.label}: ${w.label}${w.tempC != null ? `, ${Math.round(w.tempC)}°C` : ''}. Updated every 10 minutes.` : 'Weather is loading.'); }],
+    ['Wardrobe', 'people', '#f6c7b8', () => { close(); dispatchEvent(new Event('bw:wardrobe')); }],
     ['Settings', 'settings', '#d8cfbd', () => openSettings()],
     ['Help', 'help', '#f0e1bd', () => { close(); showGuide(); }],
   ];
@@ -579,7 +580,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   // a scalloped tile, like the wardrobe ring
   const FLOWER = (() => { let d = ''; for (let i = 0; i <= 96; i++) { const a = (i / 96) * Math.PI * 2, r = 58 + Math.cos(a * 7) * 5; d += `${i ? 'L' : 'M'}${(66 + Math.cos(a) * r).toFixed(1)} ${(66 + Math.sin(a) * r).toFixed(1)}`; } return `<svg class="fl" viewBox="0 0 132 132"><path d="${d}Z"/></svg>`; })();
   let bagTab = 'gadgets', bagSel = 'laptop', bagResize = false;
-  const BAG_TABS = [['gadgets', 'Gadgets'], ['wear', 'Wearables'], ['badges', 'Badges'], ['cards', 'Cards']];
+  const BAG_TABS = [['gadgets', 'Gadgets'], ['wear', 'Wearables'], ['badges', 'Badges'], ['cards', 'Cards'], ['style', 'Wardrobe']];
   const tabsHTML = () => `<div class="tabs" role="tablist">${BAG_TABS.map(([k, nm]) => `<button role="tab" data-t="${k}" class="${bagTab === k ? 'on' : ''}" aria-selected="${bagTab === k}">${nm}</button>`).join('')}</div>`;
   // cards: membership and resident cards, and the Wi-Fi your laptop has joined (passes.js)
   function openCards() {
@@ -595,6 +596,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     show(bagEl, null);
   }
   function openBag() {
+    if (bagTab === 'style') { bagTab = 'gadgets'; close(); dispatchEvent(new Event('bw:wardrobe')); return; }
     if (bagTab === 'cards') return openCards();
     const list = ITEMS.filter((i) => i.tab === bagTab);
     if (!list.find((i) => i.id === bagSel)) bagSel = list[0].id;

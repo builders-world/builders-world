@@ -6,6 +6,18 @@
 import { db } from './_db.js';
 
 const str = (v, n) => String(v ?? '').replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, n);
+// the wardrobe look (src/look/style.js): known values only; colours as #rrggbb
+const LOOK = { body: ['m', 'f'], hair: ['low', 'fade', 'afro', 'locs', 'braids', 'cornrows', 'bun', 'bald', 'gele', 'fila'], top: ['jacket', 'hoodie', 'tee', 'ankara', 'adire', 'kaftan', 'agbada', 'dress'],
+  bottom: ['trousers', 'shorts', 'skirt', 'wrapper'], shoes: ['sneakers', 'sandals', 'boots', 'heels', 'loafers'] };
+const ACC = ['earrings', 'beads', 'glasses', 'bag', 'watch'], HEX = /^#[0-9a-fA-F]{6}$/;
+const cleanLook = (l) => {
+  if (!l || typeof l !== 'object') return null;
+  const out = {};
+  for (const [k, list] of Object.entries(LOOK)) if (list.includes(l[k])) out[k] = l[k];
+  for (const k of ['skin', 'hairColor', 'topColor', 'bottomColor', 'shoeColor']) if (HEX.test(l[k] || '')) out[k] = l[k];
+  out.acc = Array.isArray(l.acc) ? [...new Set(l.acc.filter((a) => ACC.includes(a)))].slice(0, 5) : [];
+  return out;
+};
 const num = (v, lim) => { const n = Number(v); return Number.isFinite(n) ? Math.max(-lim, Math.min(lim, n)) : 0; };
 
 export default async function handler(req, res) {
@@ -20,7 +32,7 @@ export default async function handler(req, res) {
   const me = {
     id, district, name: str(b.name, 24) || 'Builder', handle: str(b.handle, 39).replace(/[^A-Za-z0-9-]/g, ''),
     x: num(b.x, 2000), z: num(b.z, 2000), y: num(b.y, 50), yaw: num(b.yaw, 10), speed: num(b.speed, 20),
-    look: { color: /^#[0-9a-fA-F]{6}$/.test(b.look?.color) ? b.look.color : '#e2b13c', style: ['jacket', 'hoodie', 'tee', 'classic'].includes(b.look?.style) ? b.look.style : 'jacket' },
+    look: { color: /^#[0-9a-fA-F]{6}$/.test(b.look?.color) ? b.look.color : '#e2b13c', style: ['jacket', 'hoodie', 'tee', 'classic'].includes(b.look?.style) ? b.look.style : 'jacket', full: cleanLook(b.look?.full) },
     seen: now,
   };
   const say = str(b.say, 140), emote = str(b.emote, 8);

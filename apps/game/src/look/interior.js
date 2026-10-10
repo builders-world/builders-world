@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { sfx } from './audio.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { createAvatarModel } from '../onboarding/avatar.js';
+import { dress, lookFor } from './style.js';
 import { BUILDERS } from '../builders.js';
 import { mulberry32 } from '../mesh.js';
 
@@ -219,6 +220,7 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net }
     const shirts = ['#3a8f6d', '#2d3f66', '#c25b4a', '#e0c36a', '#5a7fb0', '#d9d2c3', '#8a5aa0'];
     [...used].slice(0, 6).forEach((i, k) => {
       const av = createAvatarModel({ color: shirts[k % shirts.length], style: k % 2 ? 'hoodie' : 'jacket' });
+      dress(av.root, lookFor(`${key}-desk-${i}`, { fem: k % 2 === 1, tier: 1 }));
       av.root.position.set(desks[i].x, -0.42, desks[i].z + 0.55);
       av.root.rotation.y = Math.PI;
       g.add(av.root); people.push(av);
@@ -339,8 +341,8 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net }
       setHost(h) {
         people.splice(0).forEach((p) => { p.root.removeFromParent(); p.dispose?.(); });
         room.host = h; room.lineAt = -1;
-        if (!h.self) { const me = createAvatarModel({ color: h.color, style: h.style }); me.root.position.set(1.6, 0, -1.2); me.root.rotation.y = 2.6; g.add(me.root); people.push(me); }
-        if (h.spouse && !h.self) { const sp = createAvatarModel({ color: '#8a5aa0', style: 'classic' }); sp.root.position.set(-1.6, -0.42, -3.55); g.add(sp.root); people.push(sp); }
+        if (!h.self) { const me = createAvatarModel({ color: h.color, style: h.style }); if (h.look) dress(me.root, h.look); me.root.position.set(1.6, 0, -1.2); me.root.rotation.y = 2.6; g.add(me.root); people.push(me); }
+        if (h.spouse && !h.self) { const sp = createAvatarModel({ color: '#8a5aa0', style: 'classic' }); dress(sp.root, lookFor(h.spouse, { fem: !h.fem })); sp.root.position.set(-1.6, -0.42, -3.55); g.add(sp.root); people.push(sp); }
         (h.self ? [] : h.kids || []).filter((k) => !k.startsWith('baby')).slice(0, 2).forEach((k, i) => { const kid = createAvatarModel({ color: ['#f6a8a0', '#7fb3d5'][i], style: 'tee' }); kid.root.scale.setScalar(0.62); kid.root.position.set(-2.8 + i * 1.1, 0, -1.3); kid.root.rotation.y = Math.PI; g.add(kid.root); people.push(kid); });
         room.interact = h.self ? [
           { id: 'in:exit', label: 'Go out', x: door.x, z: door.z + 0.4, r: 1.8 },

@@ -18,6 +18,7 @@ import { passesEngine, MEMBERS_ONLY } from './passes.js';
 import { createGates } from './gates.js';
 import { buildBench } from './build.js';
 import { createProfiler } from './profiler.js';
+import { createWardrobe } from './wardrobe.js';
 import { walletEngine } from './wallet.js';
 import { createInteriors, PLACES, namePlaces } from './interior.js';
 import { sunPosition, sunDirection } from './sun.js';
@@ -128,7 +129,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     };
   })();
 
-  let profiler = null, onlineRef = null, building = null, gates = null, visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
+  let wardrobe = null, profiler = null, onlineRef = null, building = null, gates = null, visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
   // the tech places you can walk into (world bible 6.6)
   const doors = [];
   if (props.hubAt) doors.push({ key: 'hub', at: props.hubAt });
@@ -211,11 +212,12 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       return false;
     },
     onRide: (player) => (interiors?.active ? hud.toast('Step outside to call a ride: the driver cannot come in.', 2600) : rides?.openPanel('taxi', { app: true, x: player.x, z: player.z })),
-    isExtraOpen: () => rides?.isMenuOpen() || interiors?.computerOpen || !!benchSeat || !!passes?.registering || !!gates?.isOpen,
+    isExtraOpen: () => rides?.isMenuOpen() || interiors?.computerOpen || !!benchSeat || !!passes?.registering || !!gates?.isOpen || !!wardrobe?.isOpen,
     closeExtra: () => {
       rides?.closeMenu();
       if (passes?.registering) { passes.closeRegister(); return; }
       if (gates?.isOpen) { gates.close(); return; }
+      if (wardrobe?.isOpen) { wardrobe.cancel(); return; }
       if (interiors?.computerOpen) interiors.closeComputer();
       else if (interiors?.seated || benchSeat) standUp();
     },
@@ -239,6 +241,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   });
   group.add(hud.route);
   passes = passesEngine({ toast: hud.toast, district: world.place?.name || 'Yaba' });
+  wardrobe = createWardrobe({ toast: hud.toast });
+  addEventListener('bw:wardrobe', () => { hud.close(); wardrobe.open(avatar?.userData.look || { topColor: avatar?.userData.dressFound?.shirt?.color ? `#${avatar.userData.dressFound.shirt.color.getHexString()}` : undefined }); });
   profiler = createProfiler({ camera, lives, props, getOnline: () => onlineRef, toast: hud.toast });
   gates = createGates({ world, scene: group, props, lives, passes, toast: hud.toast, getHour: () => live?.hour ?? 12,
     // another player said yes at their door: in you go, they are there to meet you

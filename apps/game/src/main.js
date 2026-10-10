@@ -9,6 +9,7 @@ import { shared } from './shaders.js';
 import { initChrome } from './ui.js';
 import { loadProfile } from './onboarding/state.js';
 import { createAvatarModel } from './onboarding/avatar.js';
+import { prepareLook, dress } from './look/style.js';
 import { createLook, blueHourSky, pickQuality, createWeather } from './look/index.js';
 import { loadKit } from './look/kit.js';
 import { rigAvatar } from './look/anim.js';
@@ -127,7 +128,18 @@ async function main() {
   // ---- avatar: the shared provisional avatar, until the final design arrives ----
   const avatar = new THREE.Group();
   const body = createAvatarModel(resident ? arrivalProfile.avatar : { color: '#e2b13c', style: 'jacket' }).root;
+  prepareLook(body);
   const rig = rigAvatar(body); // jointed legs and arms: walk, run, jump
+  body.userData.rig = rig;
+  // your look from the wardrobe (style.js), kept on this device and sent with your presence
+  try { const saved = JSON.parse(localStorage.getItem('bw-style') || 'null'); if (saved) dress(body, saved, rig); } catch { /* */ }
+  // the wardrobe turns the camera round to face you, like a mirror
+  let mirrorSave = null;
+  addEventListener('bw:mirror', (e) => {
+    if (e.detail) { mirrorSave = mirrorSave || { yaw: cam.yawT, dist: cam.distT, pitch: cam.pitchT }; cam.yawT = heading + Math.PI; cam.distT = 3.6; cam.pitchT = 0.12; }
+    else if (mirrorSave) { cam.yawT = mirrorSave.yaw; cam.distT = mirrorSave.dist; cam.pitchT = mirrorSave.pitch; mirrorSave = null; }
+  });
+  addEventListener('bw:style', (e) => { dress(body, e.detail, rig); try { localStorage.setItem('bw-style', JSON.stringify(body.userData.look)); } catch { /* */ } });
   avatar.add(body);
   scene.add(avatar);
   if (resident) {

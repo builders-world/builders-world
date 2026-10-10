@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { createAvatarModel } from '../onboarding/avatar.js';
 import { rigAvatar } from './anim.js';
+import { prepareLook, dress } from './style.js';
 import { C, FONT } from './uikit.js';
 import { walletEngine } from './wallet.js';
 
@@ -36,7 +37,7 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
   let id = store.get('bw-pid', '');
   if (id.length < 8) { id = `p${Math.random().toString(36).slice(2, 10)}${Date.now().toString(36)}`; store.set('bw-pid', id); }
   const gh = () => store.get('bw-gh', '').replace(/"/g, ''); // the wallet saves it as JSON
-  const me = () => ({ name: profile?.name || (gh() ? `@${gh()}` : '') || 'Builder', handle: gh(), look: profile?.avatar || { color: '#e2b13c', style: 'jacket' } });
+  const me = () => { let full = null; try { full = JSON.parse(localStorage.getItem('bw-style') || 'null'); } catch { /* */ } return { name: profile?.name || (gh() ? `@${gh()}` : '') || 'Builder', handle: gh(), look: { ...(profile?.avatar || { color: '#e2b13c', style: 'jacket' }), full } }; };
 
   // what you chose to share when someone profiles you (Settings, Public profile)
   const publicCard = () => { let c = {}; try { c = JSON.parse(localStorage.getItem('bw-public') || '{}'); } catch { /* */ } return { ...c, commits: c.showCommits ? walletEngine().commits : null }; };
@@ -46,7 +47,9 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
 
   function spawn(p) {
     const av = createAvatarModel({ color: p.look?.color, style: p.look?.style });
+    prepareLook(av.root);
     const rig = rigAvatar(av.root);
+    if (p.look?.full) dress(av.root, p.look.full, rig);
     av.root.position.set(p.x, p.y || 0, p.z);
     scene.add(av.root);
     const tag = document.createElement('div'); tag.className = 'lk-ptag'; tag.textContent = p.name; tags.appendChild(tag);
@@ -78,6 +81,7 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
       j.players.forEach((p) => {
         seen.add(p.id);
         const r2 = remote.get(p.id) || spawn(p);
+        const lk = JSON.stringify(p.look?.full || null); if (r2.lookKey !== lk) { r2.lookKey = lk; if (p.look?.full) dress(r2.obj, p.look.full, r2.rig); }
         r2.from.copy(r2.obj.position); r2.to.set(p.x, p.y || 0, p.z); r2.t0 = performance.now(); r2.yaw = p.yaw; r2.speed = p.speed; r2.name = p.name; r2.tag.textContent = p.name;
         if (p.say && p.say.t > r2.lastSay) { r2.lastSay = p.say.t; chat?.sayFrom?.(r2.obj, p.say.text, p.name); }
         if (p.emote && p.emote.t > r2.lastEmote) { r2.lastEmote = p.emote.t; chat?.sayFrom?.(r2.obj, p.emote.e, p.name, true); }

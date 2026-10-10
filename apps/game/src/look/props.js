@@ -3,6 +3,7 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { shared } from '../shaders.js';
 import { mulberry32 } from '../mesh.js';
 import { createAvatarModel } from '../onboarding/avatar.js';
+import { prepareLook, dress, lookFor } from './style.js';
 import { rigAvatar } from './anim.js';
 import { wallMaterial } from './surfaces.js';
 import { frondTexture, leafTexture, boardTexture, muralTexture, buildSignTexture, hubSignTexture } from './textures.js';
@@ -342,7 +343,8 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
     av.root.position.set(p.x, 0, p.z);
     av.root.rotation.y = Math.atan2(N.x, N.z);
     root.add(av.root);
-    builders.push({ name, obj: av.root, live: true, dispose: av.dispose, rig: rigAvatar(av.root), tier: name === 'Kemi' ? 1 : 2 });
+    prepareLook(av.root); const brig = rigAvatar(av.root); dress(av.root, { ...lookFor(name, { fem: name === 'Kemi', tier: 1 }), topColor: color }, brig);
+    builders.push({ name, obj: av.root, live: true, dispose: av.dispose, rig: brig, tier: name === 'Kemi' ? 1 : 2 });
     interact.push({ id: `npc:${name}`, label: `Say hi to ${name}`, x: p.x, z: p.z, r: 2.2 });
   });
 

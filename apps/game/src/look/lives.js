@@ -3,6 +3,8 @@ import { createAvatarModel } from '../onboarding/avatar.js';
 import { rigAvatar } from './anim.js';
 import { C, FONT } from './uikit.js';
 import { sfx } from './audio.js';
+import { prepareLook, dress, lookFor } from './style.js';
+const WOMEN = new Set(['Amaka', 'Zainab', 'Funke', 'Grace', 'Ifeoma', 'Halima']);
 
 // The people of the district (world bible 11.5). Each resident has a home on a real street, a job at a
 // real place on the map, a family, sometimes a pet, a personality, a dream, and a day that follows real
@@ -88,7 +90,9 @@ export function createLives({ world, scene, getEnv, getPois, reduced, lowQuality
     const dp = doors[i * 2 + 1] || doors[i], home = dp?.step ? { ...dp.step } : dp ? { x: dp.x, z: dp.z } : { x: world.spawn.x + i, z: world.spawn.z };
     const av = createAvatarModel({ color: d.color, style: d.style });
     if (d.trait === 'elder') av.root.scale.setScalar(0.96);
+    prepareLook(av.root);
     const rig = rigAvatar(av.root);
+    dress(av.root, lookFor(d.name, { fem: WOMEN.has(d.name.split(' ')[0]), elder: d.trait === 'elder' || d.age > 50, tier: d.tier }), rig); // everyone dresses their own way (style.js)
     av.root.position.set(home.x, 0, home.z);
     group.add(av.root);
     let street = null, sd = 1e9; world.roads.forEach((rd) => { if (!rd.name) return; rd.pts.forEach(([x, z]) => { const dd = Math.hypot(x - home.x, z - home.z); if (dd < sd) { sd = dd; street = rd.name; } }); });
@@ -296,7 +300,7 @@ export function createLives({ world, scene, getEnv, getPois, reduced, lowQuality
   function visit(id) {
     const r = residents.find((x) => `visit:${x.id}` === id); if (!r || !(r.invited > clock)) return null;
     r.visiting = true; r.invited = 0; r.answering = 0;
-    return { id: r.id, first: r.first, name: r.name, job: r.job, color: r.color, style: r.style, spouse: r.spouse, kids: r.kids, pet: r.pet, dream: r.dream, pidgin: sp(r) === 'pd', door: { ...r.home } };
+    return { id: r.id, first: r.first, name: r.name, job: r.job, color: r.color, style: r.style, look: r.obj.userData.look, fem: WOMEN.has(r.first), spouse: r.spouse, kids: r.kids, pet: r.pet, dream: r.dream, pidgin: sp(r) === 'pd', door: { ...r.home } };
   }
   function leaveVisit(id) { const r = residents.find((x) => x.id === id); if (r) r.visiting = false; }
   const bodies = () => residents.filter((r) => r.obj.visible).map((r) => ({ x: r.obj.position.x, z: r.obj.position.z, r: 0.33 }));
