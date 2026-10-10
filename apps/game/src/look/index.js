@@ -44,6 +44,8 @@ import { openCheckIn, flyPanel, openAirportTaxi, airDialogOpen, TRIP_KEY, SHUTTL
 import { CITIES } from './cities.js';
 import { sunPosition, sunDirection } from './sun.js';
 import { shared } from '../shaders.js';
+import { setCity, cityInfo } from './cityinfo.js';
+import { BUILDERS } from '../builders.js';
 
 // sun shadows cover the ground round the player; they fade out towards the edge of that area, so there
 // is never a line on the street where shadows stop
@@ -80,6 +82,9 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   scene.add(group);
   const off = new Set((new URLSearchParams(location.search).get('no') || '').split(','));
 
+  setCity(world.place?.city || 'Lagos', world.place?.name || 'Yaba'); // what makes this city itself (cityinfo.js)
+  // the demo builders say where they are: the city you are in, not always Lagos
+  if (world.place?.city && world.place.city !== 'Lagos') BUILDERS.forEach((b) => { if (b.tagline) b.tagline = b.tagline.replace(/^Lagos\./, `${world.place.city}.`); });
   namePlaces(world.place?.name, world.place?.city);
   const props = buildProps(world, group, { lowQuality: quality === 'low', reduced });
   // the expanded kit: shops, stalls, landmarks, poles and wires, gutters, tanks, danfos
@@ -162,7 +167,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   const landmarks = buildLandmarks({ world, scene: group, props, used: placeUsed });
   // the bank's banking hall, and Kofo Cafe, open their doors too (venues.js)
   if (dressing?.bankDoor) doors.push({ key: 'bank', at: dressing.bankDoor });
-  const cafeFront = props.interact.find((i) => i.name === 'Kofo Cafe');
+  const cafeFront = props.interact.find((i) => i.name === PLACES.cafe.name);
   if (cafeFront) { cafeFront.id = 'enter:cafe'; cafeFront.label = `Enter ${PLACES.cafe.name}`; delete cafeFront.line; }
   doors.forEach((d) => props.interact.push({ id: `enter:${d.key}`, label: MEMBERS_ONLY[d.key] ? `${PLACES[d.key].name}: members only` : `Enter ${PLACES[d.key].name}`, x: d.at.x, z: d.at.z, r: 3.5 }));
   function setInside(name) {
@@ -312,7 +317,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   props.pois = [
     ...(dressing?.pois || []),
     ...doors.map((d) => ({ kind: 'work', name: PLACES[d.key].name, x: d.at.x, z: d.at.z })),
-    ...(rides?.stops || []).map((s) => ({ kind: 'bus', name: s.kind === 'danfo' ? 'Danfo stop' : 'Keke park', x: s.x, z: s.z })),
+    ...(rides?.stops || []).map((s) => ({ kind: 'bus', name: s.kind === 'danfo' ? `${cityInfo().rides?.danfo?.name || 'Danfo'} stop` : 'Keke park', x: s.x, z: s.z })),
     ...props.interact.filter((i) => i.id === 'board').map((i) => ({ kind: 'board', name: 'Community board', x: i.x, z: i.z })),
     ...(props.area ? [{ kind: 'build', name: 'Community build area', x: props.area.x, z: props.area.z }] : []),
   ];

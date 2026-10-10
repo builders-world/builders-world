@@ -4,6 +4,7 @@ import { PLACES } from './interior.js';
 import { sfx } from './audio.js';
 import { C, FONT } from './uikit.js';
 import { cityFor, cardArt } from './cardart.js';
+import { cityInfo, CITY_INFO } from './cityinfo.js';
 
 // Passes and Wi-Fi (world bible 6.7): a little real-life friction, on purpose. Eko Design Studio is
 // for members: you register at the door, pay in Efforts, and a membership card goes in your bag.
@@ -18,13 +19,14 @@ const ROLES = ['Designer', 'Developer', 'Product', 'Founder', 'Student'];
 
 // the networks: one per workplace, and the district's own for residents
 export function networksFor(district = 'Yaba') {
+  const W = cityInfo().wifi || CITY_INFO.Lagos.wifi; // each city's own networks (cityinfo.js)
   return {
     studio: { ssid: 'Eko-Members', pass: 'ekomembers26', where: 'On your Eko membership card' },
     hub: { ssid: `${district}Hub-Guest`, pass: 'buildtogether', where: `On the notice board at the ${PLACES.hub.name}` },
-    loft: { ssid: 'BuildersLoft', pass: 'shiplagos', where: `On the notice board at the ${PLACES.loft.name}` },
-    cafe: { ssid: 'KofoCafe-Guest', pass: 'flatwhite', where: 'On the menu board at Kofo Cafe' },
-    gym: { ssid: 'YabaFitness', pass: 'nopainnogain', where: 'At the gym front desk' },
-    bank: { ssid: 'YBB-Customer', pass: 'buildersbank', where: 'Ask a teller' },
+    loft: { ssid: W.loft[0], pass: W.loft[1], where: `On the notice board at the ${PLACES.loft.name}` },
+    cafe: { ssid: W.cafe[0], pass: W.cafe[1], where: `On the menu board at ${PLACES.cafe.name}` },
+    gym: { ssid: W.gym[0], pass: W.gym[1], where: 'At the gym front desk' },
+    bank: { ssid: W.bank[0], pass: W.bank[1], where: 'Ask a teller' },
     district: { ssid: `${district.replace(/\s+/g, '')}-Connect`, pass: `${district.toLowerCase().replace(/\s+/g, '')}-resident`, where: `On your ${district} card` },
   };
 }

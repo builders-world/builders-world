@@ -8,6 +8,7 @@ import { signTexture } from './props.js';
 import { sfx } from './audio.js';
 import { bikeModel } from './mobility.js';
 import { lookFor } from './style.js';
+import { cityInfo } from './cityinfo.js';
 
 // Traffic (world bible 9.3). Cars drive the real road network in the right-hand lane, junction to
 // junction, choosing a way at each one. Saloons, hatchbacks, SUVs, pickups, yellow taxis with a TAXI
@@ -47,7 +48,9 @@ export function vehicle(kind, i) {
   const D = DESIGNS[kind], g = new THREE.Group();
   geoCache[kind] = geoCache[kind] || { body: mergeGeometries(D.body()), glass: mergeGeometries(D.glass()), dark: mergeGeometries(D.dark(D.len)) };
   const G = geoCache[kind];
-  g.add(new THREE.Mesh(G.body, new THREE.MeshStandardMaterial({ color: D.paint ?? PAINT[i % PAINT.length], roughness: 0.45, metalness: 0.25 })));
+  // each city's liveries (cityinfo.js): matatus in Nairobi, trotros in Accra, green and white taxis in Abuja
+  const T = cityInfo().traffic, own = T?.paint?.[kind];
+  g.add(new THREE.Mesh(G.body, new THREE.MeshStandardMaterial({ color: own ? own[i % own.length] : D.paint ?? PAINT[i % PAINT.length], roughness: 0.45, metalness: 0.25 })));
   g.add(new THREE.Mesh(G.glass, new THREE.MeshStandardMaterial({ color: 0x24323b, roughness: 0.15, metalness: 0.4 })));
   g.add(new THREE.Mesh(G.dark, new THREE.MeshStandardMaterial({ color: 0x161618, roughness: 0.8 })));
   // lights: white at the front, red at the back (brighter when braking)
@@ -58,7 +61,7 @@ export function vehicle(kind, i) {
   });
   // roof signs: TAXI on its little box, the danfo's route board, the BRT's number
   if (D.sign) {
-    const text = D.sign === 'route' ? ROUTES[i % ROUTES.length] : D.sign === 'BRT' ? 'BRT  CMS - IKORODU' : 'TAXI';
+    const routes = T?.routes || ROUTES, text = D.sign === 'route' ? routes[i % routes.length] : D.sign === 'BRT' ? (T?.brt || 'BRT  CMS - IKORODU') : 'TAXI';
     const tex = signTexture(text, { bg: D.sign === 'TAXI' ? '#1d1d1d' : D.sign === 'BRT' ? '#14306b' : '#f7efdc', fg: D.sign === 'TAXI' ? '#f2c418' : D.sign === 'BRT' ? '#ffffff' : '#1d1d1d', w: 512, h: 120 });
     const mat = new THREE.MeshBasicMaterial({ map: tex, color: 0xdddddd });
     const w = D.sign === 'TAXI' ? 0.6 : D.sign === 'BRT' ? 2.0 : 1.7, h = D.sign === 'TAXI' ? 0.2 : 0.38, y = D.sign === 'TAXI' ? 1.52 : D.sign === 'BRT' ? 2.55 : 2.42, z = D.sign === 'TAXI' ? -0.15 : D.sign === 'BRT' ? D.len / 2 + 0.03 : 1.1;
@@ -74,7 +77,7 @@ export function vehicle(kind, i) {
 const bikeLaneAt = (r, a, b) => {
   const C = r.fit.cycle; if (!C) return 0;
   const { pts, nrm, half } = r.fit, dx = pts[b][0] - pts[a][0], dz = pts[b][1] - pts[a][1], i = Math.max(a, b);
-  const sg = -dz * nrm[i][0] + dx * nrm[i][1] > 0 ? 1 : -1;
+  const sg = (-dz * nrm[i][0] + dx * nrm[i][1] > 0 ? 1 : -1) * (cityInfo().drive === 'left' ? -1 : 1);
   return C[sg].has(a) && C[sg].has(b) ? Math.min(half[a], half[b]) - 1.225 : 0;
 };
 
@@ -104,7 +107,8 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
       // the approaching driver's right is (uz, -ux): step out that way until clear of the carriageway
       const back = Math.min(L * 0.5, 7);
       let off = e.lane + 1.5, px = 0, pz = 0;
-      for (; off < e.lane * 3 + 6; off += 0.5) { px = n.x + ux * back + uz * off; pz = n.z + uz * back - ux * off; if (!world.onCarriageway?.(px, pz, 0.6)) break; }
+      const hs = cityInfo().drive === 'left' ? -1 : 1;
+      for (; off < e.lane * 3 + 6; off += 0.5) { px = n.x + ux * back + uz * off * hs; pz = n.z + uz * back - ux * off * hs; if (!world.onCarriageway?.(px, pz, 0.6)) break; }
       if (world.onCarriageway?.(px, pz, 0.4) || world.inAnyBuilding?.(px, pz, 0.4)) return;
       if (poles.some((q) => Math.hypot(q.x - px, q.z - pz) < 3)) return; // one pole per corner
       poles.push({ x: px, z: pz });
@@ -206,21 +210,25 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
   const N = Math.min(usable.length, reduced ? 8 : lowQuality ? 12 : 22);
   const rng = (() => { let a = 1234567; return () => { a = (a + 0x6d2b79f5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; })();
   const cars = [];
-  const pickNext = (from, to, cyclist) => { const n = nodes[to], opts = n.out.filter((e) => e.to !== from), lanes = cyclist ? opts.filter((e) => e.bike) : []; const list = lanes.length ? lanes : opts.length ? opts : n.out; return list[Math.floor(rng() * list.length)]; };
+  // kekes keep off the big roads (banned from them in Lagos, Port Harcourt and Uyo); cyclists keep to the lanes
+  const BIG = ['motorway', 'trunk', 'primary'];
+  const pickNext = (from, to, cyclist, keke) => { const n = nodes[to], opts = n.out.filter((e) => e.to !== from), pref = cyclist ? opts.filter((e) => e.bike) : keke ? opts.filter((e) => !BIG.includes(e.road?.cls)) : []; const list = pref.length ? pref : opts.length ? opts : n.out; return list[Math.floor(rng() * list.length)]; };
   const CYCLISTS = reduced ? 1 : 3;
   for (let k = 0; k < N + CYCLISTS; k++) {
-    const kind = k >= N ? 'cycle' : MIX[k % MIX.length];
+    const mix = cityInfo().traffic?.mix || MIX, kind = k >= N ? 'cycle' : mix[k % mix.length];
     // cyclists start in a cycle lane where there is one
-    const laneStarts = kind === 'cycle' ? usable.filter((i) => nodes[i].out.some((e) => e.bike)) : [];
+    const laneStarts = kind === 'cycle' ? usable.filter((i) => nodes[i].out.some((e) => e.bike)) : kind === 'keke' ? usable.filter((i) => nodes[i].out.some((e) => !BIG.includes(e.road?.cls))) : [];
     const start = laneStarts.length ? laneStarts[Math.floor(rng() * laneStarts.length)] : usable[Math.floor(rng() * usable.length)];
-    const outs = kind === 'cycle' && nodes[start].out.some((e) => e.bike) ? nodes[start].out.filter((e) => e.bike) : nodes[start].out, e = outs[Math.floor(rng() * outs.length)];
+    const outs = kind === 'cycle' && nodes[start].out.some((e) => e.bike) ? nodes[start].out.filter((e) => e.bike) : kind === 'keke' && nodes[start].out.some((e) => !BIG.includes(e.road?.cls)) ? nodes[start].out.filter((e) => !BIG.includes(e.road?.cls)) : nodes[start].out, e = outs[Math.floor(rng() * outs.length)];
     const mesh = vehicle(kind, k); group.add(trackDetail(mesh));
     cars.push({ kind, mesh, from: start, e, s: rng() * e.L, v: 0, max: DESIGNS[kind].speed * (0.85 + rng() * 0.3), wait: 0, horn: 0 });
   }
 
   const tmp = new THREE.Vector3();
   // cyclists keep to the cycle lane where the road has one (world.js paints it, 1.2 m in from the kerb)
-  const laneOf = (c) => (c.kind === 'cycle' && c.e.bike ? c.e.bike : c.e.lane);
+  // (Kenya keeps left: there the lanes are on the other side of the road)
+  const HAND = cityInfo().drive === 'left' ? -1 : 1;
+  const laneOf = (c) => (c.kind === 'cycle' && c.e.bike ? c.e.bike : c.e.lane) * HAND;
   const posOf = (c) => { const a = nodes[c.from], b = nodes[c.e.to], u = c.s / (c.e.L || 1), dx = (b.x - a.x) / (c.e.L || 1), dz = (b.z - a.z) / (c.e.L || 1), lane = laneOf(c); return { x: a.x + (b.x - a.x) * u - dz * lane, z: a.z + (b.z - a.z) * u + dx * lane, dx, dz }; };
   let t = 0;
   function update(dt, player) {
@@ -254,7 +262,7 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
       if (reduced) want = Math.min(want, c.max * 0.6);
       c.v += Math.max(-7 * dt, Math.min(2.4 * dt, want - c.v));
       c.s += c.v * dt;
-      if (c.s >= c.e.L) { const at = c.e.to; if (watchers.some((fn) => fn(c, at))) { c.gone = true; return; } const nx = pickNext(c.from, at, c.kind === 'cycle'); c.s -= c.e.L; c.from = at; c.e = nx; if (c.s > c.e.L) c.s = 0; }
+      if (c.s >= c.e.L) { const at = c.e.to; if (watchers.some((fn) => fn(c, at))) { c.gone = true; return; } const nx = pickNext(c.from, at, c.kind === 'cycle', c.kind === 'keke'); c.s -= c.e.L; c.from = at; c.e = nx; if (c.s > c.e.L) c.s = 0; }
       const q = posOf(c), yaw = Math.atan2(q.dx, q.dz);
       c.mesh.position.set(q.x, flyover ? flyover.heightFor(q.x, q.z, c.e.road) : 0, q.z);
       const dy = Math.atan2(Math.sin(yaw - c.mesh.rotation.y), Math.cos(yaw - c.mesh.rotation.y)); c.mesh.rotation.y += dy * (1 - Math.exp(-dt * 6));

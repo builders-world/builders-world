@@ -5,6 +5,7 @@ import { cloneAsset } from './kit.js';
 import { nearestOn, pathLength, pointAlong } from './nav.js';
 import { pushOutDynamic } from './physics.js';
 import { walletEngine, effortsMark, fmt } from './wallet.js';
+import { cityInfo } from './cityinfo.js';
 
 // fares in Efforts: a danfo is cheapest, a taxi to yourself dearest, the keys dearer still
 const FARE = { danfo: 300, keke: 500, taxi: 1500 }, DRIVE_EXTRA = 500;
@@ -18,7 +19,7 @@ const fareOf = (c) => FARE[c.kind] + (c.mode === 'drive' ? DRIVE_EXTRA : 0);
 const MAIN = ['primary', 'secondary', 'tertiary', 'trunk'];
 const INNER = ['residential', 'unclassified', 'living_street'];
 const TYPES = {
-  danfo: { name: 'Danfo', cruise: 11, wheelbase: 3.0, radius: 1.3, cam: 11, seatY: 1.3 },
+  danfo: { name: 'Danfo', cruise: 11, wheelbase: 3.0, radius: 1.3, cam: 11, seatY: 1.3 }, // renamed per city in createRides
   keke: { name: 'Keke', cruise: 8, wheelbase: 1.8, radius: 0.9, cam: 8, seatY: 0.9 },
   taxi: { name: 'Taxi', cruise: 12, wheelbase: 2.6, radius: 1.1, cam: 9, seatY: 0.9 },
 };
@@ -53,10 +54,11 @@ function stopSign(M, kind) {
   g.add(new THREE.Mesh(box(0.08, 2.6, 0.08, 0, 1.3, 0), M.darkMetal));
   const c = document.createElement('canvas'); c.width = 256; c.height = 128;
   const x = c.getContext('2d');
-  x.fillStyle = kind === 'danfo' ? '#e9b21c' : '#2a9d94'; x.fillRect(0, 0, 256, 128);
-  x.fillStyle = '#15171c'; x.font = '900 46px "Arial Black", Impact, sans-serif'; x.textAlign = 'center';
-  x.fillText(kind === 'danfo' ? 'DANFO' : 'KEKE', 128, 62);
-  x.font = '700 24px Arial, sans-serif'; x.fillText(kind === 'danfo' ? 'BUS STOP' : 'PARK', 128, 102);
+  const own = cityInfo().rides?.[kind]; // the city's own word for it: a matatu stage, a trotro stop
+  x.fillStyle = own?.color || (kind === 'danfo' ? '#e9b21c' : '#2a9d94'); x.fillRect(0, 0, 256, 128);
+  x.fillStyle = own?.color ? '#ffffff' : '#15171c'; x.font = '900 46px "Arial Black", Impact, sans-serif'; x.textAlign = 'center';
+  x.fillText(own?.sign || (kind === 'danfo' ? 'DANFO' : 'KEKE'), 128, 62);
+  x.font = '700 24px Arial, sans-serif'; x.fillText(own?.sub || (kind === 'danfo' ? 'BUS STOP' : 'PARK'), 128, 102);
   const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
   const face = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.6, emissive: 0xffffff, emissiveMap: tex, emissiveIntensity: 0.2 });
   const plate = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 0.45), face);
@@ -67,6 +69,7 @@ function stopSign(M, kind) {
 }
 
 export function createRides({ world, scene, nav, props, reduced, toast, onState, getBodies }) {
+  if (cityInfo().rides?.danfo?.name) TYPES.danfo.name = cityInfo().rides.danfo.name;
   const M = propMaterials();
   const group = new THREE.Group();
   group.name = 'rides';
@@ -78,14 +81,15 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
   world.roads.forEach((r) => {
     if (!r.fit) return;
     const kind = MAIN.includes(r.cls) ? 'danfo' : INNER.includes(r.cls) ? 'keke' : null;
-    if (!kind) return;
+    if (!kind || cityInfo().rides?.[kind] === null) return; // no keke stops where there are no kekes
     const { pts, nrm, half, paveL, paveR } = r.fit;
     const every = kind === 'danfo' ? 160 : 200;
     let acc = every / 2;
     for (let i = 1; i < pts.length - 1; i++) {
       acc += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
       if (acc < every) continue;
-      const side = paveR[i] >= 1.2 ? -1 : paveL[i] >= 1.2 ? 1 : 0; // right-hand kerb first: Nigeria drives on the right
+      const keepRight = cityInfo().drive !== 'left'; // the near kerb first: Nigeria and Ghana drive on the right, Kenya on the left
+      const side = keepRight ? (paveR[i] >= 1.2 ? -1 : paveL[i] >= 1.2 ? 1 : 0) : (paveL[i] >= 1.2 ? 1 : paveR[i] >= 1.2 ? -1 : 0);
       if (!side) continue;
       const pave = side < 0 ? paveR[i] : paveL[i];
       const off = half[i] + Math.min(0.9, pave * 0.5);
@@ -99,7 +103,7 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
       group.add(sign);
       // where the vehicle pulls in: the kerb lane beside the stop
       const lane = half[i] - 1.4;
-      const stop = { id: `stop:${stops.length}`, kind, label: kind === 'danfo' ? 'Hire a ride: danfo' : 'Hire a ride: keke', x, z, r: 3.5,
+      const stop = { id: `stop:${stops.length}`, kind, label: `Hire a ride: ${(TYPES[kind].name).toLowerCase()}`, x, z, r: 3.5,
         kerb: { x: pts[i][0] + nrm[i][0] * lane * side, z: pts[i][1] + nrm[i][1] * lane * side }, tan: [nrm[i][1] * side * -1, nrm[i][0] * side] };
       stops.push(stop);
       props.interact.push(stop);
@@ -144,7 +148,7 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
       body.querySelector('.x').onclick = closePanel;
       return;
     }
-    const kinds = choice.from.app ? ['taxi', 'danfo', 'keke'] : [choice.kind];
+    const kinds = choice.from.app ? ['taxi', 'danfo', 'keke'].filter((k) => cityInfo().rides?.[k] !== null) : [choice.kind];
     body.innerHTML = `<h3>Hire a ride</h3><div class="sub">You have ${effortsMark(13)}${fmt(walletEngine().balance())}. ${choice.from.app ? 'A driver comes to you.' : TYPES[choice.kind].name + ' from this stop.'}</div>
       ${choice.from.app ? `<div class="lkr-lbl">Vehicle</div><div class="row">${kinds.map((k) => `<button data-k="${k}" class="${choice.kind === k ? 'sel' : ''}">${TYPES[k].name}<br><small>${effortsMark(11)}${fmt(FARE[k])}</small></button>`).join('')}${(world.place?.city ?? 'Lagos') === 'Lagos' ? '<button disabled>Okada: not allowed in Yaba</button>' : ''}</div>` : ''}
       <div class="lkr-lbl">Where to</div><div class="opts">${places.map((p, i) => `<button data-d="${i}" class="${choice.dest === p ? 'sel' : ''}">${p.name}</button>`).join('')}</div>
@@ -167,9 +171,11 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
   let ride = null; // { kind, mesh, mode, phase, path, s, v, yaw, pos, dest }
   // the kit's danfo when it is loaded (front is +X, aligned to the ride's +Z), the code-built one otherwise
   const kitDanfo = world.kit?.get('yaba_danfo_minibus');
-  const builders = { danfo: () => (kitDanfo ? cloneAsset(kitDanfo, -Math.PI / 2) : danfo(M)), keke: () => keke(M), taxi: () => taxi(M) };
+  // outside Lagos the minibus wears the city's colours (a yellow danfo belongs to Lagos)
+  const repaint = (o, hex) => { if (hex == null) return o; o.traverse((m) => { const c = m.material?.color; if (!c) return; const hsl = {}; c.getHSL(hsl); if (hsl.h > 0.09 && hsl.h < 0.18 && hsl.s > 0.45) { m.material = m.material.clone(); m.material.color.setHex(hex); } }); return o; };
+  const builders = { danfo: () => repaint(kitDanfo ? cloneAsset(kitDanfo, -Math.PI / 2) : danfo(M), cityInfo().rides?.danfo?.paint), keke: () => keke(M), taxi: () => taxi(M) };
 
-  function laneOf(pts, side = 1.7) {
+  function laneOf(pts, side = 1.7 * (cityInfo().drive === 'left' ? -1 : 1)) {
     // shift a centreline route into the right-hand lane
     return pts.map((p, i) => {
       const a = pts[Math.max(0, i - 1)], b = pts[Math.min(pts.length - 1, i + 1)];

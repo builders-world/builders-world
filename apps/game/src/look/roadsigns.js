@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import { LANDMARKS } from './civic.js';
+import { cityLandmarks } from './civic.js';
 import { trackDetail } from './quality.js';
 
 // Road signs for drivers (world bible 9.3, after the FRSC Highway Code): green direction boards on the
@@ -129,7 +129,7 @@ export function buildRoadSigns({ world, scene, traffic, landmarks }) {
         const turn = vx * hx + vz * hz > 0.7 ? 'up' : vx * rx + vz * rz > 0 ? 'right' : 'left';
         // the real place that lies that way, if one does
         let best = null, bestA = 0.55;
-        LANDMARKS.forEach((l) => { const [lx, lz] = toXZ(l.lat, l.lon), d = Math.hypot(lx - n.x, lz - n.z); if (d < 150) return; const a = Math.acos(Math.max(-1, Math.min(1, ((lx - n.x) * vx + (lz - n.z) * vz) / d))); if (a < bestA) { bestA = a; best = { l, d }; } });
+        cityLandmarks().forEach((l) => { const [lx, lz] = toXZ(l.lat, l.lon), d = Math.hypot(lx - n.x, lz - n.z); if (d < 150) return; const a = Math.acos(Math.max(-1, Math.min(1, ((lx - n.x) * vx + (lz - n.z) * vz) / d))); if (a < bestA) { bestA = a; best = { l, d }; } });
         const label = best ? (best.l.short || best.l.name) : ex.road?.name; if (!label) return;
         const dist = best ? (best.d >= 1000 ? `${(best.d / 1000).toFixed(1)} km` : `${Math.round(best.d / 100) * 100} m`) : '';
         if (!rows.some((r) => r[1] === label)) rows.push([turn, label, dist]);

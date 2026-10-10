@@ -10,8 +10,8 @@ import { terrainFor, landmarkFor, LANDMARK_NAME } from './citytiles.js';
 export const CITIES = [
   { city: 'Lagos', district: 'Yaba', file: 'yaba', lat: 6.5095, lon: 3.3715, r: 230, live: true },
   { city: 'Abuja', district: 'Wuse', file: 'wuse', lat: 9.0790, lon: 7.4700, r: 200 },
-  { city: 'Port Harcourt', district: 'Old GRA', file: 'old-gra', lat: 4.7790, lon: 7.0130, r: 200 },
-  { city: 'Uyo', district: 'Uyo', file: 'uyo', lat: 5.0333, lon: 7.9259, r: 200 },
+  { city: 'Port Harcourt', district: 'Old GRA', file: 'old-gra', lat: 4.7737, lon: 7.0142, r: 200 },
+  { city: 'Uyo', district: 'Uyo', file: 'uyo', lat: 5.0338, lon: 7.9270, r: 240 },
   { city: 'Nairobi', district: 'Kilimani', file: 'kilimani', lat: -1.2905, lon: 36.7855, r: 200 },
   { city: 'Accra', district: 'Osu', file: 'osu', lat: 5.5560, lon: -0.1830, r: 200 },
 ];

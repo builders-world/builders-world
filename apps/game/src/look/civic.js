@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { signTexture } from './props.js';
 import { trackDetail } from './quality.js';
+import { cityInfo } from './cityinfo.js';
 
 // City furniture with names on it (world bible 4.4): Lagos street-name signs at junctions, fingerposts
 // pointing at real Yaba landmarks, and bus shelters at the danfo stops. Placement follows the land-use
@@ -20,6 +21,9 @@ export const LANDMARKS = [
 
 const box = (w, h, d, x = 0, y = 0, z = 0) => new THREE.BoxGeometry(w, h, d).translate(x, y, z);
 
+// the places a sign may point to: this city's own (cityinfo.js), or Yaba's
+export const cityLandmarks = () => cityInfo().landmarks || LANDMARKS;
+
 export function buildCivic(world, scene, { rides } = {}) {
   const group = new THREE.Group(); group.name = 'civic'; scene.add(group);
   const post = new THREE.MeshStandardMaterial({ color: 0x55605a, roughness: 0.55, metalness: 0.3 });
@@ -31,7 +35,7 @@ export function buildCivic(world, scene, { rides } = {}) {
   // ---------- street-name signs: green plates with white letters, the Lagos standard ----------
   const named = world.roads.filter((r) => r.fit && r.name);
   const signMats = new Map();
-  const plateMat = (name) => { if (!signMats.has(name)) { const t = signTexture(name.toUpperCase(), { bg: '#1f6b45', fg: '#ffffff', w: 768, h: 128 }); signMats.set(name, new THREE.MeshStandardMaterial({ map: t, roughness: 0.6 })); } return signMats.get(name); };
+  const plateMat = (name) => { if (!signMats.has(name)) { const t = signTexture(name.toUpperCase(), { bg: cityInfo().streetSign?.bg || '#1f6b45', fg: cityInfo().streetSign?.fg || '#ffffff', w: 768, h: 128 }); signMats.set(name, new THREE.MeshStandardMaterial({ map: t, roughness: 0.6 })); } return signMats.get(name); };
   named.forEach((r) => {
     const { pts, nrm, half, paveL, paveR } = r.fit;
     [0, pts.length - 1].forEach((end) => {
@@ -79,7 +83,7 @@ export function buildCivic(world, scene, { rides } = {}) {
     used.push(sp); posts++;
     const g = new THREE.Group(); g.position.set(sp.x, 0, sp.z);
     g.add(new THREE.Mesh(box(0.12, 3.6, 0.12, 0, 1.8, 0), post));
-    const ranked = LANDMARKS.map((l) => { const [lx, lz] = toXZ(l.lat, l.lon); return { ...l, dx: lx - sp.x, dz: lz - sp.z, d: Math.hypot(lx - sp.x, lz - sp.z) }; }).sort((a, b) => a.d - b.d).slice(0, 5);
+    const ranked = cityLandmarks().map((l) => { const [lx, lz] = toXZ(l.lat, l.lon); return { ...l, dx: lx - sp.x, dz: lz - sp.z, d: Math.hypot(lx - sp.x, lz - sp.z) }; }).sort((a, b) => a.d - b.d).slice(0, 5);
     ranked.forEach((l, k) => {
       const km = l.d >= 1000 ? `${(l.d / 1000).toFixed(1)} km` : `${Math.round(l.d / 50) * 50} m`;
       const tex = signTexture(`${l.short || l.name}`, { bg: '#f2b33d', fg: '#3b2a20', w: 640, h: 128, sub: km });

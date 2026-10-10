@@ -6,6 +6,7 @@ export const DEFAULT_PLACE = { name: 'Yaba', lat: 6.5095, lon: 3.3715, radius: 2
 export const OVERPASS = [
   'https://overpass-api.de/api/interpreter',
   'https://overpass.kumi.systems/api/interpreter',
+  'https://maps.mail.ru/osm/tools/overpass/api/interpreter', // a third mirror: the first two time out often
 ];
 
 const ROAD_WIDTH = {

@@ -6,6 +6,7 @@ import { signTexture } from './props.js';
 import { findSite } from './parks.js';
 import { walletEngine, fmt } from './wallet.js';
 import { sfx } from './audio.js';
+import { cityInfo } from './cityinfo.js';
 
 // Getting about on wheels (world bible 9.5). Yaba Bikes docks by the parks, the hub and the motor
 // park: rent a bike (E) and ride it, pedalling; E again to hop off and leave it. A skateboard and roller
@@ -52,9 +53,9 @@ export function createMobility({ world, scene, props, avatar, toast, used = [], 
     const bikes = [];
     for (let i = 0; i < 5; i++) { if ((k + i) % 4 === 3) continue; const b = bikeModel([0x2a9d94, 0xe46f4f, 0xf2b33d][i % 3]); b.position.set(-2.2 + i * 1.1, 0, 0); b.rotation.y = 0; b.scale.setScalar(0.95); g.add(b); bikes.push(b); }
     world.addColliders?.([{ name: 'bike_dock', cx: spot.x, cz: spot.z - 0.2, hx: 3.2, hz: 0.6, ry: 0, h: 1.0 }]);
-    const it = { id: `dock:${docks.length}`, label: 'Rent a bike (Yaba Bikes)', x: spot.x, z: spot.z + 1.6, r: 2.4 };
+    const it = { id: `dock:${docks.length}`, label: `Rent a bike (${cityInfo().bikes || 'Yaba Bikes'})`, x: spot.x, z: spot.z + 1.6, r: 2.4 };
     props.interact.push(it);
-    props.pois?.push({ kind: 'bus', name: `Yaba Bikes dock`, x: spot.x, z: spot.z });
+    props.pois?.push({ kind: 'bus', name: `${cityInfo().bikes || 'Yaba Bikes'} dock`, x: spot.x, z: spot.z });
     docks.push({ g, bikes, it, x: spot.x, z: spot.z });
   });
 
@@ -78,8 +79,8 @@ export function createMobility({ world, scene, props, avatar, toast, used = [], 
   }
   function use(id, player) {
     if (id.startsWith('dock:')) {
-      if (mode === 'bike') { unmount(); sfx('interact'); toast('Bike docked. Thanks for riding Yaba Bikes!', 2400); return true; }
-      if (!walletEngine().spend(RENT, 'Yaba Bikes ride')) { toast(`A ride is ${fmt(RENT)} Efforts.`, 2200); return true; }
+      if (mode === 'bike') { unmount(); sfx('interact'); toast(`Bike docked. Thanks for riding ${cityInfo().bikes || 'Yaba Bikes'}!`, 2400); return true; }
+      if (!walletEngine().spend(RENT, `${cityInfo().bikes || 'Yaba Bikes'} ride`)) { toast(`A ride is ${fmt(RENT)} Efforts.`, 2200); return true; }
       mount('bike'); sfx('arrive'); toast('Off you go! Ride with W, E to hop off anywhere.', 3200);
       return true;
     }
