@@ -162,6 +162,8 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
     cars.forEach((c, k) => {
       const p = P[k];
       let want = c.max;
+      // school and pedestrian zones (roadsigns.js): their limit, whatever the road allows
+      for (const Z of world.slowZones || []) if ((p.x - Z.x) ** 2 + (p.z - Z.z) ** 2 < Z.r * Z.r) want = Math.min(want, Z.limit);
       const toEnd = c.e.L - c.s;
       // red or amber at the junction ahead: stop at the line
       const sig = sigAt.get(c.e.to);
@@ -179,8 +181,6 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
       let blocked = false;
       [player, ...people].forEach((h, hi) => { if (!h || c.mesh.position.y > 2.5) return; const ax = h.x - p.x, az = h.z - p.z, along = ax * p.dx + az * p.dz, across = Math.abs(-ax * p.dz + az * p.dx); if (along > 0 && along < 7 && across < 1.5) { want = Math.min(want, Math.max(0, (along - 3.5) * 1.5)); if (hi === 0 && along < 6) blocked = true; } });
       if (blocked && c.v < 0.3) { c.horn += dt; if (c.horn > 1.6 && Math.hypot(player.x - p.x, player.z - p.z) < 25) { sfx('horn', { kind: c.kind }); c.horn = -3; } } else c.horn = Math.min(c.horn, 0) + dt * 0;
-      // school and pedestrian zones (roadsigns.js): their limit, whatever the road allows
-      for (const Z of world.slowZones || []) if ((p.x - Z.x) ** 2 + (p.z - Z.z) ** 2 < Z.r * Z.r) want = Math.min(want, Z.limit);
       if (reduced) want = Math.min(want, c.max * 0.6);
       c.v += Math.max(-7 * dt, Math.min(2.4 * dt, want - c.v));
       c.s += c.v * dt;
