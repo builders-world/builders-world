@@ -12,6 +12,7 @@ import { buildImmigration } from './travel.js';
 import { buildAirport, buildCabin } from './airport.js';
 import { walletEngine, effortsMark, fmt } from './wallet.js';
 import { session } from '../session.js';
+import { workspaceDoor } from './doorway.js';
 
 // Enterable workspaces (world bible 6.6): reception and board, hot desks, focus pods, a meeting room,
 // a cafeteria and a lounge. Metrics from the bible: ceiling 3.6 m, desks 0.75 m high and 1.4 m wide,
@@ -272,13 +273,16 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
     add(box(W, 0.1, D, 0, -0.05, 0), M.floor);
     add(box(W, 0.1, D, 0, H + 0.05, 0), M.wall);
     add(mergeGeometries([box(W, H, 0.2, 0, H / 2, -D / 2), box(0.2, H, D, -W / 2, H / 2, 0), box(0.2, H, D, W / 2, H / 2, 0),
-      box(W / 2 - 3, H, 0.2, -W / 4 - 1.5, H / 2, D / 2)]), M.wall);
+      box(W / 2 - 3, H, 0.2, -W / 4 - 1.5, H / 2, D / 2),
+      // under and over the street window, so the glass sits in a wall rather than in the dark
+      box(W / 2 - 1, 0.4, 0.2, W / 4 + 0.5, 0.2, D / 2), box(W / 2 - 1, 0.4, 0.2, W / 4 + 0.5, H - 0.2, D / 2)]), M.wall);
     add(mergeGeometries([box(W, 0.12, 0.25, 0, H - 0.1, -D / 2 + 0.05), box(0.25, 0.12, D, -W / 2 + 0.05, H - 0.1, 0), box(0.25, 0.12, D, W / 2 - 0.05, H - 0.1, 0), box(W, 0.3, 0.22, 0, 0.15, -D / 2 + 0.1)]), M.trim);
     const window = add(box(W / 2 - 1, H - 0.8, 0.05, W / 4 + 0.5, H / 2, D / 2 - 0.05), M.sky);
     add(box(W / 2 - 1, H - 0.8, 0.08, W / 4 + 0.5, H / 2, D / 2 - 0.12), M.glass);
     [[0, -D / 2, W, 0.4], [-W / 2, 0, 0.4, D], [W / 2, 0, 0.4, D], [-W / 4 - 1.5, D / 2, W / 2 - 3, 0.4], [W / 4 + 0.5, D / 2, W / 2 - 1, 0.4]].forEach(([x, z, w, d]) => block(x, z, w, d));
     // the door: 2 m wide, between the wall and the glass (bible 4.1)
     const door = { x: -1.5, z: D / 2 - 1.2 };
+    colliders.push(workspaceDoor(g, { x0: -3, x1: 1, z: D / 2, H, wall: M.wall, outside: M.sky, exitX: door.x }));
 
     // reception and the hub board
     add(box(3.2, 1.05, 0.8, -6, 0.525, D / 2 - 3), M.woodL); block(-6, D / 2 - 3, 3.2, 0.8);
