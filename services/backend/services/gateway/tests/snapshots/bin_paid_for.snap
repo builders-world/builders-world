@@ -1,0 +1,19 @@
+---
+source: services/gateway/tests/common/mod.rs
+expression: "serde_json::json!({ \"status\": status.as_u16(), \"body\": masked(body) })"
+---
+{
+  "body": {
+    "bins": [
+      {
+        "funded": 3000,
+        "names": [
+          "ada-dev",
+          "bola-designs"
+        ],
+        "spot": "12_-40"
+      }
+    ]
+  },
+  "status": 200
+}

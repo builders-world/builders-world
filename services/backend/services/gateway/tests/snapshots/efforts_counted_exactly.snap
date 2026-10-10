@@ -1,0 +1,12 @@
+---
+source: services/gateway/tests/common/mod.rs
+expression: "serde_json::json!({ \"status\": status.as_u16(), \"body\": masked(body) })"
+---
+{
+  "body": {
+    "commits": 412,
+    "source": "commits",
+    "user": "[login]"
+  },
+  "status": 200
+}

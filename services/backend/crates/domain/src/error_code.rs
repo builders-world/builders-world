@@ -24,6 +24,13 @@ macro_rules! error_codes {
 
 error_codes! {
     NotFound => "not_found",
+    SessionInvalid => "session_invalid",
+    Unauthenticated => "unauthenticated",
+    Forbidden => "forbidden",
+    Unverified => "unverified",
+    Waitlisted => "waitlisted",
+    Conflict => "conflict",
+    ProviderError => "provider_error",
     BadRequest => "bad_request",
     RateLimited => "rate_limited",
     Unavailable => "unavailable",

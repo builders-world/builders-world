@@ -1,0 +1,18 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        INSERT INTO bins (district, spot, funded, names)\n        VALUES ($1, $2, LEAST($3::INTEGER, $4::INTEGER), ARRAY[$5::TEXT])\n        ON CONFLICT (district, spot) DO UPDATE SET\n            funded = LEAST($4::INTEGER, bins.funded + $3::INTEGER),\n            names = CASE WHEN $5::TEXT = ANY(bins.names) THEN bins.names ELSE array_append(bins.names, $5::TEXT) END,\n            funded_at = now()\n        WHERE bins.funded < $4::INTEGER\n        ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Text",
+        "Int4",
+        "Int4",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "07832a28f2e902be1c80b0368b9818ab815603065b8a9b0d230516e7fa8b4aab"
+}
