@@ -371,7 +371,11 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       // with shadows on, a little of the sky's fill goes to the sun so shade reads on pale paving too
       rig.moon.intensity *= 1 + 0.25 * k;
       rig.hemi.intensity *= 1 - 0.22 * k;
-      rig.moon.shadow.autoUpdate = k > 0.01;
+      // the shadow map is drawn 30 times a second on high and ultra, not every frame: half the cost, and
+      // a shadow a frame behind its owner cannot be seen
+      shadowTick = (shadowTick + 1) % (gfx.shadowHz ? 2 : 1);
+      rig.moon.shadow.autoUpdate = false;
+      if (k > 0.01 && shadowTick === 0) rig.moon.shadow.needsUpdate = true;
     }
     // the sky's light in shiny things (ultra): dim at night
     if (scene.environment) scene.environmentIntensity = gfx.env * (0.12 + 0.88 * day);
@@ -393,7 +397,11 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       scene.fog.near += (1.5 - scene.fog.near) * mist;
     }
     renderer.toneMappingExposure = 1.05 + 0.1 * day;
-    if (bloom) { bloom.strength = 0.45 - 0.3 * day; bloom.threshold = 0.85 + 0.75 * day; }
+    if (bloom) {
+      bloom.strength = 0.45 - 0.3 * day; bloom.threshold = 0.85 + 0.75 * day;
+      // by day the glow is too faint to see: skip the pass and save its cost
+      if (bloom.allowed !== undefined) bloom.enabled = bloom.allowed && bloom.strength > 0.18;
+    }
 
     // sky
     const u = sky?.userData.u;
@@ -459,6 +467,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
 
   // ---------- graphics tier: sun shadows, lamps, distances, texture sharpness, sky reflections ----------
   const shadowFocus = new THREE.Vector3();
+  let shadowTick = 0;
   const sunRig = world.rig.moon;
   group.add(sunRig.target);
   let envTex = null, sweepT = 0;

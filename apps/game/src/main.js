@@ -82,6 +82,8 @@ composer.addPass(aoPass);
 const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.7, 0.5, 0.42);
 let street = null;
 composer.addPass(bloom);
+// the glow is soft by nature: on sharp screens it is worked out at half size, which looks the same
+{ const set = bloom.setSize.bind(bloom); bloom.setSize = (w, h) => { const k = renderer.getPixelRatio() >= 1.4 ? 0.5 : 1; set(Math.max(1, Math.round(w * k)), Math.max(1, Math.round(h * k))); }; }
 // a light grade before output: a little more saturation and contrast, so the clay reads bright and
 // lively rather than washed out (Elvis, 10 October 2026)
 const grade = new ShaderPass({
@@ -106,7 +108,7 @@ function govern() {
   const avg = governor.sum / governor.n; governor.sum = 0; governor.n = 0;
   let next = governor.scale;
   // on Auto, a machine that cannot hold the frame rate even at the lowest resolution steps down a tier
-  if (gfx.choice === 'auto' && governor.scale <= governor.min + 0.001 && avg > 24) {
+  if (gfx.choice === 'auto' && governor.scale <= governor.min + 0.001 && avg > (TIERS[quality].fps30 ? 40 : 24)) {
     if (++gfx.downs >= 6 && ORDER.indexOf(quality) > 0) {
       gfx.downs = 0;
       applyGraphics(ORDER[ORDER.indexOf(quality) - 1]);
@@ -114,8 +116,10 @@ function govern() {
       return;
     }
   } else gfx.downs = 0;
-  if (avg > 18.5) { next = Math.max(governor.min, governor.scale - (avg > 26 ? 0.15 : 0.08)); governor.good = 0; }
-  else if (avg < 14) { if (++governor.good >= 3) { next = Math.min(1, governor.scale + 0.05); governor.good = 0; } }
+  // most tiers aim for 60; Ultra aims never to drop under 30, and keeps every pixel while it is above it
+  const slow = TIERS[quality].fps30 ? 34.5 : 18.5, fast = TIERS[quality].fps30 ? 26 : 14;
+  if (avg > slow) { next = Math.max(governor.min, governor.scale - (avg > slow * 1.4 ? 0.15 : 0.08)); governor.good = 0; }
+  else if (avg < fast) { if (++governor.good >= 3) { next = Math.min(1, governor.scale + 0.05); governor.good = 0; } }
   else governor.good = 0;
   if (Math.abs(next - governor.scale) > 0.001) {
     governor.scale = next;
@@ -139,7 +143,7 @@ function applyGraphics(name) {
     if (dirty) rt.dispose();
   });
   aoPass.enabled = t.ao > 0; aoPass.setSamples(t.ao || 8);
-  bloom.enabled = t.bloom && (worldRef?.env.bloom.on ?? true);
+  bloom.allowed = t.bloom && (worldRef?.env.bloom.on ?? true); bloom.enabled = bloom.allowed;
   const type = t.soft ? THREE.PCFSoftShadowMap : THREE.PCFShadowMap;
   if (renderer.shadowMap.enabled !== t.shadows > 0 || (t.shadows && shadowType !== type)) {
     renderer.shadowMap.enabled = t.shadows > 0; renderer.shadowMap.type = type; shadowType = type;
@@ -283,7 +287,7 @@ async function main() {
     scene.background = new THREE.Color(E.bg);
     renderer.toneMapping = E.tone === 'aces' ? THREE.ACESFilmicToneMapping : THREE.NoToneMapping;
     renderer.toneMappingExposure = E.exposure;
-    bloom.enabled = E.bloom.on && TIERS[quality].bloom;
+    bloom.allowed = E.bloom.on && TIERS[quality].bloom; bloom.enabled = bloom.allowed;
     bloom.strength = E.bloom.strength; bloom.radius = E.bloom.radius; bloom.threshold = E.bloom.threshold;
     chrome.setWorld(world, via, place);
     street?.dispose();

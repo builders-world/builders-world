@@ -13,8 +13,10 @@ export const LABEL = { auto: 'Auto', low: 'Low', medium: 'Medium', high: 'High',
 export const TIERS = {
   low: { pr: 1, msaa: 0, bloom: false, shadows: 0, shadowR: 0, ao: 0, aniso: 1, lights: 3, reflect: 0, rain: 2500, people: 32, detail: 80, govMin: 0.5, env: 0 },
   medium: { pr: 1.25, msaa: 2, bloom: true, shadows: 0, shadowR: 0, ao: 0, aniso: 4, lights: 8, reflect: 0.35, rain: 5000, people: 45, detail: 120, govMin: 0.6, env: 0 },
-  high: { pr: 1.5, msaa: 4, bloom: true, shadows: 2048, shadowR: 45, soft: false, ao: 8, aniso: 8, lights: 14, reflect: 0.5, rain: 9000, people: 60, detail: 170, govMin: 0.65, env: 0 },
-  ultra: { pr: 2, msaa: 4, bloom: true, shadows: 4096, shadowR: 70, soft: true, ao: 14, aniso: 16, lights: 22, reflect: 0.75, rain: 12000, people: 95, detail: 300, govMin: 0.75, env: 0.35 },
+  high: { pr: 1.5, msaa: 4, bloom: true, shadows: 2048, shadowR: 45, soft: false, shadowHz: 30, ao: 8, aniso: 8, lights: 14, reflect: 0.5, rain: 9000, people: 60, detail: 170, govMin: 0.65, env: 0 },
+  // Ultra holds at least 30 frames a second rather than chasing 60: the resolution stays full until the
+  // frame rate drops under 30 (fps30); edges are smoothed 2x, which at Retina density looks the same as 4x
+  ultra: { pr: 2, msaa: 2, bloom: true, shadows: 3072, shadowR: 70, soft: true, ao: 10, aniso: 16, lights: 22, reflect: 0.75, rain: 12000, people: 95, detail: 300, govMin: 0.55, env: 0.35, fps30: true, shadowHz: 30 },
 };
 
 const store = {
