@@ -4,7 +4,9 @@ import { wetGroundMaterial } from './surfaces.js';
 import { signTexture } from './props.js';
 import { vehicle } from './traffic.js';
 import { mulberry32 } from '../mesh.js';
-import { clayTreeGeometry } from './props.js';
+import { plantAll, pickTree, trunkCollider } from './flora.js';
+import { buildParkland } from './parkland.js';
+import { cityInfo } from './cityinfo.js';
 import { bayLayout, drawAccessibleBay, drawParkSign, BAY_D } from './parking.js';
 
 // Greenrey (Elvis's name for this change, 10 October 2026, so it can be tracked and switched off as one):
@@ -221,22 +223,46 @@ export function buildGreenrey({ renderer, scene, world, group, park = null }) {
     const m = new THREE.Mesh(geo, m2); m.receiveShadow = true; m.name = nm; out.add(m);
   });
   void mat; void GRASS;
-  // trees on the green land, in clumps, clear of everything (the greenery, up by well over half)
-  const treeSpots = [];
-  zones.filter((z) => z.use === 'green').forEach((z) => {
-    const want = Math.round(z.area / 140);
-    for (let k = 0, tries = 0; k < want && tries < want * 12; tries++) {
-      const c = z.cells[Math.floor(rnd() * z.cells.length)], x = X(c % N) + (rnd() - 0.5) * cell, zz = Z((c - (c % N)) / N) + (rnd() - 0.5) * cell;
-      if (dBuilt[c] < 3 || dRoad[c] < 4 || taken[c] || treeSpots.some((q) => Math.hypot(q.x - x, q.z - zz) < 3.2)) continue;
-      treeSpots.push({ x, z: zz, s: 0.8 + rnd() * 0.6 }); k++;
+  // Parks on the open green land (Elvis, 10 October 2026: "rather than having just trees all over the place... let's
+  // have parks"): each green space with room for one gets a laid-out park (parkland.js), its gate on the street; the
+  // rest of the green stays open lawn, with trees only in tidy rows along the road edge, one species to a row.
+  const city = world.place?.city || 'Lagos', parkRects = [];
+  // a big space can hold more than one (a park takes its share, the rest stays lawn): one per 2,600 m², up to nine in all
+  zones.filter((z) => z.use === 'green' && z.area > 420).sort((a, b) => b.area - a.area).forEach((z) => {
+    const want = Math.max(1, Math.min(3, Math.floor(z.area / 2600)));
+    for (let k = 0; k < want && parkRects.length < 9; k++) {
+      let placed = false;
+      for (const [w, d] of [[44, 32], [38, 28], [32, 24], [27, 20], [23, 17]]) { if (w * d > z.area * 0.95) continue; const p = placeRect(z, w, d, 1.2, 1.5); if (p) { parkRects.push({ ...p, w, d, zone: z.id }); placed = true; break; } }
+      if (!placed) break;
     }
   });
-  if (treeSpots.length) {
-    const geo = clayTreeGeometry(), im = new THREE.InstancedMesh(geo, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.75 }), treeSpots.length), m4 = new THREE.Matrix4(), q = new THREE.Quaternion();
-    treeSpots.forEach((t, i) => im.setMatrixAt(i, m4.compose(new THREE.Vector3(t.x, 0, t.z), q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), rnd() * 6.28), new THREE.Vector3(t.s * 2.4, t.s * 2.4, t.s * 2.4))));
-    im.castShadow = true; im.name = 'greenrey_trees'; out.add(im);
-    treeSpots.forEach((t) => cols.push({ name: 'green_tree', cx: t.x, cz: t.z, hx: 0.35, hz: 0.35, ry: 0 }));
-  }
+  const pl = buildParkland({ rects: parkRects, city, country: cityInfo().country || 'Nigeria', district: world.place?.name || '', rnd });
+  out.add(pl.group); cols.push(...pl.cols); claims.push(...pl.claims);
+  const rowTrees = [];
+  zones.filter((z) => z.use === 'green').forEach((z) => {
+    const kind = pickTree(city, 'street', rnd), s = 0.6 + rnd() * 0.15;
+    z.cells.forEach((c, k) => {
+      if (k % 2 || dRoad[c] < 3.4 || dRoad[c] > 4.6 || dBuilt[c] < 3.5 || taken[c]) return;
+      const x = X(c % N), zz = Z((c - (c % N)) / N);
+      if (rowTrees.some((q) => Math.hypot(q.x - x, q.z - zz) < 9)) return;
+      rowTrees.push({ kind, x, z: zz, s, ry: rnd() * 6.28 });
+    });
+  });
+  // the open lawn that is left: a few clumps of three of a kind, well apart, never a scatter
+  zones.filter((z) => z.use === 'green').forEach((z) => {
+    const want = Math.floor(z.area / 1100);
+    for (let k = 0, tries = 0; k < want && tries < want * 20; tries++) {
+      const c = z.cells[Math.floor(rnd() * z.cells.length)], x = X(c % N), zz = Z((c - (c % N)) / N);
+      if (dBuilt[c] < 7 || dRoad[c] < 7 || taken[c] || [...rowTrees].some((q) => Math.hypot(q.x - x, q.z - zz) < 24)) continue;
+      const kind = pickTree(city, 'park', rnd), s0 = 0.7 + rnd() * 0.2, a0 = rnd() * 6.28;
+      for (let j = 0; j < 3; j++) { const a = a0 + j * 2.09, r = j ? 3.6 : 0; rowTrees.push({ kind, x: x + Math.cos(a) * r, z: zz + Math.sin(a) * r, s: s0 * (j ? 0.85 : 1), ry: rnd() * 6.28 }); }
+      k++;
+    }
+  });
+  const flora = [...pl.flora, ...rowTrees];
+  if (flora.length) out.add(plantAll(flora, 'greenrey_flora'));
+  rowTrees.forEach((t) => cols.push(trunkCollider(t)));
+  const treeSpots = rowTrees;
 
   // ---------- 5. car parks: a concrete apron, painted bays, a few cars ----------
   const paint = [], apron = [];
@@ -314,6 +340,6 @@ export function buildGreenrey({ renderer, scene, world, group, park = null }) {
 
   world.addColliders?.(cols);
   claims.forEach((c) => world.claim?.(c));
-  const sum = { open: zones.filter((z) => z.use !== 'grass').reduce((a, z) => a + z.area, 0), laterite: zones.filter((z) => z.use === 'laterite').reduce((a, z) => a + z.area, 0), green: zones.filter((z) => z.use === 'green').reduce((a, z) => a + z.area, 0), trees: treeSpots.length, paving: zones.filter((z) => z.use === 'paving').length, plots: plots.length, carParks: parks.length, accessibleBays: accessible, carParkSpots: parks.map((p) => ({ x: p.x, z: p.z, ang: p.ang, face: p.face, len: p.len })) };
-  return { group: out, summary: sum };
+  const sum = { open: zones.filter((z) => z.use !== 'grass').reduce((a, z) => a + z.area, 0), laterite: zones.filter((z) => z.use === 'laterite').reduce((a, z) => a + z.area, 0), green: zones.filter((z) => z.use === 'green').reduce((a, z) => a + z.area, 0), trees: treeSpots.length, parks: parkRects.length, parkKinds: pl.pois.map((q) => q.theme), paving: zones.filter((z) => z.use === 'paving').length, plots: plots.length, carParks: parks.length, accessibleBays: accessible, carParkSpots: parks.map((p) => ({ x: p.x, z: p.z, ang: p.ang, face: p.face, len: p.len })) };
+  return { group: out, summary: sum, parks: { seats: pl.seats, pois: pl.pois, interact: pl.interact, rects: parkRects } };
 }

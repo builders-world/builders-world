@@ -1109,7 +1109,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     lamps, trees, isFree, youCenter: you.c, mainRoad: longest, roads,
     rig: { hemi, moon, rim, bulbMat, bulb: T.env.bulb },
     center: manifest.center,
-    footprints: blds.filter((b) => b.pts.length >= 3).map((b) => b.pts), lots: blds.filter((b) => b.lot).map((b) => b.lot), doorPlants,
+    footprints: blds.filter((b) => b.pts.length >= 3).map((b) => b.pts), lots: blds.filter((b) => b.lot).map((b) => b.lot), doorPlants, lotTrees,
     estates: estatePlan.map((E) => ({ name: E.name, corners: E.corners, ry: E.ry, gates: E.gates, closes: E.closes, n: E.n })), addresses, carSpots,
     // flat roofs of unclaimed buildings, for rooftop water tanks
     roofs: blds.filter((b) => !plotIds.has(b) && b.top && b.pts.length >= 3).map((b) => ({ x: b.c[0], z: b.c[1], y: b.top, area: b.area, pts: b.pts })),
