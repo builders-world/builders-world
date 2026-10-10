@@ -69,6 +69,15 @@ export function vehicle(kind, i) {
   return g;
 }
 
+// the offset of the cycle lane's middle on a road segment, or 0 where there is none
+// (only where world.js painted one on that side: the driver's right going from point a to point b)
+const bikeLaneAt = (r, a, b) => {
+  const C = r.fit.cycle; if (!C) return 0;
+  const { pts, nrm, half } = r.fit, dx = pts[b][0] - pts[a][0], dz = pts[b][1] - pts[a][1], i = Math.max(a, b);
+  const sg = -dz * nrm[i][0] + dx * nrm[i][1] > 0 ? 1 : -1;
+  return C[sg].has(a) && C[sg].has(b) ? Math.min(half[a], half[b]) - 1.225 : 0;
+};
+
 export function createTraffic({ world, scene, reduced, lowQuality, getPeople, flyover }) {
   const group = new THREE.Group(); group.name = 'traffic'; scene.add(group);
   // ---------- the drivable graph: nodes at shared road points, edges along the roads ----------
@@ -77,7 +86,7 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
   world.roads.filter((r) => r.fit && DRIVE.includes(r.cls)).forEach((r) => {
     const pts = r.fit.pts, lane = Math.max(1.5, Math.min(3.4, (r.w || 7) / 4));
     let prev = node(pts[0][0], pts[0][1]);
-    for (let i = 1; i < pts.length; i++) { const id = node(pts[i][0], pts[i][1]); if (id === prev) continue; const L = Math.hypot(nodes[id].x - nodes[prev].x, nodes[id].z - nodes[prev].z); nodes[prev].out.push({ to: id, L, lane, major: MAJOR.includes(r.cls), road: r }); nodes[id].out.push({ to: prev, L, lane, major: MAJOR.includes(r.cls), road: r }); prev = id; }
+    for (let i = 1; i < pts.length; i++) { const id = node(pts[i][0], pts[i][1]); if (id === prev) continue; const L = Math.hypot(nodes[id].x - nodes[prev].x, nodes[id].z - nodes[prev].z); nodes[prev].out.push({ to: id, L, lane, bike: bikeLaneAt(r, i - 1, i), major: MAJOR.includes(r.cls), road: r }); nodes[id].out.push({ to: prev, L, lane, bike: bikeLaneAt(r, i, i - 1), major: MAJOR.includes(r.cls), road: r }); prev = id; }
   });
   const usable = nodes.map((n, i) => i).filter((i) => nodes[i].out.length);
   // ---------- traffic lights at the big junctions ----------
@@ -197,16 +206,22 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
   const N = Math.min(usable.length, reduced ? 8 : lowQuality ? 12 : 22);
   const rng = (() => { let a = 1234567; return () => { a = (a + 0x6d2b79f5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; })();
   const cars = [];
-  const pickNext = (from, to) => { const n = nodes[to], opts = n.out.filter((e) => e.to !== from); const list = opts.length ? opts : n.out; return list[Math.floor(rng() * list.length)]; };
+  const pickNext = (from, to, cyclist) => { const n = nodes[to], opts = n.out.filter((e) => e.to !== from), lanes = cyclist ? opts.filter((e) => e.bike) : []; const list = lanes.length ? lanes : opts.length ? opts : n.out; return list[Math.floor(rng() * list.length)]; };
   const CYCLISTS = reduced ? 1 : 3;
   for (let k = 0; k < N + CYCLISTS; k++) {
-    const kind = k >= N ? 'cycle' : MIX[k % MIX.length], start = usable[Math.floor(rng() * usable.length)], e = nodes[start].out[Math.floor(rng() * nodes[start].out.length)];
+    const kind = k >= N ? 'cycle' : MIX[k % MIX.length];
+    // cyclists start in a cycle lane where there is one
+    const laneStarts = kind === 'cycle' ? usable.filter((i) => nodes[i].out.some((e) => e.bike)) : [];
+    const start = laneStarts.length ? laneStarts[Math.floor(rng() * laneStarts.length)] : usable[Math.floor(rng() * usable.length)];
+    const outs = kind === 'cycle' && nodes[start].out.some((e) => e.bike) ? nodes[start].out.filter((e) => e.bike) : nodes[start].out, e = outs[Math.floor(rng() * outs.length)];
     const mesh = vehicle(kind, k); group.add(trackDetail(mesh));
     cars.push({ kind, mesh, from: start, e, s: rng() * e.L, v: 0, max: DESIGNS[kind].speed * (0.85 + rng() * 0.3), wait: 0, horn: 0 });
   }
 
   const tmp = new THREE.Vector3();
-  const posOf = (c) => { const a = nodes[c.from], b = nodes[c.e.to], u = c.s / (c.e.L || 1), dx = (b.x - a.x) / (c.e.L || 1), dz = (b.z - a.z) / (c.e.L || 1); return { x: a.x + (b.x - a.x) * u - dz * c.e.lane, z: a.z + (b.z - a.z) * u + dx * c.e.lane, dx, dz }; };
+  // cyclists keep to the cycle lane where the road has one (world.js paints it, 1.2 m in from the kerb)
+  const laneOf = (c) => (c.kind === 'cycle' && c.e.bike ? c.e.bike : c.e.lane);
+  const posOf = (c) => { const a = nodes[c.from], b = nodes[c.e.to], u = c.s / (c.e.L || 1), dx = (b.x - a.x) / (c.e.L || 1), dz = (b.z - a.z) / (c.e.L || 1), lane = laneOf(c); return { x: a.x + (b.x - a.x) * u - dz * lane, z: a.z + (b.z - a.z) * u + dx * lane, dx, dz }; };
   let t = 0;
   function update(dt, player) {
     t += dt;
@@ -239,7 +254,7 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
       if (reduced) want = Math.min(want, c.max * 0.6);
       c.v += Math.max(-7 * dt, Math.min(2.4 * dt, want - c.v));
       c.s += c.v * dt;
-      if (c.s >= c.e.L) { const at = c.e.to; if (watchers.some((fn) => fn(c, at))) { c.gone = true; return; } const nx = pickNext(c.from, at); c.s -= c.e.L; c.from = at; c.e = nx; if (c.s > c.e.L) c.s = 0; }
+      if (c.s >= c.e.L) { const at = c.e.to; if (watchers.some((fn) => fn(c, at))) { c.gone = true; return; } const nx = pickNext(c.from, at, c.kind === 'cycle'); c.s -= c.e.L; c.from = at; c.e = nx; if (c.s > c.e.L) c.s = 0; }
       const q = posOf(c), yaw = Math.atan2(q.dx, q.dz);
       c.mesh.position.set(q.x, flyover ? flyover.heightFor(q.x, q.z, c.e.road) : 0, q.z);
       const dy = Math.atan2(Math.sin(yaw - c.mesh.rotation.y), Math.cos(yaw - c.mesh.rotation.y)); c.mesh.rotation.y += dy * (1 - Math.exp(-dt * 6));
