@@ -43,7 +43,7 @@ export function createMobility({ world, scene, props, avatar, toast, used = [], 
     const at = findSite(world, used, 7, 3) && null; void at;
     // a spot near the place, on open ground
     let spot = null;
-    for (let r = 4; r < 22 && !spot; r += 1.5) for (let i = 0; i < 12 && !spot; i++) { const ang = (i / 12) * Math.PI * 2, x = a.x + Math.cos(ang) * r, z = a.z + Math.sin(ang) * r; let ok = true; for (let u = -3; u <= 3 && ok; u += 1) for (let v = -1; v <= 1 && ok; v += 1) if (!(world.costAt?.(x + u, z + v) < 2.6)) ok = false; if (ok && !used.some((q) => Math.abs(q.x - x) < q.W / 2 + 3.5 && Math.abs(q.z - z) < q.D / 2 + 1.5)) spot = { x, z }; }
+    for (let r = 4; r < 22 && !spot; r += 1.5) for (let i = 0; i < 12 && !spot; i++) { const ang = (i / 12) * Math.PI * 2, x = a.x + Math.cos(ang) * r, z = a.z + Math.sin(ang) * r; let ok = true; for (let u = -3; u <= 3 && ok; u += 1) for (let v = -1; v <= 1 && ok; v += 1) if (!(world.costAt?.(x + u, z + v) < 2.6) || world.onCarriageway?.(x + u, z + v, 0.3)) ok = false; if (ok && !used.some((q) => Math.abs(q.x - x) < q.W / 2 + 3.5 && Math.abs(q.z - z) < q.D / 2 + 1.5)) spot = { x, z }; }
     if (!spot) return;
     used.push({ x: spot.x, z: spot.z, W: 7, D: 3 });
     const g = new THREE.Group(); g.position.set(spot.x, 0, spot.z); group.add(g);

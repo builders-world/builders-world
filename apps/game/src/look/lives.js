@@ -195,10 +195,12 @@ export function createLives({ world, scene, getEnv, getPois, reduced, lowQuality
           // pace: personality, mood (sad people walk slower), urgency (late people run)
           const pace = (r.late ? 4.6 : 1.25) * T.pace * (r.mood < -0.4 ? 0.8 : 1);
           const prev = v.copy(r.obj.position);
-          r.obj.position.x += (dx / d) * pace * dt; r.obj.position.z += (dz / d) * pace * dt;
+          // at a signalled zebra: wait at the kerb for the walking figure (traffic.js)
+          const hold = world.pedWait?.(r.obj.position, dx / d, dz / d);
+          if (!hold) { r.obj.position.x += (dx / d) * pace * dt; r.obj.position.z += (dz / d) * pace * dt; }
           world.resolve(r.obj.position, 0.35, 0);
           speed = r.obj.position.distanceTo(prev) / Math.max(dt, 1e-4);
-          if (speed < pace * 0.2) { r.stuck += dt; if (r.stuck > 1.5) { go(r, r.goal); } } else r.stuck = 0;
+          if (hold) r.stuck = 0; else if (speed < pace * 0.2) { r.stuck += dt; if (r.stuck > 1.5) { go(r, r.goal); } } else r.stuck = 0;
           const want = Math.atan2(dx, dz), dh = Math.atan2(Math.sin(want - r.obj.rotation.y), Math.cos(want - r.obj.rotation.y));
           r.obj.rotation.y += dh * (1 - Math.exp(-dt * 8));
         } else { r.path = null; r.late = false; }
