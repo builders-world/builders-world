@@ -151,7 +151,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     };
   })();
 
-  let officials = null, rideBlock = null;
+  let officials = null, rideBlock = null, homeAct = null;
   let greenrey = null, spotify = null, sports = null, mobility = null, slife = null, traffic = null, food = null, pets = null, petIt = null, wardrobe = null, profiler = null, onlineRef = null, building = null, gates = null, visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
   // the tech places you can walk into (world bible 6.6)
   const doors = [];
@@ -172,7 +172,23 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   const cafeFront = props.interact.find((i) => i.name === PLACES.cafe.name);
   if (cafeFront) { cafeFront.id = 'enter:cafe'; cafeFront.label = `Enter ${PLACES.cafe.name}`; delete cafeFront.line; }
   doors.forEach((d) => props.interact.push({ id: `enter:${d.key}`, label: MEMBERS_ONLY[d.key] ? `${PLACES[d.key].name}: members only` : `Enter ${PLACES[d.key].name}`, x: d.at.x, z: d.at.z, r: 3.5 }));
+  // inside a place: say plainly that you walk with W A S D (Elvis, 10 October 2026: "it makes it hard for people to
+  // understand if they can move"); the hint stays until you have walked a few steps
+  const moveHint = document.createElement('div'); moveHint.id = 'lk-movehint';
+  moveHint.innerHTML = '<span class="keys"><b>W</b><b>A</b><b>S</b><b>D</b></span><span><strong>Walk around</strong><small>or the arrow keys · E to use things · Esc to stand up</small></span>';
+  const mhCss = document.createElement('style');
+  mhCss.textContent = `#lk-movehint { position: fixed; left: 50%; top: 96px; transform: translate(-50%, -8px); z-index: 17; display: flex; align-items: center; gap: 12px; padding: 10px 16px 10px 12px; border-radius: 18px; background: #f7efdc; color: #3b2a20; font-family: "Baloo 2", system-ui, sans-serif; box-shadow: 0 4px 0 rgba(59,42,32,.18), 0 12px 28px rgba(10,14,30,.22); opacity: 0; pointer-events: none; transition: opacity .25s ease, transform .25s ease; }
+    #lk-movehint.on { opacity: 1; transform: translate(-50%, 0); }
+    #lk-movehint .keys { display: grid; grid-template-columns: repeat(3, 26px); grid-template-rows: 26px 26px; gap: 3px; }
+    #lk-movehint .keys b { display: grid; place-items: center; border-radius: 7px; background: #3b2a20; color: #f7efdc; font: 800 13px/1 system-ui; }
+    #lk-movehint .keys b:nth-child(1) { grid-column: 2; grid-row: 1; } #lk-movehint .keys b:nth-child(2) { grid-column: 1; grid-row: 2; } #lk-movehint .keys b:nth-child(3) { grid-column: 2; grid-row: 2; } #lk-movehint .keys b:nth-child(4) { grid-column: 3; grid-row: 2; }
+    #lk-movehint strong { display: block; font: 800 17px/1.1 "Baloo 2", system-ui, sans-serif; }
+    #lk-movehint small { display: block; font: 600 13px/1.3 "Baloo 2", system-ui, sans-serif; color: #6b5a48; }
+    body.nohud #lk-movehint { display: none; }`;
+  document.head.appendChild(mhCss); document.body.appendChild(moveHint);
+  let hintFrom = null;
   function setInside(name) {
+    moveHint.classList.toggle('on', !!name); hintFrom = name ? null : undefined;
     if (name) chat.clear?.();
     world.scene.visible = !name; if (sky) sky.visible = !name; group.visible = !name;
     document.body.classList.toggle('bw-inside', !!name);
@@ -190,6 +206,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     onChat: (name) => { const p = chat.people.find((q) => q.name === name); if (p) chat.sayHi(p); },
     onUse: (player, active) => {
       if (benchSeat) { standUp(); return true; }
+      if (homeAct) { actKey('e'); return true; }
       if (active?.id && (active.id.startsWith('sport:') || active.id.startsWith('chess:'))) return !!sports?.use(active.id);
       if (active?.id?.startsWith('life:')) return lives.talk(active.id);
       // people's homes: knock; go in only when they have asked you in (lives.js)
@@ -224,6 +241,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
         const r = interiors.use(player.x, player.z);
         if (r?.exit) { interiors.leave(); passes.forgetLink(); if (visiting) { lives.leaveVisit(visiting); visiting = null; } setInside(null); pendingMove = doorOut && { ...doorOut, mode: 'outside' }; return true; }
         if (r?.sit) { pendingMove = { ...r.sit, mode: 'sit' }; return true; } // the seat bar says what you can do now
+        if (r?.act) { startAct(r.act); return true; }
         return !!r;
       }
       if (active?.id?.startsWith('enter:')) {
@@ -258,9 +276,9 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       if (pets?.isOpen) { pets.close(); return; }
       if (food?.isOpen) { food.close(); return; }
       if (interiors?.computerOpen) interiors.closeComputer();
-      else if (interiors?.seated || benchSeat) standUp();
+      else if (interiors?.seated || benchSeat || homeAct) standUp();
     },
-    getPrompt: (player) => (benchSeat || interiors?.seated ? null : interiors?.active ? interiors.prompt(player.x, player.z) : undefined), // seated: the seat bar takes over
+    getPrompt: (player) => (benchSeat || interiors?.seated || homeAct ? null : interiors?.active ? interiors.prompt(player.x, player.z) : undefined), // seated: the seat bar takes over
     world, props, camera, reduced, weatherFeed: night ? weatherFeed : null,
     onEquip: (id, on) => { gear?.set(id, on); mobility?.equip(id, on); },
     onInteract: (what) => {
@@ -612,6 +630,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     props.update(dt, t, player);
     if (!interiors?.active) { lives.update(dt, t, player); chat.update(dt, player); rec.update(t); litter?.update(dt, player); building?.update(dt); }
     profiler?.update(dt);
+    if (moveHint.classList.contains('on') && lastPlayer) { if (hintFrom === null) hintFrom = { x: lastPlayer.x, z: lastPlayer.z, t: 0 }; else if (hintFrom) { hintFrom.t += dt; if (Math.hypot(lastPlayer.x - hintFrom.x, lastPlayer.z - hintFrom.z) > 4 || hintFrom.t > 20) moveHint.classList.remove('on'); } }
+    if (homeAct) { homeAct.t += dt; if (homeAct.dur && homeAct.t >= homeAct.dur) endAct(true); if (!interiors?.active) homeAct = null; }
     if (!interiors?.active) { food?.update(dt, player); if (traffic?.addBlocker) { rideBlock ||= traffic.addBlocker({ r: 1.4 }); const rv = rides?.vehicle; rideBlock.on = !!(rv && world.onCarriageway?.(rv.x, rv.z, 0.6)); if (rv) { rideBlock.x = rv.x; rideBlock.z = rv.z; rideBlock.r = rv.r; } }
       traffic?.update(dt, player); slife?.update(dt, player); officials?.update(dt); mobility?.update(dt, t); sports?.update(dt); }
     pets?.update(dt, player, yaw ?? 0);
@@ -743,6 +763,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   // getting up, from a bench or a desk: at a desk the laptop closes and goes in your bag first
   let leaving = false;
   function standUp() {
+    if (homeAct) { endAct(); return; }
     if (benchSeat) {
       const st = benchSeat; benchSeat = null;
       pendingMove = { mode: 'stand', x: st.x + Math.sin(st.yaw) * 0.85, z: st.z + Math.cos(st.yaw) * 0.85 };
@@ -768,13 +789,62 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     desk: () => (interiors?.deskOn ? interiors.signOut() : interiors?.useDesk()),
     leave: () => standUp(),
   };
-  function seatAction(name) { if (!(benchSeat || interiors?.seated) || !SEAT_ACTS[name]) return false; SEAT_ACTS[name](); return true; }
+  function seatAction(name) { if (homeAct) return actKey(name); if (!(benchSeat || interiors?.seated) || !SEAT_ACTS[name]) return false; SEAT_ACTS[name](); return true; }
+  // ---------- doing things at home (rooms.js acts): sit on the sofa, lie down, cook, eat, shower... (Elvis, 10 October
+  // 2026: "when I click on lie down, it doesn't physically show an animation of it lying down") ----------
+  const ACT_WORDS = {
+    cook: ['Cooking...', 'Stirring the pot. It smells like a party.'], eat: ['Eating', 'Jollof, plantain, a cold drink. Perfect.'], shower: ['Showering', 'Fresh. Ready to ship.'],
+    wash: ['Washing your hands', 'Clean hands.'], reach: ['A cold drink', ['A cold Malt from the fridge.', 'Chilled zobo. Exactly what you needed.', 'Ice-cold water. Hydrate, then code.'] ], bench: ['Working', 'Done. That came out well.'], present: ['Recording', 'Cut! That take was the one.'],
+  };
+  const roomNow = () => interiors?.room;
+  function startAct(a) {
+    const R = roomNow(), pose = a.kind === 'sofa' ? (a.tv ? 'tv' : 'sofa') : a.kind;
+    homeAct = { ...a, pose, t: 0 };
+    pendingMove = { x: a.x, z: a.z, yaw: a.yaw, mode: 'pose', pose, seatY: a.seatY || null };
+    if (a.tv) R?.set?.('tv', true);
+    if (a.kind === 'cook') R?.set?.('cook', true);
+    if (a.kind === 'shower') R?.set?.('shower', true);
+    if (a.kind === 'eat') R?.set?.('plate', true);
+    const w = ACT_WORDS[a.kind];
+    hud.toast(a.kind === 'lie' ? 'You lie down. The ceiling fan of your mind slows. (Esc or move to get up.)' : a.kind === 'sofa' ? (a.tv ? 'TV on. Feet up with F.' : 'Comfy. Feet up with F, TV with E.') : w ? w[0] : a.label, 2600);
+    seatState = ''; syncSeat();
+  }
+  function setPose(pose) { if (!homeAct) return; homeAct.pose = pose; pendingMove = { x: homeAct.x, z: homeAct.z, yaw: homeAct.yaw, mode: 'pose', pose, seatY: homeAct.seatY || null, keepCam: true }; seatState = ''; syncSeat(); }
+  function endAct(done) {
+    const a = homeAct; if (!a) return; homeAct = null;
+    const R = roomNow();
+    if (a.kind === 'sofa') R?.set?.('tv', false);
+    if (a.kind === 'shower') R?.set?.('shower', false);
+    if (a.kind === 'cook') { R?.set?.('cook', false); if (done) { R?.set?.('plate', true); hud.toast('Jollof is ready, on the table. Sit down and eat.', 3000); } }
+    if (a.kind === 'eat' && done) R?.set?.('plate', false);
+    if (done && ACT_WORDS[a.kind] && a.kind !== 'cook') { const l = ACT_WORDS[a.kind][1]; hud.toast(Array.isArray(l) ? l[Math.floor(Math.random() * l.length)] : l, 2600); }
+    pendingMove = { mode: 'stand', x: a.back.x, z: a.back.z };
+    seatState = ''; syncSeat();
+  }
+  function actKey(k) {
+    const a = homeAct; if (!a) return false;
+    if (k === 'close') k = 'f'; // (main.js sends F as the laptop's close key)
+    if (k === 'leave' || k === 'escape') { endAct(); return true; }
+    if (a.kind === 'sofa') {
+      if (k === 'e' || k === 'tv') { const on = !roomNow()?.state?.tv; roomNow()?.set?.('tv', on); hud.toast(on ? 'TV on: Builders TV, Demo Day live.' : 'TV off.', 1800); seatState = ''; syncSeat(); return true; }
+      if (k === 'f' || k === 'feet') { setPose(a.pose === 'feet' ? (roomNow()?.state?.tv ? 'tv' : 'sofa') : 'feet'); return true; }
+      if ((k === 'r' || k === 'read') && roomNow()?.state?.book) { setPose(a.pose === 'read' ? 'sofa' : 'read'); return true; }
+    }
+    if (k === 'e') { endAct(); return true; }
+    return false;
+  }
   function syncSeat() {
-    const st = leaving ? '' : benchSeat ? 'bench' : interiors?.seated ? (interiors.computerOpen ? '' : interiors.deskOn ? 'desk' : interiors.lidOpen ? 'open' : 'closed') : '';
+    const st = leaving ? '' : homeAct ? `act:${homeAct.kind}:${homeAct.pose}:${roomNow()?.state?.tv ? 1 : 0}` : benchSeat ? 'bench' : interiors?.seated ? (interiors.computerOpen ? '' : interiors.deskOn ? 'desk' : interiors.lidOpen ? 'open' : 'closed') : '';
     const fee = interiors?.deskFee?.() || 0, deskLabel = !fee ? 'Desk computer' : interiors?.member ? 'Desk computer · free for members' : `Desk computer · ${fee} Efforts`;
     if (st === seatState) return;
     seatState = st;
     const btn = (k, label, act, go) => `<button data-act="${act}"${go ? ' class="go"' : ''}><b>${k}</b>${label}</button>`;
+    if (st.startsWith('act:')) {
+      const a = homeAct, tv = roomNow()?.state?.tv, book = roomNow()?.state?.book;
+      seatBar.innerHTML = a.kind === 'sofa' ? btn('E', tv ? 'TV off' : 'Watch TV', 'tv', true) + btn('F', a.pose === 'feet' ? 'Feet down' : 'Put your feet up', 'feet') + (book ? btn('R', a.pose === 'read' ? 'Stop reading' : 'Read your book', 'read') : '') + btn('Esc', 'Stand up', 'leave')
+        : a.dur ? btn('Esc', 'Stop', 'leave') : btn('E', a.kind === 'lie' ? 'Get up' : 'Stop', 'leave', true);
+      seatBar.classList.add('on'); return;
+    }
     seatBar.innerHTML = st === 'bench' ? btn('E', 'Stand up', 'leave', true)
       : st === 'closed' ? btn('E', 'Open laptop', 'use', true) + btn('O', deskLabel, 'desk') + btn('Esc', 'Pack up and leave', 'leave')
       : st === 'desk' ? btn('E', 'Use desk computer', 'use', true) + btn('O', 'Sign out', 'desk') + btn('Esc', 'Leave', 'leave')
@@ -801,6 +871,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { get food() { return food; }, get greenrey() { return greenrey; }, update, renderReflection, setSize, setGraphics, sport: () => sports?.pose() || null, get sports() { return sports; }, get graphics() { return gfx; }, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get cycling() { return cycling; }, get officials() { return officials; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { get food() { return food; }, get greenrey() { return greenrey; }, update, renderReflection, setSize, setGraphics, sport: () => sports?.pose() || null, get sports() { return sports; }, get graphics() { return gfx; }, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get cycling() { return cycling; }, get officials() { return officials; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || !!homeAct || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

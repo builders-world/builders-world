@@ -384,6 +384,7 @@ async function main() {
     else if (k === 'f' && !e.repeat && street?.seatAction?.('close')) { /* close the laptop at your desk */ }
     else if (k === 'o' && !e.repeat && street?.seatAction?.('desk')) { /* the desk computer: sign in, or sign out */ }
     else if (k === 'p' && !e.repeat && street?.profiler) street.profiler.toggle(); // the profiler: who is that?
+    else if (k === 'r' && !e.repeat && street?.seatAction?.('read')) { /* read your book on the sofa */ }
     else if (k === 'r' && !e.repeat && riding) { audio.wake(); const st = audio.nextStation(); (street?.hud.toast ?? chrome.toast)(`📻 ${st.name} · ${st.sub}`, 2200); } // the radio
     else if ((k === 'g' || k === 'l' || k === 'y') && !e.repeat && street?.pets?.act({ g: 'ball', l: 'laser', y: 'whistle' }[k])) { /* play with your pet */ }
     else if (k === 'escape') { street?.hud.close(); chrome.unpin(); chrome.hideCard(); chrome.toggleList(false); chrome.toggleHelp(false); }
@@ -464,6 +465,7 @@ async function main() {
   }
 
   let riding = false, savedDist = cam.distT, seated = false, savedOutside = null;
+  let pose = null, seatY = null; // at home: lying on the bed, cooking, in the shower... and how high the seat is
   // a game in progress (sports/): it places you and holds the camera until it ends
   let playing = false, gameCam = false;
   let jumpQueued = false, jumpV = 0, jumpY = 0, stepAcc = 0, groundY = 0, boxedCheck = 1, boxedT = 0, boxedAt = { x: 0, z: 0 };
@@ -557,13 +559,17 @@ async function main() {
     // moving into or out of a place, sitting down, standing up
     const move = street?.takeMove();
     if (move) {
-      if (move.mode === 'stand') { if (move.x !== undefined) player.set(move.x, 0, move.z); else player.z += 0.9; seated = false; snap = true; }
+      if (move.mode === 'stand') { if (move.x !== undefined) player.set(move.x, 0, move.z); else player.z += 0.9; seated = false; pose = null; seatY = null; snap = true; }
       else {
         player.set(move.x, 0, move.z);
-        if (move.yaw !== undefined) heading = cam.yaw = cam.yawT = move.yaw;
+        if (move.yaw !== undefined) { heading = move.yaw; if (!move.keepCam) cam.yaw = cam.yawT = move.yaw; }
         // on a street bench the camera swings round to a three-quarter front view, so you see yourself sit
         if (move.mode === 'sit' && street?.benchSeated) { cam.yaw = cam.yawT = move.yaw + 2.5; cam.pitchT = Math.max(cam.pitchT, 0.32); }
-        seated = move.mode === 'sit';
+        // doing something at home: the camera comes round to the front, so you see yourself do it (from above, lying down)
+        // (at a counter, a basin or a bench you face a wall: the camera stands to one side instead of in front)
+        if (move.mode === 'pose' && !move.keepCam) { const atWall = ['cook', 'wash', 'reach', 'bench'].includes(move.pose); cam.yawT = move.yaw + (move.pose === 'lie' ? 2.2 : atWall ? 1.05 : 2.6); cam.pitchT = move.pose === 'lie' ? 0.75 : atWall ? 0.42 : 0.36; cam.distT = Math.max(cam.distT, atWall ? 3.2 : 3.6); }
+        seated = move.mode === 'sit' || move.mode === 'pose';
+        pose = move.mode === 'pose' ? move.pose : null; seatY = move.seatY ?? null;
         if (move.mode === 'push') { walkTarget = null; walkPath = null; marker.visible = false; if (travel.on) setTravel(false); } // turned back at a gate
         if (move.mode === 'inside') { savedOutside = { dist: cam.distT, pitch: cam.pitchT }; cam.distT = cam.dist = 4.5; cam.pitchT = cam.pitch = 0.32; }
         if (move.mode === 'outside' && savedOutside) { cam.distT = savedOutside.dist; cam.pitchT = savedOutside.pitch; world.resolve(player, PLAYER_R); }
@@ -692,7 +698,7 @@ async function main() {
     avatar.position.y = groundY + jumpY + (gs?.y || 0);
     const groundSpeed = moving ? player.distanceTo(last) / Math.max(dt, 1e-4) : 0;
     lastSpeed = groundSpeed;
-    if (rig && !reduced) rig.update(dt, gs ? { speed: Math.min(gs.speed || 0, 8), running: !!gs.running, air: (gs.y || 0) > 0.05, t, seated: !!gs.seated } : { speed: Math.min(groundSpeed, 8), running, air: jumpY > 0.02, t, seated });
+    if (rig && !reduced) rig.update(dt, gs ? { speed: Math.min(gs.speed || 0, 8), running: !!gs.running, air: (gs.y || 0) > 0.05, t, seated: !!gs.seated } : { speed: Math.min(groundSpeed, 8), running, air: jumpY > 0.02, t, seated: seated && !pose ? true : pose ? ['sofa', 'feet', 'tv', 'read', 'eat'].includes(pose) : false, pose, seatY });
     else body.position.y = seated ? -0.42 : 0;
     street?.mobility?.pose(rig, dt, groundSpeed, inside); // on wheels: pedalling or pushing, over the walk
     // a footstep every stride, on whatever is underfoot

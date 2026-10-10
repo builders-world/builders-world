@@ -226,7 +226,7 @@ export function rigAvatar(root) {
 
     // the hips at the height the planted legs allow (above), breathing when still
     const breathe = (1 - walk) * 0.006 * Math.sin((s.t || 0) * 2.2);
-    pelvis.position.y = (walk > 0.02 && !s.seated ? cur.hipH : HIP_Y) + breathe - cur.land * 0.1 - (s.seated ? 0.36 : 0);
+    pelvis.position.y = s.seated ? (s.seatY || HIP_Y - 0.36) + breathe : (walk > 0.02 ? cur.hipH : HIP_Y) + breathe - cur.land * 0.1;
     // lean into a run; a small hip and chest counter-twist, no side-to-side rocking; the head looks ahead
     set(chest, 'x', lerp(0.04, 0.2, run) * walk + 0.08 * air, k);
     set(pelvis, 'y', -0.035 * walk * Math.sin(ph), k);
@@ -245,7 +245,33 @@ export function rigAvatar(root) {
         E.fn(P, E.t, E.t / E.dur, (m) => { pelvis.position.y += m * w; });
       }
     }
+    // ---- doing something at home (rooms.js): lying on the bed, the sofa, cooking, the shower... ----
+    if (s.pose) { cur.seatYLie = s.seatY || 0.7; homePose(s.pose, s.t || 0, k); }
+    else if (cur.lying) { root.rotation.x = 0; root.position.y = 0; cur.lying = false; }
     root.userData.face?.update(dt);
+  }
+  function homePose(name, t, k) {
+    const sh = (j, x, z) => { set(j.shoulder, 'x', x, k); if (z !== undefined) set(j.shoulder, 'z', z, k); };
+    const el = (j, v) => set(j.elbow, 'x', v, k);
+    if (name === 'lie') {
+      // on your back on the bed: the body tips back about the feet (the bed's height is the seat height)
+      cur.lying = true; root.rotation.x = -Math.PI / 2; root.position.y = (cur.seatYLie ?? 0.7);
+      [L, R].forEach((j) => { set(j.hip, 'x', 0, k); set(j.knee, 'x', 0.08, k); set(j.ankle, 'x', 0.3, k); sh(j, -0.05, (j === L ? -1 : 1) * 0.12); el(j, -0.15); });
+      pelvis.position.y = HIP_Y; set(neck, 'x', -0.1, k);
+      return;
+    }
+    if (cur.lying) { root.rotation.x = 0; root.position.y = 0; cur.lying = false; }
+    const sw = Math.sin(t * 3.2), sw2 = Math.sin(t * 6.5);
+    if (name === 'sofa' || name === 'tv') { sh(L, -0.35, -0.12); sh(R, -0.35, 0.12); el(L, -0.7); el(R, -0.7); set(chest, 'x', -0.14, k); }
+    else if (name === 'feet') { [L, R].forEach((j) => { set(j.hip, 'x', -1.45, k); set(j.knee, 'x', 0.1, k); set(j.ankle, 'x', 0.2, k); }); sh(L, -0.2, -0.2); sh(R, -0.2, 0.2); el(L, -0.4); el(R, -0.4); set(chest, 'x', -0.22, k); }
+    else if (name === 'read') { sh(L, -0.95, 0.15); sh(R, -0.95, -0.15); el(L, -1.35); el(R, -1.35); set(neck, 'x', 0.3, k); }
+    else if (name === 'eat') { const b = Math.max(0, Math.sin(t * 1.7)); sh(L, -0.55, 0.1); el(L, -1.0); sh(R, -0.6 - 0.7 * b, -0.1); el(R, -0.9 - 1.0 * b); set(neck, 'x', 0.15 - 0.1 * b, k); }
+    else if (name === 'cook') { sh(L, -0.8, 0.12); el(L, -1.0); sh(R, -0.95, -0.15 + 0.22 * sw); el(R, -1.05 + 0.18 * Math.cos(t * 3.2)); set(neck, 'x', 0.35, k); }
+    else if (name === 'shower') { sh(L, -2.6, -0.25 + 0.15 * sw2); sh(R, -2.6, 0.25 - 0.15 * sw2); el(L, -1.5); el(R, -1.5); set(neck, 'x', -0.25, k); }
+    else if (name === 'wash') { sh(L, -0.7, 0.1 + 0.08 * sw2); sh(R, -0.7, -0.1 - 0.08 * sw2); el(L, -0.6); el(R, -0.6); set(neck, 'x', 0.4, k); }
+    else if (name === 'reach') { const u = Math.min(1, (t % 4) / 1.2); sh(R, -1.4 + 0.9 * u, -0.1); el(R, -0.2 - 1.6 * u); sh(L, -0.1); el(L, -0.2); }
+    else if (name === 'bench') { sh(L, -0.85, 0.1); sh(R, -0.9, -0.1); el(L, -1.15 + 0.06 * sw2); el(R, -1.2 + 0.08 * Math.sin(t * 5)); set(neck, 'x', 0.4, k); }
+    else if (name === 'present') { sh(R, -1.0 + 0.35 * sw, -0.25); el(R, -0.9); sh(L, -0.3 - 0.25 * Math.max(0, -sw), 0.15); el(L, -0.5); set(neck, 'x', -0.05, k); }
   }
   const JOINTS = { pelvis, chest, neck, 'L.hip': L.hip, 'L.knee': L.knee, 'L.ankle': L.ankle, 'L.shoulder': L.shoulder, 'L.elbow': L.elbow, 'R.hip': R.hip, 'R.knee': R.knee, 'R.ankle': R.ankle, 'R.shoulder': R.shoulder, 'R.elbow': R.elbow };
   // start an emote: { fn(P, t, u, lift), dur, full, amp, done }; a new one ends the last
