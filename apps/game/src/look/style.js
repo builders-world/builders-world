@@ -223,8 +223,9 @@ export function dress(root, look, rig) {
   } else if (L.bottom === 'shorts') {
     // shorts ride the thighs so they move with the legs
     [rig?.L, rig?.R].forEach((side) => { if (!side?.hip) return; const o = new THREE.Mesh(G.box, B); o.scale.set(fem ? 0.2 : 0.21, 0.24, 0.25); o.position.set(0, -0.11, 0); side.hip.add(o); parts.push(o); });
-    // and the seat that joins them, so no gap opens between the legs as they swing
-    if (!fem) { const seat = new THREE.Mesh(G.box, B); seat.scale.set(0.44, 0.12, 0.26); pelvisPut(seat, 0.8); }
+    // and a rounded seat round each hip joint: the same shape at any stride, so the top of the shorts never
+    // breaks into corners as the legs swing (a box seat stayed put while the legs moved under it)
+    [rig?.L, rig?.R].forEach((side) => { if (!side?.hip) return; const o = new THREE.Mesh(new THREE.CylinderGeometry(fem ? 0.115 : 0.124, fem ? 0.115 : 0.124, fem ? 0.2 : 0.214, 14).rotateZ(Math.PI / 2), B); o.userData.ownGeo = true; side.hip.add(o); parts.push(o); });
   }
   // hips for the curvy frame, in whatever is worn there
   if (fem && !skirtLike) { const hip = new THREE.Mesh(G.box, L.bottom === 'shorts' ? B : F.trouser); hip.scale.set(0.46, 0.14, 0.27); pelvisPut(hip, 0.8); }
