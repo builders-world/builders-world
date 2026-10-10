@@ -453,6 +453,8 @@ async function main() {
   }
 
   let riding = false, savedDist = cam.distT, seated = false, savedOutside = null;
+  // a game in progress (sports/): it places you and holds the camera until it ends
+  let playing = false, gameCam = false;
   let jumpQueued = false, jumpV = 0, jumpY = 0, stepAcc = 0, groundY = 0, boxedCheck = 1, boxedT = 0, boxedAt = { x: 0, z: 0 };
   const idle = { t: 0, on: false, shot: -1, until: 0 };
   // other players, through the database (online.js); ?offline=1 plays solo
@@ -566,13 +568,20 @@ async function main() {
       if (!drag) cam.yawT += Math.atan2(Math.sin(rs.yaw - cam.yawT), Math.cos(rs.yaw - cam.yawT)) * (1 - Math.exp(-dt * 2));
     }
 
+    const gs = street?.sport?.();
+    if (gs) {
+      if (!playing) { walkTarget = null; walkPath = null; marker.visible = false; if (travel.on) setTravel(false); }
+      playing = true; player.set(gs.x, 0, gs.z); heading = gs.yaw;
+      if (gs.cam) { shotCam = gs.cam; gameCam = true; }
+    } else if (playing) { playing = false; if (gameCam) { shotCam = null; gameCam = false; } snap = true; }
+
     // walking, never running
     fwd.set(Math.sin(cam.yaw), 0, Math.cos(cam.yaw));
     right.set(-Math.cos(cam.yaw), 0, Math.sin(cam.yaw));
     mv.set(0, 0, 0);
     // on a bench or at a desk (screen closed), any move key or the stick gets you up
     if (seated && street?.canWalkOff && (['w', 's', 'a', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].some((k) => keys.has(k)) || Math.abs(input.state.move.x) + Math.abs(input.state.move.y) > 0.3)) street.standUp();
-    if (!cam.aerial && !riding && !seated) {
+    if (!cam.aerial && !riding && !seated && !playing) {
       if (keys.has('w') || keys.has('arrowup')) mv.add(fwd);
       if (keys.has('s') || keys.has('arrowdown')) mv.sub(fwd);
       if (keys.has('d') || keys.has('arrowright')) mv.add(right);
@@ -609,7 +618,7 @@ async function main() {
       // boxed in means: off the street network, trying to move, and getting nowhere
       const trying = mv.lengthSq() > 0 || !!walkTarget, moved = Math.hypot(player.x - boxedAt.x, player.z - boxedAt.z);
       boxedAt.x = player.x; boxedAt.z = player.z;
-      const free = inside || riding || seated || cam.aerial || groundY > 0.3 || jumpY > 0 || !trying || moved > 0.6 || !world.reachable || world.reachable(player.x, player.z);
+      const free = inside || riding || seated || playing || cam.aerial || groundY > 0.3 || jumpY > 0 || !trying || moved > 0.6 || !world.reachable || world.reachable(player.x, player.z);
       boxedT = free ? 0 : boxedT + 0.5;
       if (boxedT >= 2) {
         boxedT = 0;
@@ -647,7 +656,7 @@ async function main() {
     avatar.position.copy(player);
     avatar.rotation.y = heading;
     // jump: real gravity, from the ground only, not while riding or seated
-    if (jumpQueued && jumpY === 0 && !riding && !seated && !cam.aerial) { jumpV = 5.0; sfx('jump'); } // peaks near 0.96 m
+    if (jumpQueued && jumpY === 0 && !riding && !seated && !playing && !cam.aerial) { jumpV = 5.0; sfx('jump'); } // peaks near 0.96 m
     jumpQueued = false;
     if (jumpV !== 0 || jumpY > 0) {
       jumpV -= 13 * dt; jumpY += jumpV * dt;
@@ -662,10 +671,10 @@ async function main() {
         else { jumpY += groundY - g; groundY = g; if (jumpV === 0) jumpV = -0.01; } // off an edge: fall
       }
     } else if (inside || riding) { groundY = 0; }
-    avatar.position.y = groundY + jumpY;
+    avatar.position.y = groundY + jumpY + (gs?.y || 0);
     const groundSpeed = moving ? player.distanceTo(last) / Math.max(dt, 1e-4) : 0;
     lastSpeed = groundSpeed;
-    if (rig && !reduced) rig.update(dt, { speed: Math.min(groundSpeed, 8), running, air: jumpY > 0.02, t, seated });
+    if (rig && !reduced) rig.update(dt, gs ? { speed: Math.min(gs.speed || 0, 8), running: !!gs.running, air: (gs.y || 0) > 0.05, t, seated: !!gs.seated } : { speed: Math.min(groundSpeed, 8), running, air: jumpY > 0.02, t, seated });
     else body.position.y = seated ? -0.42 : 0;
     street?.mobility?.pose(rig, dt, groundSpeed, inside); // on wheels: pedalling or pushing, over the walk
     // a footstep every stride, on whatever is underfoot
@@ -795,7 +804,7 @@ async function main() {
     camera.position.copy(camPos);
     camera.lookAt(look);
     // a wall pushed the camera into the avatar: hide it rather than show the inside of a head
-    avatar.visible = !riding && !shotCam?.first && (cam.aerial || travel.on || (view.id !== 'first' && camPos.distanceTo(look) > 1.7));
+    avatar.visible = !riding && !shotCam?.first && !gs?.hide && (cam.aerial || travel.on || (view.id !== 'first' && camPos.distanceTo(look) > 1.7));
 
     chrome.update(camera, player, !cam.aerial);
     street?.update(dt, t, player, cam.yaw, shared.uArrival.value);

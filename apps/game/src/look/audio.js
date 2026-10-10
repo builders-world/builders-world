@@ -140,6 +140,19 @@ export function createAudio() {
     // three knocks on a wooden door
     knock: () => { const t = ctx.currentTime; [0, 0.2, 0.4].forEach((k) => { noise(sfxBus, t + k, { type: 'lowpass', f: 380, dur: 0.07, peak: 0.22 }); tone(sfxBus, 95, t + k, { type: 'sine', peak: 0.16, dec: 0.1 }); }); },
     // litter into the bag: a short crinkle and a soft up-note
+    // sports (sports/): a chess piece set down, racket and ball, the hoop, the pool, the referee
+    clack: () => { const t = ctx.currentTime; noise(sfxBus, t, { type: 'bandpass', f: 1800, q: 3, dur: 0.04, peak: 0.16 }); tone(sfxBus, 420, t, { type: 'triangle', peak: 0.05, dec: 0.05 }); },
+    hit: (o = {}) => { const t = ctx.currentTime, tt = o.kind === 'tt'; noise(sfxBus, t, { type: 'bandpass', f: tt ? 3200 : 1400, q: 2, dur: tt ? 0.03 : 0.05, peak: 0.12 + 0.12 * (o.power ?? 0.6) }); tone(sfxBus, tt ? 900 : 260, t, { type: 'triangle', peak: tt ? 0.05 : 0.08, dec: tt ? 0.03 : 0.07 }); },
+    bounce: (o = {}) => { const t = ctx.currentTime, k = o.kind; if (k === 'bball') { tone(sfxBus, 85, t, { peak: 0.2, dec: 0.12 }); noise(sfxBus, t, { type: 'lowpass', f: 300, dur: 0.06, peak: 0.12 }); return; } tone(sfxBus, k === 'tt' ? 1300 : 330, t, { type: 'sine', peak: k === 'tt' ? 0.05 : 0.07, dec: k === 'tt' ? 0.03 : 0.06 }); noise(sfxBus, t, { type: 'bandpass', f: k === 'tt' ? 3500 : 900, dur: 0.03, peak: 0.06 }); },
+    wall: () => { const t = ctx.currentTime; noise(sfxBus, t, { type: 'bandpass', f: 700, q: 1.5, dur: 0.08, peak: 0.12 }); tone(sfxBus, 180, t, { peak: 0.06, dec: 0.1 }); },
+    net: () => { const t = ctx.currentTime; noise(sfxBus, t, { type: 'lowpass', f: 500, dur: 0.12, peak: 0.1 }); },
+    whistle: () => { const t = ctx.currentTime; [0, 0.09, 0.18].forEach((k) => tone(sfxBus, 2900 + (k ? 120 : 0), t + k, { type: 'sine', peak: 0.06, dec: 0.08 })); },
+    buzzer: () => { const t = ctx.currentTime; tone(sfxBus, 196, t, { type: 'square', a: 0.01, peak: 0.05, dec: 0.7, filter: 1200 }); tone(sfxBus, 233, t, { type: 'square', a: 0.01, peak: 0.04, dec: 0.7, filter: 1200 }); },
+    rim: () => { const t = ctx.currentTime; [610, 937, 1450].forEach((f, k) => tone(sfxBus, f, t, { type: 'sine', peak: 0.06 / (k + 1), dec: 0.35 })); },
+    swish: () => { const t = ctx.currentTime; noise(sfxBus, t, { type: 'highpass', f: 2600, dur: 0.22, peak: 0.08, a: 0.03 }); },
+    splash: (o = {}) => { const t = ctx.currentTime; noise(sfxBus, t, { type: 'lowpass', f: o.big ? 900 : 1600, dur: o.big ? 0.5 : 0.14, peak: o.big ? 0.2 : 0.06, a: 0.01 }); },
+    beep: (o = {}) => tone(sfxBus, o.high ? 1320 : 880, ctx.currentTime, { type: 'sine', peak: 0.1, dec: o.long ? 0.6 : 0.2 }),
+    cheer: () => { const t = ctx.currentTime; noise(sfxBus, t, { type: 'bandpass', f: 1100, q: 0.6, dur: 1.4, peak: 0.12, a: 0.25 }); noise(sfxBus, t + 0.1, { type: 'bandpass', f: 2300, q: 0.8, dur: 1.1, peak: 0.06, a: 0.3 }); },
     pick: () => { const t = ctx.currentTime; noise(sfxBus, t, { type: 'highpass', f: 2400, dur: 0.09, peak: 0.06 }); tone(sfxBus, midi(84), t + 0.05, { type: 'sine', peak: 0.04, dec: 0.15 }); },
     // a speech blip: two quick soft notes, higher for you than for others
     chat: (o = {}) => { const t = ctx.currentTime, b = o.me ? 79 : 72 + Math.floor(Math.random() * 5); tone(sfxBus, midi(b), t, { type: 'sine', peak: 0.04, dec: 0.08 }); tone(sfxBus, midi(b + 4), t + 0.07, { type: 'sine', peak: 0.035, dec: 0.1 }); },

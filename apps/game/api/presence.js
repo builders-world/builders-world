@@ -1,4 +1,4 @@
-// POST /api/presence  { id, name, district, x, z, yaw, speed, look, say, emote, home, knock: { to, kind }, answer: { to, kind, ok } }
+// POST /api/presence  { id, name, district, x, z, yaw, speed, look, say, emote, home, knock: { to, kind }, answer: { to, kind, ok }, play: { to, game, gid, act, moves } }
 //   -> { you, players: [{ id, name, x, z, yaw, speed, look, say, emote, t }], online }
 // Every player calls this about once a second: it records where you are and returns everyone else in
 // the same district seen in the last 12 seconds. Positions are clamped and text is trimmed; anything
@@ -48,6 +48,11 @@ export default async function handler(req, res) {
   const pid = (v) => str(v, 40).replace(/[^A-Za-z0-9_-]/g, '');
   const knock = b.knock && pid(b.knock.to).length >= 8 ? { to: pid(b.knock.to), kind: b.knock.kind === 'gate' ? 'gate' : 'door', t: now.getTime() } : null;
   const answer = b.answer && pid(b.answer.to).length >= 8 ? { to: pid(b.answer.to), kind: b.answer.kind === 'gate' ? 'gate' : 'door', ok: b.answer.ok === true, t: now.getTime() } : null;
+  // games between players: chess invites and moves, as a list of moves in long algebraic form
+  const ACTS = ['invite', 'accept', 'decline', 'move', 'resign', 'draw', 'drawok', 'drawno', 'leave'];
+  const moves = typeof b.play?.moves === 'string' && /^([a-h][1-8][a-h][1-8][qrbn]?( |$))*$/.test(b.play.moves) ? b.play.moves.slice(0, 1800) : '';
+  const play = b.play && pid(b.play.to).length >= 8 && b.play.game === 'chess' && ACTS.includes(b.play.act) && /^[a-z0-9]{6,16}$/.test(b.play.gid || '')
+    ? { to: pid(b.play.to), game: 'chess', gid: b.play.gid, act: b.play.act, moves, t: now.getTime() } : null;
   try {
     const d = await db(), players = d.collection('players');
     const set = { ...me };
@@ -55,6 +60,7 @@ export default async function handler(req, res) {
     if (emote) set.emote = { e: emote, t: now.getTime() };
     if (knock) set.knock = knock;
     if (answer) set.answer = answer;
+    if (play) set.play = play;
     await players.updateOne({ id }, { $set: set }, { upsert: true });
     const since = new Date(now.getTime() - 12000);
     const others = await players.find({ district, seen: { $gte: since }, id: { $ne: id } }, { projection: { _id: 0, district: 0 } }).sort({ seen: -1 }).limit(60).toArray();

@@ -44,7 +44,7 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
   const publicCard = () => { let c = {}; try { c = JSON.parse(localStorage.getItem('bw-public') || '{}'); } catch { /* */ } return { ...c, commits: c.showCommits ? walletEngine().commits : null }; };
   const remote = new Map(); // id -> { obj, rig, tag, from, to, t0, lastSay, lastEmote }
   let pending = { say: '', emote: '' }, busy = false, timer = 0, ok = null, fails = 0, latest = [];
-  const seenKnock = new Map(), seenAnswer = new Map(), started = Date.now();
+  const seenKnock = new Map(), seenAnswer = new Map(), seenPlay = new Map(), started = Date.now();
 
   function spawn(p) {
     const av = createAvatarModel({ color: p.look?.color, style: p.look?.style });
@@ -63,7 +63,7 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
     if (busy || document.hidden) return;
     busy = true;
     const P = getPlayer();
-    const body = { id, district, x: P.x, z: P.z, y: P.y || 0, yaw: getHeading(), speed: getSpeed(), ...me(), say: pending.say, emote: pending.emote, home: getHome?.() || '', knock: pending.knock, answer: pending.answer, np: document.body.classList.contains('bw-creator') ? null : window.__bw?.look?.spotify?.now || null, card: publicCard(), pet: (() => { try { return JSON.parse(localStorage.getItem('bw-pet') || 'null'); } catch { return null; } })() };
+    const body = { id, district, x: P.x, z: P.z, y: P.y || 0, yaw: getHeading(), speed: getSpeed(), ...me(), say: pending.say, emote: pending.emote, home: getHome?.() || '', knock: pending.knock, answer: pending.answer, play: pending.play, np: document.body.classList.contains('bw-creator') ? null : window.__bw?.look?.spotify?.now || null, card: publicCard(), pet: (() => { try { return JSON.parse(localStorage.getItem('bw-pet') || 'null'); } catch { return null; } })() };
     pending = { say: '', emote: '' };
     try {
       const r = await fetch('/api/presence', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
@@ -78,6 +78,8 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
       j.players.forEach((p) => {
         if (p.knock && p.knock.to === id && p.knock.t > Math.max(started, seenKnock.get(p.id) || 0)) { seenKnock.set(p.id, p.knock.t); onKnock?.(p); }
         if (p.answer && p.answer.to === id && p.answer.t > Math.max(started, seenAnswer.get(p.id) || 0)) { seenAnswer.set(p.id, p.answer.t); onAnswer?.(p); }
+        // games between players (chess: invites, moves, resignations, draw offers), sports/chess.js listens
+        if (p.play && p.play.to === id && p.play.t > Math.max(started - 60000, seenPlay.get(p.id) || 0)) { seenPlay.set(p.id, p.play.t); dispatchEvent(new CustomEvent('bw:play', { detail: { from: p.id, name: p.name, play: p.play } })); }
       });
       j.players.forEach((p) => {
         seen.add(p.id);
@@ -143,6 +145,7 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
   function dispose() { remote.forEach((r) => { r.obj.removeFromParent(); r.dispose?.(); }); chip.remove(); say.remove(); tags.remove(); style.remove(); }
   const knock = (to, kind = 'door') => { pending.knock = { to, kind }; timer = Math.min(timer, 0.2); };
   const answer = (to, ok2, kind = 'door') => { pending.answer = { to, ok: ok2, kind }; timer = Math.min(timer, 0.2); };
+  const play = (msg) => { pending.play = msg; timer = Math.min(timer, 0.15); };
   const people = () => [...remote].map(([pid, r]) => ({ id: pid, obj: r.obj, name: r.name, rec: latest.find((q) => q.id === pid) }));
-  return { update, bodies, dispose, knock, answer, players: () => latest, people, get count() { return remote.size; }, get online() { return ok; }, id };
+  return { update, bodies, dispose, knock, answer, play, players: () => latest, people, get count() { return remote.size; }, get online() { return ok; }, id };
 }

@@ -17,6 +17,7 @@
     "node": ">=20"
   },
   "dependencies": {
+    "chess.js": "^1.4.0",
     "mongodb": "^6.21.0",
     "three": "^0.170.0"
   },
