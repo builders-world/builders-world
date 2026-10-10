@@ -181,7 +181,7 @@ export function findSite(world, used, W, D) {
 // kept clear of the pond park and of each other, as near the start as there is room.
 export function buildRecreation({ world, scene, uTime, taken = [], reduced }) {
   const group = new THREE.Group(); group.name = 'recreation'; scene.add(group);
-  const pois = [], cols = [], anim = [];
+  const pois = [], cols = [], anim = [], walk = [];
   const used = taken;
   const site = (W, D) => findSite(world, used, W, D);
   const mat = (color, extra = {}) => new THREE.MeshStandardMaterial({ color, roughness: 0.85, ...extra });
@@ -200,13 +200,22 @@ export function buildRecreation({ world, scene, uTime, taken = [], reduced }) {
       const ramp = new THREE.Mesh(new THREE.ExtrudeGeometry(qp, { depth: 10, bevelEnabled: false }).translate(0, 0, -5), concrete);
       ramp.rotation.y = sd > 0 ? 0 : Math.PI; ramp.position.set(sd * 7, 0, 0); g.add(ramp);
       g.add(new THREE.Mesh(box(0.12, 0.12, 10, sd * 10, 2.05, 0), mat(0x55605a, { metalness: 0.5 })));
-      cols.push({ name: 'skate_ramp', cx: at.x + sd * 8.5, cz: at.z, hx: 1.5, hz: 5, ry: 0, h: 2.0 });
+      // the curve is a quadratic from the foot (0, 0) to the lip (3, 2): height 2 (1 - sqrt(1 - u / 3))^2, u metres in
+      // (the frame is turned so u runs from the foot outward on both sides)
+      walk.push({ cx: at.x + sd * 8.5, cz: at.z, hx: 1.5, hz: 5, ry: 0, fn: (lx) => { const u = Math.max(0, Math.min(3, 1.5 + lx * sd)); return 2 * (1 - Math.sqrt(1 - u / 3)) ** 2; } });
+      cols.push({ name: 'skate_ramp', cx: at.x + sd * 8.5, cz: at.z, hx: 1.5, hz: 5, ry: 0, navOnly: true }); // walkers go round
+      cols.push({ name: 'skate_ramp_back', cx: at.x + sd * 10.05, cz: at.z, hx: 0.08, hz: 5, ry: 0, h: 2.0 }); // its back is a wall
     });
     const fb = new THREE.Shape(); fb.moveTo(-2.5, 0); fb.lineTo(-1.2, 0.8); fb.lineTo(1.2, 0.8); fb.lineTo(2.5, 0); fb.closePath();
     g.add(new THREE.Mesh(new THREE.ExtrudeGeometry(fb, { depth: 3, bevelEnabled: false }).translate(0, 0, -1.5), concrete));
-    cols.push({ name: 'skate_box', cx: at.x, cz: at.z, hx: 1.6, hz: 1.5, ry: 0, h: 0.8 });
+    // the funbox: flat top 0.8 m up between |x| 1.2, sloping to the pad at |x| 2.5
+    walk.push({ cx: at.x, cz: at.z, hx: 2.5, hz: 1.5, ry: 0, fn: (lx) => (Math.abs(lx) <= 1.2 ? 0.8 : 0.8 * Math.max(0, 2.5 - Math.abs(lx)) / 1.3) });
+    cols.push({ name: 'skate_box', cx: at.x, cz: at.z, hx: 2.5, hz: 1.5, ry: 0, navOnly: true });
+    cols.push({ name: 'skate_box_side', cx: at.x, cz: at.z, hx: 1.2, hz: 1.5, ry: 0, h: 0.8 }); // only its ends are ramps
     g.add(new THREE.Mesh(box(4, 0.08, 0.08, 0, 0.55, 4.5), mat(0xe46f4f, { metalness: 0.4 })), new THREE.Mesh(box(0.08, 0.55, 0.08, -1.8, 0.27, 4.5), mat(0x263832)), new THREE.Mesh(box(0.08, 0.55, 0.08, 1.8, 0.27, 4.5), mat(0x263832)));
     g.add(new THREE.Mesh(box(4, 0.5, 1, 0, 0.25, -4.8), concrete));
+    walk.push({ cx: at.x, cz: at.z - 4.8, hx: 2, hz: 0.5, ry: 0, top: 0.5 }); // the ledge: hop up onto it
+    cols.push({ name: 'skate_ledge', cx: at.x, cz: at.z - 4.8, hx: 2, hz: 0.5, ry: 0, navOnly: true });
     paint.forEach((c, i) => g.add(new THREE.Mesh(new THREE.CircleGeometry(0.8 + i * 0.3, 16).rotateX(-Math.PI / 2).translate(-3 + i * 3, 0.09, 2.5), mat(c, { polygonOffset: true, polygonOffsetFactor: -2 }))));
     const sg = signFor('SKATE PARK', '#e46f4f'); sg.position.set(0, 0, 7.6); g.add(sg);
     add(g, at, 20, 14, place('Skate Park'), 'park');
@@ -270,6 +279,7 @@ export function buildRecreation({ world, scene, uTime, taken = [], reduced }) {
   }
 
   world.addColliders(cols);
+  world.addWalkables?.(walk);
   return {
     group, pois, used,
     update(t) { if (reduced) return; anim.forEach((a) => { const h = 0.4 + 1.4 * Math.max(0, Math.sin(t * 2.2 + a.ph)); a.j.scale.y = h; }); },

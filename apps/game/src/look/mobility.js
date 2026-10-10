@@ -144,11 +144,15 @@ export function createMobility({ world, scene, props, avatar, toast, used = [], 
       r.s = (r.s + r.speed * dt * (reduced ? 0.5 : 1)) % r.total;
       let i = 1; while (i < r.lens.length - 1 && r.lens[i] < r.s) i++;
       const a = r.pts[i - 1], b = r.pts[i], u = (r.s - r.lens[i - 1]) / ((r.lens[i] - r.lens[i - 1]) || 1);
-      r.holder.position.set(a.x + (b.x - a.x) * u, 0, a.z + (b.z - a.z) * u);
-      r.holder.rotation.y = Math.atan2(b.x - a.x, b.z - a.z);
-      // skaters ollie over the funbox at the middle of the pad
+      const x = a.x + (b.x - a.x) * u, z = a.z + (b.z - a.z) * u, yaw = Math.atan2(b.x - a.x, b.z - a.z);
+      // ride on whatever is under the wheels (the funbox, a ramp), tipped with its slope
+      const fx = Math.sin(yaw) * 0.4, fz = Math.cos(yaw) * 0.4, feet = (r.gy || 0) + 0.3;
+      const gy = world.groundAt?.(x, z, feet) ?? 0, ahead = world.groundAt?.(x + fx, z + fz, feet + 0.3) ?? 0, back = world.groundAt?.(x - fx, z - fz, feet + 0.3) ?? 0;
+      r.gy = gy;
+      r.holder.position.set(x, gy, z);
+      r.holder.rotation.set(-Math.atan2(ahead - back, 0.8), yaw, 0, 'YXZ');
       // a little ollie now and then, out on the flat
-      if (r.kind === 'skate') { const ph = (r.s / r.total * 6) % 1; r.holder.position.y = ph < 0.08 ? Math.sin((ph / 0.08) * Math.PI) * 0.45 : 0; }
+      if (r.kind === 'skate' && gy < 0.02) { const ph = (r.s / r.total * 6) % 1; r.holder.position.y = ph < 0.08 ? Math.sin((ph / 0.08) * Math.PI) * 0.45 : 0; }
       r.rig?.update(dt, { speed: 0, t: tt });
       const push = Math.max(0, Math.sin(tt * 3 + r.speed));
       if (r.rig) { if (r.kind === 'skate') { r.rig.R.hip.rotation.x = -push * 0.5; r.rig.R.knee.rotation.x = 0.2 + push * 0.3; r.rig.chest.rotation.y = 0.5; } else { const s = Math.sin(tt * 4); r.rig.L.hip.rotation.x = s * 0.5; r.rig.R.hip.rotation.x = -s * 0.5; r.rig.chest.rotation.x = 0.2; } }

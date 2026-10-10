@@ -975,6 +975,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
         }
         return;
       }
+      if (s.navOnly) return; // walkers keep off it, but you can ride over it (a skate park funbox)
       if (s.h !== undefined && y + 0.25 > s.h) return; // tucked knees lift the feet about 25 cm
       if (s.y1 !== undefined && (y > s.y1 - 0.3 || y + 1.7 < s.y0)) return; // above it, or walking underneath
       if (s.step && s.y1 <= y + 0.55) return; // a step you can step up onto
@@ -1078,9 +1079,12 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     groundAt: (x, z, feet = 0) => {
       let g = 0;
       for (const w of walkables) {
-        if (w.top > feet + 0.55 || w.top <= g) continue;
+        if (!w.fn && (w.top > feet + 0.55 || w.top <= g)) continue;
         const dx = x - w.cx, dz = z - w.cz, cs = Math.cos(w.ry), sn = Math.sin(w.ry), lx = dx * cs - dz * sn, lz = dx * sn + dz * cs;
-        if (Math.abs(lx) <= w.hx + 0.05 && Math.abs(lz) <= w.hz + 0.05) g = w.top;
+        if (Math.abs(lx) > w.hx + 0.05 || Math.abs(lz) > w.hz + 0.05) continue;
+        // a shaped surface (a ramp, a funbox) gives its height at the spot, in its own frame
+        const top = w.fn ? w.fn(lx, lz) : w.top;
+        if (top <= feet + 0.55 && top > g) g = top;
       }
       return g;
     },
