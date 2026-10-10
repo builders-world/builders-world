@@ -113,6 +113,18 @@ export function createGates({ world, scene, props, lives, passes, toast, getHour
     props.interact.push(homeIt);
   }
   placeHomeDoor();
+  // everyone has a home (world bible 6.6): on your first visit you are given the nearest free house in an
+  // estate, with its resident pass and its own Wi-Fi; renting another later moves you
+  function grantHome() {
+    if (passes.tenancy()) return passes.tenancy();
+    const taken = new Set((lives?.residents || []).map((r) => r.home?.addr).filter(Boolean));
+    const s = world.spawn, free = (world.addresses || []).filter((h) => h.door && !taken.has(h.addr)).sort((a, b) => Math.hypot(a.x - s.x, a.z - s.z) - Math.hypot(b.x - s.x, b.z - s.z));
+    const h = free[0]; if (!h) return null;
+    const wifi = { ssid: `Home-${h.no}-${h.estate.split(' ')[0]}`, pass: `${h.estate.split(' ')[0].toLowerCase()}${h.no.toLowerCase()}` };
+    passes.addCard({ kind: 'tenant', estate: h.estate, addr: h.addr, gate: h.gate, house: h.no, until: Date.now() + 3650 * DAY, wifi, owned: true });
+    placeHomeDoor();
+    return passes.tenancy();
+  }
 
   // ---------- the gate is watched ----------
   let lastOut = null, inEstate = null, cool = 0;
@@ -188,5 +200,5 @@ export function createGates({ world, scene, props, lives, passes, toast, getHour
   function update2(dt, player, indoors) { syncT -= dt; if (syncT <= 0 && online) { syncT = 1; syncPlayerDoors(); } return baseUpdate(dt, player, indoors); }
 
   function dispose() { group.removeFromParent(); panel.remove(); style.remove(); ask.remove(); askCss.remove(); }
-  return { open, close, update: update2, enterHome, knocked, answered, knockPlayer, setOnline: (o) => { online = o; }, get isOpen() { return panel.classList.contains('on'); }, estates, dispose };
+  return { grantHome, open, close, update: update2, enterHome, knocked, answered, knockPlayer, setOnline: (o) => { online = o; }, get isOpen() { return panel.classList.contains('on'); }, estates, dispose };
 }

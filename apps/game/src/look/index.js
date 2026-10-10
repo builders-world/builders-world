@@ -550,7 +550,9 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   setGraphics(gfx);
 
   let cullT = 0;
+  let lastPlayer = null;
   function update(dt, t, player, yaw, arrival) {
+    lastPlayer = player;
     emotes?.update(dt);
     // the rain starting is news to everyone out in it
     const wet = (live?.rain ?? 0) > 0.25; if (wet && !wasWet) emotes?.event('rain', player.x, player.z, 35, { max: 8, chance: 0.7 }); wasWet = wet;
@@ -627,6 +629,29 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   }
 
   // Jump (map, Online now): straight to another player, a couple of metres away on open ground
+  // ---------- where you start (world bible 6.6) ----------
+  // Everyone has a home. New players start inside it; returning players come back to where they were
+  // (or home, if that is where they left off). Saved every 5 s. Automated test runs keep the street start
+  // unless ?start=home asks for it.
+  {
+    const qs = new URLSearchParams(location.search), LAST = 'bw-last', district = world.place?.name || 'Yaba';
+    let last = null; try { last = JSON.parse(localStorage.getItem(LAST) || 'null'); } catch { /* */ }
+    try { gates?.grantHome?.(); } catch (err) { console.warn('no home granted', err); }
+    const goHome = () => { const host = gates?.enterHome?.(); if (!host || interiors?.active) return false; doorOut = { x: host.door.x, z: host.door.z, yaw: host.door.ry ?? 0 }; interiors.enter('home', host).then((p) => { setInside('Your home'); pendingMove = { ...p, mode: 'inside' }; passes.arrive('myhome'); }); return true; };
+    const automated = navigator.webdriver && qs.get('start') !== 'home';
+    if (!automated) {
+      if (qs.get('start') === 'home' || !last || (last.district === district && last.inside === 'myhome')) setTimeout(goHome, 300);
+      else if (last.district === district && Number.isFinite(last.x)) { const q = world.nearestReachable?.(last.x, last.z) || last; pendingMove = { mode: 'stand', x: q.x, z: q.z }; }
+    }
+    let street = null;
+    setInterval(() => {
+      const p = lastPlayer; if (!p) return;
+      if (!interiors?.active) street = { x: +p.x.toFixed(1), z: +p.z.toFixed(1) };
+      const inside = interiors?.active ? interiors.room?.key || null : null;
+      if (!street && !inside) return;
+      try { localStorage.setItem(LAST, JSON.stringify({ district, ...(street || {}), inside, at: Date.now() })); } catch { /* */ }
+    }, 5000);
+  }
   addEventListener('bw:jumpto', (e) => { const d = e.detail || {}; if (interiors?.active) { hud.toast('Go outside first, then jump.', 2200); return; } const q = world.nearestReachable(d.x + 1.6, d.z + 1.6) || { x: d.x, z: d.z }; pendingMove = { mode: 'stand', x: q.x, z: q.z }; hud.toast(`You are with ${d.name || 'them'}.`, 2000); });
   // a teleport for the player (into or out of a place, sitting, standing), taken once
   // getting up, from a bench or a desk: at a desk the laptop closes and goes in your bag first
