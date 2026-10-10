@@ -16,6 +16,7 @@ import { buildPlaceFronts, hubSign } from './places.js';
 import { buildEstateSigns } from './estatesigns.js';
 import { passesEngine, MEMBERS_ONLY } from './passes.js';
 import { createGates } from './gates.js';
+import { buildBench } from './build.js';
 import { walletEngine } from './wallet.js';
 import { createInteriors, PLACES, namePlaces } from './interior.js';
 import { sunPosition, sunDirection } from './sun.js';
@@ -126,7 +127,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     };
   })();
 
-  let gates = null, visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
+  let building = null, gates = null, visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
   // the tech places you can walk into (world bible 6.6)
   const doors = [];
   if (props.hubAt) doors.push({ key: 'hub', at: props.hubAt });
@@ -224,11 +225,15 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       if (what !== 'place-bench' || !props.area) return;
       const ghost = props.root.children.find((c) => c.userData.ghost)?.userData.ghost;
       if (!ghost) return;
-      const bench = new THREE.Mesh(ghost.geometry, new THREE.MeshStandardMaterial({ color: 0x6b4a30, roughness: 0.7 }));
-      ghost.getWorldPosition(bench.position);
-      ghost.getWorldQuaternion(bench.quaternion);
+      // the bench goes up as a time-lapse: builders in hard hats, part by part (build.js)
+      const at = ghost.getWorldPosition(new THREE.Vector3()), quat = ghost.getWorldQuaternion(new THREE.Quaternion());
       ghost.visible = false;
-      placed.add(bench);
+      building = buildBench({ scene: placed, at: placed.worldToLocal(at.clone()), quat, player: avatar, reduced, onDone: (site) => {
+        building = null; hud.toast('Your bench is built. Sit on it any time.', 3000);
+        const yaw = new THREE.Euler().setFromQuaternion(quat, 'YXZ').y, st = { x: at.x + Math.sin(yaw) * 0.05, z: at.z + Math.cos(yaw) * 0.05, yaw };
+        seats.push(st); props.interact.push({ id: `seat:${seats.length - 1}`, label: 'Sit on your bench', x: st.x + Math.sin(yaw) * 0.5, z: st.z + Math.cos(yaw) * 0.5, r: 1.3 });
+        world.addColliders([{ name: 'bench', cx: at.x, cz: at.z, hx: 0.9, hz: 0.25, ry: yaw, h: 0.9 }]);
+      } });
     },
   });
   group.add(hud.route);
@@ -390,7 +395,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     fill.position.set(camera.position.x * 0.6 + player.x * 0.4, 3.2, camera.position.z * 0.6 + player.z * 0.4);
     if (rainMesh) rainMesh.userData.cam.value.copy(camera.position);
     props.update(dt, t, player);
-    if (!interiors?.active) { lives.update(dt, t, player); chat.update(dt, player); rec.update(t); litter?.update(dt); }
+    if (!interiors?.active) { lives.update(dt, t, player); chat.update(dt, player); rec.update(t); litter?.update(dt); building?.update(dt); }
     // estate gates: no pass, no entry (gates.js)
     if (!pendingMove) { const push = gates?.update(dt, player, !!interiors?.active || !!benchSeat); if (push) pendingMove = { mode: 'push', ...push }; }
     syncSeat();
