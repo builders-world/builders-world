@@ -114,9 +114,21 @@ Every request Elvis has made, with where it stands. Updated 10 October 2026, 10:
 | 92 | Skaters sink into the skate park's ramps and blocks | Merged (#3): funbox, quarter pipes and ledge are rideable surfaces; skaters follow them |
 | 93 | Greenrey: too much shiny grass | Merged (#4), one commit with a switch (Settings > Graphics, ?greenrey=0): laterite ground, grass only between buildings and in parks, car parks and building plots on open land, matte grass in rain |
 | 94 | Vendors' bodies inside their stalls; extend the shade roof | Merged (#5): traders behind the counter, solid; awnings 1.1 m back and 0.8 m forward; grills beside the stall |
-| 95 | Expressions: 45+ emotes, randomised, event driven | PR #6: faces on everyone, 61 emotes, a director (no two neighbours alike, no repeats, reactions to rain, horns, goals, music, food); G opens the emote sheet |
-| 96 | Zebra crossings in the pathfinder; pedestrian signals | PR #7: routes detour to zebras, green man, flashing hand and red hand at signalled junctions, walkers wait at the kerb |
-| 97 | Online players slow to appear and lagging | PR #8: presence every 0.55 s on its own timer, players drawn where they are now, Online now list with Jump |
+| 95 | Expressions: 45+ emotes, randomised, event driven | Merged (#6): faces on everyone, 61 emotes, a director (no two neighbours alike, no repeats, reactions to rain, horns, goals, music, food); G opens the emote sheet |
+| 96 | Zebra crossings in the pathfinder; pedestrian signals | Merged (#7): routes detour to zebras, green man, flashing hand and red hand at signalled junctions, walkers wait at the kerb |
+| 97 | Online players slow to appear and lagging | Merged (#8): presence every 0.55 s on its own timer, players drawn where they are now, Online now list with Jump |
+| 98 | Road signs: left/right with places, km, slow zones for children and pedestrians | Merged (#9): direction boards, speed limits, school (20) and market (15 km/h) zones cars obey |
+| 99 | More footbridges and flyovers | Merged (#10): flyovers planned first (up to 2), then up to 3 footbridges clear of them; Abuja gets its flyover back |
+| 100 | Cards page: all said Wuse, all alike; stacked in a holder; Wi-Fi and reputation on the right | Merged (#11): bug fixed, resident vs visitor cards, city colours and landmark art, holder that opens into a carousel, side panel |
+| 101 | City sheet: day and night, topography, landmarks, card text outside its frame | Merged (#12): terrain and water per city, landmarks, night lights, framed details panel, keyboard and touch |
+| 102 | Clothes break apart when walking; legs out of boots; shorts; see-through green leg | Merged (#13): boot shaft on the shin, shorts seat, street-bin ghost now an outline |
+| 103 | Hover lights up both dialog buttons; Register and Not now misaligned | Merged (#14): each button its own frame, same size, one line; kit tick box |
+| 104 | Laptop lid closes sideways; use a venue's desk computer for a fee, free for members, with your own password | Merged (#15) |
+| 105 | People waddle | Merged (#16): foot placement and leg IK; planted feet slide 5% (was 119%); gait tests |
+| 106 | Wallet: cards column on the left, cash column on the right, cleaner shadows | Merged (#17) |
+| 107 | CI for the game (GitHub Actions) | Written, not pushed: GitHub refuses workflow files without the gh token's workflow scope (Elvis: gh auth refresh -s workflow) |
+| 108 | Make the in-world laptop browse real websites | Options given (embedded browser now; cloud browser later, needs spend); waiting on Elvis's go-ahead |
+| 109 | Push merged work live | Blocked: Railway does not deploy from main (no GitHub source connected); a laptop deploy was refused by the permission system; Vercel site is old code |
 | 48 | Bench building animation with hard hat and tools | Done, pushed: two builders in hard hats, hammer and saw, legs, slats, backrest with sawdust; you wear a hard hat; sittable | yaba-scene `src/look/build.js` | `4587d73` |
 | 57 | Roadside vendors and a little street chaos; random events; police stations; city traffic control | Done, pushed: hawkers at red lights, daily events (breakdown, football, owambe), Yaba Police Division, 7 signal junctions, a LASTMA officer | yaba-scene `src/look/streetlife.js`, `traffic.js` | `724761a`, `91f8fe8` |
 | 58 | Passenger cars, several designs; taxi and danfo roof signs | Done, pushed: saloon, hatch, SUV, pickup, taxi (TAXI sign), danfo (route board), keke, BRT, on real routes | yaba-scene `src/look/traffic.js` | `91f8fe8` |
