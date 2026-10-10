@@ -195,7 +195,7 @@ export function createPasses({ toast, district = 'Yaba' } = {}) {
   }
   const forgetLink = () => { link = null; };
   // a desk computer is wired to the building's own network: no password, and nothing your laptop remembers
-  const wire = (place) => { const n = NETS[place]; if (n) link = { ssid: n.ssid, bars: 4, wired: true }; return !!n; };
+  const wire = (place) => { const n = place === 'myhome' ? tenancy()?.wifi : NETS[place]; if (n) link = { ssid: n.ssid, bars: 4, wired: true }; return !!n; };
 
   // ---------- estate passes and reputation (gates.js) ----------
   function addCard(c) { cards = cards.filter((x) => !(x.kind === c.kind && (c.kind === 'tenant' || x.estate === c.estate))); cards.push({ no: number(c.kind === 'tenant' ? 'RES' : 'VIS'), name: myName() || 'Guest', issued: now(), ...c }); save(); return cards[cards.length - 1]; }
