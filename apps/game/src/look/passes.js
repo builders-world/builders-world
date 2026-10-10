@@ -179,6 +179,8 @@ export function createPasses({ toast, district = 'Yaba' } = {}) {
     return { ok: true };
   }
   const forgetLink = () => { link = null; };
+  // a desk computer is wired to the building's own network: no password, and nothing your laptop remembers
+  const wire = (place) => { const n = NETS[place]; if (n) link = { ssid: n.ssid, bars: 4, wired: true }; return !!n; };
 
   // ---------- estate passes and reputation (gates.js) ----------
   function addCard(c) { cards = cards.filter((x) => !(x.kind === c.kind && (c.kind === 'tenant' || x.estate === c.estate))); cards.push({ no: number(c.kind === 'tenant' ? 'RES' : 'VIS'), name: myName() || 'Guest', issued: now(), ...c }); save(); return cards[cards.length - 1]; }
@@ -193,7 +195,7 @@ export function createPasses({ toast, district = 'Yaba' } = {}) {
     valid, card, cardHTML, cards: () => cards.slice().sort((a, b) => (a.kind === 'eko' ? -1 : 1) - (b.kind === 'eko' ? -1 : 1)),
     openRegister, closeRegister, get registering() { return reg.classList.contains('on'); },
     addCard, visitorFor, tenancy, access, addRep, get rep() { return repScore; }, repLabel,
-    inRange, arrive, join, forgetLink, get link() { return link; }, known: () => ({ ...known }), NETS, dispose,
+    inRange, arrive, join, forgetLink, wire, get link() { return link; }, known: () => ({ ...known }), NETS, dispose,
   };
 }
 

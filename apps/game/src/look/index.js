@@ -636,16 +636,19 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   const SEAT_ACTS = {
     use: () => hud.interact(),
     close: () => interiors?.closeLaptop(),
+    desk: () => (interiors?.deskOn ? interiors.signOut() : interiors?.useDesk()),
     leave: () => standUp(),
   };
   function seatAction(name) { if (!(benchSeat || interiors?.seated) || !SEAT_ACTS[name]) return false; SEAT_ACTS[name](); return true; }
   function syncSeat() {
-    const st = leaving ? '' : benchSeat ? 'bench' : interiors?.seated ? (interiors.computerOpen ? '' : interiors.lidOpen ? 'open' : 'closed') : '';
+    const st = leaving ? '' : benchSeat ? 'bench' : interiors?.seated ? (interiors.computerOpen ? '' : interiors.deskOn ? 'desk' : interiors.lidOpen ? 'open' : 'closed') : '';
+    const fee = interiors?.deskFee?.() || 0, deskLabel = !fee ? 'Desk computer' : interiors?.member ? 'Desk computer · free for members' : `Desk computer · ${fee} Efforts`;
     if (st === seatState) return;
     seatState = st;
     const btn = (k, label, act, go) => `<button data-act="${act}"${go ? ' class="go"' : ''}><b>${k}</b>${label}</button>`;
     seatBar.innerHTML = st === 'bench' ? btn('E', 'Stand up', 'leave', true)
-      : st === 'closed' ? btn('E', 'Open laptop', 'use', true) + btn('Esc', 'Pack up and leave', 'leave')
+      : st === 'closed' ? btn('E', 'Open laptop', 'use', true) + btn('O', deskLabel, 'desk') + btn('Esc', 'Pack up and leave', 'leave')
+      : st === 'desk' ? btn('E', 'Use desk computer', 'use', true) + btn('O', 'Sign out', 'desk') + btn('Esc', 'Leave', 'leave')
       : st === 'open' ? btn('E', 'Use computer', 'use', true) + btn('F', 'Close laptop', 'close') + btn('Esc', 'Pack up and leave', 'leave') : '';
     seatBar.classList.toggle('on', !!st);
   }
