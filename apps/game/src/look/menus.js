@@ -115,6 +115,55 @@ const CSS = `${KIT_CSS}
 #lkm-bag .cardsview { position: absolute; left: 50%; top: 54%; transform: translate(-50%, -50%); width: min(820px, calc(100vw - 40px)); max-height: calc(100vh - 210px); overflow-y: auto; padding: 8px;
   display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(280px, 380px)); justify-content: center; align-items: start; }
 #lkm-bag .wifis { padding: 14px 16px; } #lkm-bag .wifis h4 { margin: 0 0 8px; font: 800 15px/1 ${FONT}; } #lkm-bag .wifis .w { padding: 6px 0; border-top: 2px dashed #e3d4b4; font: 700 14px/1.2 ui-monospace, Menlo, monospace; } #lkm-bag .wifis p { margin: 0; font: 600 13.5px/1.4 ${FONT}; color: ${C.ink2}; }
+/* the cards page: a card holder you open into a carousel, reputation and Wi-Fi beside it */
+#lkm-bag .cw { position: absolute; left: 50%; top: 52%; transform: translate(-50%, -50%); width: min(1080px, calc(100vw - 40px)); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 28px; align-items: center; }
+#lkm-bag .cw-main { position: relative; min-width: 0; }
+#lkm-bag .cw-stage { position: relative; height: 380px; }
+#lkm-bag .holder { position: absolute; left: 50%; top: 50%; width: 320px; height: 260px; border: 0; padding: 0; background: none; cursor: pointer; transform: translate(-50%, -46%); transition: transform .55s cubic-bezier(.2,1.2,.3,1), opacity .3s; z-index: 2; }
+#lkm-bag .holder:focus-visible { outline: 3px solid ${C.amber}; outline-offset: 6px; border-radius: 28px; }
+#lkm-bag .holder .peek { position: absolute; left: 50%; top: 0; width: 260px; transform: translateX(-50%) translateY(calc(var(--i) * 13px)) rotate(calc((var(--i) - 2) * 2.5deg)); transition: transform .35s cubic-bezier(.2,1.4,.4,1); pointer-events: none; }
+#lkm-bag .holder:hover .peek { transform: translateX(-50%) translateY(calc(var(--i) * 13px - 14px)) rotate(calc((var(--i) - 2) * 3.5deg)); }
+#lkm-bag .holder .peek .bw-card { box-shadow: 0 2px 0 rgba(0,0,0,.18); }
+#lkm-bag .holder .sleeve { position: absolute; left: 0; right: 0; bottom: 0; height: 170px; filter: drop-shadow(0 8px 0 rgba(0,0,0,.22)); }
+#lkm-bag .holder .count { position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); padding: 5px 12px; border-radius: 999px; background: rgba(0,0,0,.25); color: #f7efdc; font: 800 13px/1 ${FONT}; white-space: nowrap; }
+#lkm-bag .track { position: absolute; inset: 0; display: flex; align-items: center; gap: 22px; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 0 calc(50% - var(--cw) / 2); --cw: min(380px, 76vw); opacity: 0; pointer-events: none; z-index: 3;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent); mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent); }
+#lkm-bag .track::-webkit-scrollbar { display: none; }
+#lkm-bag .slot { flex: none; width: var(--cw); scroll-snap-align: center; transition: transform .35s cubic-bezier(.2,1.2,.3,1), filter .3s; transform: scale(.86); filter: saturate(.75) brightness(.92); }
+#lkm-bag .slot.on { transform: scale(1); filter: none; }
+#lkm-bag .slot .bw-card { max-width: none; }
+#lkm-bag .cw.open .track { opacity: 1; pointer-events: auto; }
+#lkm-bag .cw.open .slot { animation: lkcFly .6s cubic-bezier(.2,1.25,.35,1) both; animation-delay: calc(var(--i) * 70ms); }
+@keyframes lkcFly { from { transform: translateY(150px) scale(.5) rotate(-8deg); opacity: 0; } 60% { opacity: 1; } }
+#lkm-bag .cw.open .holder { transform: translate(-50%, 70%) scale(.42); opacity: .9; }
+#lkm-bag .cw-nav { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 4px; opacity: 0; transition: opacity .3s; pointer-events: none; }
+#lkm-bag .cw.open .cw-nav { opacity: 1; pointer-events: auto; }
+#lkm-bag .cw-nav button { width: 40px; height: 40px; border: 0; border-radius: 50%; background: ${C.paper}; color: ${C.ink}; font: 800 22px/1 ${FONT}; cursor: pointer; box-shadow: 0 3px 0 rgba(0,0,0,.2); }
+#lkm-bag .cw-nav .dots { display: flex; gap: 6px; } #lkm-bag .cw-nav .dots i { width: 8px; height: 8px; border-radius: 999px; background: rgba(247,239,220,.35); transition: width .25s, background .25s; }
+#lkm-bag .cw-nav .dots i.on { width: 22px; background: ${C.paper}; }
+#lkm-bag .cw-hint { text-align: center; margin: 8px 0 0; color: rgba(247,239,220,.85); font: 700 13.5px/1.3 ${FONT}; }
+#lkm-bag .cw-side { display: grid; gap: 14px; align-self: center; }
+#lkm-bag .cw-side .bw-paper { padding: 16px 18px; border-radius: 22px; }
+#lkm-bag .cw-side h4 { margin: 0 0 10px; font: 800 16px/1 ${FONT}; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+#lkm-bag .cw-side h4 small { font: 700 12px/1 ${FONT}; color: ${C.ink2}; }
+#lkm-bag .rep { display: grid; grid-template-columns: 84px 1fr; gap: 14px; align-items: center; }
+#lkm-bag .rep svg { width: 84px; height: 84px; } #lkm-bag .rep b { display: block; font: 800 16px/1.15 ${FONT}; } #lkm-bag .rep p { margin: 4px 0 0; font: 600 12.5px/1.4 ${FONT}; color: ${C.ink2}; }
+#lkm-bag .rep ul { grid-column: 1 / -1; margin: 2px 0 0; padding: 0; list-style: none; display: grid; gap: 5px; font: 700 12.5px/1.3 ${FONT}; }
+#lkm-bag .rep li { display: flex; gap: 8px; align-items: center; } #lkm-bag .rep li i { flex: none; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font: 800 13px/1 ${FONT}; font-style: normal; }
+#lkm-bag .rep li i.up { background: #d8f0dd; color: #1f7a3a; } #lkm-bag .rep li i.dn { background: #f7dcd5; color: #a8302a; }
+#lkm-bag .net { display: grid; grid-template-columns: 28px 1fr auto; gap: 10px; align-items: center; padding: 9px 0; border-top: 2px dashed #e3d4b4; }
+#lkm-bag .net:first-of-type { border-top: 0; } #lkm-bag .net svg { width: 24px; height: 20px; }
+#lkm-bag .net b { display: block; font: 800 14px/1.2 ui-monospace, Menlo, monospace; } #lkm-bag .net small { font: 700 11.5px/1.2 ${FONT}; color: ${C.ink2}; }
+#lkm-bag .net button { border: 0; border-radius: 999px; padding: 5px 10px; background: ${C.paper2}; color: ${C.ink}; font: 700 12px/1 ${FONT}; cursor: pointer; }
+#lkm-bag .cw-side .empty { margin: 0; font: 600 13px/1.4 ${FONT}; color: ${C.ink2}; }
+@media (max-width: 860px) {
+  body #lkm-bag .name { top: 92px; padding: 9px 24px; font-size: 22px; } /* below the tabs, which wrap to two rows on a phone */
+  #lkm-bag .cw { top: 150px; transform: translateX(-50%); grid-template-columns: 1fr; gap: 14px; max-height: calc(100vh - 220px); overflow-y: auto; overflow-x: hidden; padding-bottom: 12px; }
+  #lkm-bag .cw-stage { height: 300px; } #lkm-bag .holder { width: 260px; height: 220px; } #lkm-bag .holder .peek { width: 210px; } #lkm-bag .holder .sleeve { height: 140px; }
+  #lkm-bag .cw.open .cw-main { padding-bottom: 120px; } #lkm-bag .cw.open .holder { transform: translate(-50%, 96%) scale(.36); }
+  #lkm-bag .track { -webkit-mask-image: none; mask-image: none; }
+}
+@media (prefers-reduced-motion: reduce) { #lkm-bag .cw.open .slot { animation: none; } #lkm-bag .holder, #lkm-bag .slot { transition: none; } }
 #lkm-bag .acts button { border: 0; cursor: pointer; }
 #lkm-bag .acts button[disabled] { opacity: .55; cursor: default; }
 /* wallet and ATM */
@@ -623,14 +672,55 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   const BAG_TABS = [['gadgets', 'Gadgets'], ['wear', 'Wearables'], ['badges', 'Badges'], ['cards', 'Cards'], ['style', 'Wardrobe']];
   const tabsHTML = () => `<div class="tabs" role="tablist">${BAG_TABS.map(([k, nm]) => `<button role="tab" data-t="${k}" class="${bagTab === k ? 'on' : ''}" aria-selected="${bagTab === k}">${nm}</button>`).join('')}</div>`;
   // cards: membership and resident cards, and the Wi-Fi your laptop has joined (passes.js)
+  // the leather card holder, its front pocket drawn over the cards
+  const SLEEVE = `<svg class="sleeve" viewBox="0 0 320 170" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M10 26Q10 8 30 8h260q20 0 20 18v126q0 14-14 14H24q-14 0-14-14z" fill="#7a4a2c"/>
+    <path d="M10 26Q10 8 30 8h260q20 0 20 18v14H10z" fill="#8f5a36"/>
+    <path d="M22 30h276M22 154h276" stroke="#e8c79a" stroke-width="2" stroke-dasharray="6 5" opacity=".7"/>
+    <path d="M20 22v132M300 22v132" stroke="#e8c79a" stroke-width="2" stroke-dasharray="6 5" opacity=".5"/>
+    <rect x="128" y="64" width="64" height="30" rx="8" fill="#5e3820"/><circle cx="160" cy="79" r="6" fill="#d9b277"/></svg>`;
+  const WIFI = (bars) => `<svg viewBox="0 0 24 20" aria-hidden="true">${[0, 1, 2].map((k) => `<path d="M${12 - 4 - k * 3.5} ${14 - k * 3.4}a${4 + k * 3.5} ${4 + k * 3.5} 0 0 1 ${8 + k * 7} 0" fill="none" stroke="${k < bars ? C.teal : '#d9cbb0'}" stroke-width="2.6" stroke-linecap="round"/>`).join('')}<circle cx="12" cy="16" r="2" fill="${bars ? C.teal : '#d9cbb0'}"/></svg>`;
+  // cards: membership, resident and visitor cards in a holder; reputation and the Wi-Fi you have joined beside it (passes.js)
   function openCards() {
-    const P = passesEngine(), list = P.cards(), known = Object.keys(P.known());
+    const P = passesEngine(), list = P.cards(), known = P.known(), linked = P.link?.ssid;
+    const rep = P.rep, ring = 2 * Math.PI * 34, esc = (t) => String(t).replace(/[<>&"]/g, '');
     bagEl.style.backgroundImage = `url("data:image/svg+xml,${encodeURIComponent(backdropSVG())}")`;
     bagEl.innerHTML = `${tabsHTML()}<div class="name">Cards</div>
-      <div class="cardsview">${list.map((c) => P.cardHTML(c)).join('')}
-        <div class="wifis bw-paper"><h4>Reputation: ${P.rep} / 100</h4><p>${P.repLabel()}. Clean the streets, fund bins and visit politely to raise it; climbing estate walls lowers it.</p></div>
-        <div class="wifis bw-paper"><h4>Saved Wi-Fi</h4>${known.map((k) => `<div class="w">${k}</div>`).join('') || '<p>None yet. Join a network from your laptop at a desk; the password is on a notice board or on your card.</p>'}</div></div>
+      <div class="cw">
+        <section class="cw-main">
+          <div class="cw-stage">
+            <button class="holder" aria-label="Open your card holder (${list.length} cards)"><div class="stack">${list.slice(0, 5).reverse().map((c, i) => `<div class="peek" style="--i:${i}">${P.cardHTML(c)}</div>`).join('')}</div>${SLEEVE}<span class="count">${list.length} card${list.length === 1 ? '' : 's'}</span></button>
+            <div class="track" role="listbox" aria-label="Your cards" tabindex="0">${list.map((c, i) => `<div class="slot" role="option" style="--i:${i}">${P.cardHTML(c)}</div>`).join('')}</div>
+          </div>
+          <div class="cw-nav"><button class="pv" aria-label="Previous card">‹</button><div class="dots">${list.map(() => '<i></i>').join('')}</div><button class="nx" aria-label="Next card">›</button></div>
+          <p class="cw-hint">Tap the holder to take your cards out</p>
+        </section>
+        <aside class="cw-side">
+          <div class="bw-paper rep">
+            <svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#eadfc6" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="${rep < 30 ? C.coral : rep < 60 ? C.amber : C.teal}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${(ring * rep) / 100} ${ring}" transform="rotate(-90 42 42)"/><text x="42" y="47" text-anchor="middle" font-family="Baloo 2, system-ui" font-weight="800" font-size="20" fill="${C.ink}">${rep}</text></svg>
+            <div><b>${P.repLabel()}</b><p>Your reputation, out of 100. People and gatemen go by it.</p></div>
+            <ul><li><i class="up">+</i>Pick up litter and fund street bins</li><li><i class="up">+</i>Knock and visit politely</li><li><i class="dn">−</i>Climbing an estate's walls</li></ul>
+          </div>
+          <div class="bw-paper wifi"><h4>Saved Wi-Fi <small>${Object.keys(known).length} network${Object.keys(known).length === 1 ? '' : 's'}</small></h4>
+            ${Object.entries(known).map(([ssid, pass]) => `<div class="net">${WIFI(ssid === linked ? 3 : 2)}<span><b>${esc(ssid)}</b><small data-pw="${esc(pass)}">${ssid === linked ? 'Connected · ' : ''}••••••••</small></span><button data-show>Show</button></div>`).join('') || '<p class="empty">None yet. Join a network from your laptop at a desk; the password is on a notice board, or on your card.</p>'}
+          </div>
+        </aside>
+      </div>
       <div class="acts"><button class="bw-chip cl"><b>I</b>Close</button></div>`;
+    const cw = bagEl.querySelector('.cw'), holder = cw.querySelector('.holder'), track = cw.querySelector('.track'), slots = [...track.children], dots = [...cw.querySelectorAll('.dots i')], hint = cw.querySelector('.cw-hint');
+    // the card in the middle of the carousel is the one you are looking at
+    let at = 0;
+    const focus = () => { const w = slots[0]?.getBoundingClientRect().width || 1; at = Math.max(0, Math.min(slots.length - 1, Math.round(track.scrollLeft / (w + 22)))); slots.forEach((el, i) => el.classList.toggle('on', i === at)); dots.forEach((el, i) => el.classList.toggle('on', i === at)); };
+    const goTo = (i) => { const w = slots[0]?.getBoundingClientRect().width || 0; track.scrollTo({ left: Math.max(0, Math.min(slots.length - 1, i)) * (w + 22), behavior: 'smooth' }); };
+    track.addEventListener('scroll', focus, { passive: true });
+    track.addEventListener('wheel', (e) => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { e.preventDefault(); track.scrollLeft += e.deltaY; } }, { passive: false });
+    const setOpen = (on) => { cw.classList.toggle('open', on); holder.setAttribute('aria-label', on ? 'Put your cards away' : `Open your card holder (${list.length} cards)`); hint.textContent = on ? (innerWidth < 600 ? 'Swipe or use the arrows · tap the holder to put them away' : 'Swipe, scroll or use the arrows · tap the holder to put them away') : 'Tap the holder to take your cards out'; sfx(on ? 'open' : 'close'); if (on) { track.scrollLeft = 0; focus(); setTimeout(() => track.focus({ preventScroll: true }), 200); } };
+    holder.onclick = () => setOpen(!cw.classList.contains('open'));
+    cw.querySelector('.pv').onclick = () => goTo(at - 1); cw.querySelector('.nx').onclick = () => goTo(at + 1);
+    dots.forEach((d, i) => { d.onclick = () => goTo(i); });
+    track.onkeydown = (e) => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); e.stopPropagation(); goTo(at + (e.key === 'ArrowRight' ? 1 : -1)); } };
+    // a saved password stays hidden until you ask
+    cw.querySelectorAll('[data-show]').forEach((b) => { b.onclick = () => { const sm = b.parentElement.querySelector('small'), shown = b.textContent === 'Hide'; sm.textContent = `${sm.textContent.startsWith('Connected') ? 'Connected · ' : ''}${shown ? '••••••••' : sm.dataset.pw}`; b.textContent = shown ? 'Show' : 'Hide'; }; });
     bagEl.querySelectorAll('.tabs button').forEach((b) => { b.onclick = () => { bagTab = b.dataset.t; openBag(); }; });
     bagEl.querySelector('.cl').onclick = close;
     show(bagEl, null);
