@@ -48,16 +48,17 @@ export function buildNavGrid({ R, solids, boxes, roads, lots, pointInPoly, neare
     const [x, z] = center(i, j);
     if (pointInPoly(x, z, s.pts) || nearestOnPoly(x, z, s.pts).d < AGENT) cost[c] = BLOCK;
   }));
-  boxes.forEach((b) => {
+  const stampBox = (b, hit) => {
     if ((b.y0 ?? 0) >= 1.8) return; // overhead (a bridge deck's railings): people walk underneath
     const r = Math.hypot(b.hx, b.hz) + AGENT, cs = Math.cos(b.ry || 0), sn = Math.sin(b.ry || 0);
     each(b.cx - r, b.cz - r, b.cx + r, b.cz + r, (i, j, c) => {
       const [x, z] = center(i, j), dx = x - b.cx, dz = z - b.cz;
       const lx = dx * cs - dz * sn, lz = dx * sn + dz * cs;
       const qx = Math.max(-b.hx, Math.min(b.hx, lx)), qz = Math.max(-b.hz, Math.min(b.hz, lz));
-      if (Math.hypot(lx - qx, lz - qz) < AGENT) cost[c] = BLOCK;
+      if (Math.hypot(lx - qx, lz - qz) < AGENT && cost[c] !== BLOCK) { cost[c] = BLOCK; hit?.push(c); }
     });
-  });
+  };
+  boxes.forEach((b) => stampBox(b));
   // soft clearance beside anything solid
   const soft = new Float32Array(N * N);
   for (let j = 1; j < N - 1; j++) for (let i = 1; i < N - 1; i++) {
@@ -71,8 +72,10 @@ export function buildNavGrid({ R, solids, boxes, roads, lots, pointInPoly, neare
 
   // connected areas: a fully fenced garden is its own little island, so a goal must be snapped onto
   // the island the walker is on, or the search would hunt the whole map for a way in
-  const island = new Int32Array(N * N).fill(-1);
-  {
+  const island = new Int32Array(N * N);
+  let islandsDirty = true;
+  function ensureIslands() {
+    if (!islandsDirty) return; islandsDirty = false; island.fill(-1);
     let id = 0; const q = [];
     for (let c0 = 0; c0 < N * N; c0++) {
       if (cost[c0] === BLOCK || island[c0] >= 0) continue;
@@ -83,6 +86,7 @@ export function buildNavGrid({ R, solids, boxes, roads, lots, pointInPoly, neare
   }
   // nearest walkable cell to a point (a click on a wall, someone pushed into a corner), on a given island
   function free(i, j, on = -1, maxR = 60) {
+    ensureIslands();
     const ok = (a, b) => !blocked(a, b) && (on < 0 || island[b * N + a] === on);
     if (ok(i, j)) return [i, j];
     for (let r = 1; r < maxR; r++) for (let dj = -r; dj <= r; dj++) for (let di = -r; di <= r; di++) {
@@ -191,6 +195,7 @@ export function buildNavGrid({ R, solids, boxes, roads, lots, pointInPoly, neare
   function nearestReachable(x, z) { const s = free(...toCell(x, z), main); if (!s) return null; const [cx, cz] = center(...s); return { x: cx, z: cz }; }
   // every pocket up to `max` cells, as boxes that cover it row by row
   function pockets(max = 900) {
+    ensureIslands();
     if (main < 0) return [];
     const size = new Map();
     for (let c = 0; c < N * N; c++) { const k = island[c]; if (k >= 0 && k !== main) size.set(k, (size.get(k) || 0) + 1); }
@@ -211,8 +216,15 @@ export function buildNavGrid({ R, solids, boxes, roads, lots, pointInPoly, neare
     return Object.assign(boxes, { cells, islands: kept.length, big: kept.filter((v) => v >= 12).length, at, largest: Math.max(0, ...kept) });
   }
   // the biggest island is the street network when there is no start point to go by
-  function setMainLargest() { const n = new Map(); for (let c = 0; c < N * N; c++) if (island[c] >= 0) n.set(island[c], (n.get(island[c]) || 0) + 1); let best = -1, bn = 0; n.forEach((v, k) => { if (v > bn) { bn = v; best = k; } }); main = best; return main; }
+  function setMainLargest() { ensureIslands(); const n = new Map(); for (let c = 0; c < N * N; c++) if (island[c] >= 0) n.set(island[c], (n.get(island[c]) || 0) + 1); let best = -1, bn = 0; n.forEach((v, k) => { if (v > bn) { bn = v; best = k; } }); main = best; return main; }
   const islandNear = (x, z, r = 2) => { const s = free(...toCell(x, z), -1, r); return s ? island[s[1] * N + s[0]] : -1; };
-  function pocketSizes(min = 6) { const n = new Map(); for (let c = 0; c < N * N; c++) { const k = island[c]; if (k >= 0 && k !== main) n.set(k, (n.get(k) || 0) + 1); } [...n].forEach(([k, v]) => { if (v < min) n.delete(k); }); return n; }
-  return { plan, costAt, reach, setMain, setMainLargest, islandNear, pocketSizes, get main() { return main; }, reachable, nearestReachable, pockets, cell: CELL, size: N };
+  function pocketSizes(min = 6) { ensureIslands(); const n = new Map(); for (let c = 0; c < N * N; c++) { const k = island[c]; if (k >= 0 && k !== main) n.set(k, (n.get(k) || 0) + 1); } [...n].forEach(([k, v]) => { if (v < min) n.delete(k); }); return n; }
+  // colliders added after the grid exists: stamp them in, keep the soft edge, redo the islands when asked
+  function addBoxes(list) {
+    const hit = [];
+    list.forEach((b) => stampBox(b, hit));
+    hit.forEach((c) => { const i = c % N, j = (c - i) / N; for (const [di, dj] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { const ii = i + di, jj = j + dj; if (ii < 1 || jj < 1 || ii >= N - 1 || jj >= N - 1) continue; const nc = jj * N + ii; if (cost[nc] !== BLOCK && !soft[nc]) { soft[nc] = 1.5; cost[nc] += 1.5; } } });
+    if (hit.length) islandsDirty = true;
+  }
+  return { plan, costAt, reach, addBoxes, setMain, setMainLargest, islandNear, pocketSizes, get main() { return main; }, reachable, nearestReachable, pockets, cell: CELL, size: N };
 }

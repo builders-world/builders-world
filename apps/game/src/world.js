@@ -957,6 +957,28 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   let nav = null;
   const navGrid = () => (nav ??= buildNavGrid({ R, solids: solid, boxes: kitColliders, roads, lots, pointInPoly, nearestOnPoly, private: estatePlan.flatMap((E) => E.closes) }));
 
+  // the raster behind isFree's road test: a cell is marked when any point in it could be within a
+  // road's clearance (its centre within clearance + the cell's half-diagonal), so unmarked means free
+  let roadMask = null;
+  const RN2 = Math.ceil((2.2 * R) / 1) + 2, roadCell = (x, z) => { const i = Math.floor(x + 1.1 * R), j = Math.floor(z + 1.1 * R); return i < 0 || j < 0 || i >= RN2 || j >= RN2 ? 0 : j * RN2 + i; };
+  function roadMaybe() {
+    if (roadMask) return roadMask;
+    roadMask = new Uint8Array(RN2 * RN2); roadMask[0] = 1;
+    for (const r of mainRoads) {
+      const P = r.fit ? r.fit.pts : r.pts;
+      for (let i = 0; i < P.length - 1; i++) {
+        const [ax, az] = P[i], [bx, bz] = P[i + 1], dx = bx - ax, dz = bz - az, L2 = dx * dx + dz * dz || 1;
+        const h = (r.fit ? Math.max(r.fit.half[i], r.fit.half[i + 1]) + Math.max(r.fit.paveL[i], r.fit.paveR[i], r.fit.paveL[i + 1], r.fit.paveR[i + 1]) + 0.3 : r.w / 2 + 0.4) + 0.75;
+        const i0 = Math.floor(Math.min(ax, bx) - h + 1.1 * R), i1 = Math.ceil(Math.max(ax, bx) + h + 1.1 * R), j0 = Math.floor(Math.min(az, bz) - h + 1.1 * R), j1 = Math.ceil(Math.max(az, bz) + h + 1.1 * R);
+        for (let j = Math.max(0, j0); j <= Math.min(RN2 - 1, j1); j++) for (let ii = Math.max(0, i0); ii <= Math.min(RN2 - 1, i1); ii++) {
+          const cx = ii - 1.1 * R + 0.5, cz = j - 1.1 * R + 0.5, t = Math.max(0, Math.min(1, ((cx - ax) * dx + (cz - az) * dz) / L2));
+          if (Math.hypot(cx - ax - dx * t, cz - az - dz * t) < h) roadMask[j * RN2 + ii] = 1;
+        }
+      }
+    }
+    return roadMask;
+  }
+
   // free for a prop: outside every footprint and off the carriageway
   function isFree(x, z, pad = 0.6, { lots: onLots = false } = {}) {
     let hit = false;
@@ -969,7 +991,8 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     if (hit) return false;
     if (!onLots) for (const l of lots) if (x > l.bb.x0 - pad && x < l.bb.x1 + pad && z > l.bb.z0 - pad && z < l.bb.z1 + pad && (pointInPoly(x, z, l.pts) || nearestOnPoly(x, z, l.pts).d < pad)) return false;
     // keep carriageways and pavements clear: pavements are for walking (world bible 4.3)
-    for (const r of mainRoads) {
+    // (a 1 m raster says which points could be near a road at all; only those get the exact test)
+    if (roadMaybe()[roadCell(x, z)]) for (const r of mainRoads) {
       const P = r.fit ? r.fit.pts : r.pts;
       for (let i = 0; i < P.length - 1; i++) {
         const [ax, az] = P[i], [bx, bz] = P[i + 1];
@@ -1031,7 +1054,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     // land use, for anything placed after the world is built (estate-layout skill)
     onCarriageway: (x, z, pad = 0) => carriage.some(([a, c, h]) => { const dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / L2)); return Math.hypot(x - a[0] - dx * u, z - a[1] - dz * u) < h + pad; }),
     inPlot: (x, z, pad = 0) => laid.some((l) => x > l.bb.x0 - pad && x < l.bb.x1 + pad && z > l.bb.z0 - pad && z < l.bb.z1 + pad && (pointInPoly(x, z, l.pts) || (pad > 0 && nearestOnPoly(x, z, l.pts).d < pad))),
-    kit, kitColliders, addColliders: (list) => { list.forEach((c) => { kitColliders.push(c); indexBox(c); }); nav = null; camBoxes.dirty = true; },
+    kit, kitColliders, addColliders: (list) => { list.forEach((c) => { kitColliders.push(c); indexBox(c); }); nav?.addBoxes(list); camBoxes.dirty = true; },
     // walkable paths around everything solid, by the movement rules (navgrid.js); built on first use
     plan: (a, b, opt) => navGrid().plan(a, b, opt),
     costAt: (x, z) => navGrid().costAt(x, z),

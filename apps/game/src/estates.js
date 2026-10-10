@@ -130,11 +130,12 @@ export function planEstates({ roads, free: freeExact, R, rng }) {
     }
     return best;
   };
+  const segMemo = new Map();
   for (const [gates, n, single] of [[2, 5, false], [2, 4, false], [2, 4, true], [2, 3, true], [1, 5, false], [1, 4, false], [1, 3, false], [1, 2, false], [1, 4, true], [1, 3, true], [1, 2, true]]) {
     const W = gates * (single ? SINGLE_W : GATE_W), D = FRONT_STRIP + n * LOT_W + BACK_STRIP;
     for (let gx = -R; gx <= R; gx += 8) for (let gz = -R; gz <= R; gz += 8) {
       if (Math.hypot(gx, gz) > R * 0.9 || !free(gx, gz)) continue;
-      const ns = nearestSeg(gx, gz); if (!ns) continue;
+      const kk = `${gx},${gz}`; let ns = segMemo.get(kk); if (ns === undefined) { ns = nearestSeg(gx, gz); segMemo.set(kk, ns); } if (!ns) continue; // the same grid point is asked about for every size
       const tx = ns.dx / ns.L, tz = ns.dz / ns.L;
       // v points away from the road, from the road toward this point
       let vx = gx - ns.px, vz = gz - ns.pz; const vl = Math.hypot(vx, vz) || 1; vx /= vl; vz /= vl;
