@@ -472,6 +472,13 @@ async function main() {
   street?.setOnline?.(online);
   ['keydown', 'pointerdown', 'pointermove', 'wheel', 'touchstart'].forEach((ev) => addEventListener(ev, () => { idle.t = 0; }, { passive: true, capture: true }));
   const audio = audioEngine();
+  // the phone's radio (look/radio.js) and the game's music do not play over each other: the music rests
+  // while a station is on and comes back when it stops
+  let musicBeforeRadio = null;
+  addEventListener('bw:radio', (e) => {
+    if (e.detail?.playing) { if (musicBeforeRadio === null) musicBeforeRadio = audio.settings.music; if (audio.settings.music) audio.set('music', false); }
+    else if (musicBeforeRadio !== null) { if (musicBeforeRadio) audio.set('music', true); musicBeforeRadio = null; }
+  });
   // touch stick and controllers: their buttons become the same key presses the keyboard makes
   const input = createInput({ onKey: (key) => { dispatchEvent(new KeyboardEvent('keydown', { key: key === 'tab' ? 'Tab' : key === 'escape' ? 'Escape' : key })); } });
   window.__bwInput = input;
