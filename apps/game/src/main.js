@@ -222,6 +222,38 @@ async function main() {
   const loader = document.getElementById('loader');
 
   // a quick dip to the page colour hides rebuilds and cuts
+  // ---- the switch (Elvis, 10 October 2026: "just like GTA... that transition effect it does when you are switching from
+  // one character to another, from Franklin to Trevor... then zooms back on you and shows where you teleported to").
+  // From the aerial view (and quick travel on the map) the camera climbs into the sky, glides over to the place, and
+  // drops back down to you in hard steps, a whoosh and a thud at each, the colour drained until you land.
+  const swoop = { on: false, t: 0, a: new THREE.Vector3(), b: new THREE.Vector3(), act: null, acted: false, H: 0, hits: 0, p0: new THREE.Vector3(), l0: new THREE.Vector3() };
+  const swoopFx = document.createElement('div'); swoopFx.id = 'bw-swoop';
+  swoopFx.innerHTML = `<style>#bw-swoop { position: fixed; inset: 0; z-index: 12; pointer-events: none; opacity: 0; transition: opacity .25s; background: radial-gradient(ellipse at center, transparent 45%%, rgba(8,12,24,.55) 100%%), repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 2px, transparent 2px 5px); }
+    body.bw-swoop #bw-swoop { opacity: 1; } body.bw-swoop canvas { filter: saturate(.18) contrast(1.18) brightness(1.04); transition: filter .2s; }
+    #bw-swoop.hit { animation: bwhit .32s ease-out; } @keyframes bwhit { 0%% { background-color: rgba(255,255,255,.55); } 100%% { background-color: transparent; } }</style>`;
+  document.body.appendChild(swoopFx);
+  function switchTo(x, z, act) {
+    if (reduced || still || swoop.on) { cut(act); return; }
+    Object.assign(swoop, { on: true, t: 0, acted: false, hits: 0, act });
+    swoop.p0.copy(camPos); swoop.l0.copy(look); swoop.a.set(camPos.x, 0, camPos.z); swoop.b.set(x, 0, z);
+    swoop.H = Math.max(camPos.y + 90, 340);
+    document.body.classList.add('bw-swoop'); sfx('whoosh');
+  }
+  const swoopHit = () => { sfx('thud'); swoopFx.classList.remove('hit'); void swoopFx.offsetWidth; swoopFx.classList.add('hit'); };
+  // one frame of it: overrides where the camera is and looks, given where it would be (desired, focus)
+  const sw1 = new THREE.Vector3(), sw2 = new THREE.Vector3();
+  function swoopFrame(dt, desired, focus) {
+    swoop.t += dt; const T = swoop.t, H = swoop.H, ease = (u) => (u < 0.5 ? 2 * u * u : 1 - (-2 * u + 2) ** 2 / 2), out3 = (u) => 1 - (1 - u) ** 3;
+    if (T < 0.6) { const u = ease(T / 0.6); camPos.lerpVectors(swoop.p0, sw1.set(swoop.a.x, H, swoop.a.z + 0.02), u); look.lerpVectors(swoop.l0, sw2.set(swoop.a.x, 0, swoop.a.z), u); return; }
+    if (T < 1.5) { const u = ease((T - 0.6) / 0.9); camPos.set(swoop.a.x + (swoop.b.x - swoop.a.x) * u, H, swoop.a.z + (swoop.b.z - swoop.a.z) * u + 0.02); look.set(camPos.x, 0, camPos.z - 0.02); if (u > 0.3 && u - dt / 0.9 <= 0.3) sfx('whoosh'); return; }
+    if (!swoop.acted) { swoop.acted = true; swoop.act?.(); swoop.b.set(player.x, 0, player.z); }
+    const B = swoop.b, stops = [[1.5, H, H * 0.34], [2.0, H * 0.34, H * 0.1]];
+    if (T < 2.5) { const k = T < 2.0 ? 0 : 1, [t0, h0, h1] = stops[k], u = Math.min(1, (T - t0) / 0.2), h = h0 + (h1 - h0) * out3(u); camPos.set(B.x, h, B.z + 0.02 + h * 0.03); look.set(B.x, 0, B.z); if (u >= 1 && swoop.hits <= k) { swoop.hits = k + 1; swoopHit(); } return; }
+    const u = Math.min(1, (T - 2.5) / 0.5), e = out3(u);
+    camPos.set(B.x, H * 0.1, B.z + 0.02 + H * 0.003).lerp(desired, e); look.set(B.x, 0, B.z).lerp(focus, e);
+    if (u >= 1) { swoop.on = false; document.body.classList.remove('bw-swoop'); swoopHit(); }
+  }
+  addEventListener('bw:swoopto', (e) => { const d = e.detail || {}; switchTo(d.x, d.z, () => { player.set(d.x, 0, d.z); onStreetGround(player); if (cam.aerial) setAerial(false); walkTarget = null; walkPath = null; marker.visible = false; if (d.name) (street?.hud.toast ?? chrome.toast)(`Quick travel: you are at ${d.name}.`, 2600); }); });
   function cut(fn) {
     if (reduced || still) { fn(); return; }
     fade.style.transition = 'opacity .13s ease';
@@ -374,6 +406,7 @@ async function main() {
     if (k === 'v') { if (!e.repeat) { if (cam.aerial) cut(() => setAerial(false)); else cycleView(); } }
     else if (k === 'b') { if (!e.repeat) { if (street?.inside && !cam.aerial) setAerial(true); else cut(() => setAerial(!cam.aerial)); } }
     else if (k === 'c') { if (!e.repeat) setTravel(!travel.on); }
+    else if (k === 'q') { if (!e.repeat) setDog(!dog.on); }
     else if (k >= '1' && k <= '6' && k.length === 1) { if (!e.repeat) street?.chat?.emote(+k, player); }
     else if (k === 'g' && !e.repeat) dispatchEvent(new CustomEvent('bw:emotes')); // the emote sheet (look/emotepanel.js)
     else if (k === 'n') { if (!e.repeat) { audio.wake(); audio.set('music', !audio.settings.music); (street?.hud.toast ?? chrome.toast)(audio.settings.music ? 'Music on' : 'Music off', 1400); } }
@@ -428,12 +461,12 @@ async function main() {
     // ground click: walk there, or from the aerial view cut down to that spot
     const hit = ray.intersectObjects([world.pick, world.solids], false)[0];
     // from the air a roof or a wall is a fine place to aim: you come down on the nearest street to it
-    if (hit && hit.point.y > 0.5 && cam.aerial && world.nearestReachable) { const q = world.nearestReachable(hit.point.x, hit.point.z); if (q) { cut(() => { player.set(q.x, 0, q.z); onStreetGround(player); setAerial(false); snap = true; }); return; } }
+    if (hit && hit.point.y > 0.5 && cam.aerial && world.nearestReachable) { const q = world.nearestReachable(hit.point.x, hit.point.z); if (q) { switchTo(q.x, q.z, () => { if (dog.on) setDog(false); player.set(q.x, 0, q.z); onStreetGround(player); setAerial(false); snap = true; }); return; } }
     if (!hit || hit.point.y > 0.5) { chrome.toast('Click the street to walk there'); return; }
     pt.copy(hit.point);
     if (Math.hypot(pt.x, pt.z) > world.radius * 1.05) return;
     if (cam.aerial) {
-      cut(() => { player.set(pt.x, 0, pt.z); onStreetGround(player); setAerial(false); snap = true; });
+      switchTo(pt.x, pt.z, () => { if (dog.on) setDog(false); player.set(pt.x, 0, pt.z); onStreetGround(player); setAerial(false); snap = true; });
     } else {
       walkTo(pt);
     }
@@ -539,6 +572,25 @@ async function main() {
   let t = 0;
   let stuck = 0;
   const last = new THREE.Vector3();
+  // ---- playing as your dog (Elvis, 10 October 2026: "a mini second character, which is the dog... move around like the
+  // dog while your character follows the dog"). Q or the dog's portrait: you steer the dog, and your person walks the
+  // dog's trail a couple of metres behind. Going indoors, onto a ride or into a game hands you back to yourself.
+  const dog = { on: false, pos: new THREE.Vector3(), head: 0, trail: [], speed: 0, still: 0 };
+  function setDog(on) {
+    const P = street?.pets;
+    if (on === dog.on) return;
+    if (on && (!P?.pet || !P.model)) { (street?.hud.toast ?? chrome.toast)('Adopt a pet first: the Pets app on your phone.', 2600); return; }
+    if (on && (street?.inside || riding || seated || playing || cam.aerial)) { (street?.hud.toast ?? chrome.toast)('Step outside onto the street first.', 2200); return; }
+    dog.on = on;
+    if (on) {
+      dog.pos.copy(player); dog.head = heading; player.set(P.pos.x, 0, P.pos.z); world.resolve(player, 0.25);
+      dog.trail = [dog.pos.clone(), player.clone()]; walkTarget = null; walkPath = null; marker.visible = false;
+      P.drive({ x: player.x, z: player.z, yaw: heading, speed: 0, still: 0 }); cam.distT = 3.4; cam.pitchT = 0.3;
+      (street?.hud.toast ?? chrome.toast)(`You are ${P.pet.name}. Sniff about, make friends. Q to be yourself again.`, 3200); sfx('route');
+    } else { player.set(dog.pos.x, 0, dog.pos.z); heading = dog.head; P?.drive(null); snap = true; }
+    street?.profile?.setDriving(on);
+  }
+  addEventListener('bw:dog', () => setDog(!dog.on));
   const fwd = new THREE.Vector3(), right = new THREE.Vector3(), mv = new THREE.Vector3();
   const focus = new THREE.Vector3(), desired = new THREE.Vector3();
 
@@ -659,7 +711,7 @@ async function main() {
     const moving = mv.lengthSq() > 0;
     // walk by default, run with Shift (world bible 7.4); indoors you walk like indoors
     const running = (keys.has('shift') || input.state.run) && !inside && !seated;
-    const pace = (inside ? 1.9 : street?.mobility?.pace(running) ?? (running ? 6.4 : 2.8)) * TEST_PACE; // on a bike, a board or skates you go faster
+    const pace = dog.on ? (running ? 7.2 : 3.4) * TEST_PACE : (inside ? 1.9 : street?.mobility?.pace(running) ?? (running ? 6.4 : 2.8)) * TEST_PACE; // on a bike, a board or skates you go faster
     if (moving) {
       mv.normalize();
       last.copy(player);
@@ -685,8 +737,25 @@ async function main() {
     }
     avatar.position.copy(player);
     avatar.rotation.y = heading;
+    if (dog.on) {
+      if (street?.inside || riding || playing) setDog(false);
+      else {
+        // the trail the dog leaves; your person walks it about two metres behind
+        const tl = dog.trail; if (player.distanceTo(tl[tl.length - 1]) > 0.3) { tl.push(player.clone()); if (tl.length > 80) tl.shift(); }
+        let need = 2.4, tgt = tl[tl.length - 1];
+        for (let i = tl.length - 1; i > 0; i--) { const d = tl[i].distanceTo(tl[i - 1]); if (need <= d) { tgt = tl[i].clone().lerp(tl[i - 1], need / d); break; } need -= d; tgt = tl[i - 1]; }
+        // a step to the side of the dog's line, like someone walking a dog, so the camera behind the dog sees past you
+        tgt = tgt.clone(); tgt.x += Math.cos(heading) * -1.3; tgt.z += -Math.sin(heading) * -1.3;
+        let dx = tgt.x - dog.pos.x, dz = tgt.z - dog.pos.z, d = Math.hypot(dx, dz);
+        if (d > 25) { dog.pos.set(player.x - Math.sin(heading) * 2, 0, player.z - Math.cos(heading) * 2); dx = 0; dz = 0; d = 0; }
+        const v = d > 0.15 ? Math.min(d * 3, (running ? 7.2 : 3.4) * 1.15) : 0;
+        if (v) { dog.pos.x += (dx / d) * v * dt; dog.pos.z += (dz / d) * v * dt; world.resolve(dog.pos, PLAYER_R, 0); const want = Math.atan2(dx, dz); dog.head += Math.atan2(Math.sin(want - dog.head), Math.cos(want - dog.head)) * (1 - Math.exp(-dt * 8)); }
+        dog.speed = v;
+        avatar.position.copy(dog.pos); avatar.rotation.y = dog.head;
+      }
+    }
     // jump: real gravity, from the ground only, not while riding or seated
-    if (jumpQueued && jumpY === 0 && !riding && !seated && !playing && !cam.aerial) { jumpV = 5.0; sfx('jump'); } // peaks near 0.96 m
+    if (jumpQueued && jumpY === 0 && !riding && !seated && !playing && !cam.aerial && !dog.on) { jumpV = 5.0; sfx('jump'); } // peaks near 0.96 m
     jumpQueued = false;
     if (jumpV !== 0 || jumpY > 0) {
       jumpV -= 13 * dt; jumpY += jumpV * dt;
@@ -703,8 +772,9 @@ async function main() {
     } else if (inside || riding) { groundY = 0; }
     avatar.position.y = groundY + jumpY + (gs?.y || 0);
     const groundSpeed = moving ? player.distanceTo(last) / Math.max(dt, 1e-4) : 0;
+    if (dog.on) { dog.still = groundSpeed < 0.05 ? dog.still + dt : 0; street?.pets?.drive({ x: player.x, z: player.z, yaw: heading, speed: groundSpeed, still: dog.still }); }
     lastSpeed = groundSpeed;
-    if (rig && !reduced) rig.update(dt, gs ? { speed: Math.min(gs.speed || 0, 8), running: !!gs.running, air: (gs.y || 0) > 0.05, t, seated: !!gs.seated } : { speed: Math.min(groundSpeed, 8), running, air: jumpY > 0.02, t, seated: seated && !pose ? true : pose ? ['sofa', 'feet', 'tv', 'read', 'eat'].includes(pose) : false, pose, seatY });
+    if (rig && !reduced) rig.update(dt, gs ? { speed: Math.min(gs.speed || 0, 8), running: !!gs.running, air: (gs.y || 0) > 0.05, t, seated: !!gs.seated } : { speed: Math.min(dog.on ? dog.speed : groundSpeed, 8), running: dog.on ? dog.speed > 4 : running, air: jumpY > 0.02, t, seated: seated && !pose ? true : pose ? ['sofa', 'feet', 'tv', 'read', 'eat'].includes(pose) : false, pose, seatY });
     else body.position.y = seated ? -0.42 : 0;
     street?.mobility?.pose(rig, dt, groundSpeed, inside); // on wheels: pedalling or pushing, over the walk
     // a footstep every stride, on whatever is underfoot
@@ -713,7 +783,7 @@ async function main() {
     audio.update(dt, { day: shared.uDay.value, rain: wx.uRain.value, inside, riding, speed: street?.rides?.()?.debug?.v ?? 0 });
 
     // damped third-person follow; district-to-district is a cut, never a flight
-    if (cam.aerial) focus.set(0, 6, 0); else focus.set(player.x, 1.75 + groundY, player.z);
+    if (cam.aerial) focus.set(0, 6, 0); else focus.set(player.x, (dog.on ? 0.7 : 1.75) + groundY, player.z);
     const camPitch = Math.max(0.05, cam.pitch), lookUp = Math.max(0, -cam.pitch), cp = Math.cos(camPitch);
     desired.set(
       focus.x - Math.sin(cam.yaw) * cp * cam.dist,
@@ -835,6 +905,7 @@ async function main() {
       camPos.lerp(desired, k);
       look.lerp(focus, k);
     }
+    if (swoop.on) swoopFrame(dt, desired, focus);
     camera.position.copy(camPos);
     camera.lookAt(look);
     // a wall pushed the camera into the avatar: hide it rather than show the inside of a head
@@ -845,6 +916,7 @@ async function main() {
     street?.renderReflection();
     grade.uniforms.uSat.value = 0.94 + 0.18 * shared.uDay.value; // vivid by day, calmer under the lamps at night
     if (q.get('post') === '0') renderer.render(scene, camera); else composer.render();
+    street?.renderPortraits?.(dt);
     if (q.get('govern') !== '0') govern();
     countFps();
   }

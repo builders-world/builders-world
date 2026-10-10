@@ -215,7 +215,7 @@ export function createPasses({ toast, district = 'Yaba' } = {}) {
   const access = (estate) => { const t = tenancy(); if (t && t.estate === estate) return 'resident'; const v = visitorFor(estate); return v && v.until > now() ? 'visitor' : null; };
   let repScore = store.get('bw-rep', 50);
   const repLabel = (r = repScore) => (r < 30 ? 'On the watch list' : r < 60 ? 'Neighbour' : r < 80 ? 'Good neighbour' : 'Pillar of the community');
-  function addRep(d, why) { repScore = Math.max(0, Math.min(100, repScore + d)); store.set('bw-rep', repScore); if (why) toast?.(`Reputation ${d > 0 ? '+' : ''}${d}: ${why}`, 2600); return repScore; }
+  function addRep(d, why) { dispatchEvent(new CustomEvent('bw:rep', { detail: { d, why } })); repScore = Math.max(0, Math.min(100, repScore + d)); store.set('bw-rep', repScore); if (why) toast?.(`Reputation ${d > 0 ? '+' : ''}${d}: ${why}`, 2600); return repScore; }
   function dispose() { style.remove(); reg.remove(); }
   return {
     valid, card, cardHTML, cards: () => cards.slice().sort((a, b) => (a.kind === 'eko' ? -1 : 1) - (b.kind === 'eko' ? -1 : 1)),

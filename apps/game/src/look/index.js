@@ -40,6 +40,8 @@ import { sfx } from './audio.js';
 import { createInteriors, PLACES, namePlaces } from './interior.js';
 import { papers, openPassportDesk, openEtaDesk, openTravelBoard, dialogOpen as travelDialogOpen, closeDialog as closeTravelDialog } from './travel.js';
 import { AIRPORTS } from './travelrules.js';
+import { createProfile, createPortraits } from './profile.js';
+import { createCritters } from './critters.js';
 import { openCheckIn, flyPanel, openAirportTaxi, airDialogOpen, TRIP_KEY, SHUTTLE, createAnnouncer } from './airport.js';
 import { CITIES } from './cities.js';
 import { sunPosition, sunDirection } from './sun.js';
@@ -153,7 +155,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     };
   })();
 
-  let officials = null, rideBlock = null, homeAct = null;
+  let officials = null, rideBlock = null, homeAct = null, lastNearT = 0, nearNow = { park: false, people: false }, lastPos = null;
   let greenrey = null, spotify = null, sports = null, mobility = null, slife = null, traffic = null, food = null, pets = null, petIt = null, wardrobe = null, profiler = null, onlineRef = null, building = null, gates = null, visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
   // the tech places you can walk into (world bible 6.6)
   const doors = [];
@@ -233,7 +235,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
           else hud.toast('The garden tables are for friendly games. Two regulars set up here on Sunday afternoons.', 3200);
           return true;
         }
-        if (active.cost && !walletEngine().spend(active.cost, active.label)) { hud.toast(`That is ${active.cost} Efforts.`, 2200); return true; }
+        if (active.cost && !walletEngine().spend(active.cost, active.label)) { hud.toast(`That is ${active.cost} Efforts.`, 2200); return true; } if (active.cost) dispatchEvent(new CustomEvent('bw:me', { detail: { ate: 0.12, played: 0.05 } })); if (/plaque/.test(active.id)) dispatchEvent(new CustomEvent('bw:me', { detail: { skill: 'creativity', n: 1 } }));
         sfx('interact'); hud.toast(active.say, 5200); return true;
       }
       if (active?.id?.startsWith('knock:')) return lives.knock(active.id);
@@ -333,6 +335,12 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   try { cycling = buildCycling({ world, scene: group }); } catch (err) { console.warn('cycling skipped', err); }
   food = createFood({ scene: group, props, world, toast: hud.toast, getEnv: () => live, reduced, addLamps: (l) => { props.lamps.push(...l); lights?.setLamps([...world.lamps, ...props.lamps, ...(world.porchLamps || [])]); } });
   pets = createPets({ scene: group, camera, world, toast: hud.toast, isIndoors: () => !!interiors?.active });
+  // you, bottom left: a live portrait, your mood and needs, your skills; your dog beside you (profile.js)
+  const petView = () => (pets?.pet ? { ...pets.pet, pos: pets.pos, visible: !interiors?.active, cheer: pets.cheer } : null);
+  const meName = () => { try { const n = JSON.parse(localStorage.getItem('bw-arrivals-v1') || '{}').name; if (n) return n.split(' ')[0]; } catch { /* */ } return walletEngine().handle ? `@${walletEngine().handle}` : 'You'; };
+  let critters = null;
+  const profile = createProfile({ avatar, getName: meName, getPet: () => pets?.pet, getFriends: () => critters?.friends || [], onDog: () => dispatchEvent(new Event('bw:dog')), toast: hud.toast });
+  const portraits = createPortraits(renderer);
   petIt = { id: 'pet', label: 'Pet', x: 0, z: 0, r: 0 }; props.interact.push(petIt);
   addEventListener('bw:shelter', () => { hud.close(); pets.openShelter(); });
   addEventListener('bw:wardrobe', () => { hud.close(); wardrobe.open(avatar?.userData.look || { topColor: avatar?.userData.dressFound?.shirt?.color ? `#${avatar.userData.dressFound.shirt.color.getHexString()}` : undefined }); });
@@ -342,7 +350,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     enterPlayerHome: (host) => { doorOut = { x: host.door.x, z: host.door.z, yaw: host.door.ry ?? 0 }; interiors.enter('home', host).then((p) => { setInside(`${host.first}'s home`); pendingMove = { ...p, mode: 'inside' }; passes.arrive('home'); }); } });
   interiors = createInteriors({ city: world.place?.city || 'Lagos', country: AIRPORTS[world.place?.city || 'Lagos']?.country || 'Nigeria', scene, reduced, toast: hud.toast, getEnv: () => live || { day: 1 }, onPackUp: () => standUp(), net: passes, onOrder: (k) => food?.menu(k), onTeller: () => hud.openWallet({ atm: true }) });
   // everything that moves and can be bumped into: people, traffic, the waiting hired vehicle
-  const bodies = () => [...(props.bodies?.() || []), ...lives.bodies(), ...(mobility?.bodies() || []), ...(dressing?.bodies?.() || []), ...(traffic?.bodies() || []), ...(officials?.bodies?.() || []), rides?.body?.()].filter(Boolean);
+  const bodies = () => [...(props.bodies?.() || []), ...lives.bodies(), ...(mobility?.bodies() || []), ...(dressing?.bodies?.() || []), ...(traffic?.bodies() || []), ...(officials?.bodies?.() || []), ...(critters?.bodies?.() || []), rides?.body?.()].filter(Boolean);
   rides = createRides({ world, scene: group, nav: hud.nav, props, reduced, toast: hud.toast, getBodies: () => [...(props.bodies?.() || []), ...(dressing?.bodies?.() || [])],
     onState: (st) => { if (st.ride === false && st.exitAt) pendingExit = st.exitAt; } });
   const civic = buildCivic(world, group, { rides });
@@ -534,6 +542,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   // Greenrey: large open land becomes laterite, yards, car parks and building plots; grass stays in the gaps (greenrey.js)
   if (!off.has('greenrey')) { try { greenrey = buildGreenrey({ renderer, scene, world, group, park: parks.park }); } catch (err) { console.warn('Greenrey skipped', err); } }
   // the parks greenrey laid out on the open green land (parkland.js): benches to sit on, the parks on the map, things to do
+  // the neighbourhood's own animals, by the estates and the parks; your pet makes friends with them (critters.js)
+  try { critters = createCritters({ scene: group, world, getPet: petView, toast: hud.toast, spots: (greenrey?.parks?.pois || []).map((q) => ({ x: q.x, z: q.z })) }); } catch (err) { console.warn('critters skipped', err); }
   if (greenrey?.parks) {
     const P = greenrey.parks, base = seats.length;
     P.seats.forEach((st, i) => { seats.push(st); props.interact.push({ id: `seat:${base + i}`, label: 'Sit on the bench', x: st.x + Math.sin(st.yaw) * 0.5, z: st.z + Math.cos(st.yaw) * 0.5, r: 1.3 }); });
@@ -657,9 +667,15 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     if (!interiors?.active) { food?.update(dt, player); if (traffic?.addBlocker) { rideBlock ||= traffic.addBlocker({ r: 1.4 }); const rv = rides?.vehicle; rideBlock.on = !!(rv && world.onCarriageway?.(rv.x, rv.z, 0.6)); if (rv) { rideBlock.x = rv.x; rideBlock.z = rv.z; rideBlock.r = rv.r; } }
       traffic?.update(dt, player); slife?.update(dt, player); officials?.update(dt); mobility?.update(dt, t); sports?.update(dt); }
     pets?.update(dt, player, yaw ?? 0);
-    if (petIt && pets?.pet) { petIt.x = pets.pos.x; petIt.z = pets.pos.z; petIt.r = interiors?.active ? 0 : 1.4; petIt.label = `Pet ${pets.pet.name}`; }
+    if (!interiors?.active) critters?.update(dt, player);
+    // what you are doing feeds your needs and skills (profile.js)
+    { const near = (lastNearT -= dt) <= 0 ? ((lastNearT = 1), { park: (props.pois || []).some((q) => q.kind === 'park' && Math.hypot(q.x - player.x, q.z - player.z) < 26), people: (chat.people || []).some((q) => q.obj && Math.hypot(q.obj.position.x - player.x, q.obj.position.z - player.z) < 6) }) : null;
+      if (near) nearNow = near;
+      const sp = lastPos ? Math.hypot(player.x - lastPos.x, player.z - lastPos.z) / Math.max(dt, 1e-3) : 0; lastPos = { x: player.x, z: player.z };
+      profile.update(dt, { player, running: sp > 4.5, inside: !!interiors?.active, riding: !!rides?.vehicle && sp > 1, computer: !!interiors?.computerOpen, seated: !!benchSeat || !!interiors?.seated, resting: !!homeAct && ['lie', 'sofa', 'tv', 'feet'].includes(homeAct.pose), sport: !!sports?.playing, studio: interiors?.room?.key === 'studio' || interiors?.room?.key === 'loft', park: !interiors?.active && nearNow.park, people: !interiors?.active && nearNow.people }); }
+    if (petIt && pets?.pet) { petIt.x = pets.pos.x; petIt.z = pets.pos.z; petIt.r = interiors?.active || pets.driven ? 0 : 1.4; petIt.label = `Pet ${pets.pet.name}`; }
     // estate gates: no pass, no entry (gates.js)
-    if (!pendingMove) { const push = gates?.update(dt, player, !!interiors?.active || !!benchSeat); if (push) pendingMove = { mode: 'push', ...push }; }
+    if (!pendingMove && !pets?.driven) { const push = gates?.update(dt, player, !!interiors?.active || !!benchSeat); if (push) pendingMove = { mode: 'push', ...push }; }
     syncSeat();
     hud.update(dt, t, player, yaw);
     // lightning only when there is a thunderstorm where the weather comes from
@@ -677,6 +693,24 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     }
   }
 
+  // the two live portraits, drawn after the main picture (main.js calls this once a frame)
+  function renderPortraits(dt) {
+    const rects = profile.rects(); if (!rects.length) return;
+    const eye = new THREE.Vector3(), at = new THREE.Vector3(), q = new THREE.Quaternion(), f = new THREE.Vector3();
+    if (avatar?.parent) {
+      avatar.getWorldPosition(at); avatar.getWorldQuaternion(q); f.set(0, 0, 1).applyQuaternion(q); f.y = 0; f.normalize();
+      at.y += 1.55; eye.copy(at).addScaledVector(f, 0.95).add(new THREE.Vector3(-f.z * 0.18, 0.04, f.x * 0.18)); at.y -= 0.04;
+      // the far-away cull (anim.js) hides a person's parts when the main camera is high up: show them for the portrait
+      portraits.shoot('me', scene, eye, at, dt, [avatar.parent, avatar, ...avatar.children], pets?.model ? [pets.model] : []);
+    }
+    const pm = pets?.model;
+    if (pm && rects.some(([id]) => id === 'dog')) {
+      const k = pm.userData.k || 1; f.set(Math.sin(pm.rotation.y), 0, Math.cos(pm.rotation.y));
+      at.set(pm.position.x, 0, pm.position.z).addScaledVector(f, 0.24 * k); at.y = 0.36 * k; eye.copy(at).addScaledVector(f, 0.65 * k + 0.2).add(new THREE.Vector3(-f.z * 0.12, 0.06 * k, f.x * 0.12));
+      portraits.shoot('dog', scene, eye, at, dt, [pm, ...pm.children], avatar?.parent ? [avatar.parent] : []);
+    }
+    portraits.blit(rects);
+  }
   function renderReflection() {
     // a dry street has nothing to mirror, so skip the extra pass
     if (reflection && !interiors?.active && weather.uWet.value > 0.03) reflection.render(renderer, scene, camera);
@@ -848,7 +882,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     if (what === 'sim') { hud.toast(`${R.AG.sims[0]} SIM, registered with your passport: data for the week. ${R.AG.sims.slice(1).join(' and ')} are at the next desk.`, 3200); return; }
     if (what === 'taxi') { hud.toast('The taxi desk: fixed fares into town. Or walk out and take one from the rank.', 2600); return; }
     if (what === 'board') { hud.toast(R.flights.map((f) => `${f.time} ${f.no} ${f.to} · ${f.island} · gate ${f.gate} · ${R.status(f).toLowerCase()}`).join('  ·  '), 6000); return; }
-    if (what === 'cafe' || what === 'food') { if (walletEngine().spend(what === 'food' ? 900 : 300, what === 'food' ? 'Airport jollof' : 'Airport coffee')) hud.toast(what === 'food' ? 'Airport jollof and chicken: 900 Efforts, three times the street price.' : 'An airport flat white: 300 Efforts, twice the street price.', 2600); return; }
+    if (what === 'cafe' || what === 'food') { if (walletEngine().spend(what === 'food' ? 900 : 300, what === 'food' ? 'Airport jollof' : 'Airport coffee')) { dispatchEvent(new CustomEvent('bw:me', { detail: { ate: what === 'food' ? 0.5 : 0.1 } })); hud.toast(what === 'food' ? 'Airport jollof and chicken: 900 Efforts, three times the street price.' : 'An airport flat white: 300 Efforts, twice the street price.', 2600); } return; }
     if (what === 'books') { hud.toast('Travel guides, Chimamanda, a thick book on distributed systems. You leave with nothing and a reading list.', 3000); return; }
     if (what === 'dutyfree') { hud.toast(`Perfume, chocolate, a ${cityHere} fridge magnet. You look, you do not buy.`, 2600); }
   });
@@ -880,7 +914,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       try { localStorage.setItem(LAST, JSON.stringify({ district, ...(street || {}), inside, at: Date.now() })); } catch { /* */ }
     }, 5000);
   }
-  addEventListener('bw:jumpto', (e) => { const d = e.detail || {}; if (interiors?.active) { hud.toast('Go outside first, then jump.', 2200); return; } const q = world.nearestReachable(d.x + 1.6, d.z + 1.6) || { x: d.x, z: d.z }; pendingMove = { mode: 'stand', x: q.x, z: q.z }; hud.toast(d.quick ? `Quick travel: you are at ${d.name || 'your marker'}.` : `You are with ${d.name || 'them'}.`, 2200); if (d.quick) sfx('arrive'); });
+  addEventListener('bw:jumpto', (e) => { const d = e.detail || {}; if (interiors?.active) { hud.toast('Go outside first, then jump.', 2200); return; } const q = world.nearestReachable(d.x + 1.6, d.z + 1.6) || { x: d.x, z: d.z }; if (d.quick) { dispatchEvent(new CustomEvent('bw:swoopto', { detail: { x: q.x, z: q.z, name: d.name || 'your marker' } })); sfx('arrive'); return; } pendingMove = { mode: 'stand', x: q.x, z: q.z }; hud.toast(d.quick ? `Quick travel: you are at ${d.name || 'your marker'}.` : `You are with ${d.name || 'them'}.`, 2200); if (d.quick) sfx('arrive'); });
   // a teleport for the player (into or out of a place, sitting, standing), taken once
   // getting up, from a bench or a desk: at a desk the laptop closes and goes in your bag first
   let leaving = false;
@@ -938,7 +972,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     if (a.kind === 'sofa') R?.set?.('tv', false);
     if (a.kind === 'shower') R?.set?.('shower', false);
     if (a.kind === 'cook') { R?.set?.('cook', false); if (done) { R?.set?.('plate', true); hud.toast('Jollof is ready, on the table. Sit down and eat.', 3000); } }
-    if (a.kind === 'eat' && done) R?.set?.('plate', false);
+    if (a.kind === 'eat' && done) { R?.set?.('plate', false); dispatchEvent(new CustomEvent('bw:me', { detail: { ate: 0.6 } })); }
+    if (a.kind === 'shower' && done) dispatchEvent(new CustomEvent('bw:me', { detail: { rested: 0.1, played: 0.03 } }));
     if (done && ACT_WORDS[a.kind] && a.kind !== 'cook') { const l = ACT_WORDS[a.kind][1]; hud.toast(Array.isArray(l) ? l[Math.floor(Math.random() * l.length)] : l, 2600); }
     pendingMove = { mode: 'stand', x: a.back.x, z: a.back.z };
     seatState = ''; syncSeat();
@@ -994,6 +1029,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { get food() { return food; }, get greenrey() { return greenrey; }, update, renderReflection, setSize, setGraphics, sport: () => sports?.pose() || null, get sports() { return sports; }, get graphics() { return gfx; }, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get cycling() { return cycling; }, get officials() { return officials; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || !!homeAct || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, get tallRoom() { return (interiors?.room?.H || 0) > 12; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { get food() { return food; }, get greenrey() { return greenrey; }, update, renderReflection, setSize, setGraphics, sport: () => sports?.pose() || null, get sports() { return sports; }, get graphics() { return gfx; }, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get cycling() { return cycling; }, get officials() { return officials; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || !!homeAct || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, renderPortraits, get profile() { return profile; }, get critters() { return critters; }, get tallRoom() { return (interiors?.room?.H || 0) > 12; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

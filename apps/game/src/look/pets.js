@@ -112,7 +112,7 @@ const CSS = `
 #lk-pets input { width: 100%; box-sizing: border-box; border: 2px solid #e3d4b4; border-radius: 14px; padding: 10px 14px; background: #fffaf0; color: ${C.ink}; font: 700 16px/1 ${FONT}; }
 #lk-pets .row { display: flex; gap: 8px; margin-top: 16px; } #lk-pets .row button { flex: 1; border: 0; border-radius: 999px; padding: 12px; font: 800 15px/1 ${FONT}; cursor: pointer; background: #eadfc6; color: ${C.ink}; } #lk-pets .row .go { background: ${C.teal}; color: #fff; }
 #lk-pets svg { display: inline-block; vertical-align: -2px; }
-#lk-petbar { position: fixed; left: 14px; bottom: 150px; z-index: 15; display: none; gap: 6px; align-items: center; padding: 6px 8px 6px 12px; border-radius: 999px; background: ${C.paper}; color: ${C.ink}; font: 800 13px/1 ${FONT}; box-shadow: 0 3px 0 rgba(59,42,32,.2); }
+#lk-petbar { position: fixed; left: 14px; bottom: 214px; z-index: 15; display: none; gap: 6px; align-items: center; padding: 6px 8px 6px 12px; border-radius: 999px; background: ${C.paper}; color: ${C.ink}; font: 800 13px/1 ${FONT}; box-shadow: 0 3px 0 rgba(59,42,32,.2); }
 #lk-petbar.on { display: flex; } #lk-petbar button { border: 0; border-radius: 999px; padding: 6px 10px; background: ${C.paper2}; color: ${C.ink}; font: 800 12px/1 ${FONT}; cursor: pointer; } #lk-petbar button b { color: ${C.teal}; margin-right: 3px; }
 body.nohud #lk-petbar, body.bw-cine #lk-petbar { display: none; }
 `;
@@ -195,12 +195,25 @@ export function createPets({ scene, camera, world, toast, isIndoors }) {
 
   // ---------- each frame ----------
   const idle = { act: null, t: 3, k: 0, moves: false, spot: null };
+  // you can play as your pet (Elvis, 10 October 2026): main.js moves it and your person follows; the pet's own
+  // mind is off while you drive, only its legs, tail and tongue keep going
+  let driven = null;
   function update(dt, player, yaw) {
     t += dt; lastPlayer.set(player.x, 0, player.z);
     if (!pet || !model) return;
     const indoors = isIndoors?.();
     model.visible = !indoors;
     if (indoors) { pos.set(player.x + 1, 0, player.z); return; }
+    if (driven) {
+      love = Math.max(0, love - dt);
+      pos.set(driven.x, 0, driven.z); model.position.set(pos.x, driven.y || 0, pos.z);
+      const dh = Math.atan2(Math.sin(driven.yaw - model.rotation.y), Math.cos(driven.yaw - model.rotation.y)); model.rotation.y += dh * (1 - Math.exp(-dt * 14));
+      const P = model.userData, ease = (key, want) => { P[key] = (P[key] || 0) + (want - (P[key] || 0)) * (1 - Math.exp(-dt * 6)); return P[key]; };
+      animatePet(model, dt, t, driven.speed || 0, { sit: ease('sit', driven.speed < 0.05 && driven.still > 2 ? 1 : 0), wag: love > 0 || driven.speed > 0.5, tongue: driven.speed > 4 || love > 0 ? 1 : 0 });
+      hearts.forEach((q) => { q.t += dt; q.h.position.y += dt * 0.6; q.h.material.opacity = Math.max(0, 1 - q.t / 1.4); });
+      for (let i = hearts.length - 1; i >= 0; i--) if (hearts[i].t > 1.4) { hearts[i].h.removeFromParent(); hearts.splice(i, 1); }
+      return;
+    }
     // came out of a building, or got left far behind: trot back into view beside you
     // and if something is in the way (it runs straight, it does not plan), it finds its own way round:
     // no progress for a second and a half, and it turns up just behind you
@@ -285,5 +298,8 @@ export function createPets({ scene, camera, world, toast, isIndoors }) {
   const near = (player) => !!(pet && model && model.visible && Math.hypot(pos.x - player.x, pos.z - player.z) < 2.2);
   spawn(world.spawn);
   function dispose() { group.removeFromParent(); panel.remove(); bar.remove(); style.remove(); }
-  return { update, act, near, get playing() { return toy ? toy.phase : null; }, get idleAct() { return idle.act; }, openShelter, close, get isOpen() { return panel.classList.contains('on'); }, get pet() { return pet; }, get pos() { return pos; }, dispose };
+  // drive(null) hands the pet back to its own mind; drive({ x, z, yaw, speed, still }) moves it
+  function drive(d) { if (!d && driven) { state = 'follow'; idle.act = null; } driven = d; if (d) { toy?.ball.removeFromParent(); toy = null; if (laser) { laser.dot.removeFromParent(); laser = null; } } bar.classList.toggle('driving', !!d); }
+  const cheer = (secs = 2.5) => { love = Math.max(love, secs); };
+  return { update, act, near, drive, cheer, get driven() { return !!driven; }, get model() { return model; }, get playing() { return toy ? toy.phase : null; }, get idleAct() { return idle.act; }, openShelter, close, get isOpen() { return panel.classList.contains('on'); }, get pet() { return pet; }, get pos() { return pos; }, dispose };
 }
