@@ -14,7 +14,7 @@ import { LABEL } from './quality.js';
 import { onlineNow } from './online.js';
 import { WALLET_CSS, walletSVG, breakdown, moneySVG } from './walletui.js';
 import { cardArt } from './cardart.js';
-import { C, FONT, KIT_CSS, loadFont, pattern, backdropSVG, personFor, portraitSVG, figureSVG, art, appIcon, placeArt, ribbonSVG } from './uikit.js';
+import { RAD, GAP, C, FONT, KIT_CSS, loadFont, pattern, backdropSVG, personFor, portraitSVG, figureSVG, art, appIcon, placeArt, ribbonSVG } from './uikit.js';
 import { createRadio } from './radio.js';
 import { avatarPortrait } from './portraits.js';
 import { DEFAULT_LOOK } from './style.js';
@@ -108,6 +108,23 @@ const CSS = `${KIT_CSS}
 #lkm-map .kinds i { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; flex: none; }
 #lkm-map .kinds i svg { width: 20px; height: 20px; }
 #lkm-map .kinds small { display: block; font-size: 10.5px; color: ${C.ink2}; }
+/* the UI brief: a rectangular map and its sidebars on one small set of radii (uikit RAD), aligned, nothing clipped */
+#lkm-map .mid, #lkm-map canvas { border-radius: ${RAD.lg}px; }
+#lkm-map .mid { background: ${C.paper2}; box-shadow: none; overflow: hidden; }
+#lkm-map canvas { box-shadow: none; }
+#lkm-map .col { border-radius: ${RAD.lg}px; padding: 64px ${GAP.md}px ${GAP.lg}px; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
+#lkm-map .col::after { content: ''; display: block; height: ${GAP.lg}px; } /* room under the last row, so it scrolls clear */
+#lkm-map h3 { top: ${GAP.md}px; border-radius: ${RAD.md}px; padding: 8px 20px; font-size: 19px; }
+#lkm-map .col > h3[style] { display: block !important; margin: ${GAP.lg}px 0 ${GAP.sm}px !important; padding: 0 2px; background: none; color: #fff; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; text-shadow: 0 1px 0 rgba(0,0,0,.15); }
+#lkm-map .places { gap: ${GAP.sm}px; }
+#lkm-map .places button span { border-radius: ${RAD.md}px; box-shadow: none; padding: 5px 10px; }
+#lkm-map .kinds { gap: ${GAP.sm}px; }
+#lkm-map .kinds button { border-radius: ${RAD.md}px; box-shadow: none; padding: 6px 8px 6px 6px; min-height: 40px; }
+#lkm-map .kinds i { border-radius: ${RAD.sm}px; }
+#lkm-map .rsearch, #lkm-map .onl .o, #lkm-map .rall { border-radius: ${RAD.md}px; }
+#lkm-map .legend { border-radius: ${RAD.md}px; box-shadow: none; }
+#lkm-map .zoom button { border-radius: ${RAD.md}px; box-shadow: none; }
+#lkm-map .hint { color: rgba(255,255,255,.92); font: 600 12.5px/1.4 ${FONT}; margin: ${GAP.md}px 2px 0; }
 #lkm-map .hint { margin: 12px 6px 0; color: #fff; font: 600 12.5px/1.45 ${FONT}; text-shadow: 0 1px 0 rgba(0,0,0,.15); }
 
 /* bag: you in the middle, what you carry in a ring around you (the wardrobe screen) */
@@ -513,27 +530,16 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     zoning = { lots, estateLabels, comm: (props.pois || []).filter((q) => COMM.includes(q.kind)), civic: (props.pois || []).filter((q) => CIVIC.includes(q.kind)) };
     return zoning;
   }
-  // the island's edge: a hand-drawn wobble around the district
-  const edge = (a, pad = 0) => 382 + pad + Math.sin(a * 3 + 1.2) * 10 + Math.sin(a * 7 + 0.4) * 6 + Math.sin(a * 13) * 3;
-  const blob = (g, pad) => { g.beginPath(); for (let i = 0; i <= 128; i++) { const a = (i / 128) * Math.PI * 2, r = edge(a, pad); i ? g.lineTo(450 + Math.cos(a) * r, 450 + Math.sin(a) * r) : g.moveTo(450 + Math.cos(a) * r, 450 + Math.sin(a) * r); } g.closePath(); };
   const ROOF = ['#efe3c8', '#e2a07c', '#a9d3d4', '#eacb7a', '#d3c3e2', '#f2d6b8'];
   const hash = (pts) => Math.abs(Math.round(pts[0][0] * 13 + pts[0][1] * 7));
   function drawBigMap() {
     const g = mapCanvas.getContext('2d');
     g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, cw, ch); g.setTransform(MK, 0, 0, MK, OX, OY);
-    // grid over the lagoon, letters and numbers like a paper map
-    g.strokeStyle = 'rgba(255,255,255,.45)'; g.setLineDash([10, 10]); g.lineWidth = 2;
-    for (let i = 1; i < 7; i++) { const v = 45 + i * 115; g.beginPath(); g.moveTo(v, 40); g.lineTo(v, 860); g.stroke(); g.beginPath(); g.moveTo(40, v); g.lineTo(860, v); g.stroke(); }
-    g.setLineDash([]);
-    g.fillStyle = 'rgba(59,42,32,.45)'; g.font = `700 24px ${FONT}`; g.textAlign = 'center'; g.textBaseline = 'middle';
-    'ABCDEFG'.split('').forEach((l, i) => g.fillText(l, 20, 102 + i * 115));
-    for (let i = 0; i < 7; i++) g.fillText(String(i + 1), 102 + i * 115, 884);
+    // a rectangle of map (the UI brief: not a circle): the whole mapped square is land, edge to edge of the view;
+    // beyond the mapped square the canvas stays blank
     // everything on the ground is drawn in district coordinates under the zoom; labels and icons stay crisp
     g.save(); g.setTransform(MK * view.z, 0, 0, MK * view.z, OX + MK * (450 - view.cx * view.z), OY + MK * (450 - view.cy * view.z));
-    // sand rim, then land
-    g.fillStyle = '#f1dfaa'; blob(g, 16); g.fill();
-    g.fillStyle = '#e5cd92'; blob(g, 7); g.fill();
-    g.save(); blob(g, 0); g.clip();
+    g.save(); g.beginPath(); g.rect(0, 0, 900, 900); g.clip();
     g.fillStyle = C.leaf; g.fillRect(0, 0, 900, 900);
     g.fillStyle = 'rgba(140,200,105,.55)';
     for (let i = 0; i < 26; i++) { const a = i * 2.4, r = (i * 53) % 330; g.beginPath(); g.arc(450 + Math.cos(a) * r, 450 + Math.sin(a) * r, 40 + (i % 5) * 12, 0, 7); g.fill(); }
