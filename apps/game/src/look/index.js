@@ -217,6 +217,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     if (name) chat.clear?.();
     world.scene.visible = !name; if (sky) sky.visible = !name; group.visible = !name;
     document.body.classList.toggle('bw-inside', !!name);
+    document.body.classList.toggle('bw-airport', !!name && interiors?.room?.key === 'airport'); // the minimap shows the airport (airportmap.js)
     if (name) { savedFog = scene.fog; scene.fog = null; renderer.toneMappingExposure = 1.0; if (bloom) { bloom.strength = 0.3; bloom.threshold = 0.95; } }
     else { scene.fog = savedFog; }
   }
@@ -706,7 +707,9 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     cullT -= dt;
     if (cullT <= 0) {
       cullT = 0.2;
-      if (!interiors?.active) { cullPeople(camera, gfx.people); cullDetail(camera, gfx.detail); cullSmall(camera); }
+      // indoors too: the people in the room by the camera (the airport's hall is 136 m long, so they are seen further, and
+      // always in full), everyone outside put away; a person left culled from an earlier visit is brought back
+      if (!interiors?.active) { cullPeople(camera, gfx.people); cullDetail(camera, gfx.detail); cullSmall(camera); } else cullPeople(camera, Math.max(gfx.people, 110), Infinity);
       scene.children.forEach((c) => { c.matrixWorldAutoUpdate = c.visible; });
       group.children.forEach((c) => { c.matrixWorldAutoUpdate = c.visible; });
     }
@@ -820,6 +823,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   const air = { screened: false, pass: null, carrying: false, bagDropped: false, secured: false, cleared: false, stamped: false, arrived: null, immigrated: false, bag: false, atGate: false };
   const cityHere = world.place?.city || 'Lagos';
   const airRoom = () => (interiors?.room?.key === 'airport' ? interiors.room : null);
+  props.airport = airRoom; // the map and minimap draw the airport while you are in it (airportmap.js)
+  props.playerYaw = () => (avatar?.parent || avatar)?.rotation.y ?? 0; // which way you face, for your arrow on those maps
   const stampPassport = (text) => { const P = papers(passes, cityHere); if (!P.passport) return false; passes.addCard({ ...P.passport, stamps: [...(P.passport.stamps || []), text] }); return true; };
   const day = () => new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }).toUpperCase();
   const myName2 = () => { try { return JSON.parse(localStorage.getItem('bw-arrivals-v1') || '{}').name || ''; } catch { return ''; } };

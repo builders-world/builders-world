@@ -489,6 +489,14 @@ export function buildAirport({ ORIGIN, scene, city }) {
   const room = {
     key: 'airport', group: g, colliders, walls, interact, door: { x: -34, z: 39.5 }, window, sun, people, desks: [], W, D, H: HD, A, AG, flights, order, gates: GATES,
     exitDoor: { x: 35, z: 38 }, arrive, belts, origin: ORIGIN,
+    // the airport on the map (airportmap.js): its plan, and what moves on it
+    mapData: { name: A.name, code: A.code, Z0, FRONT, islands: ISLANDS.map(({ x, L }) => ({ x, L })), bands: order.map((step, k) => ({ step, z: bandZ[k] })), gates: GATES.map(({ n, x }) => ({ n, x })), stands, belts: belts.map((b) => b.bx), dfz, zi },
+    live: () => ({
+      parked: stands.map((sx) => ({ x: sx - 2.7, z: Z0 - 20, yaw: 0 })),
+      moving: [taxiing, flying].map((p) => ({ x: p.position.x, z: p.position.z, y: p.position.y, yaw: p.rotation.y })),
+      tug: { x: tug.position.x, z: tug.position.z },
+      people: movers.map((m) => [m.p.root.position.x, m.p.root.position.z]),
+    }),
     // a new visit: every barrier shut again, then opened for what you already hold
     reset(state) {
       Object.keys(gates).forEach(shut);
@@ -527,14 +535,19 @@ export function buildAirport({ ORIGIN, scene, city }) {
       if (drop.t >= 0) { drop.t += dt; const is = drop.is; if (drop.t > 1.2) { const u = Math.min(1, (drop.t - 1.2) / 2.2); myBag.position.x = is.x + is.side * (2.65 - u * 2.0); myBag.position.y = 0.45 - u * 0.1; } if (drop.t > 3.6) { drop.t = -1; myBag.visible = false; } }
       // travellers on their rounds, bags rolling behind
       movers.forEach((m, mi) => {
-        if (m.still) { if ((mi + Math.floor(t * 10)) % 6 === 0) m.p.rig?.update(0.1, { speed: 0, t, seated: m.seat }); return; }
+        // (the ones standing or sitting breathe and fidget smoothly: every other frame, with the time that passed)
+        if (m.still) { m.acc = (m.acc || 0) + dt; if ((mi + Math.floor(t * 30)) % 2 === 0) { m.p.rig?.update(m.acc, { speed: 0, t, seated: m.seat }); m.acc = 0; } return; }
+        // (at each end of their way a traveller stops a moment, then turns round; never a flip on the spot)
+        if (m.wait > 0) { m.wait -= dt; m.p.rig?.update(dt, { speed: 0, t }); if (m.wait > 0) return; }
         m.s += m.dir * m.speed * dt;
-        if (m.s >= m.L) { m.s = m.L; m.dir = -1; } else if (m.s <= 0) { m.s = 0; m.dir = 1; }
+        if (m.s >= m.L) { m.s = m.L; m.dir = -1; m.wait = 1.5 + (mi % 4) * 0.6; } else if (m.s <= 0) { m.s = 0; m.dir = 1; m.wait = 1.5 + (mi % 3) * 0.7; }
         let s = m.s, i = 0; while (i < m.seg.length - 1 && s > m.seg[i]) { s -= m.seg[i]; i++; }
         const a = m.path[i], b = m.path[i + 1], u = m.seg[i] ? s / m.seg[i] : 0, x = a[0] + (b[0] - a[0]) * u, z = a[1] + (b[1] - a[1]) * u;
         const hd = Math.atan2((b[0] - a[0]) * m.dir, (b[1] - a[1]) * m.dir);
-        m.p.root.position.set(x, 0, z); m.p.root.rotation.y = hd; m.p.rig?.update(dt, { speed: m.speed, t });
-        if (m.p.bag) { m.p.bag.position.set(x - Math.sin(hd) * 0.7 + Math.cos(hd) * 0.26, 0, z - Math.cos(hd) * 0.7 - Math.sin(hd) * 0.26); m.p.bag.rotation.set(-0.3, hd, 0, 'YXZ'); }
+        // turn toward the way ahead at a walker's pace, round corners too
+        if (m.hd === undefined) m.hd = hd; let dh = hd - m.hd; dh = Math.atan2(Math.sin(dh), Math.cos(dh)); m.hd += dh * Math.min(1, dt * 6);
+        m.p.root.position.set(x, 0, z); m.p.root.rotation.y = m.hd; m.p.rig?.update(dt, { speed: m.speed, t });
+        if (m.p.bag) { m.p.bag.position.set(x - Math.sin(m.hd) * 0.7 + Math.cos(m.hd) * 0.26, 0, z - Math.cos(m.hd) * 0.7 - Math.sin(m.hd) * 0.26); m.p.bag.rotation.set(-0.3, m.hd, 0, 'YXZ'); }
       });
       // the apron: a plane taxiing, a tug and carts, and on the runway a take-off then a landing, in turn
       const tx = ((t * 7) % 1400) - 700; taxiing.position.set(tx, 0, Z0 - 160); taxiing.rotation.y = Math.PI / 2;
