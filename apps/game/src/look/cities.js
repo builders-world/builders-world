@@ -3,6 +3,7 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { sunPosition } from './sun.js';
 import { mulberry32 } from '../mesh.js';
 import { terrainFor, landmarkFor, LANDMARK_NAME } from './citytiles.js';
+import { cityLabel, regionOf, areaName } from './areas.js';
 
 // The city sheet (world bible 5.1): every city as a small isometric diorama on one sheet, each lit by
 // its own real local time and weather. Hover to see it live; click to drop into its district.
@@ -198,7 +199,7 @@ export async function runCitySheet({ renderer, onEnter, onBack, reduced }) {
     const d = diorama(c, m, 100 + i);
     d.group.position.copy(spots[i]);
     scene.add(d.group);
-    const tag = document.createElement('button'); tag.className = 'tag'; tag.setAttribute('aria-label', `Go to ${c.city}, ${c.district}`);
+    const tag = document.createElement('button'); tag.className = 'tag'; tag.setAttribute('aria-label', `Go to ${cityLabel(c.city)}, ${c.district}`);
     ui.appendChild(tag);
     return { c, d, wx, tag, hover: 0 };
   }));
@@ -233,7 +234,7 @@ export async function runCitySheet({ renderer, onEnter, onBack, reduced }) {
       const temp = t.wx?.temp != null ? `${Math.round(t.wx.temp)}° ${LABEL(t.wx.code)}` : 'Weather loading';
       t.tag.classList.toggle('night', night);
       t.sky = t.wx?.rain ? RAIN : night ? MOON : SUN; t.temp = temp;
-      t.tag.innerHTML = `<div class="hd"><b>${esc(t.c.city)}</b><i class="sky ${night && !t.wx?.rain ? 'night' : ''}" title="${t.wx?.rain ? 'Raining' : night ? 'Night' : 'Day'}">${t.sky}</i></div>
+      t.tag.innerHTML = `<div class="hd"><b>${esc(cityLabel(t.c.city))}</b><i class="sky ${night && !t.wx?.rain ? 'night' : ''}" title="${t.wx?.rain ? 'Raining' : night ? 'Night' : 'Day'}">${t.sky}</i></div>
         <span class="sub">${esc(t.c.district)} · ${localTime(t)}</span>`;    });
   }
   // the panel: everything about the city you are looking at, and the way in
@@ -242,7 +243,7 @@ export async function runCitySheet({ renderer, onEnter, onBack, reduced }) {
   function showPanel(t) {
     if (!t) return;
     selected = t; tiles.forEach((x) => x.tag.classList.toggle('sel', x === t));
-    panel.innerHTML = `<div><h2>${esc(t.c.city)}<small>${esc(t.c.district)} district</small></h2>
+    panel.innerHTML = `<div><h2>${esc(cityLabel(t.c.city))}<small>Starting in ${esc(t.c.district)}${(regionOf(t.c.city)?.areas.length || 1) > 1 ? ` · also ${regionOf(t.c.city).areas.slice(1).map((a) => esc(areaName(a))).join(', ')}` : ''}</small></h2>
       <div class="now"><span><i class="sky ${t.tag.querySelector('.sky.night') ? 'night' : ''}">${t.sky}</i>${localTime(t)} local time</span><span>${esc(t.temp)}</span></div></div>
       <button class="go">Enter ${esc(t.c.district)} →</button>
       <dl><div><dt>Buildings</dt><dd>${t.d.footprints} mapped${t.d.estimated ? `, ${t.d.estimated} estimated` : ''}</dd></div><div><dt>Landmark</dt><dd>${esc(LANDMARK_NAME[t.c.city] || '—')}</dd></div></dl>

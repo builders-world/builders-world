@@ -133,12 +133,18 @@ export function buildLandmarks({ world, scene, props, used = [] }) {
     // the spot: as far out toward the real place as there is room, searching inward and to the sides; a real place
     // too big for the room there is built a little smaller rather than left out (never below two thirds)
     let spot = null, k = 1;
-    for (const sc of info.landmarks ? [1, 0.82, 0.66] : [1]) {
+    // (a big one, a stadium or a mall, may come down to just under half size in a crowded area rather than be left out)
+    for (const sc of info.landmarks ? [1, 0.82, 0.66, 0.55, 0.46] : [1]) {
       const W = mdl.W * sc, D = mdl.D * sc;
-      for (let r = Math.min(dist, R * 0.85); r > R * 0.15 && !spot; r -= 6) for (const side of [0, 1, -1, 2, -2, 3, -3]) {
+      // a place out toward the edge: from as far out as it really is, inward; one at the very middle of the area
+      // (the area is centred on it): from the middle outward, all the way round
+      const central = dist < R * 0.2, radii = [];
+      if (central) for (let r = 0; r <= R * 0.85; r += 5) radii.push(r); else for (let r = Math.min(dist, R * 0.85); r > R * 0.08; r -= 5) radii.push(r);
+      const sides = central ? [...Array(16).keys()].map((k) => (k * Math.PI * 2) / 16 / 0.18) : [0, 1, -1, 2, -2, 3, -3, 4, -4, 6, -6];
+      for (const r of radii) { if (spot) break; for (const side of sides) {
         const a = Math.atan2(ux, uz) + side * 0.18, x = Math.sin(a) * r, z = Math.cos(a) * r, ry = faceRoad(x, z);
         if (fits(x, z, ry, W, D)) { spot = { x, z, ry }; break; }
-      }
+      } }
       if (spot) { k = sc; break; }
     }
     if (!spot) return;

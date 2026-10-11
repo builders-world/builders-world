@@ -1,4 +1,5 @@
 // Menus for a world of developers: a dev phone (Tab), the district map (M), a bag of
+import { areaOf, areaName, cityLabel } from './areas.js';
 // gadgets (I), and a first-visit controls guide drawn as line art.
 // Patterns borrowed from the references Elvis shared; the look stays Builders World.
 
@@ -296,7 +297,7 @@ const store = {
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* storage unavailable */ } },
 };
 
-const placeName = (world) => world.place?.name ?? 'Yaba';
+const placeName = (world) => areaName(areaOf(world.place?.city || 'Lagos', world.place?.name)) || (world.place?.name ?? 'Yaba');
 export function createMenus({ world, props, weatherFeed, getPlayer, getPath, snapToStreet, onRoute, onEquip, onPhoto, onRide, toast }) {
   const style = document.createElement('style');
   style.textContent = CSS + WALLET_CSS;
@@ -642,7 +643,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
         <div class="res">${resList().map(({ b }) => `<button data-id="${b.id}" class="${selRes === b.id ? 'sel' : ''}" aria-label="${b.name}">
         <span class="hs"><img alt="" src="${portraitOf(b)}">${isOnline(b) ? '<i class="live" title="Online now"></i>' : ''}</span>${b.name.split(' ')[0]}</button>`).join('') || '<p class="hint">Nobody by that name lives here yet.</p>'}</div>
         ${!resQuery && people.length > RES_SHOW ? `<button class="rall">${resAll ? 'Show fewer' : `View all ${people.length}`}</button>` : ''}</div>
-      <div class="mid"><div class="ribbon">${ribbonSVG(380)}<b>${placeName(world)}<small>${world.place?.city ?? 'Lagos'}</small></b></div><div class="bubble"></div></div>
+      <div class="mid"><div class="ribbon">${ribbonSVG(380)}<b>${placeName(world)}<small>${cityLabel(world.place?.city ?? 'Lagos')}</small></b></div><div class="bubble"></div></div>
       <div class="col"><h3>Places</h3><div class="places">${places.map((p) => `<button data-p="${p.id}" class="${selPlace === p.id ? 'sel' : ''}">${placeArt(p.art)}<span>${p.name}<small>${p.sub}</small></span></button>`).join('')}</div>
         <h3 style="position:static;transform:none;display:inline-block;margin:16px 0 8px">Find nearest</h3>
         <div class="kinds">${Object.entries(KINDS).filter(([k]) => poisOf(k).length).map(([k, d]) => `<button data-kind="${k}" class="${poiFilter === k ? 'sel' : ''}"><i style="background:${d.color}">${appIcon(d.glyph)}</i><span>${d.label}<small>${poisOf(k).length}</small></span></button>`).join('')}</div>

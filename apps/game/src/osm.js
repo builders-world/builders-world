@@ -129,7 +129,7 @@ export async function loadManifest(place, { live = true } = {}) {
     const r = await fetch(`./data/${slug(place.name)}.json`, { cache: 'no-cache' });
     if (r.ok) {
       const m = await r.json();
-      if (m.buildings?.length) return { manifest: m, via: 'baked' };
+      if (m.buildings?.length || m.roads?.length) return { manifest: m, via: 'baked' }; // (some areas are mapped road by road, few buildings drawn yet)
     }
   } catch { /* fall through */ }
   try {

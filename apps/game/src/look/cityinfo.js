@@ -1,3 +1,4 @@
+import { areaOf, regionOf, areaName, kmBetween } from './areas.js';
 // What makes each city itself (Elvis, 10 October 2026: "it's showing Yaba, Yaba Fitness inside Nairobi, which
 // makes no sense... this game has to be relatable"). One entry per city: the names of the places you walk
 // into, the shops and stalls on the street, how people get about, the police, the street signs, the
@@ -394,6 +395,17 @@ export const CITY_INFO = { Lagos: LAGOS, Abuja: ABUJA, Accra: ACCRA, Nairobi: NA
 let here = LAGOS;
 /** Set the city the page is showing (look/index.js, at start-up). */
 export function setCity(city, district = city) {
+  // another area of a city that has several (areas.js): the city's people, style and traffic, its own name on the
+  // local places (Ikeja Police Division, not Yaba's), its own landmarks; a skyline shape that stands inside the area is
+  // built in it as a landmark instead
+  const base = CITY_INFO[city], A = areaOf(city, district), first = regionOf(city)?.areas[0];
+  if (base && A && A !== first && district !== base.district) {
+    const from = base.district, to = areaName(A);
+    const swap = (v) => (typeof v === 'string' ? v.split(from).join(to) : Array.isArray(v) ? v.map(swap) : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, swap(x)])) : v);
+    here = { ...base, district: to, places: swap(base.places), shops: swap(base.shops), park: swap(base.park), police: swap(base.police), bikes: swap(base.bikes),
+      landmarks: A.landmarks || [], skyline: A.skyline ?? (base.skyline || []).filter((S) => kmBetween(A, S) > 1.6 && kmBetween(A, S) < 12), area: A }; // (not another town's)
+    return here;
+  }
   // a city without its own entry gets places named after itself, never Lagos's
   here = CITY_INFO[city] || { ...LAGOS, city, district, landmarks: [], skyline: [], traffic: null,
     places: { hub: `${district} Creative Hub`, loft: `${city} Builders Loft`, studio: `${district} Design Studio`, cafe: `${district} Cafe`, gym: `${district} Fitness`, bank: `${city} Builders Bank`, immigration: `${district} Immigration Centre` },
