@@ -101,6 +101,7 @@ export const YABA_LANDMARKS = [
   { key: 'tejuosho', name: 'Tejuosho Market', lat: 6.5050, lon: 3.3700, fact: 'One of the biggest markets on the mainland, rebuilt as a modern complex. Fabric, shoes, phones, everything.' },
   { key: 'ecentre', name: 'E-Centre', lat: 6.5058, lon: 3.3778, fact: 'E-Centre at Sabo: shopping, food and the cinema everyone in Yaba has queued at.' },
   { key: 'queens', name: "Queen's College", lat: 6.5005, lon: 3.3768, fact: "Queen's College, the girls' school founded in 1927." },
+  { key: 'fph', kit: true, name: 'Federal Psychiatric Hospital', sub: 'Yaba · Harvey Road', lat: 6.51017, lon: 3.3731, kind: 'hospital', storeys: 3, accent: 0x2f6b4f, fact: "The Federal Neuro-Psychiatric Hospital on Harvey Road, Yaba, one of Nigeria's oldest psychiatric hospitals." },
   { key: 'dominic', name: "St. Dominic's Catholic Church", lat: 6.5128, lon: 3.3760, fact: "St. Dominic's, a Yaba parish on Herbert Macaulay Way." },
 ];
 
@@ -118,7 +119,7 @@ export function buildLandmarks({ world, scene, props, used = [] }) {
     return !used.some((q) => Math.abs(q.x - x) < (q.W + Math.max(W, D)) / 2 + 2 && Math.abs(q.z - z) < (q.D + Math.max(W, D)) / 2 + 2);
   };
   // Yaba's are modelled one by one; every other city's real places come from the kits (cityinfo.js, landkit.js)
-  const info = cityInfo(), list = info.landmarks ? info.landmarks.map((L) => ({ ...L, build: () => buildKind(L) })) : YABA_LANDMARKS.map((L) => ({ ...L, build: MODELS[L.key] }));
+  const info = cityInfo(), list = info.landmarks ? info.landmarks.map((L) => ({ ...L, build: () => buildKind(L) })) : YABA_LANDMARKS.map((L) => ({ ...L, build: L.kit ? () => buildKind(L) : MODELS[L.key] }));
   // a kit model is built from its front edge back; centre it on its real footprint so the fit test sees all of it
   const centred = (mdl) => {
     const bb = new THREE.Box3().setFromObject(mdl.g), cx = (bb.min.x + bb.max.x) / 2, cz = (bb.min.z + bb.max.z) / 2;
@@ -128,13 +129,13 @@ export function buildLandmarks({ world, scene, props, used = [] }) {
     return mdl;
   };
   list.forEach((L) => {
-    let mdl = L.build(); if (info.landmarks) mdl = centred(mdl);
+    let mdl = L.build(); if (info.landmarks || L.kit) mdl = centred(mdl);
     const [tx, tz] = toXZ(L.lat, L.lon), dist = Math.hypot(tx, tz) || 1, ux = tx / dist, uz = tz / dist;
     // the spot: as far out toward the real place as there is room, searching inward and to the sides; a real place
     // too big for the room there is built a little smaller rather than left out (never below two thirds)
     let spot = null, k = 1;
     // (a big one, a stadium or a mall, may come down to just under half size in a crowded area rather than be left out)
-    for (const sc of info.landmarks ? [1, 0.82, 0.66, 0.55, 0.46] : [1]) {
+    for (const sc of info.landmarks || L.kit ? [1, 0.82, 0.66, 0.55, 0.46] : [1]) {
       const W = mdl.W * sc, D = mdl.D * sc;
       // a place out toward the edge: from as far out as it really is, inward; one at the very middle of the area
       // (the area is centred on it): from the middle outward, all the way round

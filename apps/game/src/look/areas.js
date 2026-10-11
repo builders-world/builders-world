@@ -22,6 +22,7 @@ export const REGIONS = {
         ] },
       { area: 'Victoria Island', lat: 6.4300, lon: 3.4220, r: 230, about: 'Banks, embassies, the big hotels and Eko Atlantic rising on the sea.',
         landmarks: [
+          { key: "reddington", name: "Reddington Hospital", sub: "Victoria Island", lat: 6.43301, lon: 3.42042, kind: 'hospital', storeys: 3, accent: 0x2f6b4f, fact: "A private hospital in Victoria Island, with emergency care and specialist clinics." },
           { key: 'eko_hotel', name: 'Eko Hotel and Suites', sub: 'Adetokunbo Ademola Street', lat: 6.42707, lon: 3.43029, kind: 'tower', storeys: 12, accent: 0x1f3d7a, fact: "Eko Hotel, on Adetokunbo Ademola: concerts, conferences and wedding receptions in the Expo Centre." },
           { key: 'federal_palace', name: 'Federal Palace Hotel', sub: 'Ahmadu Bello Way', lat: 6.43056, lon: 3.40737, kind: 'tower', storeys: 10, accent: 0xb8862b, fact: 'Opened in 1960 for independence, on Ahmadu Bello Way by the lagoon.' },
           { key: 'civic_centre', name: 'The Civic Centre', sub: 'Ozumba Mbadiwe Avenue', lat: 6.44018, lon: 3.43088, kind: 'theatre', accent: 0x2a9d94, fact: 'The Civic Centre by the lagoon: conferences, concerts and tech summits with a view of the Lekki-Ikoyi bridge.' },
@@ -35,12 +36,14 @@ export const REGIONS = {
         skyline: [{ key: 'eko_atlantic', name: 'Eko Atlantic', lat: 6.41305, lon: 3.41805, kind: 'twin', h: 110, color: 0x8fa6b8 }] },
       { area: 'Surulere', lat: 6.4985, lon: 3.3600, r: 230, about: 'Football and Nollywood: the National Stadium and Teslim Balogun.',
         landmarks: [
+          { key: "randle", name: "Randle General Hospital", sub: "Surulere", lat: 6.50817, lon: 3.35748, kind: 'hospital', storeys: 3, accent: 0x2f6b4f, fact: "A Lagos State general hospital in Surulere." },
           { key: 'national_stadium', name: 'National Stadium', sub: 'Surulere · 1972', lat: 6.49714, lon: 3.36499, kind: 'stadium', accent: 0x2f6b4f, fact: 'Opened in 1972 for the All-Africa Games; the Super Eagles played here for decades.' },
           { key: 'teslim_balogun', name: 'Teslim Balogun Stadium', sub: 'Western Avenue', lat: 6.49977, lon: 3.36078, kind: 'stadium', accent: 0x1f4f9a, fact: "Named after the Nigerian footballer; home to Lagos's league games." },
           { key: 'national_theatre', name: 'National Arts Theatre', sub: 'Iganmu', lat: 6.47648, lon: 3.36949, kind: 'theatre', accent: 0x9b2f2f, fact: "The general's cap: built for FESTAC '77, Nigeria's home of theatre and the arts." },
         ] },
       { area: 'Lagos Island', lat: 6.4545, lon: 3.3900, r: 220, about: 'The old city: Balogun Market, Tinubu Square, the Marina.',
         landmarks: [
+          { key: "massey", name: "Massey Street Children's Hospital", sub: "Lagos Island", lat: 6.45507, lon: 3.39224, kind: 'hospital', storeys: 3, accent: 0x2f6b4f, fact: "A hospital for children on Massey Street, Lagos Island." },
           { key: 'tinubu_square', name: 'Tinubu Square', sub: 'Lagos Island', lat: 6.45384, lon: 3.38944, kind: 'plaza', accent: 0x2f6b4f, fact: 'Named after Madam Efunroye Tinubu, the 19th-century trader and kingmaker. The fountain is at its heart.' },
           { key: 'cathedral', name: 'Cathedral Church of Christ', sub: 'Marina', lat: 6.45089, lon: 3.39021, kind: 'church', accent: 0x6b4a2f, fact: 'The Anglican cathedral on the Marina; the present building was finished in 1946.' },
           { key: 'central_mosque', name: 'Lagos Central Mosque', sub: 'Nnamdi Azikiwe Street', lat: 6.45738, lon: 3.38814, kind: 'mosque', accent: 0x2f6b4f, fact: 'The central mosque of Lagos Island, rebuilt in the 1980s with four minarets.' },
@@ -74,6 +77,7 @@ export const REGIONS = {
       { area: 'Wuse', lat: 9.0790, lon: 7.4700, r: 200, about: 'Wuse Market and the busy zones of the city.' },
       { area: 'Central Business District', lat: 9.0560, lon: 7.4920, r: 230, about: 'The National Mosque, the National Christian Centre and Aso Rock above it all.',
         landmarks: [
+          { key: "limi", name: "Limi Children's Hospital", sub: "Abuja", lat: 9.07043, lon: 7.48659, kind: 'hospital', storeys: 3, accent: 0x2f6b4f, fact: "A hospital for children in Abuja." },
           { key: 'national_mosque', name: 'Abuja National Mosque', sub: 'Sani Abacha Way', lat: 9.0602, lon: 7.48979, kind: 'mosque', accent: 0xc9952a, fact: 'Finished in 1984: the golden dome and four minarets on Independence Avenue.' },
           { key: 'national_christian_centre', name: 'National Christian Centre', sub: 'Central Area', lat: 9.0484, lon: 7.49488, kind: 'church', accent: 0x1f3d7a, fact: "The ecumenical centre facing the National Mosque across the city's central axis, opened in 2005." },
           { key: 'millennium_park', name: 'Millennium Park', sub: 'Maitama', lat: 9.07156, lon: 7.49947, kind: 'park', accent: 0x2f6b4f, fact: "Abuja's largest park, designed by Manfredi Nicoletti and opened in 2003." },
@@ -81,6 +85,7 @@ export const REGIONS = {
         skyline: [{ key: 'aso_rock', name: 'Aso Rock', lat: 9.08039, lon: 7.53604, kind: 'rock', r: 700, h: 400, color: 0x77726a }] },
       { area: 'Jabi', lat: 9.0763, lon: 7.4255, r: 220, about: 'Jabi Lake and the mall on its shore.',
         landmarks: [
+          { key: "arewa", name: "Arewa Specialist Hospital", sub: "Abuja", lat: 9.07288, lon: 7.41583, kind: 'hospital', storeys: 3, accent: 0x2f6b4f, fact: "A specialist hospital near Jabi." },
           { key: 'jabi_lake_mall', name: 'Jabi Lake Mall', sub: 'Bala Sokoto Way', lat: 9.07628, lon: 7.42548, kind: 'mall', w: 44, d: 24, storeys: 2, accent: 0x2a9d94, parking: 8, fact: 'Opened in 2015 on the shore of Jabi Lake: shops, the cinema and the lakeside walk.' },
         ],
         skyline: [{ key: 'aso_rock', name: 'Aso Rock', lat: 9.08039, lon: 7.53604, kind: 'rock', r: 700, h: 400, color: 0x77726a }] },
@@ -92,10 +97,12 @@ export const REGIONS = {
       { area: 'Old GRA', lat: 4.7737, lon: 7.0142, r: 200, about: 'The Garden City: the old Government Reservation Area and Isaac Boro Park.' },
       { area: 'Rumuola', lat: 4.8375, lon: 7.0115, r: 220, about: 'The Pleasure Park on the Aba Expressway.',
         landmarks: [
+          { key: "ph_military", name: "Military Hospital", sub: "Port Harcourt", lat: 4.82607, lon: 7.00497, kind: 'hospital', storeys: 3, accent: 0x2f6b4f, fact: "The military hospital in Port Harcourt." },
           { key: 'pleasure_park', name: 'Port Harcourt Pleasure Park', sub: 'Aba Expressway · Rumuola', lat: 4.83751, lon: 7.01151, kind: 'park', accent: 0x2a9d94, fact: 'Opened in 2019 on the Aba Expressway: lakes, rides, a zip line and Sunday picnics.' },
         ] },
       { area: 'Trans-Amadi', lat: 4.8180, lon: 7.0360, r: 220, about: 'The industrial layout: oil service yards and the power plant.',
         landmarks: [
+          { key: "nobsams", name: "NOBSAMS Hospital", sub: "Port Harcourt", lat: 4.82888, lon: 7.03672, kind: 'hospital', storeys: 3, accent: 0x2f6b4f, fact: "A hospital near the Trans-Amadi layout." },
           { key: 'trans_amadi_power', name: 'Trans Amadi Power Plant', sub: 'Trans-Amadi Industrial Layout', lat: 4.81611, lon: 7.03159, kind: 'compound', accent: 0x55605a, fact: 'The gas-fired power station in the Trans-Amadi industrial layout.' },
           { key: 'oginigba_police', name: 'Oginigba Police Division', sign: 'NIGERIA POLICE FORCE', sub: 'Trans-Amadi', lat: 4.82015, lon: 7.04120, kind: 'police', accent: 0x1f3d7a, fact: 'The police division on the Trans-Amadi Industrial Layout Road.' },
         ] },
@@ -107,6 +114,7 @@ export const REGIONS = {
       { area: 'Kilimani', lat: -1.2905, lon: 36.7855, r: 200, about: 'Leafy Kilimani and its start-ups off Argwings Kodhek.' },
       { area: 'City Centre', lat: -1.2860, lon: 36.8230, r: 220, about: 'KICC, the Jamia Mosque, the Archives and Uhuru Park.',
         landmarks: [
+          { key: "mater", name: "Mater Hospital", sub: "Nairobi", lat: -1.28805, lon: 36.82729, kind: 'hospital', storeys: 3, accent: 0x2f6b4f, fact: "The Mater Misericordiae Hospital, a mission hospital in Nairobi." },
           { key: 'kicc_here', name: 'KICC', sub: 'Kenyatta International Convention Centre', lat: -1.28809, lon: 36.82326, kind: 'tower', storeys: 28, accent: 0xa47055, fact: "Opened in 1973: the cylinder tower and the saucer on top, Nairobi's best-known building." },
           { key: 'jamia', name: 'Jamia Mosque', sub: 'Banda Street', lat: -1.28362, lon: 36.82069, kind: 'mosque', accent: 0x2f6b4f, fact: "Nairobi's main mosque, built in 1906 and later enlarged, with its silver domes off Kimathi Street." },
           { key: 'archives', name: 'Kenya National Archives', sub: 'Tom Mboya Street', lat: -1.28499, lon: 36.82595, kind: 'compound', accent: 0x9b2f2f, fact: 'The old Bank of India building on Tom Mboya Street, now the national archives and a gallery.' },
@@ -125,6 +133,7 @@ export const REGIONS = {
       { area: 'Osu', lat: 5.5560, lon: -0.1830, r: 200, about: 'Oxford Street, the castle and the sea.' },
       { area: 'Accra Central', lat: 5.5480, lon: -0.2000, r: 230, about: 'Independence Square, Makola Market and the Nkrumah Memorial.',
         landmarks: [
+          { key: "nyaho", name: "Nyaho Medical Centre", sub: "Accra", lat: 5.55149, lon: -0.20394, kind: 'hospital', storeys: 3, accent: 0x2f6b4f, fact: "A private medical centre in Accra." },
           { key: 'black_star', name: 'Black Star Square', sub: 'Independence Square', lat: 5.54742, lon: -0.19256, kind: 'plaza', accent: 0xce1126, fact: 'Built in 1961, the parade ground of the nation, where Independence Day is marched; the Black Star Gate stands over it.' },
           { key: 'independence_arch', name: 'Independence Arch', sub: 'Black Star Square', lat: 5.54647, lon: -0.19241, kind: 'arch', accent: 0xfcd116, fact: 'The arch on Black Star Square, marking freedom and justice since 1961.' },
           { key: 'makola', name: 'Makola Market', sub: 'Kojo Thompson Avenue', lat: 5.54807, lon: -0.20693, kind: 'market', accent: 0xe46f4f, fact: "Accra's great market, run by its market queens: cloth, food, pots, everything." },
@@ -133,6 +142,7 @@ export const REGIONS = {
         ] },
       { area: 'Airport City', lat: 5.6040, lon: -0.1730, r: 220, about: 'Offices and hotels by Kotoka, and the Accra Mall up the road.',
         landmarks: [
+          { key: "nyaho_clinic", name: "Nyaho Clinic", sub: "Airport Residential", lat: 5.61448, lon: -0.18489, kind: 'hospital', storeys: 3, accent: 0x2f6b4f, fact: "A clinic near Airport City, Accra." },
           { key: 'accra_mall', name: 'Accra Mall', sub: 'Spintex Road', lat: 5.62218, lon: -0.17294, kind: 'mall', w: 44, d: 24, storeys: 2, accent: 0xce1126, cinema: true, parking: 8, fact: "Opened in 2008 at the Tetteh Quarshie interchange, Ghana's first big mall." },
         ] },
     ],
