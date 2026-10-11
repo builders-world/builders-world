@@ -28,6 +28,8 @@ import { buildCycling } from './cycling.js';
 import { buildGreenrey } from './greenrey.js';
 import { createStreetLife } from './streetlife.js';
 import { createMobility } from './mobility.js';
+import { buildShopfronts } from './shopfronts.js';
+import { buildFoodTrucks } from './foodtruck.js';
 import { cullPeople, PEOPLE } from './anim.js';
 import { createEmotes } from './expressions.js';
 import { createEmotePanel } from './emotepanel.js';
@@ -170,6 +172,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
 
   let officials = null, rideBlock = null, homeAct = null, lastNearT = 0, nearNow = { park: false, people: false }, lastPos = null;
   let railway = null;
+  let shopfronts = null;
   let greenrey = null, spotify = null, sports = null, mobility = null, slife = null, traffic = null, food = null, pets = null, petIt = null, wardrobe = null, profiler = null, onlineRef = null, building = null, gates = null, visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
   // the tech places you can walk into (world bible 6.6)
   const doors = [];
@@ -226,6 +229,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     onChat: (name) => { const p = chat.people.find((q) => q.name === name); if (p) chat.sayHi(p); },
     onUse: (player, active) => {
       if (benchSeat) { standUp(); return true; }
+      if (active?.id?.startsWith('shop:')) shopfronts?.greet(active); // the attendant at the window waves you over
       if (active && shop?.open(active)) return true; // the street's gadget shop: its counter (shop.js)
       if (homeAct) { actKey('e'); return true; }
       if (active?.id && (active.id.startsWith('sport:') || active.id.startsWith('chess:'))) return !!sports?.use(active.id);
@@ -355,6 +359,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   // cycle lanes on the highways: their signs, and no cycling on the pavements beside them (cycling.js)
   let cycling = null;
   try { cycling = buildCycling({ world, scene: group }); } catch (err) { console.warn('cycling skipped', err); }
+  // the shops' serving windows with their attendants (shopfronts.js), before the food counters take their places
+  shopfronts = buildShopfronts({ world, scene: group, props, reduced, addLamps: (l) => props.lamps.push(...l) });
   food = createFood({ scene: group, props, world, toast: hud.toast, getEnv: () => live, reduced, addLamps: (l) => { props.lamps.push(...l); lights?.setLamps([...world.lamps, ...props.lamps, ...(world.porchLamps || [])]); } });
   pets = createPets({ scene: group, camera, world, toast: hud.toast, isIndoors: () => !!interiors?.active });
   // you, bottom left: a live portrait, your mood and needs, your skills; your dog beside you (profile.js)
@@ -372,7 +378,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     enterPlayerHome: (host) => { doorOut = { x: host.door.x, z: host.door.z, yaw: host.door.ry ?? 0 }; interiors.enter('home', host).then((p) => { setInside(`${host.first}'s home`); pendingMove = { ...p, mode: 'inside' }; passes.arrive('home'); }); } });
   interiors = createInteriors({ city: world.place?.city || 'Lagos', country: AIRPORTS[world.place?.city || 'Lagos']?.country || 'Nigeria', scene, reduced, toast: hud.toast, getEnv: () => live || { day: 1 }, onPackUp: () => standUp(), net: passes, onOrder: (k) => food?.menu(k), onTeller: () => hud.openWallet({ atm: true }) });
   // everything that moves and can be bumped into: people, traffic, the waiting hired vehicle
-  const bodies = () => [...(props.bodies?.() || []), ...lives.bodies(), ...(mobility?.bodies() || []), ...(dressing?.bodies?.() || []), ...(traffic?.bodies() || []), ...(railway?.bodies() || []), ...(officials?.bodies?.() || []), ...(critters?.bodies?.() || []), rides?.body?.()].filter(Boolean);
+  const bodies = () => [...(props.bodies?.() || []), ...(shopfronts?.bodies() || []), ...lives.bodies(), ...(mobility?.bodies() || []), ...(dressing?.bodies?.() || []), ...(traffic?.bodies() || []), ...(railway?.bodies() || []), ...(officials?.bodies?.() || []), ...(critters?.bodies?.() || []), rides?.body?.()].filter(Boolean);
   // driving needs a licence (licence.js): the hire panel asks, and points you to the licensing office
   const licenceDoor = () => doors.find((d) => d.key === 'licensing')?.at || null;
   rides = createRides({ world, scene: group, nav: hud.nav, props, reduced, toast: hud.toast,
@@ -564,6 +570,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     getName: () => (walletEngine().handle ? `@${walletEngine().handle}` : 'A builder') });
   // the motor park, the police, the hawkers, today's events (streetlife.js): after the parks and litter take their land
   mobility = createMobility({ world, scene: group, props, avatar, toast: hud.toast, used: rec.used, reduced, park: parks.park });
+  // food trucks by the parks and the hub, now that they are placed (foodtruck.js); food.js runs their hatches
+  try { const ft = buildFoodTrucks({ world, scene: group, props, used: rec.used, addLamps: (l) => { props.lamps.push(...l); lights?.setLamps([...world.lamps, ...props.lamps, ...(world.porchLamps || [])]); } }); ft.trucks.forEach((t) => food?.add(t.it)); } catch (err) { console.warn('food trucks skipped', err); }
   try { JSON.parse(localStorage.getItem('bw-bag-equipped') || '[]').forEach((id) => mobility.equip(id, true)); } catch { /* */ }
   slife = createStreetLife({ world, scene: group, props, traffic, chat, toast: hud.toast, getEnv: () => live, used: rec.used, reduced, parkAt: motorParkAt });
   // traffic officials in the city's own uniform: a marshal at the motor park, a patrol that clears jams (officials.js)
@@ -715,7 +723,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     if (moveHint.classList.contains('on') && lastPlayer) { if (hintFrom === null) hintFrom = { x: lastPlayer.x, z: lastPlayer.z, t: 0 }; else if (hintFrom) { hintFrom.t += dt; if (Math.hypot(lastPlayer.x - hintFrom.x, lastPlayer.z - hintFrom.z) > 4 || hintFrom.t > 20) moveHint.classList.remove('on'); } }
     compass?.update();
     if (homeAct) { homeAct.t += dt; if (homeAct.dur && homeAct.t >= homeAct.dur) endAct(true); if (!interiors?.active) homeAct = null; }
-    if (!interiors?.active) { food?.update(dt, player); if (traffic?.addBlocker) { rideBlock ||= traffic.addBlocker({ r: 1.4 }); const rv = rides?.vehicle; rideBlock.on = !!(rv && world.onCarriageway?.(rv.x, rv.z, 0.6)); if (rv) { rideBlock.x = rv.x; rideBlock.z = rv.z; rideBlock.r = rv.r; } }
+    if (!interiors?.active) { food?.update(dt, player); shopfronts?.update(dt, player); if (traffic?.addBlocker) { rideBlock ||= traffic.addBlocker({ r: 1.4 }); const rv = rides?.vehicle; rideBlock.on = !!(rv && world.onCarriageway?.(rv.x, rv.z, 0.6)); if (rv) { rideBlock.x = rv.x; rideBlock.z = rv.z; rideBlock.r = rv.r; } }
       traffic?.update(dt, player); railway?.update(dt, player); digital?.update(dt); slife?.update(dt, player); officials?.update(dt); mobility?.update(dt, t); sports?.update(dt); }
     pets?.update(dt, player, yaw ?? 0);
     if (!interiors?.active) critters?.update(dt, player);

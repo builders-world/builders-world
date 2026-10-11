@@ -57,18 +57,23 @@ export function createFood({ scene, props, toast, getEnv, reduced, addLamps, wor
   const stalls = [], smoke = [];
 
   // a vendor behind every food counter, and the suya spot's grill
-  props.interact.filter((it) => it.at && kindOf(it.name)).forEach((it) => {
-    const kind = kindOf(it.name), M = MENUS[kind], { x, z, ry, depth } = it.at, fx = Math.sin(ry), fz = Math.cos(ry), tx = Math.cos(ry), tz = -Math.sin(ry);
+  // (a shop's serving window, shopfronts.js, and a food truck's hatch, foodtruck.js, say where the vendor stands and
+  // where you stand; a truck brings its own menu)
+  const counter = (it) => !!(it.at && (kindOf(it.name) || it.menu));
+  function addStall(it) {
+    const kind = it.menu ? 'truck' : kindOf(it.name), M = it.menu || MENUS[kind], { x, z, ry, depth } = it.at, fx = Math.sin(ry), fz = Math.cos(ry), tx = Math.cos(ry), tz = -Math.sin(ry);
     // behind the counter: inside a shop, or just behind a stall's table (it reaches 1.13 m back) under its
     // awning (district.js); where a wall stands right behind the stall, beside it instead
     let back = depth > 3 ? depth - 2.4 : -1.6, side = 0;
     if (depth <= 3 && world?.blockedAt?.(x - fx * 1.6, z - fz * 1.6, 0.3)) { back = 0.4; side = -2.55; }
     const av = createAvatarModel({ color: M.look.topColor, style: 'tee' }); prepareLook(av.root); const rig = rigAvatar(av.root); dress(av.root, M.look, rig);
-    av.root.position.set(x + fx * back + tx * side, 0, z + fz * back + tz * side); av.root.rotation.y = ry; group.add(av.root);
-    if (depth <= 3) world?.addColliders?.([{ name: 'vendor', cx: av.root.position.x, cz: av.root.position.z, hx: 0.3, hz: 0.3, ry, h: 1.8 }]); // you cannot walk through the trader
-    // where you stand to order: just in front of the counter
+    const W = it.window;
+    if (W) av.root.position.set(W.stand.x, W.stand.y || 0, W.stand.z); else av.root.position.set(x + fx * back + tx * side, 0, z + fz * back + tz * side);
+    av.root.rotation.y = W?.stand.ry ?? ry; group.add(av.root);
+    if (!W && depth <= 3) world?.addColliders?.([{ name: 'vendor', cx: av.root.position.x, cz: av.root.position.z, hx: 0.3, hz: 0.3, ry, h: 1.8 }]); // you cannot walk through the trader
+    // where you stand to order: just in front of the counter (the window's or the hatch's own spot)
     const eyeAt = depth > 3 ? depth - 0.4 : 2.35;
-    const st = { it, kind, M, av, rig, front: { x: it.x, z: it.z }, eye: { x: x + fx * eyeAt + tx * side * 0.5, z: z + fz * eyeAt + tz * side * 0.5 }, vendor: av.root.position.clone(), ry, busy: 0, making: null };
+    const st = { it, kind, M, av, rig, front: { x: it.x, z: it.z }, eye: W ? { ...W.eye } : { x: x + fx * eyeAt + tx * side * 0.5, z: z + fz * eyeAt + tz * side * 0.5 }, vendor: av.root.position.clone(), vy: W?.stand.y || 0, ry: W?.stand.ry ?? ry, busy: 0, making: null };
     if (kind === 'suya' || kind === 'corn') {
       // the grill: a drum on legs, coals that glow, skewers or cobs on the mesh
       // beside the stall, where the smoke can go up
@@ -88,7 +93,8 @@ export function createFood({ scene, props, toast, getEnv, reduced, addLamps, wor
       }
     }
     stalls.push(st);
-  });
+  }
+  props.interact.filter(counter).forEach(addStall);
 
   // ---------- ordering ----------
   let at = null;
@@ -96,8 +102,9 @@ export function createFood({ scene, props, toast, getEnv, reduced, addLamps, wor
     const st = stalls.find((s) => s.it === it); if (!st) return false;
     at = st; sfx('open');
     // first person at the counter: your eyes, looking at the vendor's face
-    const eye = { x: st.eye.x, y: 1.95, z: st.eye.z }; // looking over the goods on the counter
-    dispatchEvent(new CustomEvent('bw:shot', { detail: { from: eye, at: { x: st.vendor.x, y: 1.3, z: st.vendor.z }, first: true } }));
+    // looking over the goods on the counter; at a window or a hatch you stand in the street and look up a little at them
+    const eye = { x: st.eye.x, y: st.it.window ? 1.72 : 1.95, z: st.eye.z };
+    dispatchEvent(new CustomEvent('bw:shot', { detail: { from: eye, at: { x: st.vendor.x, y: st.it.window ? st.vy + 1.45 : 1.3, z: st.vendor.z }, first: true } }));
     st.rig?.wave?.();
     render(st.M.hello);
     panel.classList.add('on');
@@ -117,7 +124,7 @@ export function createFood({ scene, props, toast, getEnv, reduced, addLamps, wor
     // food for the animals goes in your bag, not your mouth (fear.js)
     if (feed) { addFeed(feed, 6); sfx('pick'); render(feed === 'corn' ? 'Na for the pigeons? Throw am small small, dem go gather.' : 'Hold am out flat. Even the fierce ones go soft.'); toast(`In your bag: ${feed === 'corn' ? 'corn for the birds' : 'dog biscuits'} (${feedStock(feed)}). Press F near animals to hold some out.`, 3200); return; }
     sfx('interact');
-    render(st.kind === 'suya' ? 'Ehen! Make I cut am fresh for you.' : st.kind === 'cafe' ? 'Coming right up.' : 'No wahala, one minute.', true);
+    render(st.M.cooking ? st.M.cooking : st.kind === 'suya' ? 'Ehen! Make I cut am fresh for you.' : st.kind === 'cafe' ? 'Coming right up.' : 'No wahala, one minute.', true);
     if (st.indoor) { setTimeout(() => { if (at !== st) return; sfx('arrive'); render('Here you go. Enjoy!'); toast(`${name}: ${['delicious', 'exactly what you needed', 'worth every Effort'][Math.floor(Math.random() * 3)]}.`, 2800); }, 2200); return; }
     st.making = { t: 0, name, parcel: null };
   }
@@ -142,25 +149,28 @@ export function createFood({ scene, props, toast, getEnv, reduced, addLamps, wor
         const m = new THREE.Mesh(new THREE.SphereGeometry(0.12, 6, 4), smokeMat.clone()); m.position.copy(st.smokeAt).add(new THREE.Vector3((Math.random() - 0.5) * 0.4, 0, (Math.random() - 0.5) * 0.2)); group.add(m); smoke.push({ m, t: 0 });
       }
       // making your order
-      const mk = st.making; if (!mk) { st.rig?.update(dt, { speed: 0, t }); return; }
+      // at a window or a hatch the cook turns to the griddle or the pots behind to make it, and back to hand it over
+      const face = (want) => { let d = want - st.av.root.rotation.y; d = Math.atan2(Math.sin(d), Math.cos(d)); st.av.root.rotation.y += d * Math.min(1, dt * 7); };
+      const mk = st.making; if (!mk) { st.rig?.update(dt, { speed: 0, t }); if (st.it.window) face(st.ry); return; }
       mk.t += dt;
+      if (st.it.window) face(mk.t > 0.5 && mk.t < 3.0 ? st.ry + Math.PI : st.ry);
       st.rig?.update(dt, { speed: 0, t });
       if (mk.t > 0.6 && mk.t < 3.2 && Math.floor(mk.t * 3) !== Math.floor((mk.t - dt) * 3)) sfx('tap');
       if (mk.t > 3.2 && !mk.parcel) {
         // the parcel: newspaper for suya and corn, a plate, a cup
         const P = st.M.made, mat = new THREE.MeshStandardMaterial({ color: P === 'suya' || P === 'corn' ? 0xe8e2d0 : P === 'cup' ? 0xf4ead2 : 0xffffff, roughness: 0.8 });
         mk.parcel = new THREE.Mesh(P === 'cup' ? new THREE.CylinderGeometry(0.05, 0.04, 0.12, 12) : P === 'plate' ? new THREE.CylinderGeometry(0.14, 0.12, 0.04, 16) : new THREE.BoxGeometry(0.22, 0.06, 0.12), mat);
-        mk.parcel.position.copy(st.vendor).add(new THREE.Vector3(0, 1.0, 0)); group.add(mk.parcel); sfx('open');
+        mk.parcel.position.copy(st.vendor).add(new THREE.Vector3(0, 1.0, 0)); group.add(mk.parcel); sfx('open'); // (st.vendor carries the porch or truck floor height)
       }
       if (mk.parcel) {
         // handed across the counter toward you
         const dx = st.eye.x - st.vendor.x, dz = st.eye.z - st.vendor.z, d = Math.hypot(dx, dz) || 1, k = Math.min(1, (mk.t - 3.2) / 1.0);
-        mk.parcel.position.set(st.vendor.x + (dx / d) * (d - 0.55) * k, 1.0 + k * 0.3, st.vendor.z + (dz / d) * (d - 0.55) * k);
+        mk.parcel.position.set(st.vendor.x + (dx / d) * (d - 0.55) * k, st.vy + 1.0 + k * 0.3, st.vendor.z + (dz / d) * (d - 0.55) * k);
         if (mk.t > 4.6 && !mk.done) {
           mk.done = true; sfx('arrive');
           playEmote(st.av.root, st.kind === 'suya' ? 'thanks' : st.kind === 'cafe' ? 'nod' : 'welldone'); // the trader's thanks
           dispatchEvent(new CustomEvent('bw:react', { detail: { kind: 'food', x: st.vendor.x, z: st.vendor.z, r: 7, max: 2, chance: 0.5 } }));
-          const line = st.kind === 'suya' ? `Enjoy! I add extra yaji for you.` : st.kind === 'kitchen' ? 'Chop well o!' : st.kind === 'cafe' ? 'Enjoy, see you tomorrow!' : 'Enjoy!';
+          const line = st.M.thanks ? st.M.thanks : st.kind === 'suya' ? `Enjoy! I add extra yaji for you.` : st.kind === 'kitchen' ? 'Chop well o!' : st.kind === 'cafe' ? 'Enjoy, see you tomorrow!' : 'Enjoy!';
           render(line);
           toast(`${mk.name}: ${['delicious', 'exactly what you needed', 'worth every Effort'][Math.floor(Math.random() * 3)]}.`, 2800);
           setTimeout(() => { if (mk.parcel) mk.parcel.removeFromParent(); if (st.making === mk) st.making = null; }, 1600);
@@ -180,5 +190,7 @@ export function createFood({ scene, props, toast, getEnv, reduced, addLamps, wor
     render(M.hello); panel.classList.add('on'); sfx('open');
     return true;
   }
-  return { open, close, handles, update, menu, get isOpen() { return panel.classList.contains('on'); }, stalls, dispose };
+  // counters that arrive later (the food trucks, placed once the parks are down)
+  const add = (it) => { if (counter(it) && !stalls.some((q) => q.it === it)) addStall(it); };
+  return { open, close, handles, update, menu, add, get isOpen() { return panel.classList.contains('on'); }, stalls, dispose };
 }
