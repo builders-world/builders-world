@@ -29,6 +29,7 @@ import { buildGreenrey } from './greenrey.js';
 import { createStreetLife } from './streetlife.js';
 import { createMobility } from './mobility.js';
 import { buildShopfronts } from './shopfronts.js';
+import { buildShopSigns } from './shopsigns.js';
 import { buildFoodTrucks } from './foodtruck.js';
 import { cullPeople, PEOPLE } from './anim.js';
 import { createEmotes } from './expressions.js';
@@ -588,6 +589,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   props.pois?.filter((q) => q.kind === 'build').forEach((q) => { q.x = props.area.x; q.z = props.area.z; }); // the build area moved into the park
   // Greenrey: large open land becomes laterite, yards, car parks and building plots; grass stays in the gaps (greenrey.js)
   if (!off.has('greenrey')) { try { greenrey = buildGreenrey({ renderer, scene, world, group, park: parks.park }); } catch (err) { console.warn('Greenrey skipped', err); } }
+  // signs that say what each place does, and the way to the car park (shopsigns.js), once the car parks are down
+  try { buildShopSigns({ world, scene: group, props, doors, places: PLACES }); } catch (err) { console.warn('shop signs skipped', err); }
   // the parks greenrey laid out on the open green land (parkland.js): benches to sit on, the parks on the map, things to do
   // the neighbourhood's own animals, by the estates and the parks; your pet makes friends with them (critters.js)
   try { critters = createCritters({ scene: group, world, getPet: petView, toast: hud.toast, spots: (greenrey?.parks?.pois || []).map((q) => ({ x: q.x, z: q.z })) }); } catch (err) { console.warn('critters skipped', err); }

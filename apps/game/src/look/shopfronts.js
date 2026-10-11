@@ -15,7 +15,7 @@ import { prepareLook, dress, lookFor } from './style.js';
 // the compound shop (build_yaba_assets.py make_compound_shop): the front wall at z 2.9, the porch step to z 3.85 and
 // 0.46 m high, the shuttered opening centred at x -2.35, 2.25 m wide, from 1.41 to 3.09 m up
 export const WINDOW = { x: -2.35, wall: 2.9, front: 3.85, porch: 0.46, w: 2.7, top: 2.85, stand: 3.3 };
-export const shopKind = (name = '') => (/Repair|Phone Doctor|Fundi/i.test(name) ? 'repairs' : /Print|Bind|Copy/i.test(name) ? 'print' : /Gadget/i.test(name) ? 'gadget' : /Kitchen|Chop|Kibanda|Buka|Bukka|Canteen/i.test(name) ? 'kitchen' : /Cafe|Coffee/i.test(name) ? 'cafe' : 'provisions');
+export const shopKind = (name = '') => (/MoMo|Mobile Money|M-?Pesa/i.test(name) ? 'money' : /Repair|Phone Doctor|Fundi/i.test(name) ? 'repairs' : /Print|Bind|Copy/i.test(name) ? 'print' : /Gadget/i.test(name) ? 'gadget' : /Kitchen|Chop|Kibanda|Buka|Bukka|Canteen/i.test(name) ? 'kitchen' : /Cafe|Coffee/i.test(name) ? 'cafe' : 'provisions');
 const FOOD = /Kitchen|Chop|Kibanda|Buka|Bukka|Canteen|Cafe|Coffee|kiosk/i; // food.js puts its own vendor in these
 
 const box = (w, h, d, x = 0, y = 0, z = 0) => new THREE.BoxGeometry(w, h, d).translate(x, y, z);
@@ -52,6 +52,11 @@ function shelfTexture(kind) {
       for (let i = 0; i < 4; i++) { g.fillStyle = '#9aa3b2'; g.beginPath(); g.ellipse(70 + i * 125, 80, 50, 18, 0, 0, Math.PI * 2); g.fill(); r(20 + i * 125, 40, 100, 42, '#b8bec4'); } // big pots
       for (let i = 0; i < 3; i++) { r(40 + i * 160, 130, 120, 68, ['#2a6fb5', '#e46f4f', '#2f7d4f'][i]); r(40 + i * 160, 130, 120, 12, '#f3e3c2'); } // coolers
       for (let i = 0; i < 10; i++) { g.fillStyle = '#ffffff'; g.beginPath(); g.ellipse(30 + i * 50, 285, 22, 8, 0, 0, Math.PI * 2); g.fill(); } // plates
+    } else if (kind === 'money') {
+      r(30, 24, 200, 72, '#2f8a4f'); g.fillStyle = '#fff'; g.font = '800 34px sans-serif'; g.textAlign = 'center'; g.fillText('AGENT', 130, 72); // the agent's board
+      for (let i = 0; i < 4; i++) { r(260 + i * 60, 30, 40, 64, '#2b2f33'); r(265 + i * 60, 36, 30, 50, '#a9dc8f'); } // phones
+      for (let i = 0; i < 7; i++) r(20 + i * 70, 140, 58, 54, ['#7fc47a', '#f2c418', '#e46f4f'][i % 3]); // airtime cards
+      for (let i = 0; i < 6; i++) { r(30 + i * 80, 248, 64, 34, '#6fae6a'); r(30 + i * 80, 262, 64, 6, '#4d8a4a'); } // bundles of notes
     } else if (kind === 'cafe') {
       r(40, 30, 150, 70, '#3b3f45'); r(60, 44, 40, 30, '#9aa3b2'); r(120, 44, 40, 30, '#9aa3b2'); // the machine
       for (let i = 0; i < 8; i++) { r(230 + (i % 4) * 66, 40 + Math.floor(i / 4) * 32, 40, 26, '#f4ead2'); } // cups
