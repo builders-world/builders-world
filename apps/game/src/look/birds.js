@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+import { threat, ME } from './fear.js';
+import { sfx } from './audio.js';
 
 // Birds of Lagos, each one its own animal (world bible 6.7): pigeons on the pavements, white cattle
 // egrets at the pond, black kites soaring alone, swans gliding on the water. Flying birds steer like
@@ -124,8 +126,10 @@ export function createBirds({ world, scene, uTime, rng, reduced, lowQuality }) {
   }
 
   const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler(), sc = new THREE.Vector3(), steer = new THREE.Vector3(), tmp = new THREE.Vector3();
+  let fedSeen = false;
   function update(dt, t, player, env) {
     const dusk = (env.day ?? 1) < 0.2;
+    if (!ME.feeding) fedSeen = false;
     fly.forEach((b) => {
       const S = SPECIES[b.species];
       b.t += dt;
@@ -140,11 +144,20 @@ export function createBirds({ world, scene, uTime, rng, reduced, lowQuality }) {
       const near = Math.hypot(player.x - b.p.x, player.z - b.p.z);
       if (b.state === 'ground') {
         b.flap = 0;
-        // peck about, a step at a time; scatter when someone comes close
-        if (!reduced && near < (b.species === 'egret' ? 5 : 3.2)) { birds.filter((o) => o.group === b.group && o.state === 'ground').forEach((o) => takeOff(o, player)); return; }
+        // peck about, a step at a time. You coming at them (fear.js): running, or walking straight up close, and the
+        // whole group takes off; nearer than they like but calm, they hop a step away; a calm walk past, they stay.
+        // Scatter corn and the pigeons come to your feet
+        const th = threat(b.p.x, b.p.z, { wary: b.species === 'egret' ? 1.5 : 1, eats: b.species === 'pigeon' ? 'corn' : null });
+        if (!reduced && th.t >= 0.6) { if (near < 18) sfx('flap'); birds.filter((o) => o.group === b.group && o.state === 'ground').forEach((o) => takeOff(o, player)); return; }
         b.walk = (b.walk ?? 0) - dt;
+        if (ME.feeding === 'corn' && b.species === 'pigeon' && th.d < 10) {
+          // round your feet, each to its own spot
+          const a = (b.t * 0.3 + birds.indexOf(b) * 1.3) % 6.283, r = 0.8 + (birds.indexOf(b) % 3) * 0.3;
+          b.step = { x: ME.x + Math.cos(a) * r, z: ME.z + Math.sin(a) * r }; b.walk = 0.5;
+          if (th.d < 1.6 && !fedSeen) { fedSeen = true; dispatchEvent(new CustomEvent('bw:fed', { detail: { who: 'pigeons' } })); }
+        } else if (th.t >= 0.4) { const dx = b.p.x - ME.x, dz = b.p.z - ME.z, l = Math.hypot(dx, dz) || 1; b.step = { x: b.p.x + (dx / l) * 0.9, z: b.p.z + (dz / l) * 0.9 }; b.walk = 0.6; }
         if (b.walk <= 0) { b.walk = 1 + rng() * 3; const a = rng() * Math.PI * 2; b.step = { x: b.p.x + Math.cos(a) * 0.5, z: b.p.z + Math.sin(a) * 0.5 }; if (!isFree(b.step.x, b.step.z) || birds.some((o) => o !== b && o.state === 'ground' && Math.hypot(o.p.x - b.step.x, o.p.z - b.step.z) < 0.45)) b.step = null; }
-        if (b.step) { const dx = b.step.x - b.p.x, dz = b.step.z - b.p.z, l = Math.hypot(dx, dz); if (l < 0.05) b.step = null; else { const s = Math.min(l, dt * 0.6); b.p.x += (dx / l) * s; b.p.z += (dz / l) * s; b.yaw = Math.atan2(dx, dz); } }
+        if (b.step) { const dx = b.step.x - b.p.x, dz = b.step.z - b.p.z, l = Math.hypot(dx, dz); if (l < 0.05) b.step = null; else { const s = Math.min(l, dt * (ME.feeding === 'corn' || th.t >= 0.4 ? 1.4 : 0.6)); b.p.x += (dx / l) * s; b.p.z += (dz / l) * s; b.yaw = Math.atan2(dx, dz); } }
         b.p.y = 0.25; b.peck = Math.max(0, Math.sin(b.t * 5 + b.p.x)) * 0.25;
         return;
       }
@@ -198,5 +211,5 @@ export function createBirds({ world, scene, uTime, rng, reduced, lowQuality }) {
     });
     if (swans.mesh) swans.mesh.instanceMatrix.needsUpdate = true;
   }
-  return { update, pond, count: () => birds.length + swans.length, birds };
+  return { pigeons: () => birds.filter((b) => b.species === 'pigeon').map((b) => ({ x: b.p.x, z: b.p.z, state: b.state, group: b.group })), update, pond, count: () => birds.length + swans.length, birds };
 }

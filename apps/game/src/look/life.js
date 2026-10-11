@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { threat } from './fear.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { mulberry32 } from '../mesh.js';
 import { createBirds } from './birds.js';
@@ -88,12 +89,14 @@ export function createLife({ world, scene, camera, getEnv, reduced, lowQuality, 
       c.timer -= dt;
       const d = Math.hypot(player.x - c.obj.position.x, player.z - c.obj.position.z);
       const nap = (hour > 11 && hour < 15) || wet;
-      if (d < 3 && !reduced && !c.fleeing) { // keep their distance: pick one spot away from you and go
+      // keep their distance: only from someone coming at them or right up close (fear.js); a calm passer-by is ignored
+      const th = threat(c.obj.position.x, c.obj.position.z, { wary: 1.3 });
+      if (th.t >= 0.45 && !reduced && !c.fleeing) { // pick one spot away from you and go
         const ax = c.obj.position.x - player.x, az = c.obj.position.z - player.z, al = Math.hypot(ax, az) || 1;
         let away = null;
         for (let k2 = 0; k2 < 12 && !away; k2++) { const a = Math.atan2(ax, az) + (rng() - 0.5) * 1.6, r = 4 + rng() * 3, x = c.obj.position.x + Math.sin(a) * r, z = c.obj.position.z + Math.cos(a) * r; if (world.isFree(x, z, 0.4)) away = { x, z }; }
         void al;
-        if (away) { c.goal = away; c.mode = 'walk'; c.speed = 2.2; c.fleeing = true; }
+        if (away) { c.goal = away; c.mode = 'walk'; c.speed = th.t >= 0.7 ? 3.6 : 2.2; c.fleeing = true; }
       } else if (c.mode !== 'walk' && c.timer <= 0 && !reduced) {
         if (nap) { c.mode = 'sleep'; c.timer = 20 + rng() * 40; } else {
           c.goal = freeNear(c.obj.position.x, c.obj.position.z, 10); c.mode = c.goal ? 'walk' : 'sit'; c.speed = 0.9 + rng() * 0.4; c.timer = 4 + rng() * 8;

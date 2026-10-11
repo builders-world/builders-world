@@ -79,7 +79,7 @@ export function petModel(kind, breedId) {
 // (metres of a jump) and tongue (panting). Whatever the pose, the lowest point is set on the ground, so
 // nothing sinks into it (a sitting dog used to pivot about a point at ground level and lose its rear).
 const _box = new THREE.Box3();
-export function animatePet(g, dt, t, speed, { sit = 0, wag = 0, lie = 0, beg = 0, bow = 0, scratch = 0, hop = 0, tongue = 0 } = {}) {
+export function animatePet(g, dt, t, speed, { sit = 0, wag = 0, lie = 0, beg = 0, bow = 0, scratch = 0, hop = 0, tongue = 0, alert = false } = {}) {
   const u = g.userData, phase = t * (6 + speed * 3), moving = speed > 0.05;
   // the gait: diagonal pairs, and a little side to side roll that grows with speed (the trot's waddle)
   u.legs.forEach((l, i) => { l.rotation.set(moving ? Math.sin(phase + (i === 0 || i === 3 ? 0 : Math.PI)) * Math.min(0.8, 0.3 + speed * 0.12) : 0, 0, 0); });
@@ -95,6 +95,8 @@ export function animatePet(g, dt, t, speed, { sit = 0, wag = 0, lie = 0, beg = 0
   u.head.rotation.set(0.35 * sit + 0.8 * beg + 0.3 * flat - 0.25 * bow + 0.4 * scratch, 0, 0.25 * scratch);
   u.tail.rotation.y = Math.sin(t * (wag ? 16 : 3)) * (wag ? 0.7 : 0.25);
   u.tail.rotation.x = u.tailRest - 0.5 * bow;
+  // standing its ground (critters.js, fear.js): braced on the front legs, head up and snapping, tail stiff and high
+  if (alert) { u.legs[0].rotation.x -= 0.25; u.legs[1].rotation.x -= 0.25; u.head.rotation.x = -0.3 + Math.max(0, Math.sin(t * 9)) * -0.15; u.tail.rotation.x = u.tailRest - 0.45; u.tail.rotation.y = Math.sin(t * 30) * 0.06; }
   if (u.tongue) { u.tongue.visible = tongue > 0.3; u.tongue.position.y = -0.06 * u.k - 0.012 * u.k * Math.abs(Math.sin(t * 9)); }
   // ground: the lowest point of the posed body sits on y = 0, then any hop lifts it
   g.updateMatrixWorld(true); _box.setFromObject(u.body);
