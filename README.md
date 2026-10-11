@@ -1,25 +1,45 @@
 # Builders World
 
-Working title for a browser-based world where builders' verified work shapes their profiles and, in a later phase, their buildings and districts.
+A living, browser-based world for developers and designers, set in real African cities, where your real work is your currency: every commit you push on GitHub becomes **Efforts** to spend in the world. You get a home, work from hubs and cafés, meet the builders who are online, and improve your neighbourhood together.
+
+**Play it:** [buildersworld.vercel.app](https://buildersworld.vercel.app/) · [straight into the world](https://buildersworld.vercel.app/?world=1)
 
 ## Project status
 
-The shared repository contains the product brief, team information, and proposed directory layout. A newer local prototype lives in `apps/world/yaba-scene`, cloned as a separate nested repository. It now includes the immersive arrivals onboarding and an explorable Yaba district. The prototype and onboarding changes have not been pushed or integrated into this parent repository.
+The game is live and growing. As of 11 October 2026 it has:
 
-The current local journey is Nigeria arrivals → attendant/role/demo connection → city/district → airplane introduction with avatar editing → starter home. See the [experience brief](docs/design/immersive-onboarding.md) and [standalone visual brief for ChatGPT](BUILDERS_WORLD_VISUAL_BRIEF.md). Real identity connections, country routing, and persistent shared ownership remain unimplemented.
+- **Six cities, 26 areas**, rebuilt from OpenStreetMap: Lagos, Abuja, Port Harcourt, Akwa Ibom, Nairobi and Accra.
+- **A living world:** real time of day and live weather, residents with lives, traffic that follows lanes and road rules, railways, airports and landmarks.
+- **Your home, wardrobe, bag, phone and wallet.**
+- **Ways to get around:** bikes, boards, skates, hired rides (driving needs a licence) and flights. Flying abroad needs a passport.
+- **Hubs and cafés with Wi-Fi friction**, community building, and sport played by the real rules.
+- **GitHub sign-in with other players live.**
 
-Phase 1 focuses on the flat site: GitHub, Stripe, and Product Hunt connections, profiles, verified metrics, and league leaderboards. The 3D world follows in Phase 2. See the PRD for the full scope and open decisions.
+Each feature is listed in the game's [README](https://github.com/builders-world/yaba-scene#readme). Every request and where it stands is in the [tracker](docs/collaboration/tracker.md).
 
-That is the PRD's original phase plan. The 9 October local onboarding prototype is an experience exploration; a revised production release plan has not yet been agreed.
+**Where the code lives**
+
+| Repository | What it is |
+|---|---|
+| [builders-world/yaba-scene](https://github.com/builders-world/yaba-scene) | The game (three.js + Vite). `main` deploys to Vercel. Nested here at `apps/world/yaba-scene` for local work. |
+| [builders-world/open-world-backend](https://github.com/builders-world/open-world-backend) | The Rust gateway: GitHub sign-in, presence, street bins, the Efforts count (Railway). |
+| builders-world/builders-world (this repository) | The product, the world bible, design and collaboration docs, assets. |
+
+The PRD's original plan put a flat site first (Phase 1) and the 3D world second. In practice the 3D world came first, and the release plan is still to be agreed (see Decisions in the tracker).
+
+**How it's built:** the [world bible](docs/design/world-bible.md) is the source of truth for building the world (real-world sources, scale, street engineering, level design, art, game logic, UI, performance). The PRD decides what the product is; the bible decides how it is built.
 
 ## Product requirements
 
-- [PRD v1.0 — Markdown](docs/product/builders-world-prd.md)
-- [PRD v1.0 — HTML](docs/product/exports/builders-world-prd-v1.0.html)
-- [PRD v1.0 — PDF](docs/product/exports/builders-world-prd-v1.0.pdf)
+- [PRD v1.1, Markdown](docs/product/builders-world-prd.md) (the images in `assets/reference/` set the visual direction)
+- [PRD v1.1, HTML](docs/product/exports/builders-world-prd-v1.1.html) · [PDF](docs/product/exports/builders-world-prd-v1.1.pdf)
+- [PRD v1.0, HTML](docs/product/exports/builders-world-prd-v1.0.html) · [PDF](docs/product/exports/builders-world-prd-v1.0.pdf) (superseded)
+- [Immersive onboarding brief](docs/design/immersive-onboarding.md)
 
 ## Start here
 
+- [World bible](docs/design/world-bible.md)
+- [Request tracker](docs/collaboration/tracker.md)
 - [Project handoff for Claude and the team](PROJECT_HANDOFF.md)
 - [Directory layout and architecture boundaries](docs/architecture/repository-layout.md)
 - [Collaboration workflow](docs/collaboration/README.md)
@@ -60,4 +80,4 @@ These are logical areas reserved for the planned architecture. They do not imply
 - Coordinate deployments and database migrations with the team before running them.
 - Keep credentials out of Git. Document required environment variables in an `.env.example` file with placeholder values when application setup begins.
 
-GitHub, Vercel, and Supabase accounts have been checked on Elvis's development machine. This repository is not yet linked to a Builders World deployment or database project.
+The game deploys to Vercel (project `buildersworld`) and the backend to Railway (project `yaba-scene`: gateway, jobs, Postgres, Redis). Secrets live only in those providers.
