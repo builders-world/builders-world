@@ -36,7 +36,8 @@ import { buildLandmarks } from './landmarks.js';
 import { createSports } from './sports/index.js';
 import { TIERS, trackDetail, cullDetail } from './quality.js';
 import { watchPlayer, holdOutFood } from './fear.js';
-import { regionOf, areaOf, areaName, areaUrl, areaFare, kmBetween, bearing } from './areas.js';
+import { regionOf, areaOf, areaName, areaUrl, areaFare, kmBetween, bearing, cityLabel } from './areas.js';
+import { buildEdgeSigns } from './edge.js';
 import { setStreamTier, updateStream, streamStats, streamSmall, cullSmall, smallStats, setStreaming, setHorizon, streaming } from './stream.js';
 import { walletEngine } from './wallet.js';
 import { sfx } from './audio.js';
@@ -174,6 +175,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   doors.push(...fronts.doors);
   // Yaba's landmarks, each on the side it really lies (landmarks.js)
   const landmarks = buildLandmarks({ world, scene: group, props, used: placeUsed });
+  // where the roads leave the area: Leaving / Welcome to signs (edge.js)
+  try { buildEdgeSigns({ world, scene: group, area: areaName(areaOf(world.place?.city || 'Lagos', world.place?.name)) || world.place?.name || 'Yaba', city: cityLabel(world.place?.city || 'Lagos') }); } catch (err) { console.warn('edge signs skipped', err); }
   // the bank's banking hall, and Kofo Cafe, open their doors too (venues.js)
   if (dressing?.bankDoor) doors.push({ key: 'bank', at: dressing.bankDoor });
   const cafeFront = props.interact.find((i) => i.name === PLACES.cafe.name);

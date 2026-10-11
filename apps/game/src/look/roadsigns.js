@@ -2,12 +2,14 @@ import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { cityLandmarks } from './civic.js';
 import { trackDetail } from './quality.js';
+import { cityInfo } from './cityinfo.js';
 
 // Road signs for drivers (world bible 9.3, after the FRSC Highway Code): green direction boards on the
 // approaches to the big junctions (an arrow, where it goes, how far), speed limits on the main roads,
 // and the zones where cars must slow right down: a school zone round each school (20 km/h) and a
 // pedestrian zone round the markets (15 km/h). The zones are real: traffic.js keeps cars to them.
-// Signs stand on the driver's side (the right), on the pavement, facing the traffic they are for.
+// Signs stand on the driver's kerb side (the right; the left where traffic keeps left), on the pavement, facing the
+// traffic they are for; boards only on roads traffic really comes in by, listing only the ways it may leave by.
 
 const KMH = 1 / 3.6;
 const MAJOR = ['trunk', 'primary', 'secondary', 'tertiary'];
@@ -79,7 +81,7 @@ export function buildRoadSigns({ world, scene, traffic, landmarks }) {
   // the kerbside spot on the driver's right, `back` metres before the point (x, z) heading (hx, hz)
   // (`half`: a board's half width, which stands across the pavement: its road end must stay off the road too)
   const kerbside = (x, z, hx, hz, lane, half = 0) => {
-    const rx = -hz, rz = hx; // right of the heading (traffic.js: the driver's right)
+    const side = cityInfo().drive === 'left' ? -1 : 1, rx = -hz * side, rz = hx * side; // the driver's kerb side: the right, or the left where traffic keeps left
     for (let off = lane + 1.4; off < lane * 3 + 9; off += 0.4) {
       const px = x + rx * off, pz = z + rz * off;
       if (world.onCarriageway?.(px - rx * half, pz - rz * half, 0.45)) continue;
@@ -107,23 +109,25 @@ export function buildRoadSigns({ world, scene, traffic, landmarks }) {
     for (let k = 0; k < 40; k++) {
       const a = nodes[cur], b = nodes[nxt], L = Math.hypot(b.x - a.x, b.z - a.z);
       if (acc + L >= len) { const u = (len - acc) / (L || 1); const x = a.x + (b.x - a.x) * u, z = a.z + (b.z - a.z) * u; const [hx, hz] = dirOf(b, a); return { x, z, hx, hz }; }
-      acc += L; const on = nodes[nxt].out.find((o) => o.road === road && o.to !== cur); if (!on) return null; cur = nxt; nxt = on.to;
+      acc += L; const on = (nodes[nxt].links || nodes[nxt].out).find((o) => o.road === road && o.to !== cur); if (!on) return null; cur = nxt; nxt = on.to;
     }
     return null;
   };
-  const junctions = nodes.map((n, i) => ({ n, i })).filter(({ n }) => n.out.length >= 3 && n.out.some((e) => e.major) && Math.hypot(n.x, n.z) < world.radius * 0.85)
+  const junctions = nodes.map((n, i) => ({ n, i })).filter(({ n }) => (n.links || n.out).length >= 3 && (n.links || n.out).some((e) => e.major) && Math.hypot(n.x, n.z) < world.radius * 0.85)
     .sort((a, b) => Math.hypot(a.n.x - world.spawn.x, a.n.z - world.spawn.z) - Math.hypot(b.n.x - world.spawn.x, b.n.z - world.spawn.z));
   let boards = 0;
   for (const { n, i: ni } of junctions) {
     if (boards >= 12) break;
-    for (const ein of n.out) {
+    // the roads traffic really comes in by (a one-way street leaving the junction has nobody to read a board)
+    const approaches = n.in ? n.in.map((w) => ({ to: w.from, road: w.road, lane: w.lane, major: w.major })) : n.out;
+    for (const ein of approaches) {
       if (boards >= 12) break;
       const at = walkBack(ni, ein, 22) || walkBack(ni, ein, 14); if (!at) continue;
       const [hx, hz] = [at.hx, at.hz], rx = -hz, rz = hx;
       // every other way out of the junction: which way it turns, and where it goes
       const rows = [];
       n.out.forEach((ex) => {
-        if (ex === ein || ex.road === ein.road && Math.abs(dirOf(n, nodes[ex.to])[0] * hx + dirOf(n, nodes[ex.to])[1] * hz) < 0.5) return;
+        if (ex === ein || (ex.to === ein.to && ex.road === ein.road) || ex.road === ein.road && Math.abs(dirOf(n, nodes[ex.to])[0] * hx + dirOf(n, nodes[ex.to])[1] * hz) < 0.5) return;
         const [vx, vz] = dirOf(n, nodes[ex.to]);
         if (vx * -hx + vz * -hz > 0.8) return; // back the way you came
         const turn = vx * hx + vz * hz > 0.7 ? 'up' : vx * rx + vz * rz > 0 ? 'right' : 'left';

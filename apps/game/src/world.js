@@ -534,7 +534,11 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     });
     E.gates.forEach((g) => {
       g.post.forEach(([x, z]) => { mb.box(x, 0, z, 0.6, 2.7, 0.6, COPE, { grad: 0.05, vary: 0 }, E.ry); estateWalls.push({ name: 'gate_pillar', cx: x, cz: z, hx: 0.3, hz: 0.3, ry: E.ry, h: 2.7 }); });
-      const [bx, bz] = g.booth;
+      let [bx, bz] = g.booth;
+      // the guard's booth stands inside the line of the pavement: stepped in toward the estate until clear of it
+      { const W2 = E.walls.length ? E.walls : [{ cx: bx, cz: bz }], ex = W2.reduce((a, w) => a + w.cx, 0) / W2.length, ez = W2.reduce((a, w) => a + w.cz, 0) / W2.length, dl = Math.hypot(ex - bx, ez - bz) || 1;
+        const onPave = (x, z) => [[-1, -1], [1, -1], [1, 1], [-1, 1]].some(([u, v]) => inReserve(x + u * 1.1, z + v * 1.1));
+        for (let k = 0; k < 8 && onPave(bx, bz); k++) { bx += ((ex - bx) / dl) * 0.6; bz += ((ez - bz) / dl) * 0.6; } }
       mb.box(bx, 0, bz, 2.2, 2.5, 2.2, WALLC, { grad: 0.06, vary: 0.02 }, E.ry); mb.box(bx, 2.5, bz, 2.6, 0.16, 2.6, '#5a5048', { grad: 0, vary: 0 }, E.ry);
       estateWalls.push({ name: 'gate_booth', cx: bx, cz: bz, hx: 1.1, hz: 1.1, ry: E.ry, h: 2.7 });
     });
@@ -805,12 +809,14 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     const s = samplePolyline(r.pts, 15)[Math.floor(rng() * 12)];
     if (!s) continue;
     const sd = rng() < 0.5 ? 1 : -1;
-    const off = r.w / 2 + 2.6;
+    // just behind the pavement as it really is at this spot (its own width), never on it: people walk past, not round
+    let off = r.w / 2 + 2.6;
+    if (r.fit) { let bi = 0, bd = Infinity; r.fit.pts.forEach(([qx, qz], i) => { const d = Math.hypot(qx - s.x, qz - s.z); if (d < bd) { bd = d; bi = i; } }); const nside = (-s.tz * sd) * r.fit.nrm[bi][0] + (s.tx * sd) * r.fit.nrm[bi][1] > 0 ? r.fit.paveL[bi] : r.fit.paveR[bi]; off = r.fit.half[bi] + nside + 1.6; }
     const x = s.x + -s.tz * sd * off, z = s.z + s.tx * sd * off;
     const ry = Math.atan2(s.tx, s.tz);
     // a kiosk stands on public ground beside the pavement: off every carriageway, out of plots, clear of buildings and the bridge
     const kb = { cx: x, cz: z, hx: 1.45, hz: 1.3, ry };
-    const cornersOk = [[-1, -1], [1, -1], [1, 1], [-1, 1], [0, 0]].every(([u, v]) => { const px = x + u * 1.45 * Math.cos(ry) + v * 1.3 * Math.sin(ry), pz = z - u * 1.45 * Math.sin(ry) + v * 1.3 * Math.cos(ry); return !inAnyBuilding(px, pz, 0.6) && !laid.some((l) => pointInPoly(px, pz, l.pts)) && !carriage.some(([a, c, h]) => { const dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1, w = Math.max(0, Math.min(1, ((px - a[0]) * dx + (pz - a[1]) * dz) / L2)); return Math.hypot(px - a[0] - dx * w, pz - a[1] - dz * w) < h + 0.3; }); });
+    const cornersOk = [[-1, -1], [1, -1], [1, 1], [-1, 1], [0, 0]].every(([u, v]) => { const px = x + u * 1.45 * Math.cos(ry) + v * 1.3 * Math.sin(ry), pz = z - u * 1.45 * Math.sin(ry) + v * 1.3 * Math.cos(ry); return !inReserve(px, pz) && !inAnyBuilding(px, pz, 0.6) && !laid.some((l) => pointInPoly(px, pz, l.pts)) && !carriage.some(([a, c, h]) => { const dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1, w = Math.max(0, Math.min(1, ((px - a[0]) * dx + (pz - a[1]) * dz) / L2)); return Math.hypot(px - a[0] - dx * w, pz - a[1] - dz * w) < h + 0.3; }); });
     if (Math.hypot(x, z) > R || !cornersOk || kitColliders.some((c) => Math.hypot(c.cx - x, c.cz - z) < Math.max(c.hx, c.hz) + 2)) continue;
     kitColliders.push({ name: 'kiosk', ...kb });
     mb.box(x, 0, z, 2.2, 2.0, 1.9, PAL.kiosk, { grad: 0.3 }, ry);
