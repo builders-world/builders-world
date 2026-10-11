@@ -642,6 +642,11 @@ export function buildCabin({ ORIGIN, scene }) {
 
 // ---------- check-in, the boarding pass, and the flight panel ----------
 const CSS = `
+#lk-air .town { margin: 6px 0 12px; } #lk-air .town > b { display: block; font: 800 15px/1.2 ${FONT}; } #lk-air .town > small { display: block; margin: 2px 0 8px; color: ${C.ink2}; font: 600 12.5px/1.3 ${FONT}; }
+#lk-air .area { display: flex; justify-content: space-between; align-items: center; gap: 10px; width: 100%; margin-bottom: 6px; border: 2px solid #e3d4b4; border-radius: 14px; padding: 9px 12px; background: #fffaf0; color: ${C.ink}; font: 700 14.5px/1.2 ${FONT}; cursor: pointer; text-align: left; }
+#lk-air .area small { display: block; color: ${C.ink2}; font-weight: 600; font-size: 12px; margin-top: 2px; } #lk-air .area .km { flex: none; font-size: 12.5px; white-space: nowrap; }
+#lk-air .area:hover { background: #fff3d6; } #lk-air .air-h { margin: 6px 0 2px; font: 800 15px/1.2 ${FONT}; }
+
 #lk-air { position: fixed; inset: 0; z-index: 36; display: none; place-items: center; background: rgba(20,16,12,.45); font-family: ${FONT}; color: ${C.ink}; }
 #lk-air.on { display: grid; }
 #lk-air .box { width: min(640px, calc(100vw - 32px)); max-height: calc(100vh - 40px); overflow-y: auto; box-sizing: border-box; padding: 22px; border-radius: 26px; background: ${C.paper}; box-shadow: 0 6px 0 rgba(59,42,32,.25), 0 30px 70px rgba(10,14,30,.35); }
@@ -731,9 +736,12 @@ export function flyPanel({ bp, onLanded, seconds = 14 }) {
 }
 
 // the taxi to the airport, from the phone's Travel app: ride there and watch the city, or skip straight to the kerb
-export function openAirportTaxi({ city, onGo }) {
+export function openAirportTaxi({ city, onGo, around = null }) {
   const { air } = dlg(), A = AIRPORTS[city];
-  air.innerHTML = `<div class="box"><h3>Travel</h3><div class="sub">${esc(A.name)} (${A.code}) is the airport for ${esc(city)}. A taxi takes you to departures for ${effortsMark(13)}${fmt(SHUTTLE)}. Bring your passport if you are leaving the country; see the Immigration Centre for papers.</div>
+  // round town first (areas.js): the other areas of this city, each a taxi ride away; pick one, then ride or skip
+  const town = around && around.areas.length ? `<div class="town"><b>Around ${esc(around.label)}</b><small>Other areas of ${esc(around.label)}, by taxi.</small>
+      ${around.areas.map((a, i) => `<button class="area" data-a="${i}"><span>${esc(a.name)}<small>${esc(a.about || '')}</small></span><span class="km">${a.km.toFixed(1)} km · ${effortsMark(12)}${fmt(a.fare)}</span></button>`).join('')}</div>` : '';
+  air.innerHTML = `<div class="box"><h3>Travel</h3>${town}<h4 class="air-h">To the airport</h4><div class="sub">${esc(A.name)} (${A.code}) is the airport for ${esc(city)}. A taxi takes you to departures for ${effortsMark(13)}${fmt(SHUTTLE)}. Bring your passport if you are leaving the country; see the Immigration Centre for papers.</div>
     <div class="f"><b>Ride there</b><button class="ride">Call the taxi</button><small>Get in and watch the city go by on the way to ${A.code}, camera on cinematic. Skip the trip any time.</small></div>
     <div class="f"><b>Skip the trip</b><button class="skip">Straight to ${A.code}</button><small>The taxi drops you at the departures kerb right away.</small></div>
     <div class="row"><button class="x">Not now</button></div></div>`;
@@ -741,5 +749,15 @@ export function openAirportTaxi({ city, onGo }) {
   air.querySelector('.x').onclick = () => air.classList.remove('on');
   air.querySelector('.ride').onclick = () => { air.classList.remove('on'); onGo('ride'); };
   air.querySelector('.skip').onclick = () => { air.classList.remove('on'); onGo('skip'); };
+  air.querySelectorAll('.area').forEach((b) => { b.onclick = () => {
+    const a = around.areas[+b.dataset.a];
+    air.innerHTML = `<div class="box"><h3>${esc(a.name)}</h3><div class="sub">${esc(a.about || '')} ${a.km.toFixed(1)} km across ${esc(around.label)}; the taxi is ${effortsMark(13)}${fmt(a.fare)}.</div>
+      <div class="f"><b>Ride there</b><button class="ride">Call the taxi</button><small>Get in and watch ${esc(around.label)} go by, camera on cinematic. Skip the trip any time.</small></div>
+      <div class="f"><b>Skip the trip</b><button class="skip">Straight to ${esc(a.name)}</button><small>You get out in ${esc(a.name)} right away.</small></div>
+      <div class="row"><button class="x">Back</button></div></div>`;
+    air.querySelector('.x').onclick = () => openAirportTaxi({ city, onGo, around });
+    air.querySelector('.ride').onclick = () => { air.classList.remove('on'); around.onArea(a, 'ride'); };
+    air.querySelector('.skip').onclick = () => { air.classList.remove('on'); around.onArea(a, 'skip'); };
+  }; });
 }
 export { fare, entryRule, papers };

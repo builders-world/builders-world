@@ -26,6 +26,7 @@ import { weather as wx } from './look/surfaces.js';
 import { pushOutDynamic } from './look/physics.js';
 import { setEstateNames } from './estates.js';
 import { CITY_INFO } from './look/cityinfo.js';
+import { areaOf, areaName, cityLabel, regionOf } from './look/areas.js';
 
 const q = new URLSearchParams(location.search);
 const TEST_PACE = +(q.get('pace') ?? 1); // tests walk faster; players never see this
@@ -34,6 +35,10 @@ const PLAYER_R = 0.42; // the body is about 0.5 m across; 0.42 fits a 2 m gate w
 { const st = document.createElement('style'); st.textContent = SKIN_CSS; document.head.appendChild(st); document.body.classList.add('bw-skin'); loadFont(); }
 const arrivalProfile = loadProfile();
 const resident = q.get('resident') === '1' && arrivalProfile.step === 'home' && arrivalProfile.city === 'Lagos' && arrivalProfile.district === 'Yaba';
+// ?city=Lagos&area=Ikeja loads that area (areas.js); otherwise ?name=&lat=&lon=&r= as before
+// (a city on its own, ?city=Uyo, opens its first area)
+const askedArea = q.get('area') ? areaOf(q.get('city') || 'Lagos', q.get('area')) : q.get('city') && !q.get('name') ? regionOf(q.get('city'))?.areas[0] || null : null;
+if (askedArea) ['name', 'lat', 'lon', 'r'].forEach((k) => q.set(k, String(k === 'name' ? askedArea.area : askedArea[k])));
 const place = {
   ...DEFAULT_PLACE,
   name: q.get('name') || DEFAULT_PLACE.name,
@@ -326,7 +331,8 @@ async function main() {
     renderer.toneMappingExposure = E.exposure;
     bloom.allowed = E.bloom.on && TIERS[quality].bloom; bloom.enabled = bloom.allowed;
     bloom.strength = E.bloom.strength; bloom.radius = E.bloom.radius; bloom.threshold = E.bloom.threshold;
-    chrome.setWorld(world, via, place);
+    // the city on top (Lagos, Akwa Ibom), the area under it (areas.js)
+    chrome.setWorld(world, via, { ...place, name: cityLabel(place.city), city: areaName(areaOf(place.city, place.name)) || place.name });
     street?.dispose();
     if (q.get('look') !== '0') street = createLook({ renderer, scene, camera, world, reduced, quality, sky, bloom, weatherFeed, avatar: body });
     lookRef = street; worldRef = world;

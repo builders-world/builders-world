@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { areaOf, areaName, cityLabel } from './areas.js';
 import { createMenus } from './menus.js';
 import { createNav, nearestOn, pathLength, pointAlong } from './nav.js';
 import { createTrail } from './trail.js';
@@ -126,7 +127,7 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
   const el = document.createElement('div');
   el.id = 'lk';
   el.innerHTML = `
-    <div id="lk-obj" class="pane" aria-live="polite"><div class="d">${PIN}<span>${world.place?.name ?? 'Yaba'} District</span></div><ul></ul></div>
+    <div id="lk-obj" class="pane" aria-live="polite"><div class="d">${PIN}<span>${areaName(areaOf(world.place?.city || 'Lagos', world.place?.name)) || world.place?.name || 'Yaba'} · ${cityLabel(world.place?.city || 'Lagos')}</span></div><ul></ul></div>
     <div id="lk-map"><canvas width="312" height="312" aria-label="Minimap"></canvas></div>
     <div id="lk-prompt" class="pane"><kbd>E</kbd><span></span></div>
     <div id="lk-tags"></div>

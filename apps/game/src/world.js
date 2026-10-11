@@ -249,7 +249,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   fitStreets(roads, makeClearance(picked, pointInPoly));
 
   // --- spawn: nearest road point to the player's plot, stepped toward it ---
-  const you = assign.get('you') || blds[0];
+  const you = assign.get('you') || blds[0] || { c: [0, 0] }; // (an area mapped road by road, no buildings drawn yet: start in the middle)
   // nearest road point to a footprint, stepped toward it; used for spawn and "go to plot"
   function roadFront(c) {
     let best = Infinity;

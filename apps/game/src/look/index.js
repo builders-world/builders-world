@@ -36,6 +36,7 @@ import { buildLandmarks } from './landmarks.js';
 import { createSports } from './sports/index.js';
 import { TIERS, trackDetail, cullDetail } from './quality.js';
 import { watchPlayer, holdOutFood } from './fear.js';
+import { regionOf, areaOf, areaName, areaUrl, areaFare, kmBetween, bearing } from './areas.js';
 import { setStreamTier, updateStream, streamStats, streamSmall, cullSmall, smallStats, setStreaming, setHorizon, streaming } from './stream.js';
 import { walletEngine } from './wallet.js';
 import { sfx } from './audio.js';
@@ -805,7 +806,18 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   addEventListener('bw:fly', () => {
     if (interiors?.active) { hud.toast('Go outside first, then take a taxi to the airport.', 2400); return; }
     const A = AIRPORTS[cityHere];
-    openAirportTaxi({ city: cityHere, onGo: (mode) => {
+    // the other areas of this city (areas.js), a taxi ride across town
+    const P0 = world.place || {}, R = regionOf(cityHere), hereA = areaOf(cityHere, P0.name) || { lat: P0.lat, lon: P0.lon };
+    const around = R ? { label: R.label, areas: R.areas.filter((a) => a.area !== P0.name).map((a) => { const km = kmBetween(hereA, a); return { ...a, name: areaName(a), km, fare: areaFare(km) }; }),
+      onArea: (a, mode) => {
+        if (!walletEngine().spend(a.fare, `Taxi to ${a.name}`)) { hud.toast(`The taxi to ${a.name} is ${a.fare} Efforts.`, 2400); return; }
+        const go = () => { hud.toast(`${a.name}, ${R.label}.`, 2000); setTimeout(() => { location.search = areaUrl(cityHere, a); }, 600); };
+        if (mode === 'skip' || !lastPlayer) { go(); return; }
+        if (!rides?.airportRun({ x: lastPlayer.x, z: lastPlayer.z, bearing: bearing(hereA, a), name: a.name, onArrive: go })) { go(); return; }
+        airTrip.querySelector('.t').textContent = `Taxi to ${a.name}`; airTrip.querySelector('.s').textContent = 'Wait at the kerb, then E to get in';
+        airTrip.classList.add('on');
+      } } : null;
+    openAirportTaxi({ city: cityHere, around, onGo: (mode) => {
       if (!walletEngine().spend(SHUTTLE, `Taxi to ${A?.code}`)) { hud.toast(`The taxi is ${SHUTTLE} Efforts.`, 2400); return; }
       const arrive = (rode) => { tripOff(); hud.toast(rode === false ? 'The taxi drops you at departures.' : `${A.code} departures. The driver lifts your bag out of the boot.`, 2600); enterAirport(); };
       if (mode === 'skip' || !lastPlayer) { arrive(false); return; }
