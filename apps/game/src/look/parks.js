@@ -167,17 +167,25 @@ export function buildParks({ world, scene, pond, area, uTime, addLamps, reduced 
 }
 
 // a W x D rectangle of open public ground, nearest the start, clear of everything in `used` (which it extends)
-export function findSite(world, used, W, D) {
+export function findSite(world, used, W, D, { turn = false } = {}) {
   // open ground only: walkable, and never a carriageway (roads are walkable too, so they are ruled out here)
-  const free = (x, z) => (world.costAt ? world.costAt(x, z) < 2.6 : world.isFree(x, z, 0.5)) && !world.onCarriageway?.(x, z, 0.6);
+  // (and never the railway corridor: tracks are walkable ground, but no venue stands on them)
+  const free = (x, z) => (world.costAt ? world.costAt(x, z) < 2.6 : world.isFree(x, z, 0.5)) && !world.onCarriageway?.(x, z, 0.6) && !world.onRail?.(x, z, 1);
+  // turn: a big building may stand at an angle to fit the land (squared up with a diagonal street); the site then
+  // says by how much (ry, as a three.js turn about y), and `used` keeps the box round it
+  const angles = turn ? [0, Math.PI / 2, Math.PI / 6, -Math.PI / 6, Math.PI / 3, -Math.PI / 3, Math.PI / 4, -Math.PI / 4] : [0];
   for (let r = 10; r < world.radius * 0.95; r += 5) for (let k = 0; k < 20; k++) {
     const a = (k / 20) * Math.PI * 2 + r * 0.37, x = world.spawn.x + Math.cos(a) * r, z = world.spawn.z + Math.sin(a) * r;
-    if (Math.hypot(x, z) > world.radius * 0.9 || used.some((u) => Math.abs(u.x - x) < (u.W + W) / 2 + 3 && Math.abs(u.z - z) < (u.D + D) / 2 + 3)) continue;
-    let ok = true;
-    // samples at most 1.5 m apart that always include the far edges (a fixed 1.5 m step could stop short of them)
-    const su = W / Math.ceil(W / 1.5), sv = D / Math.ceil(D / 1.5);
-    for (let u = -W / 2; u <= W / 2 + 1e-6 && ok; u += su) for (let v = -D / 2; v <= D / 2 + 1e-6 && ok; v += sv) if (!free(x + u, z + v)) ok = false;
-    if (ok) { used.push({ x, z, W, D }); return { x, z }; }
+    if (Math.hypot(x, z) > world.radius * 0.9) continue;
+    for (const ry of angles) {
+      const cs = Math.cos(ry), sn = Math.sin(ry), BW = Math.abs(W * cs) + Math.abs(D * sn), BD = Math.abs(W * sn) + Math.abs(D * cs);
+      if (used.some((u) => Math.abs(u.x - x) < (u.W + BW) / 2 + 3 && Math.abs(u.z - z) < (u.D + BD) / 2 + 3)) continue;
+      let ok = true;
+      // samples at most 1.5 m apart that always include the far edges (a fixed 1.5 m step could stop short of them)
+      const su = W / Math.ceil(W / 1.5), sv = D / Math.ceil(D / 1.5);
+      for (let u = -W / 2; u <= W / 2 + 1e-6 && ok; u += su) for (let v = -D / 2; v <= D / 2 + 1e-6 && ok; v += sv) if (!free(x + u * cs + v * sn, z - u * sn + v * cs)) ok = false;
+      if (ok) { used.push({ x, z, W: BW, D: BD }); return { x, z, ry }; }
+    }
   }
   return null;
 }

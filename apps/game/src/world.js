@@ -417,7 +417,12 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   // the railway (manifest.rails, where the city really has one): its corridor is reserved like a road, so no plot,
   // building or estate stands on the line (look/railway.js lays the track and runs the trains)
   const rails = (manifest.rails || []).filter((r) => r.pts.length > 1);
-  rails.forEach((r) => { for (let k = 0; k < r.pts.length - 1; k++) reserve.push([r.pts[k], r.pts[k + 1], 3.6]); });
+  // (Elvis, 11 October 2026: "rail tracks should not run across buildings, residential buildings or sports or any
+  // facility at all"): the corridor is the track and ballast plus a clear strip either side, RAIL_CLEAR metres from the
+  // centre line, and world.onRail answers for it, so venues, trees, stalls and ground patches placed later keep off too
+  const RAIL_CLEAR = 5.5, railSegs = [];
+  rails.forEach((r) => { for (let k = 0; k < r.pts.length - 1; k++) { reserve.push([r.pts[k], r.pts[k + 1], RAIL_CLEAR]); railSegs.push([r.pts[k], r.pts[k + 1]]); } });
+  const onRail = (x, z, pad = 0) => railSegs.some(([a, c]) => { const dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / L2)); return Math.hypot(x - a[0] - dx * u, z - a[1] - dz * u) < RAIL_CLEAR + pad; });
   const inReserve = (x, z) => reserve.some(([a, c, h]) => { const dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / L2)); return Math.hypot(x - a[0] - dx * u, z - a[1] - dz * u) < h; });
   const laid = []; // accepted plots: { pts, bb }
   const carriage = []; roads.forEach((r) => { if (!r.fit) return; const { pts, half } = r.fit; for (let k = 0; k < pts.length - 1; k++) carriage.push([pts[k], pts[k + 1], Math.max(half[k], half[k + 1])]); });
@@ -526,7 +531,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     }
   });
   const inResv = (x, z) => { const i = Math.round((x + R) / RC), j = Math.round((z + R) / RC); return i < 0 || j < 0 || i >= RN || j >= RN || resv[j * RN + i] === 1; };
-  const estatePlan = planEstates({ roads, R, rng, free: (x, z) => Math.hypot(x - spawn.x, z - spawn.z) > 50 && !inResv(x, z) && !inReserveBox(x, z) && plotFree(x, z) }); // the start street stays open for the board, the hub and the stalls
+  const estatePlan = planEstates({ roads, R, rng, free: (x, z) => Math.hypot(x - spawn.x, z - spawn.z) > 50 && !inResv(x, z) && !inReserveBox(x, z) && plotFree(x, z), nearRail: rails.length ? (x, z) => onRail(x, z, 60) : null }); // the start street stays open for the board, the hub and the stalls
   const estateWalls = [], estateGarages = [], carSpots = [], addresses = [];
   const WALLC = '#e6dcc8', COPE = '#b9ab92', CLOSE = '#9a9a92';
   estatePlan.forEach((E, ei) => {
@@ -556,9 +561,9 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
       const lv = rng() < 0.55 ? 2 : 1;
       const wall = PAL.walls[Math.floor(rng() * PAL.walls.length)];
       const est = dressEstate(mb, L.pts, L.c, lv, { wall, rng, fenceIndex, deferFences: true, detail: Math.hypot(L.c[0], L.c[1]) < R * 0.6 ? 1 : 0,
-        plan: { front: L.front, side: L.side, depth: LOT_D, width: LOT_W, flip: (parseInt(L.no, 10) % 2) === 0 }, noFence: (x, z) => nearWall(E, x, z, 0.9) });
+        plan: { front: L.front, side: L.side, depth: L.depth || LOT_D, width: LOT_W, flip: (parseInt(L.no, 10) % 2) === 0 }, noFence: (x, z) => nearWall(E, x, z, 0.9) });
       if (!est) return;
-      const addr = `${L.no}, Gate ${L.gate}, ${E.name}`;
+      const addr = L.addr || `${L.no}, Gate ${L.gate}, ${E.name}`;
       const b = { pts: est.pts, lot: L.pts, c: L.c, bb: bbox(est.pts), top: est.top, area: Math.abs(polyArea(est.pts)), planned: true, addr, no: L.no, gate: L.gate, estate: E.name };
       blds.push(b);
       if (est.tree) lotTrees.push(est.tree);
@@ -642,7 +647,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   const kitColliders = [...lotFences, ...estateWalls, ...estateGarages];
   const claims = []; // { kind, cx, cz, hx, hz, ry }
   // the railway corridor is land set aside too (parks, venues and props placed later keep off it)
-  rails.forEach((r) => { for (let k = 0; k < r.pts.length - 1; k++) { const [ax, az] = r.pts[k], [bx, bz] = r.pts[k + 1], L = Math.hypot(bx - ax, bz - az); if (L < 0.5) continue; claims.push({ kind: 'railway', cx: (ax + bx) / 2, cz: (az + bz) / 2, hx: 3.6, hz: L / 2 + 1, ry: Math.atan2(bx - ax, bz - az) }); } });
+  rails.forEach((r) => { for (let k = 0; k < r.pts.length - 1; k++) { const [ax, az] = r.pts[k], [bx, bz] = r.pts[k + 1], L = Math.hypot(bx - ax, bz - az); if (L < 0.5) continue; claims.push({ kind: 'railway', cx: (ax + bx) / 2, cz: (az + bz) / 2, hx: RAIL_CLEAR, hz: L / 2 + 1, ry: Math.atan2(bx - ax, bz - az) }); } });
   let world_bridge = null; // picket fences first: low (1 m), so a jump clears them
   const trees = [];
   const glows = []; // {x,z,r}
@@ -650,7 +655,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   const inAnyBuilding = (x, z, pad = 0) => blds.some((b) => { const P = b.lot || b.pts; const bb = b.lot ? b.lotBB || (b.lotBB = bbox(b.lot)) : b.bb; return P.length >= 3 && x > bb.x0 - 1 - pad && x < bb.x1 + 1 + pad && z > bb.z0 - 1 - pad && z < bb.z1 + 1 + pad && (pointInPoly(x, z, P) || (pad > 0 && nearestOnPoly(x, z, P).d < pad)); });
 
   // street lamps on every street, trees only where pavements allow (world bible 4.3)
-  const furniture = streetFurniture(roads, { inBuilding: inAnyBuilding, inside: (x, z) => Math.hypot(x, z) < R * 1.08 });
+  const furniture = streetFurniture(roads, { inBuilding: inAnyBuilding, inside: (x, z) => Math.hypot(x, z) < R * 1.08 && !onRail(x, z, 0.5) }); // (street trees and lamps keep off the railway too)
   // ---------- footbridge (estate-layout skill): only where both stairs land on public ground ----------
   // A deck 5.2 m up across the main road, a landing at each end, and a stair flight down each side
   // running alongside the road. Steps, landings and deck are walkable (groundAt); railings stop you
@@ -1115,6 +1120,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
         if (Math.hypot(x - (ax + dx * t), z - (az + dz * t)) < clear) return false;
       }
     }
+    if (onRail(x, z, pad)) return false; // the railway corridor
     return Math.hypot(x, z) < R * 1.05;
   }
 
@@ -1147,7 +1153,8 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     rig: { hemi, moon, rim, bulbMat, bulb: T.env.bulb },
     center: manifest.center,
     footprints: blds.filter((b) => b.pts.length >= 3).map((b) => b.pts), lots: blds.filter((b) => b.lot).map((b) => b.lot), doorPlants, lotTrees,
-    estates: estatePlan.map((E) => ({ name: E.name, corners: E.corners, ry: E.ry, gates: E.gates, closes: E.closes, n: E.n })), addresses, carSpots,
+    estates: estatePlan.filter((E) => !E.row).map((E) => // (rows of houses on a road have no estate gate, guard or sign)
+       ({ name: E.name, corners: E.corners, ry: E.ry, gates: E.gates, closes: E.closes, n: E.n })), addresses, carSpots,
     // flat roofs of unclaimed buildings, for rooftop water tanks
     roofs: blds.filter((b) => !plotIds.has(b) && b.top && b.pts.length >= 3).map((b) => ({ x: b.c[0], z: b.c[1], y: b.top, area: b.area, pts: b.pts })),
     blockedAt: (x, z, r = 0.35) => { const v = { x, z }; resolve(v, r); return Math.hypot(v.x - x, v.z - z) > 0.01; },
@@ -1172,6 +1179,8 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     inReserve: (x, z) => inReserve(x, z) || inReserveBox(x, z), // on a road or its pavements (placement checks, audits)
     // a paved disc that is road too (a roundabout's circle, parks.js)
     addRoadDisk: (x, z, r) => { roadDisks.push({ x, z, r }); },
+    // within the railway corridor (track, ballast and its clear strip), or pad metres of it
+    onRail,
     onCarriageway: (x, z, pad = 0) => roadDisks.some((d) => Math.hypot(x - d.x, z - d.z) < d.r + pad) || carriage.some(([a, c, h]) => { const dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / L2)); return Math.hypot(x - a[0] - dx * u, z - a[1] - dz * u) < h + pad; }),
     inPlot: (x, z, pad = 0) => laid.some((l) => x > l.bb.x0 - pad && x < l.bb.x1 + pad && z > l.bb.z0 - pad && z < l.bb.z1 + pad && (pointInPoly(x, z, l.pts) || (pad > 0 && nearestOnPoly(x, z, l.pts).d < pad))),
     kit, kitColliders, addColliders: (list) => { list.forEach((c) => { kitColliders.push(c); indexBox(c); }); nav?.addBoxes(list); camBoxes.dirty = true; },
