@@ -146,6 +146,18 @@ const CSS = `${KIT_CSS}
 #lkm-bag .it:hover, #lkm-bag .it:focus-visible { transform: translate(-50%, -50%) scale(1.07); outline: none; }
 #lkm-bag .it.sel .fl path { fill: ${C.paper}; stroke: ${C.amber}; stroke-width: 5; }
 #lkm-bag .it.locked svg.a { filter: grayscale(1) opacity(.5); }
+/* more than four in a tab: a carousel, four at a time round you; arrows, dots, the arrow keys, a swipe or the wheel turn it */
+#lkm-bag .it.pg { animation: lkbIn .32s cubic-bezier(.2,1.2,.35,1) backwards; animation-delay: calc(var(--k) * 40ms); }
+@keyframes lkbIn { from { opacity: 0; transform: translate(calc(-50% + var(--dx, 0px)), -50%) scale(.8); } }
+#lkm-bag .pgb { position: absolute; top: 50%; width: 54px; height: 54px; margin-top: -27px; border: 0; border-radius: 50%; background: ${C.paper}; color: ${C.ink}; box-shadow: 0 4px 0 rgba(0,0,0,.22); cursor: pointer; display: grid; place-items: center; z-index: 2; transform: scale(calc(1 / var(--k, 1))); } /* full size to tap, however small the ring is drawn */
+#lkm-bag .pgb:hover, #lkm-bag .pgb:focus-visible { background: #fff; outline: 3px solid ${C.amber}; outline-offset: 2px; }
+#lkm-bag .pgb:disabled { opacity: .35; cursor: default; outline: none; }
+#lkm-bag .pgb.l { left: 24px; } #lkm-bag .pgb.r { right: 24px; }
+#lkm-bag .pgd { position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%) scale(calc(1 / var(--k, 1))); transform-origin: 50% 100%; display: flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: 999px; background: rgba(0,0,0,.22); z-index: 2; }
+#lkm-bag .pgd button { width: 10px; height: 10px; padding: 0; border: 0; border-radius: 50%; background: rgba(255,255,255,.45); cursor: pointer; }
+#lkm-bag .pgd button.on { width: 26px; border-radius: 5px; background: ${C.paper}; }
+#lkm-bag .pgd span { margin-left: 4px; color: #fff; font: 700 12.5px/1 ${FONT}; }
+@media (prefers-reduced-motion: reduce) { #lkm-bag .it.pg { animation: none; } }
 #lkm-bag .it .eq { position: absolute; top: 14px; right: 18px; width: 22px; height: 22px; border-radius: 50%; background: #5fe08d; box-shadow: 0 0 0 3px #fff; display: grid; place-items: center; color: #10331c; font: 800 13px/1 ${FONT}; }
 #lkm-bag .name { position: absolute; left: 50%; top: 18px; transform: translateX(-50%); z-index: 3; padding: 12px 34px; border-radius: 999px; background: ${C.teal}; color: #fff;
   font: 800 28px/1 ${FONT}; white-space: nowrap; box-shadow: 0 5px 0 rgba(0,0,0,.2); }
@@ -775,6 +787,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   // a scalloped tile, like the wardrobe ring
   const FLOWER = (() => { let d = ''; for (let i = 0; i <= 96; i++) { const a = (i / 96) * Math.PI * 2, r = 58 + Math.cos(a * 7) * 5; d += `${i ? 'L' : 'M'}${(66 + Math.cos(a) * r).toFixed(1)} ${(66 + Math.sin(a) * r).toFixed(1)}`; } return `<svg class="fl" viewBox="0 0 132 132"><path d="${d}Z"/></svg>`; })();
   let bagTab = 'gadgets', bagSel = 'laptop', bagResize = false;
+  let bagTurn = 0, bagWheel = 0; // the bag carousel's last turn (for the slide-in) and the wheel's pause
   const BAG_TABS = [['gadgets', 'Gadgets'], ['wear', 'Wearables'], ['badges', 'Badges'], ['cards', 'Cards'], ['style', 'Wardrobe']];
   const tabsHTML = () => `<div class="tabs" role="tablist">${BAG_TABS.map(([k, nm]) => `<button role="tab" data-t="${k}" class="${bagTab === k ? 'on' : ''}" aria-selected="${bagTab === k}">${nm}</button>`).join('')}</div>`;
   // cards: membership and resident cards, and the Wi-Fi your laptop has joined (passes.js)
@@ -840,13 +853,19 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     const unbought = it.price && !owns(it.id); if (unbought) it.locked = true; else if (it.price) it.locked = false;
     const isOn = equipped.includes(it.id);
     const n = list.length, rx = 300, ry = 238;
+    // a carousel when the tab holds more than four (Elvis, 10 October 2026): four at a time, on the diagonals round you
+    const PER = 4, pages = Math.ceil(n / PER), idx = list.findIndex((i) => i.id === bagSel), page = Math.floor(idx / PER);
+    const shown = pages > 1 ? list.slice(page * PER, page * PER + PER) : list, dx = bagTurn * 70; bagTurn = 0;
+    const spot = (k) => { const a = pages > 1 ? -Math.PI * 3 / 4 + k * Math.PI / 2 : -Math.PI / 2 + (k / n) * Math.PI * 2; return `left:${380 + Math.cos(a) * rx}px;top:${320 + Math.sin(a) * ry}px`; };
+    const CHEV = (d) => `<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="${d < 0 ? 'M15 5l-7 7 7 7' : 'M9 5l7 7-7 7'}" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
     const verb = unbought ? `Buy at the gadget shop · ${fmt(it.price)}` : it.locked ? 'Not earned yet' : it.always ? 'Always with you' : isOn ? (it.wear ? 'Take off' : 'Put back') : (it.wear ? 'Wear' : 'Carry');
     bagEl.style.backgroundImage = `url("data:image/svg+xml,${encodeURIComponent(backdropSVG())}")`;
     bagEl.innerHTML = `
       ${tabsHTML()}
       <div class="name">${it.name}</div>
       <div class="stage"><div class="disc"></div><div class="fig">${figureSVG(me.look, equipped)}</div>
-        ${list.map((i, k) => { const a = -Math.PI / 2 + (k / n) * Math.PI * 2; return `<button class="it ${i.id === bagSel ? 'sel' : ''} ${i.locked ? 'locked' : ''}" data-i="${i.id}" aria-label="${i.name}" style="left:${380 + Math.cos(a) * rx}px;top:${320 + Math.sin(a) * ry}px">${FLOWER}<svg class="a" viewBox="0 0 64 64" width="76" height="76">${art(i.id).replace(/^<svg[^>]*>|<\/svg>$/g, '')}</svg>${equipped.includes(i.id) ? '<span class="eq">✓</span>' : ''}</button>`; }).join('')}</div>
+        ${pages > 1 ? `<button class="pgb l" aria-label="Previous ${PER}" ${page === 0 ? 'disabled' : ''}>${CHEV(-1)}</button><button class="pgb r" aria-label="Next ${PER}" ${page === pages - 1 ? 'disabled' : ''}>${CHEV(1)}</button><div class="pgd" role="tablist" aria-label="Pages">${Array.from({ length: pages }, (_, q) => `<button class="${q === page ? 'on' : ''}" data-p="${q}" aria-label="Page ${q + 1} of ${pages}"></button>`).join('')}<span>${page * PER + 1 === Math.min(n, page * PER + PER) ? n : `${page * PER + 1}–${Math.min(n, page * PER + PER)}`} of ${n}</span></div>` : ''}
+        ${shown.map((i, k) => { return `<button class="it ${i.id === bagSel ? 'sel' : ''} ${i.locked ? 'locked' : ''} ${pages > 1 ? 'pg' : ''}" data-i="${i.id}" aria-label="${i.name}" style="${spot(k)};--k:${k};--dx:${dx}px">${FLOWER}<svg class="a" viewBox="0 0 64 64" width="76" height="76">${art(i.id).replace(/^<svg[^>]*>|<\/svg>$/g, '')}</svg>${equipped.includes(i.id) ? '<span class="eq">✓</span>' : ''}</button>`; }).join('')}</div>
       <div class="card bw-paper"><span class="tag">${it.tag}</span><p>${it.desc}</p></div>
       <div class="acts"><button class="bw-chip act" ${it.locked || it.always ? 'disabled' : ''}><b>Enter</b>${verb}</button><button class="bw-chip cl"><b>I</b>Close</button></div>`;
     const fit = () => { const k = Math.min(1, (innerWidth - 20) / 780, (innerHeight - 170) / 640); bagEl.querySelector('.stage')?.style.setProperty('--k', String(Math.max(0.42, k))); };
@@ -854,6 +873,16 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     bagEl.querySelectorAll('.tabs button').forEach((b) => { b.onclick = () => { bagTab = b.dataset.t; openBag(); }; });
     bagEl.querySelectorAll('.it').forEach((b) => { b.onclick = () => { if (bagSel === b.dataset.i) bagEl.querySelector('.act:not([disabled])')?.click(); else { bagSel = b.dataset.i; openBag(); bagEl.querySelector(`.it[data-i="${bagSel}"]`)?.focus(); } }; });
     bagEl.querySelector('.cl').onclick = close;
+    // turning the carousel: the first of the next four is selected, and the four slide in from that side
+    const turn = (d, to) => { const q = to ?? page + d; if (pages < 2 || q < 0 || q >= pages || q === page) return; bagTurn = q > page ? 1 : -1; bagSel = list[q * PER].id; openBag(); (bagEl.querySelector(`.pgb.${q > page ? 'r' : 'l'}:not([disabled])`) || bagEl.querySelector('.it.sel'))?.focus(); };
+    if (pages > 1) {
+      bagEl.querySelector('.pgb.l').onclick = () => turn(-1); bagEl.querySelector('.pgb.r').onclick = () => turn(1);
+      bagEl.querySelectorAll('.pgd [data-p]').forEach((b) => { b.onclick = () => turn(0, +b.dataset.p); });
+      const stage = bagEl.querySelector('.stage');
+      stage.onwheel = (e) => { if (Math.abs(e.deltaY) + Math.abs(e.deltaX) < 20 || bagWheel > performance.now()) return; bagWheel = performance.now() + 350; turn((e.deltaY || e.deltaX) > 0 ? 1 : -1); };
+      let sx = null; stage.onpointerdown = (e) => { sx = e.clientX; }; stage.onpointerup = (e) => { if (sx !== null && Math.abs(e.clientX - sx) > 50) turn(e.clientX < sx ? 1 : -1); sx = null; };
+    }
+    bagEl.onkeydown = (e) => { if (open !== bagEl || bagTab === 'cards' || pages < 2) return; if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); e.stopPropagation(); turn(e.key === 'ArrowRight' ? 1 : -1); } };
     const act = bagEl.querySelector('.act:not([disabled])');
     if (act) act.onclick = () => {
       const on = !equipped.includes(it.id);
