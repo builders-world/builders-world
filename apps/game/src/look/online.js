@@ -47,6 +47,7 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
   // who you are in the world is the id the server gave your account; other players address knocks and games to it
   const id = session.me?.account.id || '';
   const gh = () => session.me?.account.login || '';
+  const isMe = (p) => !!p && ((id && p.id === id) || (gh() && (p.handle === gh() || p.name === `@${gh()}`)));
   const me = () => { let full = null; try { full = JSON.parse(localStorage.getItem('bw-style') || 'null'); } catch { /* */ } return { name: profile?.name || (gh() ? `@${gh()}` : '') || 'Builder', handle: gh(), look: { ...(profile?.avatar || { color: '#e2b13c', style: 'jacket' }), full } }; };
 
   // what you chose to share when someone profiles you (Settings, Public profile)
@@ -85,7 +86,7 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
       ok = true; fails = 0;
       chip.classList.add('on'); chip.querySelector('span').textContent = j.online === 1 ? 'Online · just you here' : `Online · ${j.online} here`;
       const seen = new Set();
-      latest = j.players; onlineNow.players = j.players; onlineNow.me = id;
+      latest = j.players.filter((p) => !isMe(p)); onlineNow.players = latest; onlineNow.me = id;
       // knocks on your door (or at your estate gate), and answers to yours
       j.players.forEach((p) => {
         if (p.knock && p.knock.to === id && p.knock.t > Math.max(started, seenKnock.get(p.id) || 0)) { seenKnock.set(p.id, p.knock.t); onKnock?.(p); }
@@ -94,6 +95,10 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
         if (p.play && p.play.to === id && p.play.t > Math.max(started - 60000, seenPlay.get(p.id) || 0)) { seenPlay.set(p.id, p.play.t); dispatchEvent(new CustomEvent('bw:play', { detail: { from: p.id, name: p.name, play: p.play } })); }
       });
       j.players.forEach((p) => {
+        // never draw yourself: the gateway can list you, or a stale entry of you from another tab or an earlier
+        // visit, and that showed as a second you standing about (Elvis, 11 October 2026: "a stationary version of
+        // the player character remains visible over the moving character")
+        if (isMe(p)) return;
         seen.add(p.id);
         const r2 = remote.get(p.id) || spawn(p);
         const pk = p.pet ? `${p.pet.kind}|${p.pet.breed}` : '';

@@ -85,26 +85,31 @@ function buildOne(world, scene, best) {
     if (Math.floor(m / 6) % 2 === 0) { const mk = box(0.15, 0.02, STEP * 0.9, 0, 0.06, 0); mk.rotateX(-Math.atan(slope)); mk.rotateY(ry); mk.translate(cx, h + 0.05, cz); marks.push(mk); }
   }
   group.add(new THREE.Mesh(mergeGeometries(parts), concrete), new THREE.Mesh(mergeGeometries(tops), dark), new THREE.Mesh(mergeGeometries(rails), concrete), new THREE.Mesh(mergeGeometries(marks), paint));
-  // piers: pairs under the deck, clear of the cross street (none within 9 m of the junction)
+  // piers: pairs under the deck, clear of the cross street (none within 9 m of the junction), and never in the lanes of
+  // any other road that passes under the deck (a service road, a side street); the ramps' side walls likewise
+  const onOtherRoad = (px, pz, pad) => world.roads.some((r) => r !== best.r && r.fit && r.fit.pts.some((a, i) => { if (i === r.fit.pts.length - 1) return false; const b = r.fit.pts[i + 1], dx = b[0] - a[0], dz = b[1] - a[1], L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((px - a[0]) * dx + (pz - a[1]) * dz) / L2)); return Math.hypot(a[0] + dx * u - px, a[1] + dz * u - pz) < Math.max(r.fit.half[i], r.fit.half[i + 1]) + pad; }));
   const piers = [];
   for (let s = -(SPAN / 2 + RAMP * 0.5); s <= SPAN / 2 + RAMP * 0.5; s += 12) {
     if (Math.abs(s) < 9) continue;
     const h = heightAt(s); if (h < 2.4) continue;
     const cx = x + ux * s, cz = z + uz * s;
+    if (onOtherRoad(cx, cz, 1.2)) continue;
     const p = box(1.4, h - 0.5, 1.4, 0, (h - 0.5) / 2, 0); p.rotateY(ry); p.translate(cx, 0, cz); piers.push(p);
     const cap = box(W * 0.7, 0.6, 1.8, 0, h - 0.5, 0); cap.rotateY(ry); cap.translate(cx, 0, cz); piers.push(cap);
     world.addColliders?.([{ name: 'flyover_pier', cx, cz, hx: 0.7, hz: 0.7, ry, h }]);
   }
-  group.add(new THREE.Mesh(mergeGeometries(piers), concrete));
+  if (piers.length) group.add(new THREE.Mesh(mergeGeometries(piers), concrete));
   // the name on both faces of the deck over the junction
   const name = (best.r.name || 'Yaba').toUpperCase();
   const tex = signTexture(`${name} FLYOVER`, { bg: '#2f6b4f', fg: '#ffffff', w: 1100, h: 140 });
   [-1, 1].forEach((sd) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(9, 1.0), new THREE.MeshBasicMaterial({ map: tex, color: 0xdddddd })); m.position.set(x + nx * sd * (W / 2 + 0.03), H - 0.35, z + nz * sd * (W / 2 + 0.03)); m.rotation.y = Math.atan2(nx * sd, nz * sd); group.add(m); });
   // walls along the low ends of the ramps: nobody walks into a ramp from the side, and nobody walks up it
+  // (where the road is wider than the deck, the ground lanes run on beside the ramp: no wall between the lanes)
+  const wider = (px, pz) => { const P = best.r.fit.pts; let bi = 0, bd = Infinity; P.forEach(([qx, qz], i) => { const d = Math.hypot(qx - px, qz - pz); if (d < bd) { bd = d; bi = i; } }); return best.r.fit.half[bi] > W / 2 + 0.3; };
   const walls = [];
   for (const sd of [-1, 1]) for (let s = SPAN / 2 + RAMP * 0.25; s < SPAN / 2 + RAMP; s += 3) {
     const h = heightAt(s + 1.5); if (h > 2.4) continue;
-    [-1, 1].forEach((side) => { const cx = x + ux * sd * (s + 1.5) + nx * side * (W / 2 - 0.15), cz = z + uz * sd * (s + 1.5) + nz * side * (W / 2 - 0.15); walls.push({ name: 'flyover_ramp', cx, cz, hx: 0.2, hz: 1.6, ry, h: h + 1 }); });
+    [-1, 1].forEach((side) => { const cx = x + ux * sd * (s + 1.5) + nx * side * (W / 2 - 0.15), cz = z + uz * sd * (s + 1.5) + nz * side * (W / 2 - 0.15); if (!onOtherRoad(cx, cz, 0.4) && !wider(cx, cz)) walls.push({ name: 'flyover_ramp', cx, cz, hx: 0.2, hz: 1.6, ry, h: h + 1 }); });
   }
   world.addColliders?.(walls);
   // the camera does not pass through the deck

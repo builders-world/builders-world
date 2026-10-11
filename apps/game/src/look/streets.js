@@ -93,6 +93,39 @@ const smooth = (arr, k = 2) => arr.map((_, i) => {
   return s / n;
 });
 
+// Streets that stop just short of the road they meet (the map's two lines a few metres apart, or one cut at the edge
+// of the data): the end is carried on to that road and both share the meeting point, so the junction is a real one
+// for the paving, the kerbs and the traffic. Every city, before the streets are measured.
+export function joinStreetEnds(roads, { reach = 9, keepOut = () => false } = {}) {
+  const drive = roads.filter((r) => !isFootway(r) && r.pts.length > 1);
+  let joined = 0;
+  drive.forEach((r) => {
+    [0, r.pts.length - 1].forEach((end) => {
+      const [x, z] = r.pts[end];
+      if (keepOut(x, z)) return;
+      // already meets another road here?
+      if (drive.some((o) => o !== r && o.pts.some((q) => Math.hypot(q[0] - x, q[1] - z) < 1.5))) return;
+      let best = null;
+      drive.forEach((o) => {
+        if (o === r) return;
+        for (let i = 0; i < o.pts.length - 1; i++) {
+          const a = o.pts[i], b = o.pts[i + 1], dx = b[0] - a[0], dz = b[1] - a[1], L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / L2));
+          const px = a[0] + dx * u, pz = a[1] + dz * u, d = Math.hypot(px - x, pz - z);
+          if (d > 0.3 && d < Math.max(reach, (o.w || 8) / 2 + 6) && (!best || d < best.d)) best = { o, i, u, p: [+px.toFixed(2), +pz.toFixed(2)], d };
+        }
+      });
+      if (!best) return;
+      // only carry it on roughly the way it was going (never fold it back on itself)
+      const nb = r.pts[end === 0 ? 1 : r.pts.length - 2], hx = x - nb[0], hz = z - nb[1], hl = Math.hypot(hx, hz) || 1;
+      if (((best.p[0] - x) * hx + (best.p[1] - z) * hz) / (hl * best.d) < -0.2) return;
+      if (end === 0) r.pts.unshift(best.p); else r.pts.push(best.p);
+      if (best.u > 0.01 && best.u < 0.99) best.o.pts.splice(best.i + 1, 0, best.p.slice());
+      joined++;
+    });
+  });
+  return joined;
+}
+
 // Measure every street. Writes r.fit and replaces r.w with the width that really fits.
 export function fitStreets(roads, clearance) {
   roads.forEach((r) => {

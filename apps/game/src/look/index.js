@@ -517,6 +517,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   // the park around the pond, the waterfall, benches where people sit, the build area, a roundabout (parks.js)
   const parks = buildParks({ world, scene: group, pond: props.pond, area: { group: props.areaGroup, item: props.area }, uTime: shared.uTime, reduced,
     addLamps: (l) => { props.lamps.push(...l); lights?.setLamps([...world.lamps, ...props.lamps, ...(world.porchLamps || [])]); } });
+  if (parks?.roundabout) traffic?.addRoundabout?.(parks.roundabout); // cars go round the island, not through it
   if (parks.park) props.pois?.push({ kind: 'park', name: parks.park.name, x: parks.park.x, z: parks.park.z });
   // places to play: skate park, water park, community garden, picnic lawn (parks.js)
   // the motor park (or matatu stage, trotro station) is reserved before the places to play: transport first
