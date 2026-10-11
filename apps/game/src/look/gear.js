@@ -50,16 +50,37 @@ export function createGear(avatar) {
     return g;
   })();
 
+  // the umbrella: furled at your side when dry, open over your head in the rain (setRain)
+  parts.umbrella = (() => {
+    const g = new THREE.Group(), cloth = mat(0x2a9d94, 0.7);
+    const open = new THREE.Group(); open.position.set(0.18, 2.05, 0.05);
+    open.add(new THREE.Mesh(new THREE.SphereGeometry(0.62, 16, 6, 0, Math.PI * 2, 0, Math.PI / 2.6), cloth));
+    open.add(new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.75, 6).translate(0, -0.37, 0), dark));
+    const furled = new THREE.Group(); furled.position.set(0.3, 0.95, 0.05);
+    furled.add(new THREE.Mesh(new THREE.ConeGeometry(0.05, 0.75, 8).rotateX(Math.PI), cloth), new THREE.Mesh(new THREE.TorusGeometry(0.05, 0.012, 6, 12, Math.PI).translate(0, 0.42, 0), dark));
+    g.add(open, furled); g.userData = { open, furled }; open.visible = false;
+    return g;
+  })();
+  // the raincoat: a yellow shell over the jacket, hood up
+  parts.raincoat = (() => {
+    const g = new THREE.Group(), yellow = mat(0xf2c418, 0.5);
+    g.add(new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.62, 0.32), yellow).translateY(1.12));
+    const hood = new THREE.Mesh(new THREE.SphereGeometry(0.25, 14, 8, 0, Math.PI * 2, 0, Math.PI / 1.8), yellow); hood.position.set(0, 1.62, -0.03); g.add(hood);
+    return g;
+  })();
+
   // with a rig, gear rides the bone it sits on: the backpack on the chest, the rest on the head
   const rig = avatar.userData.rig;
   const holders = {};
   Object.entries(parts).forEach(([id, p]) => {
     p.visible = false;
-    holders[id] = rig ? rig.attach(p, id === 'backpack' ? 'chest' : 'head') : (avatar.add(p), p);
+    holders[id] = rig ? rig.attach(p, id === 'backpack' || id === 'raincoat' ? 'chest' : id === 'umbrella' ? 'root' : 'head') : (avatar.add(p), p);
   });
 
   return {
     set(id, on) { if (parts[id]) parts[id].visible = on; },
+    // rain on: the umbrella opens over your head; dry: furled at your side
+    setRain(wet) { const u = parts.umbrella?.userData; if (u) { u.open.visible = wet; u.furled.visible = !wet; } },
     dispose() {
       Object.entries(parts).forEach(([id, p]) => { p.traverse((o) => o.geometry?.dispose()); p.removeFromParent(); holders[id]?.removeFromParent(); });
       [dark, amber, canvas, metal].forEach((m) => m.dispose());

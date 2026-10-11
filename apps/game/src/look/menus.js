@@ -14,6 +14,7 @@ import { LABEL } from './quality.js';
 import { onlineNow } from './online.js';
 import { WALLET_CSS, walletSVG, breakdown, moneySVG } from './walletui.js';
 import { cardArt } from './cardart.js';
+import { owns } from './shop.js';
 import { RAD, GAP, C, FONT, KIT_CSS, loadFont, pattern, backdropSVG, personFor, portraitSVG, figureSVG, art, appIcon, placeArt, ribbonSVG } from './uikit.js';
 import { createRadio } from './radio.js';
 import { avatarPortrait } from './portraits.js';
@@ -289,7 +290,7 @@ body.nohud #lkm-tip { display: none; }
 `;
 
 // ---------- what a developer carries ----------
-const ITEMS = [
+export const ITEMS = [
   { id: 'laptop', tab: 'gadgets', icon: 'laptop', name: 'Laptop', desc: 'Your main machine. Later, linking it to your presence agent will show you working at a bench when you are really coding.', tag: 'Gadget' },
   { id: 'phone', tab: 'gadgets', icon: 'phone', name: 'Phone', desc: 'This phone. Tab opens it anywhere in the world.', tag: 'Gadget', always: true },
   { id: 'tablet', tab: 'gadgets', icon: 'tablet', name: 'Tablet', desc: 'For sketching flows and reading docs on the danfo.', tag: 'Gadget' },
@@ -298,10 +299,15 @@ const ITEMS = [
   { id: 'router', tab: 'gadgets', icon: 'router', name: 'MiFi router', desc: 'Your own data when the cafe wifi gives up.', tag: 'Gadget' },
   { id: 'skateboard', tab: 'gadgets', icon: 'skateboard', name: 'Skateboard', desc: 'Carry it and you roll instead of walk. Shift for speed. The skate park is waiting.', tag: 'Gadget' },
   { id: 'skates', tab: 'gadgets', icon: 'skates', name: 'Roller skates', desc: 'Put them on and glide. Round the pond is the best loop in Yaba.', tag: 'Gadget' },
+  // from the gadget shop (shop.js): each has a price and must be bought before it can be carried or worn
+  { id: 'bicycle', tab: 'gadgets', icon: 'bicycle', name: 'Your own bicycle', desc: 'Yours, not rented: carry it and you ride, anywhere, any time. Put it back to walk.', tag: 'Gadget', price: 9000 },
+  { id: 'binoculars', tab: 'gadgets', icon: 'binoculars', name: 'Binoculars', desc: 'Carry them and hold Z to look far down the street.', tag: 'Gadget', price: 1500 },
   { id: 'notebook', tab: 'gadgets', icon: 'notebook', name: 'Notebook', desc: 'Paper still wins for system diagrams.', tag: 'Gadget' },
   { id: 'headphones', tab: 'wear', icon: 'headphones', name: 'Headphones', desc: 'Deep work mode. Shows on your avatar.', tag: 'Wearable', wear: true },
   { id: 'backpack', tab: 'wear', icon: 'backpack', name: 'Laptop backpack', desc: 'Carries the whole setup. Shows on your avatar.', tag: 'Wearable', wear: true },
   { id: 'cap', tab: 'wear', icon: 'cap', name: 'Cap', desc: 'Hackathon merch. Shows on your avatar.', tag: 'Wearable', wear: true },
+  { id: 'umbrella', tab: 'wear', icon: 'umbrella', name: 'Umbrella', desc: 'Opens over your head when it rains. Shows on your avatar.', tag: 'Wearable', wear: true, price: 800 },
+  { id: 'raincoat', tab: 'wear', icon: 'raincoat', name: 'Raincoat', desc: 'Bright yellow, hood up. Shows on your avatar.', tag: 'Wearable', wear: true, price: 1200 },
   { id: 'glasses', tab: 'wear', icon: 'glasses', name: 'Glasses', desc: 'Blue light filter included. Shows on your avatar.', tag: 'Wearable', wear: true },
   { id: 'firstpush', tab: 'badges', icon: 'push', name: 'First push', desc: 'Earned from a verified push to a public repo.', tag: 'Badge · from verified work', locked: true },
   { id: 'merged', tab: 'badges', icon: 'merge', name: 'Merged upstream', desc: 'Earned when a PR to a repo you do not own is merged.', tag: 'Badge · from verified work', locked: true },
@@ -804,9 +810,10 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     const list = ITEMS.filter((i) => i.tab === bagTab);
     if (!list.find((i) => i.id === bagSel)) bagSel = list[0].id;
     const it = ITEMS.find((i) => i.id === bagSel);
+    const unbought = it.price && !owns(it.id); if (unbought) it.locked = true; else if (it.price) it.locked = false;
     const isOn = equipped.includes(it.id);
     const n = list.length, rx = 300, ry = 238;
-    const verb = it.locked ? 'Not earned yet' : it.always ? 'Always with you' : isOn ? (it.wear ? 'Take off' : 'Put back') : (it.wear ? 'Wear' : 'Carry');
+    const verb = unbought ? `Buy at the gadget shop · ${fmt(it.price)}` : it.locked ? 'Not earned yet' : it.always ? 'Always with you' : isOn ? (it.wear ? 'Take off' : 'Put back') : (it.wear ? 'Wear' : 'Carry');
     bagEl.style.backgroundImage = `url("data:image/svg+xml,${encodeURIComponent(backdropSVG())}")`;
     bagEl.innerHTML = `
       ${tabsHTML()}

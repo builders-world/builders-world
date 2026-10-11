@@ -88,6 +88,8 @@ export function createMobility({ world, scene, props, avatar, toast, used = [], 
   }
   // the bag's gadgets: carrying a board or skates means you roll
   function equip(id, on) {
+    // your own bicycle (shop.js): carried, you ride it, no dock and no fare; put back in the bag, you walk
+    if (id === 'bicycle') { carry.bike = on; if (on) { mount('bike'); ride.userData.own = true; } else if (mode === 'bike' && ride?.userData.own) { unmount(true); if (carry.skate) mount('skate'); else if (carry.skates) mount('skates'); } return; }
     if (id !== 'skateboard' && id !== 'skates') return;
     carry[id === 'skateboard' ? 'skate' : 'skates'] = on;
     if (mode === 'bike') return;
