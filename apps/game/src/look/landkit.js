@@ -42,7 +42,36 @@ const KITS = {
     mesh(g, box(W + 0.4, 0.8, D + 0.4, 0, H + 0.4, -D / 2 + 1), acc);
     mesh(g, box(8, 0.3, 3.5, 0, 3.6, 2.6), acc); [-3.6, 3.6].forEach((x) => mesh(g, box(0.25, 3.6, 0.25, x, 1.8, 4.1), M(0x8d9196)));
     sign(g, L.sign || L.name, { bg: L.accent ?? 0x2a9d94, sub: L.sub, w: Math.min(W - 4, 16), h: 1.8, y: H - 1.4, z: 1.12 });
-    return { g, W, D: D + 2, h: H + 1, cols: [[0, -D / 2 + 1, W, D], [-3.6, 4.1, 0.3, 0.3], [3.6, 4.1, 0.3, 0.3]] };
+    const cols = [[0, -D / 2 + 1, W, D], [-3.6, 4.1, 0.3, 0.3], [3.6, 4.1, 0.3, 0.3]];
+    let Wt = W, front = 2;
+    // optional parts, set per landmark in its city's data (areas.js, cityinfo.js), never assumed for every mall:
+    // a cinema wing with a lit marquee (only where the real mall has a cinema)
+    if (L.cinema) {
+      const cw = 12, ch = H + 3, cx = W / 2 + cw / 2 - 0.5;
+      mesh(g, box(cw, ch, D - 2, cx, ch / 2, -D / 2 + 1), M(0x2b2f36));
+      mesh(g, box(cw + 0.4, 0.7, D - 1.6, cx, ch + 0.35, -D / 2 + 1), M(L.accent ?? 0x9b2f2f));
+      sign(g, L.cinemaName || 'CINEMA', { bg: 0x9b2f2f, fg: '#ffe9a8', sub: 'Now showing', w: cw - 2, h: 1.6, x: cx, y: ch - 1.6, z: 1.08 });
+      for (let k = 0; k < 3; k++) mesh(g, box(1.6, 2.3, 0.08, cx - 3.6 + k * 3.6, 2.4, 1.06), M([0xe46f4f, 0x2a9d94, 0xf2b33d][k], { emissive: [0xe46f4f, 0x2a9d94, 0xf2b33d][k], emissiveIntensity: 0.35 }));
+      for (let k = 0; k < 14; k++) mesh(g, new THREE.SphereGeometry(0.09, 6, 4).translate(cx - cw / 2 + 0.6 + k * ((cw - 1.2) / 13), ch - 0.55, 1.15), new THREE.MeshBasicMaterial({ color: new THREE.Color(2.2, 1.7, 0.8) }));
+      cols.push([cx, -D / 2 + 1, cw, D - 2]); Wt = W + cw * 2 - 1;
+    }
+    // a car park in front: bays painted on asphalt, cars in some, a paved walk from the road to the doors
+    if (L.parking) {
+      const pd = 13, pz = 4.6 + pd / 2, pw = Math.min(Wt, W + 10);
+      mesh(g, box(pw, 0.05, pd, 0, 0.03, pz), M(0x5f5b55, { roughness: 0.95 })).castShadow = false;
+      mesh(g, box(3.2, 0.07, pd + 0.4, 0, 0.05, pz), M(0xd8d1bf)).castShadow = false; // the walk to the doors
+      const bays = Math.floor((pw / 2 - 2.6) / 2.6), paint = M(0xf2ecd9);
+      [-1, 1].forEach((sd) => { for (let k = 0; k <= bays; k++) { const x = sd * (2.4 + k * 2.6); mesh(g, box(0.1, 0.02, 4.8, x, 0.07, pz - pd / 2 + 2.6), paint).castShadow = false; mesh(g, box(0.1, 0.02, 4.8, x, 0.07, pz + pd / 2 - 2.6), paint).castShadow = false; } });
+      const cars = [0xc8102e, 0xf2f2f2, 0x1f3d7a, 0x2b2f36, 0x9fb3c4, 0xe2b13c];
+      for (let k = 0, n = 0; k < bays * 4 && n < (L.parking === true ? 7 : L.parking); k++) {
+        if ((k * 7919) % 3 === 0) continue; const sd = k % 2 ? 1 : -1, row = (k >> 1) % 2, slot = (k >> 2) % bays;
+        const x = sd * (3.7 + slot * 2.6), z = row ? pz + pd / 2 - 2.6 : pz - pd / 2 + 2.6, c = M(cars[k % cars.length], { roughness: 0.4 });
+        mesh(g, box(1.8, 0.7, 4.2, x, 0.55, z), c); mesh(g, box(1.6, 0.55, 2.2, x, 1.15, z - 0.2), M(0x8fb7c9, { roughness: 0.2 }));
+        cols.push([x, z, 1.9, 4.3]); n++;
+      }
+      front = 4.6 + pd;
+    }
+    return { g, W: Wt, D: D + front, h: H + 1 + (L.cinema ? 3 : 0), cols };
   },
   // a hospital: a tall white block, the cross, a canopy over the drop-off
   hospital(L) {

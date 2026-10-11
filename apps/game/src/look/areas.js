@@ -16,7 +16,7 @@ export const REGIONS = {
       { area: 'Yaba', lat: 6.5095, lon: 3.3715, r: 230, about: 'Yabacon Valley: CcHub, Yaba Tech and UNILAG down the road.' },
       { area: 'Ikeja', lat: 6.6080, lon: 3.3550, r: 230, about: 'The state capital: Ikeja City Mall, Alausa and Computer Village.',
         landmarks: [
-          { key: 'icm', name: 'Ikeja City Mall', sub: 'Obafemi Awolowo Way · Alausa', lat: 6.61438, lon: 3.35777, kind: 'mall', w: 44, d: 24, storeys: 2, accent: 0xc8102e, fact: 'Ikeja City Mall opened in 2011 on Obafemi Awolowo Way: Shoprite, the cinema, and half of Lagos on a Saturday.' },
+          { key: 'icm', name: 'Ikeja City Mall', sub: 'Obafemi Awolowo Way · Alausa', lat: 6.61438, lon: 3.35777, kind: 'mall', w: 44, d: 24, storeys: 2, accent: 0xc8102e, cinema: true, cinemaName: 'FILMHOUSE', parking: 8, fact: 'Ikeja City Mall opened in 2011 on Obafemi Awolowo Way: Shoprite, the cinema, and half of Lagos on a Saturday.' },
           { key: 'secretariat', name: 'Lagos State Secretariat', sub: 'Alausa · Ikeja', lat: 6.61562, lon: 3.36074, kind: 'compound', accent: 0x2f6b4f, fact: "The Lagos State Government's seat at Alausa, with the House of Assembly and the governor's office." },
           { key: 'computer_village', name: 'Computer Village', sub: 'Otigba Street · Ikeja', lat: 6.59425, lon: 3.34022, kind: 'market', accent: 0x1f4f9a, fact: "West Africa's biggest phone and computer market: thousands of stalls round Otigba Street. Haggle hard." },
         ] },
@@ -30,7 +30,7 @@ export const REGIONS = {
         skyline: [{ key: 'eko_atlantic', name: 'Eko Atlantic', lat: 6.41305, lon: 3.41805, kind: 'twin', h: 110, color: 0x8fa6b8 }] },
       { area: 'Lekki Phase 1', lat: 6.4478, lon: 3.4741, r: 220, about: 'Admiralty Way, estates, start-ups and the bridge to Ikoyi.',
         landmarks: [
-          { key: 'palms', name: 'The Palms Shopping Mall', sub: 'Lekki · Maroko', lat: 6.43598, lon: 3.45118, kind: 'mall', w: 40, d: 22, storeys: 2, accent: 0x2a9d94, fact: "The Palms, Lekki's first big mall: Shoprite, the cinema and the food court everyone meets at." },
+          { key: 'palms', name: 'The Palms Shopping Mall', sub: 'Lekki · Maroko', lat: 6.43598, lon: 3.45118, kind: 'mall', w: 40, d: 22, storeys: 2, accent: 0x2a9d94, cinema: true, parking: 8, fact: "The Palms, Lekki's first big mall: Shoprite, the cinema and the food court everyone meets at." },
         ],
         skyline: [{ key: 'eko_atlantic', name: 'Eko Atlantic', lat: 6.41305, lon: 3.41805, kind: 'twin', h: 110, color: 0x8fa6b8 }] },
       { area: 'Surulere', lat: 6.4985, lon: 3.3600, r: 230, about: 'Football and Nollywood: the National Stadium and Teslim Balogun.',
@@ -81,7 +81,7 @@ export const REGIONS = {
         skyline: [{ key: 'aso_rock', name: 'Aso Rock', lat: 9.08039, lon: 7.53604, kind: 'rock', r: 700, h: 400, color: 0x77726a }] },
       { area: 'Jabi', lat: 9.0763, lon: 7.4255, r: 220, about: 'Jabi Lake and the mall on its shore.',
         landmarks: [
-          { key: 'jabi_lake_mall', name: 'Jabi Lake Mall', sub: 'Bala Sokoto Way', lat: 9.07628, lon: 7.42548, kind: 'mall', w: 44, d: 24, storeys: 2, accent: 0x2a9d94, fact: 'Opened in 2015 on the shore of Jabi Lake: shops, the cinema and the lakeside walk.' },
+          { key: 'jabi_lake_mall', name: 'Jabi Lake Mall', sub: 'Bala Sokoto Way', lat: 9.07628, lon: 7.42548, kind: 'mall', w: 44, d: 24, storeys: 2, accent: 0x2a9d94, parking: 8, fact: 'Opened in 2015 on the shore of Jabi Lake: shops, the cinema and the lakeside walk.' },
         ],
         skyline: [{ key: 'aso_rock', name: 'Aso Rock', lat: 9.08039, lon: 7.53604, kind: 'rock', r: 700, h: 400, color: 0x77726a }] },
     ],
@@ -133,7 +133,7 @@ export const REGIONS = {
         ] },
       { area: 'Airport City', lat: 5.6040, lon: -0.1730, r: 220, about: 'Offices and hotels by Kotoka, and the Accra Mall up the road.',
         landmarks: [
-          { key: 'accra_mall', name: 'Accra Mall', sub: 'Spintex Road', lat: 5.62218, lon: -0.17294, kind: 'mall', w: 44, d: 24, storeys: 2, accent: 0xce1126, fact: "Opened in 2008 at the Tetteh Quarshie interchange, Ghana's first big mall." },
+          { key: 'accra_mall', name: 'Accra Mall', sub: 'Spintex Road', lat: 5.62218, lon: -0.17294, kind: 'mall', w: 44, d: 24, storeys: 2, accent: 0xce1126, cinema: true, parking: 8, fact: "Opened in 2008 at the Tetteh Quarshie interchange, Ghana's first big mall." },
         ] },
     ],
   },

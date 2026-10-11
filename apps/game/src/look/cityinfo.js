@@ -382,7 +382,7 @@ const UYO = {
     { key: 'e_library', name: 'Ibom e-Library', sub: 'IBB Avenue', lat: 5.0154, lon: 7.9134, kind: 'hub', storeys: 4, accent: 0x3a6ea5, color: 0xc9ccd1, fact: "Billed as West Africa's first digital library; Start Innovation Hub works from its third floor." },
     { key: 'st_lukes', name: "St. Luke's Hospital", sub: 'Anua · since 1937', lat: 5.0287, lon: 7.9427, kind: 'hospital', storeys: 2, w: 28, accent: 0x2f6b4f, fact: 'Founded in 1937 by the Medical Missionaries of Mary with 12 beds; about 400 beds now.' },
     { key: 'ibom_hall', name: 'Ibom Hall', sub: 'IBB Avenue', lat: 5.0129, lon: 7.9167, kind: 'compound', color: 0xf0dc9a, accent: 0xc0392b, flag: 0x008751, fact: "The state's main events venue: conferences, and the Orange September festival." },
-    { key: 'tropicana', name: 'Ibom Tropicana', sub: 'Mall · Cinema · Udo Udoma Avenue', lat: 4.9990, lon: 7.9405, kind: 'mall', storeys: 2, w: 34, accent: 0x9acd32, fact: "Modelled on South Africa's Sun City: a mall and a cinema on Udo Udoma Avenue." },
+    { key: 'tropicana', name: 'Ibom Tropicana', sub: 'Mall · Cinema · Udo Udoma Avenue', lat: 4.9990, lon: 7.9405, kind: 'mall', storeys: 2, w: 34, accent: 0x9acd32, cinema: true, parking: 8, fact: "Modelled on South Africa's Sun City: a mall and a cinema on Udo Udoma Avenue." },
     { key: 'itam', name: 'Itam Market', sub: 'Itu Road', lat: 5.0464, lon: 7.8987, kind: 'market', fact: "One of Uyo's busiest markets: food, thrift clothes and building materials by the Itam flyover." },
   ],
   skyline: [
