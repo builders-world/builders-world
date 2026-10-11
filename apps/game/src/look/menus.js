@@ -1,5 +1,5 @@
 // Menus for a world of developers: a dev phone (Tab), the district map (M), a bag of
-import { areaOf, areaName, cityLabel } from './areas.js';
+import { areaOf, areaName, cityLabel, regionOf, bearing, kmBetween } from './areas.js';
 // gadgets (I), and a first-visit controls guide drawn as line art.
 // Patterns borrowed from the references Elvis shared; the look stays Builders World.
 
@@ -10,7 +10,7 @@ import { audioEngine, sfx } from './audio.js';
 import { walletEngine, effortsMark, fmt } from './wallet.js';
 import { passesEngine } from './passes.js';
 import { roadClass, ROAD_KINDS } from './roadclass.js';
-import { drawCountryMap, cityCard, CITY_PINS } from './countrymap.js';
+import { drawWorldMap, worldView, zoomWorld, panWorld, cityCard, CITY_PINS } from './countrymap.js';
 import { paintAirport, fitView, airportStops } from './airportmap.js';
 import { AIRPORTS } from './travelrules.js';
 import { PAD_MAP } from './input.js';
@@ -632,8 +632,9 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   const MAPR = world.radius * 1.12;
   // the view: zoom and pan (world bible 11.3). base() is the whole-district map; toPx() is the screen
   const view = { z: 1, cx: 450, cy: 450 };
-  // zoomed out past the whole district: Nigeria, then Africa (countrymap.js)
-  let mapMode = 'district', countryPick = null, countryPins = [], airTimer = 0, airBadge = null;
+  // zoomed out past the whole district: the world, pannable, starting on your country (countrymap.js)
+  let mapMode = 'district', countryPick = null, countryPins = [], airTimer = 0, airBadge = null, wview = null, wlim = null;
+  const mapDpr = () => cw / Math.max(1, mapCanvas.getBoundingClientRect().width || cw);
   const AIR_MODES = ['hall', 'terminal', 'airfield']; // in the airport: its terminal and apron, or the whole airfield (airportmap.js)
   const base = (x, z) => [(x / MAPR) * 360 + 450, (z / MAPR) * 360 + 450];
   const toPx = (x, z) => { const [bx, by] = base(x, z); return [(bx - view.cx) * view.z + 450, (by - view.cy) * view.z + 450]; };
@@ -675,9 +676,17 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   const ROOF = ['#efe3c8', '#e2a07c', '#a9d3d4', '#eacb7a', '#d3c3e2', '#f2d6b8'];
   const hash = (pts) => Math.abs(Math.round(pts[0][0] * 13 + pts[0][1] * 7));
   function drawCountry() {
-    const g = mapCanvas.getContext('2d'), dpr = cw / Math.max(1, mapCanvas.getBoundingClientRect().width || cw);
-    countryPins = drawCountryMap(g, cw, ch, { level: mapMode, here: world.place?.city || 'Lagos', pick: countryPick, dpr }).pins;
+    const g = mapCanvas.getContext('2d'), dpr = mapDpr();
+    wlim = drawWorldMap(g, cw, ch, wview, { here: world.place?.city || 'Lagos', pick: countryPick, dpr }); countryPins = wlim.pins;
   }
+  window.__bwMap = { mode: () => mapMode, view: () => wview && { ...wview }, pins: () => countryPins.map((q) => ({ ...q })), size: () => [cw, ch] }; // for the tests
+  // the other areas of the city, named at the edge of the map in their true direction, with how far (Elvis, 11 October
+  // 2026: the map should reach the edges, with the places round about it)
+  const neighbours = () => {
+    const R = regionOf(world.place?.city || 'Lagos'), c = world.center; if (!R || !c) return [];
+    const mine = areaOf(world.place?.city || 'Lagos', world.place?.name);
+    return R.areas.filter((a) => a !== mine && a.lat != null).map((a) => ({ name: areaName(a), km: kmBetween(c, a), b: bearing(c, a) })).filter((a) => a.km > 0.5);
+  };
   function drawAirport() {
     const air = props.airport?.(); if (!air?.mapData) return;
     const g = mapCanvas.getContext('2d'), f = fitView(mapMode, cw, ch), o = air.origin, P = getPlayer?.() || { x: 0, z: 0 };
@@ -690,15 +699,18 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     if (AIR_MODES.includes(mapMode)) { drawAirport(); return; }
     if (mapMode !== 'district') { drawCountry(); return; }
     const g = mapCanvas.getContext('2d');
-    g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, cw, ch); g.setTransform(MK, 0, 0, MK, OX, OY);
-    // a rectangle of map (the UI brief: not a circle): the whole mapped square is land, edge to edge of the view;
-    // beyond the mapped square the canvas stays blank
+    // a rectangle of map (the UI brief: not a circle), and land right to the edges of the window whatever its shape
+    // (Elvis, 11 October 2026: "the green area, it should cover the whole rectangle for the map")
+    g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = C.leaf; g.fillRect(0, 0, cw, ch); g.setTransform(MK, 0, 0, MK, OX, OY);
     // everything on the ground is drawn in district coordinates under the zoom; labels and icons stay crisp
     g.save(); g.setTransform(MK * view.z, 0, 0, MK * view.z, OX + MK * (450 - view.cx * view.z), OY + MK * (450 - view.cy * view.z));
-    g.save(); g.beginPath(); g.rect(0, 0, 900, 900); g.clip();
-    g.fillStyle = C.leaf; g.fillRect(0, 0, 900, 900);
+    g.save();
+    // soft patches of lighter grass, over the whole window (beyond the district too)
     g.fillStyle = 'rgba(140,200,105,.55)';
     for (let i = 0; i < 26; i++) { const a = i * 2.4, r = (i * 53) % 330; g.beginPath(); g.arc(450 + Math.cos(a) * r, 450 + Math.sin(a) * r, 40 + (i % 5) * 12, 0, 7); g.fill(); }
+    for (let gx = -1500; gx < 2400; gx += 150) for (let gy = -1500; gy < 2400; gy += 150) { if (gx >= 0 && gx < 900 && gy >= 0 && gy < 900) continue; const k = Math.abs(gx * 7 + gy * 13) / 150 % 5; g.beginPath(); g.arc(gx + 40 + k * 14, gy + 50 + k * 9, 44 + k * 10, 0, 7); g.fill(); }
+    // past the edge of the mapped district, the land fades a little, as the world greys out at its boundary
+    { const rr = (world.radius / MAPR) * 360, fade = g.createRadialGradient(450, 450, rr, 450, 450, rr * 1.6); fade.addColorStop(0, 'rgba(247,239,220,0)'); fade.addColorStop(1, 'rgba(247,239,220,.35)'); g.fillStyle = fade; g.fillRect(-3000, -3000, 6900, 6900); }
     // trees as little triangles, where the street trees really are
     g.fillStyle = '#4f8a3a';
     // zones: estates in soft tints by street, commercial strips in coral, civic in teal, the pond in water blue
@@ -790,6 +802,22 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
         airBadge = { x, y, A, km };
       }
     }
+    // the city's other areas, at the edge of the window in their direction (a taxi ride away)
+    if (view.z < 2.2) {
+      const L = -OX / MK + 70, Rt = (cw - OX) / MK - 70 - 70 / MK * mapDpr(), T = -OY / MK + 120, B = (ch - OY) / MK - ((mapEl.querySelector('.legend')?.offsetHeight || 60) * mapDpr()) / MK - 34, placedN = [];
+      g.font = `800 15px ${FONT}`; g.textAlign = 'center'; g.textBaseline = 'middle';
+      neighbours().forEach((a) => {
+        const dx = Math.sin(a.b), dy = -Math.cos(a.b), t = Math.min(dx > 0 ? (Rt - 450) / dx : dx < 0 ? (L - 450) / dx : Infinity, dy > 0 ? (B - 450) / dy : dy < 0 ? (T - 450) / dy : Infinity);
+        let x = 450 + dx * t, y = 450 + dy * t;
+        const label = `${a.name} · ${a.km < 10 ? a.km.toFixed(1) : Math.round(a.km)} km`, w = g.measureText(label).width + 34;
+        x = Math.max(L + w / 2 - 40, Math.min(Rt - w / 2 + 40, x));
+        while (placedN.some((p) => Math.abs(p.x - x) < (p.w + w) / 2 && Math.abs(p.y - y) < 30)) y += y > 450 ? -32 : 32;
+        placedN.push({ x, y, w });
+        g.fillStyle = 'rgba(247,239,220,.94)'; g.beginPath(); g.roundRect(x - w / 2, y - 14, w, 28, 14); g.fill();
+        g.save(); g.translate(x - w / 2 + 15, y); g.rotate(a.b); g.fillStyle = C.ink2 || C.ink; g.beginPath(); g.moveTo(0, -7); g.lineTo(6, 5); g.lineTo(0, 2); g.lineTo(-6, 5); g.closePath(); g.fill(); g.restore();
+        g.fillStyle = C.ink; g.fillText(label, x + 8, y + 1);
+      });
+    }
     // services
     (props.pois || []).forEach((q) => {
       if (!KINDS[q.kind] || !poiIcon[q.kind]?.complete) return;
@@ -846,15 +874,22 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
       legend.style.display = m === 'district' ? '' : 'none'; mapEl.querySelector('.ribbon').style.display = m === 'district' ? '' : 'none';
       const air = props.airport?.()?.mapData;
       hint.style.display = m === 'district' ? 'none' : 'block';
-      hint.innerHTML = m === 'hall' ? `<b>${air?.name || 'The airport'} · ${air?.code || ''}</b><small>The terminal, every step of the way · zoom out for the apron and the planes</small>` : m === 'terminal' ? `<b>${air?.name || 'The airport'} · ${air?.code || ''}</b><small>The terminal and the apron, live · zoom out for the whole airfield, in for the hall</small>` : m === 'airfield' ? `<b>${air?.name || 'The airport'}</b><small>The airfield: the runway, the taxiway, the planes · zoom in for the terminal</small>` : m === 'nigeria' ? `<b>Nigeria</b><small>Tap a city to travel · zoom out for the rest of Africa · zoom in to go back to ${placeName(world)}</small>` : m === 'africa' ? `<b>Africa</b><small>Tap a city to travel · zoom in for ${inNigeria ? 'Nigeria' : placeName(world)}</small>` : '';
+      // the world's how-to steps aside after a few seconds, so it does not sit on the map
+      clearTimeout(hint._t); if (m === 'world') hint._t = setTimeout(() => { if (mapMode === 'world') hint.style.display = 'none'; }, 6000);
+      hint.innerHTML = m === 'hall' ? `<b>${air?.name || 'The airport'} · ${air?.code || ''}</b><small>The terminal, every step of the way · zoom out for the apron and the planes</small>` : m === 'terminal' ? `<b>${air?.name || 'The airport'} · ${air?.code || ''}</b><small>The terminal and the apron, live · zoom out for the whole airfield, in for the hall</small>` : m === 'airfield' ? `<b>${air?.name || 'The airport'}</b><small>The airfield: the runway, the taxiway, the planes · zoom in for the terminal</small>` : m === 'world' ? `<b>The world</b><small>Drag to look around · scroll or pinch to zoom · tap a city to travel · ⤢ goes back to ${placeName(world)}</small>` : '';
       drawBigMap();
     };
     let wheelLevel = 0;
-    // (from a city outside Nigeria, out goes straight to Africa, and in comes straight back to the street)
-    const inNigeria = (CITY_PINS[world.place?.city || 'Lagos']?.country || 'Nigeria') === 'Nigeria';
-    const stepOut = () => setMode(mapMode === 'district' && inNigeria ? 'nigeria' : 'africa');
-    const stepIn = () => { if (mapMode === 'africa' && inNigeria) setMode('nigeria'); else if (mapMode !== 'district') { view.z = 1; view.cx = view.cy = 450; setMode('district'); } };
-    const zoomAt = (f, px = 450, py = 450) => { if (AIR_MODES.includes(mapMode)) { const i = AIR_MODES.indexOf(mapMode), j = Math.max(0, Math.min(2, i + (f < 1 ? 1 : -1))); if (j !== i) setMode(AIR_MODES[j]); return; } if (mapMode !== 'district') { if (f > 1) stepIn(); else if (f < 1 && mapMode === 'nigeria') stepOut(); return; } if (f < 1 && view.z <= 1.001) { if ((wheelLevel += 1) >= 3) { wheelLevel = 0; stepOut(); } return; } wheelLevel = 0; const bx = (px - 450) / view.z + view.cx, by = (py - 450) / view.z + view.cy; view.z *= f; clampView(); view.cx = bx - (px - 450) / view.z; view.cy = by - (py - 450) / view.z; clampView(); bubble.style.display = 'none'; drawBigMap(); };
+    // out past the whole district: the world, opening on your country; zoomed right in on your own city, back to the street
+    const country = CITY_PINS[world.place?.city || 'Lagos']?.country || 'Nigeria';
+    const stepOut = () => { wview = worldView(country, cw, ch, mapDpr()); setMode('world'); };
+    const stepIn = () => { view.z = 1; view.cx = view.cy = 450; setMode('district'); };
+    const worldZoom = (f, px, py) => {
+      const sx = px * MK + OX, sy = py * MK + OY, here = countryPins.find((q) => q.name === (world.place?.city || 'Lagos'));
+      if (f > 1 && wlim && wview.z >= wlim.maxZoom - 0.01 && here && Math.hypot(here.x - sx, here.y - sy) < Math.min(cw, ch) * 0.35) { stepIn(); return; }
+      wview = zoomWorld(wview, f, sx, sy, cw, ch, mapDpr()); bubble.style.display = 'none'; drawBigMap();
+    };
+    const zoomAt = (f, px = 450, py = 450) => { if (AIR_MODES.includes(mapMode)) { const i = AIR_MODES.indexOf(mapMode), j = Math.max(0, Math.min(2, i + (f < 1 ? 1 : -1))); if (j !== i) setMode(AIR_MODES[j]); return; } if (mapMode === 'world') { worldZoom(f, px, py); return; } if (f < 1 && view.z <= 1.001) { if ((wheelLevel += 1) >= 3) { wheelLevel = 0; stepOut(); } return; } wheelLevel = 0; const bx = (px - 450) / view.z + view.cx, by = (py - 450) / view.z + view.cy; view.z *= f; clampView(); view.cx = bx - (px - 450) / view.z; view.cy = by - (py - 450) / view.z; clampView(); bubble.style.display = 'none'; drawBigMap(); };
     zbox.querySelectorAll('button').forEach((b) => { b.onclick = () => { const z = +b.dataset.z; if (z === 0) { view.z = 1; view.cx = view.cy = 450; bubble.style.display = 'none'; if (AIR_MODES.includes(mapMode)) setMode('hall'); else if (mapMode !== 'district') setMode('district'); else drawBigMap(); } else if (z < 0 && view.z <= 1.001 && mapMode === 'district') stepOut(); else if (AIR_MODES.includes(mapMode)) zoomAt(z > 0 ? 1.6 : 1 / 1.6); else zoomAt(z > 0 ? 1.6 : 1 / 1.6); }; });
     const toCanvas = (e) => { const r = mapCanvas.getBoundingClientRect(); return [(((e.clientX - r.left) / r.width) * cw - OX) / MK, (((e.clientY - r.top) / r.height) * ch - OY) / MK]; };
     mapCanvas.onwheel = (e) => { e.preventDefault(); const [px, py] = toCanvas(e); zoomAt(Math.exp(-e.deltaY * 0.0022), px, py); };
@@ -863,6 +898,12 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     mapCanvas.onpointermove = (e) => {
       if (!ptrs.has(e.pointerId)) return;
       const prev = ptrs.get(e.pointerId), cur = toCanvas(e); ptrs.set(e.pointerId, cur);
+      if (mapMode === 'world') {
+        if (ptrs.size === 2) { const [a, b] = [...ptrs.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]); if (pinch0) worldZoom(d / pinch0, (a[0] + b[0]) / 2, (a[1] + b[1]) / 2); pinch0 = d; panMoved = 99; return; }
+        const dx = cur[0] - prev[0], dy = cur[1] - prev[1]; panMoved += Math.abs(dx) + Math.abs(dy);
+        if (panMoved > 6) { wview = panWorld(wview, dx * MK, dy * MK, ch); bubble.style.display = 'none'; drawBigMap(); }
+        return;
+      }
       if (mapMode !== 'district') return;
       if (ptrs.size === 2) { const [a, b] = [...ptrs.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]); if (pinch0) zoomAt(d / pinch0, (a[0] + b[0]) / 2, (a[1] + b[1]) / 2); pinch0 = d; panMoved = 99; return; }
       const dx = cur[0] - prev[0], dy = cur[1] - prev[1]; panMoved += Math.abs(dx) + Math.abs(dy);
@@ -899,7 +940,6 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
       if (mapMode !== 'district') {
         const cx = ((ev.clientX - r.left) / r.width) * cw, cy = ((ev.clientY - r.top) / r.height) * ch, hit = countryPins.find((q) => Math.hypot(q.x - cx, q.y - cy) < q.r);
         if (!hit) { countryPick = null; bubble.style.display = 'none'; drawBigMap(); return; }
-        if (hit.name === 'Nairobi' && mapMode === 'nigeria') { setMode('africa'); return; }
         countryPick = hit.name; drawBigMap();
         const k = cityCard(hit.name, world.place?.city || 'Lagos'), m = mapEl.querySelector('.mid').getBoundingClientRect();
         bubble.innerHTML = `<b>${k.title}</b><small>${k.sub}</small><small>${k.line}</small><button class="qt">${k.action}</button>`;
