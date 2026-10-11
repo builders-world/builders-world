@@ -215,9 +215,9 @@ export function buildGreenrey({ renderer, scene, world, group, park = null }) {
   const greens = (world.claims || []).filter((c) => c.kind === 'recreation');
   const inPark = (x, z) => (park && ((x - park.x) / (park.rx + 7)) ** 2 + ((z - park.z) / (park.rz + 7)) ** 2 < 1) || greens.some((c) => Math.abs(x - c.cx) < c.hx + 1.5 && Math.abs(z - c.cz) < c.hz + 1.5);
   // the ground is grass already: paint the earth (worksites) and the paving (concrete, or speckled granite)
-  const earthGeo = surface((c) => zone[c] >= 0 && useAt(c) === 'laterite' && !inPark(X(c % N), Z((c - (c % N)) / N)), '#a3795c', 0, 0.06);
+  const earthGeo = surface((c) => zone[c] >= 0 && useAt(c) === 'laterite' && !inPark(X(c % N), Z((c - (c % N)) / N)), '#a3795c', 0, 0);
   const concreteGeo = surface((c) => zone[c] >= 0 && useAt(c) === 'paving' && !zones[zone[c]].granite && !inPark(X(c % N), Z((c - (c % N)) / N)), PAVING, 0);
-  const graniteGeo = surface((c) => zone[c] >= 0 && useAt(c) === 'paving' && zones[zone[c]].granite && !inPark(X(c % N), Z((c - (c % N)) / N)), '#a19e97', 0, 0.08);
+  const graniteGeo = surface((c) => zone[c] >= 0 && useAt(c) === 'paving' && zones[zone[c]].granite && !inPark(X(c % N), Z((c - (c % N)) / N)), '#a19e97', 0, 0);
   [[earthGeo, -4, 'greenrey_earth'], [concreteGeo, -8, 'greenrey_concrete'], [graniteGeo, -8, 'greenrey_granite']].forEach(([geo, units, nm]) => {
     if (!geo) return;
     const m2 = wetGroundMaterial(); m2.polygonOffset = true; m2.polygonOffsetFactor = -1; m2.polygonOffsetUnits = units;

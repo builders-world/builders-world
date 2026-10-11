@@ -125,11 +125,15 @@ export function wetGroundMaterial() {
           return acc;
         }`)
       .replace('#include <color_fragment>', `#include <color_fragment>
-        vec4 nz = texture2D(tNoise, vWPos.xz * 0.018);
-        wetGrain = texture2D(tNoise, vWPos.xz * 0.45).g;
+        // the grain and the puddles are close-up detail (Elvis, 11 October 2026: "visual noise" from the aerial view):
+        // puddles a metre or two across, scattered, not blotches tens of metres wide; both fade out with distance, so
+        // from the air every surface reads as one clean colour
+        float viewFar = smoothstep(35.0, 120.0, length(vViewPosition));
+        vec4 nz = texture2D(tNoise, vWPos.xz * 0.11);
+        wetGrain = mix(texture2D(tNoise, vWPos.xz * 0.45).g, 0.5, viewFar);
         // grass soaks rain up instead of shining (Greenrey): green ground keeps no puddles and no gloss
         grassy = uGrassMatte * smoothstep(0.03, 0.09, diffuseColor.g - max(diffuseColor.r, diffuseColor.b));
-        wetPuddle = smoothstep(0.5, 0.58, nz.r + (wetGrain - 0.5) * 0.08) * uWet * (1.0 - grassy);
+        wetPuddle = smoothstep(0.6, 0.66, nz.r + (wetGrain - 0.5) * 0.08) * uWet * (1.0 - grassy) * (1.0 - viewFar);
         diffuseColor.rgb *= 0.93 + 0.14 * wetGrain;
         diffuseColor.rgb *= mix(1.0, 0.62, uWet * (1.0 - 0.6 * grassy)) * mix(1.0, 0.55, wetPuddle);`)
       .replace('#include <roughnessmap_fragment>', `
