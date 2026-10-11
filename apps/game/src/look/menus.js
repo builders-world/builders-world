@@ -249,6 +249,31 @@ const CSS = `${KIT_CSS}
 #lkm-set { max-height: calc(100vh - 40px); overflow: auto; }
 #lkm-set h4.sec { margin: 14px 0 4px; font: 800 18px/1 ${FONT}; color: ${C.teal}; }
 #lkm-set select { border: 2px solid #e3d4b4; border-radius: 999px; padding: 6px 12px; background: #fffaf0; color: ${C.ink}; font: 700 14px/1 ${FONT}; }
+/* Settings, redesigned (the UI brief's design system): a list of sections on the left, one section at a time, its
+   settings grouped in cards; every control and handler is the same as before (restyleSettings) */
+#lkm-set.v2 { width: min(760px, calc(100vw - 32px)); height: min(620px, calc(100vh - 40px)); padding: 0; overflow: hidden; display: grid; grid-template-columns: 190px 1fr; grid-template-rows: auto 1fr; border-radius: ${RAD.lg}px; }
+#lkm-set.v2 > header { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; padding: ${GAP.lg}px ${GAP.lg + 4}px ${GAP.md}px; border-bottom: 1px solid rgba(59,42,32,.1); }
+#lkm-set.v2 > header h3 { margin: 0; font-size: 24px; }
+#lkm-set.v2 > header .xs { border: 0; width: 34px; height: 34px; border-radius: ${RAD.sm}px; background: ${C.paper2}; color: ${C.ink}; font: 800 15px/1 ${FONT}; cursor: pointer; }
+#lkm-set.v2 > nav { display: flex; flex-direction: column; gap: ${GAP.xs}px; padding: ${GAP.md}px; border-right: 1px solid rgba(59,42,32,.1); overflow-y: auto; }
+#lkm-set.v2 > nav button { display: flex; align-items: center; gap: ${GAP.sm}px; padding: 10px 12px; border: 0; border-radius: ${RAD.md}px; background: none; color: ${C.ink}; font: 800 15px/1 ${FONT}; text-align: left; cursor: pointer; }
+#lkm-set.v2 > nav button:hover { background: rgba(59,42,32,.05); } #lkm-set.v2 > nav button.on { background: ${C.ink}; color: ${C.paper}; }
+#lkm-set.v2 > .pane { overflow-y: auto; padding: ${GAP.md}px ${GAP.lg + 4}px ${GAP.lg}px; }
+#lkm-set.v2 section { display: none; } #lkm-set.v2 section.on { display: block; }
+#lkm-set.v2 section > h4.sec { margin: ${GAP.sm}px 0 ${GAP.md}px; font: 800 13px/1 ${FONT}; letter-spacing: .08em; text-transform: uppercase; color: ${C.ink2}; }
+#lkm-set.v2 .grp { margin: 0 0 ${GAP.md}px; padding: 0 ${GAP.md}px; border-radius: ${RAD.md}px; background: ${C.paper2}; }
+#lkm-set.v2 .grp .sw, #lkm-set.v2 .grp .vol { border-top: 1px solid rgba(59,42,32,.1); padding: ${GAP.md}px 0; }
+#lkm-set.v2 .grp > :first-child { border-top: 0; }
+#lkm-set.v2 b { font-size: 15px; } #lkm-set.v2 small { font-size: 12.5px; }
+#lkm-set.v2 .note { margin: -${GAP.xs}px 2px ${GAP.md}px; }
+#lkm-set.v2 .seg { display: flex; flex-wrap: wrap; gap: ${GAP.xs}px; padding: ${GAP.xs}px; border-radius: ${RAD.md}px; background: rgba(59,42,32,.08); }
+#lkm-set.v2 .seg button { flex: 1 0 auto; min-width: 64px; white-space: nowrap; padding: 8px 10px; border: 0; border-radius: ${RAD.sm}px; background: none; color: ${C.ink}; font: 800 13px/1.1 ${FONT}; cursor: pointer; }
+#lkm-set.v2 .seg button.on { background: #fffaf0; box-shadow: 0 1px 0 rgba(59,42,32,.12); }
+#lkm-set.v2 .vol input[type=text] { flex: 1; min-width: 0; padding: 8px 10px; border: 2px solid #e3d4b4; border-radius: ${RAD.sm}px; background: #fffaf0; color: ${C.ink}; font: 700 14px/1.2 ${FONT}; accent-color: ${C.teal}; }
+#lkm-set.v2 .vol input[type=text]::placeholder { color: #a8957f; }
+#lkm-set.v2 .vol input[type=text]:focus-visible { outline: 3px solid ${C.amber}; outline-offset: 1px; }
+#lkm-set.v2 .done { display: none; }
+@media (max-width: 700px) { #lkm-set.v2 { grid-template-columns: 1fr; grid-template-rows: auto auto 1fr; } #lkm-set.v2 > nav { flex-direction: row; overflow-x: auto; border-right: 0; border-bottom: 1px solid rgba(59,42,32,.1); } #lkm-set.v2 > nav button { flex: none; } }
 #lkm-set table.pad { width: 100%; border-collapse: collapse; margin-bottom: 14px; font: 600 13.5px/1.3 ${FONT}; }
 #lkm-set table.pad td { padding: 5px 0; border-top: 2px dashed #e3d4b4; }
 #lkm-set table.pad td:first-child { width: 96px; }
@@ -896,6 +921,33 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     const dev = [i.gpu, i.mem ? `${i.mem >= 8 ? `${i.mem} GB or more` : `about ${i.mem} GB`} of memory` : '', i.cores ? `${i.cores} cores` : ''].filter(Boolean).join(', ');
     return `${GFX_NOTE[tier]}${dev ? `<br>This device: ${dev}.` : ''} Higher settings look better and run slower; the graphics chip matters most, then memory.`;
   }
+  // the Settings redesign: the same controls, re-laid as a list of sections and cards; the last section is remembered
+  function restyleSettings() {
+    const title = setEl.querySelector('h3'), kids = [...setEl.children].filter((e) => e !== title);
+    const sections = []; let cur = null;
+    kids.forEach((e) => { if (e.matches('h4.sec')) { cur = { name: e.textContent.trim(), nodes: [e] }; sections.push(cur); } else if (cur) cur.nodes.push(e); });
+    if (!sections.length) return;
+    setEl.classList.add('v2'); setEl.innerHTML = '';
+    const header = document.createElement('header'); header.append(title); const xs = document.createElement('button'); xs.className = 'xs'; xs.setAttribute('aria-label', 'Close settings'); xs.textContent = '✕'; xs.onclick = close; header.append(xs);
+    const nav = document.createElement('nav'), pane = document.createElement('div'); pane.className = 'pane';
+    let want = ''; try { want = sessionStorage.getItem('bw-set-tab') || ''; } catch { /* */ }
+    sections.forEach((S, i) => {
+      const sec = document.createElement('section'); let grp = null;
+      S.nodes.forEach((n) => { if (n.matches('.sw, .vol')) { if (!grp) { grp = document.createElement('div'); grp.className = 'grp'; sec.append(grp); } grp.append(n); } else { grp = null; sec.append(n); } });
+      const b = document.createElement('button'); b.textContent = S.name;
+      const pick = () => { nav.querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b)); pane.querySelectorAll('section').forEach((x) => x.classList.toggle('on', x === sec)); pane.scrollTop = 0; try { sessionStorage.setItem('bw-set-tab', S.name); } catch { /* */ } };
+      b.onclick = pick; nav.append(b); pane.append(sec);
+      if (S.name === want || (!want && i === 0)) setTimeout(pick, 0);
+    });
+    if (want && !sections.some((S) => S.name === want)) setTimeout(() => nav.querySelector('button')?.click(), 0);
+    setEl.append(header, nav, pane);
+    // choices as segmented buttons in place of the dropdowns (the dropdown stays, hidden, and still does the work)
+    setEl.querySelectorAll('select').forEach((sel) => {
+      const seg = document.createElement('div'); seg.className = 'seg'; seg.setAttribute('role', 'radiogroup');
+      [...sel.options].forEach((o) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = o.textContent.replace(/ \(.*\)$/, ''); b.title = o.textContent; b.classList.toggle('on', sel.value === o.value); b.onclick = () => { sel.value = o.value; sel.dispatchEvent(new Event('change')); seg.querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b)); }; seg.append(b); });
+      sel.style.display = 'none'; sel.after(seg);
+    });
+  }
   function openSettings() {
     const st = audio.settings, inp = window.__bwInput, gx = window.__bw?.graphics;
     const row = (k, name, sub) => `<label class="sw"><span><b>${name}</b><small>${sub}</small></span><input type="checkbox" data-k="${k}" ${st[k] ? 'checked' : ''}><i></i></label>`;
@@ -949,6 +1001,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     });
     setEl.querySelector('[data-sp]').onclick = () => { close(); dispatchEvent(new Event('bw:spotify')); };
     setEl.querySelector('.done').onclick = close;
+    restyleSettings();
     show(setEl, null);
     setEl.querySelector('input')?.focus();
   }
