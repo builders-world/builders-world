@@ -272,6 +272,7 @@ async function main() {
   prepareLook(body);
   const rig = rigAvatar(body); // jointed legs and arms: walk, run, jump
   body.userData.rig = rig;
+  body.userData.noLod = true; // you are always drawn in full
   body.userData.isPlayer = true; // the emote director leaves you alone (expressions.js)
   // your look from the wardrobe (style.js), kept on this device and sent with your presence
   try { const saved = JSON.parse(localStorage.getItem('bw-style') || 'null'); if (saved) dress(body, saved, rig); } catch { /* */ }

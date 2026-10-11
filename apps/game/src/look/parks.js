@@ -243,7 +243,7 @@ export function buildRecreation({ world, scene, uTime, taken = [], reduced }) {
     const pool = new THREE.Mesh(new THREE.CircleGeometry(3, 28).rotateX(-Math.PI / 2), mat(0x5fb4c4, { roughness: 0.15, polygonOffset: true, polygonOffsetFactor: -2 })); pool.position.set(-3.5, 0.1, 0); g.add(pool);
     const rim = new THREE.Mesh(new THREE.TorusGeometry(3.05, 0.14, 6, 32).rotateX(Math.PI / 2), mat(0xf7efdc)); rim.position.set(-3.5, 0.12, 0); g.add(rim);
     const jetMat = new THREE.MeshBasicMaterial({ color: 0xdff6fb, transparent: true, opacity: 0.75 });
-    for (let i = 0; i < 6; i++) { const a = (i / 6) * Math.PI * 2, j = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.12, 1, 8).translate(0, 0.5, 0), jetMat); j.position.set(3.5 + Math.cos(a) * 2, 0.1, Math.sin(a) * 2); g.add(j); anim.push({ j, ph: i * 0.9 }); }
+    for (let i = 0; i < 6; i++) { const a = (i / 6) * Math.PI * 2, j = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.12, 1, 8).translate(0, 0.5, 0), jetMat); j.userData.noBatch = true; /* it plays (update), so it stays its own mesh */ j.position.set(3.5 + Math.cos(a) * 2, 0.1, Math.sin(a) * 2); g.add(j); anim.push({ j, ph: i * 0.9 }); }
     g.add(new THREE.Mesh(box(1.2, 1.6, 1.2, 4.5, 0.8, -4.5), mat(0xf2b33d)));
     // the slide runs from the top of the tower down into the splash pad
     const slide = new THREE.Group(); slide.position.set(4.5, 0.9, -2.4); slide.rotation.x = Math.atan2(1.55, 3.2);

@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { attachFace } from './expressions.js';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
 // Character animation (world bible 7.4): a jointed rig over the shared avatar, so people walk,
 // run and jump instead of bobbing. Codex's avatar file is untouched: its single-box legs and arms are
@@ -13,18 +14,60 @@ const near = (a, b, e = 0.012) => Math.abs(a - b) < e;
 // from the camera its parts are not drawn, its matrices are not updated and its pose is not worked out.
 // The root's own visibility stays the business of whoever owns the avatar (indoors, asleep...).
 export const PEOPLE = new Set();
+if (typeof window !== 'undefined') window.__bwPeople = PEOPLE; // for the tests (scratch scripts), like window.__bw
 const tmpV = { x: 0, y: 0, z: 0 };
 // someone built without a rig (a gateman who stands still) still joins the distance cull
 export function trackPerson(root) { PEOPLE.add(root); return root; }
 
-export function cullPeople(camera, dist = 60) {
-  const cx = camera.position.x, cz = camera.position.z, d2 = dist * dist;
+// Far off, someone is a single mesh (a level of detail): every part of them baked once, in their own colours, into one
+// geometry, one draw call instead of thirty-odd. Close to, every part is drawn and moves. Far beyond that, nothing is.
+const LOD_MAT = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.8 });
+const AVG = new Map();
+function avgColour(tex) {
+  if (AVG.has(tex.uuid)) return AVG.get(tex.uuid);
+  const c = new THREE.Color(0.75, 0.65, 0.55), img = tex.image;
+  try { if (img && (img.width || img.videoWidth)) { const cv = document.createElement('canvas'); cv.width = cv.height = 8; const g = cv.getContext('2d'); g.drawImage(img, 0, 0, 8, 8); const d = g.getImageData(0, 0, 8, 8).data; let r = 0, gg = 0, b = 0, n = 0; for (let i = 0; i < d.length; i += 4) { if (d[i + 3] < 40) continue; r += d[i]; gg += d[i + 1]; b += d[i + 2]; n++; } if (n) c.setRGB(r / n / 255, gg / n / 255, b / n / 255, THREE.SRGBColorSpace); } } catch { /* a texture we cannot read: the default */ }
+  AVG.set(tex.uuid, c); return c;
+}
+function bakeLod(root) {
+  root.updateMatrixWorld(true);
+  const inv = new THREE.Matrix4().copy(root.matrixWorld).invert(), m = new THREE.Matrix4(), col = new THREE.Color(), geos = [];
+  const shown = (o) => { for (let a = o; a && a !== root; a = a.parent) { const v = a.parent === root ? (a.userData.vis ?? a.visible) : a.visible; if (!v) return false; } return true; };
+  root.traverse((o) => {
+    // (a see-through overlay, the drawn face, is left out: from afar the head's own skin is what shows)
+    if (!o.isMesh || o.isInstancedMesh || o.isSkinnedMesh || o.userData.lod || Array.isArray(o.material) || ((o.material.transparent || o.material.alphaTest > 0 || o.userData.face) && o.material.map) || !shown(o)) return;
+    const src = o.geometry.index ? o.geometry.toNonIndexed() : o.geometry.clone();
+    const g = new THREE.BufferGeometry(); g.setAttribute('position', src.getAttribute('position').clone());
+    if (src.getAttribute('normal')) g.setAttribute('normal', src.getAttribute('normal').clone()); else g.computeVertexNormals();
+    m.multiplyMatrices(inv, o.matrixWorld); g.applyMatrix4(m);
+    col.copy(o.material.color || col.set(0xffffff)); if (o.material.map) col.multiply(avgColour(o.material.map)); // a pattern or a face: its average colour, which is what it reads as from afar
+    const n = g.getAttribute('position').count, c = new Float32Array(n * 3); for (let i = 0; i < n; i++) { c[i * 3] = col.r; c[i * 3 + 1] = col.g; c[i * 3 + 2] = col.b; }
+    g.setAttribute('color', new THREE.BufferAttribute(c, 3)); geos.push(g); src.dispose();
+  });
+  if (!geos.length) return null;
+  const merged = mergeGeometries(geos, false); geos.forEach((g) => g.dispose());
+  const lod = new THREE.Mesh(merged, LOD_MAT); lod.userData.lod = true; lod.castShadow = true; lod.visible = false; root.add(lod);
+  return lod;
+}
+/** A person's clothes or body changed (style.js dress): bake their far-off mesh again when it is next needed. */
+export function staleLod(root) { const L = root?.userData?.lodMesh; if (L) { L.removeFromParent(); L.geometry.dispose(); root.userData.lodMesh = null; } }
+
+export function cullPeople(camera, dist = 60, lodDist = Math.min(32, dist * 0.55)) {
+  if (typeof window !== 'undefined') window.__bwCull = cullPeople;
+  const cx = camera.position.x, cz = camera.position.z, d2 = dist * dist, l2 = lodDist * lodDist;
   for (const root of PEOPLE) {
     if (!root.parent) { PEOPLE.delete(root); continue; }
-    const e = root.matrixWorld.elements, dx = e[12] - cx, dz = e[14] - cz, far = dx * dx + dz * dz > d2;
-    if (far === !!root.userData.far) continue;
-    root.userData.far = far;
-    root.children.forEach((c) => { c.visible = !far; c.matrixWorldAutoUpdate = !far; });
+    const e = root.matrixWorld.elements, dx = e[12] - cx, dz = e[14] - cz, dd = dx * dx + dz * dz;
+    const state = dd > d2 ? 'far' : dd > l2 && root.userData.rigged && !root.userData.noLod ? 'lod' : 'near';
+    if (state === (root.userData.cull || 'near') && !(state === 'lod' && !root.userData.lodMesh)) continue;
+    // leaving the close-to state: remember what each part showed (a rig hides the avatar's own box legs and arms for
+    // good; showing everything again on the way back put a frozen second pair over the moving ones)
+    if ((root.userData.cull || 'near') === 'near') root.children.forEach((c) => { if (!c.userData.lod) c.userData.vis = c.visible; });
+    root.userData.cull = state; root.userData.far = state === 'far';
+    let lod = root.userData.lodMesh;
+    if (state === 'lod' && !lod) lod = root.userData.lodMesh = bakeLod(root);
+    root.children.forEach((c) => { if (c.userData.lod) return; c.visible = state === 'near' && (c.userData.vis ?? true); c.matrixWorldAutoUpdate = state === 'near'; });
+    if (lod) lod.visible = state === 'lod';
   }
   void tmpV;
 }
@@ -37,7 +80,7 @@ export function rigAvatar(root) {
   const arms = find((p) => near(Math.abs(p.x), 0.32) && near(p.y, 1.04));
   const hands = find((p) => near(Math.abs(p.x), 0.345) && near(p.y, 0.76));
   if (legs.length !== 2 || arms.length !== 2) return null; // not the shared avatar: leave it alone
-  PEOPLE.add(root);
+  PEOPLE.add(root); root.userData.rigged = true;
   const own = [];
   const box = (w, h, d, y, mat) => { const g = new THREE.BoxGeometry(w, h, d).translate(0, y, 0); own.push(g); return new THREE.Mesh(g, mat); };
   const group = (parent, x, y, z) => { const g = new THREE.Group(); g.position.set(x, y, z); parent.add(g); return g; };
