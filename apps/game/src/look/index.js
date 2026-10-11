@@ -47,6 +47,7 @@ import { setStreamTier, updateStream, streamStats, streamSmall, cullSmall, small
 import { walletEngine } from './wallet.js';
 import { sfx } from './audio.js';
 import { createInteriors, PLACES, namePlaces } from './interior.js';
+import { openLicenceDesk, licenceDeskOpen, closeLicenceDesk, licenceOf } from './licence.js';
 import { papers, openPassportDesk, openEtaDesk, openTravelBoard, dialogOpen as travelDialogOpen, closeDialog as closeTravelDialog } from './travel.js';
 import { AIRPORTS } from './travelrules.js';
 import { createProfile, createPortraits } from './profile.js';
@@ -179,7 +180,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   // the estates: gate signs, house numbers, cars in the driveways (estatesigns.js)
   const estateSigns = buildEstateSigns({ world, scene: group });
   const placeUsed = [];
-  const fronts = buildPlaceFronts({ world, scene: group, keys: ['loft', 'studio', 'gym', 'immigration'], used: placeUsed,
+  const fronts = buildPlaceFronts({ world, scene: group, keys: ['loft', 'studio', 'gym', 'immigration', 'licensing'], used: placeUsed,
     addLamps: (l) => props.lamps.push(...l) });
   doors.push(...fronts.doors);
   // Yaba's landmarks, each on the side it really lies (landmarks.js)
@@ -297,9 +298,10 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       return false;
     },
     onRide: (player) => (interiors?.active ? hud.toast('Step outside to call a ride: the driver cannot come in.', 2600) : rides?.openPanel('taxi', { app: true, x: player.x, z: player.z })),
-    isExtraOpen: () => airDialogOpen() || travelDialogOpen() || rides?.isMenuOpen() || interiors?.computerOpen || !!benchSeat || !!passes?.registering || !!gates?.isOpen || !!wardrobe?.isOpen || !!pets?.isOpen || !!food?.isOpen || !!sports?.isOpen,
+    isExtraOpen: () => airDialogOpen() || travelDialogOpen() || licenceDeskOpen() || rides?.isMenuOpen() || interiors?.computerOpen || !!benchSeat || !!passes?.registering || !!gates?.isOpen || !!wardrobe?.isOpen || !!pets?.isOpen || !!food?.isOpen || !!sports?.isOpen,
     closeExtra: () => {
       rides?.closeMenu();
+      if (licenceDeskOpen()) { closeLicenceDesk(); return; }
       if (passes?.registering) { passes.closeRegister(); return; }
       if (sports?.isOpen) { sports.close(); return; }
       if (gates?.isOpen) { gates.close(); return; }
@@ -371,7 +373,10 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   interiors = createInteriors({ city: world.place?.city || 'Lagos', country: AIRPORTS[world.place?.city || 'Lagos']?.country || 'Nigeria', scene, reduced, toast: hud.toast, getEnv: () => live || { day: 1 }, onPackUp: () => standUp(), net: passes, onOrder: (k) => food?.menu(k), onTeller: () => hud.openWallet({ atm: true }) });
   // everything that moves and can be bumped into: people, traffic, the waiting hired vehicle
   const bodies = () => [...(props.bodies?.() || []), ...lives.bodies(), ...(mobility?.bodies() || []), ...(dressing?.bodies?.() || []), ...(traffic?.bodies() || []), ...(railway?.bodies() || []), ...(officials?.bodies?.() || []), ...(critters?.bodies?.() || []), rides?.body?.()].filter(Boolean);
-  rides = createRides({ world, scene: group, nav: hud.nav, props, reduced, toast: hud.toast, getBodies: () => [...(props.bodies?.() || []), ...(dressing?.bodies?.() || [])],
+  // driving needs a licence (licence.js): the hire panel asks, and points you to the licensing office
+  const licenceDoor = () => doors.find((d) => d.key === 'licensing')?.at || null;
+  rides = createRides({ world, scene: group, nav: hud.nav, props, reduced, toast: hud.toast,
+    licence: { has: () => !!licenceOf(passes), office: () => PLACES.licensing.name, route: () => { const at = licenceDoor(); if (at) hud.setRoute(at, PLACES.licensing.name); return !!at; } }, getBodies: () => [...(props.bodies?.() || []), ...(dressing?.bodies?.() || [])],
     onState: (st) => { if (st.ride === false && st.exitAt) pendingExit = st.exitAt; } });
   const civic = buildCivic(world, group, { rides });
   // every place you can go and do something, for the map's icons and "find the nearest" (world bible 11.3)
@@ -769,6 +774,15 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   // ---------- papers: the Immigration Centre's desks (travel.js) ----------
   {
     const here = world.place?.city || 'Lagos', myName = () => { try { return JSON.parse(localStorage.getItem('bw-arrivals-v1') || '{}').name || ''; } catch { return ''; } };
+    // the licensing office (licence.js): counter 1 does the whole thing; the booths and the chart explain themselves
+    let lticket = 10 + Math.floor(Math.random() * 20);
+    addEventListener('bw:licence', (e) => {
+      const what = e.detail;
+      if (what === 'licence') openLicenceDesk({ passes, place: PLACES.licensing.name, toast: hud.toast, myName });
+      else if (what === 'theory') hud.toast('The theory test booths. Apply at counter 1 first; the test is five questions on this city\'s road rules.', 3400);
+      else if (what === 'eyes') hud.toast('The eye chart. Counter 1 will ask you to read it from the mark on the floor.', 3000);
+      else if (what === 'lqueue') { lticket += 1; hud.toast(`Your number is ${String(lticket).padStart(3, '0')}. Counter 1 for driver\'s licences.`, 3000); }
+    });
     const desk = { passes, here, place: PLACES.immigration.name, toast: hud.toast, myName };
     let ticket = 40 + Math.floor(Math.random() * 30);
     addEventListener('bw:travel', (e) => {

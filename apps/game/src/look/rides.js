@@ -68,7 +68,9 @@ function stopSign(M, kind) {
   return g;
 }
 
-export function createRides({ world, scene, nav, props, reduced, toast, onState, getBodies }) {
+export function createRides({ world, scene, nav, props, reduced, toast, onState, getBodies, licence = null }) {
+  // driving yourself needs a driver's licence in the bag (licence.js); without one you ride as a passenger
+  const licensed = () => !licence || licence.has();
   if (cityInfo().rides?.danfo?.name) TYPES.danfo.name = cityInfo().rides.danfo.name;
   const M = propMaterials();
   const group = new THREE.Group();
@@ -155,13 +157,15 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
     body.innerHTML = `<h3>Hire a ride</h3><div class="sub">You have ${effortsMark(13)}${fmt(walletEngine().balance())}. ${choice.from.app ? 'A driver comes to you.' : TYPES[choice.kind].name + ' from this stop.'}</div>
       ${choice.from.app ? `<div class="lkr-lbl">Vehicle</div><div class="row">${kinds.map((k) => `<button data-k="${k}" class="${choice.kind === k ? 'sel' : ''}">${TYPES[k].name}<br><small>${effortsMark(11)}${fmt(FARE[k])}</small></button>`).join('')}${(world.place?.city ?? 'Lagos') === 'Lagos' ? '<button disabled>Okada: not allowed in Yaba</button>' : ''}</div>` : ''}
       <div class="lkr-lbl">Where to</div><div class="opts">${places.map((p, i) => `<button data-d="${i}" class="${choice.dest === p ? 'sel' : ''}">${p.name}</button>`).join('')}</div>
-      <div class="lkr-lbl">How</div><div class="row"><button data-m="passenger" class="${choice.mode === 'passenger' ? 'sel' : ''}">Ride as passenger</button><button data-m="drive" class="${choice.mode === 'drive' ? 'sel' : ''}">Drive yourself</button></div>
-      <button class="go">${choice.mode === 'drive' ? 'Get the keys' : 'Call the ride'} · ${effortsMark(14)}${fmt(fareOf(choice))}</button>
+      <div class="lkr-lbl">How</div><div class="row"><button data-m="passenger" class="${choice.mode === 'passenger' ? 'sel' : ''}">Ride as passenger</button><button data-m="drive" class="${choice.mode === 'drive' ? 'sel' : ''}">Drive yourself${licensed() ? '' : '<br><small>Needs a driver\'s licence</small>'}</button></div>
+      ${choice.mode === 'drive' && !licensed() ? `<div class="sub" style="margin:8px 0 0">You need a driver's licence to take the wheel. ${licence.office()} issues them: a form, an eye test and a theory test.</div>` : ''}
+      <button class="go">${choice.mode === 'drive' && !licensed() ? `Show me the way to ${licence.office()}` : `${choice.mode === 'drive' ? 'Get the keys' : 'Call the ride'} · ${effortsMark(14)}${fmt(fareOf(choice))}`}</button>
       <button class="x" style="margin-top:6px;width:100%;text-align:center">Cancel</button>`;
     body.querySelectorAll('[data-k]').forEach((b) => { b.onclick = () => { choice.kind = b.dataset.k; render(); }; });
     body.querySelectorAll('[data-d]').forEach((b) => { b.onclick = () => { choice.dest = places[+b.dataset.d]; render(); }; });
     body.querySelectorAll('[data-m]').forEach((b) => { b.onclick = () => { choice.mode = b.dataset.m; render(); }; });
     body.querySelector('.go').onclick = () => {
+      if (choice.mode === 'drive' && !licensed()) { closePanel(); toast(licence.route() ? `The way to ${licence.office()} is on your map. Or ride as a passenger.` : `Find ${licence.office()} on the map. Or ride as a passenger.`, 3600); return; }
       const fare = fareOf(choice);
       if (!walletEngine().spend(fare, `${TYPES[choice.kind].name} ride`)) { toast(`Not enough Efforts for this ride. Push some commits and come back.`); return; }
       closePanel(); summon(choice, fare);
