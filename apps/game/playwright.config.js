@@ -1,6 +1,8 @@
 import { defineConfig } from '@playwright/test';
 export default defineConfig({
-  testDir: './tests', testMatch: '**/*.spec.js', timeout: 60000, workers: 1,
+  testDir: './tests', testMatch: '**/*.spec.js', workers: 1,
+  // GitHub's runners draw 3D in software, several times slower than a laptop: more time there, and one retry
+  timeout: process.env.CI ? 240000 : 60000, retries: process.env.CI ? 1 : 0, expect: { timeout: process.env.CI ? 20000 : 5000 },
   reporter: 'list', outputDir: 'artifacts/test-results',
   use: { baseURL: 'http://127.0.0.1:5173', channel: 'chromium', screenshot: 'only-on-failure', trace: 'retain-on-failure' },
   projects: [
