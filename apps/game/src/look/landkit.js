@@ -249,6 +249,38 @@ const KITS = {
     return { g, W, D, h: 18, cols: [[0, -D + 2, W, 4], [0, -2, W, 4], [-W / 2 + 2, -D / 2, 4, D], [W / 2 - 2, -D / 2, 4, D]] };
   },
   // a theatre of sweeping white shells over a glazed base (the National Theatre of Ghana)
+  // a container port (Apapa): the gate onto the road, the yard of stacked containers, ship-to-shore cranes on the quay
+  // and a container ship alongside, with the harbour water behind (the model's back, -z)
+  port(L) {
+    const g = new THREE.Group(), W = L.w || 64, yard = 30, water = 22, D = yard + water;
+    mesh(g, box(W, 0.12, yard, 0, 0.06, -yard / 2 + 1), M(0xb8b2a6)).castShadow = false; // the concrete apron
+    const sea = new THREE.Mesh(new THREE.PlaneGeometry(W + 20, water).rotateX(-Math.PI / 2), M(0x3f7f9a, { roughness: 0.25, metalness: 0.1 })); sea.position.set(0, 0.03, -yard + 1 - water / 2); g.add(sea);
+    mesh(g, box(W, 0.6, 0.6, 0, 0.3, -yard + 1), M(0x8f8a80)); // the quay edge
+    // the gate: two pillars and the name across
+    [-7, 7].forEach((x) => mesh(g, box(1.4, 6, 1.4, x, 3, 0.4), M(0xe9e2d0)));
+    mesh(g, box(15.4, 1.6, 1.2, 0, 6.4, 0.4), M(L.accent ?? 0x1f3d7a));
+    sign(g, L.sign || L.name, { bg: L.accent ?? 0x1f3d7a, sub: L.sub, w: 14, h: 1.4, y: 6.4, z: 1.05 });
+    // the yard: rows of containers, two and three high
+    const cols = ['#c8102e', '#1f6fae', '#e2b13c', '#2f8a4f', '#e46f4f', '#6b4aa0', '#f2f2ec', '#2b2f33'];
+    for (let r = 0; r < 3; r++) for (let c = 0; c < Math.floor((W - 12) / 7); c++) {
+      const x = -W / 2 + 6 + c * 7 + 3, z = -5 - r * 4.2, n = 2 + ((r * 5 + c * 3) % 2);
+      for (let k = 0; k < n; k++) mesh(g, box(6.1, 2.55, 2.45, x, 1.3 + k * 2.6, z), M(cols[(r * 7 + c * 3 + k) % cols.length], { roughness: 0.6 }));
+    }
+    // the cranes on the quay, booms out over the water
+    [-W / 4, W / 4].forEach((x) => {
+      const red = M(0xc8102e), white = M(0xf2f2ec);
+      [[-4, -2], [4, -2], [-4, -10], [4, -10]].forEach(([dx, dz]) => mesh(g, box(0.8, 18, 0.8, x + dx, 9, -yard + 1 + 6 + dz + 4), white));
+      mesh(g, box(9, 1.4, 1.2, x, 18, -yard + 1 + 6), red); mesh(g, box(9, 1.4, 1.2, x, 18, -yard + 1 - 2), red);
+      mesh(g, box(1.6, 1.6, 34, x, 22, -yard + 1 - 6), red); // the boom
+      mesh(g, box(3, 2.6, 3, x, 20, -yard + 1 + 2), white); // the machinery house
+    });
+    // a container ship alongside
+    const sz = -yard + 1 - 8.5, hullL = Math.min(W + 8, 72);
+    mesh(g, box(hullL, 4.5, 12, 0, 1.6, sz), M(0x1f3d5a)); mesh(g, box(hullL + 0.2, 1.4, 12.2, 0, 0.2, sz), M(0x9b2f2f));
+    mesh(g, box(9, 9, 10, hullL / 2 - 7, 8.3, sz), M(0xf2f2ec)); // the bridge
+    for (let c = 0; c < Math.floor((hullL - 18) / 6.5); c++) for (let k = 0; k < 2; k++) mesh(g, box(6.1, 2.55, 9, -hullL / 2 + 5 + c * 6.5, 5.2 + k * 2.6, sz), M(cols[(c + k * 3) % cols.length], { roughness: 0.6 }));
+    return { g, W: W + 20, D: D + 2, h: 24, cols: [[-7, 0.4, 1.4, 1.4], [7, 0.4, 1.4, 1.4], [0, -yard / 2 - 3, W - 10, 14], [0, -yard + 1 - water / 2, W + 20, water]] };
+  },
   theatre(L) {
     const g = new THREE.Group(), W = L.w || 30, D = L.d || 22, white = M(L.color ?? 0xf5f3ee), acc = M(L.accent ?? 0x3a6ea5, { roughness: 0.3 });
     mesh(g, box(W * 0.8, 4, D * 0.7, 0, 2, -D / 2), acc);
@@ -299,6 +331,8 @@ const SKY = {
   },
   // flare stacks with a flame (an oil town on the horizon)
   flare(S) { const g = new THREE.Group(); [0, 14, 30].forEach((x, i) => { mesh(g, new THREE.CylinderGeometry(1.4, 1.8, 50 + i * 10, 10).translate(x, (50 + i * 10) / 2, 0), far(0x8a8d90)); const f = new THREE.Mesh(new THREE.ConeGeometry(3, 9, 8).translate(x, 55 + i * 10, 0), new THREE.MeshBasicMaterial({ color: new THREE.Color(2.2, 1.0, 0.3) })); g.add(f); }); return g; },
+  // a far container port: gantry cranes against the sky (Tin Can Island from Apapa)
+  cranes(S) { const g = new THREE.Group(); for (let i = 0; i < (S.n || 4); i++) { const x = i * 26; [[-5, 0], [5, 0]].forEach(([dx]) => mesh(g, box(1.2, 30, 1.2, x + dx, 15, 0), far(0xd9d6cf))); mesh(g, box(12, 2, 2, x, 30, 0), far(0xb4372f)); mesh(g, box(2.4, 2.4, 52, x, 36, -8), far(0xb4372f)); } return g; },
   twin(S) { const g = new THREE.Group(), h = S.h || 80; [-10, 10].forEach((x) => mesh(g, box(14, h, 14, x, h / 2, 0), far(S.color ?? 0x8fa6b8))); return g; },
 };
 /** A far landmark for the skyline. */

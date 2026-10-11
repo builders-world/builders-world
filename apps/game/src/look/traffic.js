@@ -34,6 +34,8 @@ const DESIGNS = {
 };
 const PAINT = [0xf7f3ea, 0x2b2b2e, 0xb8bec4, 0x9b2f2f, 0x2f4f7f, 0x3f6b4b, 0x6b4a8a, 0xc9702a, 0x8a8f96];
 DESIGNS.cycle = { len: 1.8, w: 0.7, speed: 4.6 };
+// an articulated container truck: the tractor's cab up front, a forty-foot box on the trailer (the ports' traffic)
+DESIGNS.trailer = { len: 16.2, w: 2.5, speed: 6.5, body: () => [box(2.4, 2.1, 2.6, 0, 1.55, 6.6), box(2.44, 2.6, 12.2, 0, 2.3, -1.6)], glass: () => [box(2.2, 0.8, 0.05, 0, 2.1, 7.92), box(0.05, 0.6, 1.0, -1.21, 2.1, 6.9), box(0.05, 0.6, 1.0, 1.21, 2.1, 6.9)], dark: () => [wheel(-1.1, 6.8, 0.5), wheel(1.1, 6.8, 0.5), wheel(-1.1, 4.6, 0.5), wheel(1.1, 4.6, 0.5), wheel(-1.1, -5.4, 0.5), wheel(1.1, -5.4, 0.5), wheel(-1.1, -6.5, 0.5), wheel(1.1, -6.5, 0.5), box(1.2, 0.3, 14.6, 0, 0.75, -0.4)] };
 const MIX = ['saloon', 'saloon', 'hatch', 'suv', 'pickup', 'taxi', 'taxi', 'danfo', 'danfo', 'danfo', 'keke', 'keke', 'saloon', 'suv', 'hatch', 'brt'];
 const ROUTES = ['YABA - OSHODI', 'CMS - OBALENDE', 'OJUELEGBA', 'IKEJA ALONG', 'MILE 12', 'AJAH', 'UNILAG GATE', 'TBS - CMS'];
 const geoCache = {};
@@ -370,7 +372,7 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
   // kekes keep off the big roads (banned from them in Lagos, Port Harcourt and Uyo); cyclists keep to the cycle lanes
   const BIG = ['motorway', 'trunk', 'primary'];
   // (the BRT keeps to its corridors, the main roads; a 12 m bus has no business down a service lane)
-  const suits = (kind, w) => (kind === 'keke' ? !BIG.includes(w.road.cls) : kind === 'cycle' ? !!w.bike : kind === 'brt' ? ['motorway', 'trunk', 'primary', 'secondary'].includes(w.road.cls) : true);
+  const suits = (kind, w) => (kind === 'keke' ? !BIG.includes(w.road.cls) : kind === 'cycle' ? !!w.bike : kind === 'brt' || kind === 'trailer' ? ['motorway', 'trunk', 'primary', 'secondary'].includes(w.road.cls) : true);
   // which way to go at the end of this way; null at the edge of the map (the car drives off it and another comes on)
   const choose = (c) => {
     const w = c.w; if (nodes[w.to].edge) return null;

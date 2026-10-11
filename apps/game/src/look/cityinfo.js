@@ -403,7 +403,7 @@ export function setCity(city, district = city) {
     const from = base.district, to = areaName(A);
     const swap = (v) => (typeof v === 'string' ? v.split(from).join(to) : Array.isArray(v) ? v.map(swap) : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, swap(x)])) : v);
     here = { ...base, district: to, places: swap(base.places), shops: swap(base.shops), park: swap(base.park), police: swap(base.police), bikes: swap(base.bikes),
-      landmarks: A.landmarks || [], skyline: A.skyline ?? (base.skyline || []).filter((S) => kmBetween(A, S) > 1.6 && kmBetween(A, S) < 12), area: A }; // (not another town's)
+      landmarks: A.landmarks || [], skyline: A.skyline ?? (base.skyline || []).filter((S) => kmBetween(A, S) > 1.6 && kmBetween(A, S) < 12), traffic: A.traffic ? { ...(base.traffic || {}), ...A.traffic } : base.traffic, area: A }; // (not another town's)
     return here;
   }
   // a city without its own entry gets places named after itself, never Lagos's

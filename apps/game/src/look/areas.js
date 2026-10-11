@@ -41,6 +41,12 @@ export const REGIONS = {
           { key: 'teslim_balogun', name: 'Teslim Balogun Stadium', sub: 'Western Avenue', lat: 6.49977, lon: 3.36078, kind: 'stadium', accent: 0x1f4f9a, fact: "Named after the Nigerian footballer; home to Lagos's league games." },
           { key: 'national_theatre', name: 'National Arts Theatre', sub: 'Iganmu', lat: 6.47648, lon: 3.36949, kind: 'theatre', accent: 0x9b2f2f, fact: "The general's cap: built for FESTAC '77, Nigeria's home of theatre and the arts." },
         ] },
+      { area: 'Apapa', lat: 6.4480, lon: 3.3690, r: 230, about: 'The ports: Apapa and Tin Can Island, and the trucks that serve them.',
+        traffic: { mix: ['trailer', 'saloon', 'trailer', 'danfo', 'pickup', 'trailer', 'taxi', 'suv', 'trailer', 'danfo', 'saloon', 'trailer', 'keke'] },
+        landmarks: [
+          { key: 'apapa_port', name: 'Lagos Port Complex', sign: 'LAGOS PORT COMPLEX', sub: 'Nigerian Ports Authority · Apapa', lat: 6.45119, lon: 3.36753, kind: 'port', w: 64, accent: 0x1f3d7a, fact: "Apapa, Nigeria's busiest port: container terminals, cranes and the trucks queueing for them along Wharf Road." },
+        ],
+        skyline: [{ key: 'tincan', name: 'Tin Can Island Port', lat: 6.43349, lon: 3.33510, kind: 'cranes', n: 4 }] },
       { area: 'Lagos Island', lat: 6.4545, lon: 3.3900, r: 220, about: 'The old city: Balogun Market, Tinubu Square, the Marina.',
         landmarks: [
           { key: "massey", name: "Massey Street Children's Hospital", sub: "Lagos Island", lat: 6.45507, lon: 3.39224, kind: 'hospital', storeys: 3, accent: 0x2f6b4f, fact: "A hospital for children on Massey Street, Lagos Island." },
