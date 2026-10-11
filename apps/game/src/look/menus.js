@@ -912,6 +912,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
       <h4 class="sec">Controls</h4>
       <label class="vol"><b>Touch controls</b><select data-in="touch"><option value="auto">Automatic</option><option value="on">On</option><option value="off">Off</option></select></label>
       <label class="sw"><span><b>Invert camera up and down</b><small>For the right stick.</small></span><input type="checkbox" data-in="invertY" ${inp?.settings.invertY ? 'checked' : ''}><i></i></label>
+      <label class="sw"><span><b>Camera follows you</b><small>As you walk, and as you turn with A and D, the camera swings round behind you, as in GTA V. Dragging or the right stick still looks around; the camera waits a moment after you do.</small></span><input type="checkbox" data-in="camFollow" ${inp?.settings.camFollow ? 'checked' : ''}><i></i></label>
       <label class="vol"><b>Camera speed</b><input type="range" data-in="sensitivity" min="0.4" max="2" step="0.1" value="${inp?.settings.sensitivity ?? 1}"></label>
       <p class="note">${inp?.connected ? `Connected: <b>${inp.connected.replace(/\(.*\)/, '').trim()}</b>` : 'Connect a PlayStation 4 or 5, or an Xbox controller, by USB or Bluetooth and press any button.'}</p>
       <table class="pad">${PAD_MAP.map((m) => `<tr><td><kbd>${inp ? inp.padLabel(m.i) : m.i}</kbd></td><td>${m.what}</td></tr>`).join('')}<tr><td><kbd>Left stick</kbd></td><td>Walk (push all the way to run)</td></tr><tr><td><kbd>Right stick</kbd></td><td>Look around</td></tr></table>
