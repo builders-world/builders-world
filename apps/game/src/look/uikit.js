@@ -8,6 +8,10 @@ export const C = {
   indigo: '#22336a', indigo2: '#30468a', indigo3: '#4a64b0', leaf: '#7fb35e', leaf2: '#5f9a45',
 };
 export const FONT = '"Baloo 2", ui-rounded, "SF Pro Rounded", system-ui, sans-serif';
+// the HUD's small design system (Elvis, 11 October 2026 UI brief: "a restrained and reusable set of corner radii",
+// "consistent spacing values"): three radii and four gaps for every panel, card, map and control the brief touches
+export const RAD = { sm: 8, md: 12, lg: 16, pill: 999 };
+export const GAP = { xs: 4, sm: 8, md: 12, lg: 16 };
 
 // the display face, from Google Fonts; the rounded system face stands in offline
 export function loadFont() {
@@ -240,6 +244,12 @@ body.bw-skin .ib { border-radius: 50%; color: ${C.ink}; }
 body.bw-skin .ib svg { stroke-width: 2.3; }
 body.bw-skin .ib:hover { background: rgba(242,179,61,.25); }
 body.bw-skin #dock { border-radius: 999px; padding: 6px 5px; }
+/* the Builders button and its list, and the plot card, live bottom right beside the zoom controls (the UI brief: they
+   covered your portrait and status in the bottom left); the key bar runs along the bottom under them */
+body.bw-skin #builders { left: auto; right: 74px; bottom: 60px; }
+body.bw-skin #blist { left: auto; right: 0; max-height: max(150px, calc(100vh - 500px)); overflow-y: auto; } /* (stays under the weather and the money on the right; scrolls when there are many) */
+body.bw-skin #card { left: auto; right: 74px; bottom: 112px; }
+@media (max-width: 700px) { body.bw-skin #builders { right: 14px; bottom: 14px; } body.bw-skin #card { right: 14px; left: 14px; bottom: 62px; width: auto; } }
 body.bw-skin #bbtn { border-radius: 999px; height: 42px; padding: 0 18px 0 14px; font: 800 15px/1 ${FONT}; color: ${C.ink}; }
 body.bw-skin #bbtn svg { color: ${C.teal}; stroke-width: 2.3; }
 body.bw-skin #bbtn .n { display: inline-grid; place-items: center; min-width: 22px; height: 22px; border-radius: 999px; background: ${C.amber}; color: ${C.ink}; font-size: 12px; }

@@ -38,6 +38,7 @@ import { TIERS, trackDetail, cullDetail } from './quality.js';
 import { watchPlayer, holdOutFood } from './fear.js';
 import { regionOf, areaOf, areaName, areaUrl, areaFare, kmBetween, bearing, cityLabel } from './areas.js';
 import { buildEdgeSigns } from './edge.js';
+import { createDock } from './dock.js';
 import { setStreamTier, updateStream, streamStats, streamSmall, cullSmall, smallStats, setStreaming, setHorizon, streaming } from './stream.js';
 import { walletEngine } from './wallet.js';
 import { sfx } from './audio.js';
@@ -96,6 +97,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   if (world.place?.city && world.place.city !== 'Lagos') BUILDERS.forEach((b) => { if (b.tagline) b.tagline = b.tagline.replace(/^Lagos\./, `${world.place.city}.`); });
   namePlaces(world.place?.name, world.place?.city);
   const props = buildProps(world, group, { lowQuality: quality === 'low', reduced });
+  const dock = createDock(); // the bottom-left HUD as one column (dock.js)
   // the expanded kit: shops, stalls, landmarks, poles and wires, gutters, tanks, danfos
   const dressing = world.kit ? dressDistrict(world, group, { kit: world.kit, lowQuality: quality === 'low', reduced, spawn: world.spawn }) : null;
   if (dressing) { props.interact.push(...dressing.interact); props.lamps.push(...dressing.lamps); }

@@ -5,7 +5,7 @@ import { createNav, nearestOn, pathLength, pointAlong } from './nav.js';
 import { createTrail } from './trail.js';
 import { audioEngine, sfx } from './audio.js';
 import { walletEngine, effortsMark, fmt } from './wallet.js';
-import { C as K, FONT, loadFont } from './uikit.js';
+import { RAD, C as K, FONT, loadFont } from './uikit.js';
 import { onlineNow } from './online.js';
 
 // The in-world overlay from the reference screenshot: district and objective,
@@ -25,8 +25,8 @@ body.nohud #lk { display: none; }
 #lk-obj li.done i { background: ${K.teal}; }
 #lk-obj li.todo i { border-color: #c9b998; }
 #lk-obj li em { margin-left: auto; padding-left: 12px; font-style: normal; color: ${K.coral}; font-weight: 800; font-variant-numeric: tabular-nums; font-size: 12px; }
-#lk-map { position: absolute; top: 68px; right: 14px; width: 156px; height: 156px; border-radius: 50%; overflow: hidden;
-  border: 5px solid ${K.paper}; box-shadow: 0 4px 0 rgba(59,42,32,.2), 0 12px 30px rgba(10,14,30,.3); background: ${K.sea}; }
+/* the minimap: a plain rectangle in the corner it always had, no ring, no shadow (the UI brief) */
+#lk-map { position: absolute; top: 68px; right: 14px; width: 188px; height: 136px; border-radius: ${RAD.md}px; overflow: hidden; background: ${K.sea}; cursor: pointer; }
 #lk-map canvas { width: 100%; height: 100%; display: block; }
 #lk-prompt { position: absolute; left: 50%; bottom: 96px; transform: translate(-50%, 8px); opacity: 0; transition: opacity .2s ease, transform .2s ease;
   display: flex; align-items: center; gap: 12px; padding: 8px 20px 8px 8px; border-radius: 999px; font: 700 16px/1 ${FONT}; }
@@ -61,14 +61,15 @@ body.nohud #lk { display: none; }
 #lk-board button.p { background: ${K.teal}; color: #fff; box-shadow: 0 3px 0 #1d6f69; }
 #lk-board .x { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; padding: 0; }
 #lk-board .tag { display: inline-block; font-size: 10.5px; color: ${K.ink}; background: ${K.paper2}; border-radius: 6px; padding: 2px 6px; margin-left: 6px; vertical-align: 2px; }
-#lk-wx { position: absolute; top: 234px; right: 14px; width: 156px; box-sizing: border-box; padding: 10px 12px; pointer-events: auto; font-size: 12px; }
+#lk-wx { position: absolute; top: 216px; right: 14px; width: 188px; box-sizing: border-box; padding: 10px 12px; pointer-events: auto; font-size: 12px; }
 #lk-wx .t { display: flex; align-items: baseline; gap: 6px; font-size: 24px; font-weight: 800; }
 #lk-wx .t span { font-size: 13px; font-weight: 700; color: ${K.ink}; }
 #lk-wx .p { color: ${K.ink2}; margin-top: 2px; font-weight: 600; }
 #lk-wx button { margin-top: 8px; width: 100%; border: 0; border-radius: 8px; padding: 6px 8px; background: rgba(255,255,255,.08); color: #eef2ff; font: 600 11.5px/1.2 "Baloo 2", ui-rounded, system-ui, sans-serif; cursor: pointer; }
 #lk-wx .src { display: block; margin-top: 6px; color: ${K.ink2}; font-size: 10.5px; }
 #lk-wx .src a { color: inherit; }
-#lk-eff { position: absolute; right: 14px; top: 338px; display: flex; align-items: center; gap: 4px; padding: 7px 14px 7px 10px; border: 0; border-radius: 999px; pointer-events: auto; cursor: pointer; font: 800 17px/1 ${FONT}; color: ${K.ink}; }
+/* the money: top right beside the camera controls, placed by measuring them (placeMoney); below the weather if no room */
+#lk-eff { position: absolute; right: 14px; top: 338px; box-shadow: none !important; height: 40px; box-sizing: border-box; display: flex; align-items: center; gap: 4px; padding: 7px 14px 7px 10px; border: 0; border-radius: 999px; pointer-events: auto; cursor: pointer; font: 800 17px/1 ${FONT}; color: ${K.ink}; }
 #lk-eff svg { color: ${K.teal}; }
 @media (max-width: 700px) { #lk-eff { top: 262px; font-size: 14px; } }
 @media (max-width: 700px) { #lk-wx { top: 172px; width: 120px; padding: 8px 10px; } #lk-wx .t { font-size: 16px; } #lk-wx button { display: none; } }
@@ -97,7 +98,7 @@ body.bw-inside #lk-map, body.bw-inside #lk-wx, body.bw-inside #lk-osm, body.bw-i
 @media (max-width: 700px) {
   #lk-obj { top: 70px; min-width: 0; right: 120px; padding: 10px 12px; }
   #lk-obj .d { font-size: 16px; }
-  #lk-map { width: 96px; height: 96px; top: 68px; }
+  #lk-map { width: 132px; height: 96px; top: 68px; }
   #lk-keys { display: none; }
   #lk-board { right: 16px; top: 70px; }
 }
@@ -128,7 +129,7 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
   el.id = 'lk';
   el.innerHTML = `
     <div id="lk-obj" class="pane" aria-live="polite"><div class="d">${PIN}<span>${areaName(areaOf(world.place?.city || 'Lagos', world.place?.name)) || world.place?.name || 'Yaba'} · ${cityLabel(world.place?.city || 'Lagos')}</span></div><ul></ul></div>
-    <div id="lk-map"><canvas width="312" height="312" aria-label="Minimap"></canvas></div>
+    <div id="lk-map"><canvas width="376" height="272" aria-label="Minimap"></canvas></div>
     <div id="lk-prompt" class="pane"><kbd>E</kbd><span></span></div>
     <div id="lk-tags"></div>
     <div id="lk-board" class="pane" role="dialog" aria-label="Community board"></div>
@@ -143,6 +144,15 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
   const objList = $('#lk-obj ul'), prompt = $('#lk-prompt'), promptText = $('#lk-prompt span');
   const boardEl = $('#lk-board'), toastEl = $('#lk-toast');
   const map = $('#lk-map canvas').getContext('2d');
+  // the money beside the camera controls (Codex's #toolbar), clear of the compass; under the weather if they do not fit
+  const placeMoney = () => {
+    const eff = $('#lk-eff'), tb = document.getElementById('toolbar'), cmp = document.getElementById('lk-compass'); if (!eff) return;
+    const r = tb?.getBoundingClientRect(), w = eff.offsetWidth || 110;
+    const left = r ? r.left - 10 - w : -1, clear = r && r.width && left > (cmp ? cmp.getBoundingClientRect().right + 10 : 0);
+    if (clear) { eff.style.top = `${Math.round(r.top + (r.height - 40) / 2)}px`; eff.style.right = `${Math.round(innerWidth - r.left + 10)}px`; }
+    else { eff.style.top = ''; eff.style.right = ''; }
+  };
+  addEventListener('resize', placeMoney); setTimeout(placeMoney, 300); setTimeout(placeMoney, 2000);
   // on phones: tap the minimap for the full map, tap the objective to expand it, tap a prompt to do it
   $('#lk-map').addEventListener('click', () => menus.openMap());
   $('#lk-obj').addEventListener('click', () => $('#lk-obj').classList.toggle('open'));
@@ -271,12 +281,12 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
   }
 
   function drawMap(player, yaw, target) {
-    const S = 312, C = S / 2, k = 1.9; // pixels per metre
+    const MW = 376, MH = 272, C = MW / 2, CY = MH / 2, k = 1.9; // the canvas (2x the box), and pixels per metre
     map.setTransform(1, 0, 0, 1, 0, 0);
-    map.clearRect(0, 0, S, S);
+    map.clearRect(0, 0, MW, MH);
     const land = world.landMap; // Greenrey's land (greenrey.js): earth, grass and yards, when it is on
-    map.fillStyle = land ? land.outside : '#7fb35e'; map.fillRect(0, 0, S, S);
-    map.translate(C, C);
+    map.fillStyle = land ? land.outside : '#7fb35e'; map.fillRect(0, 0, MW, MH);
+    map.translate(C, CY);
     map.rotate(yaw - Math.PI); // camera forward points up
     map.translate(-player.x * k, -player.z * k);
     if (land) { map.imageSmoothingEnabled = true; map.drawImage(land.canvas, -land.E * k, -land.E * k, land.E * 2 * k, land.E * 2 * k); }
@@ -310,15 +320,15 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     if (street) {
       map.font = `800 22px ${FONT}`; map.textAlign = 'center'; map.textBaseline = 'middle';
       const w = map.measureText(street).width + 26;
-      map.fillStyle = '#f7efdc'; map.beginPath(); map.roundRect(C - w / 2, S - 64, w, 36, 18); map.fill();
-      map.fillStyle = '#3b2a20'; map.fillText(street, C, S - 45);
+      map.fillStyle = '#f7efdc'; map.beginPath(); map.roundRect(C - w / 2, MH - 48, w, 36, 18); map.fill();
+      map.fillStyle = '#3b2a20'; map.fillText(street, C, MH - 29);
     }
     // player arrow, always pointing up
     map.fillStyle = '#e46f4f'; map.strokeStyle = '#fff'; map.lineWidth = 4;
-    map.beginPath(); map.moveTo(C, C - 16); map.lineTo(C + 11, C + 12); map.lineTo(C, C + 6); map.lineTo(C - 11, C + 12); map.closePath(); map.stroke(); map.fill();
-    // north marker on the rim
-    const na = yaw - Math.PI;
-    const nx = C + Math.sin(na) * (C - 18), ny = C - Math.cos(na) * (C - 18);
+    map.beginPath(); map.moveTo(C, CY - 16); map.lineTo(C + 11, CY + 12); map.lineTo(C, CY + 6); map.lineTo(C - 11, CY + 12); map.closePath(); map.stroke(); map.fill();
+    // north marker on the edge of the box, the way north lies
+    const na = yaw - Math.PI, sx = Math.sin(na), sy = -Math.cos(na), reach = Math.min((C - 18) / Math.max(1e-3, Math.abs(sx)), (CY - 18) / Math.max(1e-3, Math.abs(sy)));
+    const nx = C + sx * reach, ny = CY + sy * reach;
     map.fillStyle = '#3b2a20'; map.beginPath(); map.arc(nx, ny, 14, 0, 7); map.fill();
     map.fillStyle = '#f7efdc'; map.font = `800 17px ${FONT}`; map.textAlign = 'center'; map.textBaseline = 'middle'; map.fillText('N', nx, ny + 1);
   }
