@@ -20,6 +20,8 @@ export function overpassQuery({ lat, lon, radius }) {
     `[out:json][timeout:30];(` +
     `way["building"](around:${radius},${lat},${lon});` +
     `way["highway"](around:${radius},${lat},${lon});` +
+    `way["railway"](around:${radius},${lat},${lon});` +
+    `node["railway"~"^(station|halt)$"](around:${radius},${lat},${lon});` +
     `);out geom tags;`
   );
 }
@@ -44,9 +46,17 @@ export function parseOverpass(json, place) {
   const R = place.radius;
   const buildings = [];
   const roads = [];
+  const rails = [], stations = [];
   for (const el of json.elements || []) {
-    if (el.type !== 'way' || !el.geometry || el.geometry.length < 2) continue;
     const t = el.tags || {};
+    // railway stations and halts (a point; or a station drawn as an area, at its middle)
+    if ((t.railway === 'station' || t.railway === 'halt') && (el.type === 'node' || el.geometry)) {
+      const g = el.type === 'node' ? [{ lat: el.lat, lon: el.lon }] : el.geometry, lat = g.reduce((a, q) => a + q.lat, 0) / g.length, lon = g.reduce((a, q) => a + q.lon, 0) / g.length;
+      const [x, z] = project(lat, lon, place).map((v) => +v.toFixed(2));
+      if (Math.hypot(x, z) <= R * 1.3) stations.push({ id: el.id, name: t.name || null, x, z, kind: t.station || t.railway });
+      if (el.type === 'node') continue;
+    }
+    if (el.type !== 'way' || !el.geometry || el.geometry.length < 2) continue;
     const pts = el.geometry.map((g) => project(g.lat, g.lon, place).map((v) => +v.toFixed(2)));
     if (t.building) {
       if (pts.length < 4) continue;
@@ -62,6 +72,10 @@ export function parseOverpass(json, place) {
         levels: num(t['building:levels']),
         name: t.name || null,
       });
+    } else if (['rail', 'light_rail', 'narrow_gauge', 'subway'].includes(t.railway) && t.tunnel !== 'yes' && !t.service) {
+      // the railway itself (main lines only; sidings and yards left out); a line on a bridge keeps its flag
+      const kept = pts.filter((p) => Math.hypot(p[0], p[1]) <= R * 1.3);
+      if (kept.length >= 2) rails.push({ id: el.id, kind: t.railway, name: t.name || null, gauge: num(t.gauge), bridge: !!(t.bridge && t.bridge !== 'no'), pts: kept });
     } else if (t.highway) {
       const cls = t.highway;
       const w = ROAD_WIDTH[cls];
@@ -90,6 +104,8 @@ export function parseOverpass(json, place) {
     generated: new Date().toISOString(),
     buildings,
     roads,
+    ...(rails.length ? { rails } : {}),
+    ...(stations.length ? { stations } : {}),
   };
 }
 

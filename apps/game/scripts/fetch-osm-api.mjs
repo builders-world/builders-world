@@ -29,12 +29,18 @@ const unescape = (s) => s?.replace(/&quot;/g, '"').replace(/&apos;/g, "'").repla
 
 const nodes = new Map();
 for (const m of xml.matchAll(/<node\b[^>]*>/g)) nodes.set(attr(m[0], 'id'), { lat: +attr(m[0], 'lat'), lon: +attr(m[0], 'lon') });
-
+// railway stations and halts mapped as points
 const elements = [];
+for (const m of xml.matchAll(/<node\b([^>]*)>([\s\S]*?)<\/node>/g)) {
+  const tags = {};
+  for (const t of m[2].matchAll(/<tag\b[^>]*\/>/g)) tags[unescape(attr(t[0], 'k'))] = unescape(attr(t[0], 'v'));
+  if (tags.railway === 'station' || tags.railway === 'halt') elements.push({ type: 'node', id: +attr(m[1], 'id'), lat: +attr(m[1], 'lat'), lon: +attr(m[1], 'lon'), tags });
+}
+
 for (const m of xml.matchAll(/<way\b([^>]*)>([\s\S]*?)<\/way>/g)) {
   const tags = {};
   for (const t of m[2].matchAll(/<tag\b[^>]*\/>/g)) tags[unescape(attr(t[0], 'k'))] = unescape(attr(t[0], 'v'));
-  if (!tags.building && !tags.highway) continue;
+  if (!tags.building && !tags.highway && !tags.railway) continue;
   const geometry = [...m[2].matchAll(/<nd ref="(\d+)"/g)].map((n) => nodes.get(n[1])).filter(Boolean);
   elements.push({ type: 'way', id: +attr(m[1], 'id'), tags, geometry });
 }

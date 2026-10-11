@@ -414,6 +414,10 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   // map footprints often do both, so each plot is pulled back toward its centre until it is clear.
   const reserve = [], roadDisks = [];
   roads.forEach((r) => { if (!r.fit) return; const { pts, half, paveL, paveR } = r.fit; for (let k = 0; k < pts.length - 1; k++) reserve.push([pts[k], pts[k + 1], Math.max(half[k], half[k + 1]) + Math.max(paveL[k], paveR[k], paveL[k + 1], paveR[k + 1]) + 0.3]); });
+  // the railway (manifest.rails, where the city really has one): its corridor is reserved like a road, so no plot,
+  // building or estate stands on the line (look/railway.js lays the track and runs the trains)
+  const rails = (manifest.rails || []).filter((r) => r.pts.length > 1);
+  rails.forEach((r) => { for (let k = 0; k < r.pts.length - 1; k++) reserve.push([r.pts[k], r.pts[k + 1], 3.6]); });
   const inReserve = (x, z) => reserve.some(([a, c, h]) => { const dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / L2)); return Math.hypot(x - a[0] - dx * u, z - a[1] - dz * u) < h; });
   const laid = []; // accepted plots: { pts, bb }
   const carriage = []; roads.forEach((r) => { if (!r.fit) return; const { pts, half } = r.fit; for (let k = 0; k < pts.length - 1; k++) carriage.push([pts[k], pts[k + 1], Math.max(half[k], half[k + 1])]); });
@@ -637,6 +641,8 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   const lampSpots = [];
   const kitColliders = [...lotFences, ...estateWalls, ...estateGarages];
   const claims = []; // { kind, cx, cz, hx, hz, ry }
+  // the railway corridor is land set aside too (parks, venues and props placed later keep off it)
+  rails.forEach((r) => { for (let k = 0; k < r.pts.length - 1; k++) { const [ax, az] = r.pts[k], [bx, bz] = r.pts[k + 1], L = Math.hypot(bx - ax, bz - az); if (L < 0.5) continue; claims.push({ kind: 'railway', cx: (ax + bx) / 2, cz: (az + bz) / 2, hx: 3.6, hz: L / 2 + 1, ry: Math.atan2(bx - ax, bz - az) }); } });
   let world_bridge = null; // picket fences first: low (1 m), so a jump clears them
   const trees = [];
   const glows = []; // {x,z,r}
@@ -1137,7 +1143,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     counts: { buildings: manifest.buildings.length, roads: manifest.roads.length, windows: wins.length },
     spawnYaw: front0.yaw,
     frontOf, env: T.env, theme, pick: groundMesh, solids: staticMesh, ground: groundMesh,
-    lamps, trees, isFree, youCenter: you.c, mainRoad: longest, roads,
+    lamps, trees, isFree, youCenter: you.c, mainRoad: longest, roads, rails, stations: manifest.stations || [],
     rig: { hemi, moon, rim, bulbMat, bulb: T.env.bulb },
     center: manifest.center,
     footprints: blds.filter((b) => b.pts.length >= 3).map((b) => b.pts), lots: blds.filter((b) => b.lot).map((b) => b.lot), doorPlants, lotTrees,
