@@ -30,6 +30,7 @@ import { createStreetLife } from './streetlife.js';
 import { createMobility } from './mobility.js';
 import { buildShopfronts } from './shopfronts.js';
 import { buildShopSigns } from './shopsigns.js';
+import { batchScenery } from './batch.js';
 import { buildFoodTrucks } from './foodtruck.js';
 import { cullPeople, PEOPLE } from './anim.js';
 import { createEmotes } from './expressions.js';
@@ -1117,6 +1118,9 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     const r = holdOutFood(critters?.nearDog?.(lastPlayer) ? 'treat' : 'corn');
     hud.toast(r.say, 2600); return true;
   }
+  // fewer draw calls: the static scenery's meshes that share a material, merged (batch.js); nothing on screen changes
+  // (?batch=0 turns it off, to compare)
+  if (new URLSearchParams(location.search).get('batch') !== '0') try { const r = batchScenery(group, ['landmarks', 'place-fronts', 'shop-signs', 'food-trucks', 'edge-signs', 'civic', 'parkland', 'recreation', 'parks', 'shopfronts']); world.batched = r; } catch (err) { console.warn('batching skipped', err); }
   return { feed, get food() { return food; }, get greenrey() { return greenrey; }, update, renderReflection, setSize, setGraphics, sport: () => sports?.pose() || null, get sports() { return sports; }, get graphics() { return gfx; }, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get cycling() { return cycling; }, get officials() { return officials; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || !!homeAct || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, renderPortraits, get profile() { return profile; }, get critters() { return critters; }, get railway() { return railway; }, streamStats, smallStats, setStreaming, get tallRoom() { return (interiors?.room?.H || 0) > 12; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

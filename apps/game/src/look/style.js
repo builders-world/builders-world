@@ -81,6 +81,8 @@ export function prepareLook(root) {
 
 export function dress(root, look, rig) {
   const L = cleanLook(look);
+  // a new look: the far-off single mesh (anim.js cullPeople) is baked again when next needed
+  { const lod = root.userData.lodMesh; if (lod) { lod.removeFromParent(); lod.geometry.dispose(); root.userData.lodMesh = null; } }
   // undo the previous look
   (root.userData.dressParts || []).forEach((o) => { o.removeFromParent(); o.traverse?.((c) => { if (c.userData?.ownGeo) c.geometry?.dispose(); }); o.material?.dispose?.(); });
   const parts = root.userData.dressParts = [];
