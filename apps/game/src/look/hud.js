@@ -1,4 +1,5 @@
 import { passesEngine } from './passes.js';
+import { paintAirport } from './airportmap.js';
 import * as THREE from 'three';
 import { areaOf, areaName, cityLabel } from './areas.js';
 import { createMenus } from './menus.js';
@@ -92,6 +93,7 @@ body.bw-idle #lk-cine span.tr { opacity: 0; } body.bw-idle #lk-cine span.id { op
 body.bw-cine #lk .pane, body.bw-cine #lk-map, body.bw-cine #lk-snd, body.bw-cine #lk-eff, body.bw-cine #lk-tags, body.bw-cine #lkm-tip, body.bw-cine #labels, body.bw-cine .ui { opacity: 0 !important; transition: opacity .4s; pointer-events: none; }
 @media (prefers-reduced-motion: reduce) { #lk-cine::before, #lk-cine::after, #lk-cine span { transition: none; } }
 body.bw-inside #lk-map, body.bw-inside #lk-wx, body.bw-inside #lk-osm, body.bw-inside #lk-obj { display: none; }
+body.bw-inside.bw-airport #lk-map { display: block; } /* the airport has its own map */
 #lk-osm { position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%); font-size: 10.5px; color: rgba(238,242,255,.6); pointer-events: auto; }
 #lk-osm a { color: inherit; }
 #lk-toast { position: absolute; left: 50%; top: 58px; transform: translateX(-50%); padding: 10px 20px; border-radius: 999px; font: 700 15px/1.3 ${FONT}; opacity: 0; transition: opacity .3s; }
@@ -287,6 +289,15 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     const MW = 376, MH = 272, C = MW / 2, CY = MH / 2, k = 1.9; // the canvas (2x the box), and pixels per metre
     map.setTransform(1, 0, 0, 1, 0, 0);
     map.clearRect(0, 0, MW, MH);
+    // in the airport: the airport, round you, turning with the camera, the planes live
+    const air = props.airport?.();
+    if (air?.mapData) {
+      const o = air.origin, me = { x: player.x - o.x, z: player.z - o.z, yaw: props.playerYaw?.() ?? yaw }, ka = 1.4;
+      map.translate(C, CY); map.rotate(yaw - Math.PI); map.scale(ka, ka); map.translate(-me.x, -me.z);
+      paintAirport(map, air.mapData, air.live?.(), { px: ka, labels: true, me, upright: -(yaw - Math.PI) });
+      map.setTransform(1, 0, 0, 1, 0, 0);
+      return;
+    }
     const land = world.landMap; // Greenrey's land (greenrey.js): earth, grass and yards, when it is on
     map.fillStyle = land ? land.outside : '#7fb35e'; map.fillRect(0, 0, MW, MH);
     map.translate(C, CY);

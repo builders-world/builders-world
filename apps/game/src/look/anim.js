@@ -58,7 +58,8 @@ export function cullPeople(camera, dist = 60, lodDist = Math.min(32, dist * 0.55
   for (const root of PEOPLE) {
     if (!root.parent) { PEOPLE.delete(root); continue; }
     const e = root.matrixWorld.elements, dx = e[12] - cx, dz = e[14] - cz, dd = dx * dx + dz * dz;
-    const state = dd > d2 ? 'far' : dd > l2 && root.userData.rigged && !root.userData.noLod ? 'lod' : 'near';
+    // (you are never culled: a cinematic camera far from your body, the taxi ride to the airport, used to leave you hidden)
+    const state = root.userData.noLod ? 'near' : dd > d2 ? 'far' : dd > l2 && root.userData.rigged ? 'lod' : 'near';
     if (state === (root.userData.cull || 'near') && !(state === 'lod' && !root.userData.lodMesh)) continue;
     // leaving the close-to state: remember what each part showed (a rig hides the avatar's own box legs and arms for
     // good; showing everything again on the way back put a frozen second pair over the moving ones)

@@ -662,6 +662,10 @@ async function main() {
     if (rs?.exit) {
       player.copy(rs.exit); onStreetGround(player);
       if (riding) { riding = false; cineForce = false; applyView('foot'); }
+    } else if (!rs?.pos && riding) {
+      // the ride ended without dropping you at a kerb (the airport taxi skipped, or handed over at the terminal doors):
+      // you are on foot again, seen again, with the walking camera
+      riding = false; cineForce = false; applyView('foot');
     } else if (rs?.pos) {
       if (!riding) { savedDist = cam.distT; riding = true; cineForce = !!rs.cine; applyView('ride'); const st = audio.station; if (st && audio.settings.music) (street?.hud.toast ?? chrome.toast)(`📻 ${st.name} on the radio · R to change station`, 2600); }
       player.set(rs.pos.x, 0, rs.pos.z);
