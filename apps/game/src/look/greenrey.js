@@ -5,6 +5,7 @@ import { signTexture } from './props.js';
 import { vehicle } from './traffic.js';
 import { mulberry32 } from '../mesh.js';
 import { plantAll, pickTree, trunkCollider } from './flora.js';
+import { trackDetail } from './quality.js';
 import { buildParkland } from './parkland.js';
 import { cityInfo } from './cityinfo.js';
 import { bayLayout, drawAccessibleBay, drawParkSign, BAY_D } from './parking.js';
@@ -285,7 +286,7 @@ export function buildGreenrey({ renderer, scene, world, group, park = null }) {
       if (rnd() > (b.acc ? 0.25 : 0.55)) return;
       const kind = ['saloon', 'hatch', 'suv', 'taxi', 'saloon', 'pickup'][Math.floor(rnd() * 6)], car = vehicle(b.acc ? 'hatch' : kind, n * 7 + k);
       const [x, z] = at(b.u, -front * 3); car.position.set(x, 0, z); car.rotation.y = p.ang + (front > 0 ? Math.PI : 0);
-      out.add(car); cols.push({ name: 'parked_car', cx: x, cz: z, hx: 1.0, hz: 2.3, ry: car.rotation.y, h: 1.5 });
+      out.add(trackDetail(car)); cols.push({ name: 'parked_car', cx: x, cz: z, hx: 1.0, hz: 2.3, ry: car.rotation.y, h: 1.5 });
     });
     claims.push({ kind: 'car_park', cx: p.x, cz: p.z, hx: p.len / 2, hz: 5.5, ry: p.ang });
   });

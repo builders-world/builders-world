@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+import { streamMaterial, streamInstances } from './stream.js';
 
 // Trees, shrubs and flowers (Elvis, 10 October 2026: "a variety of trees... 10 different species of trees that are
 // used across cities, trees with colors, white, pink... shrubs, flowers, for decorating homes"). Ten species that
@@ -13,12 +14,14 @@ const paint = (geo, hex) => {
   for (let i = 0; i < n; i++) { const s = 0.92 + ((i * 7919) % 17) / 100; a[i * 3] = c.r * s; a[i * 3 + 1] = c.g * s; a[i * 3 + 2] = c.b * s; }
   g.setAttribute('color', new THREE.BufferAttribute(a, 3)); g.deleteAttribute('uv'); return g;
 };
-const blob = (x, y, z, rx, ry, rz, hex, detail = 1) => paint(new THREE.IcosahedronGeometry(1, detail).scale(rx, ry, rz).translate(x, y, z), hex);
-const cyl = (r0, r1, h, x, y, z, hex, seg = 7) => paint(new THREE.CylinderGeometry(r1, r0, h, seg).translate(x, y + h / 2, z), hex);
+// LITE builds the same model with fewer faces: the light copy drawn past the streaming ring (treeLite)
+let LITE = false;
+const blob = (x, y, z, rx, ry, rz, hex, detail = 1) => paint(new THREE.IcosahedronGeometry(1, LITE ? 0 : detail).scale(rx, ry, rz).translate(x, y, z), hex);
+const cyl = (r0, r1, h, x, y, z, hex, seg = 7) => paint(new THREE.CylinderGeometry(r1, r0, h, LITE ? Math.min(seg, 5) : seg).translate(x, y + h / 2, z), hex);
 // a limb from (x0, y0, z0) to (x1, y1, z1)
 const limb = (x0, y0, z0, x1, y1, z1, r0, r1, hex) => {
   const a = new THREE.Vector3(x0, y0, z0), b = new THREE.Vector3(x1, y1, z1), L = a.distanceTo(b);
-  const g = new THREE.CylinderGeometry(r1, r0, L, 6).translate(0, L / 2, 0);
+  const g = new THREE.CylinderGeometry(r1, r0, L, LITE ? 3 : 6).translate(0, L / 2, 0);
   g.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), b.clone().sub(a).normalize())).translate(x0, y0, z0);
   return paint(g, hex);
 };
@@ -90,6 +93,15 @@ export const SPECIES = Object.keys(TREES);
 const treeCache = new Map();
 export function treeGeometry(kind) { if (!treeCache.has(kind)) treeCache.set(kind, TREES[kind].build()); return treeCache.get(kind); }
 
+// the light copy drawn past the streaming ring (stream.js): the same model, the same crown lumps, branches and
+// flowers in the same places and colours, built with the fewest faces each shape allows, so the outline is the
+// tree's own at about a quarter of the triangles
+const liteCache = new Map();
+export function treeLite(kind) {
+  if (!liteCache.has(kind)) { LITE = true; try { liteCache.set(kind, TREES[kind].build()); } finally { LITE = false; } }
+  return liteCache.get(kind);
+}
+
 // which trees each city plants, and how much of each (street, park); flowering trees where people see them
 export const CITY_TREES = {
   Lagos: { street: { royalPalm: 3, flamboyant: 3, pinkTrumpet: 2, neem: 1, coconut: 1 }, park: { flamboyant: 3, mango: 3, frangipani: 2, coconut: 2, pinkTrumpet: 2, goldenShower: 2, royalPalm: 1 } },
@@ -124,9 +136,13 @@ export function plantGeometry(kind) { if (!plantCache.has(kind)) plantCache.set(
 // ---------- placing them: one instanced mesh per kind ----------
 let floraMat = null;
 export const floraMaterial = () => (floraMat ||= new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.8 }));
+// streamed copies: full trees inside the ring, light trees outside it, plants inside their own shorter ring
+const MATS = {};
+const streamed = (k) => (MATS[k] ||= k === 'lite' ? streamMaterial(floraMaterial(), 'tree', { invert: true }) : streamMaterial(floraMaterial(), k));
 /**
  * Draw many trees and plants: list of { kind, x, z, s?, ry?, y? }, kind a TREES or PLANTS key.
- * Returns a group with one InstancedMesh per kind (trees cast shadows).
+ * Returns a group with one InstancedMesh per kind (trees cast shadows), streamed by distance (stream.js):
+ * each tree species also gets a light stand-in for the instances past the ring.
  */
 export function plantAll(list, name = 'flora') {
   const g = new THREE.Group(); g.name = name;
@@ -134,10 +150,16 @@ export function plantAll(list, name = 'flora') {
   const m = new THREE.Matrix4(), q = new THREE.Quaternion(), up = new THREE.Vector3(0, 1, 0);
   by.forEach((items, kind) => {
     const isTree = !!TREES[kind], geo = isTree ? treeGeometry(kind) : plantGeometry(kind);
-    const im = new THREE.InstancedMesh(geo, floraMaterial(), items.length);
+    const im = new THREE.InstancedMesh(geo, streamed(isTree ? 'tree' : 'plant'), items.length);
     items.forEach((t, i) => { const s = t.s ?? 1; im.setMatrixAt(i, m.compose(new THREE.Vector3(t.x, t.y ?? 0, t.z), q.setFromAxisAngle(up, t.ry ?? 0), new THREE.Vector3(s, t.sy ?? s, s))); });
     im.castShadow = isTree; im.receiveShadow = !isTree; im.name = `${name}_${kind}`; im.computeBoundingSphere();
-    g.add(im);
+    if (isTree) {
+      const lite = new THREE.InstancedMesh(treeLite(kind), streamed('lite'), items.length);
+      lite.instanceMatrix.array.set(im.instanceMatrix.array); lite.name = `${name}_${kind}_lite`;
+      lite.userData.noShadow = true; lite.castShadow = false; lite.computeBoundingSphere();
+      g.add(streamInstances(lite, 'tree', { outside: true }));
+    }
+    g.add(streamInstances(im, isTree ? 'tree' : 'plant'));
   });
   return g;
 }
