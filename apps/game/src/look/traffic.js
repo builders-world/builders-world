@@ -89,25 +89,122 @@ export function officialLook(O = {}, i = 0) {
 
 export function createTraffic({ world, scene, reduced, lowQuality, getPeople, flyover }) {
   const group = new THREE.Group(); group.name = 'traffic'; scene.add(group);
-  // ---------- the drivable graph: nodes at shared road points, edges along the roads ----------
-  const nodes = [], index = new Map(), key = (x, z) => `${Math.round(x * 2)},${Math.round(z * 2)}`;
-  const node = (x, z) => { const k = key(x, z); if (index.has(k)) return index.get(k); nodes.push({ x, z, out: [] }); index.set(k, nodes.length - 1); return nodes.length - 1; };
-  world.roads.filter((r) => r.fit && DRIVE.includes(r.cls)).forEach((r) => {
-    const pts = r.fit.pts, lane = Math.max(1.5, Math.min(3.4, (r.w || 7) / 4));
-    let prev = node(pts[0][0], pts[0][1]);
-    for (let i = 1; i < pts.length; i++) { const id = node(pts[i][0], pts[i][1]); if (id === prev) continue; const L = Math.hypot(nodes[id].x - nodes[prev].x, nodes[id].z - nodes[prev].z); nodes[prev].out.push({ to: id, L, lane, bike: bikeLaneAt(r, i - 1, i), major: MAJOR.includes(r.cls), road: r }); nodes[id].out.push({ to: prev, L, lane, bike: bikeLaneAt(r, i, i - 1), major: MAJOR.includes(r.cls), road: r }); prev = id; }
+  // ---------- the lane graph (Elvis, 11 October 2026: "path tracing for vehicles so vehicles know what lane to drive on") ----------
+  // Every road is split at its junctions into links; each link gives one directed way per direction of travel (one
+  // for a one-way street). A way has lanes: from OSM's lanes tags where mapped, else from its width; on a two-way
+  // street they fill the driver's half, on a one-way street the whole carriageway, and a painted cycle lane stays
+  // the cyclists'. Lane centres follow the road's own curve (mitred at every bend), stop short of each junction
+  // at the edge of the crossing road, and smooth turning paths join them across it: near-side turns from the kerb
+  // lane, far-side turns from the inner lane, straight on lane to lane. Cars change lane ahead of their turn. All
+  // of it mirrors for the cities that keep left (Nairobi).
+  const HAND = cityInfo().drive === 'left' ? -1 : 1;
+  const nodes = [], cell = new Map(), NG = 2;
+  const nodeAt = (x, z) => {
+    const gx = Math.round(x / NG), gz = Math.round(z / NG);
+    for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) for (const id of cell.get(`${gx + a},${gz + b}`) || []) if (Math.hypot(nodes[id].x - x, nodes[id].z - z) < 1.6) return id;
+    nodes.push({ x, z, out: [], in: [], links: [], deg: 0 });
+    const k = `${gx},${gz}`; if (!cell.has(k)) cell.set(k, []); cell.get(k).push(nodes.length - 1);
+    return nodes.length - 1;
+  };
+  const droads = world.roads.filter((r) => r.fit && DRIVE.includes(r.cls) && r.fit.pts.length > 1);
+  const vids = droads.map((r) => r.fit.pts.map((p) => nodeAt(p[0], p[1])));
+  const roadsAt = new Map(); vids.forEach((L, ri) => L.forEach((id) => { if (!roadsAt.has(id)) roadsAt.set(id, new Set()); roadsAt.get(id).add(ri); }));
+  const links = [];
+  droads.forEach((r, ri) => {
+    const L = vids[ri]; let j0 = 0;
+    for (let i = 1; i < L.length; i++) {
+      if (i < L.length - 1 && roadsAt.get(L[i]).size < 2) continue;
+      if (L[i] !== L[j0]) links.push({ r, i0: j0, i1: i, a: L[j0], b: L[i] });
+      j0 = i;
+    }
+  });
+  const ways = [];
+  const lanesFor = (r, perDir, oneway, dir) => (r.lanesF && r.lanesB ? (dir > 0 ? r.lanesF : r.lanesB) : r.lanes ? (oneway ? r.lanes : Math.max(1, Math.floor(r.lanes / 2))) : Math.max(1, Math.min(3, Math.floor(perDir / 3.2 + 0.2))));
+  function makeWay(lk, dir) {
+    const { r } = lk, idx = []; for (let i = lk.i0; i <= lk.i1; i++) idx.push(i); if (dir < 0) idx.reverse();
+    const P = idx.map((i) => r.fit.pts[i]), H = idx.map((i) => r.fit.half[i]), n = P.length, cum = [0], dirs = [];
+    for (let i = 1; i < n; i++) { const dx = P[i][0] - P[i - 1][0], dz = P[i][1] - P[i - 1][1], L = Math.hypot(dx, dz) || 1e-6; cum.push(cum[i - 1] + L); dirs.push([dx / L, dz / L]); }
+    // the kerb-side normal at each point, mitred so a lane keeps its distance from the middle round a bend
+    const M = P.map((_, i) => { const a = dirs[Math.max(0, i - 1)], b = dirs[Math.min(dirs.length - 1, i)]; let nx = -(a[1] + b[1]), nz = a[0] + b[0]; const l = Math.hypot(nx, nz) || 1; nx /= l; nz /= l; const k = Math.max(0.5, -nx * a[1] + nz * a[0]); return [(nx / k) * HAND, (nz / k) * HAND]; });
+    const oneway = !!r.oneway, avgH = H.reduce((t, h) => t + h, 0) / n, bike = bikeLaneAt(r, idx[0], idx[1]);
+    const lanes = lanesFor(r, oneway ? 2 * avgH : avgH, oneway, dir);
+    const inner = H.map((h) => (oneway ? -h + 0.35 : 0.2)), outer = H.map((h, i) => Math.max(inner[i] + 2.2 * lanes, h - 0.35 - (bike ? 2.45 : 0)));
+    const w = { id: ways.length, road: r, link: lk, dir, from: dir > 0 ? lk.a : lk.b, to: dir > 0 ? lk.b : lk.a, P, H, M, cum, dirs, L: cum[n - 1], n: lanes, inner, outer, bike, major: MAJOR.includes(r.cls), lane: Math.max(1.5, Math.min(3.4, avgH / 2)), next: [], xs: [], s0: 0, s1: cum[n - 1] };
+    ways.push(w); return w;
+  }
+  links.forEach((lk) => {
+    lk.f = makeWay(lk, 1); if (!lk.r.oneway) lk.b2 = makeWay(lk, -1);
+    nodes[lk.a].deg++; nodes[lk.b].deg++;
+    const lane = lk.f.lane, major = MAJOR.includes(lk.r.cls);
+    nodes[lk.a].links.push({ to: lk.b, lane, major, road: lk.r, L: lk.f.L }); nodes[lk.b].links.push({ to: lk.a, lane, major, road: lk.r, L: lk.f.L });
+  });
+  ways.forEach((w) => { nodes[w.from].out.push(w); nodes[w.to].in.push(w); });
+  const R0 = world.radius;
+  nodes.forEach((N) => { N.edge = N.deg <= 1 && Math.hypot(N.x - world.spawn.x, N.z - world.spawn.z) > R0 * 0.9; });
+  // where along a way, and how far to the kerb side of its middle
+  const segAt = (w, s) => { const c = w.cum; let i = 0; while (i < c.length - 2 && c[i + 1] < s) i++; return i; };
+  const laneOff = (w, k, s) => { const i = segAt(w, s), u = Math.max(0, Math.min(1, (s - w.cum[i]) / ((w.cum[i + 1] - w.cum[i]) || 1e-6))), f = (k + 0.5) / w.n; const a = w.inner[i] + (w.outer[i] - w.inner[i]) * f, b = w.inner[i + 1] + (w.outer[i + 1] - w.inner[i + 1]) * f; return a + (b - a) * u; };
+  const wayPos = (w, s, off, out = {}) => {
+    const i = segAt(w, s), u = Math.max(0, Math.min(1, (s - w.cum[i]) / ((w.cum[i + 1] - w.cum[i]) || 1e-6))), A = w.P[i], B = w.P[i + 1], MA = w.M[i], MB = w.M[i + 1];
+    out.x = A[0] + (B[0] - A[0]) * u + (MA[0] + (MB[0] - MA[0]) * u) * off; out.z = A[1] + (B[1] - A[1]) * u + (MA[1] + (MB[1] - MA[1]) * u) * off;
+    out.dx = w.dirs[i][0]; out.dz = w.dirs[i][1]; return out;
+  };
+  // lanes stop at the edge of the road they meet (just short of a bend where a road simply carries on)
+  ways.forEach((w) => {
+    const back = (nid) => { const N = nodes[nid]; if (N.deg <= 1) return N.edge ? 1.5 : 5; /* a dead end: room to turn round on the road */ if (N.deg === 2) return 0.6; let m = 0; [...N.in, ...N.out].forEach((o) => { if (o.link !== w.link) m = Math.max(m, o.to === nid ? o.H[o.H.length - 1] : o.H[0]); }); return m + 1.2; };
+    let a = back(w.from), b = back(w.to); const room = Math.max(0.2, w.L - 0.4);
+    if (a + b > room) { const k = room / (a + b); a *= k; b *= k; }
+    w.s0 = a; w.s1 = Math.max(a, w.L - b);
+  });
+  // the paths across each junction: a smooth curve from the end of a lane in to the start of a lane out
+  const curve = (p0, t0, p3, t3, c) => {
+    const p1 = [p0[0] + t0[0] * c, p0[1] + t0[1] * c], p2 = [p3[0] - t3[0] * c, p3[1] - t3[1] * c], pts = [], cum = [0], N = 10;
+    for (let j = 0; j <= N; j++) { const t = j / N, a = (1 - t) ** 3, b = 3 * (1 - t) ** 2 * t, d = 3 * (1 - t) * t * t, e = t ** 3; pts.push([a * p0[0] + b * p1[0] + d * p2[0] + e * p3[0], a * p0[1] + b * p1[1] + d * p2[1] + e * p3[1]]); if (j) cum.push(cum[j - 1] + Math.hypot(pts[j][0] - pts[j - 1][0], pts[j][1] - pts[j - 1][1])); }
+    return { pts, cum, L: cum[N] };
+  };
+  nodes.forEach((N, v) => {
+    N.in.forEach((a) => {
+      const onward = N.out.filter((b) => b.link !== a.link), opts = onward.length ? onward : N.out; // turning back only where the road ends
+      opts.forEach((b) => {
+        const ta = a.dirs[a.dirs.length - 1], tb = b.dirs[0], cross = ta[0] * tb[1] - ta[1] * tb[0], ang = Math.atan2(cross, ta[0] * tb[0] + ta[1] * tb[1]);
+        let pairs;
+        if (Math.abs(ang) > 2.6) pairs = [[0, 0]];
+        else if (Math.abs(ang) < 0.6) { pairs = []; for (let k = 0; k < a.n; k++) pairs.push([k, Math.min(k, b.n - 1)]); for (let m = a.n; m < b.n; m++) pairs.push([a.n - 1, m]); }
+        else pairs = cross * HAND > 0 ? [[a.n - 1, b.n - 1]] : [[0, 0]]; // near side from the kerb lane, far side from the inner lane
+        const turn = { b, ang, conns: [], speed: Math.abs(ang) < 0.35 ? 99 : Math.abs(ang) > 2.6 ? 2.5 : 4 + 4 * (1 - Math.min(1, Math.abs(ang) / 1.6)) };
+        pairs.forEach(([k, m]) => {
+          const pa = wayPos(a, a.s1, laneOff(a, k, a.s1)), pb = wayPos(b, b.s0, laneOff(b, m, b.s0)), d = Math.hypot(pb.x - pa.x, pb.z - pa.z);
+          const cn = curve([pa.x, pa.z], [pa.dx, pa.dz], [pb.x, pb.z], [pb.dx, pb.dz], Math.abs(ang) > 2.6 ? Math.max(2.4, d * 0.7) : Math.max(0.3, d * 0.42));
+          Object.assign(cn, { from: a, k, to: b, m, node: v, ang });
+          turn.conns.push(cn);
+        });
+        a.next.push(turn);
+      });
+    });
+  });
+  // the zebras on each way, by distance along it (cars give way to anyone on one)
+  const XINGS = world.crossings || [];
+  XINGS.forEach((xg) => {
+    const rd = [xg.nz, -xg.nx];
+    ways.forEach((w) => {
+      for (let i = 0; i < w.dirs.length; i++) {
+        const A = w.P[i], d = w.dirs[i], ax = xg.x - A[0], az = xg.z - A[1], u = ax * d[0] + az * d[1], seg = w.cum[i + 1] - w.cum[i];
+        if (u < -0.5 || u > seg + 0.5) continue;
+        if (Math.abs(-ax * d[1] + az * d[0]) < 2 && Math.abs(d[0] * rd[0] + d[1] * rd[1]) > 0.6) { w.xs.push({ s: w.cum[i] + u, x: xg }); break; }
+      }
+    });
   });
   const usable = nodes.map((n, i) => i).filter((i) => nodes[i].out.length);
   // ---------- traffic lights at the big junctions ----------
-  const junctions = nodes.map((n, i) => ({ n, i })).filter(({ n }) => n.out.length >= 3 && n.out.filter((e) => e.major).length >= 2 && Math.hypot(n.x - world.spawn.x, n.z - world.spawn.z) < world.radius * 0.9);
+  const junctions = nodes.map((n, i) => ({ n, i })).filter(({ n }) => n.links.length >= 3 && n.links.filter((e) => e.major).length >= 2 && Math.hypot(n.x - world.spawn.x, n.z - world.spawn.z) < world.radius * 0.9);
   const signals = [], poles = [];
   const poleMat = new THREE.MeshStandardMaterial({ color: 0x2b2f33, roughness: 0.6 }), off = new THREE.MeshStandardMaterial({ color: 0x1b1d1f, roughness: 0.5 });
   const lit = { red: new THREE.MeshBasicMaterial({ color: new THREE.Color(2.4, 0.25, 0.2) }), amber: new THREE.MeshBasicMaterial({ color: new THREE.Color(2.4, 1.4, 0.2) }), green: new THREE.MeshBasicMaterial({ color: new THREE.Color(0.3, 2.2, 0.6) }) };
   junctions.slice(0, lowQuality ? 4 : 8).forEach(({ n, i }, k) => {
     // two phases by the direction of approach: the main axis, then the cross street
-    const axis = Math.atan2(nodes[n.out[0].to].x - n.x, nodes[n.out[0].to].z - n.z);
+    const axis = Math.atan2(nodes[n.links[0].to].x - n.x, nodes[n.links[0].to].z - n.z);
     const sig = { i, x: n.x, z: n.z, axis, t: k * 3.3, heads: [] };
-    n.out.forEach((e) => {
+    n.links.forEach((e) => {
       const o = nodes[e.to], dx = o.x - n.x, dz = o.z - n.z, L = Math.hypot(dx, dz) || 1, ux = dx / L, uz = dz / L;
       // on the approach's kerb, a few metres back from the middle of the junction
       // the approaching driver's right is (uz, -ux): step out that way until clear of the carriageway
@@ -152,15 +249,52 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
     return new THREE.MeshBasicMaterial({ map: tex, color: kind === 'dark' ? 0xffffff : new THREE.Color(1.6, 1.6, 1.6) });
   };
   const PEDM = { walk: pedFace('walk'), stop: pedFace('stop'), dark: pedFace('dark') };
-  const peds = [];
+  const peds = [], pelicans = [];
+  // a pelican crossing: car lights on the near-side kerb before the zebra for each way of travel; green for the cars
+  // until someone waits, then amber, red, the walking figure for 7 s and the flashing hand for 3, and at least 12 s
+  // of green before the next turn
+  function pelican(k) {
+    const P = { k, x: k.x, z: k.z, st: 'green', t: 12 * Math.random(), ped: 'stop', carRed: false, heads: [] };
+    const rd = [k.nz, -k.nx];
+    [1, -1].forEach((sd) => {
+      const dx = rd[0] * sd, dz = rd[1] * sd, rx = -dz * HAND, rz = dx * HAND; // the driver's heading, and their kerb side
+      let px = 0, pz = 0;
+      for (let o = k.hw + 0.9; o < k.hw + 5; o += 0.3) { px = k.x - dx * 3.2 + rx * o; pz = k.z - dz * 3.2 + rz * o; if (!world.onCarriageway?.(px, pz, 0.4)) break; }
+      if (world.onCarriageway?.(px, pz, 0.3) || world.inAnyBuilding?.(px, pz, 0.3) || poles.some((q) => Math.hypot(q.x - px, q.z - pz) < 1.2)) return;
+      poles.push({ x: px, z: pz });
+      const g = new THREE.Group(); g.position.set(px, 0, pz); g.rotation.y = Math.atan2(-dx, -dz); group.add(g); // facing the cars coming
+      g.add(new THREE.Mesh(box(0.11, 2.9, 0.11, 0, 1.45, 0), poleMat), new THREE.Mesh(box(0.34, 0.92, 0.26, 0, 3.1, 0), poleMat));
+      const lamps = ['red', 'amber', 'green'].map((c, j) => { const m = new THREE.Mesh(new THREE.CircleGeometry(0.1, 12), off); m.position.set(0, 3.42 - j * 0.3, 0.14); g.add(m); return m; });
+      P.heads.push(lamps);
+      world.addColliders?.([{ name: 'signal_pole', cx: px, cz: pz, hx: 0.1, hz: 0.1, ry: 0 }]);
+    });
+    pelicans.push(P);
+    return P;
+  }
+  const PEL = { amber: 2.5, allred: 1, walk: 7, flash: 3 };
+  function pelicanTick(P, dt, humans) {
+    P.t += dt;
+    const go = (st) => { P.st = st; P.t = 0; };
+    if (P.st === 'green') { if (P.t > 12 && humans.some((h) => Math.hypot(h.x - P.x, h.z - P.z) < P.k.hw + 3.5)) go('amber'); }
+    else if (P.t > PEL[P.st]) go({ amber: 'allred', allred: 'walk', walk: 'flash', flash: 'green' }[P.st]);
+    P.carRed = P.st !== 'green';
+    P.ped = P.st === 'walk' ? 'walk' : P.st === 'flash' ? 'flash' : 'stop';
+    const lit3 = P.st === 'green' ? 'green' : P.st === 'amber' ? 'amber' : 'red';
+    P.heads.forEach((lamps) => lamps.forEach((m, j) => { m.material = ['red', 'amber', 'green'][j] === lit3 ? lit[lit3] : off; }));
+  }
   (world.crossings || []).forEach((k) => {
     // a zebra belongs to the nearest signalled junction within 26 m (two junctions close together must
     // not both claim it, each with its own idea of when you may cross)
     let sig = null, best = 26;
     signals.forEach((g) => { const d = Math.hypot(k.x - g.x, k.z - g.z); if (d < best) { best = d; sig = g; } });
-    if (!sig) return;
-    const phase = Math.abs(Math.sin(Math.atan2(k.nz, -k.nx) - sig.axis)) < 0.5 ? 0 : 1; // the cars this zebra crosses
-    const ped = { sig, phase, x: k.x, z: k.z, nx: k.nx, nz: k.nz, hw: k.hw, faces: [], state: 'stop' };
+    // every other zebra on a major road gets its own lights, the hand and the walking figure (Elvis, 11 October
+    // 2026: "introduce it for every pedestrian walk path on major roads", in every city): a pelican crossing that
+    // holds the cars when someone is waiting to cross
+    const solo = !sig && MAJOR.includes(k.cls) ? pelican(k) : null;
+    if (!sig && !solo) return;
+    const phase = sig ? (Math.abs(Math.sin(Math.atan2(k.nz, -k.nx) - sig.axis)) < 0.5 ? 0 : 1) : 0; // the cars this zebra crosses
+    const ped = { sig, solo, phase, x: k.x, z: k.z, nx: k.nx, nz: k.nz, hw: k.hw, faces: [], state: 'stop' };
+    k.ped = ped;
     [-1, 1].forEach((s) => {
       let off = k.hw + 1.2, px = 0, pz = 0;
       for (; off < k.hw + 5; off += 0.3) { px = k.x + k.nx * s * off - k.nz * 2.1; pz = k.z + k.nz * s * off + k.nx * 2.1; if (!world.onCarriageway?.(px, pz, 0.35)) break; }
@@ -172,7 +306,7 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
     });
     if (ped.faces.length) peds.push(ped);
   });
-  const pedState = (ped) => { const u = (((ped.sig.t % CYCLE) - (ped.phase ? CYCLE / 2 : 0)) % CYCLE + CYCLE) % CYCLE; return u >= 11 && u < 18.5 ? 'walk' : u >= 18.5 && u < 21.5 ? 'flash' : 'stop'; };
+  const pedState = (ped) => { if (ped.solo) return ped.solo.ped; const u = (((ped.sig.t % CYCLE) - (ped.phase ? CYCLE / 2 : 0)) % CYCLE + CYCLE) % CYCLE; return u >= 11 && u < 18.5 ? 'walk' : u >= 18.5 && u < 21.5 ? 'flash' : 'stop'; };
   const tx = (k) => k.nz, tz = (k) => -k.nx;
   // about to step off the kerb onto a signalled zebra whose figure is not lit: wait
   world.pedWait = (pos, dx, dz) => {
@@ -187,13 +321,13 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
 
   // ---------- the traffic officer at the busiest junction (LASTMA in Lagos, the traffic police in Nairobi...) ----------
   let warden = null;
-  const busiest = junctions.sort((a, b) => b.n.out.length - a.n.out.length)[0];
+  const busiest = junctions.sort((a, b) => b.n.links.length - a.n.links.length)[0];
   if (busiest) {
     const av = createAvatarModel({ color: '#f2c418', style: 'tee' }); prepareLook(av.root); const rig = rigAvatar(av.root);
     dress(av.root, officialLook(cityInfo().officials, 0), rig); // the city's own traffic agency (cityinfo.js)
     // on a little island at the corner, out of the cars' way: try each road out of the junction, both sides, until the island is clear of every carriageway
     let px = busiest.n.x, pz = busiest.n.z, found = false;
-    for (const ed of busiest.n.out) {
+    for (const ed of busiest.n.links) {
       const q = nodes[ed.to], Lq = Math.hypot(q.x - busiest.n.x, q.z - busiest.n.z) || 1;
       for (const sd of [1, -1]) {
         for (let off = ed.lane + 3; off < ed.lane * 3 + 9 && !found; off += 0.5) {
@@ -216,61 +350,104 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
   const N = Math.min(usable.length, reduced ? 8 : lowQuality ? 12 : 22);
   const rng = (() => { let a = 1234567; return () => { a = (a + 0x6d2b79f5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; })();
   const cars = [];
-  // kekes keep off the big roads (banned from them in Lagos, Port Harcourt and Uyo); cyclists keep to the lanes
+  // kekes keep off the big roads (banned from them in Lagos, Port Harcourt and Uyo); cyclists keep to the cycle lanes
   const BIG = ['motorway', 'trunk', 'primary'];
-  const pickNext = (from, to, cyclist, keke) => { const n = nodes[to], opts = n.out.filter((e) => e.to !== from), pref = cyclist ? opts.filter((e) => e.bike) : keke ? opts.filter((e) => !BIG.includes(e.road?.cls)) : []; const list = pref.length ? pref : opts.length ? opts : n.out; return list[Math.floor(rng() * list.length)]; };
+  const suits = (kind, w) => (kind === 'keke' ? !BIG.includes(w.road.cls) : kind === 'cycle' ? !!w.bike : true);
+  // which way to go at the end of this way; null at the edge of the map (the car drives off it and another comes on)
+  const choose = (c) => {
+    const w = c.w; if (nodes[w.to].edge) return null;
+    let list = w.next.filter((t) => Math.abs(t.ang) <= 2.6); if (!list.length) list = w.next; if (!list.length) return null;
+    const pref = list.filter((t) => suits(c.kind, t.b)); if (pref.length) list = pref;
+    return list[Math.floor(rng() * list.length)];
+  };
+  // the lane this car should be in for its next turn: the nearest lane a path through the junction starts from
+  const laneFor = (turn, k) => turn.conns.reduce((best, cn) => (Math.abs(cn.k - k) < Math.abs(best - k) ? cn.k : best), turn.conns[0].k);
+  // where across the way the car drives: its lane's middle; a cyclist in the cycle lane, or else close to the kerb
+  const offFor = (c, s) => (c.kind === 'cycle' ? (c.w.bike ? c.w.bike : Math.min(laneOff(c.w, c.w.n - 1, s) + 0.9, c.w.outer[0] + 0.25)) : laneOff(c.w, c.kT, s));
+  // (place: put down fresh, a cyclist straight into the cycle lane; otherwise everyone arrives in the lane the path
+  // across the junction ends in, and eases over from there)
+  function enterWay(c, w, k, s, place = false) {
+    c.w = w; c.s = s; c.cn = null; c.k = Math.min(k, w.n - 1);
+    c.turn = choose(c); c.kT = c.turn ? laneFor(c.turn, c.k) : c.k;
+    c.off = place && c.kind === 'cycle' ? offFor(c, s) : laneOff(w, c.k, s);
+  }
+  // cars come on at the map's edge, on a way in
+  const entries = ways.filter((w) => nodes[w.from].edge);
+  function respawn(c) {
+    const pool = entries.filter((w) => suits(c.kind, w)), list = pool.length ? pool : entries.length ? entries : ways;
+    const w = list[Math.floor(rng() * list.length)]; enterWay(c, w, Math.floor(rng() * w.n), w.s0, true); c.bx = c.bz = 0; c.v = Math.min(c.v, 6); c.jumped = true;
+  }
   const CYCLISTS = reduced ? 1 : 3;
   for (let k = 0; k < N + CYCLISTS; k++) {
     const mix = cityInfo().traffic?.mix || MIX, kind = k >= N ? 'cycle' : mix[k % mix.length];
-    // cyclists start in a cycle lane where there is one
-    const laneStarts = kind === 'cycle' ? usable.filter((i) => nodes[i].out.some((e) => e.bike)) : kind === 'keke' ? usable.filter((i) => nodes[i].out.some((e) => !BIG.includes(e.road?.cls))) : [];
-    const start = laneStarts.length ? laneStarts[Math.floor(rng() * laneStarts.length)] : usable[Math.floor(rng() * usable.length)];
-    const outs = kind === 'cycle' && nodes[start].out.some((e) => e.bike) ? nodes[start].out.filter((e) => e.bike) : kind === 'keke' && nodes[start].out.some((e) => !BIG.includes(e.road?.cls)) ? nodes[start].out.filter((e) => !BIG.includes(e.road?.cls)) : nodes[start].out, e = outs[Math.floor(rng() * outs.length)];
-    const mesh = vehicle(kind, k); group.add(trackDetail(mesh));
-    cars.push({ kind, mesh, from: start, e, s: rng() * e.L, v: 0, max: DESIGNS[kind].speed * (0.85 + rng() * 0.3), wait: 0, horn: 0 });
+    const pool = ways.filter((w) => w.s1 - w.s0 > 6 && suits(kind, w)), list = pool.length ? pool : ways.filter((w) => w.s1 - w.s0 > 6);
+    if (!list.length) break;
+    const w = list[Math.floor(rng() * list.length)], mesh = vehicle(kind, k); group.add(trackDetail(mesh));
+    const c = { kind, mesh, v: 0, max: DESIGNS[kind].speed * (0.85 + rng() * 0.3), wait: 0, horn: 0, bx: 0, bz: 0 };
+    enterWay(c, w, Math.floor(rng() * w.n), w.s0 + rng() * (w.s1 - w.s0), true);
+    cars.push(c);
   }
 
-  const tmp = new THREE.Vector3();
-  // cyclists keep to the cycle lane where the road has one (world.js paints it, 1.2 m in from the kerb)
-  // (Kenya keeps left: there the lanes are on the other side of the road)
-  const HAND = cityInfo().drive === 'left' ? -1 : 1;
-  const laneOf = (c) => (c.kind === 'cycle' && c.e.bike ? c.e.bike : c.e.lane) * HAND * (c.flip ?? 1); // (flip: a U-turn crossing to the other side)
-  const posOf = (c) => { const a = nodes[c.from], b = nodes[c.e.to], u = c.s / (c.e.L || 1), dx = (b.x - a.x) / (c.e.L || 1), dz = (b.z - a.z) / (c.e.L || 1), lane = laneOf(c); return { x: a.x + (b.x - a.x) * u - dz * lane, z: a.z + (b.z - a.z) * u + dx * lane, dx, dz }; };
+  // where a car is now: along its lane, or along the path across a junction; plus what is left of a smoothed jump
+  const posOf = (c, out = {}) => {
+    if (c.cn) {
+      const cn = c.cn, s = Math.max(0, Math.min(cn.L, c.cs)); let j = 0; while (j < cn.cum.length - 2 && cn.cum[j + 1] < s) j++;
+      const A = cn.pts[j], B = cn.pts[j + 1], L = (cn.cum[j + 1] - cn.cum[j]) || 1e-6, u = (s - cn.cum[j]) / L;
+      out.x = A[0] + (B[0] - A[0]) * u; out.z = A[1] + (B[1] - A[1]) * u; out.dx = (B[0] - A[0]) / L; out.dz = (B[1] - A[1]) / L;
+    } else wayPos(c.w, c.s, c.off, out);
+    out.x += c.bx; out.z += c.bz; return out;
+  };
+  const roadOf = (c) => (c.cn ? (c.cs < c.cn.L / 2 ? c.cn.from.road : c.cn.to.road) : c.w.road);
+  // the nearest zebra ahead (on this way, or past the junction on the next) that is held for walkers or has someone on it
+  const xBusy = new Map();
+  function crossingAhead(c) {
+    let best = Infinity;
+    const scan = (w, base, from) => { for (const X of w.xs) { const d = base + X.s - from; if (d > -0.5 && d < 20 && xBusy.get(X.x)) best = Math.min(best, d); } };
+    if (c.cn) scan(c.cn.to, c.cn.L - c.cs, c.cn.to.s0);
+    else { scan(c.w, 0, c.s); if (c.turn) { const cn = c.turn.conns[0]; scan(cn.to, c.w.s1 - c.s + cn.L, cn.to.s0); } }
+    return best;
+  }
   let t = 0;
   function update(dt, player) {
     t += dt;
+    const people = getPeople?.() || [], humans = player ? [player, ...people] : people;
+    pelicans.forEach((P) => pelicanTick(P, dt, humans));
     peds.forEach((k) => { k.state = pedState(k); const m = k.state === 'walk' ? PEDM.walk : k.state === 'flash' ? (Math.floor(t * 2.5) % 2 ? PEDM.stop : PEDM.dark) : PEDM.stop; k.faces.forEach((f) => { f.material = m; }); });
     signals.forEach((sig) => { sig.t += dt; sig.heads.forEach((h) => { const st = stateOf(sig, h.phase); h.lamps.forEach((m, j) => { m.material = ['red', 'amber', 'green'][j] === st ? lit[st] : off; }); }); });
-    const people = getPeople?.() || [];
-    const P = cars.map(posOf);
+    // a zebra is busy while its pelican holds the cars, or anyone is on it or at its very edge
+    XINGS.forEach((xg) => { const P = xg.ped?.solo; xBusy.set(xg, (P && P.carRed) || humans.some((h) => { const ax = h.x - xg.x, az = h.z - xg.z; return Math.abs(ax * xg.nz - az * xg.nx) < 2.6 && Math.abs(ax * xg.nx + az * xg.nz) < xg.hw + 0.8; })); });
+    const P = cars.map((c) => posOf(c));
     playerHold = 0;
     cars.forEach((c, k) => {
-      const p = P[k];
+      const p = P[k], len = DESIGNS[c.kind].len;
       let want = c.max;
       // school and pedestrian zones (roadsigns.js): their limit, whatever the road allows
       for (const Z of world.slowZones || []) if ((p.x - Z.x) ** 2 + (p.z - Z.z) ** 2 < Z.r * Z.r) want = Math.min(want, Z.limit);
-      const toEnd = c.e.L - c.s;
-      // red or amber at the junction ahead: stop at the line
-      const sig = sigAt.get(c.e.to);
-      const flying = flyover && flyover.over(p.x, p.z, c.e.road); // over the junction, no light
-      if (sig && !flying) { const ph = Math.abs(Math.sin(Math.atan2(-p.dx, -p.dz) - sig.axis)) < 0.5 ? 0 : 1; const st = stateOf(sig, ph); if (st !== 'green' && toEnd > 4 && toEnd < 9 + c.v) want = Math.min(want, Math.max(0, (toEnd - 7) * 1.2)); }
-      // slow for the bend at the end of the segment
-      if (toEnd < 8) want = Math.min(want, 5 + toEnd * 0.4);
+      const toEnd = c.cn ? Infinity : c.w.s1 - c.s;
+      // red or amber at the junction ahead: stop at the line, the end of the lane
+      const sig = c.cn ? null : sigAt.get(c.w.to);
+      const flying = flyover && flyover.over(p.x, p.z, roadOf(c)); // over the junction, no light
+      if (sig && !flying) { const ph = Math.abs(Math.sin(Math.atan2(-p.dx, -p.dz) - sig.axis)) < 0.5 ? 0 : 1; const st = stateOf(sig, ph); if (st !== 'green' && toEnd > 0.8 && toEnd < 9 + c.v) want = Math.min(want, Math.max(0, (toEnd - 1.2) * 1.2)); }
+      // slow for the turn ahead, and round it
+      if (c.turn && toEnd < 12) want = Math.min(want, c.turn.speed + toEnd * 0.7);
+      if (c.cn) want = Math.min(want, (c.turnSpeed ?? 99) + 1.5);
+      // a zebra ahead with someone on it, or held by its lights: stop short of it and wait
+      if (!flying) { const d = crossingAhead(c); if (d < Infinity && d > len * 0.25) want = Math.min(want, Math.max(0, (d - len / 2 - 2.2) * 1.2)); }
       // keep a distance from the car ahead in the same lane
       for (let j = 0; j < cars.length; j++) {
         // (one up on the flyover and one under it are not in each other's way)
         if (j === k || Math.abs(cars[j].mesh.position.y - c.mesh.position.y) > 2.5) continue; const q = P[j], ax = q.x - p.x, az = q.z - p.z, along = ax * p.dx + az * p.dz, across = Math.abs(-ax * p.dz + az * p.dx);
-        if (along > 0 && along < 14 && across < 1.6 && p.dx * q.dx + p.dz * q.dz > 0.3) want = Math.min(want, Math.max(0, (along - DESIGNS[c.kind].len / 2 - DESIGNS[cars[j].kind].len / 2 - 1.5) * 1.1));
+        if (along > 0 && along < 14 && across < 1.6 && p.dx * q.dx + p.dz * q.dz > 0.3) want = Math.min(want, Math.max(0, (along - len / 2 - DESIGNS[cars[j].kind].len / 2 - 1.5) * 1.1));
       }
       const byCar = want < 0.3;
       // anything else on the road ahead (a minibus turning into the motor park, a ride waiting at the kerb): wait for it
       let byThing = false;
-      for (const b of blockers) { if (!b.on) continue; const ax = b.x - p.x, az = b.z - p.z, along = ax * p.dx + az * p.dz, across = Math.abs(-ax * p.dz + az * p.dx); if (along > 0 && along < 16 && across < b.r + 1.1) { want = Math.min(want, Math.max(0, (along - DESIGNS[c.kind].len / 2 - b.r - 1.5) * 1.1)); byThing = byThing || want < 0.3; } }
+      for (const b of blockers) { if (!b.on) continue; const ax = b.x - p.x, az = b.z - p.z, along = ax * p.dx + az * p.dz, across = Math.abs(-ax * p.dz + az * p.dx); if (along > 0 && along < 16 && across < b.r + 1.1) { want = Math.min(want, Math.max(0, (along - len / 2 - b.r - 1.5) * 1.1)); byThing = byThing || want < 0.3; } }
       // people in the road ahead: stop, and after a moment, the horn
       let blocked = false;
-      [player, ...people].forEach((h, hi) => { if (!h || c.mesh.position.y > 2.5) return; const ax = h.x - p.x, az = h.z - p.z, along = ax * p.dx + az * p.dz, across = Math.abs(-ax * p.dz + az * p.dx); if (along > 0 && along < 7 && across < 1.5) { want = Math.min(want, Math.max(0, (along - 3.5) * 1.5)); if (hi === 0 && along < 6) blocked = true; } });
+      humans.forEach((h, hi) => { if (!h || c.mesh.position.y > 2.5) return; const ax = h.x - p.x, az = h.z - p.z, along = ax * p.dx + az * p.dz, across = Math.abs(-ax * p.dz + az * p.dx); if (along > 0 && along < 7 && across < 1.5) { want = Math.min(want, Math.max(0, (along - 3.5) * 1.5)); if (hi === 0 && h === player && along < 6) blocked = true; } });
       if (blocked && c.v < 0.3) playerHold = Math.max(playerHold, (c.hold = (c.hold || 0) + dt)); else c.hold = 0;
-      if (blocked && c.v < 0.3) { c.horn += dt; if (c.horn > 1.6 && Math.hypot(player.x - p.x, player.z - p.z) < 25) { sfx('horn', { kind: c.kind }); c.horn = -3; dispatchEvent(new CustomEvent('bw:react', { detail: { kind: 'horn', x: p.x, z: p.z, r: 14, max: 3, chance: 0.7 } })); } } else c.horn = Math.min(c.horn, 0) + dt * 0;
+      if (blocked && c.v < 0.3) { c.horn += dt; if (c.horn > 1.6 && Math.hypot(player.x - p.x, player.z - p.z) < 25) { sfx('horn', { kind: c.kind }); c.horn = -3; dispatchEvent(new CustomEvent('bw:react', { detail: { kind: 'horn', x: p.x, z: p.z, r: 14, max: 3, chance: 0.7 } })); } } else c.horn = Math.min(c.horn, 0);
       if (reduced) want = Math.min(want, c.max * 0.6);
       // stuck behind something that is not going to move (not a light, not a person crossing): after a while a
       // traffic official sees it (officials.js) and waves the car round: it turns back the way it came
@@ -278,16 +455,34 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
       if (c.v < 0.25 && (byCar || byThing) && !blocked && !sigRed) c.stuck = (c.stuck || 0) + dt; else c.stuck = 0;
       if (c.stuck > 9 && !c.reported) { c.reported = true; dispatchEvent(new CustomEvent('bw:obstruction', { detail: { x: p.x, z: p.z, car: c } })); }
       // (an officer on the way: wait for the wave, up to half a minute; nobody coming: the driver turns round alone)
-      if (c.stuck > 13 && (c.waved || !c.helped || c.stuck > 30)) {
-        const back = nodes[c.e.to].out.find((e) => e.to === c.from);
-        if (back) { const s0 = c.s; c.from = c.e.to; c.e = back; c.s = Math.max(0, back.L - s0); c.flip = -1; c.stuck = 0; c.reported = false; c.waved = false; c.helped = false; c.v = 0; }
+      if (c.stuck > 13 && (c.waved || !c.helped || c.stuck > 30) && !c.cn) {
+        const back = c.w.link.f === c.w ? c.w.link.b2 : c.w.link.f;
+        if (back) { const s0 = c.s; enterWay(c, back, 0, Math.max(back.s0, Math.min(back.s1, back.L - s0))); const q = posOf(c); c.bx += p.x - q.x; c.bz += p.z - q.z; c.stuck = 0; c.reported = false; c.waved = false; c.helped = false; c.v = 0; }
       }
-      if (c.flip !== undefined && c.flip < 1) c.flip = Math.min(1, c.flip + dt * 1.4);
       c.v += Math.max(-7 * dt, Math.min(2.4 * dt, want - c.v));
-      c.s += c.v * dt;
-      if (c.s >= c.e.L) { const at = c.e.to; if (watchers.some((fn) => fn(c, at))) { c.gone = true; return; } const nx = pickNext(c.from, at, c.kind === 'cycle', c.kind === 'keke'); c.s -= c.e.L; c.from = at; c.e = nx; if (c.s > c.e.L) c.s = 0; }
+      // along: a lane change eases across as the car goes (about a metre sideways per five forward)
+      if (c.cn) {
+        c.cs += c.v * dt;
+        if (c.cs >= c.cn.L) { const cn = c.cn, rest = c.cs - cn.L; enterWay(c, cn.to, cn.m, Math.min(cn.to.s1, cn.to.s0 + rest)); }
+      } else {
+        c.s += c.v * dt;
+        const target = offFor(c, c.s); c.off += Math.max(-(0.3 + c.v * 0.2) * dt, Math.min((0.3 + c.v * 0.2) * dt, target - c.off));
+        if (c.s >= c.w.s1) {
+          const at = c.w.to;
+          if (watchers.some((fn) => fn(c, at))) { c.gone = true; return; }
+          if (!c.turn) { respawn(c); }
+          else {
+            // onto the path across the junction from the lane the car is in (the nearest, if a lane change ran short)
+            const kNow = c.turn.conns.some((cn) => cn.k === c.kT) ? c.kT : laneFor(c.turn, c.k);
+            const cn = c.turn.conns.find((q) => q.k === kNow) || c.turn.conns[0];
+            const before = posOf(c); c.cn = cn; c.cs = Math.max(0, c.s - c.w.s1); c.turnSpeed = c.turn.speed; c.bx = c.bz = 0;
+            const after = posOf(c); c.bx = before.x - after.x; c.bz = before.z - after.z; // whatever is left of the lane change, smoothed away
+          }
+        }
+      }
+      c.bx *= Math.exp(-dt * 2.5); c.bz *= Math.exp(-dt * 2.5);
       const q = posOf(c), yaw = Math.atan2(q.dx, q.dz);
-      c.mesh.position.set(q.x, flyover ? flyover.heightFor(q.x, q.z, c.e.road) : 0, q.z);
+      c.mesh.position.set(q.x, flyover ? flyover.heightFor(q.x, q.z, roadOf(c)) : 0, q.z);
       const dy = Math.atan2(Math.sin(yaw - c.mesh.rotation.y), Math.cos(yaw - c.mesh.rotation.y)); c.mesh.rotation.y += dy * (1 - Math.exp(-dt * 6));
       c.mesh.userData.tail.color.setHex(want < c.v - 0.5 ? 0xff2a2a : 0x701010);
       if (c.kind === 'cycle') { const u = c.mesh.userData, a = t * (2 + c.v * 1.4); u.bike.userData.crank.rotation.x = a; u.bike.userData.wheels.forEach((w) => { w.rotation.x -= dt * c.v * 3.2; }); const r = u.rig; if (r) { r.update(dt, { speed: 0, t }); r.L.hip.rotation.x = -0.9 + Math.sin(a) * 0.45; r.R.hip.rotation.x = -0.9 - Math.sin(a) * 0.45; r.L.knee.rotation.x = 1.0 - Math.cos(a) * 0.45; r.R.knee.rotation.x = 1.0 + Math.cos(a) * 0.45; r.L.shoulder.rotation.x = -0.7; r.R.shoulder.rotation.x = -0.7; r.chest.rotation.x = 0.25; } }
@@ -306,8 +501,22 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
   const removeBlocker = (h) => { const i = blockers.indexOf(h); if (i >= 0) blockers.splice(i, 1); };
   function onNode(fn) { watchers.push(fn); }
   function nearestNode(x, z) { let best = -1, bd = Infinity; usable.forEach((i) => { const d = Math.hypot(nodes[i].x - x, nodes[i].z - z); if (d < bd) { bd = d; best = i; } }); return best; }
-  function release(kind, mesh, at) { const e = nodes[at].out[Math.floor(rng() * nodes[at].out.length)]; const c = { kind, mesh, from: at, e, s: 0.5, v: 2, max: DESIGNS[kind].speed, wait: 0, horn: 0 }; if (!mesh.parent) group.add(mesh); cars.push(c); return c; }
+  function release(kind, mesh, at) {
+    // onto the lane out of that junction whose start is nearest the vehicle, and eased into it from where it stands
+    const outs = nodes[at].out.length ? nodes[at].out : ways, m = mesh.position;
+    const near = (w) => { const q = wayPos(w, w.s0, laneOff(w, w.n - 1, w.s0)); return Math.hypot(q.x - m.x, q.z - m.z); };
+    const w = outs.reduce((a, b) => (near(b) < near(a) ? b : a));
+    const c = { kind, mesh, v: 2, max: DESIGNS[kind].speed, wait: 0, horn: 0, bx: 0, bz: 0 }; enterWay(c, w, w.n - 1, Math.min(w.s1, w.s0 + 0.5));
+    if (mesh.parent) { const q = posOf(c); c.bx = m.x - q.x; c.bz = m.z - q.z; } else group.add(mesh);
+    cars.push(c); return c;
+  }
   const bodies = () => cars.map((c) => c.body).filter(Boolean);
+  // for tests: every lane (blue, one-way orange) and every path across a junction (green), as lines a little above the road
+  function debugLanes() {
+    const g = new THREE.Group(), add = (pts, color) => g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts.map(([x, z]) => new THREE.Vector3(x, 0.4, z))), new THREE.LineBasicMaterial({ color, depthTest: false })));
+    ways.forEach((w) => { for (let k = 0; k < w.n; k++) { const pts = []; for (let s = w.s0; s <= w.s1 + 1e-3; s += Math.max(0.5, (w.s1 - w.s0) / 30)) { const q = wayPos(w, s, laneOff(w, k, s)); pts.push([q.x, q.z]); } if (pts.length > 1) add(pts, w.road.oneway ? 0xff8a00 : 0x2a6cff); } w.next.forEach((t) => t.conns.forEach((cn) => add(cn.pts, 0x18b848))); });
+    g.renderOrder = 10; scene.add(g); return g;
+  }
   function dispose() { group.removeFromParent(); }
-  return { peds, update, bodies, cars, signals, warden, nodes, onNode, nearestNode, release, stateOf, dispose, addBlocker, removeBlocker, get playerHold() { return playerHold; }, get count() { return cars.length; } };
+  return { peds, pelicans, ways, debugLanes, update, bodies, cars, signals, warden, nodes, onNode, nearestNode, release, stateOf, dispose, addBlocker, removeBlocker, get playerHold() { return playerHold; }, get count() { return cars.length; } };
 }

@@ -362,20 +362,25 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
       pts.forEach((p, i) => { const o = half[i] + Math.max(pv[i], 0) + 1.2; if (half[i] < CYCLE_MIN_HALF || nearJ(i) || otherRoadAt(p[0] + nrm[i][0] * o * sg, p[1] + nrm[i][1] * o * sg, r)) { flush(); return; } run.push(i); });
       flush();
     });
-    // zebra crossings just before each junction, so people cross where drivers expect them
-    if (minHalf >= 2.8) [0, pts.length - 1].forEach((end) => {
+    // zebra crossings just before each junction, so people cross where drivers expect them: where the street ends
+    // at a junction, and on the major roads also either side of every junction they run straight through
+    // (Elvis, 11 October 2026: a crossing with the hand and the walking figure on every major road, in every city)
+    const zebraEnds = [[0, 1], [pts.length - 1, -1]];
+    if (['trunk', 'primary', 'secondary', 'tertiary'].includes(r.cls)) for (let i = 1; i < pts.length - 1; i++) if (junctionAt(pts[i], r)) zebraEnds.push([i, 1], [i, -1]);
+    if (minHalf >= 2.8) zebraEnds.forEach(([end, dir]) => {
       if (!junctionAt(pts[end], r)) return;
       const rad = half[end] + Math.max(paveL[end], paveR[end]);
       const s = rad + 1.2; // metres back from the junction
-      const dir = end === 0 ? 1 : -1;
       let acc = 0, k = end;
       while (k + dir >= 0 && k + dir < pts.length) { const L = Math.hypot(pts[k + dir][0] - pts[k][0], pts[k + dir][1] - pts[k][1]); if (acc + L >= s + 3.2) break; acc += L; k += dir; }
       if (k + dir < 0 || k + dir >= pts.length) return;
       const A = pts[k], B = pts[k + dir], L = Math.hypot(B[0] - A[0], B[1] - A[1]) || 1, tx = (B[0] - A[0]) / L, tz = (B[1] - A[1]) / L;
       const u0 = Math.max(0, s - acc), c0 = [A[0] + tx * u0, A[1] + tz * u0], c1 = [A[0] + tx * (u0 + 3), A[1] + tz * (u0 + 3)];
       const nx = -tz, nz = tx, hw = half[k] - 0.4;
+      const zx = (c0[0] + c1[0]) / 2, zz = (c0[1] + c1[1]) / 2;
+      if (crossings.some((o) => Math.hypot(o.x - zx, o.z - zz) < 7)) return; // one zebra per spot
       for (let q = -hw + 0.25; q <= hw - 0.25; q += 1.0) ribbon(paintTris, [[c0[0] + nx * q, c0[1] + nz * q], [c1[0] + nx * q, c1[1] + nz * q]], 0.5, 0.17);
-      crossings.push({ x: (c0[0] + c1[0]) / 2, z: (c0[1] + c1[1]) / 2, nx, nz, hw });
+      crossings.push({ x: (c0[0] + c1[0]) / 2, z: (c0[1] + c1[1]) / 2, nx, nz, hw, cls: r.cls });
     });
     // junction aprons: rounded pavement corners where streets end or meet, so no bare ground shows
     [0, pts.length - 1].forEach((i) => {
