@@ -437,6 +437,7 @@ async function main() {
   addEventListener('keyup', (e) => keys.delete(e.key.toLowerCase()));
   addEventListener('blur', () => { keys.clear(); holds.rotL = holds.rotR = false; });
 
+  let edgeTold = false; // (the edge of the area explained once a visit)
   let drag = null, lookedAt = -9; // lookedAt: when you last turned the camera yourself (camera follow waits)
   canvas.addEventListener('contextmenu', (e) => e.preventDefault());
   canvas.addEventListener('pointerdown', (e) => { drag = { x: e.clientX, y: e.clientY, moved: 0 }; canvas.setPointerCapture(e.pointerId); });
@@ -715,7 +716,8 @@ async function main() {
       // boxed in means: off the street network, trying to move, and getting nowhere
       const trying = mv.lengthSq() > 0 || !!walkTarget, moved = Math.hypot(player.x - boxedAt.x, player.z - boxedAt.z);
       boxedAt.x = player.x; boxedAt.z = player.z;
-      const free = inside || riding || seated || playing || cam.aerial || groundY > 0.3 || jumpY > 0 || !trying || moved > 0.6 || !world.reachable || world.reachable(player.x, player.z);
+      // (resting against the edge of the area is not being boxed in: the edge holds you on purpose, main.js above)
+      const free = inside || riding || seated || playing || cam.aerial || groundY > 0.3 || jumpY > 0 || !trying || moved > 0.6 || Math.hypot(player.x, player.z) > world.radius * 0.92 || !world.reachable || world.reachable(player.x, player.z);
       boxedT = free ? 0 : boxedT + 0.5;
       if (boxedT >= 2) {
         boxedT = 0;
@@ -729,6 +731,17 @@ async function main() {
     const pace = dog.on ? (running ? 7.2 : 3.4) * TEST_PACE : (inside ? 1.9 : street?.mobility?.pace(running) ?? (running ? 6.4 : 2.8)) * TEST_PACE; // on a bike, a board or skates you go faster
     if (moving) {
       mv.normalize();
+      // the edge of the area (Elvis, 11 October 2026: not "an abrupt bounding box"): from 93% of the way out, the part
+      // of your step that heads further out fades away, so you slow and come to rest at the edge and slide along it,
+      // never knocking against a wall; walking along it or back in is untouched
+      if (!inside && !cam.aerial) {
+        const rr = Math.hypot(player.x, player.z), R0 = world.radius;
+        if (rr > R0 * 0.93) {
+          const ox = player.x / rr, oz = player.z / rr, out = mv.x * ox + mv.z * oz;
+          if (out > 0) { const u = Math.min(1, (rr - R0 * 0.93) / (R0 * 0.11)), keep = 1 - u * u * (3 - 2 * u); mv.x -= ox * out * (1 - keep); mv.z -= oz * out * (1 - keep); }
+          if (rr > R0 * 0.95 && !edgeTold) { edgeTold = true; const P = world.place || {}; (street?.hud.toast ?? chrome.toast)(`The edge of ${areaName(areaOf(P.city, P.name)) || P.name}. The rest of ${cityLabel(P.city)} is a taxi ride away: Travel, on your phone.`, 4200); }
+        }
+      }
       last.copy(player);
       player.addScaledVector(mv, pace * dt);
       // static world first (a jump clears low fences), then everything that moves
@@ -929,7 +942,8 @@ async function main() {
     chrome.update(camera, player, !cam.aerial);
     street?.update(dt, t, player, cam.yaw, shared.uArrival.value);
     street?.renderReflection();
-    grade.uniforms.uSat.value = 0.94 + 0.18 * shared.uDay.value; // vivid by day, calmer under the lamps at night
+    // vivid by day, calmer under the lamps at night; and toward grey near the edge of the area, as the world thins out
+    { const rr = cam.aerial ? 0 : Math.hypot(player.x, player.z), u = Math.min(1, Math.max(0, (rr - world.radius * 0.85) / (world.radius * 0.19))); grade.uniforms.uSat.value = (0.94 + 0.18 * shared.uDay.value) * (1 - 0.72 * u * u * (3 - 2 * u)); }
     if (q.get('post') === '0') renderer.render(scene, camera); else composer.render();
     street?.renderPortraits?.(dt);
     if (q.get('govern') !== '0') govern();
