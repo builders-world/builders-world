@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { roadSpeed, roadClass } from './roadclass.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { createAvatarModel } from '../onboarding/avatar.js';
 import { rigAvatar } from './anim.js';
@@ -17,7 +18,7 @@ import { cityInfo } from './cityinfo.js';
 // in the road and lean on the horn if you stand there. A LASTMA officer directs the busiest junction.
 
 const DRIVE = ['motorway', 'trunk', 'primary', 'secondary', 'tertiary', 'residential', 'unclassified', 'service', 'living_street', 'motorway_link', 'trunk_link', 'primary_link', 'secondary_link', 'tertiary_link'];
-const MAJOR = ['trunk', 'primary', 'secondary', 'tertiary'];
+const MAJOR = ['motorway', 'trunk', 'primary', 'secondary', 'tertiary'];
 const box = (w, h, d, x = 0, y = 0, z = 0) => new THREE.BoxGeometry(w, h, d).translate(x, y, z);
 const wheel = (x, z, r = 0.32) => new THREE.CylinderGeometry(r, r, 0.22, 12).rotateZ(Math.PI / 2).translate(x, r, z);
 
@@ -246,6 +247,49 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
   const CYCLE = 22; // 9 s green, 2 amber each way, 0.5 all red
   const stateOf = (sig, phase) => { const t = (sig.t % CYCLE) - (phase ? CYCLE / 2 : 0), u = ((t % CYCLE) + CYCLE) % CYCLE; return u < 8.5 ? 'green' : u < 10.5 ? 'amber' : 'red'; };
   const sigAt = new Map(signals.map((s) => [s.i, s]));
+  // ---------- STOP where a side road meets a main road without lights (the road hierarchy, roadclass.js) ----------
+  // A stop line across the side road's lanes, STOP on the road before it, the red octagon on the driver's kerb; drivers
+  // come to a full stop at the line, then go when the main road is clear (the give-way below). Built on the first frame,
+  // once the roundabouts (which give way, not stop) are known.
+  let STOP = null;
+  const stopTex = (() => { const cv = document.createElement('canvas'); cv.width = 256; cv.height = 256; const g = cv.getContext('2d'); g.fillStyle = '#c62828'; g.beginPath(); for (let k = 0; k < 8; k++) { const a = Math.PI / 8 + (k * Math.PI) / 4; g.lineTo(128 + Math.cos(a) * 122, 128 + Math.sin(a) * 122); } g.closePath(); g.fill(); g.strokeStyle = '#fff'; g.lineWidth = 10; g.stroke(); g.fillStyle = '#fff'; g.font = '800 78px "Baloo 2", system-ui, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('STOP', 128, 134); const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; return t; })();
+  const wordTex = (() => { const cv = document.createElement('canvas'); cv.width = 512; cv.height = 820; const g = cv.getContext('2d'); g.fillStyle = '#f6f1df'; g.textAlign = 'center'; g.textBaseline = 'middle'; let px = 200; do { g.font = `800 ${px}px "Baloo 2", system-ui, sans-serif`; px -= 6; } while (g.measureText('STOP').width > 470 && px > 60); g.save(); g.translate(256, 410); g.scale(1, 2.1); g.fillText('STOP', 0, 0); g.restore(); const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t; })(); // stretched along the lane, as road words are, so it reads from a driver's seat
+  function buildStops() {
+    STOP = new Set();
+    const line = [], P0 = {}, P1 = {}, signMat = new THREE.MeshStandardMaterial({ map: stopTex, roughness: 0.5, transparent: true, alphaTest: 0.5 }), wordMat = new THREE.MeshBasicMaterial({ map: wordTex, transparent: true, depthWrite: false, color: 0xe8e2d0 });
+    const postMat = new THREE.MeshStandardMaterial({ color: 0x55605a, roughness: 0.55, metalness: 0.3 }), cols = [], spots = [];
+    ways.forEach((w) => {
+      const N = nodes[w.to];
+      if (w.major || N.deg < 3 || sigAt.has(w.to) || N.roundabout || w.L < 8 || w.s1 - w.s0 < 6) return;
+      if (!N.in.some((o) => o.major && o !== w) && !N.out.some((o) => o.major)) return; // a side road meeting a main road
+      if (flyover?.over?.(N.x, N.z)) return;
+      STOP.add(w);
+      const s = w.s1, i = w.H.length - 1, inner = w.inner[i], outer = w.outer[i];
+      wayPos(w, s, inner, P0); wayPos(w, s, outer, P1);
+      const dx = P0.dx, dz = P0.dz, Y = 0.167, h = 0.22; // the line, 0.44 m deep, just above the road's paint
+      const q = [[P0.x - dx * h, Y, P0.z - dz * h], [P1.x - dx * h, Y, P1.z - dz * h], [P1.x + dx * h, Y, P1.z + dz * h], [P0.x + dx * h, Y, P0.z + dz * h]];
+      const up = (q[1][0] - q[0][0]) * (q[3][2] - q[0][2]) - (q[1][2] - q[0][2]) * (q[3][0] - q[0][0]) < 0; // wind it to face up
+      (up ? [0, 1, 2, 0, 2, 3] : [0, 2, 1, 0, 3, 2]).forEach((k) => line.push(...q[k]));
+      // STOP painted on the lane before the line, reading for the driver coming up to it
+      spots.push({ x: (P0.x + P1.x) / 2, z: (P0.z + P1.z) / 2, dx, dz });
+      const mid = wayPos(w, Math.max(w.s0, s - 3.2), (inner + outer) / 2, {}), across = Math.max(1.6, Math.min(3.0, outer - inner - 0.4));
+      const word = new THREE.Mesh(new THREE.PlaneGeometry(across, across * 1.6).rotateX(-Math.PI / 2), wordMat); word.position.set(mid.x, 0.168, mid.z); word.rotation.y = Math.atan2(-dx, -dz); word.renderOrder = 1; group.add(word);
+      // the sign, on the kerb on the driver's side, facing the traffic coming
+      for (let off = w.H[i] + 0.7; off < w.H[i] + 2.6; off += 0.3) {
+        const at = wayPos(w, s - 0.6, off, {});
+        if (world.onCarriageway?.(at.x, at.z, 0.3) || world.onRail?.(at.x, at.z, 0.3) || world.inPlot?.(at.x, at.z, 0.2) || world.solidAt?.(at.x, 1, at.z)) continue;
+        const g = new THREE.Group(); g.position.set(at.x, 0, at.z); g.rotation.y = Math.atan2(-dx, -dz);
+        g.add(new THREE.Mesh(new THREE.BoxGeometry(0.08, 2.1, 0.08).translate(0, 1.05, 0), postMat));
+        const face = new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.62), signMat); face.position.set(0, 2.05, 0.05); g.add(face);
+        const back = new THREE.Mesh(new THREE.CircleGeometry(0.31, 8), postMat); back.position.set(0, 2.05, 0.035); back.rotation.y = Math.PI; g.add(back);
+        group.add(g); cols.push({ name: 'stop_sign', cx: at.x, cz: at.z, hx: 0.1, hz: 0.1, ry: g.rotation.y });
+        break;
+      }
+    });
+    if (line.length) { const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(line, 3)); geo.computeVertexNormals(); group.add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: 0xf6f1df, side: THREE.DoubleSide }))); }
+    if (cols.length) world.addColliders?.(cols);
+    world.stopJunctions = { ways: STOP.size, signs: cols.length, at: spots, signsAt: cols.map((c) => ({ x: c.cx, z: c.cz })) };
+  }
 
   // ---------- pedestrian signals on the zebras at those junctions ----------
   // Each zebra near a signalled junction gets a head on both kerbs, facing the people about to cross. A
@@ -372,7 +416,9 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
   // kekes keep off the big roads (banned from them in Lagos, Port Harcourt and Uyo); cyclists keep to the cycle lanes
   const BIG = ['motorway', 'trunk', 'primary'];
   // (the BRT keeps to its corridors, the main roads; a 12 m bus has no business down a service lane)
-  const suits = (kind, w) => (kind === 'keke' ? !BIG.includes(w.road.cls) : kind === 'cycle' ? !!w.bike : kind === 'brt' || kind === 'trailer' ? ['motorway', 'trunk', 'primary', 'secondary'].includes(w.road.cls) : true);
+  // (the road hierarchy, roadclass.js: minibuses keep to the through roads, never down an estate or service lane, where a
+  // 5 m bus turning in sweeps over the car waiting at the corner)
+  const suits = (kind, w) => (kind === 'keke' ? !BIG.includes(w.road.cls) : kind === 'cycle' ? !!w.bike : kind === 'brt' || kind === 'trailer' ? ['motorway', 'trunk', 'primary', 'secondary'].includes(w.road.cls) : kind === 'danfo' ? roadClass(w.road.cls).kind !== 'estate' : true);
   // which way to go at the end of this way; null at the edge of the map (the car drives off it and another comes on)
   const choose = (c) => {
     const w = c.w; if (nodes[w.to].edge) return null;
@@ -435,6 +481,7 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
   }
   let t = 0;
   function update(dt, player) {
+    if (!STOP) buildStops();
     t += dt;
     const people = getPeople?.() || [], humans = player ? [player, ...people] : people;
     pelicans.forEach((P) => pelicanTick(P, dt, humans));
@@ -452,7 +499,9 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
     cars.forEach((c, k) => {
       if (c.offmap) { if ((c.retry = (c.retry || 0) - dt) <= 0) { c.retry = 1; respawn(c); } if (c.offmap) { c.mesh.position.y = -60; return; } }
       const p = P[k], len = DESIGNS[c.kind].len;
-      let want = c.max;
+      // the road's own speed (roadclass.js): a highway's, a main road's, a residential street's, an estate lane's;
+      // a minibus or a keke keeps to its share of it
+      let want = Math.min(c.max * 1.45, roadSpeed(c.w.road.cls) * (c.max / 9));
       // school and pedestrian zones (roadsigns.js): their limit, whatever the road allows
       for (const Z of world.slowZones || []) if ((p.x - Z.x) ** 2 + (p.z - Z.z) ** 2 < Z.r * Z.r) want = Math.min(want, Z.limit);
       const toEnd = c.cn ? Infinity : c.w.s1 - c.s;
@@ -472,8 +521,13 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
         if (blockedBy && (c.yieldT = (c.yieldT || 0) + dt) < 7) want = Math.min(want, Math.max(0, (toEnd - 2.2) * 1.2));
         else if (!blockedBy) c.yieldT = 0;
       }
+      // a STOP sign: a full stop at the line, then on when the way is clear (the give-way above holds them if not)
+      if (STOP && !c.cn && STOP.has(c.w) && c.stopFor !== c.w && !nodes[c.w.to].roundabout && toEnd < 10 + c.v) {
+        want = Math.min(want, Math.max(0, (toEnd - 2.6) * 1.2));
+        if (c.v < 0.3 && toEnd < 3.2) { c.stopT = (c.stopT || 0) + dt; if (c.stopT > 0.8) { c.stopFor = c.w; c.stopT = 0; } }
+      }
       // slow for the turn ahead, and round it
-      if (c.turn && toEnd < 12) want = Math.min(want, c.turn.speed + toEnd * 0.7);
+      if (c.turn && toEnd < 12 + c.v) want = Math.min(want, c.turn.speed + toEnd * 0.7); // (looking further ahead the faster the road)
       if (c.cn) want = Math.min(want, (c.turnSpeed ?? 99) + 1.5);
       // a zebra ahead with someone on it, or held by its lights: stop short of it and wait
       if (!flying) { const d = crossingAhead(c); if (d < Infinity && d > len * 0.25) want = Math.min(want, Math.max(0, (d - len / 2 - 2.2) * 1.2)); }
@@ -485,6 +539,10 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
         // (the car ahead going our way; or anything right in front, whichever way it faces, at a junction or a merge)
         if (along > 0 && along < leadA && across < 1.6 && p.dx * q.dx + p.dz * q.dz > 0.3) { leadA = along; lead = cars[j]; }
         if (along > 0 && ((along < 14 && across < 1.6 && p.dx * q.dx + p.dz * q.dz > 0.3) || (along < 6 && across < (DESIGNS[c.kind].w + DESIGNS[cars[j].kind].w) / 2 + 0.3))) want = Math.min(want, Math.max(0, (along - len / 2 - DESIGNS[cars[j].kind].len / 2 - 1.5) * 1.1));
+        // a long vehicle turning across in front (a danfo, a bus round a sharp corner): its middle is off to the side
+        // but its corner is in our way, so look at its corners, not its centre
+        else if (Math.abs(along) < 9 && across < 8) { const D = DESIGNS[cars[j].kind], hl = D.len / 2, hw = D.w / 2, myW = DESIGNS[c.kind].w / 2 + 0.35;
+          for (const [u, v] of [[hl, hw], [hl, -hw], [-hl, hw], [-hl, -hw]]) { const cxw = q.x + q.dx * u - q.dz * v - p.x, czw = q.z + q.dz * u + q.dx * v - p.z, ca = cxw * p.dx + czw * p.dz, cc = Math.abs(-cxw * p.dz + czw * p.dx); if (ca > len / 2 - 0.2 && ca < len / 2 + 3 + c.v * 0.6 && cc < myW) want = Math.min(want, Math.max(0, (ca - len / 2 - 0.9) * 1.2)); } }
       }
       const byCar = want < 0.3;
       // anything else on the road ahead (a minibus turning into the motor park, a ride waiting at the kerb): wait for it
@@ -615,5 +673,5 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
     g.renderOrder = 10; scene.add(g); return g;
   }
   function dispose() { group.removeFromParent(); }
-  return { peds, pelicans, ways, debugLanes, addRoundabout, update, bodies, cars, signals, warden, nodes, onNode, nearestNode, release, stateOf, dispose, addBlocker, removeBlocker, get playerHold() { return playerHold; }, get count() { return cars.length; } };
+  return { get stops() { return STOP; }, peds, pelicans, ways, debugLanes, addRoundabout, update, bodies, cars, signals, warden, nodes, onNode, nearestNode, release, stateOf, dispose, addBlocker, removeBlocker, get playerHold() { return playerHold; }, get count() { return cars.length; } };
 }

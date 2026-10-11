@@ -3,6 +3,7 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { cityLandmarks } from './civic.js';
 import { trackDetail } from './quality.js';
 import { cityInfo } from './cityinfo.js';
+import { roadLimit, roadClass } from './roadclass.js';
 
 // Road signs for drivers (world bible 9.3, after the FRSC Highway Code): green direction boards on the
 // approaches to the big junctions (an arrow, where it goes, how far), speed limits on the main roads,
@@ -13,7 +14,8 @@ import { cityInfo } from './cityinfo.js';
 
 const KMH = 1 / 3.6;
 const MAJOR = ['trunk', 'primary', 'secondary', 'tertiary'];
-const LIMIT = { trunk: 60, primary: 50, secondary: 50, tertiary: 40 };
+// the signed limit for every class of road (roadclass.js): highways, main roads, collectors, residential streets, estate lanes
+const LIMIT = new Proxy({}, { get: (_, cls) => (typeof cls === 'string' ? roadLimit(cls) : undefined) });
 const ZONES = { queens: 'school', yabatech: 'school', unilag: 'school', tejuosho: 'market', ecentre: 'market' };
 
 function canvas(w, h, draw) {
@@ -155,8 +157,9 @@ export function buildRoadSigns({ world, scene, traffic, landmarks }) {
   const limitMats = {};
   let limits = 0;
   for (const { i: ni } of junctions) {
-    for (const eout of nodes[ni].out.filter((e) => e.major && LIMIT[e.road?.cls])) {
-      if (limits >= 16) break;
+    const n = nodes[ni], side = (e) => !e.major && ['local', 'estate'].includes(roadClass(e.road?.cls).kind);
+    for (const eout of n.out.filter((e) => e.road?.cls && (e.major || side(e)))) {
+      if (limits >= 26) break;
       const at = walkBack(ni, eout, 14); if (!at) continue;
       // traffic leaving the junction heads away from n: the reverse of walkBack's heading
       const hx = -at.hx, hz = -at.hz, spot = kerbside(at.x, at.z, hx, hz, eout.lane); if (!spot) continue;
@@ -185,8 +188,38 @@ export function buildRoadSigns({ world, scene, traffic, landmarks }) {
     }));
   });
 
+  // ---------- 4. speed bumps on residential streets and estate lanes (the road hierarchy, roadclass.js) ----------
+  // A painted hump across the street every 55 m or so, clear of junctions, crossings and the railway; cars slow right
+  // down over each one (a small slow zone, read by traffic.js like the school zones)
+  const bumpTex = canvas(256, 64, (g) => { g.fillStyle = '#1d2028'; g.fillRect(0, 0, 256, 64); g.fillStyle = '#f2c418'; for (let x = -64; x < 320; x += 64) { g.beginPath(); g.moveTo(x, 64); g.lineTo(x + 32, 64); g.lineTo(x + 64, 0); g.lineTo(x + 32, 0); g.closePath(); g.fill(); } });
+  bumpTex.wrapS = THREE.RepeatWrapping;
+  const bumpMat = new THREE.MeshStandardMaterial({ map: bumpTex, roughness: 0.7 }), bumpGeos = [];
+  const hubs = nodes.filter((n) => (n.links || n.out).length >= 3);
+  const xings = world.crossings || [];
+  let bumps = 0;
+  for (const r of world.roads || []) {
+    if (bumps >= 40) break;
+    if (!r.fit || !['local', 'estate'].includes(roadClass(r.cls).kind)) continue;
+    const { pts, half } = r.fit;
+    let acc = 22;
+    for (let i = 1; i < pts.length && bumps < 40; i++) {
+      const [ax, az] = pts[i - 1], [bx, bz] = pts[i], L = Math.hypot(bx - ax, bz - az); if (L < 0.01) continue;
+      const tx = (bx - ax) / L, tz = (bz - az) / L;
+      for (let s = 55 - acc; s < L; s += 55) {
+        if (s < 0) continue;
+        const x = ax + tx * s, z = az + tz * s, h = half[i];
+        if (Math.hypot(x, z) > world.radius * 0.9 || hubs.some((n) => Math.hypot(n.x - x, n.z - z) < 14) || xings.some((c) => Math.hypot(c.x - x, c.z - z) < 9) || world.onRail?.(x, z, 6)) continue;
+        const geo = new THREE.BoxGeometry(h * 2, 0.07, 0.6); const uv = geo.attributes.uv; for (let k = 0; k < uv.count; k++) uv.setX(k, uv.getX(k) * h * 2 / 1.2);
+        geo.rotateY(Math.atan2(tx, tz)).translate(x, 0.14 + 0.035, z); bumpGeos.push(geo);
+        zones.push({ kind: 'bump', x, z, r: Math.max(3.2, h + 0.8), limit: 2.2 });
+        bumps++;
+      }
+      acc = (acc + L) % 55;
+    }
+  }
+  if (bumpGeos.length) group.add(new THREE.Mesh(mergeGeometries(bumpGeos), bumpMat));
   if (posts.length) { const m = new THREE.Mesh(mergeGeometries(posts), postMat); m.castShadow = true; group.add(m); }
   world.addColliders?.(cols);
-  world.roadSigns = { zones, placed, counts: { boards, limits, zoneSigns } }; // for the layout audit and tests
+  world.roadSigns = { zones, placed, counts: { boards, limits, zoneSigns, bumps } }; // for the layout audit and tests
   return world.roadSigns;
 }
