@@ -10,6 +10,7 @@ import { audioEngine, sfx } from './audio.js';
 import { walletEngine, effortsMark, fmt } from './wallet.js';
 import { passesEngine } from './passes.js';
 import { roadClass, ROAD_KINDS } from './roadclass.js';
+import { drawCountryMap, cityCard, CITY_PINS } from './countrymap.js';
 import { PAD_MAP } from './input.js';
 import { LABEL } from './quality.js';
 import { onlineNow } from './online.js';
@@ -124,6 +125,8 @@ const CSS = `${KIT_CSS}
 #lkm-map .legend small { color: ${C.ink2}; font: 700 11px/1 ${FONT}; margin-left: 2px; }
 #lkm-map .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 4px; margin-right: 5px; vertical-align: -1px; }
 #lkm-map canvas { touch-action: none; }
+#lkm-map .chint { display: none; position: absolute; left: 50%; top: 10px; transform: translateX(-50%); max-width: calc(100% - 120px); padding: 8px 14px; border-radius: ${RAD.md}px; background: ${C.paper}; color: ${C.ink}; text-align: center; font: 600 12.5px/1.35 ${FONT}; box-shadow: 0 3px 0 rgba(59,42,32,.15); }
+#lkm-map .chint b { display: block; font: 800 17px/1.1 ${FONT}; } #lkm-map .chint small { color: ${C.ink2}; }
 #lkm-map .kinds { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 #lkm-map .kinds button { display: flex; align-items: center; gap: 6px; padding: 5px 8px 5px 5px; border-radius: 999px; background: ${C.paper}; font: 700 12px/1.1 ${FONT}; text-align: left; box-shadow: 0 2px 0 rgba(59,42,32,.15); }
 #lkm-map .kinds button.sel { background: #fff; box-shadow: inset 0 0 0 3px ${C.teal}; }
@@ -605,6 +608,8 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   const MAPR = world.radius * 1.12;
   // the view: zoom and pan (world bible 11.3). base() is the whole-district map; toPx() is the screen
   const view = { z: 1, cx: 450, cy: 450 };
+  // zoomed out past the whole district: Nigeria, then Africa (countrymap.js)
+  let mapMode = 'district', countryPick = null, countryPins = [];
   const base = (x, z) => [(x / MAPR) * 360 + 450, (z / MAPR) * 360 + 450];
   const toPx = (x, z) => { const [bx, by] = base(x, z); return [(bx - view.cx) * view.z + 450, (by - view.cy) * view.z + 450]; };
   const fromPx = (px, py) => { const bx = (px - 450) / view.z + view.cx, by = (py - 450) / view.z + view.cy; return [((bx - 450) / 360) * MAPR, ((by - 450) / 360) * MAPR]; };
@@ -644,7 +649,12 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   }
   const ROOF = ['#efe3c8', '#e2a07c', '#a9d3d4', '#eacb7a', '#d3c3e2', '#f2d6b8'];
   const hash = (pts) => Math.abs(Math.round(pts[0][0] * 13 + pts[0][1] * 7));
+  function drawCountry() {
+    const g = mapCanvas.getContext('2d'), dpr = cw / Math.max(1, mapCanvas.getBoundingClientRect().width || cw);
+    countryPins = drawCountryMap(g, cw, ch, { level: mapMode, here: world.place?.city || 'Lagos', pick: countryPick, dpr }).pins;
+  }
   function drawBigMap() {
+    if (mapMode !== 'district') { drawCountry(); return; }
     const g = mapCanvas.getContext('2d');
     g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, cw, ch); g.setTransform(MK, 0, 0, MK, OX, OY);
     // a rectangle of map (the UI brief: not a circle): the whole mapped square is land, edge to edge of the view;
@@ -758,6 +768,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     g.fillStyle = '#fff'; g.beginPath(); g.arc(px, py - 34, 8, 0, 7); g.fill();
   }
   function openMap(focusResidents = false) {
+    mapMode = 'district'; countryPick = null; // it always opens on the district
     mapEl.innerHTML = `
       <div class="col">${(() => { const others = onlineNow.players.filter((q) => q.id !== onlineNow.me); return others.length ? `<h3>Online now</h3><div class="onl">${others.map((q) => `<div class="o"><button data-o="${q.id}"><i></i><span>${String(q.name).replace(/[<>&"]/g, '')}<small>${Math.round(Math.hypot(q.x - getPlayer().x, q.z - getPlayer().z))} m away</small></span></button><button class="j" data-j="${q.id}">Jump</button></div>`).join('')}</div>` : ''; })()}<h3>Residents</h3><div class="rhead"><b>${people.length}</b> resident${people.length === 1 ? '' : 's'} · <span class="on">${onlineCount()} online</span></div>
         <input class="rsearch" type="search" placeholder="Search residents" aria-label="Search residents" value="${resQuery.replace(/"/g, '&quot;')}">
@@ -781,8 +792,22 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     legend.innerHTML = '<div class="lg"><span><i style="background:#f6e7b8"></i>Homes</span><span><i style="background:rgba(228,111,79,.45)"></i>Shops and food</span><span><i style="background:rgba(42,157,148,.45)"></i>Civic and work</span><span><i style="background:#7fc4c4"></i>Park</span></div>'
       + `<div class="lg">${[...ROAD_KINDS].reverse().filter(([k]) => have.has(k)).map(([, label, col, lim]) => `<span><i style="background:${col};box-shadow:inset 0 0 0 1.5px #c4a46c"></i>${label.replace(/ and service lanes/, '')} <small>${lim}</small></span>`).join('')}<span><small>km/h</small></span></div>`;
     mapEl.querySelector('.mid').appendChild(legend);
-    const zoomAt = (f, px = 450, py = 450) => { const bx = (px - 450) / view.z + view.cx, by = (py - 450) / view.z + view.cy; view.z *= f; clampView(); view.cx = bx - (px - 450) / view.z; view.cy = by - (py - 450) / view.z; clampView(); bubble.style.display = 'none'; drawBigMap(); };
-    zbox.querySelectorAll('button').forEach((b) => { b.onclick = () => { const z = +b.dataset.z; if (z === 0) { view.z = 1; view.cx = view.cy = 450; bubble.style.display = 'none'; drawBigMap(); } else zoomAt(z > 0 ? 1.6 : 1 / 1.6); }; });
+    const hint = document.createElement('div'); hint.className = 'chint'; mapEl.querySelector('.mid').appendChild(hint);
+    // the country views: out past the whole district, Nigeria; out again, Africa; in again, back the way you came
+    const setMode = (m) => {
+      mapMode = m; countryPick = null; bubble.style.display = 'none';
+      legend.style.display = m === 'district' ? '' : 'none'; mapEl.querySelector('.ribbon').style.display = m === 'district' ? '' : 'none';
+      hint.style.display = m === 'district' ? 'none' : 'block';
+      hint.innerHTML = m === 'nigeria' ? `<b>Nigeria</b><small>Tap a city to travel · zoom out for the rest of Africa · zoom in to go back to ${placeName(world)}</small>` : m === 'africa' ? `<b>Africa</b><small>Tap a city to travel · zoom in for ${inNigeria ? 'Nigeria' : placeName(world)}</small>` : '';
+      drawBigMap();
+    };
+    let wheelLevel = 0;
+    // (from a city outside Nigeria, out goes straight to Africa, and in comes straight back to the street)
+    const inNigeria = (CITY_PINS[world.place?.city || 'Lagos']?.country || 'Nigeria') === 'Nigeria';
+    const stepOut = () => setMode(mapMode === 'district' && inNigeria ? 'nigeria' : 'africa');
+    const stepIn = () => { if (mapMode === 'africa' && inNigeria) setMode('nigeria'); else if (mapMode !== 'district') { view.z = 1; view.cx = view.cy = 450; setMode('district'); } };
+    const zoomAt = (f, px = 450, py = 450) => { if (mapMode !== 'district') { if (f > 1) stepIn(); else if (f < 1 && mapMode === 'nigeria') stepOut(); return; } if (f < 1 && view.z <= 1.001) { if ((wheelLevel += 1) >= 3) { wheelLevel = 0; stepOut(); } return; } wheelLevel = 0; const bx = (px - 450) / view.z + view.cx, by = (py - 450) / view.z + view.cy; view.z *= f; clampView(); view.cx = bx - (px - 450) / view.z; view.cy = by - (py - 450) / view.z; clampView(); bubble.style.display = 'none'; drawBigMap(); };
+    zbox.querySelectorAll('button').forEach((b) => { b.onclick = () => { const z = +b.dataset.z; if (z === 0) { view.z = 1; view.cx = view.cy = 450; bubble.style.display = 'none'; if (mapMode !== 'district') setMode('district'); else drawBigMap(); } else if (z < 0 && view.z <= 1.001 && mapMode === 'district') stepOut(); else zoomAt(z > 0 ? 1.6 : 1 / 1.6); }; });
     const toCanvas = (e) => { const r = mapCanvas.getBoundingClientRect(); return [(((e.clientX - r.left) / r.width) * cw - OX) / MK, (((e.clientY - r.top) / r.height) * ch - OY) / MK]; };
     mapCanvas.onwheel = (e) => { e.preventDefault(); const [px, py] = toCanvas(e); zoomAt(Math.exp(-e.deltaY * 0.0022), px, py); };
     const ptrs = new Map(); let pinch0 = 0;
@@ -790,6 +815,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     mapCanvas.onpointermove = (e) => {
       if (!ptrs.has(e.pointerId)) return;
       const prev = ptrs.get(e.pointerId), cur = toCanvas(e); ptrs.set(e.pointerId, cur);
+      if (mapMode !== 'district') return;
       if (ptrs.size === 2) { const [a, b] = [...ptrs.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]); if (pinch0) zoomAt(d / pinch0, (a[0] + b[0]) / 2, (a[1] + b[1]) / 2); pinch0 = d; panMoved = 99; return; }
       const dx = cur[0] - prev[0], dy = cur[1] - prev[1]; panMoved += Math.abs(dx) + Math.abs(dy);
       if (view.z > 1 && panMoved > 6) { view.cx -= dx / view.z; view.cy -= dy / view.z; clampView(); bubble.style.display = 'none'; drawBigMap(); }
@@ -811,6 +837,17 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     mapCanvas.onclick = (ev) => {
       const r = mapCanvas.getBoundingClientRect();
       if (panMoved > 6) return; // that was a drag, not a tap
+      if (mapMode !== 'district') {
+        const cx = ((ev.clientX - r.left) / r.width) * cw, cy = ((ev.clientY - r.top) / r.height) * ch, hit = countryPins.find((q) => Math.hypot(q.x - cx, q.y - cy) < q.r);
+        if (!hit) { countryPick = null; bubble.style.display = 'none'; drawBigMap(); return; }
+        if (hit.name === 'Nairobi' && mapMode === 'nigeria') { setMode('africa'); return; }
+        countryPick = hit.name; drawBigMap();
+        const k = cityCard(hit.name, world.place?.city || 'Lagos'), m = mapEl.querySelector('.mid').getBoundingClientRect();
+        bubble.innerHTML = `<b>${k.title}</b><small>${k.sub}</small><small>${k.line}</small><button class="qt">${k.action}</button>`;
+        bubble.style.display = 'block'; bubble.style.left = `${r.left - m.left + (hit.x / cw) * r.width}px`; bubble.style.top = `${r.top - m.top + (hit.y / ch) * r.height}px`;
+        bubble.querySelector('.qt').onclick = (e2) => { e2.stopPropagation(); close(); dispatchEvent(new Event('bw:fly')); };
+        return;
+      }
       const [px, py] = toCanvas(ev); void r;
       const [wx, wz] = fromPx(px, py);
       const s = snapToStreet?.(wx, wz);
