@@ -1,127 +1,185 @@
-# Builders World arrivals + Yaba scene
+# Builders World
 
-The default page now opens the local onboarding prototype: Nigeria arrivals, an attendant conversation, developer/designer identity, city and district selection, a first-person airplane introduction with simultaneous avatar editing, and a generated starter-home preview.
+A living, browser-based world for developers and designers, set in real African cities. You arrive, get a home, and live a builder's life: work from hubs, cafés and studios, meet other builders who are online at the same time, and help improve your neighbourhood. Your real work is your currency. Every commit you push on GitHub turns into **Efforts**, the money you spend in the world.
 
-Open `/?world=1` to visit the original Yaba scene directly. Completing the Lagos → Yaba journey enters the district with your selected name and avatar. The district uses its existing building kit for your starter plot; the home reveal is a concept preview, not an exact asset match. This handoff uses the bundled sample map so it works without an external map service.
+**Play it:** [buildersworld.vercel.app](https://buildersworld.vercel.app/) (the onboarding), or [go straight into the world](https://buildersworld.vercel.app/?world=1).
 
-## Onboarding preview
+Built with three.js and Vite. There are no game engines, downloads or plug-ins: everything runs in the browser, and almost everything you see is generated from real map data at load.
 
-- Walk in the lobby using WASD, arrow keys, or on-screen movement buttons; drag to look. **Walk to arrivals** goes directly to the attendant.
-- Choose a name and role, then **sign in with GitHub**. This is a real sign-in on the game's server (see Online play): the game reads only your GitHub username and name, never your code. Designers sign in with GitHub too for now; Dribbble comes later.
-- Choose Lagos, Abuja, Uyo, or Port Harcourt. Yaba is the only named district implemented. The other cities use a labeled founding-community preview and do not silently enter Yaba.
-- During the flight, watch the three-part animated seatback introduction and change outfit style/colour. Pause, replay, next chapter, and immediate landing work independently of avatar editing.
-- Your name, choices, avatar, and progress are stored in localStorage and, once you are signed in, saved to your account so they follow you to another device. Reload resumes the current step. **Restart journey** clears the onboarding choices after a confirmation. The introduction restarts when reloading the flight.
-- The final avatar design, art direction references, produced video, real country routing, shared home ownership, and career progression are future work. Nigeria is a fixed preview lobby, not detected location.
-- All work remains local on `codex/arrivals-onboarding`; nothing has been pushed.
+## The idea
 
-The shareable image brief is `BUILDERS_WORLD_VISUAL_BRIEF.md` at the parent Builders-World folder root. The detailed experience brief is `docs/design/immersive-onboarding.md` in that parent folder.
+- **Real places.** Streets, buildings, railways and landmarks come from OpenStreetMap. Yaba looks like Yaba and Kilimani looks like Kilimani. Each city has its own landmarks, traffic, shops, food, radio stations, signs and accents.
+- **Real time and weather.** The sun rises and sets when it does outside, and if it's raining in Lagos right now, it's raining in Lagos in the game.
+- **Real work, real people.** Sign in with GitHub. Your commits become Efforts. Other builders who are online appear on the street, and you can chat, emote and visit.
+- **A builder's life, with real-life friction.** Wi-Fi passwords, membership cards, passports to fly, a driver's licence to drive, rent for a home, a phone that needs a connection.
+- **A community, not just a map.** Pick up litter, fund bins together, build benches in the community build area, pin notes on the board.
+- **Paper and ink.** A warm, illustrated look for the world and every panel, instead of the usual dark glass.
 
-## Online play (the server)
+## What's in it today
 
-Players, street bins and GitHub Efforts come from the Rust server in [open-world-backend](https://github.com/builders-world/open-world-backend) (`/api/presence`, `/api/bins`, `/api/efforts`).
+### The world
+- **Six cities, 26 areas**, each rebuilt from OpenStreetMap:
 
-    # in the backend repo: Postgres and Redis up, then
-    cargo run -p gateway                 # :8080
-    # here
-    npm run dev                          # Vite proxies /api to :8080 (API_PROXY=http://host:port to change)
+  | City | Areas |
+  |---|---|
+  | Lagos | Yaba, Ikeja, Victoria Island, Lekki Phase 1, Surulere, Apapa, Lagos Island |
+  | Abuja | Wuse, Central Business District, Jabi |
+  | Port Harcourt | Old GRA, Rumuola, Trans-Amadi |
+  | Akwa Ibom | Uyo, Ring Road Uyo, Eket, Ikot Ekpene |
+  | Nairobi | Kilimani, City Centre, Westlands |
+  | Accra | Osu, Accra Central, Airport City |
 
-You must be signed in with GitHub to be among other players and to count your commits as Efforts; signed out, the game is played solo with a demo balance. Setting up sign-in on the server is described in the backend's `.env.example` (`GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `PUBLIC_URL`).
+- **Planned estates** with gates, closes and numbered houses (1A, 2B...), garages and gardens. The serving-window shops along the main streets each have their attendant at the counter, with illustrated signs showing what they sell.
+- **Real landmarks** in place, and the city's skyline on the horizon. These include Ikeja City Mall, Ibom Tropicana, the National Stadium, Lagos Port Complex and hospitals.
+- **A road hierarchy.**
+  - Highways, main roads, collector roads, residential streets, and estate lanes paved in interlocking blocks, each with its own speed limit.
+  - Lane markings, zebra and pelican crossings with the hand and walking figure, and traffic lights.
+  - STOP junctions, speed bumps, median barriers, roundabouts, flyovers and footbridges.
+- **Railways** with trains, a station, and level crossings with lamps, bells and half barriers. Nothing is built on the tracks.
+- **Airports in every city**, with the real process: check-in, security, passport control, the gate, the flight, then arrivals and customs.
+- **Live time of day and weather** (sun, rain, fog, storms), with morning mist that burns off, wet streets that dry, and streetlights on at dusk.
+- **Natural map edges**: the world greys out at the boundary, and signs say where the road leads.
 
-In production the web app and the API are separate services: build with `VITE_API_URL=https://<gateway domain>` and set the gateway's `ALLOWED_ORIGINS` to the web app's address. Without a reachable server the game plays solo and shows no error.
+### Life in the city
+- **Residents with lives:** names, jobs, families, homes they go in and out of, moods, and greetings in English or pidgin.
+- **Traffic that follows the lanes** and drives on each country's side (Nairobi keeps left). It gives way at crossings and junctions and keeps the speed limit. There are danfos, matatus, trotros, kekes, BRT buses and taxis, plus traffic officers (LASTMA, FRSC, NTSA).
+- **Street food:** suya, corn and fruit stalls, kitchens, cafés, and food trucks with each city's own menu. You order face to face and watch it being made.
+- **Animals:** pigeons that take off, chickens that run, dogs that bark or make friends, cats. Feed them corn or biscuits.
+- **Digital billboards, radio** (each city's real FM stations) and a soundtrack generated in the browser.
 
-## Checks
+### Your life
+- **Your own home:** seven rooms, including a workspace, a lab and a studio. Sit, sleep, cook, shower and watch TV. New players start inside it.
+- **A wardrobe:** body, skin, ten hairstyles including gele and fila, Ankara, Adire, kaftan and agbada, shoes and accessories.
+- **The bag:** gadgets, wearables, badges, and a card holder with resident, membership and visitor passes, your passport and your driver's licence.
+- **A phone with real apps:** Map, Camera, Wallet, Radio, Weather, Ride, Travel, Pets, Wardrobe, Sports, Wi-Fi and Settings. It needs Wi-Fi: public hotspots are at the community board, bus stops and parks.
+- **A wallet:** Efforts from your GitHub work, spent on rides, food, gadgets, passes, fees and travel.
+- **Getting around:**
+  - on foot (click to walk, a GPS trail and a cinematic auto-travel), or by the city's rented bikes;
+  - on your own bicycle, skateboard, roller skates, hoverboard or e-scooter;
+  - by hired danfo, keke or taxi, as a passenger or driving yourself (with a licence);
+  - by taxi to another area of the city, or by plane to another city.
+- **Pets:** adopt a dog or a cat, name it, play fetch, or walk around as your dog.
+- **The map:** zoom from your street out to Nigeria and Africa, with quick travel, distances, services and residents.
 
-    npm test
-    npx playwright install chromium  # once per machine
-    npm run test:browser
-    npm run build
+### Work and community
+- **Hubs, a co-working loft, a design studio, cafés, a gym and a bank**, each with its own interior. Sit at a desk and open your laptop.
+- **Wi-Fi with passwords**, found on notice boards, menus and your cards. Eko Design Studio is members only.
+- **The Immigration Centre** (passports, travel authorisations) and the **licensing office** (driver's licence: eye test and theory test).
+- **The community board, the build area, litter and recycling for Efforts, and street bins** funded together.
+- **Sport, played by the real rules:** tennis, padel, table tennis, basketball, swimming, and chess against regulars or anyone online.
 
-Browser checks cover desktop and phone-size viewports, both identity routes, all four destinations, local persistence, failed storage, reduced motion, avatar changes, intro controls, and the Yaba handoff. Evidence and limitations are recorded in `artifacts/final-evidence.md`.
+### Online
+- **GitHub sign-in.** The game reads your username and name only, never your code.
+- **Other players live** on the street and on the map, with chat, emotes, name tags and profiles (what each person chooses to share).
+- **Your profile and look** follow you between devices.
 
-## Street look (PRD v1.1 visual direction)
+## Controls
 
-The night theme now follows the reference images in the parent repository (`assets/reference/generated-visual-direction/`). Everything lives in `src/look/`:
+| Key | Does | Key | Does |
+|---|---|---|---|
+| W A S D / arrows | Walk (click the street to walk there) | Tab | Phone |
+| Shift | Run | M | Map |
+| Space | Jump | I | Bag |
+| E | Interact, enter, order, talk | V | Camera view |
+| C | Cinematic travel along your route | B | Aerial view |
+| Q | Play as your dog | F | Feed animals |
+| 1 to 6, G | Emotes, all emotes | Enter | Chat |
+| Z | Binoculars (when carried) | P | Look at someone's profile |
+| N | Music on or off | Esc | Close, stand up |
 
-- `surfaces.js`: wet street material with puddles, ripples and a planar mirror; plaster walls with rain streaks and grime.
-- `atmosphere.js`: blue-hour sky with drifting cloud and rare lightning, rain, light cones under lamps, a pool of real lamp lights that follows the player, the lit skyline and the Lekki-Ikoyi Link Bridge.
-- `props.js`: danfos (parked and driving), palms and banana plants, the community board, the mural, a community build area, string lights, two named builders and a few unnamed walkers. Props look for open ground between real footprints, so they adapt to whatever map loads.
-- `hud.js`: district and objective, minimap, route on the ground, the E prompt, name tags, and the community board panel.
-- `textures.js`: every texture is painted on a canvas at load. Nothing is downloaded.
+You can also play with a gamepad (PlayStation or Xbox, with a mapping screen) or with touch controls on phones.
 
-### Live weather and real time
+## Run it
 
-The night theme now follows the real world. The sun's position comes from the real clock and location (`src/look/sun.js`), so day, golden hour, blue hour and night happen when they do outside, and streetlamps switch on at dusk. Weather comes from [Open-Meteo](https://open-meteo.com/) every 10 minutes (`src/look/weather.js`): rain intensity, cloud cover, wind (rain slant and palm sway), fog and haze from visibility, and lightning only during real thunderstorms. Streets get wet when it rains and dry over the following hours, faster in sun than at night.
-
-Location is city level: the home city chosen at arrivals, otherwise the district. "Use my location" in the weather chip is opt-in, rounded to about 10 km and stored on the device only. Previews: `?wx=clear|cloudy|drizzle|rain|storm|fog|haze`, `?hour=19.5` (local time at the weather location), `?wxloc=lat,lon`. The day theme toggle (T) still switches to the original flat daylight look.
-
-Open-Meteo's free API is for non-commercial use and needs the credit shown in the chip. A public launch needs their paid plan or another provider.
-
-The loop from the PRD works end to end: walk to the board, press E, read notes or pin one, find the build area, press E to add a bench. Notes and the bench stay on this device; nothing is shared yet.
-
-`?quality=low|high` picks a tier (phones get low automatically). Debug switches: `?post=0` skips post-processing, `?look=0` skips the street layer, `?no=rain,cones,lights,skyline,reflect` turns parts off.
-
-Plot windows are still the only amber that carries data. Street lamps, string lights, car lights and the skyline use other light so they never read as activity. Evidence is in `artifacts/street-look/README.md`.
-
-## Original district prototype
-
-A three.js render of a small piece of Yaba, Lagos, built the way the Builders World PRD describes: real place in, numbers drive the structure, flat-shaded night look out.
-
-## Run
+You need Node 20 or newer.
 
     npm install
     npm run dev
 
-Open the printed URL for onboarding, or append `?world=1` for direct district exploration.
+Open the printed address for the onboarding, or add `?world=1` to go straight into the world.
 
-- Walk with WASD, or click the street to walk there. Drag or Q/E to look, scroll or +/- to zoom (or use the buttons bottom right).
-- Click a building for its plot card. The Builders list (bottom left) jumps you to any plot.
-- Street / Aerial switch top right (V). In the aerial view, click the ground to drop down at that spot.
-- Sun/moon button (T) switches day and night. The choice is remembered. `?theme=day` or `?theme=night` forces one.
-- H hides the interface, ? shows the controls.
+### Useful switches
 
-## Where the place comes from
+| Switch | What it does |
+|---|---|
+| `?world=1` | Skip onboarding, start in the world |
+| `?city=Nairobi&area=Westlands` | Choose a city and area |
+| `?quality=low\|medium\|high\|ultra` | Graphics tier (Auto by default; it adapts to your device) |
+| `?hour=19.5` | Set the time of day |
+| `?wx=clear\|cloudy\|drizzle\|rain\|storm\|fog\|haze` | Set the weather |
+| `?offline=1` | Play without the server |
+| `?hud=0` | Hide the interface |
+| `?greenrey=0`, `?stream=0`, `?batch=0` | Turn off the ground layer, distance streaming or mesh batching, to compare |
+| `?start=home` | Start inside your home (the tests start on the street) |
 
-On load the app tries, in order:
+## Checks
 
-1. `public/data/yaba.json`, a baked manifest (what a CDN would serve)
-2. a cached copy in localStorage
-3. live OpenStreetMap footprints and roads via the Overpass API
-4. `public/data/sample.json`, a synthetic street grid, so it always renders
+    npm test                          # unit tests (node:test)
+    npx playwright install chromium   # once per machine
+    npm run test:browser              # Playwright: onboarding, and nothing standing on the railways
+    npm run build
 
-The top-left badge says which one you got. To bake real data once:
+## How it's built
 
-    npm run fetch:osm
-    node scripts/fetch-osm.mjs "Yaba" 6.5095 3.3715 230   # name lat lon radius(m)
+- `src/world.js` turns a baked OpenStreetMap manifest into the district:
+  - roads and pavements, estates and lots, the railway corridor;
+  - the walkable map and colliders;
+  - placement rules, so nothing stands in a road, on a pavement or on a track.
+- `src/look/` holds the living world, one module per system:
+  - `traffic.js` (lane graph, junctions, right of way, STOP and signals), `roadclass.js` (road kinds, limits, speeds);
+  - `railway.js`, `airport.js` and `travel.js`, `rides.js`, `mobility.js`;
+  - `lives.js` and `streetlife.js`, `food.js`, `shopfronts.js`, `foodtruck.js`, `passes.js` (cards and Wi-Fi), `licence.js`;
+  - `menus.js` (phone, map, bag, wallet, settings), `hud.js`, `weather.js` and `sun.js`;
+  - `quality.js`, `stream.js` and `batch.js` (performance).
+- `src/onboarding/` is the arrivals journey.
+- `public/data/` holds the baked city areas. `scripts/fetch-osm.mjs` bakes a new one.
+- Shared rules for every city, its own look per city: anything systemic (traffic, zoning, physics, UI) applies to every city, while architecture and flavour are set per city in `src/look/cityinfo.js` and `areas.js`.
 
-URL params also work: `?lat=6.51&lon=3.37&r=250&name=Yaba`, `?view=aerial`, `?hud=0`, `?still=1` (skip the arrival).
+How the world is built, and why, is written down in the **world bible** (`docs/design/world-bible.md` in [builders-world/builders-world](https://github.com/builders-world/builders-world)). Read it before changing anything. Every request and where it stands is in `docs/collaboration/tracker.md` in the same repository.
 
-## How the numbers become a building
+## Online play (the server)
 
-All in `src/builders.js` and `src/world.js`.
+Sign-in, presence, street bins and the Efforts count come from the Rust gateway in [open-world-backend](https://github.com/builders-world/open-world-backend).
 
-- Height from outcomes: stars, forks, public MRR, merged PRs, launch votes.
-- Footprint from breadth: the builder with the most active repos gets the biggest real footprint nearby.
-- Windows from recency: lit share drops after 14 days, zero after 60. Live builders get the slow 2.5s breath.
-- Everything else in the district is an unclaimed lot: low and dark.
+    # in the backend repo: Postgres and Redis up, then
+    cargo run -p gateway        # :8080
+    # here
+    npm run dev                 # Vite proxies /api to :8080
 
-## Art rules kept (PRD v1.0)
+Signed out, or without a reachable server, the game plays solo with a demo balance and shows no error.
 
-These were the original prototype rules. PRD v1.1 replaces them for the night theme; see Street look above. Amber still only carries data on plots.
+In production, Vercel forwards `/api` to the gateway (`vercel.json`). The gateway's `ALLOWED_ORIGINS` must include the game's address.
 
-Vertex colours only, flat shading, no textures. Amber is the only warm colour. Day mode is the same world in daylight: pale blue-grey, white, the same amber accent, lamps and bloom off. Window lighting, the arrival and the monument sweep are shader uniforms, not per-mesh JS. Bloom threshold sits above anything an unlit surface reaches. Respects prefers-reduced-motion.
+## Deploying
 
-Builder names and figures are invented, as in the PRD.
+The live site is the `main` branch on Vercel:
 
-## Deploy to Railway
+    vercel deploy --prod --build-env VITE_API_URL=https://<gateway domain>
 
-Bake the Yaba data first, so visitors load a static file instead of each one hitting the Overpass API:
+`railway.json` and `server.mjs` also serve the build on Railway.
 
-    npm run fetch:osm
+## Contributing
 
-Then, with the Railway CLI logged in:
+- Branch from `main` and open a pull request. Never push to `main`. Use conventional commits.
+- Run `npm test`, `npm run test:browser` and `npm run build` before asking for review.
+- Keep credentials out of Git. Secrets live in the hosting providers only.
+- UI text: plain, warm English, no em dashes.
 
-    railway init        # first time only: create the project
-    railway up          # builds with `npm run build`, serves dist with server.mjs
-    railway domain      # generate a public URL
+## Still to come
 
-`railway.json` sets the build and start commands. `server.mjs` is a dependency-free static server that reads `$PORT`.
+- Efforts kept on the server (a ledger), so balances can't be edited locally.
+- Character models in the reference art style.
+- Dribbble sign-in for designers.
+- A browser on the in-game laptop.
+- More countries.
+
+The [tracker](https://github.com/builders-world/builders-world/blob/main/docs/collaboration/tracker.md) has the full list and the decisions still open.
+
+## Credits and data
+
+- Map data © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors, under the ODbL.
+- Weather from [Open-Meteo](https://open-meteo.com/). The free API is for non-commercial use; a public launch needs their paid plan or another provider.
+- Country boundaries from [Natural Earth](https://www.naturalearthdata.com/) (public domain), via `world-atlas`.
+- Radio streams found through [Radio Browser](https://www.radio-browser.info/). Chess rules by [chess.js](https://github.com/jhlywa/chess.js).
+- Sound and music are generated in the browser; nothing is licensed.
+- Residents and builders in the world are invented.
