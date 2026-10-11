@@ -5,6 +5,7 @@ import { rigAvatar } from './anim.js';
 import { prepareLook, dress } from './style.js';
 import { walletEngine, effortsMark, fmt } from './wallet.js';
 import { sfx } from './audio.js';
+import { addFeed, feedStock } from './fear.js';
 import { C, FONT } from './uikit.js';
 
 // Street food (world bible 11.8). Every food stall and kitchen has someone behind the counter. Step
@@ -19,7 +20,7 @@ const MENUS = {
     items: [['Beef suya', 400, 'Thin slices, yaji, onions, tomatoes, in newspaper'], ['Kilishi', 600, 'Dried and spiced, the travelling kind'], ['Chicken suya', 500, 'Wing and thigh on the stick'], ['Zobo (cold)', 200, 'From the cooler, hibiscus and ginger']] },
   corn: { vendor: 'Mama Ngozi', look: { body: 'f', skin: '#7a4a2e', hair: 'gele', top: 'adire', topColor: '#3a4f7a', bottom: 'wrapper', bottomColor: '#e46f4f', shoes: 'sandals', shoeColor: '#1d2028', acc: ['earrings'] },
     hello: 'Corn just come off the fire. You want am with ube or coconut?', made: 'corn',
-    items: [['Roasted corn', 150, 'Charred on the grill'], ['Corn and ube', 300, 'With roasted African pear'], ['Fresh coconut', 200, 'Opened while you wait']] },
+    items: [['Corn for the birds', 50, 'A cup of dried grains to scatter (F), for pigeons and chickens', 'corn'], ['Roasted corn', 150, 'Charred on the grill'], ['Corn and ube', 300, 'With roasted African pear'], ['Fresh coconut', 200, 'Opened while you wait']] },
   fruit: { vendor: 'Iya Basira', look: { body: 'f', skin: '#986746', hair: 'gele', top: 'ankara', topColor: '#5f9a45', bottom: 'wrapper', bottomColor: '#e2b13c', shoes: 'sandals', shoeColor: '#8a5a36', acc: ['beads'] },
     hello: 'Oranges sweet today o! I fit peel am for you.', made: 'fruit',
     items: [['Peeled oranges (3)', 100, 'Peeled in one long ribbon'], ['Pineapple slices', 250, 'Cut fresh'], ['Garden eggs', 150, 'With groundnut paste']] },
@@ -31,7 +32,7 @@ const MENUS = {
     items: [['Flat white', 500, 'Nigerian beans, roasted in Ibadan'], ['Zobo iced tea', 350, 'Our house special'], ['Meat pie', 400, 'Flaky, from the oven']] },
   kiosk: { vendor: 'Uche', look: { body: 'm', skin: '#986746', hair: 'low', top: 'tee', topColor: '#e46f4f', bottom: 'trousers', bottomColor: '#304344', shoes: 'sneakers', shoeColor: '#ddd5be', acc: [] },
     hello: 'Cold malt, zobo, gala, plantain chips. What you need?', made: 'cup',
-    items: [['Malt (cold)', 250, 'From the fridge'], ['Gala', 150, 'The sausage roll every danfo sells'], ['Plantain chips', 200, 'Sweet or salty']] },
+    items: [['Dog biscuits (6)', 150, 'Hold one out (F) and a dog is your friend', 'treat'], ['Malt (cold)', 250, 'From the fridge'], ['Gala', 150, 'The sausage roll every danfo sells'], ['Plantain chips', 200, 'Sweet or salty']] },
 };
 const kindOf = (name = '') => (/Suya/.test(name) ? 'suya' : /\bCorn\b/.test(name) ? 'corn' : /Fruit/.test(name) ? 'fruit' : /Kitchen/.test(name) ? 'kitchen' : /Cafe/.test(name) ? 'cafe' : /kiosk/i.test(name) ? 'kiosk' : null);
 
@@ -111,8 +112,10 @@ export function createFood({ scene, props, toast, getEnv, reduced, addLamps, wor
     panel.querySelector('.x').onclick = () => { if (!busy) close(); };
   }
   function order(i) {
-    const st = at, [name, price] = st.M.items[i];
+    const st = at, [name, price, , feed] = st.M.items[i];
     if (!walletEngine().spend(price, `${name} at ${st.it.name}`)) { render(`Ah, you no get enough Efforts for ${name.toLowerCase()}. ${fmt(price)} na the price.`); return; }
+    // food for the animals goes in your bag, not your mouth (fear.js)
+    if (feed) { addFeed(feed, 6); sfx('pick'); render(feed === 'corn' ? 'Na for the pigeons? Throw am small small, dem go gather.' : 'Hold am out flat. Even the fierce ones go soft.'); toast(`In your bag: ${feed === 'corn' ? 'corn for the birds' : 'dog biscuits'} (${feedStock(feed)}). Press F near animals to hold some out.`, 3200); return; }
     sfx('interact');
     render(st.kind === 'suya' ? 'Ehen! Make I cut am fresh for you.' : st.kind === 'cafe' ? 'Coming right up.' : 'No wahala, one minute.', true);
     if (st.indoor) { setTimeout(() => { if (at !== st) return; sfx('arrive'); render('Here you go. Enjoy!'); toast(`${name}: ${['delicious', 'exactly what you needed', 'worth every Effort'][Math.floor(Math.random() * 3)]}.`, 2800); }, 2200); return; }

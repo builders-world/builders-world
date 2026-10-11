@@ -415,6 +415,7 @@ async function main() {
     else if (k === '?' || k === '/') chrome.toggleHelp();
     else if (k === 'e' && !e.repeat && street?.hud.interact()) { /* handled by the street */ }
     else if (k === 'f' && !e.repeat && street?.seatAction?.('close')) { /* close the laptop at your desk */ }
+    else if (k === 'f' && !e.repeat && street?.feed?.()) { /* hold out corn or a biscuit for the animals (fear.js) */ }
     else if (k === 'o' && !e.repeat && street?.seatAction?.('desk')) { /* the desk computer: sign in, or sign out */ }
     else if (k === 'p' && !e.repeat && street?.profiler) street.profiler.toggle(); // the profiler: who is that?
     else if (k === 'r' && !e.repeat && street?.seatAction?.('read')) { /* read your book on the sofa */ }
