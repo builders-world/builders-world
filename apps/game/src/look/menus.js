@@ -326,6 +326,8 @@ export const ITEMS = [
   { id: 'skates', tab: 'gadgets', icon: 'skates', name: 'Roller skates', desc: 'Put them on and glide. Round the pond is the best loop in Yaba.', tag: 'Gadget' },
   // from the gadget shop (shop.js): each has a price and must be bought before it can be carried or worn
   { id: 'bicycle', tab: 'gadgets', icon: 'bicycle', name: 'Your own bicycle', desc: 'Yours, not rented: carry it and you ride, anywhere, any time. Put it back to walk.', tag: 'Gadget', price: 9000 },
+  { id: 'hoverboard', tab: 'gadgets', icon: 'hoverboard', name: 'Hoverboard', desc: 'Self-balancing: stand on it and lean where you want to go. Shift to go faster.', tag: 'Gadget', price: 6500 },
+  { id: 'scooter', tab: 'gadgets', icon: 'scooter', name: 'Electric scooter', desc: 'Quicker than a board, quieter than a keke. Carry it and you ride. Shift for full speed.', tag: 'Gadget', price: 7500 },
   { id: 'binoculars', tab: 'gadgets', icon: 'binoculars', name: 'Binoculars', desc: 'Carry them and hold Z to look far down the street.', tag: 'Gadget', price: 1500 },
   { id: 'notebook', tab: 'gadgets', icon: 'notebook', name: 'Notebook', desc: 'Paper still wins for system diagrams.', tag: 'Gadget' },
   { id: 'headphones', tab: 'wear', icon: 'headphones', name: 'Headphones', desc: 'Deep work mode. Shows on your avatar.', tag: 'Wearable', wear: true },

@@ -31,6 +31,23 @@ function boardModel(kind) {
   if (kind === 'skate') {
     g.add(new THREE.Mesh(box(0.22, 0.03, 0.8, 0, 0.1, 0), new THREE.MeshStandardMaterial({ color: 0xe46f4f, roughness: 0.6 })));
     [[-0.08, 0.27], [0.08, 0.27], [-0.08, -0.27], [0.08, -0.27]].forEach(([x, z]) => g.add(new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.04, 10).rotateZ(Math.PI / 2).translate(x, 0.04, z), new THREE.MeshStandardMaterial({ color: 0xf4ead2 }))));
+  } else if (kind === 'hover') {
+    // a self-balancing hoverboard: two wheels in their shells either side, a foot pad each, a light strip that glows
+    const shell = new THREE.MeshStandardMaterial({ color: 0x22336a, roughness: 0.35, metalness: 0.2 }), pad = new THREE.MeshStandardMaterial({ color: 0x1d2028, roughness: 0.9 });
+    g.add(new THREE.Mesh(box(0.5, 0.08, 0.2, 0, 0.12, 0), shell));
+    [-0.13, 0.13].forEach((x) => g.add(new THREE.Mesh(box(0.17, 0.012, 0.15, x, 0.166, 0), pad)));
+    g.add(new THREE.Mesh(box(0.42, 0.02, 0.01, 0, 0.11, 0.101), new THREE.MeshBasicMaterial({ color: new THREE.Color(0.4, 1.6, 1.8) })));
+    const wheels = [-0.3, 0.3].map((x) => { const w = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.07, 14).rotateZ(Math.PI / 2), new THREE.MeshStandardMaterial({ color: 0x2b2f33, roughness: 0.8 })); w.position.set(x, 0.1, 0); g.add(w); g.add(new THREE.Mesh(box(0.09, 0.06, 0.24, x, 0.2, 0), shell)); return w; });
+    g.userData.wheels = wheels;
+  } else if (kind === 'scooter') {
+    // an electric kick scooter: the deck, a small wheel at each end, the stem up to the handlebar with its grips
+    const frame = new THREE.MeshStandardMaterial({ color: 0x3b3f45, roughness: 0.4, metalness: 0.5 }), grip = new THREE.MeshStandardMaterial({ color: 0x1d2028, roughness: 0.9 });
+    g.add(new THREE.Mesh(box(0.15, 0.04, 0.56, 0, 0.1, -0.02), frame), new THREE.Mesh(box(0.13, 0.01, 0.48, 0, 0.125, -0.04), grip));
+    g.add(new THREE.Mesh(box(0.035, 0.95, 0.035, 0, 0.55, 0.3).rotateX(-0.12), frame));
+    g.add(new THREE.Mesh(box(0.46, 0.03, 0.03, 0, 1.0, 0.36), frame), ...[-0.2, 0.2].map((x) => new THREE.Mesh(box(0.07, 0.04, 0.04, x, 1.0, 0.36), grip)));
+    g.add(new THREE.Mesh(box(0.06, 0.03, 0.02, 0, 0.92, 0.37), new THREE.MeshBasicMaterial({ color: new THREE.Color(1.8, 1.8, 1.5) }))); // the headlamp
+    const wheels = [0.3, -0.3].map((z) => { const w = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.085, 0.045, 14).rotateZ(Math.PI / 2), new THREE.MeshStandardMaterial({ color: 0x1d2028, roughness: 0.8 })); w.position.set(0, 0.085, z); g.add(w); return w; });
+    g.userData.wheels = wheels;
   } else [-0.135, 0.135].forEach((x) => { g.add(new THREE.Mesh(box(0.13, 0.05, 0.3, x, 0.05, 0.03), new THREE.MeshStandardMaterial({ color: 0x7d5aa6 }))); [-0.1, 0.1].forEach((z) => g.add(new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.03, 8).rotateZ(Math.PI / 2).translate(x, 0.03, z), new THREE.MeshStandardMaterial({ color: 0xf2b33d })))); });
   return g;
 }
@@ -60,8 +77,12 @@ export function createMobility({ world, scene, props, avatar, toast, used = [], 
   });
 
   // ---------- you, on wheels ----------
-  let mode = null, ride = null; // mode: 'bike' | 'skate' | 'skates'
-  const carry = { skate: false, skates: false };
+  let mode = null, ride = null; // mode: 'bike' | 'skate' | 'skates' | 'hover' | 'scooter'
+  const carry = { skate: false, skates: false, hover: false, scooter: false };
+  // the bag's things you roll on, and the ride each one is; the one put on last is the one you ride
+  const ROLL = { skateboard: 'skate', skates: 'skates', hoverboard: 'hover', scooter: 'scooter' };
+  let order = [];
+  const next = () => { const k = [...order].reverse().find((m) => carry[m]); if (k) mount(k); };
   function mount(kind) {
     unmount(true);
     mode = kind;
@@ -89,11 +110,11 @@ export function createMobility({ world, scene, props, avatar, toast, used = [], 
   // the bag's gadgets: carrying a board or skates means you roll
   function equip(id, on) {
     // your own bicycle (shop.js): carried, you ride it, no dock and no fare; put back in the bag, you walk
-    if (id === 'bicycle') { carry.bike = on; if (on) { mount('bike'); ride.userData.own = true; } else if (mode === 'bike' && ride?.userData.own) { unmount(true); if (carry.skate) mount('skate'); else if (carry.skates) mount('skates'); } return; }
-    if (id !== 'skateboard' && id !== 'skates') return;
-    carry[id === 'skateboard' ? 'skate' : 'skates'] = on;
+    if (id === 'bicycle') { carry.bike = on; if (on) { mount('bike'); ride.userData.own = true; } else if (mode === 'bike' && ride?.userData.own) { unmount(true); next(); } return; }
+    const m = ROLL[id]; if (!m) return;
+    carry[m] = on; order = order.filter((q) => q !== m); if (on) order.push(m);
     if (mode === 'bike') return;
-    if (on) mount(id === 'skateboard' ? 'skate' : 'skates'); else if (mode === (id === 'skateboard' ? 'skate' : 'skates')) { unmount(true); if (carry.skate) mount('skate'); else if (carry.skates) mount('skates'); }
+    if (on) mount(m); else if (mode === m) { unmount(true); next(); }
   }
   // speed: a bike is quick, a board quicker than walking, skates in between
   // on a pavement beside a cycle lane, or up on a footbridge, you get off and walk the bike (cycling.js)
@@ -104,7 +125,7 @@ export function createMobility({ world, scene, props, avatar, toast, used = [], 
     const now = performance.now() / 1000; if (now - walkedAt > 12) toast('No cycling here: you walk the bike. Ride in the green cycle lane or on the road.', 3200); walkedAt = now;
     return true;
   };
-  const pace = (running) => (mode === 'bike' && walking() ? 1.9 : mode === 'bike' ? (running ? 9 : 6.5) : mode === 'skate' ? (running ? 7 : 5) : mode === 'skates' ? (running ? 6.5 : 4.5) : null);
+  const pace = (running) => (mode === 'bike' && walking() ? 1.9 : mode === 'bike' ? (running ? 9 : 6.5) : mode === 'skate' ? (running ? 7 : 5) : mode === 'skates' ? (running ? 6.5 : 4.5) : mode === 'hover' ? (running ? 6 : 4.4) : mode === 'scooter' ? (running ? 8 : 5.8) : null);
   // the pose over the rig: pedalling, or one foot pushing
   let t = 0;
   function pose(rig, dt, speed, indoors) {
@@ -118,6 +139,20 @@ export function createMobility({ world, scene, props, avatar, toast, used = [], 
       ride.position.y = -0.32;
       ride.userData.crank.rotation.x = a; ride.userData.wheels.forEach((w) => { w.rotation.x -= dt * speed * 3.2; });
       if (rig) { rig.L.hip.rotation.x = -0.9 + Math.sin(a) * 0.45; rig.R.hip.rotation.x = -0.9 - Math.sin(a) * 0.45; rig.L.knee.rotation.x = 1.0 - Math.cos(a) * 0.45; rig.R.knee.rotation.x = 1.0 + Math.cos(a) * 0.45; rig.L.shoulder.rotation.x = -0.7; rig.R.shoulder.rotation.x = -0.7; rig.chest.rotation.x = 0.25; }
+    } else if (mode === 'hover' || mode === 'scooter') {
+      // standing, both feet on: a hoverboard goes where you lean, a scooter where the handlebar points
+      avatar.position.y = mode === 'hover' ? 0.17 : 0.13;
+      ride.position.y = -avatar.position.y;
+      ride.userData.wheels.forEach((w) => { if (mode === 'hover') w.rotation.x -= dt * speed * 10; else w.rotation.x -= dt * speed * 11.8; });
+      const lean = Math.min(1, speed / 5);
+      if (mode === 'hover') ride.rotation.x = -lean * 0.08; // the deck tips forward as you lean
+      if (rig) {
+        const sway = Math.sin(t * 1.6) * 0.04;
+        rig.L.hip.rotation.x = -0.05; rig.R.hip.rotation.x = mode === 'scooter' ? 0.25 : -0.05; rig.L.knee.rotation.x = 0.12; rig.R.knee.rotation.x = mode === 'scooter' ? 0.2 : 0.12;
+        rig.chest.rotation.x = lean * (mode === 'hover' ? 0.18 : 0.12) + sway; rig.chest.rotation.y = 0;
+        if (mode === 'scooter') { rig.L.shoulder.rotation.x = -0.75; rig.R.shoulder.rotation.x = -0.75; } // hands on the grips
+        else { rig.L.shoulder.rotation.z = 0.25; rig.R.shoulder.rotation.z = -0.25; } // arms a little out, for balance
+      }
     } else {
       avatar.position.y = mode === 'skate' ? 0.13 : 0.06;
       ride.position.y = -avatar.position.y;
