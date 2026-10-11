@@ -47,7 +47,7 @@ function storefront(key) {
   sign.position.set(0, H + 1.35, D / 2 + 0.25); g.add(sign); // in front of the parapet, clear of it
   g.add(new THREE.Mesh(box(W - 1.0, 1.7, 0.12, 0, H + 1.35, D / 2 + 0.17), dark));
   // and a blade sign on the corner, for anyone coming along the pavement
-  const bladeTex = signTexture(P.name.split(' ').slice(-1)[0].toUpperCase(), { bg: '#263832', fg: css(P.accent), w: 512, h: 160 });
+  const bladeTex = signTexture((key === 'licensing' ? P.name.split(' ')[0] : P.name.split(' ').slice(-1)[0]).toUpperCase(), { bg: '#263832', fg: css(P.accent), w: 512, h: 160 });
   // two faces back to back, each reading the right way round from its side
   [1, -1].forEach((side) => { const b = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 0.8), new THREE.MeshBasicMaterial({ map: bladeTex, color: 0xeeeeee })); b.rotation.y = side * Math.PI / 2; b.position.set(W / 2 + 0.75 + side * 0.03, 5.0, D / 2 - 0.4); g.add(b); });
   g.add(new THREE.Mesh(box(0.05, 0.86, 2.66, W / 2 + 0.75, 5.0, D / 2 - 0.4), dark));

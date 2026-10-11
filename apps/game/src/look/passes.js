@@ -5,6 +5,7 @@ import { sfx } from './audio.js';
 import { C, FONT } from './uikit.js';
 import { cityFor, cardArt } from './cardart.js';
 import { cityInfo, CITY_INFO } from './cityinfo.js';
+import { licenceCardHTML } from './licence.js';
 
 // Passes and Wi-Fi (world bible 6.7): a little real-life friction, on purpose. Eko Design Studio is
 // for members: you register at the door, pay in Efforts, and a membership card goes in your bag.
@@ -121,6 +122,7 @@ export function createPasses({ toast, district = 'Yaba' } = {}) {
         <svg viewBox="0 0 60 60" style="position:absolute;right:20px;top:18px;width:58px;height:58px"><circle cx="30" cy="30" r="26" fill="none" stroke="#f4e6b0" stroke-width="3"/><path d="M30 12l5 12h13l-10 8 4 13-12-8-12 8 4-13-10-8h13z" fill="#f4e6b0"/></svg>
         <div class="nm" style="color:#f4e6b0">${esc(c.name)}</div><div class="role">${stamps || 'No stamps yet'}</div><div class="no">${esc(c.no)} · valid to ${until}</div></div>`;
     }
+    if (c.kind === 'licence') return licenceCardHTML(c);
     if (c.kind === 'eta') return `<div class="bw-card eta" ${style('#e8f3ef', '#bfe0d6', '#0b2b28')}><div class="org">${esc(String(c.country).toUpperCase())}</div><div class="dist">Electronic travel authorisation</div><div class="kind">APPROVED</div><div class="nm">${esc(c.name)}</div><div class="role">For your passport, one year</div><div class="no">${esc(c.no)} · valid to ${until}</div></div>`;
     const name = esc(c.name === 'Resident' && myName() ? myName() : c.name);
     if (c.kind === 'eko') {
