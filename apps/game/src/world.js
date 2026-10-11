@@ -10,6 +10,7 @@ import { planEstates, nearWall, LOT_W, LOT_D } from './estates.js';
 import { pushOutBox } from './look/physics.js';
 import { planFlyovers } from './look/flyover.js';
 import { buildNavGrid } from './look/navgrid.js';
+import { roadClass } from './look/roadclass.js';
 
 const NIGHT = {
   // the clay palette of the arrival scene (world bible 7.1): ivory, cream, stone, mint and peach
@@ -294,6 +295,10 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   rails.forEach((r) => { for (let k = 0; k < r.pts.length - 1; k++) railSegs.push([r.pts[k], r.pts[k + 1]]); });
   const onRail = (x, z, pad = 0) => railSegs.some(([a, c]) => { const dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / L2)); return Math.hypot(x - a[0] - dx * u, z - a[1] - dz * u) < RAIL_CLEAR + pad; });
   const kerbTris = [], roadTris = [], pathTris = [], paintTris = [], edgeTris = [], jointTris = [], cycleTris = [];
+  // estate and service lanes are laid in interlocking blocks, as Lagos estates are (roadclass.js): pale stone in the
+  // middle, red-brown blocks along each edge, a red band across every 7 m. A big, quiet pattern: from the air it reads as
+  // a different road, and nothing fine enough to shimmer
+  const paverTris = [], paverEdgeTris = [], paverBandTris = [];
   // cycle lanes on the highways (Elvis, 10 October 2026: "a section for cycling and for pedestrians"): a green
   // lane at each kerb, 1.55 m, behind a solid white line, a bicycle painted every 30 m; the pavement beside it
   // stays for people on foot (no cycling there, look/cycling.js puts up the signs and keeps bikes off it)
@@ -306,13 +311,20 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   // where streets meet: a point another fitted road also passes through (within 1.5 m)
   const nodeUse = new Map();
   roads.forEach((r) => { if (!r.fit) return; r.fit.pts.forEach((p) => { const k = `${Math.round(p[0] / 1.5)},${Math.round(p[1] / 1.5)}`; const set = nodeUse.get(k) || new Set(); set.add(r); nodeUse.set(k, set); }); });
+  // is a point within `rad` of where another road meets or crosses this one?
+  const nodeAtJunction = (p, own, rad) => { for (const c of carriageSegs) { if (c.r === own) continue; const dx = c.bx - c.ax, dz = c.bz - c.az, L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((p[0] - c.ax) * dx + (p[1] - c.az) * dz) / L2)); if (Math.hypot(p[0] - c.ax - dx * u, p[1] - c.az - dz * u) < rad) return true; } return false; };
   const junctionAt = (p, own) => { for (let dx = -1; dx <= 1; dx++) for (let dz = -1; dz <= 1; dz++) { const set = nodeUse.get(`${Math.round(p[0] / 1.5) + dx},${Math.round(p[1] / 1.5) + dz}`); if (set && [...set].some((o) => o !== own)) return true; } return false; };
   roads.forEach((r) => {
     // ground layers sit at least 3 cm apart, or the depth buffer cannot tell them apart at distance
     if (isFootway(r) || !r.fit) { ribbon(pathTris, r.pts, Math.min(r.w, 3), 0.06); return; }
     const { pts, nrm, half, paveL, paveR } = r.fit;
     const neg = half.map((h) => -h);
-    band(roadTris, pts, nrm, neg, half, 0.14, pushTri);
+    if (roadClass(r.cls).kind === 'estate') {
+      const e = half.map((h) => Math.max(0.2, h - 0.38));
+      band(paverTris, pts, nrm, e.map((x) => -x), e, 0.14, pushTri);
+      band(paverEdgeTris, pts, nrm, e, half, 0.14, pushTri); band(paverEdgeTris, pts, nrm, neg, e.map((x) => -x), 0.14, pushTri);
+      let acc = 3.5; for (let i = 0; i < pts.length - 1; i++) { const L = Math.hypot(pts[i + 1][0] - pts[i][0], pts[i + 1][1] - pts[i][1]); if (L < 0.01) continue; const tx = (pts[i + 1][0] - pts[i][0]) / L, tz = (pts[i + 1][1] - pts[i][1]) / L; for (let s = (7 - acc % 7) % 7; s < L; s += 7) { const cx = pts[i][0] + tx * s, cz = pts[i][1] + tz * s, h = half[i]; ribbon(paverBandTris, [[cx - tz * h, cz + tx * h], [cx + tz * h, cz - tx * h]], 0.32, 0.165); } acc += L; }
+    } else band(roadTris, pts, nrm, neg, half, 0.14, pushTri);
     band(kerbTris, pts, nrm, half, half.map((h, i) => h + paveL[i]), 0.11, pushTri);
     band(kerbTris, pts, nrm, half.map((h, i) => -h - paveR[i]), neg, 0.11, pushTri);
     // kerbstones: a pale raised edge where the pavement meets the road, both sides
@@ -400,11 +412,31 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
       }
     });
   });
+  // a concrete median barrier down the middle of a wide two-way highway or main road (roadclass.js): traffic each way
+  // keeps to its side, and people cross at the junctions and the crossings, where it stops short
+  const medianCols = [];
+  roads.forEach((r) => {
+    if (!r.fit || r.oneway || !['motorway', 'trunk', 'primary'].includes(r.cls)) return;
+    const { pts, half } = r.fit; if (half.reduce((t, h) => t + h, 0) / half.length < 6.5) return;
+    const keep = pts.map((p, i) => half[i] >= 6 && !nodeAtJunction(p, r, half[i] + 7) && !crossings.some((c) => Math.hypot(c.x - p[0], c.z - p[1]) < c.hw + 5) && !onRail(p[0], p[1], 4));
+    for (let i = 0; i < pts.length - 1; i++) {
+      if (!keep[i] || !keep[i + 1]) continue;
+      const [ax, az] = pts[i], [bx, bz] = pts[i + 1], L = Math.hypot(bx - ax, bz - az); if (L < 0.5) continue;
+      const cx = (ax + bx) / 2, cz = (az + bz) / 2, ry = Math.atan2(bx - ax, bz - az);
+      mb.box(cx, 0.14, cz, 0.62, 0.26, L, '#c9c2b2', { grad: 0.05, vary: 0.01 }, ry); // the wide foot
+      mb.box(cx, 0.4, cz, 0.3, 0.58, L, '#d8d1c1', { grad: 0.12, vary: 0.01 }, ry); // the upright, a pale stripe of reflector paint along its top
+      mb.box(cx, 0.98, cz, 0.32, 0.04, L, '#f2b33d', { grad: 0, vary: 0 }, ry);
+      medianCols.push({ name: 'median_barrier', cx, cz, hx: 0.31, hz: L / 2, ry, h: 1.0 });
+    }
+  });
   if (kerbTris.length) gb.raw(kerbTris, PAL.kerb);
   if (edgeTris.length) gb.raw(edgeTris, '#ece7da');
   if (jointTris.length) gb.raw(jointTris, '#b9b19e');
   if (pathTris.length) gb.raw(pathTris, PAL.path);
   if (roadTris.length) gb.raw(roadTris, PAL.road);
+  if (paverTris.length) gb.raw(paverTris, '#a69d90');
+  if (paverEdgeTris.length) gb.raw(paverEdgeTris, '#8e6a5a');
+  if (paverBandTris.length) gb.raw(paverBandTris, '#94705f');
   if (cycleTris.length) gb.raw(cycleTris, '#4e9a64');
   if (paintTris.length) gb.raw(paintTris, PAL.paint);
 
@@ -536,7 +568,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   const inResv = (x, z) => { const i = Math.round((x + R) / RC), j = Math.round((z + R) / RC); return i < 0 || j < 0 || i >= RN || j >= RN || resv[j * RN + i] === 1; };
   const estatePlan = planEstates({ roads, R, rng, free: (x, z) => Math.hypot(x - spawn.x, z - spawn.z) > 50 && !inResv(x, z) && !inReserveBox(x, z) && plotFree(x, z), nearRail: rails.length ? (x, z) => onRail(x, z, 60) : null }); // the start street stays open for the board, the hub and the stalls
   const estateWalls = [], estateGarages = [], carSpots = [], addresses = [];
-  const WALLC = '#e6dcc8', COPE = '#b9ab92', CLOSE = '#9a9a92';
+  const WALLC = '#e6dcc8', COPE = '#b9ab92', CLOSE = '#a69d90';
   estatePlan.forEach((E, ei) => {
     // the walls, with a coping, and pillars and a guard booth at every gate
     E.walls.forEach((w) => {
@@ -557,7 +589,13 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     // estates back from the road reach it by a short access lane
     (E.access || []).forEach((a) => { const mx = (a.from[0] + a.to[0]) / 2, mz = (a.from[1] + a.to[1]) / 2; mb.box(mx, 0, mz, 4.0, 0.08, a.len + 0.6, CLOSE, { grad: 0, vary: 0.015 }, Math.atan2(a.to[0] - a.from[0], a.to[1] - a.from[1])); });
     // each close: a paved lane from the gate to the back of the estate
-    E.closes.forEach((c) => mb.box(c.cx, 0, c.cz, c.hx * 2, 0.08, c.hz * 2, CLOSE, { grad: 0, vary: 0.015 }, c.ry));
+    // (in interlocking blocks, like the estate and service lanes outside: pale stone, a red-brown edge each side)
+    E.closes.forEach((c) => {
+      const wide = c.hx < c.hz, ew = 0.36, a = wide ? c.hx : c.hz; // the edges run the long way
+      mb.box(c.cx, 0, c.cz, wide ? (a - ew) * 2 : c.hx * 2, 0.08, wide ? c.hz * 2 : (a - ew) * 2, CLOSE, { grad: 0, vary: 0.015 }, c.ry);
+      [-1, 1].forEach((sg) => { const off = sg * (a - ew / 2), ox = wide ? off : 0, oz = wide ? 0 : off, cs = Math.cos(c.ry || 0), sn = Math.sin(c.ry || 0);
+        mb.box(c.cx + ox * cs + oz * sn, 0, c.cz - ox * sn + oz * cs, wide ? ew : c.hx * 2, 0.08, wide ? c.hz * 2 : ew, '#8e6a5a', { grad: 0, vary: 0.01 }, c.ry); });
+    });
     // the lots, numbered from the gate: 1A, 2A... on the left as you walk in, 1B, 2B... on the right
     E.lots.forEach((L, li) => {
       laid.push({ pts: L.pts, bb: bbox(L.pts) });
@@ -647,7 +685,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   const lamps = []; // street lamps that light the ground for real
   const lampT = kit?.get('yaba_street_lamp');
   const lampSpots = [];
-  const kitColliders = [...lotFences, ...estateWalls, ...estateGarages];
+  const kitColliders = [...lotFences, ...estateWalls, ...estateGarages, ...medianCols];
   const claims = []; // { kind, cx, cz, hx, hz, ry }
   // the railway corridor is land set aside too (parks, venues and props placed later keep off it)
   rails.forEach((r) => { for (let k = 0; k < r.pts.length - 1; k++) { const [ax, az] = r.pts[k], [bx, bz] = r.pts[k + 1], L = Math.hypot(bx - ax, bz - az); if (L < 0.5) continue; claims.push({ kind: 'railway', cx: (ax + bx) / 2, cz: (az + bz) / 2, hx: RAIL_CLEAR, hz: L / 2 + 1, ry: Math.atan2(bx - ax, bz - az) }); } });

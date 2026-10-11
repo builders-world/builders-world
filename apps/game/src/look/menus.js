@@ -9,6 +9,7 @@ import { loadProfile } from '../onboarding/state.js';
 import { audioEngine, sfx } from './audio.js';
 import { walletEngine, effortsMark, fmt } from './wallet.js';
 import { passesEngine } from './passes.js';
+import { roadClass, ROAD_KINDS } from './roadclass.js';
 import { PAD_MAP } from './input.js';
 import { LABEL } from './quality.js';
 import { onlineNow } from './online.js';
@@ -119,6 +120,8 @@ const CSS = `${KIT_CSS}
 #lkm-map .zoom { position: absolute; right: 10px; bottom: 60px; display: grid; gap: 6px; }
 #lkm-map .zoom button { width: 40px; height: 40px; border: 0; border-radius: 50%; background: ${C.paper}; color: ${C.ink}; font: 800 20px/1 ${FONT}; cursor: pointer; box-shadow: 0 3px 0 rgba(59,42,32,.2); }
 #lkm-map .legend { position: absolute; left: 50%; bottom: 6px; transform: translateX(-50%); display: flex; gap: 10px; padding: 6px 12px; border-radius: 999px; background: ${C.paper}; font: 700 12px/1 ${FONT}; box-shadow: 0 3px 0 rgba(59,42,32,.15); white-space: nowrap; }
+#lkm-map .legend { flex-direction: column; align-items: center; gap: 5px; } #lkm-map .legend .lg { display: flex; gap: 10px; }
+#lkm-map .legend small { color: ${C.ink2}; font: 700 11px/1 ${FONT}; margin-left: 2px; }
 #lkm-map .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 4px; margin-right: 5px; vertical-align: -1px; }
 #lkm-map canvas { touch-action: none; }
 #lkm-map .kinds { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
@@ -668,8 +671,11 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     const line = (r) => { g.beginPath(); r.pts.forEach(([x, z], i) => { const [px, py] = base(x, z); i ? g.lineTo(px, py) : g.moveTo(px, py); }); };
     // true road width once zoomed in; a readable minimum when the whole district is in view
     const rw = (r) => Math.max(9 / view.z, r.w * (360 / MAPR));
-    roads.forEach((r) => { g.strokeStyle = '#c4a46c'; g.lineWidth = rw(r) + 6 / view.z; line(r); g.stroke(); });
-    roads.forEach((r) => { g.strokeStyle = '#f0deb0'; g.lineWidth = rw(r); line(r); g.stroke(); });
+    // each kind of road in its own colour (roadclass.js), the small ones drawn first so the big ones run over them
+    const rank = (r) => ROAD_KINDS.findIndex(([k]) => k === roadClass(r.cls).kind), colourOf = (r) => ROAD_KINDS[rank(r)]?.[2] || '#f0deb0';
+    const byRank = [...roads].sort((a, b) => rank(a) - rank(b));
+    byRank.forEach((r) => { g.strokeStyle = '#c4a46c'; g.lineWidth = rw(r) + 6 / view.z; line(r); g.stroke(); });
+    byRank.forEach((r) => { g.strokeStyle = colourOf(r); g.lineWidth = rw(r); line(r); g.stroke(); });
     world.roads.filter((r) => !roads.includes(r)).forEach((r) => { g.strokeStyle = 'rgba(240,222,176,.8)'; g.lineWidth = 3 / view.z; g.setLineDash([2 / view.z, 7 / view.z]); line(r); g.stroke(); g.setLineDash([]); });
     // buildings: coloured roofs with a soft shadow, like blocks on a model
     (world.footprints || []).forEach((pts) => {
@@ -770,7 +776,10 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     zbox.innerHTML = '<button data-z="1" aria-label="Zoom in">+</button><button data-z="-1" aria-label="Zoom out">−</button><button data-z="0" aria-label="Whole district">⤢</button>';
     mapEl.querySelector('.mid').appendChild(zbox);
     const legend = document.createElement('div'); legend.className = 'legend';
-    legend.innerHTML = '<span><i style="background:#f6e7b8"></i>Homes</span><span><i style="background:rgba(228,111,79,.45)"></i>Shops and food</span><span><i style="background:rgba(42,157,148,.45)"></i>Civic and work</span><span><i style="background:#7fc4c4"></i>Park</span>';
+    // what the colours mean: the zones, and on a second row the kinds of road there are here, with their limits (roadclass.js)
+    const have = new Set(world.roads.map((r) => roadClass(r.cls).kind));
+    legend.innerHTML = '<div class="lg"><span><i style="background:#f6e7b8"></i>Homes</span><span><i style="background:rgba(228,111,79,.45)"></i>Shops and food</span><span><i style="background:rgba(42,157,148,.45)"></i>Civic and work</span><span><i style="background:#7fc4c4"></i>Park</span></div>'
+      + `<div class="lg">${[...ROAD_KINDS].reverse().filter(([k]) => have.has(k)).map(([, label, col, lim]) => `<span><i style="background:${col};box-shadow:inset 0 0 0 1.5px #c4a46c"></i>${label.replace(/ and service lanes/, '')} <small>${lim}</small></span>`).join('')}<span><small>km/h</small></span></div>`;
     mapEl.querySelector('.mid').appendChild(legend);
     const zoomAt = (f, px = 450, py = 450) => { const bx = (px - 450) / view.z + view.cx, by = (py - 450) / view.z + view.cy; view.z *= f; clampView(); view.cx = bx - (px - 450) / view.z; view.cy = by - (py - 450) / view.z; clampView(); bubble.style.display = 'none'; drawBigMap(); };
     zbox.querySelectorAll('button').forEach((b) => { b.onclick = () => { const z = +b.dataset.z; if (z === 0) { view.z = 1; view.cx = view.cy = 450; bubble.style.display = 'none'; drawBigMap(); } else zoomAt(z > 0 ? 1.6 : 1 / 1.6); }; });
