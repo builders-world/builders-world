@@ -1,3 +1,4 @@
+import { passesEngine } from './passes.js';
 import * as THREE from 'three';
 import { areaOf, areaName, cityLabel } from './areas.js';
 import { createMenus } from './menus.js';
@@ -207,7 +208,9 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
   // ---------- the board ----------
   const posted = [];
   function openBoard() {
-    const notes = [...posted.map((t) => ['#f9f3e3', t]), ...NOTES];
+    // the free Wi-Fi's password, pinned where everyone can read it (passes.js)
+    const free = passesEngine().NETS?.free;
+    const notes = [...(free ? [['#bfe8df', `<b>Free Wi-Fi</b> round the board, the bus stops and the parks. Network <b>${free.ssid}</b>, password <b>${free.pass}</b>`]] : []), ...posted.map((t) => ['#f9f3e3', t]), ...NOTES];
     boardEl.innerHTML = `
       <button class="x" aria-label="Close">✕</button>
       <h2>${world.place?.name ?? 'Yaba'} Builders</h2>

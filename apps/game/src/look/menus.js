@@ -44,6 +44,24 @@ const CSS = `${KIT_CSS}
 #lkm-phone .app span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 #lkm-phone .app:hover i, #lkm-phone .app:focus-visible i { transform: translateY(-3px) scale(1.05); box-shadow: inset 0 -5px 0 rgba(59,42,32,.14), 0 0 0 4px #fff, 0 0 0 7px ${C.amber}; }
 #lkm-phone .app:focus-visible { outline: none; }
+/* apps that need the internet, with no Wi-Fi: faded, with a small crossed-out wave */
+#lkm-phone .app.off i { filter: saturate(.25) opacity(.6); } #lkm-phone .app { position: relative; }
+#lkm-phone .app .nw { position: absolute; top: -4px; right: 4px; width: 26px; height: 26px; border-radius: 50%; background: ${C.paper}; box-shadow: 0 0 0 2px #e3d4b4; display: grid; place-items: center; }
+#lkm-phone .bar .net { display: inline-flex; align-items: center; gap: 4px; font: 800 12px/1 ${FONT}; } #lkm-phone .bar .net.none { color: ${C.coral}; }
+/* the Wi-Fi screen */
+#lkm-phone .wf { flex: 1; min-height: 0; overflow-y: auto; margin: 10px -6px 0; padding: 0 6px 6px; }
+#lkm-phone .wf .back { border: 0; background: none; padding: 4px 0; color: ${C.teal}; font: 800 15px/1 ${FONT}; cursor: pointer; }
+#lkm-phone .wf h3 { margin: 6px 0 4px; font: 800 26px/1 ${FONT}; } #lkm-phone .wf h4 { margin: 14px 0 6px; font: 800 12px/1 ${FONT}; letter-spacing: .08em; text-transform: uppercase; color: ${C.ink2}; }
+#lkm-phone .wf .why { margin: 6px 0 0; padding: 9px 12px; border-radius: 14px; background: #fde5dc; font: 700 13.5px/1.35 ${FONT}; }
+#lkm-phone .wf .now { margin-top: 8px; font: 700 14px/1.3 ${FONT}; color: ${C.ink2}; } #lkm-phone .wf .now b { color: ${C.ink}; }
+#lkm-phone .wf .nw2 { display: grid; grid-template-columns: 26px 1fr auto; align-items: center; gap: 10px; padding: 9px 0; border-top: 2px dashed #e3d4b4; }
+#lkm-phone .wf .nw2 b { display: block; font: 800 14.5px/1.15 ${FONT}; word-break: break-all; } #lkm-phone .wf .nw2 small { display: block; color: ${C.ink2}; font: 600 12px/1.3 ${FONT}; }
+#lkm-phone .wf .nw2 button, #lkm-phone .wf .go { border: 0; border-radius: 999px; padding: 8px 13px; background: ${C.teal}; color: #fff; font: 800 13px/1 ${FONT}; cursor: pointer; }
+#lkm-phone .wf .nw2 .ok { color: ${C.teal}; font: 800 13px/1 ${FONT}; }
+#lkm-phone .wf form { grid-column: 1 / -1; display: flex; gap: 6px; } #lkm-phone .wf form input { flex: 1; min-width: 0; border: 2px solid #e3d4b4; border-radius: 12px; padding: 8px 10px; background: #fffaf0; color: ${C.ink}; font: 700 14px/1 ${FONT}; }
+#lkm-phone .wf .err { grid-column: 1 / -1; color: #c0392b; font: 700 12.5px/1.3 ${FONT}; }
+#lkm-phone .wf .near { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; border-radius: 14px; background: #fffaf0; border: 2px solid #ecdfc2; font: 700 13.5px/1.3 ${FONT}; }
+#lkm-phone .wf ul { margin: 0; padding-left: 18px; font: 600 13px/1.45 ${FONT}; }
 #lkm-phone .dots { margin-top: auto; display: flex; justify-content: center; gap: 8px; padding-top: 10px; }
 #lkm-phone .dots button { width: 12px; height: 12px; padding: 0; border: 0; border-radius: 50%; background: #d9ccb2; cursor: pointer; }
 #lkm-phone .dots button.on { background: #fff; box-shadow: 0 0 0 3px ${C.teal}; }
@@ -422,6 +440,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     ['Weather', 'weather', '#aebcff', () => { const w = weatherFeed?.state; toast(w ? `${w.loc.label}: ${w.label}${w.tempC != null ? `, ${Math.round(w.tempC)}°C` : ''}. Updated every 10 minutes.` : 'Weather is loading.'); }],
     ['Pets', 'paw', '#c9e3a8', () => { close(); dispatchEvent(new Event('bw:shelter')); }],
     ['Wardrobe', 'hanger', '#f6c7b8', () => { close(); dispatchEvent(new Event('bw:wardrobe')); }],
+    ['Wi-Fi', 'wifi', '#bfe8df', () => openWifi()],
     ['Settings', 'settings', '#d8cfbd', () => openSettings()],
     ['Sports', 'sport', '#f6c3a0', () => {
       // the nearest court, pool or chess table: a route there
@@ -433,7 +452,13 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     }],
     ['Help', 'help', '#f0e1bd', () => { close(); showGuide(); }],
   ];
-  const SIGNAL = `<svg viewBox="0 0 24 24"><path d="M3 18h3v3H3zM8 14h3v7H8zM13 10h3v11h-3zM18 6h3v15h-3z" fill="currentColor"/></svg>`;
+  // the apps that need the internet; the rest (camera, map, bag, wardrobe, settings...) work without it
+  const ONLINE = new Set(['Builders', 'Board', 'Ride', 'Wallet', 'Travel', 'Radio', 'Weather']);
+  const here = () => getPlayer?.() || { x: 0, z: 0 };
+  const netNow = () => passesEngine().phoneLink(here(), equipped.includes('router'));
+  const WAVES = (bars, col = 'currentColor') => `<svg viewBox="0 0 24 20" width="20" height="17" aria-hidden="true">${[0, 1, 2].map((k) => `<path d="M${12 - 4 - k * 3.5} ${14 - k * 3.4}a${4 + k * 3.5} ${4 + k * 3.5} 0 0 1 ${8 + k * 7} 0" fill="none" stroke="${col}" stroke-opacity="${k < Math.ceil(bars * 3 / 4) ? 1 : 0.25}" stroke-width="2.6" stroke-linecap="round"/>`).join('')}<circle cx="12" cy="16.5" r="2" fill="${col}" fill-opacity="${bars ? 1 : 0.25}"/></svg>`;
+  const NOWAVE = `<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M4 9a12 12 0 0 1 16 0M7.5 12.5a7 7 0 0 1 9 0" fill="none" stroke="#b9ab93" stroke-width="2.4" stroke-linecap="round"/><path d="M4 4l16 16" stroke="${C.coral}" stroke-width="2.6" stroke-linecap="round"/></svg>`;
+  const netBar = () => { const n = netNow(); return n ? `<span class="net" title="${n.ssid}">${WAVES(n.bars)}${n.mifi ? 'MiFi' : ''}</span>` : `<span class="net none">${NOWAVE}No Wi-Fi</span>`; };
   const LOCPIN = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 18s-5-5-5-8a5 5 0 0 1 10 0c0 3-5 8-5 8z" fill="currentColor"/></svg>`;
   // twelve apps a page; the dots, a swipe, the scroll wheel or the arrow keys turn the page
   const PAGE = 12;
@@ -444,9 +469,9 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     phonePage = Math.max(0, Math.min(pages - 1, page));
     const list = APPS.map((a, k) => [a, k]).slice(phonePage * PAGE, phonePage * PAGE + PAGE);
     phone.querySelector('.scr').innerHTML = `
-      <div class="bar">${SIGNAL}<span>${time}</span>${LOCPIN}</div>
+      <div class="bar">${netBar()}<span>${time}</span>${LOCPIN}</div>
       <h2>Builders</h2>
-      <div class="grid">${list.map(([[n, i, c], k]) => `<button class="app" data-k="${k}" aria-label="${n}"><i style="background:${c}">${appIcon(i)}</i><span>${n}</span></button>`).join('')}</div>
+      <div class="grid">${(() => { const off = !netNow(); return list.map(([[n, i, c], k]) => { const dead = off && ONLINE.has(n); return `<button class="app ${dead ? 'off' : ''}" data-k="${k}" aria-label="${n}${dead ? ' (needs Wi-Fi)' : ''}"><i style="background:${c}">${appIcon(i)}</i>${dead ? `<b class="nw">${NOWAVE}</b>` : ''}<span>${n}</span></button>`; }).join(''); })()}</div>
       <div class="dots">${Array.from({ length: pages }, (_, k) => `<button class="${k === phonePage ? 'on' : ''}" data-page="${k}" aria-label="Page ${k + 1}"></button>`).join('')}</div>`;
     phone.querySelectorAll('[data-page]').forEach((d) => { d.onclick = () => openPhone(+d.dataset.page); });
     const grid = phone.querySelector('.grid');
@@ -457,15 +482,54 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     const title = phone.querySelector('h2');
     phone.querySelectorAll('.app').forEach((b) => {
       const name = APPS[+b.dataset.k][0];
-      b.onclick = () => APPS[+b.dataset.k][3]();
+      // no Wi-Fi, an app that needs it: the Wi-Fi screen instead, saying why
+      b.onclick = () => (ONLINE.has(name) && !netNow() ? openWifi(name) : APPS[+b.dataset.k][3]());
       b.onmouseenter = b.onfocus = () => { title.textContent = name; };
     });
     phone.querySelector('.grid').onmouseleave = () => { title.textContent = phone.contains(document.activeElement) ? document.activeElement.getAttribute('aria-label') || 'Builders' : 'Builders'; };
     show(phone, [['Esc', 'Put away'], ['Enter', 'Open'], ['← →', 'More apps']]);
     ((focusK != null && phone.querySelector(`.app[data-k="${focusK}"]`)) || phone.querySelector('.app'))?.focus();
   }
+  // the Wi-Fi screen: what you are on, the networks here, joining one, the nearest free hotspot, where passwords are
+  function openWifi(why = null, joining = null, err = '') {
+    const P = passesEngine(), pos = here(), now = netNow(), nets = P.phoneNets(pos), known = P.known(), N = P.NETS;
+    const time = weatherFeed ? weatherFeed.localTime() : new Date().toTimeString().slice(0, 5);
+    const near = now ? null : P.nearestHotspot(pos), dist = near ? Math.round(near.d / 10) * 10 : 0;
+    const where = (n) => (n.ssid === N.free.ssid ? 'Password pinned on the community board' : n.ssid === N.district.ssid ? `Password on your ${world.place?.name || 'district'} resident card (Bag, Cards)` : n.where || (n.near ? `Password inside ${n.near}` : ''));
+    phone.querySelector('.scr').innerHTML = `
+      <div class="bar">${netBar()}<span>${time}</span>${LOCPIN}</div>
+      <div class="wf"><button class="back">‹ Apps</button><h3>Wi-Fi</h3>
+        ${why ? `<p class="why">${why} needs the internet. Join a network first.</p>` : ''}
+        <div class="now">${now ? `On <b>${now.ssid}</b>${now.mifi ? ': your own data, from the router in your bag' : ''}` : 'Not connected'}</div>
+        <h4>Networks here</h4>
+        ${nets.length ? nets.map((n) => { const on = now?.ssid === n.ssid, saved = known[n.ssid] === n.pass; return `<div class="nw2">${WAVES(n.bars, C.ink)}<span><b>${n.ssid}</b><small>${on ? 'Connected' : saved ? 'Saved' : where(n)}</small></span>${on || saved ? `<span class="ok">${on ? '✓' : ''}</span>` : `<button data-j="${n.ssid}">Join</button>`}
+          ${joining === n.ssid ? `<form data-f="${n.ssid}"><input type="text" autocomplete="off" spellcheck="false" placeholder="Password" aria-label="Password for ${n.ssid}"><button>Join</button></form>${err ? `<div class="err">${err}</div>` : ''}` : ''}</div>`; }).join('') : '<p class="now">No networks here.</p>'}
+        ${near ? `<h4>Nearest free Wi-Fi</h4><div class="near"><span><b>${N.free.ssid}</b><br>at ${near.name}${dist >= 10 ? `, about ${dist} m` : ': you are in range, join it above'}</span>${dist >= 10 ? '<button class="go" data-go>Show the way</button>' : ''}</div>` : ''}
+        <h4>Where the passwords are</h4>
+        <ul><li><b>${N.free.ssid}</b>: pinned on the community board</li><li><b>${N.district.ssid}</b>: on your resident card (Bag, Cards)</li><li>Cafes, hubs and lofts: on the notice or menu board inside</li><li>Or carry a MiFi router (Bag, Gadgets): your own data, anywhere</li></ul>
+      </div>`;
+    phone.querySelector('.back').onclick = () => openPhone(phonePage);
+    phone.querySelectorAll('[data-j]').forEach((b) => { b.onclick = () => openWifi(why, b.dataset.j); });
+    phone.querySelector('[data-go]')?.addEventListener('click', () => { close(); onRoute?.(near, near.name); toast(`Free Wi-Fi at ${near.name}. The password is on the community board.`, 3400); });
+    const f = phone.querySelector('form');
+    if (f) {
+      const inp = f.querySelector('input'); setTimeout(() => inp.focus(), 30);
+      f.onsubmit = (e) => {
+        e.preventDefault();
+        const r = passesEngine().phoneJoin(here(), f.dataset.f, inp.value);
+        if (!r.ok) { openWifi(why, f.dataset.f, r.why); return; }
+        sfx('interact'); toast(`Connected to ${f.dataset.f}.`, 2200);
+        // back to the app you wanted, now that it works
+        const app = why && APPS.find((a) => a[0] === why);
+        if (app) app[3](); else openWifi();
+      };
+    } else (phone.querySelector('[data-j], [data-go], .back'))?.focus();
+    show(phone, [['Esc', 'Put away']]);
+  }
+
   // arrow keys walk the grid, and off its edge onto the next or previous page
   function phoneArrow(k) {
+    if (phone.querySelector('.wf')) return; // the Wi-Fi screen: the arrows are the page's own
     const btns = [...phone.querySelectorAll('.app')], cur = btns.indexOf(document.activeElement), i = cur < 0 ? 0 : cur;
     const col = i % 3, step = { arrowright: 1, arrowleft: -1, arrowdown: 3, arrowup: -3 }[k];
     let j = i + step;

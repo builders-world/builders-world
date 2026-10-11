@@ -388,6 +388,14 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     ...(props.area ? [{ kind: 'build', name: 'Community build area', x: props.area.x, z: props.area.z }] : []),
   ];
 
+  // the phone's Wi-Fi outdoors (passes.js): public hotspots round the board, the bus stops, the motor park and the parks;
+  // each workplace's own network a little way out of its door
+  passes.setHotspots([
+    ...props.interact.filter((i) => i.id === 'board').map((i) => ({ x: i.x, z: i.z, r: 48, name: 'the community board', kind: 'public' })),
+    ...(rides?.stops || []).map((s) => ({ x: s.x, z: s.z, r: 34, name: s.kind === 'danfo' ? `the ${cityInfo().rides?.danfo?.name || 'danfo'} stop` : 'the keke park', kind: 'public' })),
+    ...(props.pois || []).filter((q) => /Motor Park|Park|Garden/.test(q.name) && !/car park|parking/i.test(q.name)).map((q) => ({ x: q.x, z: q.z, r: 45, name: q.name, kind: 'public' })),
+    ...doors.filter((d) => passes.NETS[d.key]).map((d) => ({ x: d.at.x, z: d.at.z, r: 22, name: PLACES[d.key].name, kind: 'place', net: passes.NETS[d.key] })),
+  ]);
   if (reflection) reflection.hidden = [world.ground, rainMesh, cones, hud.route].filter(Boolean);
 
   // ---------- real time and real weather ----------

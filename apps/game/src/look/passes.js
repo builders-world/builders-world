@@ -29,6 +29,8 @@ export function networksFor(district = 'Yaba') {
     gym: { ssid: W.gym[0], pass: W.gym[1], where: 'At the gym front desk' },
     bank: { ssid: W.bank[0], pass: W.bank[1], where: 'Ask a teller' },
     district: { ssid: `${district.replace(/\s+/g, '')}-Connect`, pass: `${district.toLowerCase().replace(/\s+/g, '')}-resident`, where: `On your ${district} card` },
+    // the public hotspots outdoors (the community board, bus stops, the motor park, parks): the password is on the board
+    free: { ssid: `${district.replace(/\s+/g, '')}-Free-WiFi`, pass: `${district.toLowerCase().replace(/\s+/g, '')}free`, where: 'Pinned on the community board' },
   };
 }
 // who needs a card to get in
@@ -193,7 +195,7 @@ export function createPasses({ toast, district = 'Yaba' } = {}) {
     return [own && { ...own, bars: 4 }, { ...NETS.district, bars: 1 }].filter(Boolean);
   }
   function arrive(place) {
-    link = null;
+    link = null; here = place;
     const best = inRange(place).filter((n) => known[n.ssid] === n.pass).sort((a, b) => b.bars - a.bars)[0];
     if (best) link = { ssid: best.ssid, bars: best.bars };
     return link;
@@ -206,7 +208,40 @@ export function createPasses({ toast, district = 'Yaba' } = {}) {
     link = { ssid, bars: n.bars };
     return { ok: true };
   }
-  const forgetLink = () => { link = null; };
+  const forgetLink = () => { link = null; here = null; };
+
+  // ---------- the phone's Wi-Fi ----------
+  // (Elvis, 10 October 2026: "the phone should also need to connect to Wi-Fi before it can work. So introduce public Wi-Fi
+  // as well, and a way to find ... passwords for the Wi-Fi".) Inside, the phone sees what the laptop sees. Outdoors there
+  // are hotspots: the free network and the residents' network round the community board, the bus stops, the motor park
+  // and the parks, and each workplace's own network a little way out of its door. A network you have joined before
+  // (phone or laptop) joins by itself. A MiFi router carried in the bag is your own data, anywhere.
+  let here = null, spots = [];
+  const setHotspots = (list) => { spots = list.filter(Boolean); };
+  function phoneNets(pos) {
+    if (here) return inRange(here);
+    const out = new Map();
+    for (const s of spots) {
+      const d = Math.hypot(pos.x - s.x, pos.z - s.z); if (d > s.r) continue;
+      const bars = d < s.r * 0.35 ? 4 : d < s.r * 0.6 ? 3 : d < s.r * 0.85 ? 2 : 1;
+      (s.kind === 'public' ? [NETS.free, NETS.district] : [s.net]).forEach((n) => { if (!n) return; const o = out.get(n.ssid); if (!o || o.bars < bars) out.set(n.ssid, { ...n, bars, near: s.name }); });
+    }
+    return [...out.values()].sort((a, b) => b.bars - a.bars);
+  }
+  function phoneLink(pos, mifi = false) {
+    if (mifi) return { ssid: 'Your MiFi', bars: 4, mifi: true };
+    const n = phoneNets(pos).find((x) => known[x.ssid] === x.pass);
+    return n ? { ssid: n.ssid, bars: n.bars } : null;
+  }
+  function phoneJoin(pos, ssid, pass) {
+    const n = phoneNets(pos).find((x) => x.ssid === ssid);
+    if (!n) return { ok: false, why: 'That network is out of range.' };
+    if (String(pass).trim() !== n.pass) return { ok: false, why: 'Incorrect password.' };
+    known = { ...known, [ssid]: n.pass }; store.set('bw-wifi-known', known);
+    return { ok: true };
+  }
+  // the nearest public hotspot, for when you have nothing
+  const nearestHotspot = (pos) => spots.filter((s) => s.kind === 'public').map((s) => ({ ...s, d: Math.max(0, Math.hypot(pos.x - s.x, pos.z - s.z) - s.r * 0.6) })).sort((a, b) => a.d - b.d)[0] || null;
   // a desk computer is wired to the building's own network: no password, and nothing your laptop remembers
   const wire = (place) => { const n = place === 'myhome' ? tenancy()?.wifi : NETS[place]; if (n) link = { ssid: n.ssid, bars: 4, wired: true }; return !!n; };
 
@@ -223,7 +258,7 @@ export function createPasses({ toast, district = 'Yaba' } = {}) {
     valid, card, cardHTML, cards: () => cards.slice().sort((a, b) => (a.kind === 'eko' ? -1 : 1) - (b.kind === 'eko' ? -1 : 1)),
     openRegister, closeRegister, get registering() { return reg.classList.contains('on'); },
     addCard, visitorFor, tenancy, access, addRep, get rep() { return repScore; }, repLabel,
-    inRange, arrive, join, forgetLink, wire, get link() { return link; }, known: () => ({ ...known }), NETS, dispose,
+    inRange, arrive, join, forgetLink, wire, get link() { return link; }, get here() { return here; }, setHotspots, phoneNets, phoneLink, phoneJoin, nearestHotspot, known: () => ({ ...known }), NETS, dispose,
   };
 }
 
