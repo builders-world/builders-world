@@ -477,17 +477,33 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
       if (c.cn) want = Math.min(want, (c.turnSpeed ?? 99) + 1.5);
       // a zebra ahead with someone on it, or held by its lights: stop short of it and wait
       if (!flying) { const d = crossingAhead(c); if (d < Infinity && d > len * 0.25) want = Math.min(want, Math.max(0, (d - len / 2 - 2.2) * 1.2)); }
-      // keep a distance from the car ahead in the same lane
+      // keep a distance from the car ahead in the same lane (and note the nearest one going our way, for the level crossings)
+      let lead = null, leadA = Infinity;
       for (let j = 0; j < cars.length; j++) {
         // (one up on the flyover and one under it are not in each other's way)
         if (j === k || cars[j].offmap || Math.abs(cars[j].mesh.position.y - c.mesh.position.y) > 2.5) continue; const q = P[j], ax = q.x - p.x, az = q.z - p.z, along = ax * p.dx + az * p.dz, across = Math.abs(-ax * p.dz + az * p.dx);
         // (the car ahead going our way; or anything right in front, whichever way it faces, at a junction or a merge)
+        if (along > 0 && along < leadA && across < 1.6 && p.dx * q.dx + p.dz * q.dz > 0.3) { leadA = along; lead = cars[j]; }
         if (along > 0 && ((along < 14 && across < 1.6 && p.dx * q.dx + p.dz * q.dz > 0.3) || (along < 6 && across < (DESIGNS[c.kind].w + DESIGNS[cars[j].kind].w) / 2 + 0.3))) want = Math.min(want, Math.max(0, (along - len / 2 - DESIGNS[cars[j].kind].len / 2 - 1.5) * 1.1));
       }
       const byCar = want < 0.3;
       // anything else on the road ahead (a minibus turning into the motor park, a ride waiting at the kerb): wait for it
       let byThing = false;
-      for (const b of blockers) { if (!b.on) continue; const ax = b.x - p.x, az = b.z - p.z, along = ax * p.dx + az * p.dz, across = Math.abs(-ax * p.dz + az * p.dx); if (along > 0 && along < 16 && across < b.r + 1.1) { want = Math.min(want, Math.max(0, (along - len / 2 - b.r - 1.5) * 1.1)); byThing = byThing || want < 0.3; } }
+      // a level crossing (railway.js): a band across the road. Lamps on: stop at the stop line. Lamps off: still never
+      // stop on the tracks, so only drive onto the crossing when the car ahead has left room on the far side
+      let byLevel = false;
+      for (const b of blockers) {
+        if (!b.band || c.mesh.position.y > 2.5) continue;
+        const B = b.band, ax = b.x - p.x, az = b.z - p.z, along = ax * p.dx + az * p.dz, across = Math.abs(-ax * p.dz + az * p.dx);
+        if (Math.abs(B.ux * p.dx + B.uz * p.dz) < 0.5 || across > b.r + 1.1) continue;
+        const toLine = along - B.hl - B.stop - len / 2; // nose to the stop line
+        if (toLine < -0.5 || toLine > 40) continue; // past the line (on the crossing: drive on off it), or far off
+        const full = lead && leadA - DESIGNS[lead.kind].len / 2 < along + B.hl + len + 1.5 && lead.v < 3;
+        if (b.on || full) { want = Math.min(want, Math.max(0, toLine * 1.1)); if (want < 0.3) byLevel = true; }
+      }
+      c.levelWait = byLevel;
+      c.queued = !byLevel && !!lead && lead.v < 0.3 && leadA < 14 && (lead.levelWait || lead.queued);
+      for (const b of blockers) { if (!b.on || b.band) continue; const ax = b.x - p.x, az = b.z - p.z, along = ax * p.dx + az * p.dz, across = Math.abs(-ax * p.dz + az * p.dx); if (along > 0 && along < 16 && across < b.r + 1.1) { want = Math.min(want, Math.max(0, (along - len / 2 - b.r - 1.5) * 1.1)); byThing = byThing || want < 0.3; } }
       // people in the road ahead: stop, and after a moment, the horn
       let blocked = false;
       humans.forEach((h, hi) => { if (!h || c.mesh.position.y > 2.5) return; const ax = h.x - p.x, az = h.z - p.z, along = ax * p.dx + az * p.dz, across = Math.abs(-ax * p.dz + az * p.dx); if (along > 0 && along < 7 && across < 1.5) { want = Math.min(want, Math.max(0, (along - 3.5) * 1.5)); if (hi === 0 && h === player && along < 6) blocked = true; } });
@@ -497,7 +513,7 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
       // stuck behind something that is not going to move (not a light, not a person crossing): after a while a
       // traffic official sees it (officials.js) and waves the car round: it turns back the way it came
       const sigRed = sig && !flying && toEnd < 9 + c.v;
-      if (c.v < 0.25 && (byCar || byThing) && !blocked && !sigRed) c.stuck = (c.stuck || 0) + dt; else c.stuck = 0;
+      if (c.v < 0.25 && (byCar || byThing) && !blocked && !sigRed && !byLevel && !c.queued) c.stuck = (c.stuck || 0) + dt; else c.stuck = 0;
       if (c.stuck > 9 && !c.reported) { c.reported = true; dispatchEvent(new CustomEvent('bw:obstruction', { detail: { x: p.x, z: p.z, car: c } })); }
       // (an officer on the way: wait for the wave, up to half a minute; nobody coming: the driver turns round alone)
       if (c.stuck > 13 && (c.waved || !c.helped || c.stuck > 30) && !c.cn) {

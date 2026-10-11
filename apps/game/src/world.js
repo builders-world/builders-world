@@ -288,6 +288,11 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   gb.box(0, -0.6, 0, R * 14, 0.6, R * 14, baseGround, { grad: 0, vary: 0 });
 
   // roads: carriageways fitted between building lines, pavements on what is left, paint on main roads
+  // the railway's corridor (see the reserve below): known before the streets are drawn, so no zebra is painted on a crossing
+  const rails = (manifest.rails || []).filter((r) => r.pts.length > 1);
+  const RAIL_CLEAR = 5.5, railSegs = [];
+  rails.forEach((r) => { for (let k = 0; k < r.pts.length - 1; k++) railSegs.push([r.pts[k], r.pts[k + 1]]); });
+  const onRail = (x, z, pad = 0) => railSegs.some(([a, c]) => { const dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / L2)); return Math.hypot(x - a[0] - dx * u, z - a[1] - dz * u) < RAIL_CLEAR + pad; });
   const kerbTris = [], roadTris = [], pathTris = [], paintTris = [], edgeTris = [], jointTris = [], cycleTris = [];
   // cycle lanes on the highways (Elvis, 10 October 2026: "a section for cycling and for pedestrians"): a green
   // lane at each kerb, 1.55 m, behind a solid white line, a bicycle painted every 30 m; the pavement beside it
@@ -380,6 +385,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
       const nx = -tz, nz = tx, hw = half[k] - 0.4;
       const zx = (c0[0] + c1[0]) / 2, zz = (c0[1] + c1[1]) / 2;
       if (crossings.some((o) => Math.hypot(o.x - zx, o.z - zz) < 7)) return; // one zebra per spot
+      if (onRail(zx, zz, 4)) return; // nor on or beside a level crossing: people cross there behind the barriers
       for (let q = -hw + 0.25; q <= hw - 0.25; q += 1.0) ribbon(paintTris, [[c0[0] + nx * q, c0[1] + nz * q], [c1[0] + nx * q, c1[1] + nz * q]], 0.5, 0.17);
       crossings.push({ x: (c0[0] + c1[0]) / 2, z: (c0[1] + c1[1]) / 2, nx, nz, hw, cls: r.cls });
     });
@@ -416,13 +422,10 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   roads.forEach((r) => { if (!r.fit) return; const { pts, half, paveL, paveR } = r.fit; for (let k = 0; k < pts.length - 1; k++) reserve.push([pts[k], pts[k + 1], Math.max(half[k], half[k + 1]) + Math.max(paveL[k], paveR[k], paveL[k + 1], paveR[k + 1]) + 0.3]); });
   // the railway (manifest.rails, where the city really has one): its corridor is reserved like a road, so no plot,
   // building or estate stands on the line (look/railway.js lays the track and runs the trains)
-  const rails = (manifest.rails || []).filter((r) => r.pts.length > 1);
   // (Elvis, 11 October 2026: "rail tracks should not run across buildings, residential buildings or sports or any
   // facility at all"): the corridor is the track and ballast plus a clear strip either side, RAIL_CLEAR metres from the
   // centre line, and world.onRail answers for it, so venues, trees, stalls and ground patches placed later keep off too
-  const RAIL_CLEAR = 5.5, railSegs = [];
-  rails.forEach((r) => { for (let k = 0; k < r.pts.length - 1; k++) { reserve.push([r.pts[k], r.pts[k + 1], RAIL_CLEAR]); railSegs.push([r.pts[k], r.pts[k + 1]]); } });
-  const onRail = (x, z, pad = 0) => railSegs.some(([a, c]) => { const dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / L2)); return Math.hypot(x - a[0] - dx * u, z - a[1] - dz * u) < RAIL_CLEAR + pad; });
+  railSegs.forEach(([a, c]) => reserve.push([a, c, RAIL_CLEAR]));
   const inReserve = (x, z) => reserve.some(([a, c, h]) => { const dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / L2)); return Math.hypot(x - a[0] - dx * u, z - a[1] - dz * u) < h; });
   const laid = []; // accepted plots: { pts, bb }
   const carriage = []; roads.forEach((r) => { if (!r.fit) return; const { pts, half } = r.fit; for (let k = 0; k < pts.length - 1; k++) carriage.push([pts[k], pts[k + 1], Math.max(half[k], half[k + 1])]); });
