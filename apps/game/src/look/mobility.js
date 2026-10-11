@@ -52,6 +52,82 @@ function boardModel(kind) {
   return g;
 }
 
+// ---------- roller skates: a pair of quad skates on your own feet ----------
+// (Elvis, 10 October 2026: "When using the shoe skate, it should replace the existing footwear, so that way the shoe skate
+// actually shows".) Each skate rides its ankle, so it moves with the leg: the boot over where the shoe was, the plate,
+// four wheels and a toe stop. The shoes underneath are hidden while the skates are on and come back when they are off.
+const SKATE_MAT = { boot: new THREE.MeshStandardMaterial({ color: 0xf4ead2, roughness: 0.55 }), trim: new THREE.MeshStandardMaterial({ color: 0x7d5aa6, roughness: 0.5 }),
+  plate: new THREE.MeshStandardMaterial({ color: 0xb8bec4, roughness: 0.35, metalness: 0.6 }), wheel: new THREE.MeshStandardMaterial({ color: 0xf2b33d, roughness: 0.45 }), stop: new THREE.MeshStandardMaterial({ color: 0x2b2f33, roughness: 0.9 }) };
+const WHEEL_R = 0.032, WHEEL_GEO = new THREE.CylinderGeometry(WHEEL_R, WHEEL_R, 0.034, 12).rotateZ(Math.PI / 2);
+const FOOT_Y = 0.15; // the ankle's height over the ground when standing (anim.js: HIP_Y - THIGH - SHIN)
+// the shoe's box in the ankle's frame (its own geometry, scaled and placed by the wardrobe), or a sensible default
+function shoeBox(ankle) {
+  const s = ankle.children.find((c) => c.isMesh && !c.userData.skate && c.scale.z > 0.2);
+  if (!s) return { x0: -0.08, x1: 0.08, y0: -0.1, y1: 0.06, z0: -0.125, z1: 0.235 };
+  if (!s.geometry.boundingBox) s.geometry.computeBoundingBox();
+  const b = s.geometry.boundingBox, S = s.scale, P = s.position;
+  return { x0: P.x + b.min.x * S.x, x1: P.x + b.max.x * S.x, y0: P.y + b.min.y * S.y, y1: P.y + b.max.y * S.y, z0: P.z + b.min.z * S.z, z1: P.z + b.max.z * S.z };
+}
+export function skateBoot(ankle) {
+  const q = shoeBox(ankle), g = new THREE.Group(); g.userData.skate = true;
+  const w = q.x1 - q.x0 + 0.03, d = q.z1 - q.z0 + 0.02, cz = (q.z0 + q.z1) / 2, bot = q.y0;
+  const top = Math.max(q.y1 + 0.09, bot + 0.2); // a high boot: the cuff comes up round the ankle
+  g.add(new THREE.Mesh(box(w, q.y1 - bot + 0.01, d, 0, (bot + q.y1) / 2, cz), SKATE_MAT.boot)); // the foot
+  g.add(new THREE.Mesh(box(w, top - q.y1, d * 0.55, 0, (q.y1 + top) / 2, q.z0 + d * 0.3), SKATE_MAT.boot)); // the cuff
+  g.add(new THREE.Mesh(box(w + 0.006, 0.03, d * 0.56, 0, top - 0.02, q.z0 + d * 0.3), SKATE_MAT.trim)); // its padded rim
+  g.add(new THREE.Mesh(box(w + 0.004, 0.022, d + 0.004, 0, bot + 0.011, cz), SKATE_MAT.trim)); // the sole
+  g.add(new THREE.Mesh(box(w * 0.8, 0.018, d * 0.92, 0, bot - 0.009, cz), SKATE_MAT.plate)); // the plate
+  const wy = bot - 0.018 - WHEEL_R, wheels = [];
+  [cz - d * 0.34, cz + d * 0.3].forEach((z) => [-1, 1].forEach((sx) => { const m = new THREE.Mesh(WHEEL_GEO, SKATE_MAT.wheel); m.position.set(sx * (w / 2 - 0.006), wy, z); g.add(m); wheels.push(m); }));
+  g.add(new THREE.Mesh(box(0.05, 0.045, 0.05, 0, wy + 0.004, q.z1 + 0.012), SKATE_MAT.stop)); // the toe stop
+  g.userData.wheels = wheels;
+  // how far the wheels lift you: from the shoe's sole on the ground to the wheels' bottom
+  g.userData.lift = Math.max(0, Math.min(0.12, -FOOT_Y - (wy - WHEEL_R)));
+  return g;
+}
+// a skater's body (after how people skate: knees bent, weight forward over the skates, each stride pushed out to the
+// side and back, the arms swinging across against the legs; a T-stop with the back skate turned across; arms out and
+// circling when the balance goes). The hips drop as the knees bend, so the wheels stay on the ground.
+const THIGH = 0.34, SHIN = 0.33, HIP_Y = 0.82;
+export function skaterPose(rig, { t = 0, push = false, brake = false, v = 0, wob = 0, down = 0 } = {}) {
+  const { L, R } = rig;
+  let lh = -0.3, lk = 0.6, rh = -0.3, rk = 0.6, lz = 0, rz = 0, ry = 0, chestX = 0.16, armL = 0.1, armR = 0.1, armZ = 0.14, twist = 0;
+  if (down > 0) { lh = -1.15; lk = 1.9; rh = -0.9; rk = 1.6; chestX = 0.55; armL = armR = -1.1; armZ = 0.3; }
+  else if (brake) { lh = -0.35; lk = 0.7; rh = 0.35; rk = 0.2; ry = -1.3; chestX = 0.1; armZ = 0.4; }
+  else if (push && v > 0.2) {
+    const ph = Math.sin(t * (1.2 + v * 0.22) * Math.PI), pl = Math.max(0, ph), pr = Math.max(0, -ph);
+    lh = -0.38 + pl * 0.68; lk = 0.75 - pl * 0.58; lz = pl * 0.38;
+    rh = -0.38 + pr * 0.68; rk = 0.75 - pr * 0.58; rz = -pr * 0.38;
+    armL = ph * 0.6; armR = -ph * 0.6; chestX = 0.22; twist = ph * 0.14;
+  }
+  rig.chest.rotation.x = chestX; rig.chest.rotation.y = twist; rig.chest.rotation.z = 0;
+  if (wob > 0.02 && !down) { const w1 = Math.sin(t * 7.3) * wob, w2 = Math.sin(t * 5.1 + 1) * wob; armZ += 0.95 * wob; armL += w1 * 1.3; armR -= w2 * 1.3; rig.chest.rotation.z = w1 * 0.16; }
+  L.hip.rotation.set(lh, 0, lz); R.hip.rotation.set(rh, ry, rz); L.knee.rotation.x = lk; R.knee.rotation.x = rk;
+  L.ankle.rotation.set(-(lh + lk), 0, -lz); R.ankle.rotation.set(-(rh + rk), 0, -rz); // soles flat on the ground
+  L.shoulder.rotation.x = -armL; R.shoulder.rotation.x = -armR; L.shoulder.rotation.z = armZ; R.shoulder.rotation.z = -armZ;
+  L.elbow.rotation.x = -0.35; R.elbow.rotation.x = -0.35;
+  const vert = (h, k, z) => (THIGH * Math.cos(h) + SHIN * Math.cos(h + k)) * Math.cos(z);
+  rig.pelvis.position.y = HIP_Y - (THIGH + SHIN - Math.max(vert(lh, lk, lz), vert(rh, rk, rz)));
+}
+
+// skates off: the sideways turns only the skater's pose uses go back to straight (the walk drives only the forward ones)
+export function unskatePose(rig) { if (!rig) return; [rig.L, rig.R].forEach((sd) => { sd.hip.rotation.y = 0; sd.hip.rotation.z = 0; sd.ankle.rotation.z = 0; }); rig.chest.rotation.y = 0; }
+
+/** Put skates on a rigged avatar's feet (hiding its shoes), or take them off. Returns the lift in metres. */
+export function wearSkates(rig, on) {
+  let lift = 0;
+  [rig?.L, rig?.R].forEach((side) => {
+    if (!side?.ankle) return;
+    const old = side.ankle.children.find((c) => c.userData.skate);
+    if (old && !on) old.removeFromParent();
+    // the shoes and any heel on the ankle, and a boot's shaft on the shin (style.js), go while the skates are on
+    side.ankle.children.forEach((c) => { if (c.isMesh) c.visible = !on; });
+    side.knee?.children.forEach((c) => { if (c.isMesh && c.scale.x < 0.5) c.visible = !on; });
+    if (on) { const b = old || skateBoot(side.ankle); if (!old) side.ankle.add(b); lift = b.userData.lift; }
+  });
+  return lift;
+}
+
 export function createMobility({ world, scene, props, avatar, toast, used = [], reduced, park }) {
   const group = new THREE.Group(); group.name = 'mobility'; scene.add(group);
   // ---------- docks ----------
@@ -82,12 +158,16 @@ export function createMobility({ world, scene, props, avatar, toast, used = [], 
   // the bag's things you roll on, and the ride each one is; the one put on last is the one you ride
   const ROLL = { skateboard: 'skate', skates: 'skates', hoverboard: 'hover', scooter: 'scooter' };
   let order = [];
-  const next = () => { const k = [...order].reverse().find((m) => carry[m]); if (k) mount(k); };
+  // skates on your feet win: you cannot stand on a board in them (Elvis, 10 October 2026), so a board you carry waits
+  const next = () => { const k = carry.skates ? 'skates' : [...order].reverse().find((m) => carry[m]); if (k) mount(k); };
+  const RIDE_NAME = { skate: 'skateboard', hover: 'hoverboard', scooter: 'scooter' };
   function mount(kind) {
     unmount(true);
     mode = kind;
-    ride = kind === 'bike' ? bikeModel(0x2a9d94) : boardModel(kind);
+    // skates go on your feet (wearSkates, in pose, once the rig is known); everything else is a thing under you
+    ride = kind === 'bike' ? bikeModel(0x2a9d94) : kind === 'skates' ? new THREE.Group() : boardModel(kind);
     avatar.add(ride);
+    if (kind === 'skates') { sk.v = 0; sk.on = true; tutorial(); }
     if (kind === 'bike') ride.position.z = 0.08;
     return true;
   }
@@ -95,6 +175,7 @@ export function createMobility({ world, scene, props, avatar, toast, used = [], 
     if (ride) { ride.removeFromParent(); ride = null; }
     avatar.position.y = 0;
     const was = mode; mode = null;
+    if (was === 'skates') { sk.on = false; sk.v = 0; if (sk.rig) { wearSkates(sk.rig, false); unskatePose(sk.rig); sk.rig = null; } tut.el?.classList.remove('on'); }
     if (!quiet && was === 'bike') toast('You hop off. The bike rolls itself back to the nearest dock.', 2600);
     return true;
   }
@@ -114,6 +195,9 @@ export function createMobility({ world, scene, props, avatar, toast, used = [], 
     const m = ROLL[id]; if (!m) return;
     carry[m] = on; order = order.filter((q) => q !== m); if (on) order.push(m);
     if (mode === 'bike') return;
+    // in roller skates you carry a board, you do not ride it; skates on, you step off whatever you were on
+    if (on && m !== 'skates' && carry.skates) { toast(`Not in roller skates. Your ${RIDE_NAME[m]} is in your hand: take the skates off (bag, Gadgets) to ride it.`, 3600); return; }
+    if (on && m === 'skates' && mode && mode !== 'skates') toast(`You step off the ${RIDE_NAME[mode]} and lace up your skates. Your shoes go in the bag.`, 3200);
     if (on) mount(m); else if (mode === m) { unmount(true); next(); }
   }
   // speed: a bike is quick, a board quicker than walking, skates in between
@@ -125,14 +209,113 @@ export function createMobility({ world, scene, props, avatar, toast, used = [], 
     const now = performance.now() / 1000; if (now - walkedAt > 12) toast('No cycling here: you walk the bike. Ride in the green cycle lane or on the road.', 3200); walkedAt = now;
     return true;
   };
-  const pace = (running) => (mode === 'bike' && walking() ? 1.9 : mode === 'bike' ? (running ? 9 : 6.5) : mode === 'skate' ? (running ? 7 : 5) : mode === 'skates' ? (running ? 6.5 : 4.5) : mode === 'hover' ? (running ? 6 : 4.4) : mode === 'scooter' ? (running ? 8 : 5.8) : null);
+  const pace = (running) => (mode === 'bike' && walking() ? 1.9 : mode === 'bike' ? (running ? 9 : 6.5) : mode === 'skate' ? (running ? 7 : 5) : mode === 'skates' ? sk.v : mode === 'hover' ? (running ? 6 : 4.4) : mode === 'scooter' ? (running ? 8 : 5.8) : null);
+  // ---------- skating: momentum, balance, a first lesson ----------
+  // (Elvis, 10 October 2026: "improve the physics of how the skating works. And also, it's a short tutorial on how people
+  // can learn and also balance for the skates".) You build speed stride by stride, roll on when you let go, steer in
+  // curves, and stop with a T-stop (press back). New skaters are slower and wobble; going flat out too soon puts you on
+  // the ground. Balance grows with every metre skated and is kept on this device.
+  const store = { get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* */ } } };
+  const sk = { v: 0, on: false, rig: null, lift: 0, skill: +store.get('bw-skate-skill', 0) || 0, saved: 0, push: false, brake: false, glide: 0, wob: 0, stumble: 0, lastFall: -99, clock: 0 };
+  function skate(dt, { push = false, brake = false, running = false, turn = 0 } = {}) {
+    sk.clock += dt;
+    const top = (running ? 6.6 : 4.6) * (0.62 + 0.38 * sk.skill);
+    if (sk.stumble > 0) { sk.stumble -= dt; sk.v = Math.max(0, sk.v - 9 * dt); sk.push = sk.brake = false; return sk.v; }
+    const was = sk.v;
+    if (brake) sk.v = Math.max(0, sk.v - 5.5 * dt); // a T-stop: the back skate dragged across
+    else if (push) sk.v = sk.v < top ? Math.min(top, sk.v + (1.6 + 1.6 * sk.skill) * dt) : Math.max(top, sk.v - 1.5 * dt); // stride by stride
+    else sk.v = Math.max(0, sk.v - 0.85 * dt); // rolling on
+    sk.push = push && sk.v > 0.2; sk.brake = brake && sk.v > 0.1;
+    sk.glide = !push && !brake && sk.v > 1 ? sk.glide + dt : 0;
+    // balance: the less practised you are and the faster you go, the more you wobble; flat out too soon, you fall
+    const edge = sk.v / (4.6 * (0.62 + 0.38 * sk.skill));
+    sk.wob = (1 - sk.skill) * Math.max(0, Math.min(1, (edge - 0.45) * 1.6 + (running ? 0.3 : 0)));
+    if (running && sk.skill < 0.3 && sk.v > 3.6 && sk.clock - sk.lastFall > 18 && Math.random() < dt * 0.5) {
+      sk.stumble = 1.1; sk.lastFall = sk.clock;
+      toast('Whoa, down you go! Bend your knees and keep your weight forward. Practise at a walking pace first.', 4200);
+    }
+    sk.skill = Math.min(1, sk.skill + (sk.v * dt) / 600); // about 600 m of skating to be steady
+    if (sk.clock - sk.saved > 3) { sk.saved = sk.clock; store.set('bw-skate-skill', +sk.skill.toFixed(3)); }
+    lesson(dt, { was, turn });
+    return sk.v;
+  }
+  // the wheels stand on what is drawn under you: pavements, roads and park paths are drawn a little above the ground
+  // people walk on (shoes hide the difference; a skate's wheels would not). The flat surfaces are found once, then a ray
+  // straight down a few times a second; the height eases, so a kerb is a step, not a jolt.
+  const surf = { list: null, t: 0, off: 0, rc: new THREE.Raycaster(), o: new THREE.Vector3(), d: new THREE.Vector3(0, -1, 0), box: new THREE.Box3() };
+  function surfaceUnder(dt) {
+    if (!surf.list) {
+      let top = avatar; while (top.parent) top = top.parent;
+      surf.list = []; top.updateMatrixWorld(true);
+      top.traverse((o) => { if (!o.isMesh || o.isInstancedMesh || o.isSkinnedMesh || !o.geometry || !o.visible) return; for (let a = o; a; a = a.parent) if (a === avatar) return; surf.box.setFromObject(o); if (surf.box.max.y < 0.7 && surf.box.min.y > -1.5 && surf.box.max.x - surf.box.min.x > 3) surf.list.push(o); });
+    }
+    surf.t -= dt;
+    if (surf.t <= 0) {
+      surf.t = 0.12;
+      avatar.parent?.getWorldPosition(surf.o); const gy = surf.o.y; surf.o.y += 0.5; surf.rc.set(surf.o, surf.d); surf.rc.far = 0.9;
+      let best = 0; for (const h of surf.rc.intersectObjects(surf.list, false)) if (h.point.y - gy < 0.3 && (!h.face || h.face.normal.y > 0.5)) best = Math.max(best, h.point.y - gy);
+      surf.want = best;
+    }
+    surf.off += ((surf.want ?? 0) - surf.off) * Math.min(1, dt * 14);
+    return surf.off;
+  }
+
+  // knocked into something: you stop
+  const bump = () => { if (sk.v > 2.5) toast('Oof. Skates do not stop for walls: press back for a T-stop.', 2600); sk.v *= 0.2; };
+
+  // the first time you put skates on, a short lesson in four steps that tick as you do them
+  const tut = { el: null, done: !!store.get('bw-skate-tut', false), steps: [false, false, false, false], turned: 0, braked: 0 };
+  const STEPS = [['Push', 'Hold W: each stride adds speed'], ['Glide', 'Let go: you keep rolling'], ['Turn', 'Steer in wide curves while you roll'], ['Stop', 'Press back (S) for a T-stop']];
+  function tutorial() {
+    if (tut.done) return;
+    if (!tut.el) {
+      const st = document.createElement('style');
+      st.textContent = `#lk-skate { position: fixed; left: 50%; top: 92px; z-index: 17; transform: translate(-50%, -8px); opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; width: min(420px, calc(100vw - 32px)); box-sizing: border-box; padding: 12px 14px; border-radius: 18px; background: #f7efdc; color: #3b2a20; font-family: "Baloo 2", system-ui, sans-serif; box-shadow: 0 2px 0 rgba(59,42,32,.14), 0 14px 30px rgba(10,14,30,.22); }
+        #lk-skate.on { opacity: 1; transform: translate(-50%, 0); }
+        #lk-skate h4 { margin: 0 0 8px; font: 800 15px/1.1 inherit; } #lk-skate h4 small { font: 700 12px/1 inherit; color: #7a6552; margin-left: 6px; }
+        #lk-skate ol { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 0; padding: 0; list-style: none; }
+        #lk-skate li { padding: 7px 8px; border-radius: 12px; background: #efe4c9; font: 800 13px/1.1 inherit; } #lk-skate li small { display: block; margin-top: 3px; font: 600 11px/1.25 inherit; color: #7a6552; }
+        #lk-skate li.d { background: #d9efe9; } #lk-skate li.d b::after { content: ' ✓'; color: #2a9d94; }
+        #lk-skate .bal { display: flex; align-items: center; gap: 8px; margin-top: 8px; font: 700 12px/1 inherit; color: #7a6552; } #lk-skate .bal i { flex: 1; height: 6px; border-radius: 3px; background: #e3d4b4; overflow: hidden; } #lk-skate .bal i b { display: block; height: 100%; background: #2a9d94; }`;
+      document.head.appendChild(st);
+      tut.el = document.createElement('div'); tut.el.id = 'lk-skate'; tut.el.setAttribute('role', 'status'); document.body.appendChild(tut.el);
+    }
+    renderLesson(); tut.el.classList.add('on');
+  }
+  function renderLesson() {
+    if (!tut.el) return;
+    tut.el.innerHTML = `<h4>Roller skates<small>${tut.steps.every(Boolean) ? 'You have got it' : 'a first lesson'}</small></h4><ol>${STEPS.map(([b, s], i) => `<li class="${tut.steps[i] ? 'd' : ''}"><b>${b}</b><small>${s}</small></li>`).join('')}</ol><div class="bal">Balance<i><b style="width:${Math.round(sk.skill * 100)}%"></b></i>${Math.round(sk.skill * 100)}%</div>`;
+  }
+  let lessonDraw = 0;
+  function lesson(dt, { was, turn }) {
+    if (tut.done || !tut.el) return;
+    const before = tut.steps.join();
+    if (sk.push && sk.v > 1.5) tut.steps[0] = true;
+    if (sk.glide > 0.8) tut.steps[1] = true;
+    if (sk.v > 1) { tut.turned += Math.abs(turn); if (tut.turned > 1.2) tut.steps[2] = true; }
+    if (sk.brake) tut.braked = Math.max(tut.braked, was); if (tut.braked > 1.5 && sk.v < 0.3) tut.steps[3] = true;
+    lessonDraw -= dt;
+    if (tut.steps.join() !== before || lessonDraw <= 0) { lessonDraw = 1; renderLesson(); }
+    if (tut.steps.every(Boolean)) {
+      tut.done = true; store.set('bw-skate-tut', true); renderLesson();
+      toast('Lesson done. Shift skates faster once your balance is up; until then you may wobble.', 3800);
+      setTimeout(() => tut.el?.classList.remove('on'), 3500);
+    }
+  }
+
   // the pose over the rig: pedalling, or one foot pushing
   let t = 0;
   function pose(rig, dt, speed, indoors) {
     if (!ride) return;
     ride.visible = !indoors;
+    // skates live on the feet: put on with this rig (and again if the wardrobe redressed you), off indoors
+    if (mode === 'skates') {
+      if (indoors) { if (sk.rig) { wearSkates(sk.rig, false); unskatePose(sk.rig); sk.rig = null; } tut.el?.classList.remove('on'); avatar.position.y = 0; surf.off = 0; return; }
+      if (rig && (sk.rig !== rig || !rig.L.ankle.children.some((c) => c.userData.skate) || rig.L.ankle.children.some((c) => c.isMesh && c.visible))) { sk.rig = rig; sk.lift = wearSkates(rig, true); if (!tut.done) tutorial(); }
+    }
     if (indoors) { avatar.position.y = 0; return; }
     t += dt * (reduced ? 0.5 : 1);
+    // every ride lifts you off the ground by its own height (this is the body inside the player: main.js keeps the player on the ground)
     if (mode === 'bike') {
       avatar.position.y = 0.32; // up on the saddle
       const a = t * (2 + speed * 1.4);
@@ -141,8 +324,9 @@ export function createMobility({ world, scene, props, avatar, toast, used = [], 
       if (rig) { rig.L.hip.rotation.x = -0.9 + Math.sin(a) * 0.45; rig.R.hip.rotation.x = -0.9 - Math.sin(a) * 0.45; rig.L.knee.rotation.x = 1.0 - Math.cos(a) * 0.45; rig.R.knee.rotation.x = 1.0 + Math.cos(a) * 0.45; rig.L.shoulder.rotation.x = -0.7; rig.R.shoulder.rotation.x = -0.7; rig.chest.rotation.x = 0.25; }
     } else if (mode === 'hover' || mode === 'scooter') {
       // standing, both feet on: a hoverboard goes where you lean, a scooter where the handlebar points
-      avatar.position.y = mode === 'hover' ? 0.17 : 0.13;
-      ride.position.y = -avatar.position.y;
+      const lift = mode === 'hover' ? 0.17 : 0.13;
+      avatar.position.y = lift;
+      ride.position.y = -lift;
       ride.userData.wheels.forEach((w) => { if (mode === 'hover') w.rotation.x -= dt * speed * 10; else w.rotation.x -= dt * speed * 11.8; });
       const lean = Math.min(1, speed / 5);
       if (mode === 'hover') ride.rotation.x = -lean * 0.08; // the deck tips forward as you lean
@@ -153,14 +337,17 @@ export function createMobility({ world, scene, props, avatar, toast, used = [], 
         if (mode === 'scooter') { rig.L.shoulder.rotation.x = -0.75; rig.R.shoulder.rotation.x = -0.75; } // hands on the grips
         else { rig.L.shoulder.rotation.z = 0.25; rig.R.shoulder.rotation.z = -0.25; } // arms a little out, for balance
       }
+    } else if (mode === 'skates') {
+      avatar.position.y = sk.lift + surfaceUnder(dt);
+      if (sk.rig) [sk.rig.L, sk.rig.R].forEach((sd) => sd.ankle.children.forEach((c) => c.userData.wheels?.forEach((w) => { w.rotation.x -= dt * speed / WHEEL_R; })));
+      if (rig) skaterPose(rig, { t, push: sk.push, brake: sk.brake, v: speed, wob: sk.wob, down: sk.stumble });
     } else {
-      avatar.position.y = mode === 'skate' ? 0.13 : 0.06;
-      ride.position.y = -avatar.position.y;
-      if (mode === 'skate') { ride.rotation.y = Math.PI / 2 * 0.6; }
+      avatar.position.y = 0.13;
+      ride.position.y = -0.13;
+      ride.rotation.y = Math.PI / 2 * 0.6;
       if (rig) {
         const push = speed > 0.3 ? Math.max(0, Math.sin(t * 3)) : 0;
-        if (mode === 'skate') { rig.L.hip.rotation.x = 0.1; rig.L.knee.rotation.x = 0.25; rig.R.hip.rotation.x = -push * 0.6 + 0.1; rig.R.knee.rotation.x = 0.2 + push * 0.4; rig.chest.rotation.y = 0.5; }
-        else { const s = Math.sin(t * 4) * Math.min(1, speed / 3); rig.L.hip.rotation.x = s * 0.5; rig.R.hip.rotation.x = -s * 0.5; rig.L.knee.rotation.x = 0.25; rig.R.knee.rotation.x = 0.25; rig.chest.rotation.x = 0.2; }
+        rig.L.hip.rotation.x = 0.1; rig.L.knee.rotation.x = 0.25; rig.R.hip.rotation.x = -push * 0.6 + 0.1; rig.R.knee.rotation.x = 0.2 + push * 0.4; rig.chest.rotation.y = 0.5;
       }
     }
   }
@@ -169,16 +356,18 @@ export function createMobility({ world, scene, props, avatar, toast, used = [], 
   const riders = [];
   const pathLoop = (pts, speed, kind, look, name) => {
     const av = createAvatarModel({ color: '#888', style: 'tee' }); prepareLook(av.root); const rig = rigAvatar(av.root); dress(av.root, look, rig);
-    const holder = new THREE.Group(); holder.add(av.root); const board = boardModel(kind); holder.add(board); av.root.position.y = kind === 'skate' ? 0.13 : 0.06; board.position.y = 0; if (kind === 'skate') board.rotation.y = Math.PI / 2 * 0.6;
+    const holder = new THREE.Group(); holder.add(av.root);
+    // a board under a skater; skates on a roller skater's own feet
+    if (kind === 'skates') av.root.position.y = (rig ? wearSkates(rig, true) : 0) + (kind === 'skates' ? 0.09 : 0); // on the pond's paved loop (parks.js draws it 9 cm up) else { const board = boardModel(kind); holder.add(board); av.root.position.y = 0.13; board.position.y = 0; board.rotation.y = Math.PI / 2 * 0.6; }
     group.add(holder);
     const lens = [0]; for (let i = 1; i < pts.length; i++) lens.push(lens[i - 1] + Math.hypot(pts[i].x - pts[i - 1].x, pts[i].z - pts[i - 1].z));
     riders.push({ holder, av, rig, pts, lens, total: lens[lens.length - 1], s: Math.random() * lens[lens.length - 1], speed, kind, name, hop: 0 });
   };
-  const sk = (props.pois || []).find((q) => /Skate Park/.test(q.name));
-  if (sk) {
+  const skPark = (props.pois || []).find((q) => /Skate Park/.test(q.name));
+  if (skPark) {
     // round the pad, over the funbox in the middle
     // a figure of eight on the flat between the quarter pipes, clear of the funbox in the middle
-    const loop = []; for (let i = 0; i <= 32; i++) { const a = (i / 32) * Math.PI * 2; loop.push({ x: sk.x + Math.sin(a) * 4.6, z: sk.z + Math.sin(a * 2) * 2.4 + (Math.cos(a) > 0 ? 3.6 : -3.6) * 0 + Math.cos(a) * 0.0 + (Math.sin(a * 2) >= 0 ? 0 : 0) }); }
+    const loop = []; for (let i = 0; i <= 32; i++) { const a = (i / 32) * Math.PI * 2; loop.push({ x: skPark.x + Math.sin(a) * 4.6, z: skPark.z + Math.sin(a * 2) * 2.4 + (Math.cos(a) > 0 ? 3.6 : -3.6) * 0 + Math.cos(a) * 0.0 + (Math.sin(a * 2) >= 0 ? 0 : 0) }); }
     pathLoop(loop, 4.2, 'skate', lookFor('skater-1', { tier: 2 }), 'Dayo');
     pathLoop([...loop].reverse(), 3.8, 'skate', lookFor('skater-2', { fem: true, tier: 1 }), 'Temi');
   }
@@ -201,10 +390,10 @@ export function createMobility({ world, scene, props, avatar, toast, used = [], 
       if (r.kind === 'skate' && gy < 0.02) { const ph = (r.s / r.total * 6) % 1; r.holder.position.y = ph < 0.08 ? Math.sin((ph / 0.08) * Math.PI) * 0.45 : 0; }
       r.rig?.update(dt, { speed: 0, t: tt });
       const push = Math.max(0, Math.sin(tt * 3 + r.speed));
-      if (r.rig) { if (r.kind === 'skate') { r.rig.R.hip.rotation.x = -push * 0.5; r.rig.R.knee.rotation.x = 0.2 + push * 0.3; r.rig.chest.rotation.y = 0.5; } else { const s = Math.sin(tt * 4); r.rig.L.hip.rotation.x = s * 0.5; r.rig.R.hip.rotation.x = -s * 0.5; r.rig.chest.rotation.x = 0.2; } }
+      if (r.rig) { if (r.kind === 'skate') { r.rig.R.hip.rotation.x = -push * 0.5; r.rig.R.knee.rotation.x = 0.2 + push * 0.3; r.rig.chest.rotation.y = 0.5; } else { skaterPose(r.rig, { t: tt + r.speed, push: true, v: r.speed, wob: 0 }); r.rig.L.ankle.children.forEach((c) => c.userData.wheels?.forEach((w) => { w.rotation.x -= dt * r.speed / WHEEL_R; })); r.rig.R.ankle.children.forEach((c) => c.userData.wheels?.forEach((w) => { w.rotation.x -= dt * r.speed / WHEEL_R; })); } }
     });
   }
   const bodies = () => riders.map((r) => ({ x: r.holder.position.x, z: r.holder.position.z, r: 0.35 }));
   function dispose() { group.removeFromParent(); }
-  return { use, equip, pace, pose, update, bodies, unmount, get mode() { return mode; }, docks, riders, dispose };
+  return { use, equip, pace, pose, update, bodies, unmount, skate, bump, get mode() { return mode; }, get skating() { return mode === 'skates' ? { v: sk.v, push: sk.push, brake: sk.brake, surf: { n: surf.list?.length, want: surf.want, off: surf.off }, skill: sk.skill, wob: sk.wob, down: sk.stumble > 0, lesson: tut.done ? null : tut.steps.slice() } : null; }, docks, riders, dispose };
 }

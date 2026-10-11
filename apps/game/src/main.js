@@ -610,7 +610,7 @@ async function main() {
     street?.profile?.setDriving(on);
   }
   addEventListener('bw:dog', () => setDog(!dog.on));
-  const fwd = new THREE.Vector3(), right = new THREE.Vector3(), mv = new THREE.Vector3();
+  const fwd = new THREE.Vector3(), right = new THREE.Vector3(), mv = new THREE.Vector3(), skDir = new THREE.Vector3();
   const focus = new THREE.Vector3(), desired = new THREE.Vector3();
 
   function frame() {
@@ -735,10 +735,22 @@ async function main() {
         if (q) cut(() => { player.set(q.x, 0, q.z); world.resolve(player, PLAYER_R); walkTarget = null; walkPath = null; marker.visible = false; snap = true; (street?.hud.toast ?? chrome.toast)('You were boxed in, so you stepped back out to the street.', 3000); });
       }
     }
+    // roller skates (mobility.js): momentum. What you press steers and pushes, you roll on when you let go, and pressing
+    // back is a T-stop; so you travel the way you face, turning in curves, never sideways
+    const skates = !inside && !dog.on && !riding && !seated && !playing && !cam.aerial && street?.mobility?.mode === 'skates';
+    let skateV = 0;
+    if (skates) {
+      const hx = Math.sin(heading), hz = Math.cos(heading), want = mv.lengthSq() > 0;
+      let dot = 1, turn = 0; if (want) { skDir.copy(mv).normalize(); dot = skDir.x * hx + skDir.z * hz; }
+      const brake = want && dot < -0.35 && street.mobility.skating.v > 0.05;
+      if (want && !brake) { let dh = Math.atan2(skDir.x, skDir.z) - heading; dh = Math.atan2(Math.sin(dh), Math.cos(dh)); turn = dh * (1 - Math.exp(-dt * (street.mobility.skating.v < 1.2 ? 10 : 3.2))); heading += turn; }
+      skateV = street.mobility.skate(dt, { push: want && !brake, brake, running: keys.has('shift') || input.state.run, turn });
+      mv.set(Math.sin(heading), 0, Math.cos(heading)).multiplyScalar(skateV > 0.02 ? 1 : 0);
+    }
     const moving = mv.lengthSq() > 0;
     // walk by default, run with Shift (world bible 7.4); indoors you walk like indoors
     const running = (keys.has('shift') || input.state.run) && !inside && !seated;
-    const pace = dog.on ? (running ? 7.2 : 3.4) * TEST_PACE : (inside ? 1.9 : street?.mobility?.pace(running) ?? (running ? 6.4 : 2.8)) * TEST_PACE; // on a bike, a board or skates you go faster
+    const pace = skates ? skateV * TEST_PACE : dog.on ? (running ? 7.2 : 3.4) * TEST_PACE : (inside ? 1.9 : street?.mobility?.pace(running) ?? (running ? 6.4 : 2.8)) * TEST_PACE; // on a bike, a board or skates you go faster
     if (moving) {
       mv.normalize();
       // the edge of the area (Elvis, 11 October 2026: not "an abrupt bounding box"): from 93% of the way out, the part
@@ -772,6 +784,8 @@ async function main() {
       let dh = Math.atan2(mv.x, mv.z) - heading;
       dh = Math.atan2(Math.sin(dh), Math.cos(dh));
       heading += dh * (1 - Math.exp(-dt * 12));
+      // on skates, running into something stops you
+      if (skates && player.distanceTo(last) < pace * dt * 0.35) street.mobility.bump();
     }
     avatar.position.copy(player);
     avatar.rotation.y = heading;
@@ -812,11 +826,11 @@ async function main() {
     const groundSpeed = moving ? player.distanceTo(last) / Math.max(dt, 1e-4) : 0;
     if (dog.on) { dog.still = groundSpeed < 0.05 ? dog.still + dt : 0; street?.pets?.drive({ x: player.x, z: player.z, yaw: heading, speed: groundSpeed, still: dog.still }); }
     lastSpeed = groundSpeed;
-    if (rig && !reduced) rig.update(dt, gs ? { speed: Math.min(gs.speed || 0, 8), running: !!gs.running, air: (gs.y || 0) > 0.05, t, seated: !!gs.seated } : { speed: Math.min(dog.on ? dog.speed : groundSpeed, 8), running: dog.on ? dog.speed > 4 : running, air: jumpY > 0.02, t, seated: seated && !pose ? true : pose ? ['sofa', 'feet', 'tv', 'read', 'eat'].includes(pose) : false, pose, seatY });
+    if (rig && !reduced) rig.update(dt, gs ? { speed: Math.min(gs.speed || 0, 8), running: !!gs.running, air: (gs.y || 0) > 0.05, t, seated: !!gs.seated } : { speed: Math.min(dog.on ? dog.speed : street?.mobility?.mode && !inside ? 0 : groundSpeed, 8), running: dog.on ? dog.speed > 4 : running, air: jumpY > 0.02, t, seated: seated && !pose ? true : pose ? ['sofa', 'feet', 'tv', 'read', 'eat'].includes(pose) : false, pose, seatY });
     else body.position.y = seated ? -0.42 : 0;
     street?.mobility?.pose(rig, dt, groundSpeed, inside); // on wheels: pedalling or pushing, over the walk
     // a footstep every stride, on whatever is underfoot
-    if (moving && jumpY === 0 && !riding) { stepAcc += groundSpeed * dt; const stride = running ? 1.25 : 0.72; if (stepAcc > stride) { stepAcc = 0; sfx('step', { run: running, grass: !inside && !world.isFree(player.x, player.z, 0, { lots: false }) && world.isFree(player.x, player.z, 0, { lots: true }) }); } }
+    if (moving && jumpY === 0 && !riding && !(street?.mobility?.mode && !inside)) { stepAcc += groundSpeed * dt; const stride = running ? 1.25 : 0.72; if (stepAcc > stride) { stepAcc = 0; sfx('step', { run: running, grass: !inside && !world.isFree(player.x, player.z, 0, { lots: false }) && world.isFree(player.x, player.z, 0, { lots: true }) }); } }
     online?.update(dt);
     audio.update(dt, { day: shared.uDay.value, rain: wx.uRain.value, inside, riding, speed: street?.rides?.()?.debug?.v ?? 0 });
 
@@ -965,7 +979,7 @@ async function main() {
   frame();
 
   window.__bw = {
-    get world() { return world; }, camera, cam, player, renderer, scene, via,
+    get world() { return world; }, camera, cam, player, avatar, renderer, scene, via,
     get theme() { return themeName; }, setTheme, get look() { return street; }, get quality() { return quality; }, graphics: { info: gfx.info, get choice() { return gfx.choice; }, get tier() { return quality; }, auto: () => autoTier(gfx.info) }, composer, weather: weatherFeed, get kit() { return kit; }, goto, setAerial, cycleView, setTravel, get travel() { return travel.on; }, idle, get online() { return online; }, audio, get view() { return (riding ? 'ride:' : 'foot:') + (riding ? viewOf('ride') : viewOf('foot')).id; }, get walkTarget() { return walkTarget; }, get walkPath() { return walkPath; }, walkTo, get groundY() { return groundY; }, get resScale() { return governor.scale; },
     ready: true,
   };
