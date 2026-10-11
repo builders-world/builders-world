@@ -127,7 +127,9 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
     // the kerb-side normal at each point, mitred so a lane keeps its distance from the middle round a bend
     const M = P.map((_, i) => { const a = dirs[Math.max(0, i - 1)], b = dirs[Math.min(dirs.length - 1, i)]; let nx = -(a[1] + b[1]), nz = a[0] + b[0]; const l = Math.hypot(nx, nz) || 1; nx /= l; nz /= l; const k = Math.max(0.5, -nx * a[1] + nz * a[0]); return [(nx / k) * HAND, (nz / k) * HAND]; });
     const oneway = !!r.oneway, avgH = H.reduce((t, h) => t + h, 0) / n, bike = bikeLaneAt(r, idx[0], idx[1]);
-    const lanes = lanesFor(r, oneway ? 2 * avgH : avgH, oneway, dir);
+    // (no lane narrower than 2.9 m, so a bus fits beside a car: a road mapped with more lanes than fit gets fewer)
+    const roomy = Math.max(1, Math.floor(((oneway ? 2 * avgH : avgH) - 0.55 - (bike ? 2.45 : 0)) / 2.9));
+    const lanes = Math.min(lanesFor(r, oneway ? 2 * avgH : avgH, oneway, dir), roomy);
     const inner = H.map((h) => (oneway ? -h + 0.35 : 0.2)), outer = H.map((h, i) => Math.max(inner[i] + 2.2 * lanes, h - 0.35 - (bike ? 2.45 : 0)));
     const w = { id: ways.length, road: r, link: lk, dir, from: dir > 0 ? lk.a : lk.b, to: dir > 0 ? lk.b : lk.a, P, H, M, cum, dirs, L: cum[n - 1], n: lanes, inner, outer, bike, major: MAJOR.includes(r.cls), lane: Math.max(1.5, Math.min(3.4, avgH / 2)), next: [], xs: [], s0: 0, s1: cum[n - 1] };
     ways.push(w); return w;
@@ -162,6 +164,7 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
     for (let j = 0; j <= N; j++) { const t = j / N, a = (1 - t) ** 3, b = 3 * (1 - t) ** 2 * t, d = 3 * (1 - t) * t * t, e = t ** 3; pts.push([a * p0[0] + b * p1[0] + d * p2[0] + e * p3[0], a * p0[1] + b * p1[1] + d * p2[1] + e * p3[1]]); if (j) cum.push(cum[j - 1] + Math.hypot(pts[j][0] - pts[j - 1][0], pts[j][1] - pts[j - 1][1])); }
     return { pts, cum, L: cum[N] };
   };
+  const CONNS = [];
   nodes.forEach((N, v) => {
     N.in.forEach((a) => {
       const onward = N.out.filter((b) => b.link !== a.link), opts = onward.length ? onward : N.out; // turning back only where the road ends
@@ -175,13 +178,27 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
         pairs.forEach(([k, m]) => {
           const pa = wayPos(a, a.s1, laneOff(a, k, a.s1)), pb = wayPos(b, b.s0, laneOff(b, m, b.s0)), d = Math.hypot(pb.x - pa.x, pb.z - pa.z);
           const cn = curve([pa.x, pa.z], [pa.dx, pa.dz], [pb.x, pb.z], [pb.dx, pb.dz], Math.abs(ang) > 2.6 ? Math.max(2.4, d * 0.7) : Math.max(0.3, d * 0.42));
-          Object.assign(cn, { from: a, k, to: b, m, node: v, ang });
+          Object.assign(cn, { id: CONNS.length, from: a, k, to: b, m, node: v, ang }); CONNS.push(cn);
           turn.conns.push(cn);
         });
         a.next.push(turn);
       });
     });
   });
+  // right of way at a junction without lights: two paths across it conflict where they cross or come within a car's
+  // width of each other, unless they leave from the same lane (the car ahead is simply followed)
+  const conflictMemo = new Map();
+  function conflicts(p, q) {
+    if (!p || !q || p === q || (p.from === q.from && p.k === q.k)) return false;
+    const key = p.id < q.id ? `${p.id}:${q.id}` : `${q.id}:${p.id}`;
+    if (conflictMemo.has(key)) return conflictMemo.get(key);
+    let hit = false;
+    for (let i = 0; i < p.pts.length && !hit; i++) for (let j = 0; j < q.pts.length; j++) if (Math.hypot(p.pts[i][0] - q.pts[j][0], p.pts[i][1] - q.pts[j][1]) < 2.1) { hit = true; break; }
+    conflictMemo.set(key, hit); return hit;
+  }
+  const planned = (c) => (c.turn ? c.turn.conns.find((q) => q.k === c.kT) || c.turn.conns[0] : null);
+  // which lane a car is in by where it is across its way (a lane change part done counts as the lane it is nearest)
+  const laneNow = (c) => { let best = 0, bd = Infinity; for (let k = 0; k < c.w.n; k++) { const d = Math.abs(laneOff(c.w, k, c.s) - c.off); if (d < bd) { bd = d; best = k; } } return best; };
   // the zebras on each way, by distance along it (cars give way to anyone on one)
   const XINGS = world.crossings || [];
   XINGS.forEach((xg) => {
@@ -352,7 +369,8 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
   const cars = [];
   // kekes keep off the big roads (banned from them in Lagos, Port Harcourt and Uyo); cyclists keep to the cycle lanes
   const BIG = ['motorway', 'trunk', 'primary'];
-  const suits = (kind, w) => (kind === 'keke' ? !BIG.includes(w.road.cls) : kind === 'cycle' ? !!w.bike : true);
+  // (the BRT keeps to its corridors, the main roads; a 12 m bus has no business down a service lane)
+  const suits = (kind, w) => (kind === 'keke' ? !BIG.includes(w.road.cls) : kind === 'cycle' ? !!w.bike : kind === 'brt' ? ['motorway', 'trunk', 'primary', 'secondary'].includes(w.road.cls) : true);
   // which way to go at the end of this way; null at the edge of the map (the car drives off it and another comes on)
   const choose = (c) => {
     const w = c.w; if (nodes[w.to].edge) return null;
@@ -374,7 +392,11 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
   // cars come on at the map's edge, on a way in
   const entries = ways.filter((w) => nodes[w.from].edge);
   function respawn(c) {
-    const pool = entries.filter((w) => suits(c.kind, w)), list = pool.length ? pool : entries.length ? entries : ways;
+    // (onto a way in whose start is clear: nobody comes on on top of another car)
+    const clear = (w) => { const q = wayPos(w, w.s0, laneOff(w, 0, w.s0)); return !cars.some((o) => o !== c && !o.offmap && o.body && Math.hypot(o.body.cx - q.x, o.body.cz - q.z) < 20); };
+    const pool = entries.filter((w) => suits(c.kind, w) && clear(w)), any = entries.filter(clear), list = pool.length ? pool : any.length ? any : null;
+    if (!list) { c.offmap = true; c.v = 0; c.body = null; return; } // nowhere clear yet: off the map until there is (update tries again)
+    c.offmap = false;
     const w = list[Math.floor(rng() * list.length)]; enterWay(c, w, Math.floor(rng() * w.n), w.s0, true); c.bx = c.bz = 0; c.v = Math.min(c.v, 6); c.jumped = true;
   }
   const CYCLISTS = reduced ? 1 : 3;
@@ -384,7 +406,9 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
     if (!list.length) break;
     const w = list[Math.floor(rng() * list.length)], mesh = vehicle(kind, k); group.add(trackDetail(mesh));
     const c = { kind, mesh, v: 0, max: DESIGNS[kind].speed * (0.85 + rng() * 0.3), wait: 0, horn: 0, bx: 0, bz: 0 };
-    enterWay(c, w, Math.floor(rng() * w.n), w.s0 + rng() * (w.s1 - w.s0), true);
+    let s0 = w.s0 + rng() * (w.s1 - w.s0);
+    for (let tries = 0; tries < 6 && cars.some((o) => o.w === w && Math.abs(o.s - s0) < 12); tries++) s0 = w.s0 + rng() * (w.s1 - w.s0);
+    enterWay(c, w, Math.floor(rng() * w.n), s0, true);
     cars.push(c);
   }
 
@@ -418,7 +442,13 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
     XINGS.forEach((xg) => { const P = xg.ped?.solo; xBusy.set(xg, (P && P.carRed) || humans.some((h) => { const ax = h.x - xg.x, az = h.z - xg.z; return Math.abs(ax * xg.nz - az * xg.nx) < 2.6 && Math.abs(ax * xg.nx + az * xg.nz) < xg.hw + 0.8; })); });
     const P = cars.map((c) => posOf(c));
     playerHold = 0;
+    // (a car held by a red light is not about to come into the junction)
+    const greenFor = (o) => { const g = sigAt.get(o.w.to); if (!g) return true; const q = P[cars.indexOf(o)]; const ph = Math.abs(Math.sin(Math.atan2(-q.dx, -q.dz) - g.axis)) < 0.5 ? 0 : 1; return stateOf(g, ph) === 'green'; };
+    // who is in each junction now, and who is about to come into it along a main road
+    const inside = new Map(), coming = new Map();
+    cars.forEach((c) => { if (c.offmap) return; if (c.cn) { const L = inside.get(c.cn.node) || []; L.push(c); inside.set(c.cn.node, L); } else if (c.turn && c.w.s1 - c.s < 9 + c.v) { const L = coming.get(c.w.to) || []; L.push(c); coming.set(c.w.to, L); } });
     cars.forEach((c, k) => {
+      if (c.offmap) { if ((c.retry = (c.retry || 0) - dt) <= 0) { c.retry = 1; respawn(c); } if (c.offmap) { c.mesh.position.y = -60; return; } }
       const p = P[k], len = DESIGNS[c.kind].len;
       let want = c.max;
       // school and pedestrian zones (roadsigns.js): their limit, whatever the road allows
@@ -427,7 +457,19 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
       // red or amber at the junction ahead: stop at the line, the end of the lane
       const sig = c.cn ? null : sigAt.get(c.w.to);
       const flying = flyover && flyover.over(p.x, p.z, roadOf(c)); // over the junction, no light
-      if (sig && !flying) { const ph = Math.abs(Math.sin(Math.atan2(-p.dx, -p.dz) - sig.axis)) < 0.5 ? 0 : 1; const st = stateOf(sig, ph); if (st !== 'green' && toEnd > 0.8 && toEnd < 9 + c.v) want = Math.min(want, Math.max(0, (toEnd - 1.2) * 1.2)); }
+      if (sig && !flying) { const ph = Math.abs(Math.sin(Math.atan2(-p.dx, -p.dz) - sig.axis)) < 0.5 ? 0 : 1; const st = stateOf(sig, ph); if (st !== 'green' && toEnd > 0.8 && toEnd < 9 + c.v) want = Math.min(want, Math.max(0, (toEnd - 2.2) * 1.2)); }
+      // a junction without lights: wait at the line while a crossing path is taken, and on a side road for traffic
+      // coming along the main road; after seven seconds of waiting, creep on (nobody is stuck for ever)
+      // (at lights too, a car on green still waits while a crossing path is taken: the turn across oncoming traffic)
+      if (!c.cn && c.turn && toEnd < 7 + c.v * 0.8 && nodes[c.w.to].deg >= 3 && !flying) {
+        const mine = planned(c), N = c.w.to;
+        // (first come, first through; the main road before a side road; a dead heat goes to the car listed first)
+        const ahead = (o) => (o.w.major && !c.w.major) || (o.w.major === c.w.major && (o.w.s1 - o.s < toEnd - 0.4 || (Math.abs(o.w.s1 - o.s - toEnd) <= 0.4 && cars.indexOf(o) < k)));
+        const blockedBy = (inside.get(N) || []).some((o) => o !== c && conflicts(mine, o.cn))
+          || (coming.get(N) || []).some((o) => o !== c && o.w !== c.w && greenFor(o) && ahead(o) && conflicts(mine, planned(o)));
+        if (blockedBy && (c.yieldT = (c.yieldT || 0) + dt) < 7) want = Math.min(want, Math.max(0, (toEnd - 2.2) * 1.2));
+        else if (!blockedBy) c.yieldT = 0;
+      }
       // slow for the turn ahead, and round it
       if (c.turn && toEnd < 12) want = Math.min(want, c.turn.speed + toEnd * 0.7);
       if (c.cn) want = Math.min(want, (c.turnSpeed ?? 99) + 1.5);
@@ -436,8 +478,9 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
       // keep a distance from the car ahead in the same lane
       for (let j = 0; j < cars.length; j++) {
         // (one up on the flyover and one under it are not in each other's way)
-        if (j === k || Math.abs(cars[j].mesh.position.y - c.mesh.position.y) > 2.5) continue; const q = P[j], ax = q.x - p.x, az = q.z - p.z, along = ax * p.dx + az * p.dz, across = Math.abs(-ax * p.dz + az * p.dx);
-        if (along > 0 && along < 14 && across < 1.6 && p.dx * q.dx + p.dz * q.dz > 0.3) want = Math.min(want, Math.max(0, (along - len / 2 - DESIGNS[cars[j].kind].len / 2 - 1.5) * 1.1));
+        if (j === k || cars[j].offmap || Math.abs(cars[j].mesh.position.y - c.mesh.position.y) > 2.5) continue; const q = P[j], ax = q.x - p.x, az = q.z - p.z, along = ax * p.dx + az * p.dz, across = Math.abs(-ax * p.dz + az * p.dx);
+        // (the car ahead going our way; or anything right in front, whichever way it faces, at a junction or a merge)
+        if (along > 0 && ((along < 14 && across < 1.6 && p.dx * q.dx + p.dz * q.dz > 0.3) || (along < 6 && across < (DESIGNS[c.kind].w + DESIGNS[cars[j].kind].w) / 2 + 0.3))) want = Math.min(want, Math.max(0, (along - len / 2 - DESIGNS[cars[j].kind].len / 2 - 1.5) * 1.1));
       }
       const byCar = want < 0.3;
       // anything else on the road ahead (a minibus turning into the motor park, a ride waiting at the kerb): wait for it
@@ -466,15 +509,19 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
         if (c.cs >= c.cn.L) { const cn = c.cn, rest = c.cs - cn.L; enterWay(c, cn.to, cn.m, Math.min(cn.to.s1, cn.to.s0 + rest)); }
       } else {
         c.s += c.v * dt;
-        const target = offFor(c, c.s); c.off += Math.max(-(0.3 + c.v * 0.2) * dt, Math.min((0.3 + c.v * 0.2) * dt, target - c.off));
+        // a lane change only into a gap: nobody alongside in the lane it is moving into
+        const target = offFor(c, c.s), len2 = DESIGNS[c.kind].len;
+        const gapFree = Math.abs(target - c.off) < 0.05 || !cars.some((o) => o !== c && !o.cn && o.w === c.w && Math.abs(o.s - c.s) < (len2 + DESIGNS[o.kind].len) / 2 + 2.5 && Math.abs(o.off - target) < 1.6 && Math.abs(o.off - c.off) > 0.3);
+        if (gapFree) c.off += Math.max(-(0.3 + c.v * 0.2) * dt, Math.min((0.3 + c.v * 0.2) * dt, target - c.off));
         if (c.s >= c.w.s1) {
           const at = c.w.to;
           if (watchers.some((fn) => fn(c, at))) { c.gone = true; return; }
           if (!c.turn) { respawn(c); }
           else {
             // onto the path across the junction from the lane the car is in (the nearest, if a lane change ran short)
-            const kNow = c.turn.conns.some((cn) => cn.k === c.kT) ? c.kT : laneFor(c.turn, c.k);
+            const kIn = laneNow(c), kNow = c.turn.conns.some((cn) => cn.k === kIn) ? kIn : laneFor(c.turn, kIn);
             const cn = c.turn.conns.find((q) => q.k === kNow) || c.turn.conns[0];
+            { const L = inside.get(cn.node) || []; L.push(c); inside.set(cn.node, L); } // in the junction from this moment
             const before = posOf(c); c.cn = cn; c.cs = Math.max(0, c.s - c.w.s1); c.turnSpeed = c.turn.speed; c.bx = c.bz = 0;
             const after = posOf(c); c.bx = before.x - after.x; c.bz = before.z - after.z; // whatever is left of the lane change, smoothed away
           }
@@ -488,6 +535,18 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
       if (c.kind === 'cycle') { const u = c.mesh.userData, a = t * (2 + c.v * 1.4); u.bike.userData.crank.rotation.x = a; u.bike.userData.wheels.forEach((w) => { w.rotation.x -= dt * c.v * 3.2; }); const r = u.rig; if (r) { r.update(dt, { speed: 0, t }); r.L.hip.rotation.x = -0.9 + Math.sin(a) * 0.45; r.R.hip.rotation.x = -0.9 - Math.sin(a) * 0.45; r.L.knee.rotation.x = 1.0 - Math.cos(a) * 0.45; r.R.knee.rotation.x = 1.0 + Math.cos(a) * 0.45; r.L.shoulder.rotation.x = -0.7; r.R.shoulder.rotation.x = -0.7; r.chest.rotation.x = 0.25; } }
       c.body = { cx: q.x, cz: q.z, hx: DESIGNS[c.kind].w / 2 + 0.05, hz: DESIGNS[c.kind].len / 2, ry: c.mesh.rotation.y };
     });
+    // the safety net: two vehicles that ever end up overlapping in one lane (however they got there) come apart, the
+    // one behind easing back a little each frame; no jump, no bounce
+    for (let i = 0; i < cars.length; i++) {
+      const a = cars[i]; if (a.cn || a.offmap || a.gone) continue;
+      for (let j = i + 1; j < cars.length; j++) {
+        const b2 = cars[j]; if (b2.cn || b2.offmap || b2.gone || b2.w !== a.w || Math.abs(a.off - b2.off) > 1.6) continue;
+        const need = (DESIGNS[a.kind].len + DESIGNS[b2.kind].len) / 2 + 0.6, gap = Math.abs(a.s - b2.s);
+        if (gap >= need) continue;
+        const back = a.s < b2.s ? a : b2, front = back === a ? b2 : a, step = Math.min(need - gap, dt * 2.5 + 0.02);
+        if (back.s - step >= back.w.s0 - 0.5) { back.s -= step; back.v = Math.min(back.v, 0.5); } else front.s = Math.min(front.w.s1, front.s + step); // (no room behind: the one in front moves up)
+      }
+    }
     for (let k = cars.length - 1; k >= 0; k--) if (cars[k].gone) cars.splice(k, 1);
     // the officer waves the traffic on now and then
     if (warden) { warden.next -= dt; warden.rig?.update(dt, { speed: 0, t }); if (warden.next <= 0) { warden.rig?.wave?.(); warden.next = 2.5 + rng() * 2; } }
@@ -511,6 +570,26 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
     cars.push(c); return c;
   }
   const bodies = () => cars.map((c) => c.body).filter(Boolean);
+  // a roundabout island (parks.js) at a junction: every path through it goes round the island, keeping it on the
+  // driver's left where traffic keeps right (anticlockwise) and on the right where it keeps left; the lanes stop
+  // outside the circle, and whoever is already going round has the right of way (the junction rule above)
+  function addRoundabout({ x, z, rad }) {
+    let v = -1, bd = 4; nodes.forEach((N, i) => { const d = Math.hypot(N.x - x, N.z - z); if (d < bd && N.deg >= 3) { bd = d; v = i; } });
+    if (v < 0) return false;
+    const N = nodes[v], rc = rad + 1.25, dir = HAND > 0 ? -1 : 1; // (a compact circle: round the island, inside the corners)
+    N.in.forEach((a) => { a.s1 = Math.max(a.s0, Math.min(a.s1, a.L - (rc + 1.6))); });
+    N.out.forEach((b) => { b.s0 = Math.min(b.s1, Math.max(b.s0, rc + 1.6)); });
+    N.in.forEach((a) => a.next.forEach((turn) => { turn.speed = Math.min(turn.speed, 4.5); turn.conns.forEach((cn) => {
+      const pa = wayPos(a, a.s1, laneOff(a, cn.k, a.s1)), pb = wayPos(turn.b, turn.b.s0, laneOff(turn.b, cn.m, turn.b.s0));
+      const ra = Math.hypot(pa.x - x, pa.z - z), rb = Math.hypot(pb.x - x, pb.z - z), t0 = Math.atan2(pa.z - z, pa.x - x), t1 = Math.atan2(pb.z - z, pb.x - x);
+      let sweep = (((t1 - t0) * dir) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2); if (sweep < 0.35) sweep += Math.PI * 2; // straight on is half way round, a U-turn nearly all
+      const M = Math.max(10, Math.ceil(sweep * rc / 1.2)), pts = [], cum = [0];
+      for (let j = 0; j <= M; j++) { const u = j / M, r = u < 0.2 ? ra + (rc - ra) * (u / 0.2) : u > 0.8 ? rc + (rb - rc) * ((u - 0.8) / 0.2) : rc, th = t0 + dir * sweep * u; pts.push([x + Math.cos(th) * r, z + Math.sin(th) * r]); if (j) cum.push(cum[j - 1] + Math.hypot(pts[j][0] - pts[j - 1][0], pts[j][1] - pts[j - 1][1])); }
+      cn.pts = pts; cn.cum = cum; cn.L = cum[M];
+    }); }));
+    conflictMemo.clear(); N.roundabout = { x, z, rad: rc };
+    return true;
+  }
   // for tests: every lane (blue, one-way orange) and every path across a junction (green), as lines a little above the road
   function debugLanes() {
     const g = new THREE.Group(), add = (pts, color) => g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts.map(([x, z]) => new THREE.Vector3(x, 0.4, z))), new THREE.LineBasicMaterial({ color, depthTest: false })));
@@ -518,5 +597,5 @@ export function createTraffic({ world, scene, reduced, lowQuality, getPeople, fl
     g.renderOrder = 10; scene.add(g); return g;
   }
   function dispose() { group.removeFromParent(); }
-  return { peds, pelicans, ways, debugLanes, update, bodies, cars, signals, warden, nodes, onNode, nearestNode, release, stateOf, dispose, addBlocker, removeBlocker, get playerHold() { return playerHold; }, get count() { return cars.length; } };
+  return { peds, pelicans, ways, debugLanes, addRoundabout, update, bodies, cars, signals, warden, nodes, onNode, nearestNode, release, stateOf, dispose, addBlocker, removeBlocker, get playerHold() { return playerHold; }, get count() { return cars.length; } };
 }

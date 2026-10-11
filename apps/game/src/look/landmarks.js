@@ -109,7 +109,7 @@ export function buildLandmarks({ world, scene, props, used = [] }) {
   const c = world.center?.lat != null ? world.center : { lat: 6.5095, lon: 3.3715 };
   const toXZ = (lat, lon) => [(lon - c.lon) * 111320 * Math.cos((c.lat * Math.PI) / 180), -(lat - c.lat) * 110574];
   const R = world.radius, out = [];
-  const freeAt = (x, z) => world.costAt?.(x, z) < 2.6 && !world.inPlot?.(x, z, 0.5) && !world.onCarriageway?.(x, z, 0.3); // (a zebra is cheap to walk, but it is road)
+  const freeAt = (x, z) => world.costAt?.(x, z) < 2.6 && !world.inPlot?.(x, z, 0.5) && !world.onCarriageway?.(x, z, 0.3) && !world.inReserve?.(x, z); // (off the pavement too) // (a zebra is cheap to walk, but it is road)
   // the nearest road direction from a spot: the landmark faces it
   const faceRoad = (x, z) => { for (let r = 3; r < 40; r += 1) for (let k = 0; k < 24; k++) { const a = (k / 24) * Math.PI * 2; if (world.onCarriageway?.(x + Math.sin(a) * r, z + Math.cos(a) * r)) return a; } return 0; };
   const fits = (x, z, ry, W, D) => {

@@ -4,7 +4,7 @@ import { BUILDERS, MONUMENTS, FLOOR_H, floorsFor, litProbability } from './build
 import { makeWindowMaterial, makeGlowMaterial, makeBeamMaterial } from './shaders.js';
 import { wetGroundMaterial, wallMaterial } from './look/surfaces.js';
 import { instanceAsset, collidersFor, anchorAt } from './look/kit.js';
-import { makeClearance, fitStreets, band, streetFurniture, isFootway } from './look/streets.js';
+import { makeClearance, fitStreets, joinStreetEnds, band, streetFurniture, isFootway } from './look/streets.js';
 import { dressEstate, drawFence, fenceCollider, cutFence, WALK } from './look/houses.js';
 import { planEstates, nearWall, LOT_W, LOT_D } from './estates.js';
 import { pushOutBox } from './look/physics.js';
@@ -246,6 +246,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   // measure every street against the building lines that stay (the builders' plots): the map's other
   // footprints are replaced by planned estates, so measuring against them left pavements cut short
   // beside empty ground (Elvis, 10 October 2026)
+  joinStreetEnds(roads, { keepOut: (x, z) => Math.hypot(x, z) > R }); // (ends cut off at the edge of the data stay as they are)
   fitStreets(roads, makeClearance(picked, pointInPoly));
 
   // --- spawn: nearest road point to the player's plot, stepped toward it ---
@@ -411,7 +412,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   const lotTrees = [], doorPlants = [], lotFences = [], porchLamps = [], doorTreads = [];
   // A plot may not reach the pavement or the carriageway, nor overlap a plot already laid out:
   // map footprints often do both, so each plot is pulled back toward its centre until it is clear.
-  const reserve = [];
+  const reserve = [], roadDisks = [];
   roads.forEach((r) => { if (!r.fit) return; const { pts, half, paveL, paveR } = r.fit; for (let k = 0; k < pts.length - 1; k++) reserve.push([pts[k], pts[k + 1], Math.max(half[k], half[k + 1]) + Math.max(paveL[k], paveR[k], paveL[k + 1], paveR[k + 1]) + 0.3]); });
   const inReserve = (x, z) => reserve.some(([a, c, h]) => { const dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / L2)); return Math.hypot(x - a[0] - dx * u, z - a[1] - dz * u) < h; });
   const laid = []; // accepted plots: { pts, bb }
@@ -422,6 +423,25 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     if (along(pts, inReserve) || along(pts, inReserveBox) || reserveCorners().some(([x, z]) => pointInPoly(x, z, pts))) return true;
     return laid.some((l) => !(bb.x1 < l.bb.x0 || bb.x0 > l.bb.x1 || bb.z1 < l.bb.z0 || bb.z0 > l.bb.z1) && (along(pts, (x, z) => pointInPoly(x, z, l.pts)) || l.pts.some(([x, z]) => pointInPoly(x, z, pts))));
   };
+  // A building may not stand in the road or on its pavement (Elvis, 11 October 2026: buildings "intruding into
+  // sidewalks and, in certain cases, roadways"). Map footprints are drawn against the real road, often narrower than
+  // the standard width built here, so one that reaches into the reserve is shrunk toward its middle until it is clear;
+  // one that cannot clear at half its size is left out. Every city, every footprint.
+  const touchesReserve = (pts) => along(pts, inReserve) || pts.some(([x, z]) => inReserve(x, z));
+  for (let i = blds.length - 1; i >= 0; i--) {
+    const b = blds[i]; if (!b.pts || b.pts.length < 3 || !touchesReserve(b.pts)) continue;
+    let fixed = null;
+    for (const k of [0.92, 0.84, 0.76, 0.68, 0.6, 0.52]) { const q = scaleAbout(b.pts, b.c, k); if (!touchesReserve(q)) { fixed = q; break; } }
+    // a builder's plot is never left out: at two thirds of its size it steps back off the road, the first way that is clear
+    if (!fixed && (plotIds.has(b) || assign.get('you') === b)) {
+      const q0 = scaleAbout(b.pts, b.c, 0.68), others = blds.filter((o) => o !== b);
+      for (let d = 2; d <= 16 && !fixed; d += 2) for (let a = 0; a < 16 && !fixed; a++) {
+        const dx = Math.cos((a / 16) * Math.PI * 2) * d, dz = Math.sin((a / 16) * Math.PI * 2) * d, q = q0.map(([x, z]) => [x + dx, z + dz]), bb = bbox(q);
+        if (!touchesReserve(q) && !others.some((o) => o.bb && !(bb.x1 < o.bb.x0 || bb.x0 > o.bb.x1 || bb.z1 < o.bb.z0 || bb.z0 > o.bb.z1))) { fixed = q; b.c = [b.c[0] + dx, b.c[1] + dz]; }
+      }
+    }
+    if (fixed) { b.pts = fixed; b.bb = bbox(fixed); b.pulledBack = true; } else if (!plotIds.has(b) && assign.get('you') !== b) { blds.splice(i, 1); }
+  }
   // plots of the builders' towers are laid first, so gardens give way to them
   blds.forEach((b) => { if (plotIds.has(b)) laid.push({ pts: b.pts, bb: b.bb }); });
   // ---------- footbridge site, chosen before any garden is laid out (infrastructure reserves land first) ----------
@@ -1137,7 +1157,10 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
       return g;
     },
     // land use, for anything placed after the world is built (estate-layout skill)
-    onCarriageway: (x, z, pad = 0) => carriage.some(([a, c, h]) => { const dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / L2)); return Math.hypot(x - a[0] - dx * u, z - a[1] - dz * u) < h + pad; }),
+    inReserve: (x, z) => inReserve(x, z) || inReserveBox(x, z), // on a road or its pavements (placement checks, audits)
+    // a paved disc that is road too (a roundabout's circle, parks.js)
+    addRoadDisk: (x, z, r) => { roadDisks.push({ x, z, r }); },
+    onCarriageway: (x, z, pad = 0) => roadDisks.some((d) => Math.hypot(x - d.x, z - d.z) < d.r + pad) || carriage.some(([a, c, h]) => { const dx = c[0] - a[0], dz = c[1] - a[1], L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / L2)); return Math.hypot(x - a[0] - dx * u, z - a[1] - dz * u) < h + pad; }),
     inPlot: (x, z, pad = 0) => laid.some((l) => x > l.bb.x0 - pad && x < l.bb.x1 + pad && z > l.bb.z0 - pad && z < l.bb.z1 + pad && (pointInPoly(x, z, l.pts) || (pad > 0 && nearestOnPoly(x, z, l.pts).d < pad))),
     kit, kitColliders, addColliders: (list) => { list.forEach((c) => { kitColliders.push(c); indexBox(c); }); nav?.addBoxes(list); camBoxes.dirty = true; },
     // walkable paths around everything solid, by the movement rules (navgrid.js); built on first use

@@ -151,6 +151,10 @@ export function buildParks({ world, scene, pond, area, uTime, addLamps, reduced 
       box(0.13, 0.7, 0.16, -0.36, 2.6, 0).rotateZ(0.0), box(0.13, 0.7, 0.16, 0.36, 2.6, 0), box(0.9, 0.05, 0.6, 0, 3.0, 0), box(0.9, 0.55, 0.05, 0, 3.25, -0.28)]);
     g.add(new THREE.Mesh(fig, bronze));
     group.add(g);
+    // the circle round the island is paved all the way: road, not the corners of the streets that meet there
+    const disk = new THREE.Mesh(new THREE.CircleGeometry(rad + 3.0, 48).rotateX(-Math.PI / 2), new THREE.MeshStandardMaterial({ color: world.roadColor ?? 0x6f6a63, roughness: 0.95, polygonOffset: true, polygonOffsetFactor: -2 }));
+    disk.position.set(x, 0.155, z); disk.receiveShadow = true; group.add(disk);
+    world.addRoadDisk?.(x, z, rad + 3.0);
     // the carriageway paint: a give-way circle around the island
     const ringPaint = new THREE.Mesh(new THREE.RingGeometry(rad + 2.2, rad + 2.4, 48).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: 0xf2ecd9, polygonOffset: true, polygonOffsetFactor: -3 }));
     ringPaint.position.set(x, 0.2, z); group.add(ringPaint);
