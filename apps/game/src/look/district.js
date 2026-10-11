@@ -212,7 +212,7 @@ export function dressDistrict(world, scene, { kit, lowQuality, reduced, spawn })
         if (pave < 0.9) { prev = null; continue; }
         const off = half[i] + (pave >= 1.4 ? pave - 0.85 : pave - 0.35);
         const x = pts[i][0] + nrm[i][0] * off * side, z = pts[i][1] + nrm[i][1] * off * side;
-        if (Math.hypot(x, z) > R * 0.95 || world.onCarriageway?.(x, z, 0.5) || world.inPlot?.(x, z, 0.4) || world.kitColliders.some((c) => Math.hypot(c.cx - x, c.cz - z) < 1.4) || lampsAt.some((l) => Math.hypot(l.x - x, l.z - z) < 2.2)) { prev = null; continue; }
+        if (Math.hypot(x, z) > R * 0.95 || world.onCarriageway?.(x, z, 0.5) || world.onRail?.(x, z, 0.5) || world.inPlot?.(x, z, 0.4) || world.kitColliders.some((c) => Math.hypot(c.cx - x, c.cz - z) < 1.4) || lampsAt.some((l) => Math.hypot(l.x - x, l.z - z) < 2.2)) { prev = null; continue; }
         acc = 0;
         const tx = -nrm[i][1], tz = nrm[i][0];
         const pole = { x, z, ry: Math.atan2(tx, tz), nx: nrm[i][0] * side, nz: nrm[i][1] * side, trafo: poles.length % 4 === 1 };

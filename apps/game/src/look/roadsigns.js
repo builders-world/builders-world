@@ -76,7 +76,7 @@ export function buildRoadSigns({ world, scene, traffic, landmarks }) {
   const nodes = traffic?.nodes || [];
   const c = world.center || { lat: 6.5095, lon: 3.3715 };
   const toXZ = (lat, lon) => [(lon - c.lon) * 111320 * Math.cos((c.lat * Math.PI) / 180), -(lat - c.lat) * 110574];
-  const free = (x, z) => !world.onCarriageway?.(x, z, 0.35) && !world.inPlot?.(x, z, 0.3) && !world.inAnyBuilding?.(x, z, 0.4) && !world.solidAt?.(x, 1, z)
+  const free = (x, z) => !world.onCarriageway?.(x, z, 0.35) && !world.onRail?.(x, z, 0.3) && !world.inPlot?.(x, z, 0.3) && !world.inAnyBuilding?.(x, z, 0.4) && !world.solidAt?.(x, 1, z)
     && !world.kitColliders.some((k) => Math.hypot(k.cx - x, k.cz - z) < Math.max(k.hx, k.hz) + 0.7) && !placed.some((p) => Math.hypot(p.x - x, p.z - z) < 3.5);
   // the kerbside spot on the driver's right, `back` metres before the point (x, z) heading (hx, hz)
   // (`half`: a board's half width, which stands across the pavement: its road end must stay off the road too)

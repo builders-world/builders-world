@@ -53,7 +53,7 @@ export function createLitter({ world, scene, props, toast, used = [], reduced, d
   const inUsed = (x, z, m = 1) => used.some((u) => Math.abs(u.x - x) < u.W / 2 + m && Math.abs(u.z - z) < u.D / 2 + m);
 
   // the pavement strip beside the carriageway: open ground, not a lawn, not a lot, not inside anything
-  const kerbside = (x, z) => world.costAt?.(x, z) === 1 && world.onCarriageway?.(x, z, 1.7) && !world.onCarriageway?.(x, z, 0.45) && !world.inPlot?.(x, z, 0.3) && !inUsed(x, z);
+  const kerbside = (x, z) => world.costAt?.(x, z) === 1 && !world.onRail?.(x, z, 0.3) && world.onCarriageway?.(x, z, 1.7) && !world.onCarriageway?.(x, z, 0.45) && !world.inPlot?.(x, z, 0.3) && !inUsed(x, z);
   const spots = [];
   for (let k = 0; k < 9000 && spots.length < 700; k++) {
     const a = R() * Math.PI * 2, r = Math.sqrt(R()) * world.radius * 0.92, x = Math.cos(a) * r, z = Math.sin(a) * r;

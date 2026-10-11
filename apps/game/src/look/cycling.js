@@ -64,7 +64,7 @@ export function buildCycling({ world, scene }) {
   const pole = new THREE.MeshStandardMaterial({ color: 0x8d9196, roughness: 0.5, metalness: 0.6 });
   const M = { lane: new THREE.MeshBasicMaterial({ map: laneTex() }), no: new THREE.MeshBasicMaterial({ map: noTex() }) };
   const placed = [];
-  const free = (x, z) => !world.onCarriageway?.(x, z, 0.3) && !world.inAnyBuilding?.(x, z, 0.4) && !world.inPlot?.(x, z, 0.3)
+  const free = (x, z) => !world.onCarriageway?.(x, z, 0.3) && !world.onRail?.(x, z, 0.3) && !world.inAnyBuilding?.(x, z, 0.4) && !world.inPlot?.(x, z, 0.3)
     && !(world.kitColliders || []).some((k) => Math.hypot(k.cx - x, k.cz - z) < Math.max(k.hx, k.hz) + 0.6) && !placed.some((p) => Math.hypot(p.x - x, p.z - z) < 4);
   const sign = (x, z, ry, mat) => {
     if (!free(x, z)) return false;
