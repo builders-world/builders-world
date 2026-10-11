@@ -40,6 +40,8 @@ import { regionOf, areaOf, areaName, areaUrl, areaFare, kmBetween, bearing, city
 import { buildEdgeSigns } from './edge.js';
 import { createDock } from './dock.js';
 import { createRailway } from './railway.js';
+import { createShop } from './shop.js';
+import { ITEMS } from './menus.js';
 import { setStreamTier, updateStream, streamStats, streamSmall, cullSmall, smallStats, setStreaming, setHorizon, streaming } from './stream.js';
 import { walletEngine } from './wallet.js';
 import { sfx } from './audio.js';
@@ -123,6 +125,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   const placed = new THREE.Group();
   group.add(placed);
   const gear = avatar ? createGear(avatar) : null;
+  // the gadget shop's counter (shop.js); declared here so the interact handler can reach it
+  const shop = createShop({ items: ITEMS, toast: (t, ms) => hud?.toast(t, ms) });
   // places a ride can take you, also used by the map
   const you = world.plots.find((pl) => pl.b.id === 'you');
   props.places = [
@@ -220,6 +224,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     onChat: (name) => { const p = chat.people.find((q) => q.name === name); if (p) chat.sayHi(p); },
     onUse: (player, active) => {
       if (benchSeat) { standUp(); return true; }
+      if (active && shop?.open(active)) return true; // the street's gadget shop: its counter (shop.js)
       if (homeAct) { actKey('e'); return true; }
       if (active?.id && (active.id.startsWith('sport:') || active.id.startsWith('chess:'))) return !!sports?.use(active.id);
       if (active?.id?.startsWith('life:')) return lives.talk(active.id);
@@ -680,6 +685,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     if (night && !interiors?.active) environment(dt);
     interiors?.update(dt, t);
     { const R = airRoom(); if (R) R.follow?.(player.x, player.z); else if (announcer) { announcer.stop(); } announcer?.update(dt); const ph = rides?.airportPhase; if (!ph) tripOff(); else if (ph === 'riding') airTrip.querySelector('.s').textContent = 'On the way · V changes the camera'; }
+    gear?.setRain?.((live?.rain ?? 0) > 0.15); // the umbrella opens in the rain (gear.js)
     watchPlayer(dt, player); // how the animals see you: speed, stillness, food in hand (fear.js)
     life?.update(dt, t, player);
     dressing?.update(dt, t, player);

@@ -397,6 +397,15 @@ async function main() {
 
   // ---- input ----
   const keys = new Set();
+  // binoculars: held on Z while they are in the bag and carried; the round view drawn over the screen
+  let binoc = false;
+  const binocEl = document.createElement('div'); binocEl.id = 'bw-binoc';
+  // (dark everywhere except the two round lenses: two circular holes intersected in one mask)
+  { const hole = (x) => `radial-gradient(circle at ${x}% 50%, transparent 0 22vmin, #000 22.6vmin)`;
+    binocEl.style.cssText = `position:fixed;inset:0;z-index:16;pointer-events:none;display:none;background:rgba(10,12,16,.94);-webkit-mask:${hole(37)},${hole(63)};-webkit-mask-composite:source-in;mask:${hole(37)},${hole(63)};mask-composite:intersect;`; }
+  document.body.appendChild(binocEl);
+  const carrying = (id) => { try { return JSON.parse(localStorage.getItem('bw-bag-equipped') || '[]').includes(id); } catch { return false; } };
+  const setBinoc = (on) => { binoc = on; binocEl.style.display = on ? 'block' : 'none'; };
   addEventListener('keydown', (e) => {
     if (e.target.closest?.('input, textarea, select')) {
       // typing in a field is not playing, but Esc always gets you out of it (and out of the panel it is in)
@@ -420,6 +429,7 @@ async function main() {
     else if (k === 'h') { if (!e.repeat) document.body.classList.toggle('nohud'); }
     else if (k === '?' || k === '/') chrome.toggleHelp();
     else if (k === 'e' && !e.repeat && street?.hud.interact()) { /* handled by the street */ }
+    else if (k === 'z' && !e.repeat && carrying('binoculars') && !riding && !cam.aerial) setBinoc(true); // hold to look (released on keyup)
     else if (k === 'f' && !e.repeat && street?.seatAction?.('close')) { /* close the laptop at your desk */ }
     else if (k === 'f' && !e.repeat && street?.feed?.()) { /* hold out corn or a biscuit for the animals (fear.js) */ }
     else if (k === 'o' && !e.repeat && street?.seatAction?.('desk')) { /* the desk computer: sign in, or sign out */ }
@@ -434,7 +444,7 @@ async function main() {
     else { keys.add(k); if (['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(k)) { walkTarget = null; walkPath = null; marker.visible = false; } }
   });
   function zoomKey(dir) { const [lo, hi] = limits(); cam.distT = Math.max(lo, Math.min(hi, cam.distT * (1 + dir * 0.12))); }
-  addEventListener('keyup', (e) => keys.delete(e.key.toLowerCase()));
+  addEventListener('keyup', (e) => { const k = e.key.toLowerCase(); keys.delete(k); if (k === 'z' && binoc) setBinoc(false); });
   addEventListener('blur', () => { keys.clear(); holds.rotL = holds.rotR = false; });
 
   let edgeTold = false; // (the edge of the area explained once a visit)
@@ -834,7 +844,9 @@ async function main() {
       // looking up: the camera stays put and its aim rises, toward the roof
       if (lookUp > 0) { focus.y += Math.tan(Math.min(1.25, lookUp * 1.45)) * Math.hypot(desired.x - focus.x, desired.z - focus.z); desired.y = Math.max(0.9, desired.y - lookUp * 0.8); }
     }
-    const view = riding ? (cineForce ? VIEWS.ride[4] : viewOf('ride')) : viewOf('foot');
+    // binoculars (shop.js, carried from the bag): hold Z to look through them, first person and zoomed right in
+    const view = binoc && !riding && !cam.aerial ? { id: 'first' } : riding ? (cineForce ? VIEWS.ride[4] : viewOf('ride')) : viewOf('foot');
+    { const fovT = binoc && !riding && !cam.aerial ? 12 : 55; if (Math.abs(camera.fov - fovT) > 0.05) { camera.fov += (fovT - camera.fov) * (1 - Math.exp(-dt * 9)); camera.updateProjectionMatrix(); } }
     let fixed = false;
     if (!cam.aerial && view.id === 'first') {
       // eye height in the head; in a vehicle the driver's eye line, set at the nose so the opaque
