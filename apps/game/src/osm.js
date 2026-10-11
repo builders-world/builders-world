@@ -68,7 +68,17 @@ export function parseOverpass(json, place) {
       if (!w) continue;
       const kept = pts.filter((p) => Math.hypot(p[0], p[1]) <= R * 1.25);
       if (kept.length < 2) continue;
-      roads.push({ id: el.id, cls, w, name: t.name || null, pts: kept });
+      const road = { id: el.id, cls, w, name: t.name || null, pts: kept };
+      // which way the traffic goes and in how many lanes (traffic.js lays its lane paths from these). OSM's
+      // oneway=-1 means against the drawing direction: flip the points so oneway is always "along pts"
+      const ow = t.oneway === 'yes' || t.oneway === '1' || t.oneway === 'true' || t.junction === 'roundabout' || t.junction === 'circular' || (cls === 'motorway' && t.oneway !== 'no');
+      if (t.oneway === '-1') { road.pts = kept.slice().reverse(); road.oneway = true; } else if (ow) road.oneway = true;
+      const lanes = num(t.lanes); if (lanes) road.lanes = Math.max(1, Math.round(lanes));
+      const fw = num(t['lanes:forward']), bw = num(t['lanes:backward']); if (fw && bw && t.oneway !== '-1') { road.lanesF = Math.round(fw); road.lanesB = Math.round(bw); }
+      if (t.junction === 'roundabout' || t.junction === 'circular') road.roundabout = true;
+      if (t.bridge && t.bridge !== 'no') road.bridge = true;
+      if (t.ref) road.ref = t.ref;
+      roads.push(road);
     }
   }
   return {
