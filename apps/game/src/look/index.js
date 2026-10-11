@@ -41,6 +41,7 @@ import { buildEdgeSigns } from './edge.js';
 import { createDock } from './dock.js';
 import { createRailway } from './railway.js';
 import { createShop } from './shop.js';
+import { createDigitalBoard } from './digital.js';
 import { ITEMS } from './menus.js';
 import { setStreamTier, updateStream, streamStats, streamSmall, cullSmall, smallStats, setStreaming, setHorizon, streaming } from './stream.js';
 import { walletEngine } from './wallet.js';
@@ -345,6 +346,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   traffic = createTraffic({ world, scene: group, flyover, reduced, lowQuality: quality === 'low', getPeople: () => [...lives.residents.filter((r) => r.obj.visible).map((r) => r.obj.position), ...(slife?.walkers || []).map((w) => w.obj.position)] });
   // the railway, where the city has one (railway.js): track, level crossings, the station, trains
   try { railway = createRailway({ world, scene: group, traffic, props, toast: hud.toast, cityName: world.place?.name }); } catch (err) { console.warn('railway skipped', err); }
+  // the roadside billboard as a digital screen (digital.js)
+  let digital = null; try { digital = createDigitalBoard({ face: props.billboardFace, world, getEnv: () => live, landmarks, railway }); } catch (err) { console.warn('digital board skipped', err); }
   // direction boards, speed limits, school and pedestrian zones that slow the cars (roadsigns.js)
   try { buildRoadSigns({ world, scene: group, traffic, landmarks }); } catch (err) { console.warn('road signs skipped', err); }
   // cycle lanes on the highways: their signs, and no cycling on the pavements beside them (cycling.js)
@@ -700,7 +703,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     compass?.update();
     if (homeAct) { homeAct.t += dt; if (homeAct.dur && homeAct.t >= homeAct.dur) endAct(true); if (!interiors?.active) homeAct = null; }
     if (!interiors?.active) { food?.update(dt, player); if (traffic?.addBlocker) { rideBlock ||= traffic.addBlocker({ r: 1.4 }); const rv = rides?.vehicle; rideBlock.on = !!(rv && world.onCarriageway?.(rv.x, rv.z, 0.6)); if (rv) { rideBlock.x = rv.x; rideBlock.z = rv.z; rideBlock.r = rv.r; } }
-      traffic?.update(dt, player); railway?.update(dt, player); slife?.update(dt, player); officials?.update(dt); mobility?.update(dt, t); sports?.update(dt); }
+      traffic?.update(dt, player); railway?.update(dt, player); digital?.update(dt); slife?.update(dt, player); officials?.update(dt); mobility?.update(dt, t); sports?.update(dt); }
     pets?.update(dt, player, yaw ?? 0);
     if (!interiors?.active) critters?.update(dt, player);
     // what you are doing feeds your needs and skills (profile.js)
