@@ -450,6 +450,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     ['Weather', 'weather', '#aebcff', () => { const w = weatherFeed?.state; toast(w ? `${w.loc.label}: ${w.label}${w.tempC != null ? `, ${Math.round(w.tempC)}°C` : ''}. Updated every 10 minutes.` : 'Weather is loading.'); }],
     ['Pets', 'paw', '#c9e3a8', () => { close(); dispatchEvent(new Event('bw:shelter')); }],
     ['Wardrobe', 'hanger', '#f6c7b8', () => { close(); dispatchEvent(new Event('bw:wardrobe')); }],
+    ['Gigs', 'gig', '#f6d58a', () => openGigs()],
     ['Wi-Fi', 'wifi', '#bfe8df', () => openWifi()],
     ['Settings', 'settings', '#d8cfbd', () => openSettings()],
     ['Sports', 'sport', '#f6c3a0', () => {
@@ -463,7 +464,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     ['Help', 'help', '#f0e1bd', () => { close(); showGuide(); }],
   ];
   // the apps that need the internet; the rest (camera, map, bag, wardrobe, settings...) work without it
-  const ONLINE = new Set(['Builders', 'Board', 'Ride', 'Wallet', 'Travel', 'Radio', 'Weather']);
+  const ONLINE = new Set(['Builders', 'Board', 'Ride', 'Wallet', 'Travel', 'Radio', 'Weather', 'Gigs']);
   const here = () => getPlayer?.() || { x: 0, z: 0 };
   const netNow = () => passesEngine().phoneLink(here(), equipped.includes('router'));
   const WAVES = (bars, col = 'currentColor') => `<svg viewBox="0 0 24 20" width="20" height="17" aria-hidden="true">${[0, 1, 2].map((k) => `<path d="M${12 - 4 - k * 3.5} ${14 - k * 3.4}a${4 + k * 3.5} ${4 + k * 3.5} 0 0 1 ${8 + k * 7} 0" fill="none" stroke="${col}" stroke-opacity="${k < Math.ceil(bars * 3 / 4) ? 1 : 0.25}" stroke-width="2.6" stroke-linecap="round"/>`).join('')}<circle cx="12" cy="16.5" r="2" fill="${col}" fill-opacity="${bars ? 1 : 0.25}"/></svg>`;
@@ -500,6 +501,25 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     show(phone, [['Esc', 'Put away'], ['Enter', 'Open'], ['← →', 'More apps']]);
     ((focusK != null && phone.querySelector(`.app[data-k="${focusK}"]`)) || phone.querySelector('.app'))?.focus();
   }
+  // Gigs: the jobs going in the city (jobs.js), with the pay and the way there; reporting a crime you photographed
+  function openGigs() {
+    const J = props.jobs, list = J?.list() || [], me = here();
+    const time = weatherFeed ? weatherFeed.localTime() : new Date().toTimeString().slice(0, 5);
+    phone.querySelector('.scr').innerHTML = `
+      <div class="bar">${netBar()}<span>${time}</span>${LOCPIN}</div>
+      <div class="wf"><button class="back">‹ Apps</button><h3>Gigs</h3>
+        <div class="now">Work for Efforts around the city. ${J ? `${J.left()} job${J.left() === 1 ? '' : 's'} left today.` : ''}</div>
+        <h4>Going now</h4>
+        ${list.length ? list.map((j, i) => `<div class="nw2"><span style="font-size:20px">${j.report ? '🚨' : '💼'}</span><span><b>${j.title}</b><small>${j.who} · ${j.where}${j.report ? '' : ` · ${Math.round(Math.hypot(j.x - me.x, j.z - me.z))} m`}</small><small>${effortsMark(11)}${fmt(j.pay)}</small></span><button data-g="${i}">${j.report ? 'Report' : 'Go'}</button></div>`).join('') : '<p class="now">Nothing right now. People need help again in a few minutes.</p>'}
+        <h4>How it works</h4>
+        <ul><li>Look for the briefcase over someone's head, then E</li><li>Fix laptops, design websites, help with Git, take the bank's IT help desk</li><li>See a phone snatched? Get close, E to photograph, then report it here</li></ul>
+      </div>`;
+    phone.querySelector('.back').onclick = () => openPhone(phonePage);
+    phone.querySelectorAll('[data-g]').forEach((b) => { b.onclick = () => { const j = list[+b.dataset.g]; if (j.report) { J.report(); openGigs(); return; } close(); J.route(j); toast(`${j.who} is on your map: follow the line. Look for the briefcase.`, 3000); }; });
+    phone.querySelector('[data-g], .back')?.focus();
+    show(phone, [['Esc', 'Put away']]);
+  }
+
   // the Wi-Fi screen: what you are on, the networks here, joining one, the nearest free hotspot, where passwords are
   function openWifi(why = null, joining = null, err = '') {
     const P = passesEngine(), pos = here(), now = netNow(), nets = P.phoneNets(pos), known = P.known(), N = P.NETS;
@@ -564,7 +584,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     atm: { label: 'ATMs', glyph: 'atm', color: '#2a9d94' }, food: { label: 'Food', glyph: 'food', color: '#e46f4f' },
     cafe: { label: 'Cafes', glyph: 'cafe', color: '#a87950' }, fuel: { label: 'Fuel', glyph: 'fuel', color: '#e46f4f' },
     bus: { label: 'Rides', glyph: 'bus', color: '#f2b33d' }, work: { label: 'Workspaces', glyph: 'work', color: '#4a64b0' },
-    shop: { label: 'Shops', glyph: 'shop', color: '#7d5aa6' }, park: { label: 'Parks', glyph: 'build', color: '#5f9a45' }, recycle: { label: 'Recycling', glyph: 'recycle', color: '#4f8a4a' }, police: { label: 'Police', glyph: 'people', color: '#1f3d7a' }, landmark: { label: 'Landmarks', glyph: 'build', color: '#c0462f' }, gym: { label: 'Gyms', glyph: 'gym', color: '#326952' },
+    shop: { label: 'Shops', glyph: 'shop', color: '#7d5aa6' }, park: { label: 'Parks', glyph: 'build', color: '#5f9a45' }, recycle: { label: 'Recycling', glyph: 'recycle', color: '#4f8a4a' }, police: { label: 'Police', glyph: 'people', color: '#1f3d7a' }, gig: { label: 'Jobs', glyph: 'gig', color: '#d99a1e' }, landmark: { label: 'Landmarks', glyph: 'build', color: '#c0462f' }, gym: { label: 'Gyms', glyph: 'gym', color: '#326952' },
   };
   const poiIcon = {};
   Object.entries(KINDS).forEach(([k, d]) => {
@@ -1215,12 +1235,13 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
         <div class="col cards"><h3>Cards<small>${cards.length + 1} in your wallet · tap the cards again to put them back</small></h3>${bank}${cards.map((c) => P.cardHTML(c)).join('')}</div>
         <div class="col money"><h3>Cash<small>What ${fmt(bal)} Efforts looks like in your wallet</small></h3>
           <div class="total">${effortsMark(28)}<b>${fmt(bal)}</b><small>${money.reduce((a, d) => a + d.n, 0)} notes and coins</small></div>
-          ${money.map((d, i) => `<div class="stack" style="animation-delay:${0.06 * i}s">${moneySVG(d)}<span><b>${d.n} × ${d.kind === 'bundle' ? '100,000' : fmt(d.v)}</b><small>${d.kind === 'bundle' ? d.sub : d.name}</small></span><span class="sum">${fmt(d.n * d.v)}</span></div>`).join('') || '<p class="colhint">Empty for now. Push a commit: every one is 1,000 Efforts.</p>'}
+          ${money.map((d, i) => `<div class="stack" style="animation-delay:${0.06 * i}s">${moneySVG(d)}<span><b>${d.n} × ${d.kind === 'bundle' ? '100,000' : fmt(d.v)}</b><small>${d.kind === 'bundle' ? d.sub : d.name}</small></span><span class="sum">${fmt(d.n * d.v)}</span></div>`).join('') || '<p class="colhint">Empty for now. Push a commit (1,000 Efforts each), or take a job: phone, Gigs.</p>'}
           <button class="bw-chip ovb" style="align-self:flex-start"><b>→</b>Balance and spending</button></div>
         <div class="ov">
         <h3>${atm ? 'ATM' : 'Wallet'}<small>${atm ? 'Yaba Builders Bank' : 'Efforts, earned by shipping'}</small></h3>
         <div class="bal">${effortsMark(32)}<b>${fmt(bal)}</b><small>${cards.length + 1} card${cards.length ? 's' : ''}<br>and cash</small></div>
-        <p class="how">${w.demo ? `Demo balance: ${w.commits} commits. <a href="${w.signInUrl()}">Sign in with GitHub</a> and every commit you push is <span style="white-space:nowrap">${effortsMark(11)}1,000</span>.` : w.counted ? `${fmt(w.commits)} ${w.source === 'contributions' ? 'contributions' : 'commits'} in the last year on GitHub as <b>@${w.handle}</b>, at <span style="white-space:nowrap">${effortsMark(11)}1,000</span> each.` : `Counting your commits on GitHub as <b>@${w.handle}</b>…`}</p>
+        <p class="how">Everyone starts with <span style="white-space:nowrap">${effortsMark(11)}${fmt(w.WELCOME || 25000)}</span>.${w.bonus() ? ` Your work in the world has earned <span style="white-space:nowrap">${effortsMark(11)}${fmt(w.bonus())}</span> (jobs, recycling).` : ' Earn more with jobs around the city (phone, Gigs).'}</p>
+        <p class="how">${w.demo ? `<a href="${w.signInUrl()}">Sign in with GitHub</a> and every commit you push is <span style="white-space:nowrap">${effortsMark(11)}1,000</span>.` : w.counted ? `${fmt(w.commits)} ${w.source === 'contributions' ? 'contributions' : 'commits'} in the last year on GitHub as <b>@${w.handle}</b>, at <span style="white-space:nowrap">${effortsMark(11)}1,000</span> each.` : `Counting your commits on GitHub as <b>@${w.handle}</b>…`}</p>
         ${w.demo ? '' : '<form class="gh"><button class="bw-chip"><b>↵</b>Count again</button></form>'}
         ${w.status ? `<p class="st">${w.status}</p>` : ''}
         <h4>Recent</h4><ul>${hist}</ul>
