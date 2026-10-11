@@ -15,7 +15,7 @@ export function buildEdgeSigns({ world, scene, area, city }) {
     out: new THREE.MeshStandardMaterial({ map: signTexture(`LEAVING ${area.toUpperCase()}`, { bg: '#1f6b45', fg: '#ffffff', w: 760, h: 300, sub: `${city} continues · Travel app` }), roughness: 0.55 }),
     in: new THREE.MeshStandardMaterial({ map: signTexture(`WELCOME TO ${area.toUpperCase()}`, { bg: '#1f6b45', fg: '#ffffff', w: 760, h: 300, sub: city }), roughness: 0.55 }),
   };
-  const free = (x, z) => !world.onCarriageway?.(x, z, 0.4) && !world.solidAt?.(x, 1, z) && !world.inAnyBuilding?.(x, z, 0.4) && !placed.some((q) => Math.hypot(q.x - x, q.z - z) < 6);
+  const free = (x, z) => !world.onCarriageway?.(x, z, 0.4) && !world.onRail?.(x, z, 0.3) && !world.solidAt?.(x, 1, z) && !world.inAnyBuilding?.(x, z, 0.4) && !placed.some((q) => Math.hypot(q.x - x, q.z - z) < 6);
   const put = (x, z, hx, hz, half, mat) => {
     const rx = -hz * side, rz = hx * side; // the kerb side for this traffic
     for (let o = half + 0.9; o < half + 4.5; o += 0.4) {

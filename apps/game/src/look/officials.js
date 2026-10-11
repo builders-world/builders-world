@@ -33,7 +33,7 @@ export function createOfficials({ world, scene, traffic, park, chat, toast, getP
   const standNear = (x, z, r0 = 2) => {
     for (let r = r0; r < 14; r += 0.7) for (let k = 0; k < 16; k++) {
       const a = (k / 16) * Math.PI * 2, px = x + Math.sin(a) * r, pz = z + Math.cos(a) * r;
-      if (!world.onCarriageway?.(px, pz, 0.6) && !onAccess(px, pz) && !world.inAnyBuilding?.(px, pz, 0.5) && !world.solidAt?.(px, 1, pz) && (world.costAt?.(px, pz) ?? 1) < 5) return { x: px, z: pz };
+      if (!world.onCarriageway?.(px, pz, 0.6) && !world.onRail?.(px, pz, 0.5) && !onAccess(px, pz) && !world.inAnyBuilding?.(px, pz, 0.5) && !world.solidAt?.(px, 1, pz) && (world.costAt?.(px, pz) ?? 1) < 5) return { x: px, z: pz };
     }
     return null;
   };

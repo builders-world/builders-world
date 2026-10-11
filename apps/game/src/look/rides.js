@@ -95,6 +95,9 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
       const off = half[i] + Math.min(0.9, pave * 0.5);
       const x = pts[i][0] + nrm[i][0] * off * side, z = pts[i][1] + nrm[i][1] * off * side;
       if (Math.hypot(x, z) > world.radius || used.some((u) => Math.hypot(u.x - x, u.z - z) < 60)) continue;
+      // never at a level crossing: a stop stands well back from the railway (a bus waiting there would block the
+      // crossing and the view of the line), and the vehicle pulling in to it must not wait on the tracks
+      if (world.onRail?.(x, z, 15) || world.onRail?.(pts[i][0] + nrm[i][0] * (half[i] - 1.4) * side, pts[i][1] + nrm[i][1] * (half[i] - 1.4) * side, 15)) continue;
       acc = 0;
       used.push({ x, z });
       const sign = stopSign(M, kind);
