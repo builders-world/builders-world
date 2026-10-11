@@ -430,7 +430,7 @@ async function main() {
   addEventListener('keyup', (e) => keys.delete(e.key.toLowerCase()));
   addEventListener('blur', () => { keys.clear(); holds.rotL = holds.rotR = false; });
 
-  let drag = null;
+  let drag = null, lookedAt = -9; // lookedAt: when you last turned the camera yourself (camera follow waits)
   canvas.addEventListener('contextmenu', (e) => e.preventDefault());
   canvas.addEventListener('pointerdown', (e) => { drag = { x: e.clientX, y: e.clientY, moved: 0 }; canvas.setPointerCapture(e.pointerId); });
   canvas.addEventListener('pointermove', (e) => {
@@ -440,6 +440,7 @@ async function main() {
     drag.x = e.clientX; drag.y = e.clientY;
     cam.yawT -= dx * 0.005;
     cam.pitchT = Math.max(minPitch(), Math.min(1.35, cam.pitchT + dy * 0.004));
+    if (drag.moved > 4) lookedAt = t;
   });
   canvas.addEventListener('wheel', (e) => {
     e.preventDefault();
@@ -603,11 +604,11 @@ async function main() {
 
     // controllers: poll every frame; the right stick turns and tilts the camera
     input.poll();
-    if (input.state.look.x || input.state.look.y) { cam.yawT -= input.state.look.x * 2.4 * dt; cam.pitchT = Math.max(minPitch(), Math.min(1.35, cam.pitchT + input.state.look.y * 1.3 * dt)); }
+    if (input.state.look.x || input.state.look.y) { lookedAt = t; cam.yawT -= input.state.look.x * 2.4 * dt; cam.pitchT = Math.max(minPitch(), Math.min(1.35, cam.pitchT + input.state.look.y * 1.3 * dt)); }
     if (cam.pitchT < minPitch()) cam.pitchT = minPitch();
     // hold-to-rotate and Q/E
     const rot = (holds.rotL || keys.has('q') ? 1 : 0) - (holds.rotR || keys.has('e') ? 1 : 0);
-    if (rot) cam.yawT += rot * 1.7 * dt;
+    if (rot) { cam.yawT += rot * 1.7 * dt; lookedAt = t; }
     // eased camera: drag, zoom and rotate all glide
     const kc = 1 - Math.exp(-dt * 10);
     cam.yaw += (cam.yawT - cam.yaw) * kc;
@@ -670,6 +671,13 @@ async function main() {
       if (keys.has('a') || keys.has('arrowleft')) mv.sub(right);
       // the thumbstick or a controller's left stick, relative to the camera like the keys
       if (Math.abs(input.state.move.x) + Math.abs(input.state.move.y) > 0.05 && !street?.hud.isOpen()) { mv.addScaledVector(fwd, input.state.move.y).addScaledVector(right, input.state.move.x); walkTarget = null; walkPath = null; marker.visible = false; }
+      // camera follows you (Settings > Controls, after GTA V): while you steer yourself, the camera eases round
+      // behind the way you are going, so A and D turn you and the view together. Not when you walk back toward
+      // the camera, and not for a moment after you have looked around yourself
+      if (input.settings.camFollow && mv.lengthSq() > 0 && t - lookedAt > 1.2) {
+        const d = Math.atan2(Math.sin(Math.atan2(mv.x, mv.z) - cam.yawT), Math.cos(Math.atan2(mv.x, mv.z) - cam.yawT));
+        if (Math.abs(d) < 2.0) cam.yawT += d * (1 - Math.exp(-dt * (keys.has('shift') ? 1.15 : 0.8)));
+      }
       if (mv.lengthSq() > 0 && travel.on) setTravel(false);
       if (travel.on) {
         const tr = street?.hud.travel?.();

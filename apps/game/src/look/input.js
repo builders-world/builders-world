@@ -85,7 +85,7 @@ export function createInput({ onKey }) {
   const toast = document.createElement('div'); toast.id = 'lk-pad'; document.body.appendChild(toast);
 
   const state = { move: { x: 0, y: 0 }, look: { x: 0, y: 0 }, run: false, runToggle: false, pad: null, brand: 'xbox' };
-  const settings = { touch: store.get('bw-touch', 'auto'), invertY: store.get('bw-invert', false), sensitivity: store.get('bw-sens', 1) };
+  const settings = { touch: store.get('bw-touch', 'auto'), invertY: store.get('bw-invert', false), sensitivity: store.get('bw-sens', 1), camFollow: store.get('bw-camfollow', false) };
   const coarse = matchMedia('(pointer: coarse)').matches;
   const applyTouch = () => document.body.classList.toggle('bw-touch', settings.touch === 'on' || (settings.touch === 'auto' && coarse));
   applyTouch();
@@ -145,7 +145,7 @@ export function createInput({ onKey }) {
   }
 
   function set(k, v) {
-    settings[k] = v; store.set({ touch: 'bw-touch', invertY: 'bw-invert', sensitivity: 'bw-sens' }[k], v);
+    settings[k] = v; store.set({ touch: 'bw-touch', invertY: 'bw-invert', sensitivity: 'bw-sens', camFollow: 'bw-camfollow' }[k], v);
     if (k === 'touch') applyTouch();
   }
   return { state, settings, set, poll, padLabel: (i) => padLabel(state.brand, i), get connected() { return state.pad?.id || null; }, dispose() { root.remove(); toast.remove(); style.remove(); } };
