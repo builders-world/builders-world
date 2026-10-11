@@ -31,6 +31,7 @@ import { createMobility } from './mobility.js';
 import { buildShopfronts } from './shopfronts.js';
 import { buildShopSigns } from './shopsigns.js';
 import { batchScenery } from './batch.js';
+import { createJobs } from './jobs.js';
 import { buildFoodTrucks } from './foodtruck.js';
 import { cullPeople, PEOPLE } from './anim.js';
 import { createEmotes } from './expressions.js';
@@ -174,7 +175,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
 
   let officials = null, rideBlock = null, homeAct = null, lastNearT = 0, nearNow = { park: false, people: false }, lastPos = null;
   let railway = null;
-  let shopfronts = null;
+  let shopfronts = null, jobs = null;
   let greenrey = null, spotify = null, sports = null, mobility = null, slife = null, traffic = null, food = null, pets = null, petIt = null, wardrobe = null, profiler = null, onlineRef = null, building = null, gates = null, visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
   // the tech places you can walk into (world bible 6.6)
   const doors = [];
@@ -232,6 +233,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     onChat: (name) => { const p = chat.people.find((q) => q.name === name); if (p) chat.sayHi(p); },
     onUse: (player, active) => {
       if (benchSeat) { standUp(); return true; }
+      if (active?.id?.startsWith('gig:') && jobs?.use(active)) return true; // a job, a thief to photograph, a crime to report
       if (active?.id?.startsWith('shop:')) shopfronts?.greet(active); // the attendant at the window waves you over
       if (active && shop?.open(active)) return true; // the street's gadget shop: its counter (shop.js)
       if (homeAct) { actKey('e'); return true; }
@@ -305,10 +307,11 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       return false;
     },
     onRide: (player) => (interiors?.active ? hud.toast('Step outside to call a ride: the driver cannot come in.', 2600) : rides?.openPanel('taxi', { app: true, x: player.x, z: player.z })),
-    isExtraOpen: () => airDialogOpen() || travelDialogOpen() || licenceDeskOpen() || rides?.isMenuOpen() || interiors?.computerOpen || !!benchSeat || !!passes?.registering || !!gates?.isOpen || !!wardrobe?.isOpen || !!pets?.isOpen || !!food?.isOpen || !!sports?.isOpen,
+    isExtraOpen: () => airDialogOpen() || travelDialogOpen() || licenceDeskOpen() || !!jobs?.isOpen || rides?.isMenuOpen() || interiors?.computerOpen || !!benchSeat || !!passes?.registering || !!gates?.isOpen || !!wardrobe?.isOpen || !!pets?.isOpen || !!food?.isOpen || !!sports?.isOpen,
     closeExtra: () => {
       rides?.closeMenu();
       if (licenceDeskOpen()) { closeLicenceDesk(); return; }
+      if (jobs?.isOpen) { jobs.close(); return; }
       if (passes?.registering) { passes.closeRegister(); return; }
       if (sports?.isOpen) { sports.close(); return; }
       if (gates?.isOpen) { gates.close(); return; }
@@ -591,6 +594,9 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   props.pois?.filter((q) => q.kind === 'build').forEach((q) => { q.x = props.area.x; q.z = props.area.z; }); // the build area moved into the park
   // Greenrey: large open land becomes laterite, yards, car parks and building plots; grass stays in the gaps (greenrey.js)
   if (!off.has('greenrey')) { try { greenrey = buildGreenrey({ renderer, scene, world, group, park: parks.park }); } catch (err) { console.warn('Greenrey skipped', err); } }
+  // jobs for Efforts (jobs.js): people with work by the shops, a stall, the hub and the bank; a crime now and then
+  props.bankDoor = dressing?.bankDoor || null;
+  try { jobs = createJobs({ world, scene: group, props, toast: hud.toast, passes, reduced, onRoute: (at, label) => hud.setRoute(at, label) }); props.jobs = jobs; } catch (err) { console.warn('jobs skipped', err); }
   // signs that say what each place does, and the way to the car park (shopsigns.js), once the car parks are down
   try { buildShopSigns({ world, scene: group, props, doors, places: PLACES }); } catch (err) { console.warn('shop signs skipped', err); }
   // the parks greenrey laid out on the open green land (parkland.js): benches to sit on, the parks on the map, things to do
@@ -730,6 +736,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     if (moveHint.classList.contains('on') && lastPlayer) { if (hintFrom === null) hintFrom = { x: lastPlayer.x, z: lastPlayer.z, t: 0 }; else if (hintFrom) { hintFrom.t += dt; if (Math.hypot(lastPlayer.x - hintFrom.x, lastPlayer.z - hintFrom.z) > 4 || hintFrom.t > 20) moveHint.classList.remove('on'); } }
     compass?.update();
     if (homeAct) { homeAct.t += dt; if (homeAct.dur && homeAct.t >= homeAct.dur) endAct(true); if (!interiors?.active) homeAct = null; }
+    jobs?.update(dt, player, !!interiors?.active);
     if (!interiors?.active) { food?.update(dt, player); shopfronts?.update(dt, player); if (traffic?.addBlocker) { rideBlock ||= traffic.addBlocker({ r: 1.4 }); const rv = rides?.vehicle; rideBlock.on = !!(rv && world.onCarriageway?.(rv.x, rv.z, 0.6)); if (rv) { rideBlock.x = rv.x; rideBlock.z = rv.z; rideBlock.r = rv.r; } }
       traffic?.update(dt, player); railway?.update(dt, player); digital?.update(dt); slife?.update(dt, player); officials?.update(dt); mobility?.update(dt, t); sports?.update(dt); }
     pets?.update(dt, player, yaw ?? 0);

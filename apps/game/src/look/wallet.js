@@ -5,6 +5,9 @@ import { session, signedIn, authHeaders, signInUrl } from '../session.js';
 // until then it shows a demo balance. Spending is kept on this device.
 
 const PER_COMMIT = 1000;
+// everyone starts with this (Elvis, 11 October 2026: "for every user that joins, let's give them 25,000 efforts to start
+// with"): it sits under whatever your commits and your work in the world add
+export const WELCOME = 25000;
 const store = {
   get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* storage unavailable */ } },
@@ -21,7 +24,7 @@ export function effortsMark(size = 18, color = 'currentColor') {
 }
 export const fmt = (n) => Math.round(n).toLocaleString('en-NG');
 
-export function createWallet({ demoCommits = 12 } = {}) {
+export function createWallet({ demoCommits = 0 } = {}) {
   const listeners = new Set();
   // a kept count belongs to the account it was counted for; anyone else's (or from before sign-in existed) is not used
   const handleNow = signedIn() ? session.me.account.login : '';
@@ -39,7 +42,7 @@ export function createWallet({ demoCommits = 12 } = {}) {
   const earned = () => (state.handle && state.commits !== null ? state.commits : signedIn() ? 0 : demoCommits) * PER_COMMIT;
   const spentTotal = () => state.spent.reduce((a, s) => a + s.amount, 0);
   const bonusTotal = () => state.bonus.reduce((a, s) => a + s.amount, 0);
-  const balance = () => earned() + bonusTotal() - spentTotal();
+  const balance = () => WELCOME + earned() + bonusTotal() - spentTotal();
   const emit = () => listeners.forEach((fn) => fn(api));
 
   // your shipping over the last year, from the game's own endpoint (api/efforts.js), which asks GitHub
@@ -69,7 +72,8 @@ export function createWallet({ demoCommits = 12 } = {}) {
   function spend(amount, what) {
     if (amount > balance()) return false;
     state.spent.push({ what, amount, at: Date.now() });
-    if (state.spent.length > 200) state.spent.shift();
+    // (the oldest are folded into one line, never dropped: dropping them gave their cost back)
+    if (state.spent.length > 200) { const old = state.spent.splice(0, 50).reduce((a, s) => a + s.amount, 0); state.spent.unshift({ what: 'Earlier spending', amount: old, at: 0 }); }
     store.set('bw-spent', state.spent);
     emit();
     return true;
@@ -83,7 +87,7 @@ export function createWallet({ demoCommits = 12 } = {}) {
     emit();
   }
   const api = {
-    balance, earned, spend, earn, link, refresh, bonus: bonusTotal,
+    balance, earned, spend, earn, link, refresh, bonus: bonusTotal, WELCOME,
     get handle() { return state.handle; }, get commits() { return state.handle && state.commits !== null ? state.commits : signedIn() ? 0 : demoCommits; },
     get demo() { return !signedIn(); }, get counted() { return signedIn() && state.commits !== null; }, signInUrl, get status() { return state.status; }, get source() { return state.source; },
     get history() { return [...state.spent, ...state.bonus.map((b) => ({ ...b, earn: true }))].sort((a, b) => a.at - b.at).slice(-12).reverse(); },
