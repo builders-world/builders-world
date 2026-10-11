@@ -28,7 +28,7 @@ export function buildCivic(world, scene, { rides } = {}) {
   const group = new THREE.Group(); group.name = 'civic'; scene.add(group);
   const post = new THREE.MeshStandardMaterial({ color: 0x55605a, roughness: 0.55, metalness: 0.3 });
   const used = [];
-  const clear = (x, z, r = 0.6) => !world.onCarriageway?.(x, z, 0.3) && !world.inPlot?.(x, z, 0.3) && !world.solidAt?.(x, 1, z)
+  const clear = (x, z, r = 0.6) => !world.onCarriageway?.(x, z, 0.3) && !world.onRail?.(x, z, 0.3) && !world.inPlot?.(x, z, 0.3) && !world.solidAt?.(x, 1, z)
     && !world.kitColliders.some((c) => Math.hypot(c.cx - x, c.cz - z) < Math.max(c.hx, c.hz) + r) && !used.some((u) => Math.hypot(u.x - x, u.z - z) < 4);
   const added = [];
 

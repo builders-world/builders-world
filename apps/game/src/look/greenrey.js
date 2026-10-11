@@ -74,6 +74,8 @@ export function buildGreenrey({ renderer, scene, world, group, park = null }) {
     const k = ((N - 1 - j) * N + i) * 4, c = j * N + i;
     built[c] = px[k] > 127 ? 1 : 0; isRoad[c] = px[k + 1] > 127 ? 1 : 0;
   }
+  // the railway corridor counts as built: no laterite, yard or plot runs up onto the track
+  if (world.onRail) for (let j = 0; j < N; j++) for (let i = 0; i < N; i++) if (world.onRail(X(i), Z(j), -1.5)) built[j * N + i] = 1;
   // small built specks in the open (a tree, a lamp, a passer-by) do not break up the land around them
   const lab = new Int32Array(N * N).fill(-1), q = new Int32Array(N * N);
   for (let s = 0; s < N * N; s++) {

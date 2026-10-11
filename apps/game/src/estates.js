@@ -36,7 +36,7 @@ const MAJOR = { trunk: 0, primary: 1, secondary: 2, tertiary: 3, residential: 4,
  * R: district radius. rng: seeded random.
  * Returns [{ name, corners, u, v, origin, W, D, gates: [{ no, x, z, ry, close }], walls: [{ cx, cz, hx, hz, ry }], lots: [...] }]
  */
-export function planEstates({ roads, free: freeExact, R, rng }) {
+export function planEstates({ roads, free: freeExact, R, rng, nearRail = null }) {
   const estates = [];
   // free land on a 2 m raster, worked out once, so testing a site is a lookup
   const CELL = 2, N = Math.ceil((2 * R) / CELL) + 1, raw = new Uint8Array(N * N), mask = new Uint8Array(N * N);
@@ -162,7 +162,64 @@ export function planEstates({ roads, free: freeExact, R, rng }) {
       estates.push(E);
     }
   }
+  // third pass, beside a railway (Elvis, 11 October 2026: "When you created the train railway, why did you not create
+  // more land slots? Because now it feels as though there are less things in the world"). The land between the line
+  // and the road is a strip too shallow for a walled estate, so there the houses stand in a row facing the road, each
+  // in its own walled compound with its own gate, addressed by the road ("4 Herbert Macaulay Way"). The railway
+  // corridor itself stays clear: the strips between parallel tracks are railway land.
+  const rowNo = {};
+  // a row's front wall runs right along the pavement, closer than the 2 m raster can vouch for: its walls are walked
+  // half a metre at a time against the exact land test
+  const edgesClear = ({ o, u, v, W, D }) => { for (const [s0, t0, s1, t1] of [[0, 0, W, 0], [W, 0, W, D], [W, D, 0, D], [0, D, 0, 0]]) { const L = Math.hypot(s1 - s0, t1 - t0); for (let k = 0; k <= L; k += 0.5) { const s = s0 + (s1 - s0) * k / L, t = t0 + (t1 - t0) * k / L; if (!freeExact(o[0] + u[0] * s + v[0] * t, o[1] + u[1] * s + v[1] * t)) return false; } } return true; };
+  if (nearRail) for (const run of runs) {
+    const tx = (run.B[0] - run.A[0]) / run.L, tz = (run.B[1] - run.A[1]) / run.L;
+    for (const side of [1, -1]) {
+      const nx = -tz * side, nz = tx * side, u = side > 0 ? [tx, tz] : [-tx, -tz], off = run.reach + 1.6;
+      let t = 2;
+      while (t < run.L - LOT_W) {
+        let done = null;
+        for (const depth of [LOT_D, ROW_D]) {
+          for (const n of [6, 5, 4, 3, 2, 1]) {
+            const W = n * LOT_W, D = depth + 2;
+            if (t + W > run.L - 1) continue;
+            const s0 = side > 0 ? t : t + W, o = [run.A[0] + tx * s0 + nx * off, run.A[1] + tz * s0 + nz * off];
+            const rect = { o, u, v: [nx, nz], W, D }, mx = o[0] + u[0] * W / 2 + nx * D / 2, mz = o[1] + u[1] * W / 2 + nz * D / 2;
+            if (nearRail(mx, mz) && fits(rect) && edgesClear(rect)) { done = { rect, n, depth }; break; }
+          }
+          if (done) break;
+        }
+        if (!done) { t += 4; continue; }
+        placed.push(done.rect);
+        const key = run.name || '', first = rowNo[key] || 1; rowNo[key] = first + done.n;
+        estates.push(layRow(done.rect, done.n, done.depth, run.name, first));
+        t += done.rect.W + 3;
+      }
+    }
+  }
   return estates;
+}
+
+// a row of houses facing the road, each lot walled, its gate opening to the road where its driveway meets it
+export const ROW_D = 17; // the shallow lot: the house set back 6 m, 9 m deep, a metre behind (planLot in houses.js)
+function layRow(rect, n, depth, road, first) {
+  const { o, u, v, W, D } = rect;
+  const P = (s, t) => [o[0] + u[0] * s + v[0] * t, o[1] + u[1] * s + v[1] * t];
+  const ry = Math.atan2(v[0], v[1]);
+  const box = (s0, t0, s1, t1) => { const [cx, cz] = P((s0 + s1) / 2, (t0 + t1) / 2); return { cx, cz, hx: Math.abs(s1 - s0) / 2, hz: Math.abs(t1 - t0) / 2, ry }; };
+  const walls = [], lots = [], name = road || 'Railway Row';
+  let s = 0;
+  for (let k = 0; k < n; k++) {
+    const no = first + k, flip = no % 2 === 0 ? -1 : 1, s0 = k * LOT_W, c = s0 + LOT_W / 2;
+    // the driveway runs 4.1 m off the lot's middle, on the side the house leaves free (planLot); the gate opens onto it
+    const g = c + 4.1 * flip;
+    walls.push(box(s, -WALL_T / 2, g - 1.9, WALL_T / 2)); s = g + 1.9;
+    const e = 0.02, t0 = 1, t1 = 1 + depth;
+    lots.push({ pts: [P(s0 + e, t0 + e), P(s0 + LOT_W - e, t0 + e), P(s0 + LOT_W - e, t1 - e), P(s0 + e, t1 - e)], c: P(c, (t0 + t1) / 2), front: [-v[0], -v[1]], side: [u[0], u[1]],
+      gate: 1, no: String(no), estate: name, addr: road ? `${no} ${road}` : `${no}, ${name}`, depth });
+  }
+  walls.push(box(s, -WALL_T / 2, W, WALL_T / 2));
+  walls.push(box(-WALL_T / 2, 0, WALL_T / 2, D), box(W - WALL_T / 2, 0, W + WALL_T / 2, D), box(0, D - WALL_T / 2, W, D + WALL_T / 2));
+  return { name, corners: [P(0, 0), P(W, 0), P(W, D), P(0, D)], rect, ry, walls, closes: [], lots, gates: [], n, row: true };
 }
 
 // the inside of one estate: walls with a gap at each gate, a close per gate, lots both sides

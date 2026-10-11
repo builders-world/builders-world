@@ -286,10 +286,12 @@ export function createSports({ world, scene, props, used, toast, avatar, getOnli
   // ---------- the Aquatic and Indoor Arena: a hall you walk into ----------
   // sized to the land Yaba has free: a 25 m pool of four lanes along the back, table tennis at the front
   const AW = 31, AD = 19, AH = 6.5;
-  const arenaAt = findSite(world, used, AW + 1, AD + 1);
+  const arenaAt = findSite(world, used, AW + 1, AD + 1, { turn: true });
   const tables = [];
   if (arenaAt) {
-    const hall = new THREE.Group(); hall.position.set(arenaAt.x, 0, arenaAt.z); group.add(hall);
+    const hall = new THREE.Group(); hall.position.set(arenaAt.x, 0, arenaAt.z); hall.rotation.y = arenaAt.ry; group.add(hall); hall.updateMatrixWorld(true);
+    // the hall may stand at an angle to fit its land: A(lx, lz) is a point of the hall in the world, ARY its turn
+    const ARY = arenaAt.ry, acs = Math.cos(ARY), asn = Math.sin(ARY), A = (lx, lz) => ({ x: arenaAt.x + lx * acs + lz * asn, z: arenaAt.z - lx * asn + lz * acs });
     const wallM = mat(0xe8e2d0, 0.85), trim = mat(0x2a9d94, 0.6), glassM = new THREE.MeshStandardMaterial({ color: 0xbfe3f0, transparent: true, opacity: 0.3, roughness: 0.05, depthWrite: false, side: THREE.DoubleSide });
     const hw = AW / 2, hd = AD / 2, door = 3.2, doorX = -9;
     // the deck: tiles round the pool, which is cut out of it (pool 25 by 8, centred at x -2, z -3.5)
@@ -313,30 +315,30 @@ export function createSports({ world, scene, props, used, toast, avatar, getOnli
     const sign = signBoard(place('Aquatic and Indoor Arena').toUpperCase(), '25 m pool · table tennis · open daily', '#2a9d94', 6.5);
     sign.position.set(-4, AH - 0.6, hd + 0.2); hall.add(sign);
     // colliders: the walls, leaving the door; the camera stays under the roof
-    cols.push({ name: 'arena_wall', cx: arenaAt.x, cz: arenaAt.z - hd, hx: hw, hz: 0.2, ry: 0, h: AH }, { name: 'arena_wall', cx: arenaAt.x - hw, cz: arenaAt.z, hx: 0.2, hz: hd, ry: 0, h: AH }, { name: 'arena_wall', cx: arenaAt.x + hw, cz: arenaAt.z, hx: 0.2, hz: hd, ry: 0, h: AH },
-      { name: 'arena_wall', cx: arenaAt.x - hw + leftFront / 2, cz: arenaAt.z + hd, hx: leftFront / 2, hz: 0.2, ry: 0, h: AH }, { name: 'arena_wall', cx: arenaAt.x + hw - rightFront / 2, cz: arenaAt.z + hd, hx: rightFront / 2, hz: 0.2, ry: 0, h: AH });
-    world.claim?.({ kind: 'arena_roof', cx: arenaAt.x, cz: arenaAt.z, hx: hw, hz: hd, ry: 0, y0: AH - 0.15, y1: AH + 0.6 });
-    world.claim?.({ kind: 'recreation', cx: arenaAt.x, cz: arenaAt.z, hx: hw + 0.3, hz: hd + 0.3, ry: 0 });
+    const wall = (lx, lz, hx, hz) => { const p = A(lx, lz); return { name: 'arena_wall', cx: p.x, cz: p.z, hx, hz, ry: ARY, h: AH }; };
+    cols.push(wall(0, -hd, hw, 0.2), wall(-hw, 0, 0.2, hd), wall(hw, 0, 0.2, hd), wall(-hw + leftFront / 2, hd, leftFront / 2, 0.2), wall(hw - rightFront / 2, hd, rightFront / 2, 0.2));
+    world.claim?.({ kind: 'arena_roof', cx: arenaAt.x, cz: arenaAt.z, hx: hw, hz: hd, ry: ARY, y0: AH - 0.15, y1: AH + 0.6 });
+    world.claim?.({ kind: 'recreation', cx: arenaAt.x, cz: arenaAt.z, hx: hw + 0.3, hz: hd + 0.3, ry: ARY });
     // the pool along the hall, its blocks toward the door side
     const pool = poolBasin();
     pool.group.position.set(-2, 0, -3.5); pool.group.rotation.y = Math.PI / 2; hall.add(pool.group);
     pool.group.updateMatrixWorld(true);
     // the water is out of bounds on foot; the deck at the left end is closed off so nobody squeezes in there
     const x0 = -hw + 0.2, x1 = -2 + pool.L / 2 + 0.3;
-    cols.push({ name: 'pool', cx: arenaAt.x + (x0 + x1) / 2, cz: arenaAt.z - 3.5, hx: (x1 - x0) / 2, hz: pool.W / 2 + 0.3, ry: 0, h: 0.4 });
-    venues.swim = { group: pool.group, at: { x: arenaAt.x - 2, z: arenaAt.z - 3.5 } };
+    { const p = A((x0 + x1) / 2, -3.5); cols.push({ name: 'pool', cx: p.x, cz: p.z, hx: (x1 - x0) / 2, hz: pool.W / 2 + 0.3, ry: ARY, h: 0.4 }); }
+    venues.swim = { group: pool.group, at: A(-2, -3.5), start: A(-2 + 9, -3.5 + 5.2) };
     // table tennis, two tables along the front of the hall
     [5.0, 10.8].forEach((x, i) => {
       const t = ttTable(); t.group.position.set(x, 0, 5.3); hall.add(t.group); t.group.updateMatrixWorld(true);
-      cols.push({ name: 'tt_table', cx: arenaAt.x + x, cz: arenaAt.z + 5.3, hx: SPORTS.tt.W / 2, hz: SPORTS.tt.L / 2, ry: 0, h: SPORTS.tt.table });
+      const p = A(x, 5.3); cols.push({ name: 'tt_table', cx: p.x, cz: p.z, hx: SPORTS.tt.W / 2, hz: SPORTS.tt.L / 2, ry: ARY, h: SPORTS.tt.table });
       tables.push(t);
     });
     venues.tt = tables;
-    waiting('tt', [OPP.tt[0]], {}, arenaAt.x + 7.9, arenaAt.z + 1.6);
+    { const p = A(7.9, 1.6); waiting('tt', [OPP.tt[0]], {}, p.x, p.z); }
     // two swimmers doing lengths when nobody is racing
     [0, 3].forEach((lane, k) => { const p = person(SWIM_FIELD[k].look, SWIM_FIELD[k].name); pool.group.add(p.obj); idle.push({ key: 'laps', p, lane, z: k * 6 - 6, dir: k ? 1 : -1, sp: 1.1 + k * 0.15 }); });
     props.pois?.push({ kind: 'recreation', name: place('Aquatic and Indoor Arena'), x: arenaAt.x, z: arenaAt.z });
-    lamps.push(...[-9, 0, 9].map((x) => ({ x: arenaAt.x + x, y: AH - 0.5, z: arenaAt.z, color: 0xf4f8ff, power: 90, boost: 4, kind: 'hall' })));
+    lamps.push(...[-9, 0, 9].map((x) => ({ ...A(x, 0), y: AH - 0.5, color: 0xf4f8ff, power: 90, boost: 4, kind: 'hall' })));
   }
   // ---------- the Sports Centre ----------
   const tennis = tennisCourt(), padel = padelCourt(), hoops = hoopsCourt();
@@ -372,7 +374,7 @@ export function createSports({ world, scene, props, used, toast, avatar, getOnli
   if (venues.tennis) { const c = at(venues.tennis, -venues.tennis.W / 2 - 0.6, 0); add('sport:tennis', 'Tennis: play Seyi or Coach Ada', c.x, c.z); }
   if (venues.padel) { const c = at(venues.padel, -SPORTS.padel.W / 2 - 0.7, 0); add('sport:padel', 'Padel: play doubles with Bisi', c.x, c.z); }
   if (venues.hoops) { const c = at(venues.hoops, 2.5, 7.0); add('sport:hoops', 'Basketball: one on one', c.x, c.z); }
-  if (venues.swim) add('sport:swim', 'The pool: race 50 m or 100 m freestyle', venues.swim.at.x + 9, venues.swim.at.z + 5.2, 2.6);
+  if (venues.swim) add('sport:swim', 'The pool: race 50 m or 100 m freestyle', venues.swim.start.x, venues.swim.start.z, 2.6);
   tables.forEach((t, i) => { const w = new THREE.Vector3(); t.group.getWorldPosition(w); add(`sport:tt:${i}`, 'Table tennis: play a match', w.x - 1.6, w.z - 2.4, 1.8); });
 
   // ---------- chess ----------
