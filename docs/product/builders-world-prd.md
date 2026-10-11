@@ -28,7 +28,7 @@ Rules this revision replaces:
 | User-built plots are out of scope | Personal plots stay generated. Residents build together in marked community areas, using an in-game kit |
 | Weather is a month-seven drop | Rain and storms are part of the base look |
 
-The HTML and PDF exports in `docs/product/exports/` are still v1.0. Regenerate them once this revision is accepted.
+The HTML and PDF exports for this revision are in `docs/product/exports/` (`builders-world-prd-v1.1.html` and `.pdf`), next to the v1.0 ones.
 
 ## What this is
 

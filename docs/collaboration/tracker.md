@@ -30,7 +30,7 @@ Every request Elvis has made, with where it stands. Updated 10 October 2026, 10:
 | 6 | Upgrade the graphics to the reference images (hybrid look) | Done, pushed | yaba-scene `src/look/*` | `a0684ac` |
 | 7 | Explain a SHA | Done, in chat | | |
 | 8 | PRD v1.1: images supersede v1.0, community build areas rules | Done, pushed and merged into `main` | `docs/product/builders-world-prd.md` | `4ef55df`, `e461c3b` |
-| 8a | Regenerate the PRD HTML and PDF exports for v1.1 | Pending | `docs/product/exports/` | |
+| 8a | Regenerate the PRD HTML and PDF exports for v1.1 | Done, pushed: v1.0's stylesheet and all 12 figures, the v1.1 text; PDF printed from it (A4) | `docs/product/exports/builders-world-prd-v1.1.*` | this commit |
 | 9 | Characters that look like the images | Waiting on Elvis: Tripo or Meshy API key, and whether the image 3 character is the default avatar | | |
 | 10 | Real Yaba map data instead of the sample | Done, pushed (OpenStreetMap baked, credit shown) | yaba-scene `public/data/yaba.json` | `ba16910`, `c805718` |
 | 11 | Claude and Codex see each other's work in real time | Done, local (shared status folder and hooks) | `Builders-World.collab/` | n/a |
