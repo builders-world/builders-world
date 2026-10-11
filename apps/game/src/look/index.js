@@ -35,6 +35,7 @@ import { createSpotify, trackUrl } from './spotify.js';
 import { buildLandmarks } from './landmarks.js';
 import { createSports } from './sports/index.js';
 import { TIERS, trackDetail, cullDetail } from './quality.js';
+import { setStreamTier, updateStream, streamStats, streamSmall, cullSmall, smallStats, setStreaming, setHorizon, streaming } from './stream.js';
 import { walletEngine } from './wallet.js';
 import { sfx } from './audio.js';
 import { createInteriors, PLACES, namePlaces } from './interior.js';
@@ -454,9 +455,14 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       const high = smooth(25, 90, camera.position.y);
       scene.fog.far = R * (1.9 + 1.1 * day - 1.3 * thick) * (1 + 2.2 * high);
       scene.fog.near = scene.fog.near * (1 + 4 * high);
+      // the horizon (quality.js): the haze is total there and nothing beyond it is drawn (stream.js). Where it
+      // pulls the fog in, the haze also starts later, so the street up to halfway out is clearer than before
+      const hz = gfx.horizon * (1 + 2.2 * high);
+      if (streaming() && scene.fog.far > hz) { scene.fog.far = hz; scene.fog.near = Math.max(scene.fog.near, hz * 0.45); }
       // the mist sits close: at its thickest you see about 70 m, less in the aerial view's long sightlines
       scene.fog.far += (R * 0.32 * (1 + 1.6 * high) - scene.fog.far) * mist;
       scene.fog.near += (1.5 - scene.fog.near) * mist;
+      setHorizon(streaming() ? scene.fog.far : 1e9);
     }
     renderer.toneMappingExposure = 1.05 + 0.1 * day;
     if (bloom) {
@@ -595,6 +601,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     return rt.texture;
   }
   function setGraphics(t) {
+    setStreamTier(t);
     gfx = t;
     // sun shadows round the player
     sunRig.castShadow = t.shadows > 0;
@@ -618,8 +625,11 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     scene.environment = t.env ? envTex : null;
   }
   setGraphics(gfx);
+  if (new URLSearchParams(location.search).get('stream') === '0') setStreaming(false);
 
-  let cullT = 0;
+  let cullT = 0, smallT = 1;
+  // the groups whose pieces stay put (or move as whole pieces) and are safe to size-cull
+  const SMALL_GROUPS = new Set(['district-dressing', 'place-fronts', 'landmarks', 'parks', 'recreation', 'food', 'sports', 'greenrey', 'litter', 'mobility', 'civic']);
   let lastPlayer = null;
   function update(dt, t, player, yaw, arrival) {
     lastPlayer = player;
@@ -641,11 +651,17 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       sweepT -= dt;
       if (sweepT <= 0) { sweepT = 4; markShadows(); }
     }
-    // people far from the camera are not drawn or animated; hidden rooms and the hidden street skip their matrix updates
+    // trees, shrubs and flowers stream in round you (stream.js); people far from the camera are not drawn or
+    // animated; hidden rooms and the hidden street skip their matrix updates
+    if (!interiors?.active) updateStream(camera);
+    // small static things (benches, signs, stalls, docks) join the size cull as they are built, then leave the
+    // render while they would be only a few pixels
+    smallT -= dt;
+    if (smallT <= 0) { smallT = 4; for (const c of group.children) if (SMALL_GROUPS.has(c.name) || c === props.root) streamSmall(c, { isPerson: (o) => PEOPLE.has(o) }); }
     cullT -= dt;
     if (cullT <= 0) {
       cullT = 0.2;
-      if (!interiors?.active) { cullPeople(camera, gfx.people); cullDetail(camera, gfx.detail); }
+      if (!interiors?.active) { cullPeople(camera, gfx.people); cullDetail(camera, gfx.detail); cullSmall(camera); }
       scene.children.forEach((c) => { c.matrixWorldAutoUpdate = c.visible; });
       group.children.forEach((c) => { c.matrixWorldAutoUpdate = c.visible; });
     }
@@ -1029,6 +1045,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     group.removeFromParent();
   }
 
-  return { get food() { return food; }, get greenrey() { return greenrey; }, update, renderReflection, setSize, setGraphics, sport: () => sports?.pose() || null, get sports() { return sports; }, get graphics() { return gfx; }, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get cycling() { return cycling; }, get officials() { return officials; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || !!homeAct || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, renderPortraits, get profile() { return profile; }, get critters() { return critters; }, get tallRoom() { return (interiors?.room?.H || 0) > 12; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { get food() { return food; }, get greenrey() { return greenrey; }, update, renderReflection, setSize, setGraphics, sport: () => sports?.pose() || null, get sports() { return sports; }, get graphics() { return gfx; }, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get cycling() { return cycling; }, get officials() { return officials; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || !!homeAct || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, renderPortraits, get profile() { return profile; }, get critters() { return critters; }, streamStats, smallStats, setStreaming, get tallRoom() { return (interiors?.room?.H || 0) > 12; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

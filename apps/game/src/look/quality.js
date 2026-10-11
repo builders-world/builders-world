@@ -9,14 +9,17 @@ export const LABEL = { auto: 'Auto', low: 'Low', medium: 'Medium', high: 'High',
 // pr: pixel ratio cap; msaa: edge smoothing samples; shadows: sun shadow map size (0 = none) and how far
 // round you they reach; ao: contact shading samples (0 = none); aniso: texture sharpness at a slant;
 // lights: lamps that light the street at night; people/detail: metres before characters and small
-// things are left out; govMin: the lowest the resolution may drop to hold 60 frames a second.
+// things are left out; treeNear/plantNear: metres of full trees and of shrubs and flowers round you (stream.js),
+// horizon: how far you see from the street before the haze closes in and nothing more is drawn (open-world
+// games draw full detail to about 300 m and swap to stand-ins beyond); sizeK: a small thing stays drawn out to
+// its size times this (a 1 m bench at 190 m on High); govMin: the lowest the resolution may drop to hold 60 frames a second.
 export const TIERS = {
-  low: { pr: 1, msaa: 0, bloom: false, shadows: 0, shadowR: 0, ao: 0, aniso: 1, lights: 3, reflect: 0, rain: 2500, people: 32, detail: 80, govMin: 0.5, env: 0 },
-  medium: { pr: 1.25, msaa: 2, bloom: true, shadows: 0, shadowR: 0, ao: 0, aniso: 4, lights: 8, reflect: 0.35, rain: 5000, people: 45, detail: 120, govMin: 0.6, env: 0 },
-  high: { pr: 1.5, msaa: 4, bloom: true, shadows: 2048, shadowR: 45, soft: false, shadowHz: 30, ao: 8, aniso: 8, lights: 14, reflect: 0.5, rain: 9000, people: 60, detail: 170, govMin: 0.65, env: 0 },
+  low: { sizeK: 110, pr: 1, msaa: 0, bloom: false, shadows: 0, shadowR: 0, ao: 0, aniso: 1, lights: 3, reflect: 0, rain: 2500, people: 32, detail: 80, treeNear: 70, plantNear: 45, horizon: 280, govMin: 0.5, env: 0 },
+  medium: { sizeK: 150, pr: 1.25, msaa: 2, bloom: true, shadows: 0, shadowR: 0, ao: 0, aniso: 4, lights: 8, reflect: 0.35, rain: 5000, people: 45, detail: 120, treeNear: 110, plantNear: 65, horizon: 340, govMin: 0.6, env: 0 },
+  high: { sizeK: 190, pr: 1.5, msaa: 4, bloom: true, shadows: 2048, shadowR: 45, soft: false, shadowHz: 30, ao: 8, aniso: 8, lights: 14, reflect: 0.5, rain: 9000, people: 60, detail: 170, treeNear: 150, plantNear: 85, horizon: 400, govMin: 0.65, env: 0 },
   // Ultra holds at least 30 frames a second rather than chasing 60: the resolution stays full until the
   // frame rate drops under 30 (fps30); edges are smoothed 2x, which at Retina density looks the same as 4x
-  ultra: { pr: 2, msaa: 2, bloom: true, shadows: 3072, shadowR: 70, soft: true, ao: 10, aniso: 16, lights: 22, reflect: 0.75, rain: 12000, people: 95, detail: 300, govMin: 0.55, env: 0.35, fps30: true, shadowHz: 30 },
+  ultra: { sizeK: 260, pr: 2, msaa: 2, bloom: true, shadows: 3072, shadowR: 70, soft: true, ao: 10, aniso: 16, lights: 22, reflect: 0.75, rain: 12000, people: 95, detail: 300, treeNear: 200, plantNear: 120, horizon: 480, govMin: 0.55, env: 0.35, fps30: true, shadowHz: 30 },
 };
 
 const store = {
