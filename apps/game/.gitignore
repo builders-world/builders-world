@@ -6,3 +6,7 @@ artifacts/*.webm
 artifacts/motion/
 .vercel
 .env*
+
+# downloaded map data for the city bakes (scripts/city/)
+.cache/
+

@@ -1,6 +1,10 @@
 import * as THREE from 'three';
 import { PlanarReflection, weather } from './surfaces.js';
 import { rain, lampCones, LampLights, skyline } from './atmosphere.js';
+import { createOpenWorld } from '../city/openworld.js';
+import { createCityTraffic } from '../city/citytraffic.js';
+import { createCityPeople } from '../city/citypeople.js';
+import { createClouds } from '../city/clouds.js';
 import { buildProps } from './props.js';
 import { createHud } from './hud.js';
 import { createGear } from './gear.js';
@@ -111,7 +115,31 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   // the expanded kit: shops, stalls, landmarks, poles and wires, gutters, tanks, danfos
   const dressing = world.kit ? dressDistrict(world, group, { kit: world.kit, lowQuality: quality === 'low', reduced, spawn: world.spawn }) : null;
   if (dressing) { props.interact.push(...dressing.interact); props.lamps.push(...dressing.lamps); }
-  const sky2 = off.has('skyline') ? null : skyline(world);
+  // the open city round the district (src/city/openworld.js), where the city has been baked: you can walk out into it.
+  // Its buildings, trees, lamps and pillars stop you as the district's do; it replaces the painted skyline
+  const openWorld = world.open ? createOpenWorld({ world, quality, reduced }) : null;
+  const clouds = openWorld?.active ? createClouds() : null;
+  const cityTraffic = openWorld?.active && !off.has('citytraffic') ? createCityTraffic({ openWorld, quality, drive: cityInfo().drive, reduced }) : null;
+  // the open city's cafes, restaurants, banks, gyms and co-working spaces: walk up to one and go in (the district's
+  // own rooms, under the place's real name)
+  const CITY_ROOM = { cafe: 'cafe', restaurant: 'cafe', fast_food: 'cafe', food_court: 'cafe', bank: 'bank', gym: 'gym', fitness_centre: 'gym', coworking_space: 'hub', coworking: 'hub' };
+  let cityDoors = [], cityDoorsIn = 0;
+  function cityPlaces(player, dt) {
+    if (!openWorld?.active || (cityDoorsIn -= dt) > 0) return; cityDoorsIn = 0.5;
+    if (cityDoors.length) { const drop = new Set(cityDoors); for (let i = props.interact.length - 1; i >= 0; i--) if (drop.has(props.interact[i])) props.interact.splice(i, 1); }
+    cityDoors = Math.hypot(player.x, player.z) < world.radius - 10 ? [] : openWorld.placesNear(player.x, player.z, 40)
+      .filter((q) => CITY_ROOM[q.k]).map((q, i) => ({ id: `cityplace:${i}`, label: `Enter ${q.n}`, x: q.x, z: q.z, r: 3.2, key: CITY_ROOM[q.k], name: q.n }));
+    props.interact.push(...cityDoors);
+  }
+  const cityPeople = openWorld?.active && !off.has('citypeople') ? createCityPeople({ openWorld, quality, reduced, seeDist: TIERS[quality]?.people ?? 60 }) : null;
+  if (clouds) scene.add(clouds.group);
+  if (openWorld?.active) {
+    group.add(openWorld.group);
+    const baseResolve = world.resolve, baseSolid = world.solidAt;
+    world.resolve = (p, rad, y) => { baseResolve(p, rad, y); if ((y ?? 0) < 2) openWorld.resolve(p, rad); return p; };
+    world.solidAt = (x, y, z) => baseSolid(x, y, z) || (() => { const h = openWorld.solidAt(x, z); return h !== false && y < h; })();
+  }
+  const sky2 = off.has('skyline') || openWorld?.active ? null : skyline(world);
   if (sky2) group.add(sky2);
 
   let reflection = null, rainMesh = null, cones = null, lights = null;
@@ -285,6 +313,12 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
         if (r?.act) { startAct(r.act); return true; }
         return !!r;
       }
+      if (active?.id?.startsWith('cityplace:')) { // a place out in the open city: its kind's room, under its own name
+        const key = active.key, door = { x: active.x, z: active.z, yaw: Math.atan2(active.x - player.x, active.z - player.z) + Math.PI };
+        doorOut = door;
+        interiors.enter(key, null, active.name).then((p) => { setInside(active.name); pendingMove = { ...p, mode: 'inside' }; });
+        return true;
+      }
       if (active?.id?.startsWith('enter:')) {
         const key = active.id.slice(6), door = { x: active.x, z: active.z, yaw: Math.atan2(active.x - player.x, active.z - player.z) + Math.PI };
         const go = () => {
@@ -322,7 +356,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       else if (interiors?.seated || benchSeat || homeAct) standUp();
     },
     getPrompt: (player) => (benchSeat || interiors?.seated || homeAct ? null : interiors?.active ? interiors.prompt(player.x, player.z) : undefined), // seated: the seat bar takes over
-    world, props, camera, reduced, weatherFeed: night ? weatherFeed : null,
+    world, props, camera, reduced, weatherFeed: night ? weatherFeed : null, openWorld: openWorld?.active ? openWorld : null,
     onEquip: (id, on) => { gear?.set(id, on); mobility?.equip(id, on); },
     onInteract: (what) => {
       if (what !== 'place-bench' || !props.area) return;
@@ -389,7 +423,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   const licenceDoor = () => doors.find((d) => d.key === 'licensing')?.at || null;
   rides = createRides({ world, scene: group, nav: hud.nav, props, reduced, toast: hud.toast,
     licence: { has: () => !!licenceOf(passes), office: () => PLACES.licensing.name, route: () => { const at = licenceDoor(); if (at) hud.setRoute(at, PLACES.licensing.name); return !!at; } }, getBodies: () => [...(props.bodies?.() || []), ...(dressing?.bodies?.() || [])],
-    onState: (st) => { if (st.ride === false && st.exitAt) pendingExit = st.exitAt; } });
+    onState: (st) => { if (st.ride === false && st.exitAt) pendingExit = st.exitAt; }, openWorld });
   const civic = buildCivic(world, group, { rides });
   // every place you can go and do something, for the map's icons and "find the nearest" (world bible 11.3)
   props.pois = [
@@ -416,6 +450,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   const R = world.radius;
   const sunDir = new THREE.Vector3(), moonDir = new THREE.Vector3(-0.4, 0.8, 0.45).normalize();
   const cur = { rain: 0, wet: 0, cloud: 0.4, storm: 0, fog: 0, wind: 3, windDir: 200 };
+  const CLOUDWHITE = new THREE.Color('#eef2f6');
   let first = true;
   const tmpA = new THREE.Color(), tmpB = new THREE.Color();
   const mix3 = (out, a, b, c, tb, tc) => out.copy(a).lerp(b, tb).lerp(c, tc);
@@ -499,9 +534,15 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       const high = smooth(25, 90, camera.position.y);
       scene.fog.far = R * (1.9 + 1.1 * day - 1.3 * thick) * (1 + 2.2 * high);
       scene.fog.near = scene.fog.near * (1 + 4 * high);
+      // in the open city you see much further: down the street to the next district, and from the air the whole city
+      const alt = openWorld?.active ? Math.max(0, camera.position.y - 60) : 0;
+      if (openWorld?.active) { scene.fog.far = Math.min(Math.max(scene.fog.far, 900 * (1 - 0.6 * thick)) * (1 + alt / 300), quality === 'low' ? 3200 : quality === 'medium' ? 4800 : 1e9); scene.fog.near *= 1 + alt / 220; }
+      // inside a cloud the view goes white, as from a plane climbing through one
+      const inCloud = clouds ? clouds.update(camera, dt, cur.cloud) : 0;
+      if (inCloud > 0.01) { scene.fog.color.lerp(CLOUDWHITE, inCloud); scene.fog.near *= 1 - 0.97 * inCloud; scene.fog.far = scene.fog.far * (1 - inCloud) + 140 * inCloud; }
       // the horizon (quality.js): the haze is total there and nothing beyond it is drawn (stream.js). Where it
       // pulls the fog in, the haze also starts later, so the street up to halfway out is clearer than before
-      const hz = gfx.horizon * (1 + 2.2 * high);
+      const hz = gfx.horizon * (1 + 2.2 * high) * (1 + alt / 300) * (openWorld?.active ? 2.5 : 1);
       if (streaming() && scene.fog.far > hz) { scene.fog.far = hz; scene.fog.near = Math.max(scene.fog.near, hz * 0.45); }
       // the mist sits close: at its thickest you see about 70 m, less in the aerial view's long sightlines
       scene.fog.far += (R * 0.32 * (1 + 1.6 * high) - scene.fog.far) * mist;
@@ -525,6 +566,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     }
 
     sky2?.userData.update?.(dt, day, Math.max(lamps, 1 - day), mist, scene.fog?.color);
+    openWorld?.setNight(Math.max(lamps, 1 - day));
+    cityTraffic?.setNight(Math.max(lamps, 1 - day));
     // street
     shared.uLamps.value = lamps;
     shared.uDay.value = day; // daylight fades lamp pools and the monument sweep
@@ -685,6 +728,10 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   let lastPlayer = null;
   function update(dt, t, player, yaw, arrival) {
     lastPlayer = player;
+    openWorld?.update(camera, dt, scene.fog?.far ?? 1500);
+    cityTraffic?.update(camera, dt);
+    cityPeople?.update(camera, dt, player);
+    cityPlaces(player, dt);
     emotes?.update(dt);
     // the rain starting is news to everyone out in it
     const wet = (live?.rain ?? 0) > 0.25; if (wet && !wasWet) emotes?.event('rain', player.x, player.z, 35, { max: 8, chance: 0.7 }); wasWet = wet;
@@ -1009,7 +1056,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       try { localStorage.setItem(LAST, JSON.stringify({ district, ...(street || {}), inside, at: Date.now() })); } catch { /* */ }
     }, 5000);
   }
-  addEventListener('bw:jumpto', (e) => { const d = e.detail || {}; if (interiors?.active) { hud.toast('Go outside first, then jump.', 2200); return; } const q = world.nearestReachable(d.x + 1.6, d.z + 1.6) || { x: d.x, z: d.z }; if (d.quick) { dispatchEvent(new CustomEvent('bw:swoopto', { detail: { x: q.x, z: q.z, name: d.name || 'your marker' } })); sfx('arrive'); return; } pendingMove = { mode: 'stand', x: q.x, z: q.z }; hud.toast(d.quick ? `Quick travel: you are at ${d.name || 'your marker'}.` : `You are with ${d.name || 'them'}.`, 2200); if (d.quick) sfx('arrive'); });
+  addEventListener('bw:jumpto', (e) => { const d = e.detail || {}; if (interiors?.active) { hud.toast('Go outside first, then jump.', 2200); return; } const q = (openWorld?.active && Math.hypot(d.x, d.z) > world.radius ? null : world.nearestReachable(d.x + 1.6, d.z + 1.6)) || { x: d.x, z: d.z }; /* out in the open city the street itself */ if (d.quick) { dispatchEvent(new CustomEvent('bw:swoopto', { detail: { x: q.x, z: q.z, name: d.name || 'your marker' } })); sfx('arrive'); return; } pendingMove = { mode: 'stand', x: q.x, z: q.z }; hud.toast(d.quick ? `Quick travel: you are at ${d.name || 'your marker'}.` : `You are with ${d.name || 'them'}.`, 2200); if (d.quick) sfx('arrive'); });
   // a teleport for the player (into or out of a place, sitting, standing), taken once
   // getting up, from a bench or a desk: at a desk the laptop closes and goes in your bag first
   let leaving = false;
@@ -1133,6 +1180,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   // fewer draw calls: the static scenery's meshes that share a material, merged (batch.js); nothing on screen changes
   // (?batch=0 turns it off, to compare)
   if (new URLSearchParams(location.search).get('batch') !== '0') try { const r = batchScenery(group, ['landmarks', 'place-fronts', 'shop-signs', 'food-trucks', 'edge-signs', 'civic', 'parkland', 'recreation', 'parks', 'shopfronts']); world.batched = r; } catch (err) { console.warn('batching skipped', err); }
-  return { feed, get food() { return food; }, get greenrey() { return greenrey; }, update, renderReflection, setSize, setGraphics, sport: () => sports?.pose() || null, get sports() { return sports; }, get graphics() { return gfx; }, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get cycling() { return cycling; }, get officials() { return officials; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || !!homeAct || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, renderPortraits, get profile() { return profile; }, get critters() { return critters; }, get railway() { return railway; }, streamStats, smallStats, setStreaming, get tallRoom() { return (interiors?.room?.H || 0) > 12; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { feed, get food() { return food; }, get greenrey() { return greenrey; }, update, renderReflection, setSize, setGraphics, sport: () => sports?.pose() || null, get sports() { return sports; }, get graphics() { return gfx; }, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get cycling() { return cycling; }, get officials() { return officials; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || !!homeAct || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, openWorld, cityTraffic, cityPeople, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, renderPortraits, get profile() { return profile; }, get critters() { return critters; }, get railway() { return railway; }, streamStats, smallStats, setStreaming, get tallRoom() { return (interiors?.room?.H || 0) > 12; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

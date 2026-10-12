@@ -29,6 +29,25 @@ Built with three.js and Vite. There are no game engines, downloads or plug-ins: 
   | Nairobi | Kilimani, City Centre, Westlands |
   | Accra | Osu, Accra Central, Airport City |
 
+- **Six cities are open worlds: Lagos, Nairobi, Abuja, Port Harcourt, Accra and Uyo.** Each area is built in full. Around it, the whole city stretches to the horizon on its real street grid: every building from OpenStreetMap at its real height, the parks, rivers, lagoons and the sea, and raised roads such as Nairobi's expressway. You can walk out of the area and keep going, or look over all of it from the aerial view.
+
+  | City | The open world covers |
+  |---|---|
+  | Lagos | Ikeja down through Yaba and Surulere to Lagos Island, Apapa, Victoria Island and Lekki Phase 1 (about 18 by 23 km) |
+  | Nairobi | Central Nairobi, Westlands and Kilimani (about 9 by 7 km) |
+  | Abuja | Wuse, the Central Business District and Jabi |
+  | Port Harcourt | Old GRA, Rumuola and Trans-Amadi |
+  | Accra | Osu, Accra Central and Airport City, down to the sea |
+  | Uyo | The town and Ring Road. Eket and Ikot Ekpene are districts of their own |
+
+  Nearby streets have:
+  - traffic in lanes, keeping to the city's side of the road, with lights after dark;
+  - people on the pavements;
+  - cafés, restaurants, banks, gyms and co-working spaces you can go into, each under its own name.
+
+  Out past your area, the ride app takes you anywhere in the city: back to your area, to the city's other areas, or to its landmarks (malls, markets, stations, hospitals, universities, hotels). The fare goes up with the distance.
+
+  Only the streets near you are built, in 200 m pieces streamed in the background. Their detail scales with distance and with your device. Clay clouds drift overhead from the aerial view. The minimap follows you anywhere in the city, and the big map zooms out from the area to the whole city.
 - **Planned estates** with gates, closes and numbered houses (1A, 2B...), garages and gardens. The serving-window shops along the main streets each have their attendant at the counter, with illustrated signs showing what they sell.
 - **Real landmarks** in place, and the city's skyline on the horizon. These include Ikeja City Mall, Ibom Tropicana, the National Stadium, Lagos Port Complex and hospitals.
 - **A road hierarchy.**
@@ -111,6 +130,8 @@ Open the printed address for the onboarding, or add `?world=1` to go straight in
 | `?hud=0` | Hide the interface |
 | `?greenrey=0`, `?stream=0`, `?batch=0` | Turn off the ground layer, distance streaming or mesh batching, to compare |
 | `?start=home` | Start inside your home (the tests start on the street) |
+| `?open=0` | An area without the open city round it |
+| `?no=citytraffic,citypeople` | The open city without its traffic or people, to compare |
 
 ## Checks
 
@@ -134,6 +155,18 @@ Open the printed address for the onboarding, or add `?world=1` to go straight in
 - `src/onboarding/` is the arrivals journey.
 - The countries and cities come from `cities/` at the top of the repository, through the `@cities` alias (`src/look/citydirectory.js`). `tests/cities.test.js` checks every file there.
 - `public/data/` holds the baked city areas. `scripts/fetch-osm.mjs` bakes a new one.
+- `src/city/` is the open world:
+  - `roadnet.js` is the road network (after Cities: Skylines);
+  - `openworld.js` streams the chunks, which `chunkworker.js` meshes in a worker (with `chunkmesh.js`);
+  - `citytraffic.js` and `citypeople.js` are the life on the streets;
+  - `clouds.js` and `facade.js` are the clouds and the window shader.
+
+  `public/city/<city>/` holds a city baked into chunks, 16 to a file (`t_<a>_<b>.json`), plus `index.json` and `map.json` for the big map and the ride app. They ship with the deployment. To add or rebake a city, give its `cities/<country>/<city>/city.json` an `"open"` box, then:
+
+      scripts/city/prepare.sh <country>/<city> <country>-latest.osm.pbf <GHS-BUILT-H tile>.tif
+      node scripts/city/bake.mjs <country>/<city>
+
+  `prepare.sh` cuts the map data and building heights to the box (where to download them is at the top of the file); `bake.mjs` does the rest. Cities are baked when they go live, to keep the deployment small. `scripts/city/upload.mjs` can put cities in an object store instead (with `VITE_CITY_BASE` pointing at it), for when there are too many to ship with the game; it isn't used today.
 - Shared rules for every city, its own look per city: anything systemic (traffic, zoning, physics, UI) applies to every city, while architecture and flavour are set per city in `src/look/cityinfo.js` and `areas.js`.
 
 How the world is built, and why, is written down in the **world bible** (`docs/design/world-bible.md` in [builders-world/builders-world](https://github.com/builders-world/builders-world)). Read it before changing anything. Every request and where it stands is in `docs/collaboration/tracker.md` in the same repository.

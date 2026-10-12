@@ -166,7 +166,7 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
     if (!desk) {
       const fee = deskFee();
       if (fee && !member() && !seated.paid) {
-        if (!walletEngine().spend(fee, `${placeName(current.key)}: desk computer`)) { toast(`The desk computer is ${fmt(fee)} Efforts a session, and you are short. Use your laptop, or come back with a membership card.`, 3800); return true; }
+        if (!walletEngine().spend(fee, `${hereName()}: desk computer`)) { toast(`The desk computer is ${fmt(fee)} Efforts a session, and you are short. Use your laptop, or come back with a membership card.`, 3800); return true; }
         seated.paid = true; // signing out and back in at this desk costs nothing more
         toast(`Paid ${fmt(fee)} Efforts for the desk computer. It is yours until you stand up.`, 2800);
       } else if (fee) toast('Free with your membership card.', 2200);
@@ -182,7 +182,7 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
     const rec = readPass(), who = me();
     lki.classList.add('on', 'lock');
     lki.innerHTML = `<div class="login"><div class="av">${esc((who.name || '?').trim()[0]?.toUpperCase() || '?')}</div><h3>${esc(who.name)}</h3>${who.handle ? `<div class="h">@${esc(who.handle)}</div>` : ''}
-      <span class="where">${esc(placeName(current.key))} · desk computer</span>
+      <span class="where">${esc(hereName())} · desk computer</span>
       ${rec ? '<input type="password" class="p1" placeholder="Password" aria-label="Your desk password" autocomplete="off">'
         : '<p>First time on a desk computer: make a password. Every desk in Builders World will ask for it. Not your GitHub password.</p><input type="password" class="p1" placeholder="New password (4 or more)" aria-label="New password" autocomplete="off"><input type="password" class="p2" placeholder="Type it again" aria-label="Type the password again" autocomplete="off">'}
       <div class="err">${esc(err)}</div><button class="go">${rec ? 'Sign in' : 'Create and sign in'}</button>
@@ -197,7 +197,7 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
         try { localStorage.setItem(PASS_KEY, JSON.stringify({ salt, hash: await hash(salt, a) })); } catch { /* */ }
       } else if (await hash(rec.salt, a) !== rec.hash) return openLock('That is not the password.');
       desk.signedIn = true; net?.wire?.(current.key); sfx('arrive');
-      toast(`Signed in as ${who.name}. On the ${placeName(current.key)} network.`, 2400);
+      toast(`Signed in as ${who.name}. On the ${hereName()} network.`, 2400);
       lki.classList.remove('lock'); openComputer();
     };
     lki.querySelector('.go').onclick = submit;
@@ -219,13 +219,13 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
     if (desk && !desk.signedIn) return openLock();
     lki.classList.remove('lock');
     const you = BUILDERS.find((b) => b.id === 'you'), L = net?.link || null, nets = current ? net?.inRange(current.key) || [] : [];
-    lki.innerHTML = `<aside>${desk?.signedIn ? `<div class="who">${esc(placeName(current.key))} desk computer<br>Signed in as ${esc(me().name)}</div>` : ''}
+    lki.innerHTML = `<aside>${desk?.signedIn ? `<div class="who">${esc(hereName())} desk computer<br>Signed in as ${esc(me().name)}</div>` : ''}
       <button class="wf ${L ? 'up' : ''}" aria-expanded="${wifiOpen}">${bars(L ? L.bars : 0)} ${L ? esc(L.ssid) : 'Wi-Fi: not connected'}</button>
       ${wifiOpen ? `<div class="nets">${nets.map((n) => `<button data-s="${esc(n.ssid)}" class="${L?.ssid === n.ssid ? 'on' : ''}">${bars(n.bars)} ${esc(n.ssid)} <span class="lock">locked</span></button>
         ${joining === n.ssid ? `<div class="pw"><input type="password" placeholder="Password" aria-label="Password for ${esc(n.ssid)}" autocomplete="off"><button class="join">Join</button><div class="err">${esc(wifiErr)}</div></div>` : ''}`).join('') || '<div class="none">No networks here.</div>'}</div>` : ''}
       <h4 style="margin-top:14px">View</h4><div class="tab ${view === 'code' ? 'on' : ''}" data-v="code">Code</div><div class="tab ${view === 'web' ? 'on' : ''}" data-v="web">Browser</div>
       <h4 style="margin-top:14px">Repositories</h4>${(you?.repoList || []).map(([r], i) => `<div class="${i ? '' : 'on'}">${r}</div>`).join('')}
-      <h4 style="margin-top:14px">This desk</h4><div>${current ? placeName(current.key) : ''}</div></aside>
+      <h4 style="margin-top:14px">This desk</h4><div>${current ? hereName() : ''}</div></aside>
       <main><div class="bar"><button class="p">Commit and push</button><button class="x">Close the screen (Esc)</button>${desk?.signedIn ? '<button class="c">Sign out (O)</button>' : '<button class="c">Close laptop (F)</button>'}<button class="u">Pack up and leave</button></div>
       ${view === 'code' ? `<pre>${SNIPPET.join('\n').replace(/</g, '&lt;')}</pre><div class="term">${pushed || "$ git status\nOn branch main\nYour branch is up to date with 'origin/main'."}</div>` : browserView(L)}</main>`;
     lki.classList.add('on');
@@ -476,18 +476,35 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
   const laptopMat = new THREE.MeshStandardMaterial({ color: 0x9aa3b2, roughness: 0.35, metalness: 0.6 });
   const laptopScreen = new THREE.MeshBasicMaterial({ map: codeScreen(SNIPPET) });
 
-  function enter(key, host) {
+  // a place out in the open city (look/index.js) is its kind's room under its own name: built for it, and only the
+  // last one kept (the district's own rooms stay built)
+  let named = null;
+  // the name of where you are (a city place's own, or the district's)
+  const hereName = () => (current?.as || placeName(current?.key));
+  function enter(key, host, as = null) {
     if (key === 'home' && host?.self) key = 'myhome'; // your own home is the seven-room house (rooms.js)
-    const VENUE = { airport: () => buildAirport({ ORIGIN, scene, city }), cabin: () => buildCabin({ ORIGIN, scene }), immigration: () => buildImmigration({ ORIGIN, scene, name: PLACES.immigration.name, country }), licensing: () => buildLicensing({ ORIGIN, scene, name: PLACES.licensing.name, country }), cafe: () => buildCafe({ ORIGIN, scene, onOrder }), gym: () => buildGym({ ORIGIN, scene, toast }), bank: () => buildBank({ ORIGIN, scene, toast, onTeller }) };
-    if (!built[key]) built[key] = key === 'myhome' ? buildPlayerHome({ ORIGIN, scene, screenTex: laptopScreen.map }) : key === 'home' ? buildHome() : VENUE[key] ? VENUE[key]() : build(key);
-    current = built[key];
+    const nm = as || PLACES[key]?.name;
+    const VENUE = { airport: () => buildAirport({ ORIGIN, scene, city }), cabin: () => buildCabin({ ORIGIN, scene }), immigration: () => buildImmigration({ ORIGIN, scene, name: PLACES.immigration.name, country }), licensing: () => buildLicensing({ ORIGIN, scene, name: PLACES.licensing.name, country }), cafe: () => buildCafe({ ORIGIN, scene, onOrder, name: nm }), gym: () => buildGym({ ORIGIN, scene, toast, name: nm }), bank: () => buildBank({ ORIGIN, scene, toast, onTeller, name: nm }) };
+    const make = () => (key === 'myhome' ? buildPlayerHome({ ORIGIN, scene, screenTex: laptopScreen.map }) : key === 'home' ? buildHome() : VENUE[key] ? VENUE[key]() : build(key));
+    if (as) {
+      const id = `${key}|${as}`;
+      if (named?.id !== id) {
+        if (named) { named.room.people?.forEach((p) => p.dispose?.()); named.room.group.traverse((o) => { o.geometry?.dispose(); [].concat(o.material || []).forEach((m) => { m.map?.dispose(); m.dispose?.(); }); }); named.room.group.removeFromParent(); }
+        const was = PLACES[key].name; PLACES[key].name = as; // (build() reads the name for the hub's board)
+        try { named = { id, room: make() }; named.room.as = as; } finally { PLACES[key].name = was; }
+      }
+      current = named.room;
+    } else {
+      if (!built[key]) built[key] = make();
+      current = built[key];
+    }
     if (key === 'home' || key === 'myhome') current.setHost(host);
     fade.style.opacity = '1';
     return new Promise((res) => setTimeout(() => {
       current.group.visible = true;
       fade.style.opacity = '0';
       sfx('door');
-      toast(key === 'airport' ? `${current.A.name}.` : key === 'cabin' ? 'Boarding complete. Find your seat by the window.' : key === 'immigration' ? `${PLACES.immigration.name}. Take a number: counter 1 for passports, 2 for travel authorisations; the board on the left shows where you can fly.` : key === 'licensing' ? `${PLACES.licensing.name}. Counter 1 for a driver's licence: the form, an eye test and a theory test.` : key === 'cafe' ? 'Kofo Cafe. Order at the counter, or take a table and work. The Wi-Fi is on the menu board.' : key === 'gym' ? 'Yaba Fitness. Treadmills, weights, the bag. First visit is on the house.' : key === 'bank' ? 'Yaba Builders Bank. Join the queue for a teller, or ask about a loan.' : key === 'myhome' ? `Home sweet home: ${host.addr}. Living room, kitchen and bedroom at the front; your workspace, lab and studio at the back.` : key === 'home' ? `${host.first}'s home. ${host.pidgin ? 'Make yourself at home o.' : 'Make yourself at home.'}` : `${PLACES[key].name}. ${PLACES[key].kind}. Find a free desk, or grab something at the cafeteria.`, 4500);
+      toast(key === 'airport' ? `${current.A.name}.` : key === 'cabin' ? 'Boarding complete. Find your seat by the window.' : key === 'immigration' ? `${PLACES.immigration.name}. Take a number: counter 1 for passports, 2 for travel authorisations; the board on the left shows where you can fly.` : key === 'licensing' ? `${PLACES.licensing.name}. Counter 1 for a driver's licence: the form, an eye test and a theory test.` : key === 'cafe' ? `${nm}. Order at the counter, or take a table and work. The Wi-Fi is on the menu board.` : key === 'gym' ? `${nm}. Treadmills, weights, the bag. First visit is on the house.` : key === 'bank' ? `${nm}. Join the queue for a teller, or ask about a loan.` : key === 'myhome' ? `Home sweet home: ${host.addr}. Living room, kitchen and bedroom at the front; your workspace, lab and studio at the back.` : key === 'home' ? `${host.first}'s home. ${host.pidgin ? 'Make yourself at home o.' : 'Make yourself at home.'}` : `${nm}. ${PLACES[key].kind}. Find a free desk, or grab something at the cafeteria.`, 4500);
       res({ x: ORIGIN.x + current.door.x * sc(), z: ORIGIN.z + (current.door.z - 1.5) * sc(), yaw: Math.PI });
     }, reduced ? 0 : 360));
   }
@@ -634,6 +651,6 @@ export function createInteriors({ scene, reduced, toast, getEnv, onPackUp, net, 
   return {
     enter, leave, use, prompt, resolve, solidAt, update, stand, closeComputer, closeLaptop, packUp, useDesk, signOut: () => signOut(), get deskOn() { return !!desk; }, deskFee, get member() { return member(); }, get lidOpen() { return lidOpen(); },
     get active() { return !!current; }, get seated() { return !!seated; }, get room() { return current; }, origin: ORIGIN, get computerOpen() { return lki.classList.contains('on'); },
-    dispose() { Object.values(built).forEach((b) => { b.people.forEach((p) => p.dispose()); b.group.traverse((o) => o.geometry?.dispose()); b.group.removeFromParent(); }); fade.remove(); screen.remove(); },
+    dispose() { if (named) built[named.id] = named.room; Object.values(built).forEach((b) => { b.people.forEach((p) => p.dispose()); b.group.traverse((o) => o.geometry?.dispose()); b.group.removeFromParent(); }); fade.remove(); screen.remove(); },
   };
 }
