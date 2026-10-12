@@ -134,6 +134,13 @@ function building(F, S, b, lod) {
   const pts = pairs(b.p), kind = KIND[b.k] ?? 1, seed = hash(b.id), H = Math.max(3, b.h);
   const wall = rgb(b.k === 'tower' ? ['#cfd6d4', '#d7dad3', '#c6cfcf'][Math.floor(seed * 3)] : WALLS[Math.floor(seed * WALLS.length)]);
   const roofC = rgb(ROOF[b.k] || ROOF.block);
+  if (lod >= 3 && b.h < 20 && pts.length > 4) {
+    // far away, from the air: a box the size and heading of the building (its longest wall), not its whole outline
+    let best = 0, ux = 1, uz = 0; for (let i = 0; i < pts.length; i++) { const a = pts[i], c = pts[(i + 1) % pts.length], l = Math.hypot(c[0] - a[0], c[1] - a[1]); if (l > best) { best = l; ux = (c[0] - a[0]) / l; uz = (c[1] - a[1]) / l; } }
+    let s0 = Infinity, s1 = -Infinity, t0 = Infinity, t1 = -Infinity; pts.forEach(([x, z]) => { const s2 = x * ux + z * uz, t = -x * uz + z * ux; s0 = Math.min(s0, s2); s1 = Math.max(s1, s2); t0 = Math.min(t0, t); t1 = Math.max(t1, t); });
+    const P = (s2, t) => [s2 * ux - t * uz, s2 * uz + t * ux], q = [P(s0, t0), P(s1, t0), P(s1, t1), P(s0, t1)];
+    walls(F, q, 0, H, wall, kind, seed); roof(F, q, H, roofC, kind, seed); return;
+  }
   if (lod >= 2) { walls(F, pts, 0, H, wall, kind, seed); roof(F, pts, H, roofC, kind, seed); return; }
   if (b.k === 'house') {
     // the arrival scene's house: ivory body, a wood fascia under a dark green roof slab, a low parapet

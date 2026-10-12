@@ -515,7 +515,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       scene.fog.near = scene.fog.near * (1 + 4 * high);
       // in the open city you see much further: down the street to the next district, and from the air the whole city
       const alt = openWorld?.active ? Math.max(0, camera.position.y - 60) : 0;
-      if (openWorld?.active) { scene.fog.far = Math.max(scene.fog.far, 900 * (1 - 0.6 * thick)) * (1 + alt / 300); scene.fog.near *= 1 + alt / 220; }
+      if (openWorld?.active) { scene.fog.far = Math.min(Math.max(scene.fog.far, 900 * (1 - 0.6 * thick)) * (1 + alt / 300), quality === 'low' ? 3200 : quality === 'medium' ? 4800 : 1e9); scene.fog.near *= 1 + alt / 220; }
       // inside a cloud the view goes white, as from a plane climbing through one
       const inCloud = clouds ? clouds.update(camera, dt, cur.cloud) : 0;
       if (inCloud > 0.01) { scene.fog.color.lerp(CLOUDWHITE, inCloud); scene.fog.near *= 1 - 0.97 * inCloud; scene.fog.far = scene.fog.far * (1 - inCloud) + 140 * inCloud; }

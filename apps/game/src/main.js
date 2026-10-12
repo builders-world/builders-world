@@ -484,7 +484,10 @@ async function main() {
     if (hitPlot) { chrome.showCard(hitPlot.object.userData.builder, true); return; }
     chrome.unpin();
     // ground click: walk there, or from the aerial view cut down to that spot
-    const hit = ray.intersectObjects([world.pick, world.solids], false)[0];
+    let hit = ray.intersectObjects([world.pick, world.solids], false)[0];
+    // in the open city, past the district's own ground: the street level itself (the city's buildings stop you there)
+    // (aimed at a roof from the air, you come down beside the building: the city's walls push you out to its street)
+    if (!hit && world.open && ray.ray.intersectPlane(plane, pt)) hit = { point: pt.clone() };
     // from the air a roof or a wall is a fine place to aim: you come down on the nearest street to it
     if (hit && hit.point.y > 0.5 && cam.aerial && world.nearestReachable) { const q = world.nearestReachable(hit.point.x, hit.point.z); if (q) { switchTo(q.x, q.z, () => { if (dog.on) setDog(false); player.set(q.x, 0, q.z); onStreetGround(player); setAerial(false); snap = true; }); return; } }
     if (!hit || hit.point.y > 0.5) { chrome.toast('Click the street to walk there'); return; }
@@ -499,7 +502,9 @@ async function main() {
 
   // plan a walkable path there, round buildings and through gates (navgrid.js), and set off
   function walkTo(pt) {
-    const path = world.plan ? world.plan(player, pt) : [player.clone(), pt.clone()];
+    // the district plans round its own streets; out in the open city you head straight there, and its walls steer you
+    const outside = world.open && (Math.hypot(pt.x, pt.z) > world.radius * 0.95 || Math.hypot(player.x, player.z) > world.radius * 0.95);
+    const path = !outside && world.plan ? world.plan(player, pt) : [player.clone(), pt.clone()];
     if (!path) { chrome.toast('There is no way through to there'); return false; }
     walkPath = path; walkAt = 1; replans = 0;
     const end = path[path.length - 1];

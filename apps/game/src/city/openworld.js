@@ -41,6 +41,8 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
   // how far each detail reaches on the ground (lod 0, 1, 2); lod 3 beyond, out to the haze. The higher you climb, the
   // further each reaches (update). Phones get less of everything
   const T = { low: [150, 380, 900], medium: [210, 520, 1300], high: [270, 650, 1700], ultra: [330, 800, 2200] }[quality] || [270, 650, 1700];
+  const GROW = { low: 0.3, medium: 0.6, high: 1, ultra: 1.2 }[quality] || 1; // how fast each detail spreads as you climb
+  const FAR = { low: 3000, medium: 4500, high: 7000, ultra: 9000 }[quality] || 7000; // how far the city reaches from the air
 
   // materials: the districts' wet ground and plaster, the facade shader for walls; all cut away inside the district
   const ground = wetGroundMaterial(), groundBase = ground.onBeforeCompile;
@@ -146,7 +148,7 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
     if (!index || (tick -= dt) > 0) return; tick = 0.25;
     const cx = camera.position.x + off.x, cz = camera.position.z + off.z, alt = Math.max(0, camera.position.y - 20);
     // nothing is built past the haze: at street level that is a kilometre or so; from the air, the whole city
-    const r0 = T[0] + alt * 0.25, r1 = T[1] + alt * 0.45, r2 = T[2] + alt * 0.7, r3 = Math.min(9000, Math.max(r2, fogFar * 1.05)), S = index.chunk;
+    const r0 = T[0] + alt * 0.25 * GROW, r1 = T[1] + alt * 0.45 * GROW, r2 = T[2] + alt * 0.7 * GROW, r3 = Math.min(FAR, Math.max(r2, fogFar * 1.05)), S = index.chunk;
     const want = new Map();
     index.chunks.forEach(([i, j]) => {
       const x = (i + 0.5) * S, z = (j + 0.5) * S, d = Math.max(0, Math.hypot(x - cx, z - cz) - S * 0.5);
