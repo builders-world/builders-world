@@ -1,0 +1,268 @@
+{
+  "street": {
+    "en": 0.38,
+    "sw": 0.42,
+    "luo": 0.2
+  },
+  "names": {
+    "weights": {
+      "luo": 0.62,
+      "luhya": 0.14,
+      "kisii": 0.06,
+      "kikuyu": 0.06,
+      "kalenjin": 0.04,
+      "kamba": 0.02,
+      "somali": 0.02,
+      "indian_kenyan": 0.03,
+      "swahili_coast": 0.01
+    }
+  },
+  "phrases": {
+    "luo": {
+      "hello": [["Misawa!", "Hello, greetings"]],
+      "morning": [["Oyawore", "Good morning"]],
+      "evening": [["Oimore", "Good evening"]],
+      "how_are_you": [["Idhi nade?", "How are you?"]],
+      "fine": [["Adhi maber", "I'm fine"], ["Ber ahinya", "Very good"]],
+      "thanks": [["Erokamano", "Thank you"]],
+      "bye": [["Oriti", "Goodbye"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "Morning! How's the lake today?",
+        "Hey! Good to see you.",
+        "Hi! Busy day in town?",
+        "Good afternoon! All well at home?",
+        "Hello! Haven't seen you since Dunga."
+      ],
+      "reply": [
+        "All good, thanks!",
+        "Doing well, can't complain.",
+        "Fine, just a lot of work.",
+        "Great, thank you. And you?",
+        "Good good. Just from the market."
+      ],
+      "sunny": [
+        "Kisumu sun is no joke today.",
+        "Hot one, stay in the shade.",
+        "Perfect evening for Hippo Point.",
+        "The lake is shining today.",
+        "Clear skies, you can see right across the gulf."
+      ],
+      "rain": [
+        "It's pouring, carry an umbrella.",
+        "Afternoon storm off the lake, as usual.",
+        "Wait it out, it'll pass quickly.",
+        "Kondele roads will be mud now.",
+        "That's a proper lake storm."
+      ],
+      "bye": [
+        "Have a good one!",
+        "Take care!",
+        "Catch you later.",
+        "See you around.",
+        "Safe journey home."
+      ],
+      "busy": [
+        "Running to a meeting, talk later!",
+        "Got to catch a matatu to Kondele, see you!",
+        "Deadline today, I'll call you.",
+        "Off to Milimani, catch you later.",
+        "My boda is waiting, later!"
+      ]
+    },
+    "sw": {
+      "greet": [
+        "Habari yako?",
+        "Habari ya leo?",
+        "Hujambo rafiki?",
+        "Mambo vipi?",
+        "Karibu sana!"
+      ],
+      "reply": [
+        "Nzuri sana, asante.",
+        "Salama tu.",
+        "Sijambo, asante.",
+        "Niko poa kabisa.",
+        "Mungu ni mwema."
+      ],
+      "sunny": [
+        "Jua kali leo!",
+        "Joto ni jingi leo.",
+        "Hali ya hewa ni nzuri leo.",
+        "Ziwa linang'aa leo."
+      ],
+      "rain": [
+        "Mvua inanyesha sana.",
+        "Chukua mwavuli.",
+        "Mvua kubwa leo.",
+        "Ngoja mvua ipite kwanza."
+      ],
+      "bye": [
+        "Kwaheri!",
+        "Tutaonana kesho.",
+        "Uende salama.",
+        "Kila la heri."
+      ],
+      "busy": [
+        "Nina haraka, tutaongea baadaye.",
+        "Nimechelewa kazini!",
+        "Naenda mjini, tutaonana.",
+        "Naenda sokoni, baadaye."
+      ]
+    },
+    "luo": {
+      "greet": [
+        "Misawa!",
+        "Idhi nade?",
+        "Oyawore!",
+        "Oimore!"
+      ],
+      "reply": [
+        "Adhi maber.",
+        "Adhi maber, erokamano.",
+        "Ber ahinya."
+      ],
+      "bye": [
+        "Oriti!",
+        "Erokamano, oriti."
+      ]
+    }
+  },
+  "transport": {
+    "bus": "matatu",
+    "moto_taxi": "boda boda",
+    "bicycle_taxi": "boda boda (on a bicycle)",
+    "tricycle": "tuktuk",
+    "taxi": "taxi",
+    "ride_hail": "Uber or Bolt",
+    "conductor": "makanga",
+    "driver": "dere",
+    "stage": "stage",
+    "boat": "boat (to the islands and across the gulf)"
+  },
+  "touts": [
+    "Town! Town!",
+    "Kondele! Kondele, panda!",
+    "Mamboleo! Mamboleo!",
+    "Nyalenda! Nyalenda!",
+    "Kibos! Kibos!",
+    "Maseno! Maseno, imebaki moja!",
+    "Ahero! Ahero!",
+    "Bondo! Bondo, panda!"
+  ],
+  "hawkers": [
+    ["Maji baridi, maji!", "Cold water!"],
+    ["Omena! Omena fresh!", "Small lake fish!"],
+    ["Samaki! Ngege!", "Fish! Tilapia!"],
+    ["Mahindi choma!", "Roast maize!"],
+    ["Airtime! Bundles!", "Phone credit and data!"],
+    ["Njugu karanga!", "Peanuts!"],
+    ["Mandazi moto!", "Hot mandazi!"]
+  ],
+  "food": {
+    "street": [
+      "fried tilapia (ngege) at the beach",
+      "omena",
+      "mahindi choma",
+      "samosa",
+      "mandazi",
+      "chapati",
+      "smokie pasua",
+      "njugu karanga",
+      "boiled eggs with kachumbari",
+      "sugarcane"
+    ],
+    "dishes": [
+      "ugali and fried fish",
+      "ngege (tilapia), wet fry",
+      "omena and ugali",
+      "nyama choma",
+      "kuku kienyeji (village chicken)",
+      "chapati and beans",
+      "fish stew with greens",
+      "sukuma wiki",
+      "pilau",
+      "githeri"
+    ],
+    "drinks": [
+      "chai",
+      "uji (porridge)",
+      "Stoney tangawizi",
+      "mala",
+      "sugarcane juice",
+      "Tusker"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "Milimani",
+      "Kondele",
+      "Nyalenda",
+      "Manyatta",
+      "Obunga",
+      "Mamboleo",
+      "Nyamasaria",
+      "Migosi",
+      "Lolwe",
+      "Kibuye",
+      "Kanyakwar",
+      "Arina",
+      "Kisian",
+      "Otonglo",
+      "Dunga",
+      "Tom Mboya Estate"
+    ],
+    "streets": [
+      "Oginga Odinga Street",
+      "Jomo Kenyatta Highway",
+      "Ang'awa Avenue",
+      "Achieng Oneko Road",
+      "Otieno Oyoo Street",
+      "Obote Road",
+      "Kakamega Road",
+      "Nairobi Road",
+      "Busia Road"
+    ],
+    "landmarks": [
+      "Lake Victoria",
+      "Dunga Beach",
+      "Hippo Point",
+      "Kisumu Impala Sanctuary",
+      "Kibuye Market",
+      "Jubilee Market",
+      "Kisumu Museum",
+      "Kisumu Port",
+      "Kisumu International Airport",
+      "Moi Stadium",
+      "Mega Plaza",
+      "Lake Basin Mall",
+      "Kit Mikayi, out towards Seme",
+      "Ndere Island"
+    ]
+  },
+  "small_talk": [
+    "The fish at Dunga Beach is the freshest in town.",
+    "Sunset at Hippo Point later?",
+    "The hyacinth is back on the lake again.",
+    "Boda to Milimani, only a hundred bob.",
+    "Kibuye market on Sunday, everything is there.",
+    "Gor Mahia play on Sunday, where are we watching?",
+    "Omena with ugali, nothing beats it.",
+    "The heat at midday in Kisumu is something else.",
+    "Saw the impalas at the sanctuary with the kids.",
+    "The lake breeze in the evening is the best thing about Kisumu."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Kisumu",
+    "https://en.wikipedia.org/wiki/Dholuo",
+    "https://en.wikipedia.org/wiki/Lake_Victoria",
+    "https://en.wikipedia.org/wiki/Kisumu_Impala_Sanctuary",
+    "https://en.wikipedia.org/wiki/Boda_boda",
+    "https://en.wikipedia.org/wiki/Matatu",
+    "https://en.wikipedia.org/wiki/Kenyan_cuisine"
+  ],
+  "needs_native_review": "Dholuo: kenya/knowledge.json defines the code 'luo' but has no Dholuo phrase block, so this file carries a small one and only greetings, replies and goodbyes in chat (Misawa, Idhi nade?, Oyawore, Oimore, Adhi maber, Ber ahinya, Erokamano, Oriti). Kisumu speakers, please check the spellings and add weather and busy lines; until then the game speaks English for those. Swahili lines too, and the touts and street list."
+}

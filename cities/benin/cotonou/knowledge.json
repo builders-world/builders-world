@@ -1,0 +1,81 @@
+{
+  "street": { "fr": 0.5, "fon": 0.45, "en": 0.05 },
+  "names": { "weights": { "fon": 0.72, "yoruba": 0.28 } },
+  "phrases": {
+    "fr": {
+      "hello": [["Ça dit quoi?", "What's up?"], ["Bonne arrivée!", "Welcome!"]],
+      "fine": [["Ça va un peu", "Getting by, fine"], ["On est là", "We're here, fine"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Good morning! Did you wake well?", "Hello, how is the family?", "Good evening, how was Dantokpa today?", "Ah, it's been a while! Are you well?", "Welcome, come in!"],
+      "reply": ["I woke well, thank you.", "Fine, the family is well.", "We're here, getting by.", "All good, and you?", "Doing well, thank God."],
+      "sunny": ["It's hot today, Fidjrossè beach will be full.", "The sun is strong, find some shade.", "Good day for a walk by the lagoon.", "Too hot to walk, I'll take a zem.", "Clear sky over the port this morning."],
+      "rain": ["The rains have come!", "Rain again, the streets in Akpakpa will flood.", "Carry a raincoat on the zem.", "Wait a bit, it will pass.", "This rain will cool the city down."],
+      "bye": ["See you later!", "Go well!", "See you tomorrow.", "Greet the family for me.", "Safe journey home."],
+      "busy": ["Sorry, I'm late for the office.", "I have to get to Dantokpa before the rush.", "Let me run, the zem is waiting.", "I'll call you this evening.", "Traffic on the old bridge, I have to go now."]
+    },
+    "fon": {
+      "greet": ["A fɔ́n ganji à?", "A dò ganji à?", "Kwabɔ! A dò ganji à?", "Kúdo wa bɔ!"],
+      "reply": ["Ɛɛn, un fɔ́n ganji.", "Un dò ganji.", "Ɛɛn, un dò ganji. Awanu.", "Un fɔ́n ganji, awanu."]
+    },
+    "fr": {
+      "greet": ["Bonjour, bien dormi?", "Bonsoir! La maison va bien?", "Ça dit quoi, mon frère?", "Bonne arrivée, tantie!", "Ah, ça fait longtemps!"],
+      "reply": ["Ça va un peu, merci.", "On est là, Dieu merci.", "Ça va bien, et toi?", "Tout va bien à la maison."],
+      "sunny": ["Il fait chaud aujourd'hui!", "Le soleil tape fort.", "Belle journée pour Fidjrossè.", "Il fait trop chaud pour marcher."],
+      "rain": ["La pluie arrive!", "Prends ton imperméable.", "Avec cette pluie, Akpakpa va être inondé.", "Attends que la pluie passe."],
+      "bye": ["À tout à l'heure!", "À demain.", "Bonne soirée!", "Salue la maison."],
+      "busy": ["Je suis pressé, on se parle.", "Je suis en retard au bureau.", "Le zem m'attend, je file!", "Je t'appelle ce soir."]
+    }
+  },
+  "transport": { "bus": "bus", "moto_taxi": "zémidjan", "tricycle": "tricycle", "taxi": "taxi", "shared_taxi": "taxi-ville", "conductor": "apprenti", "stage": "station" },
+  "touts": [
+    "Tokpa! Tokpa! Dantokpa!",
+    "Godomey! Godomey!",
+    "Calavi! Calavi!",
+    "Étoile Rouge!",
+    "Akpakpa! Akpakpa!",
+    "Porto-Novo! Porto!",
+    "Ouidah! Ouidah!",
+    "Il reste une place! On part!"
+  ],
+  "hawkers": [
+    ["Ata! Ata chaud!", "Hot bean fritters!"],
+    ["Doko! Doko!", "Little fried doughnuts!"],
+    ["Igname frite!", "Fried yam!"],
+    ["Kluiklui!", "Crunchy peanut sticks!"],
+    ["Wagassi!", "Fried Fulani cheese!"],
+    ["Eau pure! Eau glacée!", "Cold water sachets!"],
+    ["Dèguè!", "Millet with curdled milk!"],
+    ["Crédit! Crédit!", "Phone credit!"]
+  ],
+  "food": {
+    "street": ["ata (bean fritters)", "doko", "igname frite", "kluiklui", "wagassi (fried cheese)", "aloko (fried plantain)", "brochettes"],
+    "dishes": ["amiwo (red corn paste with chicken)", "pâte blanche with sauce légume", "télibo with sauce gombo", "akassa with fried fish", "dakouin", "agouti (grasscutter) in sauce", "riz au gras"],
+    "drinks": ["sodabi (palm spirit)", "tchakpalo (fermented corn drink)", "tchoukoutou (millet beer)", "bissap", "La Béninoise beer", "jus de baobab"]
+  },
+  "places": {
+    "neighbourhoods": ["Akpakpa", "Cadjèhoun", "Haie Vive", "Fidjrossè", "Ganhi", "Gbégamey", "Jéricho", "Zongo", "Vèdoko", "Sainte-Rita", "Saint-Michel", "Agla", "Mènontin", "Zogbo", "Houéyiho", "Fifadji", "Godomey"],
+    "streets": ["Boulevard Saint-Michel", "Boulevard de la Marina", "Avenue Steinmetz", "Avenue Clozel", "Avenue Jean-Paul II", "Route des Pêches", "Avenue Delorme", "Pont Martin Luther King", "Ancien Pont"],
+    "landmarks": ["Marché Dantokpa", "Place de l'Amazone", "Place de l'Étoile Rouge", "Cathédrale Notre-Dame de Cotonou", "Plage de Fidjrossè", "Stade de l'Amitié", "Lagune de Cotonou", "Fondation Zinsou", "Port de Cotonou", "Marché Ganhi", "Grande Mosquée de Zongo"]
+  },
+  "small_talk": [
+    "The zem from Étoile Rouge to Cadjèhoun was a race.",
+    "Dantokpa was packed, I could barely move.",
+    "Fidjrossè beach on Sunday?",
+    "The Amazone statue looks great lit up at night.",
+    "Ata and akassa for breakfast, can't beat it.",
+    "Traffic on the old bridge is terrible this morning.",
+    "Gozem or a zem? The zem is faster in this traffic.",
+    "A boat trip to Ganvié this weekend?"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Cotonou",
+    "https://en.wikipedia.org/wiki/Dantokpa_Market",
+    "https://en.wikipedia.org/wiki/Beninese_cuisine",
+    "https://en.wikipedia.org/wiki/Fon_language",
+    "https://en.wikipedia.org/wiki/Ganvie",
+    "https://en.wikivoyage.org/wiki/Cotonou"
+  ]
+}

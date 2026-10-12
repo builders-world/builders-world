@@ -1,0 +1,91 @@
+{
+  "street": { "en": 0.78, "yue": 0.07, "zh": 0.07, "pa": 0.03, "tl": 0.03, "fr": 0.01, "es": 0.01 },
+  "registers": {},
+  "names": {
+    "weights": {
+      "anglo": 0.45,
+      "chinese": 0.24,
+      "filipino": 0.06,
+      "punjabi": 0.05,
+      "indian": 0.03,
+      "iranian": 0.03,
+      "korean": 0.03,
+      "latino": 0.02,
+      "french": 0.02,
+      "arab": 0.01,
+      "caribbean": 0.005
+    }
+  },
+  "phrases": {
+    "en": {
+      "hello": [["Hey, how's it going?", "Hello"]],
+      "fine": [["Pretty good, eh", "Fine"]],
+      "bye": [["Have a good one", "Goodbye"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hey! How's it going?", "Morning! Did you see the mountains today?", "Hi there, good to see you.", "Hey, how was the weekend?", "Oh hey, long time!"],
+      "reply": ["Good, thanks! You?", "Not bad, just got off the SkyTrain.", "Pretty good, a bit soggy.", "Doing well, went skiing yesterday.", "All good, can't complain."],
+      "sunny": ["Sun's out, everyone's on the Seawall.", "Gorgeous day, Kits Beach is going to be packed.", "You can see Mount Baker today!", "Perfect day for a hike up the Grouse Grind.", "Finally some sun, I forgot what it felt like."],
+      "rain": ["Day thirty of rain, but who's counting.", "Classic Raincouver.", "Atmospheric river this week, stay dry.", "It's not raining, it's just Vancouver.", "Grab your rain jacket, nobody uses umbrellas here anyway."],
+      "bye": ["Have a good one!", "Take care!", "See you around!", "Catch you later.", "Stay dry, eh!"],
+      "busy": ["Gotta catch the SkyTrain, talk later.", "The Lions Gate is backed up, I'll be late.", "Running for the SeaBus, see you!", "Late for a meeting in Yaletown.", "Heading to work, text me!"]
+    },
+    "yue": {
+      "greet": ["早晨！食咗早餐未呀？", "你好呀，最近點呀？", "好耐冇見！", "早晨，今日好凍呀。"],
+      "reply": ["幾好，唔該。", "都OK，有啲忙。", "好好呀，你呢？", "麻麻地啦。"],
+      "sunny": ["今日天氣好好呀。", "難得出太陽！", "今日睇到啲山好靚。", "天氣咁好，去史丹利公園行下。"],
+      "rain": ["落雨喇，記得帶遮。", "又落雨，日日都落雨。", "落緊大雨呀。", "好凍呀，著多件衫。"],
+      "bye": ["拜拜！", "再見，慢慢行。", "遲啲見！", "得閒飲茶！"],
+      "busy": ["唔好意思，我趕時間。", "我要返工喇，拜拜！", "我趕架天車，遲啲傾。", "我好忙呀，下次再傾。"]
+    },
+    "zh": {
+      "greet": ["早！吃了吗？", "你好，最近怎么样？", "好久不见！", "早上好！"],
+      "reply": ["挺好的，谢谢。", "还行，就是忙。", "不错，你呢？", "老样子。"],
+      "sunny": ["今天天气真好。", "今天能看到雪山，真漂亮。", "太阳出来了，去海边走走吧。", "难得出太阳。"],
+      "rain": ["又下雨了。", "雨下了一个月了。", "带伞了吗？", "今天好冷，还下雨。"],
+      "bye": ["再见！", "拜拜，慢走。", "回头见！", "改天聊。"],
+      "busy": ["我赶轻轨，先走了。", "我要迟到了，回头聊。", "不好意思，我赶时间。", "我去上班了，再见。"]
+    }
+  },
+  "transport": { "bus": "TransLink bus", "metro": "SkyTrain", "ferry": "SeaBus", "small_ferry": "Aquabus", "train": "West Coast Express", "taxi": "cab", "rideshare": "Uber or Lyft", "bike": "Mobi", "stage": "bus stop" },
+  "touts": ["Next station, Waterfront.", "Spot prawns, fresh off the boat!", "Japadog! Get your Japadog!", "Whale watching tour, leaving in ten!", "Night market skewers, three for ten!"],
+  "hawkers": [
+    ["Spot prawns, live, right off the boat!", "A fisher selling from the dock at False Creek"],
+    ["Salmon candy, try a piece!", "A smoked salmon stall at Granville Island"],
+    ["Japadog, hot and fresh!", "A Japanese-style hot dog cart downtown"],
+    ["Tornado potatoes!", "A spiral potato stall at the Richmond Night Market"],
+    ["Fresh BC cherries!", "A fruit stand in summer"]
+  ],
+  "food": {
+    "street": ["Japadog", "salmon candy", "tornado potatoes at the Richmond Night Market", "spot prawns", "pork buns in Chinatown", "food truck tacos"],
+    "dishes": ["sushi", "dim sum in Richmond", "ramen on Robson", "Nanaimo bars", "wild salmon", "butter chicken in the Punjabi Market", "pho on Kingsway", "poutine"],
+    "drinks": ["a London Fog", "bubble tea", "a craft beer from the brewery district", "a pour-over coffee", "milk tea"]
+  },
+  "places": {
+    "neighbourhoods": ["Downtown", "the West End", "Yaletown", "Gastown", "Chinatown", "Strathcona", "Kitsilano", "Mount Pleasant", "Commercial Drive", "Fairview", "Kerrisdale", "Point Grey", "Marpole", "Hastings-Sunrise", "Riley Park", "Sunset", "Coal Harbour", "the Downtown Eastside"],
+    "streets": ["Granville Street", "Robson Street", "Main Street", "Commercial Drive", "Broadway", "Hastings Street", "Davie Street", "Denman Street", "West 4th Avenue", "Cambie Street", "Kingsway", "Fraser Street", "Water Street", "Pender Street", "Burrard Street", "Georgia Street"],
+    "landmarks": ["Stanley Park", "the Seawall", "Granville Island", "the Gastown Steam Clock", "Canada Place", "Science World", "BC Place", "Rogers Arena", "the Lions Gate Bridge", "Grouse Mountain", "English Bay", "Kitsilano Beach", "Queen Elizabeth Park", "the Dr. Sun Yat-Sen Classical Chinese Garden", "UBC", "the Punjabi Market"]
+  },
+  "small_talk": [
+    "You can ski in the morning and kayak in the afternoon, only in Vancouver.",
+    "It's rained every day this month.",
+    "The Lions Gate was backed up all the way to Park Royal.",
+    "Canucks game tonight, the SkyTrain is going to be packed.",
+    "Rent here is unreal, my one bedroom is basically a closet.",
+    "Richmond Night Market opens this weekend, you in?",
+    "Did you see the sunset at English Bay last night?",
+    "Everybody in this cafe is wearing Lululemon.",
+    "I biked the whole Seawall on Sunday.",
+    "The mountains are out today, I almost crashed looking at them."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Vancouver",
+    "https://en.wikipedia.org/wiki/Demographics_of_Vancouver",
+    "https://www.translink.ca",
+    "https://en.wikipedia.org/wiki/Chinatown,_Vancouver",
+    "https://en.wikipedia.org/wiki/Punjabi_Market",
+    "https://www12.statcan.gc.ca/census-recensement/index-eng.cfm"
+  ]
+}

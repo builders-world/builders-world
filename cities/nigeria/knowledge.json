@@ -1,0 +1,1111 @@
+{
+  "languages": [
+    {
+      "code": "en",
+      "name": "English",
+      "official": true,
+      "spoken": "widely, at work, school and in offices"
+    },
+    {
+      "code": "pcm",
+      "name": "Nigerian Pidgin",
+      "official": false,
+      "spoken": "widely, on the street and among friends, above all in Lagos and the south"
+    },
+    {
+      "code": "yo",
+      "name": "Yoruba",
+      "official": false,
+      "spoken": "the south-west, Lagos"
+    },
+    {
+      "code": "ig",
+      "name": "Igbo",
+      "official": false,
+      "spoken": "the south-east, and in every city"
+    },
+    {
+      "code": "ha",
+      "name": "Hausa",
+      "official": false,
+      "spoken": "the north, Abuja, and in trade everywhere"
+    },
+    {
+      "code": "ibb",
+      "name": "Ibibio",
+      "official": false,
+      "spoken": "Akwa Ibom"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Nigerians usually carry an English or Christian first name (Daniel, Blessing) or a Muslim one (Ibrahim, Aisha), and a first name in their own language, often both, and the family name is usually the father's. Yoruba names say something: Oluwaseun (God has done it), Ayodele (joy has come home); they shorten to Seun, Ayo, Tunde, Bisi, Kemi. Igbo names often praise God (Chukwuemeka, Chiamaka, Chinedu, Ngozi, from Chi or Chukwu, God). Hausa names are mostly Muslim names in Hausa form (Musa, Aisha, Abubakar, Hauwa) with nicknames like Mallam for a respected man. Ibibio names include Emem (peace), Ubong (glory), Mfon (goodness), Itoro (praise). Ijaw names from the Niger Delta include Tamuno, Ebi, Ibinabo, Boma, Preye.",
+    "groups": {
+      "yoruba": {
+        "given": {
+          "m": [
+            "Tunde",
+            "Femi",
+            "Seun",
+            "Ayo",
+            "Dayo",
+            "Bayo",
+            "Segun",
+            "Kunle",
+            "Tobi",
+            "Wale",
+            "Gbenga",
+            "Kayode",
+            "Olumide",
+            "Adewale",
+            "Babatunde",
+            "Damilola"
+          ],
+          "f": [
+            "Kemi",
+            "Bisi",
+            "Sade",
+            "Funke",
+            "Yetunde",
+            "Bukola",
+            "Tolu",
+            "Ife",
+            "Simi",
+            "Tope",
+            "Lola",
+            "Remi",
+            "Folake",
+            "Morenike",
+            "Ayomide",
+            "Temitope"
+          ]
+        },
+        "family": [
+          "Adeyemi",
+          "Ogunleye",
+          "Adebayo",
+          "Bello",
+          "Salako",
+          "Okonkwo",
+          "Balogun",
+          "Lawal",
+          "Olawale",
+          "Adeleke",
+          "Ogundipe",
+          "Akinwale",
+          "Oyelaran",
+          "Fashola",
+          "Adekunle",
+          "Ibrahim"
+        ],
+        "also": {
+          "m": [
+            "David",
+            "Daniel",
+            "Samuel",
+            "Michael",
+            "Joshua",
+            "Emmanuel"
+          ],
+          "f": [
+            "Grace",
+            "Esther",
+            "Deborah",
+            "Mary",
+            "Victoria",
+            "Elizabeth"
+          ]
+        }
+      },
+      "igbo": {
+        "given": {
+          "m": [
+            "Chidi",
+            "Emeka",
+            "Obinna",
+            "Chinedu",
+            "Ikenna",
+            "Nnamdi",
+            "Uche",
+            "Chuka",
+            "Kelechi",
+            "Ifeanyi",
+            "Somto",
+            "Tochukwu",
+            "Chibuike",
+            "Ebuka",
+            "Kenechukwu",
+            "Chukwudi"
+          ],
+          "f": [
+            "Ngozi",
+            "Amaka",
+            "Chioma",
+            "Adaeze",
+            "Ifeoma",
+            "Nneka",
+            "Uchenna",
+            "Chiamaka",
+            "Ogechi",
+            "Obiageli",
+            "Ebere",
+            "Chinwe",
+            "Nkechi",
+            "Adanna",
+            "Kosisochukwu",
+            "Chinenye"
+          ]
+        },
+        "family": [
+          "Okonkwo",
+          "Eze",
+          "Okafor",
+          "Nwosu",
+          "Okeke",
+          "Obi",
+          "Nnadi",
+          "Chukwu",
+          "Ude",
+          "Onyeka",
+          "Okoro",
+          "Nwachukwu",
+          "Anyanwu",
+          "Ezeh",
+          "Obiora",
+          "Igwe"
+        ],
+        "also": {
+          "m": [
+            "Emmanuel",
+            "Charles",
+            "Victor",
+            "Kingsley",
+            "Collins",
+            "Henry"
+          ],
+          "f": [
+            "Blessing",
+            "Gloria",
+            "Peace",
+            "Joy",
+            "Patience",
+            "Favour"
+          ]
+        }
+      },
+      "hausa": {
+        "given": {
+          "m": [
+            "Musa",
+            "Ibrahim",
+            "Abubakar",
+            "Usman",
+            "Aliyu",
+            "Sani",
+            "Garba",
+            "Yusuf",
+            "Bashir",
+            "Umar",
+            "Sule",
+            "Shehu",
+            "Kabiru",
+            "Nasiru",
+            "Haruna",
+            "Lawal"
+          ],
+          "f": [
+            "Aisha",
+            "Hauwa",
+            "Fatima",
+            "Zainab",
+            "Amina",
+            "Hadiza",
+            "Maryam",
+            "Khadija",
+            "Rukayya",
+            "Halima",
+            "Zulaihat",
+            "Jamila",
+            "Bilkisu",
+            "Asabe",
+            "Hafsat",
+            "Salamatu"
+          ]
+        },
+        "family": [
+          "Musa",
+          "Ibrahim",
+          "Abubakar",
+          "Bello",
+          "Usman",
+          "Aliyu",
+          "Sani",
+          "Garba",
+          "Yusuf",
+          "Mohammed",
+          "Abdullahi",
+          "Danjuma",
+          "Shehu",
+          "Lawal",
+          "Suleiman",
+          "Dikko"
+        ],
+        "also": {}
+      },
+      "ibibio": {
+        "given": {
+          "m": [
+            "Ubong",
+            "Aniekan",
+            "Nsikak",
+            "Ime",
+            "Kufre",
+            "Utibe",
+            "Idongesit",
+            "Etop",
+            "Emediong",
+            "Aniefiok",
+            "Edidiong",
+            "Akaninyene"
+          ],
+          "f": [
+            "Emem",
+            "Mfon",
+            "Itoro",
+            "Uduak",
+            "Eno",
+            "Ekaette",
+            "Imaobong",
+            "Nsisong",
+            "Iniobong",
+            "Enobong",
+            "Ifiok",
+            "Arit"
+          ]
+        },
+        "family": [
+          "Akpan",
+          "Udoh",
+          "Etim",
+          "Bassey",
+          "Essien",
+          "Effiong",
+          "Okon",
+          "Ekpo",
+          "Umoh",
+          "Inyang",
+          "Ekong",
+          "Udofia",
+          "Edet",
+          "Akpabio",
+          "Udo",
+          "Obot"
+        ],
+        "also": {
+          "m": [
+            "Emmanuel",
+            "Godwin",
+            "Sunday",
+            "Victor",
+            "Joseph",
+            "Daniel"
+          ],
+          "f": [
+            "Mary",
+            "Grace",
+            "Comfort",
+            "Blessing",
+            "Glory",
+            "Patience"
+          ]
+        }
+      },
+      "ijaw": {
+        "given": {
+          "m": [
+            "Tamuno",
+            "Alabo",
+            "Preye",
+            "Boma",
+            "Ebi",
+            "Tari",
+            "Dumo",
+            "Ibim",
+            "Soye",
+            "Tekena",
+            "Opuene",
+            "Pere"
+          ],
+          "f": [
+            "Ibinabo",
+            "Ineba",
+            "Ebiere",
+            "Boma",
+            "Tamunosiki",
+            "Preye",
+            "Tonye",
+            "Soba",
+            "Belema",
+            "Ibiye",
+            "Data",
+            "Ere"
+          ]
+        },
+        "family": [
+          "Dokubo",
+          "Amachree",
+          "Briggs",
+          "Horsfall",
+          "George",
+          "West",
+          "Jumbo",
+          "Dappa",
+          "Harry",
+          "Pepple",
+          "Allison",
+          "Tariah"
+        ],
+        "also": {
+          "m": [
+            "Godwin",
+            "Sunday",
+            "Jonathan",
+            "Stephen"
+          ],
+          "f": [
+            "Gift",
+            "Mercy",
+            "Patience",
+            "Faith"
+          ]
+        }
+      },
+      "ikwerre": {
+        "given": {
+          "m": [
+            "Chinwe",
+            "Nyesom",
+            "Chibuike",
+            "Eze",
+            "Ordu",
+            "Wosu",
+            "Nwike",
+            "Amadi"
+          ],
+          "f": [
+            "Chinyere",
+            "Ngozi",
+            "Akunna",
+            "Chioma",
+            "Nkechi",
+            "Ijeoma",
+            "Ugochi",
+            "Nnenda"
+          ]
+        },
+        "family": [
+          "Amadi",
+          "Wike",
+          "Nwike",
+          "Wosu",
+          "Ordu",
+          "Chinda",
+          "Worlu",
+          "Nwankwo",
+          "Elechi",
+          "Nwogu",
+          "Ihunwo",
+          "Woke"
+        ],
+        "also": {
+          "m": [
+            "Godspower",
+            "Victor",
+            "Precious"
+          ],
+          "f": [
+            "Gift",
+            "Precious",
+            "Faith"
+          ]
+        }
+      },
+      "gbagyi": {
+        "given": {
+          "m": [
+            "Danladi",
+            "Sabo",
+            "Audu",
+            "Yakubu",
+            "Gado",
+            "Ishaku"
+          ],
+          "f": [
+            "Asibi",
+            "Ladi",
+            "Kande",
+            "Talatu",
+            "Larai",
+            "Jummai"
+          ]
+        },
+        "family": [
+          "Yakubu",
+          "Audu",
+          "Danladi",
+          "Sabo",
+          "Gado",
+          "Zakwa"
+        ],
+        "also": {
+          "m": [
+            "Peter",
+            "John",
+            "Daniel"
+          ],
+          "f": [
+            "Mary",
+            "Rose",
+            "Grace"
+          ]
+        }
+      },
+      "edo": {
+        "given": {
+          "m": [
+            "Osagie",
+            "Efosa",
+            "Osaro",
+            "Ehis",
+            "Omoruyi",
+            "Ikponmwosa"
+          ],
+          "f": [
+            "Osas",
+            "Eki",
+            "Uyi",
+            "Ivie",
+            "Omosede",
+            "Itohan"
+          ]
+        },
+        "family": [
+          "Osagie",
+          "Igbinedion",
+          "Obaseki",
+          "Ogbeide",
+          "Osaghae",
+          "Iyoha"
+        ],
+        "also": {
+          "m": [
+            "Godwin",
+            "Kelvin"
+          ],
+          "f": [
+            "Joy",
+            "Faith"
+          ]
+        }
+      }
+    },
+    "weights": {
+      "yoruba": 0.3,
+      "igbo": 0.22,
+      "hausa": 0.22,
+      "ibibio": 0.06,
+      "ijaw": 0.06,
+      "ikwerre": 0.03,
+      "gbagyi": 0.03,
+      "edo": 0.08
+    }
+  },
+  "honorifics": {
+    "elder_m": "Baba",
+    "elder_f": "Mama",
+    "peer_m": "Bros",
+    "peer_f": "Sister",
+    "boss": "Oga",
+    "boss_f": "Madam",
+    "young": "My guy",
+    "customer": "Customer",
+    "older_sibling_yo": "Egbon",
+    "older_sister_ig": "Dada"
+  },
+  "phrases": {
+    "en": {
+      "hello": [
+        [
+          "Hello!",
+          "Hello"
+        ],
+        [
+          "Good day!",
+          "Good day"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning!",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you doing?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "I'm fine, thank you.",
+          "I'm fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thank you.",
+          "Thank you"
+        ],
+        [
+          "Thanks a lot.",
+          "Thanks a lot"
+        ]
+      ],
+      "bye": [
+        [
+          "Bye bye!",
+          "Goodbye"
+        ],
+        [
+          "Take care.",
+          "Take care"
+        ]
+      ],
+      "welcome": [
+        [
+          "You're welcome.",
+          "You're welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry o.",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me.",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes.",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "No.",
+          "No"
+        ]
+      ]
+    },
+    "pcm": {
+      "hello": [
+        [
+          "How far?",
+          "Hi, how's it going?"
+        ],
+        [
+          "Wetin dey happen?",
+          "What's happening?"
+        ]
+      ],
+      "morning": [
+        [
+          "Morning o!",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Evening o!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How you dey?",
+          "How are you?"
+        ],
+        [
+          "How body?",
+          "How are you keeping?"
+        ]
+      ],
+      "fine": [
+        [
+          "I dey o!",
+          "I'm fine"
+        ],
+        [
+          "We dey kampe!",
+          "We're solid"
+        ],
+        [
+          "No wahala.",
+          "No problem"
+        ]
+      ],
+      "thanks": [
+        [
+          "Tank you o!",
+          "Thank you"
+        ],
+        [
+          "God bless you.",
+          "Thank you, bless you"
+        ]
+      ],
+      "bye": [
+        [
+          "I dey go.",
+          "I'm off"
+        ],
+        [
+          "Make we see later.",
+          "See you later"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome o!",
+          "Welcome"
+        ],
+        [
+          "You don come!",
+          "You've arrived!"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry o!",
+          "Sorry"
+        ],
+        [
+          "E pain me.",
+          "That hurts me (sympathy)"
+        ]
+      ],
+      "excuse": [
+        [
+          "Abeg, excuse me.",
+          "Please, excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Na so.",
+          "That's right"
+        ],
+        [
+          "Yes o.",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "No be so.",
+          "That's not it"
+        ],
+        [
+          "Mba.",
+          "No"
+        ]
+      ]
+    },
+    "yo": {
+      "hello": [
+        [
+          "Bawo ni?",
+          "How are you?"
+        ],
+        [
+          "Pele o",
+          "Hello (gentle greeting)"
+        ]
+      ],
+      "morning": [
+        [
+          "E kaaro",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "E ku irole",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Se dada ni?",
+          "Is it well?"
+        ]
+      ],
+      "fine": [
+        [
+          "Mo wa daadaa",
+          "I'm well"
+        ],
+        [
+          "Ko buru",
+          "Not bad"
+        ]
+      ],
+      "thanks": [
+        [
+          "E se",
+          "Thank you"
+        ],
+        [
+          "E se gan",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "O dabo",
+          "Goodbye"
+        ],
+        [
+          "O di igba",
+          "See you later"
+        ]
+      ],
+      "welcome": [
+        [
+          "E kaabo",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Pele",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "E jowo",
+          "Please, excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Beeni",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Rara",
+          "No"
+        ]
+      ]
+    },
+    "ig": {
+      "hello": [
+        [
+          "Ndewo",
+          "Hello"
+        ],
+        [
+          "Kedu?",
+          "How are you?"
+        ]
+      ],
+      "morning": [
+        [
+          "Ututu oma",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Mgbede oma",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Kedu ka i mere?",
+          "How are you doing?"
+        ]
+      ],
+      "fine": [
+        [
+          "O di mma",
+          "It is well"
+        ],
+        [
+          "Adim mma",
+          "I'm fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Daalu",
+          "Thank you"
+        ],
+        [
+          "Imeela",
+          "Thank you"
+        ]
+      ],
+      "bye": [
+        [
+          "Ka omesia",
+          "Goodbye"
+        ],
+        [
+          "Ka emecha",
+          "See you later"
+        ]
+      ],
+      "welcome": [
+        [
+          "Nno",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Ndo",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Biko",
+          "Please"
+        ]
+      ],
+      "yes": [
+        [
+          "Ee",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Mba",
+          "No"
+        ]
+      ]
+    },
+    "ha": {
+      "hello": [
+        [
+          "Sannu",
+          "Hello"
+        ],
+        [
+          "Sannu da zuwa",
+          "Welcome, hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Ina kwana?",
+          "Good morning, how did you sleep?"
+        ]
+      ],
+      "evening": [
+        [
+          "Barka da yamma",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Ina gajiya?",
+          "How's the tiredness? (how are you)"
+        ],
+        [
+          "Yaya aiki?",
+          "How's work?"
+        ]
+      ],
+      "fine": [
+        [
+          "Lafiya lau",
+          "Very well"
+        ],
+        [
+          "Ba gajiya",
+          "No tiredness, I'm fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Na gode",
+          "Thank you"
+        ],
+        [
+          "Na gode sosai",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Sai anjima",
+          "See you later"
+        ],
+        [
+          "Sai gobe",
+          "See you tomorrow"
+        ]
+      ],
+      "welcome": [
+        [
+          "Barka da zuwa",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Ayya",
+          "Sorry"
+        ],
+        [
+          "Ka yi hakuri",
+          "Please be patient, sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Don Allah",
+          "Please"
+        ]
+      ],
+      "yes": [
+        [
+          "Eh",
+          "Yes"
+        ],
+        [
+          "To",
+          "Okay"
+        ]
+      ],
+      "no": [
+        [
+          "A'a",
+          "No"
+        ]
+      ]
+    },
+    "ibb": {
+      "hello": [
+        [
+          "Mesiere",
+          "Good morning, hello"
+        ],
+        [
+          "Abadie?",
+          "How are you?"
+        ]
+      ],
+      "morning": [
+        [
+          "Mesiere",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Amesiere",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Abadie?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Mmesong",
+          "I'm well"
+        ]
+      ],
+      "thanks": [
+        [
+          "Sosongo",
+          "Thank you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Amedi",
+          "Welcome (you have come)"
+        ]
+      ],
+      "excuse": [
+        [
+          "Mbok",
+          "Please"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "NGN",
+    "symbol": "₦",
+    "words": [
+      [
+        "k",
+        "a thousand naira, as in 5k"
+      ],
+      [
+        "kobo",
+        "a hundredth of a naira"
+      ],
+      [
+        "change",
+        "small notes"
+      ],
+      [
+        "owo",
+        "money (Yoruba)"
+      ],
+      [
+        "ego",
+        "money (Igbo)"
+      ],
+      [
+        "kudi",
+        "money (Hausa)"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Nigeria",
+    "https://en.wikipedia.org/wiki/Nigerian_Pidgin",
+    "https://en.wikipedia.org/wiki/Yoruba_name",
+    "https://en.wikipedia.org/wiki/Igbo_name",
+    "https://en.wikipedia.org/wiki/Hausa_language",
+    "https://en.wikipedia.org/wiki/Ibibio_language"
+  ]
+}

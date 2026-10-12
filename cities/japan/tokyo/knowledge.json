@@ -1,0 +1,89 @@
+{
+  "street": { "ja": 0.92, "en": 0.08 },
+  "registers": {},
+  "names": { "weights": { "japanese": 0.95, "kyushu": 0.05 } },
+  "phrases": {
+    "ja": {
+      "wow": [["Sugoi!", "Amazing! (すごい)"], ["Yabai!", "Wow, or uh oh (やばい)"]],
+      "really": [["Maji de?", "Seriously? (マジで?)"], ["Hontō ni?", "Really? (本当に?)"]],
+      "cheers": [["Kanpai!", "Cheers! (乾杯)"]],
+      "before_eating": [["Itadakimasu", "Said before eating (いただきます)"]],
+      "after_eating": [["Gochisōsama deshita", "Thanks for the meal (ごちそうさまでした)"]],
+      "good_work": [["Otsukare!", "Good work today, casual (お疲れ)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! Busy day ahead?", "Hi there, nice to see you.", "Hello! Off to the office?", "Hey! How was the Yamanote this morning?", "Good evening, finished work already?"],
+      "reply": ["Doing well, thanks.", "Pretty good, a bit tired.", "Fine, thanks for asking!", "Not bad, just had a good coffee.", "All good, you?"],
+      "sunny": ["Lovely day, perfect for a walk in Yoyogi Park.", "Clear skies, you might see Fuji from the top floor today.", "Warm one today, grab a cold drink from the vending machine.", "Beautiful weather, the parks will be packed.", "Nice and sunny, great day to dry the laundry on the balcony."],
+      "rain": ["It's pouring, glad I brought my umbrella.", "Rainy season, it never stops.", "Grab a plastic umbrella from the konbini.", "Rain again, the trains will be packed.", "A typhoon is coming this weekend, stock up."],
+      "bye": ["See you tomorrow!", "Take care, mind the last train.", "Bye, have a good evening!", "Catch you later!", "Good work today, see you!"],
+      "busy": ["Sorry, I have to catch the next train.", "Running late for a meeting in Shibuya.", "Can't stop, my shift starts soon.", "Sorry, in a hurry, talk later!", "Got to dash or I'll miss the last train."]
+    },
+    "ja": {
+      "greet": ["Ohayō gozaimasu!", "Konnichiwa!", "Ā, dōmo dōmo.", "Otsukaresama desu.", "Hisashiburi! Genki?"],
+      "reply": ["Genki desu, arigatō.", "Mā mā desu ne.", "Okagesama de, genki desu.", "Un, genki genki!", "Chotto tsukareta kedo, daijōbu."],
+      "sunny": ["Ii tenki desu ne.", "Kyō wa atsui desu ne.", "Sentaku biyori desu ne.", "Kyō wa Fuji-san ga mieru kamo.", "Ohanami ni chōdo ii tenki da ne."],
+      "rain": ["Yoku furimasu ne.", "Kasa motte kita?", "Tsuyu da kara shikata nai ne.", "Ame da kedo, densha wa ugoite iru mitai.", "Taifū ga kuru rashii yo."],
+      "bye": ["Ja, mata ashita.", "Otsukaresama deshita!", "Ki o tsukete ne.", "Mata ne!", "Shitsurei shimasu."],
+      "busy": ["Sumimasen, isoide imasu.", "Gomen, densha ni okureru!", "Kaigi ga aru node, shitsurei shimasu.", "Ima chotto isogashii, mata ato de!", "Shūden ni maniawanai, mata ne!"]
+    }
+  },
+  "transport": {
+    "metro": "chikatetsu (Tokyo Metro and Toei lines)",
+    "train": "densha (JR Yamanote Line, Chuo Line)",
+    "bus": "basu (Toei bus)",
+    "taxi": "takushī",
+    "ride_hail": "GO taxi app",
+    "stage": "eki (station), basutei (bus stop)",
+    "card": "Suica or PASMO"
+  },
+  "touts": [
+    "Mamonaku, ni-bansen ni densha ga mairimasu.",
+    "Tsugi wa Shibuya, Shibuya desu.",
+    "Kakekomi jōsha wa kiken desu node oyame kudasai.",
+    "Irasshaimase! Dōzo, naka e!",
+    "Izakaya ikaga desu ka? Nomihōdai arimasu!",
+    "Karaoke ikaga desu ka? Ichi-jikan go-hyaku en!",
+    "Irasshaimase! Taimu sēru desu!"
+  ],
+  "hawkers": [
+    ["Ishi-yaki imo, yaki imo!", "Stone-baked sweet potatoes!"],
+    ["Irasshaimase! Yasui yo!", "Welcome! It's cheap!"],
+    ["Yakitori, yakitate desu!", "Yakitori, fresh off the grill!"],
+    ["Taiyaki ikaga desu ka?", "Fancy a taiyaki?"],
+    ["Hitotsu hyaku en!", "A hundred yen each!"],
+    ["Maguro, oishii yo!", "Tuna, delicious!"],
+    ["Bentō, atatame masu ka?", "Shall I heat your bento? (konbini)"]
+  ],
+  "food": {
+    "street": ["yakitori", "taiyaki", "takoyaki", "yaki-imo", "onigiri", "dango", "menchi-katsu", "Harajuku crepes"],
+    "dishes": ["ramen", "Edomae sushi", "soba", "tonkatsu", "tempura", "monjayaki", "gyudon", "curry rice"],
+    "drinks": ["matcha", "green tea", "beer", "highball", "sake", "canned coffee", "Calpis", "Pocari Sweat"]
+  },
+  "places": {
+    "neighbourhoods": ["Shibuya", "Shinjuku", "Ginza", "Roppongi", "Akihabara", "Asakusa", "Shimokitazawa", "Nakameguro", "Ikebukuro", "Ueno", "Ebisu", "Marunouchi", "Kichijoji", "Koenji"],
+    "streets": ["Omotesando", "Takeshita-dori", "Meiji-dori", "Chuo-dori", "Yasukuni-dori", "Aoyama-dori", "Sotobori-dori"],
+    "landmarks": ["Shibuya Crossing", "Tokyo Tower", "Tokyo Skytree", "Senso-ji", "Meiji Jingu", "Imperial Palace", "Tsukiji Outer Market", "Yoyogi Park", "Hachiko statue", "Tokyo Station"]
+  },
+  "small_talk": [
+    "The Yamanote Line was packed this morning.",
+    "Did you get a seat on the Chuo Line today?",
+    "The cherry blossoms in Ueno Park are nearly out.",
+    "That ramen place in Shinjuku had a queue round the block again.",
+    "I missed the last train and had to get a taxi home from Roppongi.",
+    "The konbini by the station has a new onigiri flavour.",
+    "Shibuya Crossing was crazy busy today.",
+    "Did you feel that little earthquake this morning?",
+    "Golden Week trains are going to be packed.",
+    "Summer in Tokyo is so humid, I'm living on barley tea."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Tokyo",
+    "https://en.wikipedia.org/wiki/Special_wards_of_Tokyo",
+    "https://en.wikipedia.org/wiki/Yamanote_Line",
+    "https://en.wikipedia.org/wiki/Tokyo_Metro",
+    "https://en.wikipedia.org/wiki/Suica"
+  ]
+}

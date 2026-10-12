@@ -1,0 +1,588 @@
+{
+  "languages": [
+    {
+      "code": "ny",
+      "name": "Chichewa",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "tum",
+      "name": "Tumbuka",
+      "official": false,
+      "spoken": "regionally"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Malawians usually carry a Chichewa or Tumbuka first name with a meaning, an English or Christian name, or both. Chewa names are often thanks or hopes: Chikondi (love), Madalitso (blessings), Chisomo (grace), Tiyamike (let us praise), and many are unisex. English names are often virtues: Blessings, Gift, Chance, Precious, Loveness. The family name comes from the father: Chewa clan names like Banda, Phiri, Mwale and Tembo from the centre, Tumbuka names like Mkandawire, Gondwe, Nyirenda and Msiska from the north, Ngoni names like Jere and Maseko. Yao families in the south and along the lake are mostly Muslim and carry Arabic-derived names in a Malawian spelling, often ending in a vowel: Saidi, Kassimu, Salimu, Zainabu.",
+    "groups": {
+      "chewa": {
+        "given": {
+          "m": [
+            "Chikondi",
+            "Chimwemwe",
+            "Kondwani",
+            "Madalitso",
+            "Limbani",
+            "Yamikani",
+            "Mphatso",
+            "Dalitso",
+            "Thokozani",
+            "Chisomo",
+            "Tiyamike",
+            "Mayeso",
+            "Kumbukani",
+            "Chifundo",
+            "Mwayi"
+          ],
+          "f": [
+            "Tadala",
+            "Tamanda",
+            "Thandiwe",
+            "Chikondi",
+            "Chisomo",
+            "Takondwa",
+            "Pemphero",
+            "Tione",
+            "Alinafe",
+            "Chifundo",
+            "Mwayi",
+            "Yankho",
+            "Chimwemwe",
+            "Tiyamike"
+          ]
+        },
+        "family": [
+          "Banda",
+          "Phiri",
+          "Mwale",
+          "Tembo",
+          "Lungu",
+          "Mbewe",
+          "Daka",
+          "Nkhoma",
+          "Kachingwe",
+          "Chimombo",
+          "Kalua",
+          "Mvula",
+          "Jere",
+          "Zulu",
+          "Maseko",
+          "Mwanza"
+        ],
+        "also": {
+          "m": [
+            "Blessings",
+            "Gift",
+            "Chance",
+            "Prince",
+            "Innocent",
+            "Lucky",
+            "Wisdom",
+            "Patrick",
+            "Charles",
+            "Emmanuel",
+            "Steven",
+            "Fortune"
+          ],
+          "f": [
+            "Grace",
+            "Mercy",
+            "Loveness",
+            "Memory",
+            "Patience",
+            "Esther",
+            "Agnes",
+            "Ruth",
+            "Ellen",
+            "Faith",
+            "Martha",
+            "Precious"
+          ]
+        }
+      },
+      "tumbuka": {
+        "given": {
+          "m": [
+            "Wongani",
+            "Vitumbiko",
+            "Tawonga",
+            "Yewo",
+            "Uchizi",
+            "Mwiza",
+            "Taonga",
+            "Kondwani",
+            "Lusungu",
+            "Wezi"
+          ],
+          "f": [
+            "Tiwonge",
+            "Lusungu",
+            "Taonga",
+            "Wezi",
+            "Tawonga",
+            "Uchizi",
+            "Vitumbiko",
+            "Mwiza",
+            "Yewo",
+            "Wongani"
+          ]
+        },
+        "family": [
+          "Mkandawire",
+          "Gondwe",
+          "Nyirenda",
+          "Kamanga",
+          "Msiska",
+          "Mhango",
+          "Chirwa",
+          "Munthali",
+          "Nkhata",
+          "Mzumara",
+          "Kumwenda",
+          "Luhanga",
+          "Nyasulu",
+          "Chavula",
+          "Mbale",
+          "Moyo"
+        ],
+        "also": {
+          "m": [
+            "Blessings",
+            "Gift",
+            "Davie",
+            "Emmanuel",
+            "Joseph",
+            "Godfrey"
+          ],
+          "f": [
+            "Grace",
+            "Mercy",
+            "Eunice",
+            "Ruth",
+            "Chrissy",
+            "Faith"
+          ]
+        }
+      },
+      "yao": {
+        "given": {
+          "m": [
+            "Yusufu",
+            "Ibrahim",
+            "Abdul",
+            "Hassan",
+            "Rashid",
+            "Sadiki",
+            "Amidu",
+            "Mussa",
+            "Issa",
+            "Juma",
+            "Ali",
+            "Sulemani"
+          ],
+          "f": [
+            "Fatima",
+            "Aisha",
+            "Zainabu",
+            "Mariamu",
+            "Hawa",
+            "Rehema",
+            "Asiyatu",
+            "Mwanaisha",
+            "Amina",
+            "Halima",
+            "Jamila",
+            "Salima"
+          ]
+        },
+        "family": [
+          "Mussa",
+          "Saidi",
+          "Jafali",
+          "Bakali",
+          "Kassimu",
+          "Salimu",
+          "Amidu",
+          "Sulemani",
+          "Issa",
+          "Juma",
+          "Kalimu",
+          "Ali"
+        ],
+        "also": {
+          "m": [
+            "Blessings",
+            "Gift",
+            "Lucky",
+            "Chance"
+          ],
+          "f": [
+            "Grace",
+            "Mercy",
+            "Loveness",
+            "Memory"
+          ]
+        }
+      }
+    },
+    "weights": {
+      "chewa": 0.65,
+      "tumbuka": 0.17,
+      "yao": 0.18
+    }
+  },
+  "honorifics": {
+    "elder_m": "Bambo",
+    "elder_f": "Mayi",
+    "peer_m": "Achimwene",
+    "peer_f": "Achemwali",
+    "boss": "Abwana"
+  },
+  "phrases": {
+    "ny": {
+      "hello": [
+        [
+          "Moni!",
+          "Hello"
+        ],
+        [
+          "Muli bwanji?",
+          "Hello, how are you?"
+        ]
+      ],
+      "morning": [
+        [
+          "Mwadzuka bwanji?",
+          "Good morning, how did you wake up?"
+        ]
+      ],
+      "evening": [
+        [
+          "Mwaswera bwanji?",
+          "Good evening, how did you spend the day?"
+        ],
+        [
+          "Madzulo abwino",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Muli bwanji?",
+          "How are you? (respectful)"
+        ],
+        [
+          "Uli bwanji?",
+          "How are you? (to a friend)"
+        ]
+      ],
+      "fine": [
+        [
+          "Ndili bwino",
+          "I'm fine"
+        ],
+        [
+          "Ndili bwino, kaya inu?",
+          "I'm fine, and you?"
+        ]
+      ],
+      "thanks": [
+        [
+          "Zikomo",
+          "Thank you"
+        ],
+        [
+          "Zikomo kwambiri",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Tsalani bwino",
+          "Stay well (said by the one leaving)"
+        ],
+        [
+          "Pitani bwino",
+          "Go well (said to the one leaving)"
+        ],
+        [
+          "Tionana",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Takulandirani",
+          "Welcome"
+        ],
+        [
+          "Lowani",
+          "Come in"
+        ]
+      ],
+      "sorry": [
+        [
+          "Pepani",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Pepani",
+          "Excuse me"
+        ],
+        [
+          "Zikomo",
+          "Excuse me, may I (also used to ask permission)"
+        ]
+      ],
+      "yes": [
+        [
+          "Inde",
+          "Yes"
+        ],
+        [
+          "Eya",
+          "Yeah"
+        ]
+      ],
+      "no": [
+        [
+          "Ayi",
+          "No"
+        ],
+        [
+          "Iyayi",
+          "No"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hello, how are you?",
+          "Hello"
+        ],
+        [
+          "Hi there!",
+          "Hi"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning, how did you wake?",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you?",
+          "How are you?"
+        ],
+        [
+          "How is home?",
+          "How is your family?"
+        ]
+      ],
+      "fine": [
+        [
+          "I'm fine, and you?",
+          "I'm fine, and you?"
+        ],
+        [
+          "We are fine",
+          "We are fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thank you",
+          "Thank you"
+        ],
+        [
+          "Thanks so much",
+          "Thanks a lot"
+        ]
+      ],
+      "bye": [
+        [
+          "Go well",
+          "Goodbye"
+        ],
+        [
+          "See you",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "You are welcome",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    },
+    "tum": {
+      "hello": [
+        [
+          "Moni!",
+          "Hello"
+        ],
+        [
+          "Muli uli?",
+          "How are you?"
+        ]
+      ],
+      "morning": [
+        [
+          "Mwawuka uli?",
+          "Good morning, how did you wake up?"
+        ]
+      ],
+      "evening": [
+        [
+          "Mwatandala uli?",
+          "Good evening, how did you spend the day?"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Muli uli?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Nili makola",
+          "I'm fine"
+        ],
+        [
+          "Nili makola, kweni imwe?",
+          "I'm fine, and you?"
+        ]
+      ],
+      "thanks": [
+        [
+          "Yewo",
+          "Thank you"
+        ],
+        [
+          "Yewo chomene",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Mukhale makola",
+          "Stay well"
+        ],
+        [
+          "Mwende makola",
+          "Go well"
+        ]
+      ],
+      "welcome": [
+        [
+          "Mwakulandilika",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Pepani",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Pepani",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Enya",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Yayi",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "MWK",
+    "symbol": "MK",
+    "words": [
+      [
+        "kwacha",
+        "the currency; the word means dawn"
+      ],
+      [
+        "tambala",
+        "a hundredth of a kwacha; the word also means rooster"
+      ],
+      [
+        "ndalama",
+        "money"
+      ],
+      [
+        "zikwi",
+        "thousands, as in a few thousand kwacha"
+      ],
+      [
+        "chenji",
+        "change, the small notes back"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Malawi",
+    "https://en.wikipedia.org/wiki/Chewa_language",
+    "https://en.wikipedia.org/wiki/Tumbuka_language",
+    "https://en.wikipedia.org/wiki/Chewa_people",
+    "https://en.wikipedia.org/wiki/Tumbuka_people",
+    "https://en.wikipedia.org/wiki/Yao_people",
+    "https://en.wikipedia.org/wiki/Malawian_kwacha"
+  ]
+}

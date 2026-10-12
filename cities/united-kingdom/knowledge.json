@@ -1,0 +1,1365 @@
+{
+  "languages": [
+    {
+      "code": "en",
+      "name": "English",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "sco",
+      "name": "Scots",
+      "official": false,
+      "spoken": "regionally"
+    },
+    {
+      "code": "cy",
+      "name": "Welsh",
+      "official": true,
+      "spoken": "regionally"
+    },
+    {
+      "code": "gd",
+      "name": "Scottish Gaelic",
+      "official": true,
+      "spoken": "some"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Given name, often a middle name, then the family name. English surnames come from trades, places and fathers (Smith, Wood, Johnson); Scottish ones often start Mac or Mc; Welsh ones grew from patronymics (Jones, Davies, Price from ap Rhys). Irish families carry O' and Mc names. In British Sikh families men often carry Singh and women Kaur, as a surname or a middle name; British Bangladeshi women often carry Begum or Khatun, which is why those stay out of the shared family list. Somali families use the father's or grandfather's given name as the surname. Polish surnames change their ending for women (Kowalski, Kowalska), so the list keeps ones that do not. Hong Kong and Chinese British people often carry an English first name alongside their Chinese one.",
+    "groups": {
+      "english": {
+        "given": {
+          "m": [
+            "Oliver",
+            "Jack",
+            "Harry",
+            "James",
+            "Thomas",
+            "Daniel",
+            "Matthew",
+            "Ben",
+            "Tom",
+            "Sam",
+            "Luke",
+            "Chris",
+            "Josh",
+            "Adam",
+            "Ryan",
+            "Liam",
+            "George",
+            "Joe"
+          ],
+          "f": [
+            "Emma",
+            "Sophie",
+            "Charlotte",
+            "Emily",
+            "Hannah",
+            "Lucy",
+            "Jessica",
+            "Amy",
+            "Laura",
+            "Rebecca",
+            "Chloe",
+            "Holly",
+            "Ellie",
+            "Grace",
+            "Katie",
+            "Megan",
+            "Olivia",
+            "Sarah"
+          ]
+        },
+        "family": [
+          "Smith",
+          "Jones",
+          "Taylor",
+          "Brown",
+          "Williams",
+          "Wilson",
+          "Johnson",
+          "Robinson",
+          "Wright",
+          "Thompson",
+          "Walker",
+          "White",
+          "Green",
+          "Hall",
+          "Wood",
+          "Harris",
+          "Clarke",
+          "Jackson",
+          "Turner",
+          "Hill"
+        ]
+      },
+      "scottish": {
+        "given": {
+          "m": [
+            "Callum",
+            "Ewan",
+            "Ross",
+            "Fraser",
+            "Jamie",
+            "Andrew",
+            "Scott",
+            "Craig",
+            "Alasdair",
+            "Hamish",
+            "Lewis",
+            "Finlay",
+            "Rory",
+            "Gregor",
+            "Stuart",
+            "Kenny",
+            "Iain",
+            "Murray"
+          ],
+          "f": [
+            "Eilidh",
+            "Kirsty",
+            "Fiona",
+            "Mhairi",
+            "Iona",
+            "Isla",
+            "Catriona",
+            "Shona",
+            "Ailsa",
+            "Morven",
+            "Rhona",
+            "Lorna",
+            "Kirsten",
+            "Caitlin",
+            "Heather",
+            "Skye",
+            "Jenna",
+            "Laura"
+          ]
+        },
+        "family": [
+          "MacDonald",
+          "Campbell",
+          "Stewart",
+          "Robertson",
+          "Thomson",
+          "Anderson",
+          "Scott",
+          "Murray",
+          "MacLeod",
+          "Reid",
+          "Ross",
+          "Paterson",
+          "Fraser",
+          "Morrison",
+          "Henderson",
+          "Ferguson",
+          "Hamilton",
+          "Kerr",
+          "Mackenzie",
+          "Grant"
+        ]
+      },
+      "welsh": {
+        "given": {
+          "m": [
+            "Rhys",
+            "Dafydd",
+            "Gareth",
+            "Owain",
+            "Iwan",
+            "Gethin",
+            "Huw",
+            "Aled",
+            "Dylan",
+            "Emyr",
+            "Ioan",
+            "Osian",
+            "Cai",
+            "Tomos",
+            "Rhodri",
+            "Llŷr"
+          ],
+          "f": [
+            "Ffion",
+            "Cerys",
+            "Seren",
+            "Bethan",
+            "Catrin",
+            "Nia",
+            "Siân",
+            "Megan",
+            "Elin",
+            "Lowri",
+            "Angharad",
+            "Rhian",
+            "Mali",
+            "Gwen",
+            "Carys",
+            "Mared"
+          ]
+        },
+        "family": [
+          "Jones",
+          "Williams",
+          "Davies",
+          "Evans",
+          "Thomas",
+          "Roberts",
+          "Hughes",
+          "Lewis",
+          "Morgan",
+          "Griffiths",
+          "Owen",
+          "Price",
+          "Jenkins",
+          "Pritchard",
+          "Rees",
+          "Powell",
+          "Lloyd",
+          "Parry"
+        ]
+      },
+      "irish": {
+        "given": {
+          "m": [
+            "Seán",
+            "Ciarán",
+            "Conor",
+            "Declan",
+            "Patrick",
+            "Niall",
+            "Eoin",
+            "Darragh",
+            "Cian",
+            "Liam",
+            "Brendan",
+            "Kieran",
+            "Pádraig",
+            "Ronan",
+            "Oisín",
+            "Fergal"
+          ],
+          "f": [
+            "Aoife",
+            "Siobhán",
+            "Niamh",
+            "Ciara",
+            "Orla",
+            "Róisín",
+            "Sinéad",
+            "Gráinne",
+            "Aisling",
+            "Caoimhe",
+            "Clodagh",
+            "Maeve",
+            "Saoirse",
+            "Máiréad",
+            "Bríd",
+            "Deirdre"
+          ]
+        },
+        "family": [
+          "Murphy",
+          "Kelly",
+          "O'Brien",
+          "Byrne",
+          "Ryan",
+          "O'Sullivan",
+          "Walsh",
+          "McCarthy",
+          "Doyle",
+          "Gallagher",
+          "Kennedy",
+          "Lynch",
+          "Quinn",
+          "Brennan",
+          "Fitzgerald",
+          "Doherty",
+          "O'Neill",
+          "Connolly"
+        ]
+      },
+      "indian": {
+        "given": {
+          "m": [
+            "Arjun",
+            "Rahul",
+            "Vikram",
+            "Rohan",
+            "Amit",
+            "Sanjay",
+            "Raj",
+            "Nikhil",
+            "Karan",
+            "Dev",
+            "Manish",
+            "Sunil",
+            "Jaswinder",
+            "Gurdeep",
+            "Harjit",
+            "Anil",
+            "Ravi",
+            "Hitesh"
+          ],
+          "f": [
+            "Priya",
+            "Anjali",
+            "Neha",
+            "Pooja",
+            "Sunita",
+            "Kavita",
+            "Meera",
+            "Divya",
+            "Shreya",
+            "Asha",
+            "Simran",
+            "Nisha",
+            "Rekha",
+            "Bhavna",
+            "Hema",
+            "Manjit"
+          ]
+        },
+        "family": [
+          "Patel",
+          "Sharma",
+          "Singh",
+          "Shah",
+          "Mistry",
+          "Gill",
+          "Sandhu",
+          "Dhillon",
+          "Kumar",
+          "Gupta",
+          "Mehta",
+          "Chauhan",
+          "Joshi",
+          "Parmar",
+          "Desai",
+          "Bains",
+          "Johal",
+          "Sidhu"
+        ]
+      },
+      "pakistani": {
+        "given": {
+          "m": [
+            "Mohammed",
+            "Ali",
+            "Imran",
+            "Usman",
+            "Bilal",
+            "Zain",
+            "Hamza",
+            "Adeel",
+            "Asif",
+            "Faisal",
+            "Tariq",
+            "Shahid",
+            "Naveed",
+            "Kamran",
+            "Zubair",
+            "Waqas",
+            "Amir",
+            "Ibrahim"
+          ],
+          "f": [
+            "Ayesha",
+            "Fatima",
+            "Sana",
+            "Saima",
+            "Nadia",
+            "Amina",
+            "Hira",
+            "Zara",
+            "Rabia",
+            "Mehreen",
+            "Sadia",
+            "Iqra",
+            "Nazia",
+            "Samina",
+            "Shazia",
+            "Maryam"
+          ]
+        },
+        "family": [
+          "Khan",
+          "Hussain",
+          "Ahmed",
+          "Ali",
+          "Iqbal",
+          "Akhtar",
+          "Shah",
+          "Mahmood",
+          "Butt",
+          "Rashid",
+          "Aslam",
+          "Malik",
+          "Javed",
+          "Qureshi",
+          "Chaudhry",
+          "Raza",
+          "Mirza",
+          "Anwar"
+        ]
+      },
+      "bangladeshi": {
+        "given": {
+          "m": [
+            "Rahim",
+            "Karim",
+            "Jamal",
+            "Mizanur",
+            "Shahidul",
+            "Rafiq",
+            "Sohel",
+            "Kamal",
+            "Habib",
+            "Sabbir",
+            "Tanvir",
+            "Rubel",
+            "Ruhul",
+            "Anwar",
+            "Mamun",
+            "Shafiq",
+            "Jahed",
+            "Abdul"
+          ],
+          "f": [
+            "Nasima",
+            "Shirin",
+            "Rokeya",
+            "Tahmina",
+            "Farzana",
+            "Shahnaz",
+            "Rehana",
+            "Nusrat",
+            "Jesmin",
+            "Shamima",
+            "Tasnim",
+            "Sumaiya",
+            "Ruksana",
+            "Salma",
+            "Halima",
+            "Rima"
+          ]
+        },
+        "family": [
+          "Miah",
+          "Uddin",
+          "Rahman",
+          "Islam",
+          "Ahmed",
+          "Hoque",
+          "Chowdhury",
+          "Hossain",
+          "Karim",
+          "Sarkar",
+          "Bhuiyan",
+          "Haque",
+          "Alam",
+          "Talukder",
+          "Ali",
+          "Sheikh"
+        ]
+      },
+      "caribbean": {
+        "given": {
+          "m": [
+            "Marcus",
+            "Jermaine",
+            "Andre",
+            "Leon",
+            "Dwayne",
+            "Winston",
+            "Delroy",
+            "Errol",
+            "Leroy",
+            "Trevor",
+            "Clive",
+            "Devon",
+            "Jordan",
+            "Nathaniel",
+            "Shane",
+            "Kemar"
+          ],
+          "f": [
+            "Shanice",
+            "Marcia",
+            "Natasha",
+            "Jasmine",
+            "Simone",
+            "Keisha",
+            "Monique",
+            "Charmaine",
+            "Beverley",
+            "Paulette",
+            "Janet",
+            "Tanya",
+            "Andrea",
+            "Tia",
+            "Kezia",
+            "Jade"
+          ]
+        },
+        "family": [
+          "Campbell",
+          "Brown",
+          "Williams",
+          "Thompson",
+          "Clarke",
+          "Francis",
+          "Grant",
+          "Henry",
+          "Morgan",
+          "Bailey",
+          "Edwards",
+          "Reid",
+          "Gordon",
+          "Barrett",
+          "Mitchell",
+          "Gayle",
+          "McKenzie",
+          "Samuels"
+        ]
+      },
+      "west_african": {
+        "given": {
+          "m": [
+            "Tunde",
+            "Femi",
+            "Emeka",
+            "Chidi",
+            "Segun",
+            "Kwame",
+            "Kofi",
+            "Kwabena",
+            "Olumide",
+            "Tobi",
+            "Ade",
+            "Ikenna",
+            "Kayode",
+            "Nnamdi",
+            "Yaw",
+            "Kwesi"
+          ],
+          "f": [
+            "Adaeze",
+            "Ngozi",
+            "Funmi",
+            "Bisi",
+            "Chioma",
+            "Amaka",
+            "Yetunde",
+            "Abena",
+            "Akosua",
+            "Efua",
+            "Temi",
+            "Tolu",
+            "Ama",
+            "Nkechi",
+            "Folake",
+            "Adwoa"
+          ]
+        },
+        "family": [
+          "Okafor",
+          "Adeyemi",
+          "Okonkwo",
+          "Mensah",
+          "Owusu",
+          "Boateng",
+          "Asante",
+          "Adebayo",
+          "Eze",
+          "Nwosu",
+          "Ogunleye",
+          "Osei",
+          "Bello",
+          "Danso",
+          "Agyeman",
+          "Oladipo",
+          "Obi",
+          "Appiah"
+        ],
+        "also": {
+          "m": [
+            "David",
+            "Samuel",
+            "Emmanuel",
+            "Daniel",
+            "Michael",
+            "Joseph"
+          ],
+          "f": [
+            "Grace",
+            "Blessing",
+            "Esther",
+            "Joy",
+            "Ruth",
+            "Deborah"
+          ]
+        }
+      },
+      "east_european": {
+        "given": {
+          "m": [
+            "Piotr",
+            "Tomasz",
+            "Krzysztof",
+            "Marcin",
+            "Paweł",
+            "Michał",
+            "Łukasz",
+            "Jakub",
+            "Kamil",
+            "Mateusz",
+            "Andrei",
+            "Mihai",
+            "Ionuț",
+            "Bogdan",
+            "Florin",
+            "Adrian"
+          ],
+          "f": [
+            "Anna",
+            "Agnieszka",
+            "Katarzyna",
+            "Magdalena",
+            "Joanna",
+            "Monika",
+            "Karolina",
+            "Ewelina",
+            "Justyna",
+            "Natalia",
+            "Ioana",
+            "Elena",
+            "Andreea",
+            "Alina",
+            "Mihaela",
+            "Roxana"
+          ]
+        },
+        "family": [
+          "Nowak",
+          "Wójcik",
+          "Kowalczyk",
+          "Mazur",
+          "Krawczyk",
+          "Kaczmarek",
+          "Zając",
+          "Król",
+          "Wieczorek",
+          "Pawlak",
+          "Sikora",
+          "Walczak",
+          "Popescu",
+          "Ionescu",
+          "Popa",
+          "Dumitru",
+          "Munteanu",
+          "Stan"
+        ]
+      },
+      "somali": {
+        "given": {
+          "m": [
+            "Abdi",
+            "Mohamed",
+            "Ahmed",
+            "Abdirahman",
+            "Abdullahi",
+            "Hassan",
+            "Omar",
+            "Yusuf",
+            "Mahad",
+            "Liban",
+            "Farah",
+            "Ismail",
+            "Hamza",
+            "Khalid",
+            "Mustafe",
+            "Guled"
+          ],
+          "f": [
+            "Hodan",
+            "Fadumo",
+            "Amina",
+            "Sahra",
+            "Ayan",
+            "Hawa",
+            "Ifrah",
+            "Ubah",
+            "Nimco",
+            "Deqa",
+            "Hibo",
+            "Khadra",
+            "Sagal",
+            "Idil",
+            "Najma",
+            "Asha"
+          ]
+        },
+        "family": [
+          "Mohamed",
+          "Ahmed",
+          "Abdi",
+          "Hassan",
+          "Ali",
+          "Farah",
+          "Omar",
+          "Warsame",
+          "Jama",
+          "Yusuf",
+          "Hersi",
+          "Aden",
+          "Osman",
+          "Ibrahim",
+          "Egal",
+          "Nur"
+        ]
+      },
+      "chinese": {
+        "given": {
+          "m": [
+            "Wei",
+            "Jun",
+            "Hao",
+            "Ming",
+            "Lei",
+            "Jian",
+            "Tao",
+            "Yong",
+            "Zhiwei",
+            "Kai",
+            "Ka Ho",
+            "Chun Kit",
+            "Wing Hong",
+            "Siu Ming"
+          ],
+          "f": [
+            "Mei",
+            "Li",
+            "Xin",
+            "Yan",
+            "Jing",
+            "Ying",
+            "Hui",
+            "Xiaoyu",
+            "Yi",
+            "Wing Yan",
+            "Ka Yan",
+            "Hoi Yan",
+            "Mei Ling",
+            "Fang"
+          ]
+        },
+        "family": [
+          "Wong",
+          "Chan",
+          "Li",
+          "Zhang",
+          "Wang",
+          "Chen",
+          "Liu",
+          "Lam",
+          "Cheung",
+          "Ng",
+          "Lau",
+          "Leung",
+          "Yang",
+          "Huang",
+          "Lin",
+          "Ho",
+          "Tang",
+          "Zhao"
+        ],
+        "also": {
+          "m": [
+            "Kevin",
+            "Michael",
+            "Eric",
+            "Jason",
+            "Alan",
+            "Daniel"
+          ],
+          "f": [
+            "Grace",
+            "Jennifer",
+            "Karen",
+            "Vivian",
+            "Michelle",
+            "Joyce"
+          ]
+        }
+      },
+      "arab": {
+        "given": {
+          "m": [
+            "Ahmed",
+            "Mohammed",
+            "Omar",
+            "Khalid",
+            "Yousef",
+            "Karim",
+            "Tarek",
+            "Sami",
+            "Hassan",
+            "Ali",
+            "Mahmoud",
+            "Rami",
+            "Hussein",
+            "Ibrahim",
+            "Bilal",
+            "Adam"
+          ],
+          "f": [
+            "Fatima",
+            "Mariam",
+            "Layla",
+            "Nour",
+            "Rania",
+            "Huda",
+            "Salma",
+            "Dina",
+            "Hana",
+            "Yasmin",
+            "Sara",
+            "Reem",
+            "Lina",
+            "Amira",
+            "Zainab",
+            "Noor"
+          ]
+        },
+        "family": [
+          "Hassan",
+          "Ali",
+          "Ibrahim",
+          "Mansour",
+          "Haddad",
+          "Khalil",
+          "Saleh",
+          "Nasser",
+          "Abdullah",
+          "Mahmoud",
+          "Hamdan",
+          "Darwish",
+          "Youssef",
+          "Aziz",
+          "Farouk",
+          "Said"
+        ]
+      }
+    },
+    "weights": {
+      "english": 0.625,
+      "scottish": 0.07,
+      "welsh": 0.03,
+      "irish": 0.03,
+      "indian": 0.05,
+      "pakistani": 0.04,
+      "bangladeshi": 0.02,
+      "caribbean": 0.025,
+      "west_african": 0.03,
+      "east_european": 0.04,
+      "somali": 0.01,
+      "chinese": 0.015,
+      "arab": 0.015
+    }
+  },
+  "honorifics": {
+    "elder_m": "sir",
+    "elder_f": "madam",
+    "peer_m": "mate",
+    "peer_f": "love",
+    "boss": "boss",
+    "titles": {
+      "elder_m": "Mr",
+      "elder_f": "Mrs",
+      "with": "family"
+    }
+  },
+  "phrases": {
+    "en": {
+      "hello": [
+        [
+          "Hiya!",
+          "Hello!"
+        ],
+        [
+          "Hello!",
+          "Hello!"
+        ]
+      ],
+      "morning": [
+        [
+          "Morning!",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Evening!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "You alright?",
+          "Hi, how are you?"
+        ],
+        [
+          "How are you doing?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Not bad, thanks",
+          "Fine, thanks"
+        ],
+        [
+          "Can't complain",
+          "I'm fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Cheers",
+          "Thanks"
+        ],
+        [
+          "Ta",
+          "Thanks"
+        ],
+        [
+          "Thanks very much",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "See you later",
+          "Goodbye"
+        ],
+        [
+          "Take care",
+          "Take care"
+        ],
+        [
+          "Bye then",
+          "Bye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome",
+          "Welcome"
+        ],
+        [
+          "Come in, make yourself at home",
+          "Welcome, come in"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry!",
+          "Sorry!"
+        ],
+        [
+          "Sorry about that",
+          "Sorry about that"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ],
+        [
+          "Sorry, can I just squeeze past?",
+          "Excuse me, can I get past?"
+        ]
+      ],
+      "yes": [
+        [
+          "Yeah",
+          "Yes"
+        ],
+        [
+          "Yes, please",
+          "Yes, please"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ],
+        [
+          "Nah",
+          "No"
+        ],
+        [
+          "No, you're alright",
+          "No, thank you"
+        ]
+      ]
+    },
+    "sco": {
+      "hello": [
+        [
+          "Hullo!",
+          "Hello!"
+        ],
+        [
+          "Aye aye!",
+          "Hi there!"
+        ]
+      ],
+      "morning": [
+        [
+          "Guid mornin!",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Guid evenin!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How's it gaun?",
+          "How's it going?"
+        ],
+        [
+          "How ye daein?",
+          "How are you doing?"
+        ]
+      ],
+      "fine": [
+        [
+          "No bad",
+          "Not bad"
+        ],
+        [
+          "Braw, thanks",
+          "Great, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thank ye",
+          "Thank you"
+        ],
+        [
+          "Cheers",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "Cheerio!",
+          "Bye!"
+        ],
+        [
+          "See ye efter",
+          "See you later"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome in",
+          "Welcome"
+        ],
+        [
+          "Haste ye back",
+          "Come back soon"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry aboot that",
+          "Sorry about that"
+        ]
+      ],
+      "excuse": [
+        [
+          "'Scuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Aye",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Naw",
+          "No"
+        ],
+        [
+          "Nae chance",
+          "No way"
+        ]
+      ]
+    },
+    "cy": {
+      "hello": [
+        [
+          "Shwmae!",
+          "Hello!"
+        ],
+        [
+          "Helo!",
+          "Hello!"
+        ]
+      ],
+      "morning": [
+        [
+          "Bore da",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Noswaith dda",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Sut wyt ti?",
+          "How are you? (to a friend)"
+        ],
+        [
+          "Sut dych chi?",
+          "How are you? (polite)"
+        ]
+      ],
+      "fine": [
+        [
+          "Da iawn, diolch",
+          "Very well, thanks"
+        ],
+        [
+          "Iawn",
+          "Fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Diolch",
+          "Thanks"
+        ],
+        [
+          "Diolch yn fawr",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Hwyl!",
+          "Bye!"
+        ],
+        [
+          "Hwyl fawr",
+          "Goodbye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Croeso",
+          "Welcome"
+        ],
+        [
+          "Croeso i Gymru",
+          "Welcome to Wales"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sori",
+          "Sorry"
+        ],
+        [
+          "Mae'n ddrwg gen i",
+          "I'm sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Esgusodwch fi",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Ie",
+          "Yes"
+        ],
+        [
+          "Ydw",
+          "Yes, I am"
+        ]
+      ],
+      "no": [
+        [
+          "Na",
+          "No"
+        ],
+        [
+          "Nage",
+          "No, it isn't"
+        ]
+      ]
+    },
+    "gd": {
+      "hello": [
+        [
+          "Halò!",
+          "Hello!"
+        ]
+      ],
+      "morning": [
+        [
+          "Madainn mhath",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Feasgar math",
+          "Good afternoon, good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Ciamar a tha thu?",
+          "How are you?"
+        ],
+        [
+          "Ciamar a tha sibh?",
+          "How are you? (polite)"
+        ]
+      ],
+      "fine": [
+        [
+          "Tha gu math",
+          "I'm well"
+        ],
+        [
+          "Glè mhath",
+          "Very good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Tapadh leat",
+          "Thank you"
+        ],
+        [
+          "Tapadh leibh",
+          "Thank you (polite)"
+        ]
+      ],
+      "bye": [
+        [
+          "Mar sin leat",
+          "Goodbye"
+        ],
+        [
+          "Chì mi a-rithist thu",
+          "See you again"
+        ]
+      ],
+      "welcome": [
+        [
+          "Fàilte",
+          "Welcome"
+        ],
+        [
+          "Ceud mìle fàilte",
+          "A hundred thousand welcomes"
+        ]
+      ],
+      "sorry": [
+        [
+          "Tha mi duilich",
+          "I'm sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Gabh mo leisgeul",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Tha",
+          "Yes (it is)"
+        ],
+        [
+          "Seadh",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Chan eil",
+          "No (it isn't)"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "GBP",
+    "symbol": "£",
+    "words": [
+      [
+        "quid",
+        "a pound"
+      ],
+      [
+        "fiver",
+        "a five pound note"
+      ],
+      [
+        "tenner",
+        "a ten pound note"
+      ],
+      [
+        "score",
+        "twenty pounds"
+      ],
+      [
+        "grand",
+        "a thousand pounds"
+      ],
+      [
+        "nicker",
+        "a pound, in London slang"
+      ],
+      [
+        "pony",
+        "twenty-five pounds, in London slang"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_the_United_Kingdom",
+    "https://en.wikipedia.org/wiki/Ethnic_groups_in_the_United_Kingdom",
+    "https://en.wikipedia.org/wiki/Scots_language",
+    "https://en.wikipedia.org/wiki/Scottish_Gaelic",
+    "https://www.ons.gov.uk/",
+    "https://www.nrscotland.gov.uk/"
+  ]
+}

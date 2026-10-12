@@ -1,0 +1,63 @@
+{
+  "street": { "sw": 0.7, "en": 0.3 },
+  "registers": {},
+  "names": { "weights": { "chagga": 0.35, "maasai": 0.3, "swahili_coastal": 0.2, "sukuma": 0.15 } },
+  "phrases": {},
+  "chat": {
+    "en": {
+      "greet": ["Good morning! Cold one today, eh?", "Hello, karibu Arusha!", "Morning! How is the family?", "Hi! How's business this season?", "Good afternoon, how are you keeping?"],
+      "reply": ["I'm fine, thank you, and you?", "Very well, thanks.", "All good, just busy with the tourist season.", "Fine, slowly by slowly.", "Doing well, thanks for asking."],
+      "sunny": ["You can see Mount Meru clearly today.", "Beautiful day, the morning chill is gone.", "Sunny and fresh, proper Arusha weather.", "Great day for the safari drivers.", "Lovely sun, let's sit outside for coffee."],
+      "rain": ["The long rains are here, carry a jacket.", "It's raining, the dirt roads will be mud.", "Wait under here until the rain stops.", "Cold and rainy, time for a hot chai.", "Rain on the mountain again this afternoon."],
+      "bye": ["Take care, see you later!", "Safe journey!", "Goodnight, greet everyone at home.", "See you tomorrow!", "Have a good evening!"],
+      "busy": ["Sorry, I'm guiding a group this afternoon.", "Running late, I have to catch a daladala to Tengeru.", "I have a meeting at AICC, talk later.", "Can't stop, the market is closing.", "In a hurry, I'll call you."]
+    },
+    "sw": {
+      "greet": ["Shikamoo mama!", "Habari za asubuhi?", "Mambo vipi?", "Umeamkaje leo?", "Habari za kazi?"],
+      "reply": ["Marahaba, mwanangu.", "Nzuri, asante. Wewe je?", "Salama kabisa!", "Poa, tunasonga."],
+      "sunny": ["Leo Mlima Meru unaonekana vizuri!", "Jua zuri, baridi ya asubuhi imeisha.", "Hali ya hewa nzuri kwa kutembea mjini.", "Jua kali mchana huu."],
+      "rain": ["Mvua inanyesha, chukua mwavuli.", "Mvua imeanza, tusubiri kidogo.", "Barabara ya vumbi imekuwa tope.", "Mvua za masika zimeanza."],
+      "bye": ["Kwaheri, tutaonana!", "Haya, baadaye!", "Usiku mwema!", "Wasalimie nyumbani."],
+      "busy": ["Nina haraka, tutaongea baadaye.", "Nawahi daladala ya Tengeru.", "Nimechelewa kazini!", "Niko bize leo, kesho tuongee."]
+    }
+  },
+  "transport": { "bus": "daladala", "moto_taxi": "bodaboda", "tricycle": "bajaji", "taxi": "teksi", "conductor": "konda", "stage": "stendi" },
+  "touts": ["Tengeru, Tengeru!", "Usa River, panda!", "Moshono, Moshono!", "Ngaramtoni, Ngaramtoni!", "Moshi, Moshi, gari linaondoka!", "Sakina, Sakina!", "Njiro, Njiro, siti zipo!"],
+  "hawkers": [
+    ["Ndizi mbivu!", "Ripe bananas!"],
+    ["Parachichi, parachichi!", "Avocados!"],
+    ["Mahindi ya kuchoma!", "Roasted maize!"],
+    ["Karanga!", "Peanuts!"],
+    ["Maji baridi!", "Cold water!"],
+    ["Mishkaki!", "Meat skewers!"]
+  ],
+  "food": {
+    "street": ["chipsi mayai", "mishkaki", "mahindi ya kuchoma", "maandazi", "sambusa", "nyama choma", "supu ya mbuzi"],
+    "dishes": ["ndizi nyama", "mtori", "makande", "ugali na nyama choma", "pilau", "wali na maharage"],
+    "drinks": ["chai", "kahawa", "mtindi", "juisi ya parachichi", "chai ya tangawizi", "mbege"]
+  },
+  "places": {
+    "neighbourhoods": ["Kijenge", "Njiro", "Sakina", "Themi", "Sekei", "Kaloleni", "Levolosi", "Ngarenaro", "Sombetini", "Kimandolu", "Olasiti", "Moshono", "Tengeru", "Usa River"],
+    "streets": ["Sokoine Road", "Goliondoi Road", "Boma Road", "Old Moshi Road", "Dodoma Road", "Simeon Road", "Uhuru Road", "India Street", "Makongoro Road"],
+    "landmarks": ["Clock Tower", "Arusha International Conference Centre", "Central Market", "Kilombero Market", "Cultural Heritage Centre", "Sheikh Amri Abeid Stadium", "Mount Meru", "Old German Boma", "Maasai Market", "Stendi Kuu"]
+  },
+  "small_talk": [
+    "Mount Meru is out, clear as anything this morning.",
+    "It's cold in Arusha this morning, grab a jacket.",
+    "Safari cars have filled the Clock Tower roundabout again.",
+    "Got fresh avocados from Kilombero Market.",
+    "The road to Moshi is busy with tourist cars today.",
+    "There's a conference at AICC, so the roads around town are slow.",
+    "Have a cup of local coffee before work, it's grown just up the hill.",
+    "The daladala to Tengeru took forever this morning.",
+    "On a clear day you can even see Kilimanjaro from the airport road."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Arusha",
+    "https://en.wikipedia.org/wiki/Arusha_people",
+    "https://en.wikipedia.org/wiki/Mount_Meru_(Tanzania)",
+    "https://en.wikipedia.org/wiki/Arusha_International_Conference_Centre",
+    "https://en.wikipedia.org/wiki/Daladala",
+    "https://en.wikipedia.org/wiki/Chaga_people"
+  ]
+}

@@ -8,8 +8,10 @@ show on the world map as "coming later" with a line on why tech people go there.
 cities/
   nigeria/
     country.json        the country: name, region, which side of the road, currency
+    knowledge.json      how people there are named, the languages they speak, everyday phrases (KNOWLEDGE.md)
     lagos/
       city.json         the city: name, live or planned, where it is, why tech people go there
+      knowledge.json    what people say on its streets, and in which languages; its food, places and small talk
     abuja/
     ...
   kenya/

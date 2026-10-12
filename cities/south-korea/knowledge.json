@@ -1,0 +1,85 @@
+{
+  "languages": [
+    { "code": "ko", "name": "Korean", "official": true, "spoken": "widely" },
+    { "code": "en", "name": "English", "official": false, "spoken": "some, in business, tech and tourism" }
+  ],
+  "names": {
+    "order": "family given",
+    "conventions": "Korean names put the one-syllable family name first and a two-syllable given name after it: Kim Min-jun. A handful of family names cover most people (Kim, Lee, Park, Choi, Jung). Women keep their own family name when they marry. Names are written here in their usual Latin spellings (Lee rather than I, Park rather than Bak), with the given name hyphenated. Strangers and colleagues use the full name or family name plus -ssi or a job title (Kim gwajangnim), and many people working with foreigners also use an English name.",
+    "groups": {
+      "korean": {
+        "given": {
+          "m": ["Min-jun", "Seo-jun", "Do-yun", "Ha-jun", "Ji-ho", "Ji-hoon", "Hyun-woo", "Jun-young", "Sung-min", "Dong-hyun", "Jae-won", "Young-soo", "Sang-hoon", "Jung-ho", "Tae-hyun", "Woo-jin"],
+          "f": ["Seo-yeon", "Ji-woo", "Seo-yun", "Ha-eun", "Min-seo", "Ji-yeon", "Soo-jin", "Eun-ji", "Hye-jin", "Yu-na", "Ji-min", "Mi-kyung", "Young-hee", "Su-bin", "Da-eun", "Ye-jin"]
+        },
+        "family": ["Kim", "Lee", "Park", "Choi", "Jung", "Kang", "Cho", "Yoon", "Jang", "Lim", "Han", "Oh", "Seo", "Shin", "Kwon", "Hwang", "Ahn", "Song"],
+        "also": {
+          "m": ["David", "Daniel", "John", "Paul", "Peter", "Andrew", "James", "Kevin"],
+          "f": ["Grace", "Esther", "Julia", "Sarah", "Jenny", "Christine", "Sophia", "Angela"]
+        }
+      }
+    },
+    "weights": { "korean": 1.0 }
+  },
+  "honorifics": {
+    "elder_m": "Ajeossi",
+    "elder_f": "Ajumeoni",
+    "peer_m": "Hyeong",
+    "peer_f": "Eonni",
+    "boss": "Sajangnim",
+    "older_brother_from_a_woman": "Oppa",
+    "older_sister_from_a_man": "Nuna",
+    "restaurant_auntie": "Imo",
+    "polite_suffix": "-ssi",
+    "note": "Hyeong and Oppa both mean older brother: men say Hyeong, women say Oppa. Eonni and Nuna both mean older sister: women say Eonni, men say Nuna. Sajangnim is used for any shop or business owner."
+  },
+  "phrases": {
+    "ko": {
+      "hello": [["Annyeonghaseyo", "Hello (안녕하세요)"], ["Annyeong", "Hi, casual (안녕)"]],
+      "morning": [["Annyeonghaseyo", "Good morning, the everyday greeting (안녕하세요)"], ["Joeun achimieyo", "Good morning (좋은 아침이에요)"]],
+      "evening": [["Annyeonghaseyo", "Good evening, the same everyday greeting (안녕하세요)"], ["Joeun jeonyeok doseyo", "Have a good evening (좋은 저녁 되세요)"]],
+      "how_are_you": [["Jal jinaeseyo?", "How are you doing? (잘 지내세요?)"], ["Bap meogeosseoyo?", "Have you eaten? (밥 먹었어요?)"]],
+      "fine": [["Jal jinaeyo", "I'm doing well (잘 지내요)"], ["Gwaenchanayo", "I'm okay (괜찮아요)"]],
+      "thanks": [["Gamsahamnida", "Thank you (감사합니다)"], ["Gomawoyo", "Thanks (고마워요)"]],
+      "bye": [["Annyeonghi gaseyo", "Goodbye, to someone leaving (안녕히 가세요)"], ["Annyeonghi gyeseyo", "Goodbye, to someone staying (안녕히 계세요)"], ["Jal ga", "Bye, casual (잘 가)"]],
+      "welcome": [["Eoseo oseyo", "Welcome, come in (어서 오세요)"], ["Hwanyeonghamnida", "Welcome (환영합니다)"]],
+      "sorry": [["Joesonghamnida", "I'm sorry, formal (죄송합니다)"], ["Mianhaeyo", "Sorry (미안해요)"]],
+      "excuse": [["Sillyehamnida", "Excuse me (실례합니다)"], ["Jeogiyo", "Excuse me, to get attention (저기요)"]],
+      "yes": [["Ne", "Yes (네)"], ["Ye", "Yes, polite (예)"], ["Eung", "Yeah, casual (응)"]],
+      "no": [["Aniyo", "No (아니요)"], ["Ani", "No, casual (아니)"], ["Gwaenchanayo", "No thanks, I'm fine (괜찮아요)"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"], ["Hi", "Hi"]],
+      "morning": [["Good morning", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["I'm fine, thanks", "I'm fine, thanks"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Bye", "Bye"], ["See you", "See you"]],
+      "welcome": [["Welcome", "Welcome"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "KRW",
+    "symbol": "₩",
+    "words": [
+      ["won", "won (원)"],
+      ["cheon won", "a thousand won (천 원)"],
+      ["man won", "ten thousand won (만 원)"],
+      ["eok", "a hundred million won, how people talk about rent deposits and flats (억)"],
+      ["geoseureumdon", "change given back (거스름돈)"],
+      ["deochipei", "going Dutch, each pays their own (더치페이)"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Korean_name",
+    "https://en.wikipedia.org/wiki/List_of_Korean_surnames",
+    "https://en.wikipedia.org/wiki/Revised_Romanization_of_Korean",
+    "https://en.wikipedia.org/wiki/Korean_honorifics",
+    "https://en.wikipedia.org/wiki/South_Korean_won"
+  ]
+}

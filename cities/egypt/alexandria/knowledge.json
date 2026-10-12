@@ -1,0 +1,77 @@
+{
+  "street": { "arz": 0.94, "en": 0.06 },
+  "names": { "weights": { "egyptian": 0.9, "coptic": 0.1 } },
+  "phrases": {
+    "arz": {
+      "hello": [["Ahlan ya m'allem!", "Hi, master! (a friendly Alexandrian greeting)"], ["Ezzayak ya basha?", "How are you, boss?"]],
+      "fine": [["Zay el foll", "Great"], ["Tamam", "Fine"]],
+      "bye": [["Salam!", "Bye!"], ["Ma'a el salama", "Goodbye"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Peace be upon you! How are you?", "Good morning! What's new?", "Hello, how is the family?", "Good evening, how was work?", "Ah, long time! Where have you been?"],
+      "reply": ["Good, thank God. And you?", "All fine, thanks.", "Great, everything is good.", "Getting by, thank God.", "Doing well, thanks for asking."],
+      "sunny": ["Lovely day, the Corniche will be packed.", "Perfect weather for the beach at Montaza.", "The sea breeze is the only thing saving us today.", "Clear sky over the Citadel this morning.", "Summer in Alex, all of Cairo is here."],
+      "rain": ["A nawwa is coming, the sea is wild.", "Rain again, the streets of Raml are flooded.", "The waves are crashing over the Corniche.", "Cold and wet, sahlab weather.", "Wait a bit, it will pass."],
+      "bye": ["Goodbye, take care!", "See you tomorrow, God willing.", "Good night.", "Greet the family for me.", "Call me later."],
+      "busy": ["Sorry, I'm in a hurry.", "I have to catch the tram at Raml Station.", "Traffic on the Corniche, I have to go now.", "I'm late for the port.", "Busy today, I'll call you later."]
+    },
+    "arz": {
+      "greet": ["Salamo alaykom, ezzayak ya m'allem?", "Sabah el kheir! Akhbarak eh?", "Ahlan ya habibi, ezzayak?", "Ezzayek ya anesa? Kollo tamam?", "Masa el kheir ya rayes!"],
+      "reply": ["El hamdulillah, kowayes. W enta?", "Tamam, tamam, el hamdulillah.", "Zay el foll!", "Mashi el hal, el hamdulillah."],
+      "sunny": ["El gaw gamil el naharda!", "Yalla nenzel el bahr!", "El hawa helw 'al Kornish.", "Harr, bas el hawa 'amel shoghl."],
+      "rain": ["Fi nawwa gaya!", "El donya betmattar!", "El bahr hayeg awi.", "El shaware' kollaha mayya."],
+      "bye": ["Ma'a el salama!", "Ashoofak bokra, en sha' Allah.", "Yalla salam!", "Kallemni ba'deen."],
+      "busy": ["Ana mesta'gel, ashoofak ba'deen!", "Lazem alha' el tram!", "Ma'lesh, 'andi mi'ad dilwa'ti.", "Mashghool shewaya, nekallem ba'deen."]
+    }
+  },
+  "transport": { "bus": "microbus", "moto_taxi": "", "tricycle": "tuk-tuk", "taxi": "taxi", "shared_taxi": "microbus", "conductor": "monadi", "stage": "maw'af" },
+  "touts": [
+    "Mahatet el Raml! Raml!",
+    "Sidi Gaber! Sidi Gaber!",
+    "Mandara! Montaza!",
+    "Victoria! Victoria!",
+    "Agami! Agami!",
+    "Manshiyya! Manshiyya!",
+    "Moharram Bek!",
+    "Fi wahed hena!"
+  ],
+  "hawkers": [
+    ["Dora mashwi!", "Roasted corn!"],
+    ["Termes! Termes!", "Lupin beans!"],
+    ["Batata! Batata!", "Roasted sweet potatoes!"],
+    ["Ful w ta'miya!", "Beans and falafel!"],
+    ["Mayya sa'a!", "Cold water!"],
+    ["Freska! Freska!", "Crispy wafer sweets!"],
+    ["Hommos el sham!", "Hot spiced chickpea drink!"]
+  ],
+  "food": {
+    "street": ["kebda Eskandarani (liver sandwich)", "sogo' (spicy sausage sandwich)", "ful and ta'miya", "freska on the beach", "roasted corn on the Corniche", "feteer"],
+    "dishes": ["sayadeya (fish with spiced rice)", "grilled fish and shrimp", "fried calamari", "molokhia with shrimp", "koshari", "roz bel laban"],
+    "drinks": ["shai (tea)", "'asab (sugar cane juice)", "sahlab", "mango juice", "karkade", "coffee at an old Raml café"]
+  },
+  "places": {
+    "neighbourhoods": ["Mahatet El Raml", "Manshiyya", "Anfoushi", "Bahary", "Smouha", "Sidi Gaber", "Stanley", "Sidi Bishr", "Miami", "Montaza", "Gleem", "Roushdy", "Sporting", "Ibrahimia", "Moharram Bek", "Agami", "Kafr Abdu", "Laurent"],
+    "streets": ["Corniche (Tariq El Geish)", "Fouad Street (Tariq El Horreya)", "Nabi Daniel Street", "Safeya Zaghloul Street", "Abu Qir Street", "Sultan Hussein Street"],
+    "landmarks": ["Bibliotheca Alexandrina", "Citadel of Qaitbay", "Montaza Palace", "Stanley Bridge", "Pompey's Pillar", "Catacombs of Kom el Shoqafa", "Roman Amphitheatre (Kom el Dikka)", "Raml Station tram terminus", "Abu el Abbas el Mursi Mosque", "Sidi Gaber station", "Eastern Harbour"]
+  },
+  "small_talk": [
+    "The tram from Raml Station crawls, but I love it.",
+    "Fish at Anfoushi tonight? Sayadeya.",
+    "A nawwa is coming, the waves are over the Corniche.",
+    "Stanley Bridge is full of couples at sunset.",
+    "Liver sandwiches by the station, best in Alex.",
+    "In summer the whole of Cairo moves to Alex.",
+    "Ittihad are playing at home this weekend.",
+    "Coffee at the old café in Raml, like my grandfather did."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Alexandria",
+    "https://en.wikipedia.org/wiki/Egyptian_Arabic",
+    "https://en.wikipedia.org/wiki/Alexandria_Tram",
+    "https://en.wikipedia.org/wiki/Bibliotheca_Alexandrina",
+    "https://en.wikipedia.org/wiki/Citadel_of_Qaitbay",
+    "https://en.wikipedia.org/wiki/Egyptian_cuisine"
+  ]
+}

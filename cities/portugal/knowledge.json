@@ -1,0 +1,625 @@
+{
+  "languages": [
+    {
+      "code": "pt",
+      "name": "Portuguese",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "commonly"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "People carry one or two given names and up to four family names, with the mother's family names first and the father's last (Ana Sofia Pereira Martins). People go by their last family name (Martins), sometimes the last two. Given names must come from an official list, so traditional names dominate: João, Maria, Francisco, Leonor. Particles like da, dos and de are common (Joana dos Santos). Lisbon and Porto have large Brazilian communities, Cape Verdeans and Angolans with long roots in Lisbon, and newer Nepali, Indian, Bangladeshi and Ukrainian communities.",
+    "groups": {
+      "portuguese": {
+        "given": {
+          "m": [
+            "João",
+            "José",
+            "António",
+            "Francisco",
+            "Pedro",
+            "Miguel",
+            "Tiago",
+            "Rui",
+            "Nuno",
+            "Ricardo",
+            "Bruno",
+            "Diogo",
+            "Rodrigo",
+            "Duarte",
+            "Gonçalo",
+            "Luís",
+            "Paulo",
+            "André"
+          ],
+          "f": [
+            "Maria",
+            "Ana",
+            "Inês",
+            "Beatriz",
+            "Mariana",
+            "Catarina",
+            "Joana",
+            "Sofia",
+            "Rita",
+            "Marta",
+            "Carolina",
+            "Sara",
+            "Filipa",
+            "Teresa",
+            "Leonor",
+            "Patrícia"
+          ]
+        },
+        "family": [
+          "Silva",
+          "Santos",
+          "Ferreira",
+          "Pereira",
+          "Oliveira",
+          "Costa",
+          "Rodrigues",
+          "Martins",
+          "Sousa",
+          "Fernandes",
+          "Gonçalves",
+          "Gomes",
+          "Lopes",
+          "Marques",
+          "Alves",
+          "Almeida",
+          "Ribeiro",
+          "Pinto",
+          "Carvalho"
+        ]
+      },
+      "brazilian": {
+        "given": {
+          "m": [
+            "Lucas",
+            "Gabriel",
+            "Matheus",
+            "Rafael",
+            "Felipe",
+            "Thiago",
+            "Gustavo",
+            "Leonardo",
+            "Vinícius",
+            "Guilherme",
+            "Caio",
+            "Diego",
+            "Marcos",
+            "Rodrigo",
+            "Wellington"
+          ],
+          "f": [
+            "Ana Clara",
+            "Juliana",
+            "Fernanda",
+            "Camila",
+            "Larissa",
+            "Amanda",
+            "Letícia",
+            "Bruna",
+            "Gabriela",
+            "Jéssica",
+            "Thaís",
+            "Aline",
+            "Vanessa",
+            "Daniela",
+            "Priscila"
+          ]
+        },
+        "family": [
+          "Silva",
+          "Santos",
+          "Oliveira",
+          "Souza",
+          "Lima",
+          "Pereira",
+          "Ferreira",
+          "Alves",
+          "Rodrigues",
+          "Costa",
+          "Carvalho",
+          "Gomes",
+          "Ribeiro",
+          "Barbosa",
+          "Araújo",
+          "Nascimento"
+        ]
+      },
+      "cape_verdean": {
+        "given": {
+          "m": [
+            "Adilson",
+            "Edson",
+            "Nelson",
+            "Hélder",
+            "Elton",
+            "Ivan",
+            "Jailson",
+            "Wilson",
+            "Danilo",
+            "Sandro",
+            "Jorge",
+            "Carlos",
+            "Euclides",
+            "Arlindo"
+          ],
+          "f": [
+            "Edna",
+            "Ivone",
+            "Sónia",
+            "Nádia",
+            "Elisa",
+            "Mirian",
+            "Celeste",
+            "Djamila",
+            "Jandira",
+            "Adelina",
+            "Natércia",
+            "Neusa",
+            "Odete",
+            "Ilda"
+          ]
+        },
+        "family": [
+          "Tavares",
+          "Fortes",
+          "Lopes",
+          "Monteiro",
+          "Semedo",
+          "Varela",
+          "Mendes",
+          "Gomes",
+          "Delgado",
+          "Furtado",
+          "Moreira",
+          "Andrade",
+          "Soares",
+          "Brito",
+          "Pires"
+        ]
+      },
+      "angolan": {
+        "given": {
+          "m": [
+            "Mateus",
+            "Domingos",
+            "Edvaldo",
+            "Osvaldo",
+            "Mauro",
+            "Hélio",
+            "Yuri",
+            "Nelson",
+            "Teodoro",
+            "Alberto",
+            "Celso",
+            "Délcio",
+            "Gelson",
+            "Agostinho"
+          ],
+          "f": [
+            "Esperança",
+            "Joana",
+            "Yola",
+            "Mirela",
+            "Ana Paula",
+            "Celma",
+            "Luzia",
+            "Dalva",
+            "Josefina",
+            "Rosária",
+            "Wanda",
+            "Edna",
+            "Isabel",
+            "Neide"
+          ]
+        },
+        "family": [
+          "dos Santos",
+          "Mendes",
+          "Neto",
+          "Lopes",
+          "da Silva",
+          "Kiala",
+          "Miguel",
+          "Domingos",
+          "Francisco",
+          "Bento",
+          "Gaspar",
+          "Manuel",
+          "Afonso",
+          "Mateus",
+          "Sebastião"
+        ]
+      },
+      "south_asian": {
+        "given": {
+          "m": [
+            "Ram",
+            "Bikash",
+            "Suman",
+            "Rajesh",
+            "Sandeep",
+            "Arjun",
+            "Mohammad",
+            "Rahim",
+            "Karim",
+            "Hari",
+            "Prakash",
+            "Amit",
+            "Sunil",
+            "Ravi",
+            "Nabin"
+          ],
+          "f": [
+            "Sita",
+            "Gita",
+            "Anjali",
+            "Priya",
+            "Sunita",
+            "Puja",
+            "Nasrin",
+            "Rina",
+            "Sabina",
+            "Kamala",
+            "Laxmi",
+            "Shreya",
+            "Fatema",
+            "Nisha"
+          ]
+        },
+        "family": [
+          "Gurung",
+          "Thapa",
+          "Shrestha",
+          "Tamang",
+          "Rai",
+          "Magar",
+          "Karki",
+          "Singh",
+          "Sharma",
+          "Patel",
+          "Kumar",
+          "Hossain",
+          "Rahman",
+          "Islam",
+          "Uddin",
+          "Miah"
+        ]
+      },
+      "ukrainian": {
+        "given": {
+          "m": [
+            "Oleksandr",
+            "Andrii",
+            "Serhii",
+            "Volodymyr",
+            "Dmytro",
+            "Ivan",
+            "Mykola",
+            "Yurii",
+            "Vasyl",
+            "Oleh",
+            "Bohdan",
+            "Taras",
+            "Vitalii",
+            "Roman"
+          ],
+          "f": [
+            "Olena",
+            "Nataliia",
+            "Oksana",
+            "Iryna",
+            "Tetiana",
+            "Yuliia",
+            "Svitlana",
+            "Kateryna",
+            "Mariia",
+            "Anastasiia",
+            "Halyna",
+            "Liudmyla",
+            "Viktoriia",
+            "Olha"
+          ]
+        },
+        "family": [
+          "Melnyk",
+          "Shevchenko",
+          "Kovalenko",
+          "Bondarenko",
+          "Boiko",
+          "Tkachenko",
+          "Kravchenko",
+          "Kovalchuk",
+          "Koval",
+          "Oliinyk",
+          "Shevchuk",
+          "Polishchuk",
+          "Tkachuk",
+          "Savchenko",
+          "Rudenko"
+        ]
+      }
+    },
+    "weights": {
+      "portuguese": 0.81,
+      "brazilian": 0.09,
+      "cape_verdean": 0.03,
+      "angolan": 0.02,
+      "south_asian": 0.03,
+      "ukrainian": 0.02
+    }
+  },
+  "honorifics": {
+    "elder_m": "senhor",
+    "elder_f": "senhora",
+    "peer_m": "amigo",
+    "peer_f": "amiga",
+    "boss": "chefe",
+    "titles": {
+      "elder_m": "Senhor",
+      "elder_f": "Dona",
+      "with": "first"
+    }
+  },
+  "phrases": {
+    "pt": {
+      "hello": [
+        [
+          "Olá",
+          "Hello"
+        ],
+        [
+          "Então, tudo bem?",
+          "Hey, all good?"
+        ]
+      ],
+      "morning": [
+        [
+          "Bom dia",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Boa tarde",
+          "Good afternoon"
+        ],
+        [
+          "Boa noite",
+          "Good evening, good night"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Tudo bem?",
+          "All good?"
+        ],
+        [
+          "Como está?",
+          "How are you? (polite)"
+        ],
+        [
+          "Como estás?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Tudo bem, obrigado",
+          "All good, thanks (said by a man)"
+        ],
+        [
+          "Estou bem",
+          "I'm fine"
+        ],
+        [
+          "Vai-se andando",
+          "Getting by"
+        ]
+      ],
+      "thanks": [
+        [
+          "Obrigado",
+          "Thank you (said by a man)"
+        ],
+        [
+          "Obrigada",
+          "Thank you (said by a woman)"
+        ]
+      ],
+      "bye": [
+        [
+          "Adeus",
+          "Goodbye"
+        ],
+        [
+          "Até logo",
+          "See you later"
+        ],
+        [
+          "Tchau",
+          "Bye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Bem-vindo",
+          "Welcome (to a man)"
+        ],
+        [
+          "Bem-vinda",
+          "Welcome (to a woman)"
+        ]
+      ],
+      "sorry": [
+        [
+          "Desculpe",
+          "Sorry"
+        ],
+        [
+          "Peço desculpa",
+          "I apologise"
+        ]
+      ],
+      "excuse": [
+        [
+          "Com licença",
+          "Excuse me, may I pass?"
+        ],
+        [
+          "Desculpe",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Sim",
+          "Yes"
+        ],
+        [
+          "Pois",
+          "Right, yes"
+        ]
+      ],
+      "no": [
+        [
+          "Não",
+          "No"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hi",
+          "Hi"
+        ],
+        [
+          "Hello",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Morning!",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Evening!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How's it going?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Good, thanks",
+          "Fine, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks",
+          "Thank you"
+        ],
+        [
+          "Cheers",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "Bye",
+          "Goodbye"
+        ],
+        [
+          "See you",
+          "See you later"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ],
+        [
+          "Sure",
+          "Sure"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "EUR",
+    "symbol": "€",
+    "words": [
+      [
+        "paus",
+        "euros, in slang (dez paus)"
+      ],
+      [
+        "guita",
+        "money"
+      ],
+      [
+        "massa",
+        "money"
+      ],
+      [
+        "cacau",
+        "money"
+      ],
+      [
+        "trocos",
+        "small change"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Portuguese_name",
+    "https://en.wikipedia.org/wiki/European_Portuguese",
+    "https://en.wikipedia.org/wiki/Immigration_to_Portugal",
+    "https://www.ine.pt/"
+  ]
+}

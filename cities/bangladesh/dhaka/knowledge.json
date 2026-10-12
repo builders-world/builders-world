@@ -1,0 +1,93 @@
+{
+  "street": { "bn": 0.85, "en": 0.15 },
+  "registers": {},
+  "names": { "weights": { "bengali_muslim": 0.9, "bengali_hindu": 0.1 } },
+  "phrases": {
+    "bn": {
+      "hail_rickshaw": [["Mama, jaben?", "Driver, will you go? (to a rickshaw puller)"], ["Mama, Dhanmondi jaben?", "Will you go to Dhanmondi?"]],
+      "how_much": [["Koto?", "How much?"], ["Bhara koto?", "What's the fare?"]],
+      "come_on": [["Cholen!", "Let's go!"], ["Taratari koren", "Hurry up"]],
+      "great": [["Darun!", "Brilliant!"], ["Joss!", "Awesome! (Dhaka slang)"]],
+      "no_worries": [["Shomossha nai", "No problem"], ["Kono byapar na", "No big deal"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Assalamu alaikum! How are you doing?", "Hello bhai, all good?", "Good morning! Did you get through the jam okay?", "Hi apu, long time!", "Hey, what's the news?"],
+      "reply": ["All good, alhamdulillah. You?", "Fine fine, just busy with work.", "Doing well, thanks for asking!", "Not bad, the usual rush.", "Good, good. And your family?"],
+      "sunny": ["So hot today, I need a cold drink.", "Bright sun today, even the rickshaw seat is hot.", "Lovely clear day, rare in this season.", "Perfect weather for a walk by Hatirjheel.", "The sun is strong, carry water."],
+      "rain": ["It is pouring, the roads will flood again.", "Take an umbrella, the monsoon is not stopping today.", "Rain means double traffic, leave early.", "Rain and khichuri, the perfect combination.", "Rickshaw fares go up when it rains like this."],
+      "bye": ["See you soon, take care!", "Allah Hafez!", "Okay, catch you later.", "Stay well, see you.", "Bye, say salaam at home."],
+      "busy": ["Sorry, got a meeting in Gulshan, talk later!", "Running late, the jam is terrible.", "I need to catch the metro, see you!", "Quite busy today, let us talk in the evening.", "Have to go, the boss is calling."]
+    },
+    "bn": {
+      "greet": ["Assalamu alaikum, kemon achhen?", "Ki obostha, bhai?", "Apu, kemon achho?", "Ki khobor? Onek din por!", "Nomoshkar dada, bhalo to?"],
+      "reply": ["Alhamdulillah, bhalo. Apni?", "Ei to cholche.", "Bhalo achhi, apnar ki khobor?", "Shob thik ache, dhonnobad."],
+      "sunny": ["Aaj onek gorom poreche.", "Rodh ta khub kora aaj.", "Aaj abohawa ta darun.", "Ekta dab khaben? Onek gorom."],
+      "rain": ["Brishti ashche, chhata niye ber hon.", "Rastay pani jome geche.", "Aaj to tumul brishti!", "Brishtite jam aro barbe."],
+      "bye": ["Abar dekha hobe.", "Allah Hafez!", "Thik ache, ashi tahole.", "Bhalo thakben."],
+      "busy": ["Ekhon ektu tara ache, pore kotha boli.", "Office e deri hoye gelo, ashi!", "Jame atke achhi, pore phone dibo.", "Bus chole jachhe, ashi bhai!"]
+    }
+  },
+  "transport": {
+    "bus": "bus",
+    "minibus": "leguna",
+    "metro": "metro rail",
+    "rickshaw": "rickshaw",
+    "tricycle": "CNG",
+    "moto_taxi": "Pathao bike",
+    "ride_hail": "Pathao",
+    "taxi": "CNG",
+    "conductor": "helper",
+    "stage": "stand",
+    "boat": "launch"
+  },
+  "touts": [
+    "Gulistan, Gulistan! Motijheel!",
+    "Mohakhali, Banani, Uttara, Airport!",
+    "Farmgate, Farmgate! Uthen, uthen!",
+    "Mirpur Ten! Mirpur Ten!",
+    "Khali ache, khali! Uthe poren!",
+    "Sayedabad, Jatrabari!",
+    "Ostad, bame chapan!",
+    "Aste! Ladies namben!"
+  ],
+  "hawkers": [
+    ["Jhalmuri! Jhalmuri!", "Spiced puffed rice!"],
+    ["Thanda pani, thanda pani!", "Cold water!"],
+    ["Badam, badam!", "Peanuts!"],
+    ["Gorom cha!", "Hot tea!"],
+    ["Fuchka, fuchka!", "Fuchka, crisp shells with tamarind water!"],
+    ["Shosha, shosha!", "Cucumber!"],
+    ["Dim, sheddho dim!", "Boiled eggs!"],
+    ["Peyara! Mosla diye peyara!", "Guava with spice!"]
+  ],
+  "food": {
+    "street": ["fuchka", "chotpoti", "jhalmuri", "singara", "piyaju", "beguni", "bhapa pitha", "chitoi pitha", "shik kabab", "haleem"],
+    "dishes": ["kacchi biryani", "morog polao", "bhuna khichuri", "ilish bhaja", "shorshe ilish", "beef tehari", "bhorta bhaat", "dal"],
+    "drinks": ["dudh cha", "lebu cha", "borhani", "lassi", "akher rosh", "falooda", "dab (green coconut)"]
+  },
+  "places": {
+    "neighbourhoods": ["Gulshan", "Banani", "Dhanmondi", "Mirpur", "Uttara", "Mohakhali", "Motijheel", "Old Dhaka", "Bashundhara", "Farmgate", "Mohammadpur", "Baridhara", "Tejgaon"],
+    "streets": ["Airport Road", "Satmasjid Road", "Gulshan Avenue", "Mirpur Road", "Kazi Nazrul Islam Avenue", "Elephant Road", "Pragati Sarani", "Begum Rokeya Sarani"],
+    "landmarks": ["Lalbagh Fort", "Ahsan Manzil", "Jatiya Sangsad Bhaban", "Sadarghat", "New Market", "Bashundhara City", "Hatirjheel", "Curzon Hall", "Dhanmondi Lake", "Star Mosque"]
+  },
+  "small_talk": [
+    "The metro from Uttara to Motijheel saved me an hour today.",
+    "The jam at Bijoy Sarani did not move for forty minutes.",
+    "Monsoon is here, half of Mirpur Road will be underwater again.",
+    "Kacchi from Old Dhaka is worth the trip, every time.",
+    "Bhapa pitha stalls are out, winter must be close.",
+    "The rickshaw mama wanted a hundred taka to go to Dhanmondi 27!",
+    "Evenings by Hatirjheel are lovely when the lights come on.",
+    "Gulshan 1 traffic gets worse every year.",
+    "Before Eid half the city goes home and the roads are empty.",
+    "Power cut again, good thing the IPS is charged."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Dhaka",
+    "https://en.wikipedia.org/wiki/Dhaka_Metro_Rail",
+    "https://en.wikipedia.org/wiki/Bangladeshi_cuisine",
+    "https://en.wikipedia.org/wiki/Panipuri"
+  ]
+}

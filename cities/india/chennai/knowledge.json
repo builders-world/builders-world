@@ -1,0 +1,102 @@
+{
+  "street": { "ta": 0.65, "en": 0.35 },
+  "registers": {},
+  "names": {
+    "weights": {
+      "tamil": 0.7,
+      "telugu": 0.08,
+      "malayali": 0.05,
+      "muslim": 0.08,
+      "christian": 0.04,
+      "hindi": 0.03,
+      "gujarati": 0.01,
+      "kannada": 0.01
+    }
+  },
+  "phrases": {
+    "ta": {
+      "hello": [["Vanakkam", "Hello (வணக்கம்)"], ["Enna machan?", "What's up, mate? (Chennai)"]],
+      "how_are_you": [["Sowkiyama?", "Keeping well? (சௌக்கியமா?)"], ["Saaptiya?", "Have you eaten? casual (சாப்டியா?)"]],
+      "fine": [["Semma", "Awesome (செம்ம)"], ["Sowkiyam", "I'm well"]],
+      "friend": [["Machan", "Mate, buddy (மச்சான்)"], ["Machi", "Mate, buddy"], ["Thala", "Boss, chief, between friends"]],
+      "slang": [["Gethu", "Style, swagger (கெத்து)"], ["Bejaar", "Fed up, a nuisance (Madras Tamil)"], ["Kalaai", "Teasing, leg-pulling"], ["Scene podaadhe", "Don't show off"]],
+      "okay": [["Sari", "Okay"], ["Okay pa", "Okay, friendly"]],
+      "auto": [["Meter podunga", "Put the meter on, please"], ["Inga niruthunga", "Stop here, please"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hi, how are you?", "Good morning! Had your kaapi?", "Hello sir, how is everything?", "Hey machan, what's up?", "Hi! Long time, no see."],
+      "reply": ["All good, thanks. You?", "Doing fine, very hot though.", "Super, just back from the beach.", "Good only, office is busy.", "Fine, fine. All okay at home?"],
+      "sunny": ["Scorching today, stay in the shade.", "It's so humid, I am melting.", "Agni Nakshatram heat, nobody goes out at noon.", "Nice breeze at Marina this evening at least.", "Sun is strong, drink some tender coconut."],
+      "rain": ["Monsoon is here, roads in T. Nagar will be flooded.", "Cyclone warning, schools are shut tomorrow.", "Heavy rain, Velachery is underwater again.", "Finally some rain, the heat was unbearable.", "Carry an umbrella, the northeast monsoon is serious."],
+      "bye": ["Okay, bye, take care.", "See you, machan.", "Bye, go carefully.", "Catch you at the weekend.", "Bye, say hi to amma."],
+      "busy": ["On OMR, traffic is crawling. Call you later.", "Running late for office, talk in the evening.", "In a meeting, will call you back.", "Need to catch the metro, bye!", "Busy day, catch you later."]
+    },
+    "ta": {
+      "greet": ["Vanakkam, eppadi irukkeenga?", "Enna machan, epdi irukka?", "Saaptiya?", "Vaa machi, enna vishayam?", "Enna boss, sowkiyama?"],
+      "reply": ["Nalla irukken, neenga?", "Semma da!", "Sowkiyam, neenga?", "Paravaalla, poguthu.", "Saapten, neenga saapteengala?"],
+      "sunny": ["Veyil semma adikkuthu.", "Inniki romba hot-a irukku.", "Vervai oothuthu.", "Thanni kudi, veyil jaasti.", "Beach la saayangaalam kaathu nalla irukkum."],
+      "rain": ["Mazhai varuthu, kodai eduthutu po.", "Semma mazhai, road ellaam thanni.", "Puyal varudhaam.", "Mazhai la nanaiyaadhe."],
+      "bye": ["Poittu varen.", "Appram paakalaam.", "Sari machan, bye.", "Paathu po.", "Varen."],
+      "busy": ["Late aachu, appram pesalaam.", "Office-ku late, kilambaren.", "Traffic la maatikitten.", "Appram call panren."]
+    }
+  },
+  "transport": {
+    "bus": "MTC bus",
+    "metro": "Chennai Metro",
+    "train": "suburban train and MRTS",
+    "tricycle": "auto",
+    "shared_tricycle": "share auto",
+    "taxi": "call taxi",
+    "ride_hail": "Ola, Uber or Rapido",
+    "moto_taxi": "Rapido bike",
+    "conductor": "conductor",
+    "stage": "bus stop"
+  },
+  "touts": [
+    "Broadway, Broadway!",
+    "Koyambedu, Koyambedu, vaanga!",
+    "Share auto, T. Nagar, ukkaarunga!",
+    "Central, Egmore, Central!",
+    "Tambaram, Tambaram!",
+    "Velachery, Guindy, ready!",
+    "Auto venuma sir? Meter podren."
+  ],
+  "hawkers": [
+    ["Sundal, sundal!", "Spiced chickpeas! (சுண்டல்)"],
+    ["Malli poo, oru muzham!", "Jasmine, by the arm's length!"],
+    ["Ilaneer, ilaneer!", "Tender coconut!"],
+    ["Sooda bajji!", "Hot fritters!"],
+    ["Maanga, uppu milagai!", "Raw mango with salt and chilli!"],
+    ["Kadalai, kadalai!", "Peanuts!"],
+    ["Murukku, murukku!", "Crunchy murukku!"]
+  ],
+  "food": {
+    "street": ["kothu parotta", "sundal", "bajji", "atho", "kaalan", "masala vadai", "kuzhi paniyaram", "murukku"],
+    "dishes": ["idli with sambar and chutney", "pongal", "meals on a banana leaf", "Chettinad chicken", "biryani", "parotta with salna", "curd rice", "ghee roast dosa"],
+    "drinks": ["filter kaapi", "tea", "jigarthanda", "rose milk", "nannari sarbath", "tender coconut water", "buttermilk"]
+  },
+  "places": {
+    "neighbourhoods": ["T. Nagar", "Mylapore", "Adyar", "Besant Nagar", "Anna Nagar", "Velachery", "Nungambakkam", "Triplicane", "Royapettah", "Egmore", "Tambaram", "Sholinganallur", "Kodambakkam", "Perambur"],
+    "streets": ["Anna Salai", "Rajiv Gandhi Salai (OMR)", "East Coast Road", "Ranganathan Street", "Pondy Bazaar", "Cathedral Road", "Usman Road", "Poonamallee High Road"],
+    "landmarks": ["Marina Beach", "Elliot's Beach", "Fort St. George", "Chennai Central", "Valluvar Kottam", "Chepauk Stadium", "Kapaleeshwarar Temple", "Santhome Cathedral", "Tidel Park", "Napier Bridge"]
+  },
+  "small_talk": [
+    "Kaapi at the corner shop, then office.",
+    "OMR traffic was crawling again this morning.",
+    "Evening walk on Besant Nagar beach, the breeze is the only relief.",
+    "The share auto from Vadapalani was packed.",
+    "Margazhi season is starting, every sabha has a kutcheri.",
+    "Did you see the CSK match at Chepauk? The whistles were mad.",
+    "Ranganathan Street is impossible before Deepavali.",
+    "They say the cyclone will cross near Chennai tonight.",
+    "Metro to the airport is so much better than the old taxi fight."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Chennai",
+    "https://en.wikipedia.org/wiki/Madras_Bashai",
+    "https://en.wikipedia.org/wiki/Chennai_Metro",
+    "https://en.wikipedia.org/wiki/Tamil_name"
+  ]
+}

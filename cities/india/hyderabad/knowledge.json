@@ -1,0 +1,125 @@
+{
+  "street": { "te": 0.35, "hyderabadi": 0.35, "en": 0.3 },
+  "registers": {
+    "hyderabadi": {
+      "name": "Hyderabadi (Dakhni)",
+      "about": "Hyderabad's own Urdu-Hindi from the Deccan, with Telugu words and its own grammar (hau, nakko, kaiku). Everyone in the city understands it, whatever their mother tongue."
+    }
+  },
+  "names": {
+    "weights": {
+      "telugu": 0.55,
+      "muslim": 0.3,
+      "hindi": 0.05,
+      "marathi": 0.03,
+      "tamil": 0.02,
+      "malayali": 0.02,
+      "christian": 0.02,
+      "bengali": 0.01
+    }
+  },
+  "phrases": {
+    "hyderabadi": {
+      "hello": [["Kya miyan?", "Hey, what's up, mate?"], ["Assalamu alaikum", "Hello, peace be upon you"]],
+      "how_are_you": [["Kya chalra?", "What's going on?"], ["Kya karre?", "What are you up to?"]],
+      "fine": [["Sab khairiyat", "All well"], ["Aisich chalra", "Just carrying on as usual"]],
+      "thanks": [["Shukriya miyan", "Thanks, mate"]],
+      "bye": [["Khuda hafiz", "Goodbye"], ["Chalo, milte", "Okay, see you"]],
+      "yes": [["Hau", "Yes"], ["Hau re", "Yes, of course"]],
+      "no": [["Nakko", "No, don't"], ["Nai", "No"]],
+      "why": [["Kaiku?", "Why?"]],
+      "slowly": [["Hallu", "Slowly, gently"], ["Hallu bol", "Speak softly"]],
+      "disbelief": [["Baigan!", "Nonsense! (literally 'brinjal')"]],
+      "friend": [["Miyan", "Mate, sir"], ["Mamu", "Buddy (literally 'uncle')"]]
+    },
+    "te": {
+      "excuse": [["Emandi", "Excuse me, sir or madam"]],
+      "friend": [["Bava", "Buddy, mate (literally 'brother-in-law')"], ["Anna", "Brother, to a man"]],
+      "auto": [["Meter meeda raa", "Come by the meter"], ["Ikkada aapandi", "Stop here, please"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hi, how are you?", "Morning! Had your Irani chai?", "Hello sir, all good?", "Hey bro, what's up?", "Hi! Long time, no see."],
+      "reply": ["All good, thanks. You?", "Doing fine, just back from HITEC City.", "Super, busy week.", "Good, good. How's home?", "Fine, just very hot."],
+      "sunny": ["It's boiling, 42 degrees today.", "Very hot, drink some buttermilk.", "Nice evening, let's go to Necklace Road.", "Summer is brutal, stay indoors at noon.", "Clear sky today, good for Durgam Cheruvu."],
+      "rain": ["Heavy rain, Mehdipatnam roads are flooded.", "Rain again, traffic on the flyover is stuck.", "Carry an umbrella, the clouds are dark.", "Lovely rain, perfect for mirchi bajji.", "Rain stopped the metro for ten minutes, can you believe it."],
+      "bye": ["Okay, bye, take care.", "Catch you later, bro.", "See you at the weekend.", "Bye, reach home safe.", "Let's meet for biryani soon."],
+      "busy": ["Stuck at Biodiversity junction, call you later.", "Running late for standup, talk in the evening.", "Client call now, catch you later.", "Need to catch the metro from Ameerpet, bye!", "Too busy today, tomorrow?"]
+    },
+    "te": {
+      "greet": ["Namaskaram, ela unnaru?", "Em bro, ela unnav?", "Tinnara?", "Hi andi, bagunnara?"],
+      "reply": ["Bagunnanu, meeru?", "Super, antha baagane undi.", "Baagane undi, thanks andi.", "Tinnanu, meeru?"],
+      "sunny": ["Eeroju enda chala ekkuva undi.", "Chala vedi ga undi.", "Neellu taagandi, enda ekkuva.", "Enda baaga kodutundi."],
+      "rain": ["Varsham padutundi, godugu teesukondi.", "Varsham vaste traffic jam.", "Bhari varsham padutundi.", "Tadavakunda vellandi."],
+      "bye": ["Vellostanu.", "Malli kaluddam.", "Sare, bye andi.", "Jaagrattaga vellandi."],
+      "busy": ["Late ayyindi, tarvata maatladudam.", "Meeting undi, vellali.", "Traffic lo irukkanu.", "Tarvata call chestanu."]
+    },
+    "hyderabadi": {
+      "greet": ["Kya miyan, kaise hai?", "Kya chalra bhai?", "Assalamu alaikum, khairiyat?", "Kya karre, mamu?"],
+      "reply": ["Sab badhiya hai miyan.", "Hau, theek hoon, tum bolo.", "Alhamdulillah, sab khairiyat.", "Kuch nai, aisich chalra."],
+      "sunny": ["Aaj dhoop zor ki hai miyan.", "Garmi se sab pareshaan hore.", "Bahot garmi, paani piyo.", "Itti dhoop mein bahar nakko jao."],
+      "rain": ["Baarish aari, chhatri lelo.", "Road pura paani-paani hogaya.", "Hallu chalao, baarish hai.", "Baarish aari to chai pine chalo."],
+      "bye": ["Chalo miyan, milte.", "Khuda hafiz bhai.", "Phir milenge, hallu jao.", "Chalo, nikal raun."],
+      "busy": ["Abhi time nai miyan, baad mein milte.", "Main jaraun, kaam hai.", "Baad mein phone karta.", "Traffic mein phas gaya, baad mein baat karte."]
+    }
+  },
+  "transport": {
+    "bus": "RTC city bus",
+    "metro": "Hyderabad Metro",
+    "train": "MMTS",
+    "tricycle": "auto",
+    "taxi": "cab",
+    "ride_hail": "Ola, Uber or Rapido",
+    "moto_taxi": "Rapido bike",
+    "conductor": "conductor",
+    "stage": "bus stop"
+  },
+  "touts": [
+    "Secunderabad, Secunderabad!",
+    "Koti, Koti, randi!",
+    "Charminar, Charminar, aao!",
+    "Mehdipatnam, Mehdipatnam!",
+    "Ameerpet, Kukatpally!",
+    "Auto kaavala sir? Meter meeda vastanu.",
+    "Afzalgunj, Afzalgunj, ek seat!"
+  ],
+  "hawkers": [
+    ["Mirchi bajji, garam garam!", "Hot chilli fritters!"],
+    ["Osmania biscuit, taaza!", "Fresh Osmania biscuits!"],
+    ["Pallilu, pallilu!", "Peanuts! (Telugu)"],
+    ["Mallepoolu!", "Jasmine flowers!"],
+    ["Chudiyan, chudiyan!", "Bangles! (Laad Bazaar)"],
+    ["Thanda paani, thanda!", "Cold water!"],
+    ["Mamidi pandlu!", "Mangoes!"]
+  ],
+  "food": {
+    "street": ["Irani chai with Osmania biscuit", "mirchi bajji", "punugulu", "lukhmi", "samosa", "pani puri", "dosa from a cart", "keema samosa"],
+    "dishes": ["Hyderabadi biryani", "haleem", "pathar ka gosht", "nihari with kulcha", "double ka meetha", "qubani ka meetha", "pesarattu", "bagara baingan"],
+    "drinks": ["Irani chai", "falooda", "lassi", "sugarcane juice", "tender coconut water", "badam milk", "buttermilk"]
+  },
+  "places": {
+    "neighbourhoods": ["Banjara Hills", "Jubilee Hills", "Gachibowli", "HITEC City", "Madhapur", "Kondapur", "Secunderabad", "Ameerpet", "Kukatpally", "Begumpet", "Mehdipatnam", "Old City", "Dilsukhnagar", "Tolichowki", "Abids"],
+    "streets": ["Necklace Road", "Tank Bund Road", "Banjara Hills Road No. 1", "Jubilee Hills Road No. 36", "Begumpet Road", "Laad Bazaar", "Pathergatti", "Old Mumbai Highway"],
+    "landmarks": ["Charminar", "Golconda Fort", "Hussain Sagar", "Falaknuma Palace", "Salar Jung Museum", "Chowmahalla Palace", "Cyber Towers", "Durgam Cheruvu cable bridge", "Inorbit Mall", "Secunderabad station"]
+  },
+  "small_talk": [
+    "Biodiversity flyover was jammed again this morning.",
+    "Irani chai at the cafe near Charminar, nothing beats it.",
+    "Which biryani is better, Paradise or the small place in the Old City? Endless debate.",
+    "Office moved to HITEC City, the commute is shorter now.",
+    "Ramzan nights in the Old City, the haleem is worth the queue.",
+    "Metro from Ameerpet was packed at nine.",
+    "Laad Bazaar for bangles before the wedding, it is so crowded.",
+    "Necklace Road at night is lovely when it is not too hot.",
+    "My cousin is moving from Kukatpally to Kokapet, everyone is moving west."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Hyderabad",
+    "https://en.wikipedia.org/wiki/Hyderabadi_Urdu",
+    "https://en.wikipedia.org/wiki/Dakhini",
+    "https://en.wikipedia.org/wiki/Hyderabad_Metro",
+    "https://en.wikipedia.org/wiki/Irani_chai",
+    "https://en.wikipedia.org/wiki/Hyderabadi_biryani"
+  ]
+}

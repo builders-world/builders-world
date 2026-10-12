@@ -1,0 +1,98 @@
+{
+  "street": { "zh": 0.8, "yue": 0.12, "en": 0.08 },
+  "registers": {},
+  "names": { "weights": { "north": 0.3, "jiangnan": 0.15, "south": 0.55 } },
+  "phrases": {
+    "zh": {
+      "hello": [["Nǐ hǎo, lǎoxiāng!", "Hello, fellow hometowner! (你好,老乡)"]],
+      "welcome": [["Lái le jiù shì Shēnzhèn rén", "Come here and you're a Shenzhener, the city's motto (来了就是深圳人)"]],
+      "yes": [["Hǎo de", "OK, sure (好的)"]]
+    },
+    "yue": {
+      "how_are_you": [["Gan pai dim a?", "How have you been lately? (近排點呀?)"]],
+      "fine": [["Gau dim", "All sorted (搞掂)"]],
+      "bye": [["Haang sin la", "I'm heading off first (行先喇)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! Ready for another day?", "Hi! How's work?", "Hey, long time no see!", "Hello, have you had breakfast?", "Morning, the metro was crazy today."],
+      "reply": ["Good, thanks, just busy.", "Not bad, launching a new product.", "All fine, how about you?", "Great, I had changfen for breakfast.", "Tired, we worked late."],
+      "sunny": ["So hot, stay in the shade!", "Blue skies, great for Shenzhen Bay Park.", "Perfect day for Dameisha beach.", "Sun's fierce today, wear sunscreen.", "Nice evening for a walk along the bay."],
+      "rain": ["Rainstorm warning just came through on my phone.", "Typhoon's coming, the office is closing early.", "It's pouring, wait inside a bit.", "Bring an umbrella, it rains every afternoon now.", "Roads are flooded near the station."],
+      "bye": ["See you!", "Bye, take care!", "Talk later!", "See you tomorrow!", "Have a good night!"],
+      "busy": ["Sorry, running to catch Line 1!", "Got a demo in ten minutes.", "Busy week, let's do yum cha after.", "Can't stop, my Didi is here!", "Off to Huaqiangbei for parts, talk later!"]
+    },
+    "zh": {
+      "greet": ["Zǎo a! Chī zǎofàn le méi?", "Hāi, gōngzuò máng ma?", "Hǎo jiǔ bú jiàn, lǎoxiāng!", "Zǎo, jīntiān yòu jiābān?", "Nǐ hǎo, zuìjìn zěnmeyàng?"],
+      "reply": ["Hái xíng, xièxie!", "Tǐng hǎo de, nǐ ne?", "Máng sǐ le, dàn hái hǎo.", "Bú cuò, gāng chī le chángfěn."],
+      "sunny": ["Jīntiān tài rè le, duǒ yí xià tàiyáng.", "Tiān hǎo lán, qù Shēnzhèn Wān Gōngyuán zǒuzou.", "Zhème hǎo de tiān, qù Dàméishā ba.", "Shài sǐ le, kuài jìn kōngtiáo fáng."],
+      "rain": ["Bàoyǔ yùjǐng yòu lái le.", "Táifēng yào lái le, gōngsī tíqián xiàbān.", "Xià dà yǔ le, děng yíhuìr zài zǒu.", "Jìde dài sǎn, xiàwǔ kěndìng xià yǔ."],
+      "bye": ["Zàijiàn!", "Bàibai!", "Gǎitiān jiàn!", "Míngtiān jiàn a!"],
+      "busy": ["Bù hǎoyìsi, gǎn dìtiě!", "Mǎshàng kāi huì, děng huìr liáo.", "Wǒ yào qù Huáqiángběi ná huò, xiān zǒu le.", "Kuài chídào le, huítóu liáo!"]
+    },
+    "yue": {
+      "greet": ["Zou san! Sik zo faan mei a?", "Nei hou a, gan pai dim a?", "Wai, gei hou ma?", "Zou san a, gam zou ge?"],
+      "reply": ["Gei hou, m goi!", "Hou hou, nei ne?", "Mou man tai, ok ge.", "Sik zo la, do ze!"],
+      "sunny": ["Gam jit gaa!", "Taai joeng hou maang a.", "Gam ho tin, ceot heoi haang haa.", "Ho tin, hou syu fuk."],
+      "rain": ["Lok jyu la, daai ze a!", "Lok gam daai jyu, ceot m dou gaai.", "Gwo zan zau ting ge la.", "Daa fung lok jyu, siu sam di a."],
+      "bye": ["Baai baai, ting jat gin!", "Zoi gin, siu sam di a.", "Jau hung jam caa a!", "Haang sin la!"],
+      "busy": ["M hou ji si, ngo gon si gaan!", "Ngo jiu faan gung la.", "Dang ngo jat zan, hou mong.", "Ngo jiu hoi wui, faan lai zoi king."]
+    }
+  },
+  "transport": {
+    "metro": "dìtiě (地铁)",
+    "bus": "gōngjiāo (公交)",
+    "taxi": "chūzūchē (出租车)",
+    "ride_hail": "Dīdī (滴滴)",
+    "bike": "gòngxiǎng dānchē (共享单车, shared bike)",
+    "e_bike": "diàndòngchē (电动车)",
+    "boat": "chuán (船, ferries from Shekou)",
+    "train": "gāotiě (高铁, high-speed rail)",
+    "stage": "zhàn (站, stop)"
+  },
+  "touts": [
+    "Dǎ chē ma? Bǎo'ān jīchǎng!",
+    "Shǒujī pèijiàn, quán chǎng zuì piányi!",
+    "Guò guān ma? Shàng chē jiù zǒu!",
+    "Hǎixiān, xiàn shā xiàn zuò, lái kànkan!",
+    "Shuàigē, chōngdiànbǎo yào ma?",
+    "Lǐbian yǒu zuò, zǎochá lái ma?"
+  ],
+  "hawkers": [
+    ["Chángfěn, jiā dàn jiā ròu!", "Rice noodle rolls with egg and pork (肠粉)"],
+    ["Yúdàn, gāli yúdàn!", "Curry fishballs (咖喱鱼蛋)"],
+    ["Kǎo shēngháo, Shājǐng háo!", "Grilled oysters, Shajing oysters (烤生蚝)"],
+    ["Liángchá, qīngrè qùhuǒ!", "Herbal tea, cools you down (凉茶)"],
+    ["Jīdànzǎi, gāng chūlú!", "Egg waffles, fresh off the iron (鸡蛋仔)"],
+    ["Yēzi, bīng yēzi!", "Coconuts, cold coconuts (椰子)"],
+    ["Lìzhī, xīnxiān lìzhī!", "Fresh lychees (荔枝)"]
+  ],
+  "food": {
+    "street": ["chángfěn (肠粉)", "yúdàn (鱼蛋, fishballs)", "kǎo shēngháo (烤生蚝)", "jīdànzǎi (鸡蛋仔)", "shāomài (烧卖)", "zhōu (粥, congee)", "lǔwèi (卤味)"],
+    "dishes": ["zǎochá (早茶, dim sum)", "Cháoshàn niúròu huǒguō (潮汕牛肉火锅)", "shāolà (烧腊, roast meats)", "báiqiē jī (白切鸡)", "Shājǐng háo (沙井蚝)", "Húnán xiǎochǎo (湖南小炒)", "gānchǎo niúhé (干炒牛河)"],
+    "drinks": ["liángchá (凉茶)", "nǎichá (奶茶)", "gōngfu chá (工夫茶)", "yēzi shuǐ (椰子水)", "níngméng chá (柠檬茶)", "dòujiāng (豆浆)"]
+  },
+  "places": {
+    "neighbourhoods": ["Futian", "Nanshan", "Luohu", "Shekou", "Bao'an", "Longhua", "Longgang", "Qianhai", "Huaqiangbei", "Overseas Chinese Town (OCT)", "Dongmen", "Dafen Village", "Shenzhen Bay"],
+    "streets": ["Shennan Boulevard", "Huaqiang North Road", "Dongmen Pedestrian Street", "Binhai Avenue", "Keyuan Road", "Sea World Square, Shekou", "Fuhua Road"],
+    "landmarks": ["Ping An Finance Centre", "Lianhuashan Park", "Shenzhen Bay Park", "Window of the World", "Shenzhen Civic Centre", "Shenzhen Talent Park", "Dameisha Beach", "Wutong Mountain", "Huaqiangbei electronics markets"]
+  },
+  "small_talk": [
+    "Everyone here is from somewhere else, where's your hometown?",
+    "I went to Huaqiangbei for a cable and came back with three gadgets.",
+    "Line 1 to Futian was packed again.",
+    "The weekend walk at Shenzhen Bay Park was lovely.",
+    "My team is shipping a new version on Friday.",
+    "Typhoon signal is up, we might work from home tomorrow.",
+    "Best changfen in town is still that little place in Futian.",
+    "You can see Hong Kong from the bay on a clear day."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Shenzhen",
+    "https://en.wikipedia.org/wiki/Huaqiangbei",
+    "https://en.wikipedia.org/wiki/Cantonese_cuisine",
+    "https://en.wikipedia.org/wiki/Rice_noodle_roll",
+    "https://en.wikipedia.org/wiki/Cantonese"
+  ]
+}

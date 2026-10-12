@@ -1,0 +1,133 @@
+{
+  "street": { "manglish": 0.33, "ms": 0.3, "en": 0.12, "yue": 0.12, "zh": 0.06, "ta": 0.07 },
+  "registers": {
+    "manglish": {
+      "name": "Manglish",
+      "about": "Malaysia's everyday English, mixed freely with Malay, Cantonese, Hokkien and Tamil words and finished with lah, lor, meh and ah. Spoken at the mamak, in the office and on WhatsApp by everyone in KL."
+    }
+  },
+  "names": { "weights": { "malay": 0.47, "chinese": 0.42, "indian": 0.11 } },
+  "phrases": {
+    "manglish": {
+      "hello": [["Eh, hello!", "Hey, hello!"], ["Wei!", "Hey!"]],
+      "how_are_you": [["Makan already?", "Have you eaten yet?"], ["How's life, bro?", "How's things?"]],
+      "fine": [["Okay lah", "Fine"], ["Can can", "No problem"], ["Steady", "All good"]],
+      "thanks": [["Thanks ah, boss", "Thanks"]],
+      "bye": [["Chow first", "I'm leaving now"], ["Jumpa lagi", "See you again"]],
+      "sorry": [["Sorry ah", "Sorry"], ["Paiseh", "Sorry, embarrassed (Hokkien)"]],
+      "yes": [["Can", "Yes, OK"], ["Confirm", "Definitely"], ["Betul", "Correct"]],
+      "no": [["Cannot", "No"], ["Where got!", "No way, that's not true!"], ["Tak nak", "Don't want"]],
+      "surprise": [["Alamak!", "Oh no!"], ["Aiyo!", "Oh dear!"]],
+      "great": [["Syok!", "So good!"], ["Terbaik!", "The best!"]],
+      "takeaway": [["Tapau", "Takeaway (打包)"]],
+      "hang_out": [["Lepak", "Hang out, chill"], ["Jom mamak!", "Let's go to the mamak!"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! Had breakfast?", "Hi! How's your day?", "Hey, long time no see!", "Hello! Heading to the office?", "Good morning, Uncle!"],
+      "reply": ["Good, thanks!", "Not bad, just busy.", "All fine, how about you?", "Great, had nasi lemak already.", "Tired, the jam was terrible."],
+      "sunny": ["So hot today, find some shade.", "Lovely day, the Twin Towers look great.", "The sun is fierce, drink lots of water.", "Clear sky, you can see KL Tower from here.", "Nice morning for a jog round KLCC Park."],
+      "rain": ["It always rains at four, bring an umbrella.", "Heavy rain, the roads will flood.", "Wait a bit, the storm will pass.", "Monsoon rain again, traffic is going to be bad.", "Thunderstorm coming, look at the sky."],
+      "bye": ["See you!", "Bye, take care!", "Catch you later!", "See you tomorrow!", "Have a good one!"],
+      "busy": ["Sorry, rushing for the LRT!", "Got a meeting in Bangsar South, talk later.", "Busy week, let's mamak after.", "My Grab is here, gotta go!", "Running late, I'll WhatsApp you!"]
+    },
+    "manglish": {
+      "greet": ["Eh bro, long time no see ah!", "Boss, makan already?", "Wei, where you been lah?", "Aiyo, so early you here ah?", "Eh, come lepak mamak lah!"],
+      "reply": ["Okay lah, still alive.", "Can can, no problem one.", "Not bad lah, you?", "Same old lah, work work only.", "Steady bro, thanks ah!"],
+      "sunny": ["Wah, today damn hot lah!", "Hot until cannot tahan, go mamak minum air sejuk.", "So syok the weather, sky so blue.", "Panas gila, aircon full blast."],
+      "rain": ["Confirm hujan later, see the sky so dark.", "Alamak, rain again, sure jam on Federal Highway.", "Bring umbrella lah, four o'clock sure rain.", "Rain so heavy, wait first lah, don't ride."],
+      "bye": ["Okay lah, chow first!", "Jumpa lagi bro!", "Bye bye, take care ah!", "Next time lepak again ah!"],
+      "busy": ["Sorry ah, rushing, nanti talk.", "Cannot lah, got meeting already.", "Jam teruk, I gotta go first.", "Busy like mad today, later I WhatsApp you."]
+    },
+    "ms": {
+      "greet": ["Assalamualaikum, apa khabar?", "Hai, sihat?", "Selamat pagi, pakcik!", "Eh, lama tak jumpa!", "Dah makan ke belum?"],
+      "reply": ["Khabar baik, terima kasih.", "Sihat, alhamdulillah.", "Baik je, kau macam mana?", "Dah, dah makan tadi."],
+      "sunny": ["Panas betul hari ni!", "Cuaca cantik, jom jalan-jalan.", "Terik sangat, minum air banyak-banyak.", "Panas terik, jom minum air tebu."],
+      "rain": ["Hujan lebat ni, bawa payung tak?", "Tunggu hujan reda dulu.", "Petang-petang mesti hujan.", "Hujan lagi, jalan jem teruk."],
+      "bye": ["Jumpa lagi!", "Okay, gerak dulu ya.", "Hati-hati bawa motor!", "Kirim salam pada keluarga."],
+      "busy": ["Maaf, saya kena cepat ni.", "Nak kejar LRT, nanti kita borak.", "Sibuk sikit hari ni, lain kali ya.", "Dah lambat ni, nanti saya call."]
+    },
+    "yue": {
+      "greet": ["Zou san! Lei sik zo faan mei a?", "Wah, hou noi mou gin!", "Lei hou a, gan pai dim a?", "Auntie, zou san! Gam zou ge?"],
+      "reply": ["Gei hou, m goi!", "Sik zo la, lei ne?", "Mou man tai lah, ok ge.", "Ma ma dei lah."],
+      "sunny": ["Gam jit, jit dou sei!", "Taai joeng hou maang a.", "Gam hou tin, ceot heoi haang haa lah.", "Gam jit, jam bui dung je sin."],
+      "rain": ["Lok jyu la, daai ze mei a?", "Lok gam daai jyu, gau sak ce la.", "Dang jyu ting sin lah.", "Haa zau jat ding lok jyu ge."],
+      "bye": ["Baai baai, ting jat gin!", "Haang sin la!", "Siu sam di a!", "Jau hung jam caa a!"],
+      "busy": ["M hou ji si, ngo gon si gaan!", "Ngo jiu faan gung la, jat zan king.", "Hou mong a, gai jat zoi king lah.", "Gon zyu heoi LRT, baai baai!"]
+    },
+    "zh": {
+      "greet": ["Zǎo ān! Chī bǎo le méi?", "Hāi, hǎo jiǔ bú jiàn!", "Nǐ hǎo, qù shàngbān a?", "Āyí, zǎo!"],
+      "reply": ["Hái hǎo la, xièxie!", "Chī le, nǐ ne?", "Bú cuò, hěn máng.", "Dōu hǎo, dōu hǎo."],
+      "sunny": ["Jīntiān hǎo rè!", "Tàiyáng hǎo dà, duō hē shuǐ.", "Tiānqì hǎo hǎo, chūqù zǒuzou.", "Rè sǐ le, jìn qù chuī lěngqì."],
+      "rain": ["Yào xià dà yǔ le.", "Xià yǔ le, xiān děng yí xià.", "Xiàwǔ sì diǎn yídìng xià yǔ.", "Jìde dài sǎn ō."],
+      "bye": ["Bàibai!", "Zàijiàn!", "Míngtiān jiàn!", "Màn zǒu ō!"],
+      "busy": ["Bù hǎoyìsi, wǒ gǎn shíjiān!", "Yào kāi huì le, děng yí xià liáo.", "Zhè xīngqī hǎo máng.", "Dǔchē le, wǒ xiān zǒu!"]
+    },
+    "ta": {
+      "greet": ["Vanakkam! Eppadi irukkeenga?", "Saapteengala?", "Enna, romba naal aachu paathu!", "Kaalai vanakkam, anna!"],
+      "reply": ["Nallaa irukken, neenga?", "Saapten, nandri!", "Paravaillai, nallaa poguthu.", "Ellaam nallaa irukku."],
+      "sunny": ["Inniki romba veyil!", "Romba soodaa irukku, thanni kudinga.", "Veyil romba adikkuthu.", "Vaanam nallaa thelivaa irukku."],
+      "rain": ["Mazhai varudhu, kudai eduthukonga.", "Semma mazhai, konjam wait pannunga.", "Saayangaalam kandippaa mazhai varum.", "Mazhai nikkira varaikkum inga irunga."],
+      "bye": ["Poitu varen!", "Apram paakalaam!", "Paathu ponga!", "Naalaikku paakalaam!"],
+      "busy": ["Sorry, konjam avasaram.", "Office-ku late aaguthu, apram pesalaam.", "Inniki romba busy, naalaikku pesalaam.", "LRT pidikkanum, poitu varen!"]
+    }
+  },
+  "transport": {
+    "metro": "LRT and MRT",
+    "monorail": "Monorail",
+    "train": "KTM Komuter",
+    "bus": "bas, RapidKL",
+    "taxi": "teksi",
+    "ride_hail": "Grab",
+    "stage": "perhentian bas (bus stop), stesen (station)",
+    "airport_train": "KLIA Ekspres"
+  },
+  "touts": [
+    "Teksi, teksi! Nak pergi mana?",
+    "Bukit Bintang, KLCC, mari!",
+    "Boss, makan sini? Ada tempat duduk!",
+    "Massage, boss? Foot reflexology, cheap cheap!",
+    "Seafood, come sit, see menu first!",
+    "Bas ke Melaka, naik cepat, nak gerak dah!"
+  ],
+  "hawkers": [
+    ["Air tebu! Sejuk-sejuk!", "Sugarcane juice, nice and cold!"],
+    ["Apam balik, panas lagi!", "Peanut pancake, still hot!"],
+    ["Satay, berapa cucuk?", "Satay, how many sticks?"],
+    ["Nasi lemak bungkus, ada sambal sotong!", "Wrapped nasi lemak, with squid sambal!"],
+    ["Durian, durian! Musang King hari ni!", "Durian! Musang King today!"],
+    ["Boss, minum apa?", "Boss, what will you drink?"],
+    ["Lok lok, pilih sendiri!", "Lok lok skewers, pick your own!"],
+    ["Cendol, gula Melaka asli!", "Cendol with real palm sugar!"]
+  ],
+  "food": {
+    "street": ["nasi lemak", "roti canai", "satay", "char kuey teow", "apam balik", "cendol", "Ramly burger", "lok lok", "curry mee", "chee cheong fun", "pisang goreng"],
+    "dishes": ["banana leaf rice", "KL Hokkien mee", "wantan mee", "bak kut teh", "nasi kandar", "rendang", "claypot chicken rice", "mee goreng mamak"],
+    "drinks": ["teh tarik", "kopi O", "Milo ais", "Milo Dinosaur", "sirap bandung", "teh O ais limau", "air tebu", "air kelapa", "Neslo"]
+  },
+  "places": {
+    "neighbourhoods": ["Bukit Bintang", "Bangsar", "Bangsar South", "Mont Kiara", "Brickfields", "Chow Kit", "Kampung Baru", "Cheras", "Damansara Heights", "Sri Hartamas", "TTDI", "Sentul", "Setapak", "Kepong", "KL Sentral", "Petaling Jaya"],
+    "streets": ["Jalan Bukit Bintang", "Jalan Alor", "Jalan Petaling", "Jalan Tuanku Abdul Rahman", "Jalan Ampang", "Jalan Sultan Ismail", "Jalan Telawi", "Jalan Masjid India", "Jalan Raja Chulan", "Federal Highway"],
+    "landmarks": ["Petronas Twin Towers", "KL Tower (Menara KL)", "Merdeka 118", "Batu Caves", "Central Market (Pasar Seni)", "Masjid Jamek", "Sultan Abdul Samad Building", "Dataran Merdeka", "KLCC Park", "Thean Hou Temple", "Pavilion KL"]
+  },
+  "small_talk": [
+    "The Federal Highway was jammed all the way to PJ.",
+    "Jom mamak after work, the one in Bangsar stays open all night.",
+    "Four o'clock rain again, like clockwork.",
+    "Jalan Alor was full of tourists last night.",
+    "Musang King season, everyone's talking durian.",
+    "The LRT to KL Sentral was packed this morning.",
+    "Parking in Bukit Bintang costs a bomb now.",
+    "My nasi lemak guy ran out of sambal sotong by eight.",
+    "Balik kampung traffic for the holidays is going to be crazy."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Kuala_Lumpur",
+    "https://en.wikipedia.org/wiki/Manglish",
+    "https://en.wikipedia.org/wiki/Malaysian_cuisine",
+    "https://en.wikipedia.org/wiki/Mamak_stall",
+    "https://en.wikipedia.org/wiki/Jalan_Alor",
+    "https://en.wikipedia.org/wiki/Rapid_KL"
+  ]
+}

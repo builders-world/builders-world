@@ -1,0 +1,108 @@
+{
+  "street": { "en": 0.36, "ar": 0.18, "hi": 0.17, "ml": 0.12, "ne": 0.1, "fil": 0.07 },
+  "names": { "weights": { "qatari": 0.12, "indian": 0.1, "malayali": 0.14, "nepali": 0.12, "bangladeshi": 0.11, "filipino": 0.1, "egyptian": 0.08, "pakistani": 0.05, "levantine": 0.1, "western": 0.08 } },
+  "phrases": {
+    "ar": {
+      "hello": [["Hala wallah", "Hey, good to see you"], ["Shakhbarak?", "What's your news?"]],
+      "agree": [["Yalla", "Come on, let's go"], ["Khalas", "Done, that's it"], ["Inshallah", "God willing"]],
+      "very": [["Wayed", "Very, a lot (وايد)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! How are you?", "Hi habibi, all good?", "Hey, long time! Where have you been?", "Hello my friend, how's work?", "Evening! Off to Souq Waqif?"],
+      "reply": ["All good, alhamdulillah. You?", "Fine, thanks, busy week.", "Good, good. Just finished my shift.", "Can't complain, the weekend is close.", "All good, yalla, how's the family?"],
+      "sunny": ["Forty-six degrees. I'm staying in the mall.", "Finally cool enough to walk the Corniche.", "Beautiful evening for Katara beach.", "The humidity today is unreal.", "Lovely winter sun, let's sit outside."],
+      "rain": ["It's raining in Doha! Drive slowly.", "The underpass is flooded again, go round.", "Dust everywhere today, close the car windows.", "Sky's all orange with the sand.", "Clouds over West Bay, maybe rain tonight."],
+      "bye": ["Yalla, see you!", "Take care, habibi.", "Bye, drive safe.", "See you at the weekend.", "Fi aman Allah, my friend."],
+      "busy": ["Sorry, running for the metro!", "Stuck on C Ring Road, call you later.", "My shift starts now, talk later.", "Late for a meeting in West Bay, sorry!", "Can't stop, picking up the kids."]
+    },
+    "ar": {
+      "greet": ["Hala wallah, shlonik?", "Marhaba, shakhbarak?", "Assalamu alaikum, kaif al hal?", "Sabah el khair! Shlonik al yoom?", "Hala habibi, wainak?"],
+      "reply": ["Zain, alhamdulillah, wa inta?", "Bekhair, Allah ysalmik.", "Tamam, mashkoor.", "Killa zain, alhamdulillah."],
+      "sunny": ["Al jaw har wayed al yoom.", "Al rutooba wayed!", "Al jaw helw al leila, nroh al corniche?", "Al shams gawiya, ishrab mai."],
+      "rain": ["Al matar nazal, mashallah!", "Intabih, al shawari' fiha mai.", "Ghubar wayed al yoom.", "Al jaw ghaim, yimkin timtir."],
+      "bye": ["Ma'a salama.", "Fi aman Allah.", "Nshoofik ba'dain.", "Allah yhafdhik."],
+      "busy": ["Asif, mista'jil.", "Mashghool al heen, akallmik ba'dain.", "Lazim aroh al dawam.", "Al zahma wayed, lazim atharrak."]
+    },
+    "hi": {
+      "greet": ["Kya haal hai bhai?", "Namaste ji, kaise ho?", "Assalamu alaikum, sab khair?", "Arre bhai, kahan gayab the?", "Kaam kaisa chal raha hai?"],
+      "reply": ["Sab theek, aap sunao.", "Badhiya bhai, shukriya.", "Chal raha hai, sab khair.", "Mast hai yaar."],
+      "sunny": ["Aaj toh bahut garmi hai.", "Dhoop tez hai, paani peete raho.", "Aaj Corniche pe hawa achhi hai.", "Garmi mein site pe kaam mushkil hai."],
+      "rain": ["Baarish aa gayi! Doha mein!", "Sadak pe paani bhar gaya hai, dhyaan se.", "Aaj bahut dhool hai.", "Baadal hain, shayad baarish hogi."],
+      "bye": ["Chalo, milte hain.", "Khuda hafiz bhai.", "Achha, chalta hoon.", "Apna khayal rakhna."],
+      "busy": ["Abhi duty pe hoon, baad mein baat karte hain.", "Bus nikal jayegi, chalta hoon.", "Jaldi mein hoon bhai.", "Shift shuru hone wali hai."]
+    },
+    "ml": {
+      "greet": ["Enthokke undu visesham?", "Chetta, sukhamano?", "Namaskaram!", "Kure naal aayallo kandittu!", "Bhakshanam kazhicho?"],
+      "reply": ["Sukham, ningalo?", "Kuzhappamilla, nanni.", "Nannayi pokunnu.", "Angane okke pokunnu."],
+      "sunny": ["Enthoru choodu!", "Veyil kooduthal aanu, sookshikkane.", "Corniche-il nalla kaattu undu.", "Vellam kudikkan marakkalle."],
+      "rain": ["Mazha! Sookshichu odikkane.", "Roadil vellam keti, vere vazhi pokam.", "Podikkaattu aanu, jannal adakku.", "Mazha kandittu santhosham aayi."],
+      "bye": ["Shari, pinne kaanam.", "Poyittu varaam.", "Sookshikkane.", "Pinne vilikkam."],
+      "busy": ["Ippo thirakkanu, pinne vilikkam.", "Metro pidikkanam, pokatte.", "Duty-kku samayam aayi.", "Sorry, ippo pattilla."]
+    },
+    "ne": {
+      "greet": ["Namaste dai, sanchai?", "Ke chha bhai?", "Kasto chha?", "Namaste didi, khana khanubhayo?"],
+      "reply": ["Sanchai chha, tapai?", "Thikai chha, dai.", "Ramro chha, dhanyabad.", "Yesto chha, kaam gardai."],
+      "sunny": ["Aaja dherai garmi chha.", "Ghaam kati charko!", "Pani dherai piu, garmi chha.", "Mausam ramro chha aaja."],
+      "rain": ["Pani paryo! Doha ma pani!", "Aandhi aayo, dhulo dherai chha.", "Badal laagyo, pani parla jasto chha.", "Sadak chiplo chha, bistarai jau."],
+      "bye": ["La, pheri bhetaunla.", "Ramrari jau.", "Bye dai, pheri bhetaunla.", "Khyal garnu hai."],
+      "busy": ["Ahile duty ma chhu, pachhi kura garaunla.", "Hatar ma chhu, bus chhutla.", "Aaja kaam dherai chha.", "Pachhi phone garchhu hai."]
+    },
+    "fil": {
+      "greet": ["Uy kabayan, kumusta?", "Musta na?", "Magandang umaga po!", "Uy, long time no see!", "Kumusta ang trabaho?"],
+      "reply": ["Okay lang, ikaw?", "Mabuti naman, salamat.", "Ayos lang, pagod lang.", "Eto, kayod pa rin."],
+      "sunny": ["Grabe ang init!", "Ang ganda sa Corniche ngayong gabi.", "Tara sa Katara, ang ganda ng panahon.", "Ang init, uminom ka ng tubig."],
+      "rain": ["Umuulan! Ingat sa daan.", "Baha na naman sa underpass.", "Ang alikabok ngayon.", "Makulimlim, baka umulan."],
+      "bye": ["Sige, ingat!", "Una na ako.", "Kita tayo sa weekend.", "Babay!"],
+      "busy": ["Sorry, may duty ako.", "Hahabol pa ako sa metro.", "Nagmamadali ako, mamaya na lang.", "May shift pa ako, sorry."]
+    }
+  },
+  "transport": {
+    "metro": "Doha Metro (Red, Gold and Green lines)",
+    "tram": "Lusail Tram",
+    "bus": "Karwa bus",
+    "feeder": "metrolink bus",
+    "taxi": "Karwa taxi",
+    "ride_hail": "Uber or Careem",
+    "boat": "dhow",
+    "card": "travel card",
+    "stage": "metro station or bus stop"
+  },
+  "touts": ["Dhow trip, sir! Fifteen minutes on the bay!", "Taxi? Karwa? Taxi?", "Come, come, oud and perfume, try, try!", "Henna, madam? Very nice design!", "Abaya, good quality, come inside!", "Camel ride for the kids, come!"],
+  "hawkers": [
+    ["Karak! Karak chai!", "Spiced milk tea!"],
+    ["Chabab, hot chabab!", "Hot Qatari pancakes!"],
+    ["Chapati, chapati with egg!", "Chapati with egg!"],
+    ["Samosa, hot samosa!", "Hot samosas!"],
+    ["Gahwa, tfaddal!", "Coffee, please have some!"],
+    ["Lemon mint, fresh juice!", "Fresh lemon mint juice!"]
+  ],
+  "food": {
+    "street": ["karak chai", "chapati with egg and cheese", "chabab", "shawarma", "samosa", "luqaimat", "falafel", "regag bread"],
+    "dishes": ["machboos", "harees", "thareed", "madrooba", "balaleet", "saloona", "biryani", "mandi"],
+    "drinks": ["karak chai", "gahwa (Arabic coffee with cardamom)", "laban", "lemon mint", "sulaimani", "Vimto", "avocado juice"]
+  },
+  "places": {
+    "neighbourhoods": ["West Bay", "The Pearl-Qatar", "Msheireb", "Al Sadd", "Al Waab", "Al Mansoura", "Najma", "Bin Mahmoud", "Lusail", "Al Rayyan", "Old Airport", "Fereej Bin Omran", "Al Dafna", "Al Gharrafa", "Industrial Area"],
+    "streets": ["the Corniche", "C Ring Road", "D Ring Road", "Salwa Road", "Al Rayyan Road", "Grand Hamad Street", "Al Sadd Street", "Lusail Expressway"],
+    "landmarks": ["Souq Waqif", "Museum of Islamic Art", "National Museum of Qatar", "Katara Cultural Village", "Aspire Tower", "Khalifa International Stadium", "Msheireb Downtown", "Lusail Stadium", "Qatar National Library", "Education City", "the Pearl Monument", "Place Vendome mall"]
+  },
+  "small_talk": [
+    "Took the metro to Msheireb, so much easier than parking at the souq.",
+    "Chapati and karak at Souq Waqif after work?",
+    "C Ring Road was jammed again this morning.",
+    "Finally cool enough to walk the Corniche.",
+    "Weekend plan: Katara beach or The Pearl?",
+    "Dust everywhere today, my car is brown.",
+    "The Gold Line gets me to work in twenty minutes.",
+    "Ramadan nights at the souq are the best time of year."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Doha",
+    "https://en.wikipedia.org/wiki/Doha_Metro",
+    "https://en.wikipedia.org/wiki/Souq_Waqif",
+    "https://en.wikipedia.org/wiki/Qatari_cuisine",
+    "https://en.wikipedia.org/wiki/Lusail_Tram"
+  ]
+}

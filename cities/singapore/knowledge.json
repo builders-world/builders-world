@@ -1,0 +1,138 @@
+{
+  "languages": [
+    { "code": "en", "name": "English", "official": true, "spoken": "widely, the shared working language" },
+    { "code": "zh", "name": "Mandarin", "official": true, "spoken": "widely among Chinese Singaporeans" },
+    { "code": "ms", "name": "Malay", "official": true, "spoken": "among Malay Singaporeans; the national language, heard in the anthem and drill commands" },
+    { "code": "ta", "name": "Tamil", "official": true, "spoken": "among Tamil Singaporeans, around Little India" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Singapore's communities name people differently. Chinese Singaporeans put the family name first (Tan Wei Ming), usually spelled in the dialect of their grandparents (Tan, Lim, Ng, Goh are Hokkien or Teochew spellings), and most also carry an English name used in front (Jason Tan Wei Ming, known as Jason Tan). Malay names have no family name: the second part is the father's name after bin (son of) or binte (daughter of), so Nurul Huda binte Ahmad is usually just Nurul. Many Tamil Singaporeans write their father's name after their own, sometimes with s/o or d/o (son of, daughter of). Eurasians carry Portuguese, Dutch or British family names. The game shows a short everyday form: English or Malay or Tamil given name plus family or father's name; Chinese names keep family first when no English name is used.",
+    "groups": {
+      "chinese": {
+        "order": "family given",
+        "given": {
+          "m": ["Wei Ming", "Jun Jie", "Kok Wai", "Boon Huat", "Zhi Hao", "Jia Wei", "Wei Jie", "Kian Seng", "Yong Sheng", "Teck Meng", "Jun Hao", "Chee Keong", "Zhen Yu", "Kai Xiang"],
+          "f": ["Hui Min", "Jia Hui", "Xin Yi", "Siew Ling", "Mei Ling", "Pei Shan", "Li Ting", "Hui Ling", "Shu Fen", "Yi Ling", "Wan Ting", "Xiu Ling", "Jia Min", "Bee Hoon"]
+        },
+        "family": ["Tan", "Lim", "Lee", "Ng", "Ong", "Wong", "Goh", "Chua", "Chan", "Koh", "Teo", "Ang", "Yeo", "Tay", "Ho", "Low", "Toh", "Sim", "Chong", "Chia"],
+        "also": { "m": ["Jason", "Daryl", "Marcus", "Ryan", "Kelvin", "Benjamin", "Desmond", "Wilson", "Gerald", "Shawn"], "f": ["Rachel", "Michelle", "Cheryl", "Joanne", "Vanessa", "Jasmine", "Sharon", "Felicia", "Grace", "Natalie"] }
+      },
+      "malay": {
+        "given": {
+          "m": ["Muhammad", "Ahmad", "Hafiz", "Faizal", "Iskandar", "Firdaus", "Hakim", "Irfan", "Syafiq", "Amir", "Rizal", "Zulkifli", "Haikal", "Danial", "Khairul"],
+          "f": ["Nurul", "Siti", "Aisyah", "Farhana", "Nadia", "Liyana", "Syafiqah", "Hidayah", "Amirah", "Zarina", "Shahirah", "Atiqah", "Nabilah", "Sharifah"]
+        },
+        "family": ["Ahmad", "Abdullah", "Ismail", "Rahman", "Hassan", "Osman", "Ibrahim", "Yusof", "Salleh", "Hamid", "Rahim", "Jamal", "Kassim", "Sulaiman"]
+      },
+      "indian": {
+        "given": {
+          "m": ["Arun", "Kumar", "Rajesh", "Suresh", "Ganesh", "Prakash", "Vikram", "Karthik", "Siva", "Ravi", "Dinesh", "Muthu", "Selvam", "Vignesh"],
+          "f": ["Priya", "Kavitha", "Lakshmi", "Divya", "Meena", "Revathi", "Anitha", "Shalini", "Deepa", "Malathi", "Nithya", "Vani", "Sangeetha", "Janani"]
+        },
+        "family": ["Krishnan", "Subramaniam", "Rajan", "Pillai", "Muthusamy", "Ramasamy", "Arumugam", "Govindasamy", "Raman", "Selvaraj", "Chandran", "Nadarajah", "Kannan", "Sinnathamby"]
+      },
+      "eurasian": {
+        "given": {
+          "m": ["Daniel", "Gerald", "Brian", "Clement", "Edwin", "Nigel", "Kenneth", "Adrian", "Patrick", "Melvin", "Victor", "Joseph"],
+          "f": ["Claire", "Andrea", "Melissa", "Theresa", "Rosemary", "Nicole", "Christine", "Bernadette", "Monica", "Jacqueline", "Valerie", "Joanne"]
+        },
+        "family": ["Pereira", "De Souza", "Rodrigues", "D'Cruz", "Fernandez", "Gomes", "Oliveiro", "Desker", "Shepherdson", "Westerhout", "Sta Maria", "Aeria", "De Costa", "Martens"]
+      }
+    },
+    "weights": { "chinese": 0.74, "malay": 0.135, "indian": 0.09, "eurasian": 0.035 }
+  },
+  "honorifics": {
+    "elder_m": "Uncle",
+    "elder_f": "Auntie",
+    "peer_m": "Bro",
+    "peer_f": "Sis",
+    "boss": "Boss",
+    "malay_elder_m": "Pakcik",
+    "malay_elder_f": "Makcik",
+    "malay_mr": "Encik",
+    "malay_older_brother": "Abang",
+    "malay_older_sister": "Kakak",
+    "chinese_boss": "Lao ban",
+    "tamil_older_brother": "Anna",
+    "tamil_older_sister": "Akka"
+  },
+  "phrases": {
+    "en": {
+      "hello": [["Hello!", "Hello"], ["Hi!", "Hi"]],
+      "morning": [["Morning!", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"], ["Eaten already?", "Have you eaten? A friendly greeting"]],
+      "fine": [["Good, thanks", "Good, thanks"], ["Not bad", "Not bad"]],
+      "thanks": [["Thank you", "Thank you"], ["Thanks ah", "Thanks"]],
+      "bye": [["Bye bye!", "Bye"], ["See you!", "See you"]],
+      "welcome": [["Welcome", "Welcome"], ["No problem", "You're welcome"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"], ["Can", "Yes, that's possible"]],
+      "no": [["No", "No"], ["Cannot", "No, not possible"]]
+    },
+    "zh": {
+      "hello": [["Nǐ hǎo", "Hello (你好)"]],
+      "morning": [["Zǎo ān", "Good morning (早安)"], ["Zǎo!", "Morning! (早)"]],
+      "evening": [["Wǎn ān", "Good night (晚安)"]],
+      "how_are_you": [["Nǐ hǎo ma?", "How are you? (你好吗?)"], ["Chī bǎo le méi?", "Have you eaten? (吃饱了没?)"]],
+      "fine": [["Hái hǎo", "Not bad (还好)"], ["Hěn hǎo", "Very good (很好)"]],
+      "thanks": [["Xièxie", "Thank you (谢谢)"]],
+      "bye": [["Zàijiàn", "Goodbye (再见)"], ["Bàibai", "Bye bye (拜拜)"]],
+      "welcome": [["Huānyíng", "Welcome (欢迎)"], ["Bú kèqi", "You're welcome (不客气)"]],
+      "sorry": [["Duìbuqǐ", "Sorry (对不起)"], ["Bù hǎoyìsi", "Sorry, excuse me (不好意思)"]],
+      "excuse": [["Qǐngwèn", "Excuse me, may I ask (请问)"]],
+      "yes": [["Shì", "Yes (是)"], ["Hǎo", "OK (好)"], ["Duì", "Right (对)"]],
+      "no": [["Bù", "No (不)"], ["Bú yào", "Don't want (不要)"], ["Méiyǒu", "Don't have (没有)"]]
+    },
+    "ms": {
+      "hello": [["Assalamualaikum", "Peace be upon you, the Muslim greeting"], ["Hai", "Hi"]],
+      "morning": [["Selamat pagi", "Good morning"]],
+      "evening": [["Selamat petang", "Good afternoon, early evening"], ["Selamat malam", "Good night"]],
+      "how_are_you": [["Apa khabar?", "How are you?"], ["Sihat?", "Keeping well?"]],
+      "fine": [["Khabar baik", "I'm well"], ["Baik", "Fine"]],
+      "thanks": [["Terima kasih", "Thank you"]],
+      "bye": [["Jumpa lagi", "See you again"], ["Selamat tinggal", "Goodbye, said by the one leaving"]],
+      "welcome": [["Selamat datang", "Welcome"], ["Sama-sama", "You're welcome"]],
+      "sorry": [["Maaf", "Sorry"], ["Minta maaf", "I apologise"]],
+      "excuse": [["Tumpang lalu", "Excuse me, coming through"]],
+      "yes": [["Ya", "Yes"], ["Boleh", "Can, OK"]],
+      "no": [["Tidak", "No"], ["Tak", "No, casual"], ["Tak boleh", "Cannot"]]
+    },
+    "ta": {
+      "hello": [["Vanakkam", "Hello (வணக்கம்)"]],
+      "morning": [["Kaalai vanakkam", "Good morning (காலை வணக்கம்)"]],
+      "evening": [["Maalai vanakkam", "Good evening (மாலை வணக்கம்)"]],
+      "how_are_you": [["Eppadi irukkeenga?", "How are you? (எப்படி இருக்கீங்க?)"], ["Saapteengala?", "Have you eaten? (சாப்டீங்களா?)"]],
+      "fine": [["Nallaa irukken", "I'm fine (நல்லா இருக்கேன்)"]],
+      "thanks": [["Nandri", "Thank you (நன்றி)"]],
+      "bye": [["Poitu varen", "Bye, literally I'll go and come back (போயிட்டு வரேன்)"], ["Apram paakalaam", "See you later (அப்புறம் பார்க்கலாம்)"]],
+      "welcome": [["Vaanga", "Come in, welcome (வாங்க)"]],
+      "sorry": [["Mannichidunga", "Sorry, forgive me (மன்னிச்சிடுங்க)"]],
+      "excuse": [["Konjam vazhi vidunga", "Please let me through (கொஞ்சம் வழி விடுங்க)"]],
+      "yes": [["Aamaa", "Yes (ஆமா)"], ["Sari", "OK (சரி)"]],
+      "no": [["Illa", "No (இல்ல)"], ["Vendaam", "Don't want (வேண்டாம்)"]]
+    }
+  },
+  "money": {
+    "currency": "SGD",
+    "symbol": "S$",
+    "words": [
+      ["dollar", "Singapore dollar"],
+      ["kuai", "a dollar, from Mandarin (块)"],
+      ["PayNow", "instant bank transfer to a phone number"],
+      ["NETS", "paying by bank card at the counter"],
+      ["ang pow", "red packet of money given at Chinese New Year and weddings (紅包)"],
+      ["duit raya", "money packets given at Hari Raya"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Demographics_of_Singapore",
+    "https://en.wikipedia.org/wiki/Languages_of_Singapore",
+    "https://en.wikipedia.org/wiki/Malay_names",
+    "https://en.wikipedia.org/wiki/Tamil_name",
+    "https://en.wikipedia.org/wiki/Eurasians_in_Singapore",
+    "https://www.singstat.gov.sg/"
+  ]
+}

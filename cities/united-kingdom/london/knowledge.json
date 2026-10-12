@@ -1,0 +1,181 @@
+{
+  "street": { "en": 0.7, "london": 0.3 },
+  "registers": {
+    "london": {
+      "name": "London street English",
+      "about": "How young London talks: Multicultural London English, with words from Jamaican, West African and older London speech mixed in. Friendly, quick and full of slang."
+    }
+  },
+  "names": {
+    "weights": {
+      "english": 0.47,
+      "irish": 0.03,
+      "scottish": 0.02,
+      "welsh": 0.01,
+      "indian": 0.08,
+      "pakistani": 0.035,
+      "bangladeshi": 0.04,
+      "caribbean": 0.07,
+      "west_african": 0.085,
+      "east_european": 0.08,
+      "somali": 0.025,
+      "chinese": 0.025,
+      "arab": 0.03
+    }
+  },
+  "phrases": {
+    "london": {
+      "hello": [["You alright?", "Hi, how are you?"], ["Wagwan!", "What's going on? Hi!"]],
+      "how_are_you": [["You good?", "Are you okay?"], ["What you saying?", "How's it going?"]],
+      "fine": [["I'm good, innit", "I'm fine"], ["Calm, calm", "All good"]],
+      "thanks": [["Safe, bro", "Thanks"], ["Cheers, mate", "Thanks"]],
+      "bye": [["Laters", "See you later"], ["Safe, take it easy", "Bye, take care"]],
+      "yes": [["Yeah, man", "Yes"], ["Say less", "Sure, no need to explain"]],
+      "no": [["Nah", "No"], ["Nah, I'm good", "No thanks"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "Morning! You alright?",
+        "Hiya, how's your week going?",
+        "Oh hello, didn't see you there. How are you?",
+        "Alright? Long time no see.",
+        "Hello love, how are you keeping?",
+        "Hey! Fancy bumping into you here."
+      ],
+      "reply": [
+        "Not bad, thanks. Yourself?",
+        "Yeah, good thanks. Can't complain.",
+        "Surviving, just about!",
+        "All good, ta. Busy week.",
+        "Fine thanks, mustn't grumble."
+      ],
+      "sunny": [
+        "Gorgeous out, isn't it? Everyone's in the park.",
+        "Proper sunshine for once. Beer garden later?",
+        "Half of London's on Hampstead Heath today, I reckon.",
+        "Don't get used to it, it'll be raining by Thursday.",
+        "Lovely day. The Tube's like an oven though."
+      ],
+      "rain": [
+        "Typical. I left my umbrella at home.",
+        "Grim out there, isn't it?",
+        "It's chucking it down. Might wait it out in here.",
+        "Bit drizzly, it'll clear up. Probably.",
+        "Raining again. In London. Who'd have thought?"
+      ],
+      "bye": [
+        "Right, I'll let you get on. Take care!",
+        "See you later!",
+        "Lovely to see you. Let's get a coffee soon.",
+        "Cheers, have a good one.",
+        "Bye then, mind how you go."
+      ],
+      "busy": [
+        "Sorry, can't stop, my train's in two minutes.",
+        "Running late, the Central line was a nightmare.",
+        "Got a call at half past, catch you after?",
+        "Sorry, I'm all over the place today. Message me?",
+        "Can't stop, I've got to grab lunch before my next meeting."
+      ]
+    },
+    "london": {
+      "greet": [
+        "You alright, bruv?",
+        "Wagwan! Long time, fam.",
+        "Yo, what you saying?",
+        "Ayy, look who it is! You good?"
+      ],
+      "reply": [
+        "I'm good, you know. Can't complain.",
+        "Calm, calm. Just been on a mad one this week.",
+        "Yeah, I'm alright, innit. You?",
+        "Safe, bro. All good."
+      ],
+      "sunny": [
+        "Weather's actually decent today, you know.",
+        "Proper hot today, innit.",
+        "Sun's out, everyone's in the park.",
+        "Bare people out in the sun today."
+      ],
+      "rain": [
+        "This rain is peak, man.",
+        "Raining again, innit. Long.",
+        "I'm drenched, bruv.",
+        "Bare rain today. I'm staying in."
+      ],
+      "bye": [
+        "Laters, yeah?",
+        "Safe, bro. Take it easy.",
+        "Catch you after, yeah.",
+        "Say less. Link up soon."
+      ],
+      "busy": [
+        "Can't stop, bruv, I'm running late.",
+        "I'm on a mad one today, talk later yeah?",
+        "Gotta dash, my bus is coming.",
+        "Long day, fam. Message me."
+      ]
+    }
+  },
+  "transport": {
+    "bus": "bus",
+    "moto_taxi": "Lime bike",
+    "tricycle": "pedicab",
+    "taxi": "black cab",
+    "conductor": "ticket inspector",
+    "stage": "bus stop",
+    "metro": "the Tube",
+    "train": "Overground",
+    "tram": "tram",
+    "bike_share": "Santander Cycles",
+    "ride_hail": "Uber",
+    "night_bus": "night bus"
+  },
+  "touts": [
+    "Mind the gap between the train and the platform.",
+    "This is a Central line train to Epping.",
+    "Please stand on the right on the escalators.",
+    "This bus terminates here. Please take all your belongings with you.",
+    "Come on, pound a bowl, pound a bowl!",
+    "Big Issue! Cheers, have a lovely day.",
+    "A busker in the Tube tunnel at Leicester Square playing the saxophone."
+  ],
+  "hawkers": [
+    ["Pound a bowl, pound a bowl!", "Fruit and veg, a pound a bowl"],
+    ["Two for a fiver on the mangoes!", "Two boxes of mangoes for five pounds"],
+    ["Big Issue! Cheers, have a good day.", "Buy the Big Issue street magazine"],
+    ["Fresh churros, come and get 'em!", "Fresh churros for sale"],
+    ["Programmes, get your programmes!", "Match day programmes for sale"],
+    ["Hot salt beef, fresh bagels!", "Salt beef bagels at the bakery counter"]
+  ],
+  "food": {
+    "street": ["salt beef bagel", "jerk chicken from a drum", "chicken shop wings and chips", "fish and chips", "doubles", "pie and mash", "falafel wrap"],
+    "dishes": ["Sunday roast", "full English", "pie and mash with liquor", "chicken tikka masala", "jollof rice", "ackee and saltfish", "fish and chips"],
+    "drinks": ["a cuppa", "a pint", "flat white", "Pimm's", "Supermalt", "Ting", "chai"]
+  },
+  "places": {
+    "neighbourhoods": ["Shoreditch", "Brixton", "Peckham", "Camden", "Hackney", "Stratford", "Whitechapel", "Notting Hill", "King's Cross", "Canary Wharf", "Southall", "Tottenham", "Clapham", "Islington"],
+    "streets": ["Oxford Street", "Brick Lane", "Kingsland Road", "Old Street", "Electric Avenue", "Whitechapel Road", "Edgware Road", "Portobello Road", "Euston Road", "Coldharbour Lane", "Mile End Road"],
+    "landmarks": ["Big Ben", "the Shard", "Tower Bridge", "St Paul's Cathedral", "the London Eye", "Borough Market", "Hampstead Heath", "Trafalgar Square", "Silicon Roundabout", "the British Museum", "Victoria Park"]
+  },
+  "small_talk": [
+    "The Northern line's down again, had to get the bus.",
+    "Rent in Hackney is getting silly.",
+    "Did you see the queue at Borough Market? Mad.",
+    "I live in Zone 3 but it takes me an hour to get anywhere.",
+    "They've shut the Overground for engineering works this weekend, obviously.",
+    "Nobody talks on the Tube. It's the rule.",
+    "Going to Notting Hill Carnival this year?",
+    "Another startup's moved into the old warehouse by Old Street.",
+    "Fancy a pint after work? Somewhere with a beer garden.",
+    "Night bus home again, it took forever."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/London",
+    "https://en.wikipedia.org/wiki/Demography_of_London",
+    "https://en.wikipedia.org/wiki/Multicultural_London_English",
+    "https://tfl.gov.uk/"
+  ]
+}

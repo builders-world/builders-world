@@ -1,0 +1,104 @@
+{
+  "languages": [
+    { "code": "sw", "name": "Swahili", "official": true, "spoken": "widely" },
+    { "code": "en", "name": "English", "official": true, "spoken": "some" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Most Tanzanians carry a Christian or Muslim first name, often with a Swahili name beside it, and take their father's first name as their surname, so a woman may be Neema Joseph or Mwanaisha Hassani. Many families now keep a fixed surname from a grandfather's name, like Mushi or Masanja. Swahili names given for the day or order of birth are used across the country: Juma (born on a Friday), Hamisi (Thursday), Tatu (third-born), and the twin names Kulwa and Doto. Chagga Christians in Kilimanjaro and Arusha favour names beginning with Eli- (God), like Elibariki and Eliaichi. Sukuma names often mark the season or events around a birth, like Kabula (born in the rains). Maasai and Arusha names carry the male prefix Le- or Lo- and the female Na-. Elders are greeted with Shikamoo whatever their name.",
+    "groups": {
+      "swahili_coastal": {
+        "given": {
+          "m": ["Juma", "Hamisi", "Rashidi", "Bakari", "Athumani", "Ramadhani", "Shabani", "Hassani", "Omari", "Salim", "Mrisho", "Abdallah", "Selemani", "Saidi", "Iddi", "Kombo"],
+          "f": ["Mwanaisha", "Mwanahawa", "Zuhura", "Mwajuma", "Asha", "Rehema", "Amina", "Zainabu", "Saida", "Mariamu", "Mwanaidi", "Halima", "Tatu", "Mwamvita", "Fatuma", "Riziki"]
+        },
+        "family": ["Hassani", "Juma", "Omari", "Ally", "Salim", "Abdallah", "Mussa", "Rashidi", "Hamisi", "Athumani", "Mohamedi", "Ramadhani", "Selemani", "Bakari", "Shabani", "Mrisho", "Kombo"],
+        "also": {
+          "m": ["Mohamedi", "Ally", "Mussa", "Ibrahim", "Yusufu", "Issa", "Hussein", "Abdul"],
+          "f": ["Aisha", "Khadija", "Mwanahamisi", "Salma", "Hadija", "Neema", "Subira", "Habiba"]
+        }
+      },
+      "chagga": {
+        "given": {
+          "m": ["Elibariki", "Eliamani", "Elirehema", "Elisante", "Eliapenda", "Ndesamburo", "Baraka", "Tumaini", "Faraja", "Ombeni", "Amani", "Shukuru"],
+          "f": ["Neema", "Upendo", "Pendo", "Eliaichi", "Rehema", "Furaha", "Zawadi", "Imani", "Tumaini", "Faraja", "Nuru", "Bahati"]
+        },
+        "family": ["Mushi", "Massawe", "Lyimo", "Mrema", "Kimaro", "Swai", "Shirima", "Urassa", "Temba", "Mallya", "Minja", "Kessy", "Tarimo", "Kileo", "Mtei", "Ngowi", "Assey", "Mosha", "Mlay", "Mmari"],
+        "also": {
+          "m": ["Godfrey", "Wilfred", "Erasto", "Godlisten", "Godbless", "Emmanuel", "Gaudence", "Faustine", "Joseph", "Elia", "Raymond", "Erick"],
+          "f": ["Agnes", "Anna", "Joyce", "Happiness", "Gladness", "Glory", "Witness", "Esther", "Rose", "Lucy", "Grace", "Irene"]
+        }
+      },
+      "sukuma": {
+        "given": {
+          "m": ["Masanja", "Shija", "Mabula", "Kulwa", "Doto", "Kija", "Mayala", "Ngeleja", "Mashimba", "Malimi", "Nkwabi", "Mayunga", "Masele"],
+          "f": ["Kabula", "Kulwa", "Doto", "Ngolo", "Sayi", "Nshoma", "Neema", "Pendo", "Upendo", "Rehema", "Zawadi", "Bahati"]
+        },
+        "family": ["Masanja", "Shija", "Mabula", "Kija", "Ngassa", "Masele", "Mashimba", "Mayala", "Malimi", "Nkwabi", "Ngeleja", "Mayunga", "Luhende"],
+        "also": {
+          "m": ["John", "Charles", "Peter", "Paulo", "Joseph", "Daudi", "Samweli", "Emmanuel", "Petro", "Yohana"],
+          "f": ["Maria", "Anna", "Elizabeth", "Esther", "Joyce", "Agnes", "Veronica", "Martha", "Sara", "Grace"]
+        }
+      },
+      "maasai": {
+        "given": {
+          "m": ["Lemayan", "Saning'o", "Lomayani", "Sankale", "Parsimei", "Tajeu", "Sironka", "Ngoyai", "Kimaren", "Saitoti", "Meitamei", "Koileken"],
+          "f": ["Naserian", "Nashipai", "Namelok", "Naeku", "Naisiae", "Esiankiki", "Naipanoi", "Nasieku", "Resiato", "Silantoi", "Nataana", "Naishorua"]
+        },
+        "family": ["Mollel", "Laizer", "Lukumay", "Kivuyo", "Saning'o", "Lomayani", "Ngoyai", "Parsimei", "Sankale", "Tajeu", "Sironka", "Kimaren"],
+        "also": {
+          "m": ["Joseph", "Daniel", "Lazaro", "Isaya", "Elia", "Simon", "Peter", "Godson"],
+          "f": ["Esther", "Lucy", "Grace", "Rebecca", "Mary", "Naomi", "Agnes", "Joyce"]
+        }
+      }
+    },
+    "weights": { "swahili_coastal": 0.35, "sukuma": 0.3, "chagga": 0.25, "maasai": 0.1 }
+  },
+  "honorifics": { "elder_m": "Mzee", "elder_f": "Mama", "peer_m": "Kaka", "peer_f": "Dada", "boss": "Bosi" },
+  "phrases": {
+    "sw": {
+      "hello": [["Habari?", "Hello, any news?"], ["Mambo?", "Hi, how are things?"], ["Shikamoo", "A respectful greeting to an elder"], ["Marahaba", "The elder's reply to Shikamoo"]],
+      "morning": [["Habari za asubuhi?", "Good morning"], ["Umeamkaje?", "How did you wake up?"]],
+      "evening": [["Habari za jioni?", "Good evening"], ["Za jioni?", "Evening, how are you?"]],
+      "how_are_you": [["Hujambo?", "How are you?"], ["Habari yako?", "How are you?"], ["Mambo vipi?", "How's it going?"]],
+      "fine": [["Nzuri", "Good"], ["Salama", "Peaceful, fine"], ["Sijambo", "I am well"], ["Poa", "Cool"]],
+      "thanks": [["Asante", "Thank you"], ["Asante sana", "Thank you very much"]],
+      "bye": [["Kwaheri", "Goodbye"], ["Tutaonana", "We will see each other"], ["Baadaye", "Later"]],
+      "welcome": [["Karibu", "Welcome"], ["Karibu sana", "You are very welcome"]],
+      "sorry": [["Samahani", "Sorry, forgive me"], ["Pole", "Sorry, said in sympathy"]],
+      "excuse": [["Samahani", "Excuse me"], ["Hodi", "May I come in?"]],
+      "yes": [["Ndiyo", "Yes"], ["Eeh", "Yeah"]],
+      "no": [["Hapana", "No"], ["Hapana, asante", "No, thank you"]]
+    },
+    "en": {
+      "hello": [["Hello!", "Hello"], ["Hi there!", "Hi"]],
+      "morning": [["Good morning!", "Good morning"]],
+      "evening": [["Good evening!", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"], ["How is work?", "How is work?"]],
+      "fine": [["I'm fine, thank you.", "I'm fine, thank you"], ["Slowly by slowly.", "Getting there, bit by bit"]],
+      "thanks": [["Thank you!", "Thank you"], ["Thanks a lot.", "Thanks a lot"]],
+      "bye": [["Goodbye!", "Goodbye"], ["See you later!", "See you later"]],
+      "welcome": [["You are welcome!", "You are welcome"]],
+      "sorry": [["Sorry!", "Sorry"]],
+      "excuse": [["Excuse me.", "Excuse me"]],
+      "yes": [["Yes.", "Yes"]],
+      "no": [["No, thank you.", "No, thank you"]]
+    }
+  },
+  "money": {
+    "currency": "TZS",
+    "symbol": "TSh",
+    "words": [["buku", "a thousand shillings, in slang"], ["jero", "five hundred shillings, in slang"], ["mia", "a hundred shillings"], ["laki", "a hundred thousand shillings"], ["pesa", "money"]]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Swahili_language",
+    "https://en.wikipedia.org/wiki/Languages_of_Tanzania",
+    "https://en.wikipedia.org/wiki/Swahili_people",
+    "https://en.wikipedia.org/wiki/Chaga_people",
+    "https://en.wikipedia.org/wiki/Sukuma_people",
+    "https://en.wikipedia.org/wiki/Maasai_people",
+    "https://en.wikipedia.org/wiki/Arusha_people",
+    "https://en.wikipedia.org/wiki/Tanzanian_shilling",
+    "https://sukumalegacy.org/2017/07/06/kulwa-dotto-shija/"
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "street": { "mfe": 0.65, "fr": 0.15, "en": 0.2 },
+  "registers": {},
+  "names": { "weights": { "hindu_mauritian": 0.4, "tamil_mauritian": 0.08, "muslim_mauritian": 0.17, "creole": 0.28, "sino_mauritian": 0.04, "franco_mauritian": 0.03 } },
+  "phrases": {},
+  "chat": {
+    "en": {
+      "greet": ["Morning! How's it going?", "Hi! Good weekend?", "Hello, how are you today?", "Hey! Coffee before the meeting?", "Morning! Long queue for the lifts again?"],
+      "reply": ["All good, thanks!", "Fine, and you?", "Not bad, busy week.", "Good, just got off the metro.", "Doing well, thanks for asking."],
+      "sunny": ["Lovely day, perfect for the beach after work.", "So hot today, the car park is an oven.", "Blue sky over the Moka mountains, beautiful.", "Sunny in Ebène for once!", "Great weather for a weekend at Flic en Flac."],
+      "rain": ["Raining in Ebène again, of course.", "Take an umbrella, it is coming down.", "Rain on the plateau, sun in Port Louis, typical.", "The roads at Réduit will be jammed with this rain.", "Heavy rain warning, hope it eases before home time."],
+      "bye": ["See you tomorrow!", "Have a good evening!", "Bye, enjoy the weekend!", "Take care, drive safe!", "Catch you later!"],
+      "busy": ["Sorry, I'm late for a call!", "Can't stop, meeting on the fifth floor.", "Deadline today, talk later!", "Running for the metro, see you!", "Busy busy, let's do lunch tomorrow."]
+    },
+    "mfe": {
+      "greet": ["Bonzour! Ki manyer?", "Ki nouvel?", "Alo! Ki manyer, korek?", "Bonzour tou dimounn!", "Ki manyer frer?"],
+      "reply": ["Mo byen, mersi! Ek twa?", "Korek, korek.", "Tou korek, mersi.", "Byen mersi, ek twa?"],
+      "sunny": ["Fer so zordi!", "Bel soley zordi!", "Bon letan pou al lamer.", "Ki bo letan!"],
+      "rain": ["Lapli pe tonbe!", "Pran to parasol.", "Get sa nyaz-la, lapli pe vini.", "Ankor lapli zordi!"],
+      "bye": ["Orevwar!", "A pli tar!", "Bonn zourne!", "Bon, mo ale!"],
+      "busy": ["Pardon, mo an reta!", "Mo pe kour, nou koze apre!", "Mo ena travay, nou koze pli tar.", "Pa ena letan zordi, a demin!"]
+    },
+    "fr": {
+      "greet": ["Bonjour ! Ça va ?", "Salut, ça va bien ?", "Bonjour, bonne semaine ?", "Coucou ! Quoi de neuf ?"],
+      "reply": ["Ça va bien, merci !", "Très bien, et toi ?", "Ça va, beaucoup de travail.", "Pas mal, merci."],
+      "sunny": ["Il fait beau aujourd'hui !", "Quelle chaleur !", "Beau temps pour aller à la plage.", "Enfin du soleil à Ebène !"],
+      "rain": ["Il pleut encore !", "Prends ton parapluie.", "Encore de la pluie sur le plateau.", "Ça va bouchonner à Réduit avec cette pluie."],
+      "bye": ["Au revoir !", "À tout à l'heure !", "Bonne journée !", "Bon week-end !"],
+      "busy": ["Désolé, je suis en retard !", "J'ai une réunion, à plus !", "Je file, on se parle plus tard.", "Pas le temps, je cours prendre le métro !"]
+    }
+  },
+  "transport": { "bus": "bis", "moto_taxi": "", "tricycle": "", "taxi": "taxi", "conductor": "conductor", "stage": "lagar" },
+  "touts": [
+    "Port-Louis direk! Port-Louis!",
+    "Rose-Hill, Rose-Hill, monte vit!",
+    "Quatre-Bornes, Trianon!",
+    "Curepipe! Ena plas ankor!",
+    "Réduit, Moka, monte, monte!",
+    "Ebène, Ebène!",
+    "Taxi? Taxi boss?"
+  ],
+  "hawkers": [
+    ["Dholl puri, roti!", "Dholl puri and roti!"],
+    ["Gato pima so!", "Hot chilli cakes!"],
+    ["Samoussa, samoussa!", "Samosas!"],
+    ["Ananas ek disel pima!", "Pineapple with chilli salt!"],
+    ["Alouda fre!", "Cold alouda!"],
+    ["Mine bwi, mine frir!", "Boiled noodles, fried noodles!"],
+    ["Boulet!", "Dumplings in broth!"]
+  ],
+  "food": {
+    "street": ["dholl puri", "roti", "gato pima", "samoussa", "mine bwi", "boulet", "halim", "gato arouy"],
+    "dishes": ["briani", "kari poul", "rougay", "vindaye ourit", "mine frir", "bol renverse", "farata"],
+    "drinks": ["alouda", "Phoenix beer", "vanilla tea", "dilo koko", "rum"]
+  },
+  "places": {
+    "neighbourhoods": ["Ebène Cybercity", "Trianon", "Rose-Hill", "Quatre-Bornes", "Beau-Bassin", "Réduit", "Moka", "Sodnac", "Bagatelle"],
+    "streets": ["M1 Motorway", "Royal Road, Rose-Hill", "St Jean Road, Quatre-Bornes", "Victoria Avenue, Quatre-Bornes", "Vandermeersch Street, Rose-Hill", "Royal Street, Port Louis"],
+    "landmarks": ["Cyber Tower (Atal Bihari Vajpayee Tower)", "Ebène Cybercity metro station", "Bagatelle Mall", "University of Mauritius", "Trianon Shopping Park", "Corps de Garde mountain", "Le Pouce mountain"]
+  },
+  "small_talk": [
+    "The metro from Rose-Hill was packed this morning.",
+    "The lifts in the Cyber Tower take forever at nine.",
+    "Bagatelle after work?",
+    "Rain in Ebène, sun in Port Louis, as always.",
+    "Traffic at the Réduit roundabout was crazy today.",
+    "Flic en Flac on Saturday if the weather holds?",
+    "Cyclone warning class 2 they said, hope they let us go home early.",
+    "The dholl puri from the van by the car park beats any canteen.",
+    "You can see Le Pouce clearly today, no clouds at all."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Ebene_CyberCity",
+    "https://en.wikipedia.org/wiki/Metro_Express_(Mauritius)",
+    "https://en.wikipedia.org/wiki/Mauritian_Creole",
+    "https://en.wikipedia.org/wiki/Mauritian_cuisine",
+    "https://en.wikipedia.org/wiki/Quatre_Bornes",
+    "https://en.wikipedia.org/wiki/Rose-Hill"
+  ]
+}

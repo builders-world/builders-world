@@ -1,0 +1,101 @@
+{
+  "street": { "nl": 0.55, "brabants": 0.2, "en": 0.25 },
+  "registers": {
+    "brabants": { "name": "Brabants", "about": "The soft, warm Dutch of North Brabant: gij and ge for you, a lot of gezelligheid, 'houdoe' for goodbye and a famously laid-back attitude." }
+  },
+  "names": { "weights": { "dutch": 0.67, "moroccan_dutch": 0.05, "turkish_dutch": 0.06, "surinamese": 0.02, "antillean": 0.01, "indonesian_dutch": 0.03, "international": 0.16 } },
+  "phrases": {
+    "brabants": {
+      "hello": [["Hoi!", "Hi!"], ["Goeiendag!", "Good day!"]],
+      "how_are_you": [["Hoe issie?", "How's it going?"], ["Hoe is 't met oe?", "How are you?"]],
+      "fine": [["Goed, en gij?", "Good, and you?"], ["Ge mag nie klagen", "Can't complain"]],
+      "thanks": [["Merci", "Thanks"], ["Bedankt, hè", "Thanks, eh"]],
+      "bye": [["Houdoe!", "Bye! (take care)"], ["Houdoe en bedankt!", "Bye and thanks!"]],
+      "relax": [["Doe mar gewoon", "Just be normal, relax"], ["Rustig aan, jong", "Easy does it, lad"]],
+      "carnival": [["Alaaf!", "Carnival cheer (only during carnival)"], ["Welkom in Lampegat!", "Welcome to Lampegat! (Eindhoven at carnival)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hi! Are you at ASML too?", "Morning! Did the bus to the High Tech Campus show up?", "Hey, welcome to Eindhoven!", "Hello! Coming to the meetup at Strijp-S?", "Hi there, first week at TU/e?"],
+      "reply": ["All good, thanks, just finished a long shift in the cleanroom.", "Great, the locals are so friendly here.", "Fine thanks, bit tired from cycling in the wind.", "Pretty good, how about you?", "Not bad at all, I love how small this city is."],
+      "sunny": ["Sun's out, everyone will be on the Stratumseind terraces.", "Perfect day for a ride through the Genneper Parken.", "Lovely, let's eat outside at the Markt.", "Sunny, the lake at the Karpendonkse Plas will be busy.", "Gorgeous day, shame I'm in meetings till five."],
+      "rain": ["Raining again, glad the campus has covered walkways.", "Wet and windy, the classic commute.", "Bring a rain jacket, it's coming down.", "Grey day, perfect for working from home.", "Pouring, I'm taking the bus today."],
+      "bye": ["See you later!", "Bye, have a good evening!", "Houdoe! I learned that one this week.", "Take care, see you at the borrel!", "Ciao, enjoy the weekend!"],
+      "busy": ["Sorry, call with the Veldhoven team in five!", "Running to catch my train to Amsterdam, talk soon!", "Late for a lab session, see you!", "Busy week, tape-out is Friday!", "Can't stop, see you at lunch?"]
+    },
+    "nl": {
+      "greet": ["Hoi! Alles goed?", "Goedemorgen! Lekker weekend gehad?", "Hé, hoe is het?", "Hallo! Lang niet gezien!", "Hoi! Ook naar de campus?"],
+      "reply": ["Goed, en met jou?", "Prima, dank je!", "Lekker, alles goed.", "Gaat wel, beetje druk.", "Top, dank je wel!"],
+      "sunny": ["Wat een lekker weertje!", "Zonnetje, terrasje op Stratumseind?", "Mooi weer, fietsen naar de Genneper Parken?", "Heerlijk weer vandaag!", "Eindelijk zon, lekker naar buiten."],
+      "rain": ["Het regent weer.", "Tegenwind en regen, lekker hoor.", "Neem je regenjas mee.", "Het plenst, ik pak de bus.", "Grijze dag vandaag."],
+      "bye": ["Doei!", "Tot straks!", "Fijne avond!", "Tot morgen!", "Fijn weekend!"],
+      "busy": ["Sorry, ik moet rennen!", "Ik heb zo een meeting, doei!", "Mijn trein gaat zo, tot later!", "Geen tijd, ik app je!", "Ik ben te laat, sorry!"]
+    },
+    "brabants": {
+      "greet": ["Hoi! Hoe issie?", "Goeiendag! Alles goed, jong?", "Hé jong, hoe is 't?", "Goeiemorgen! Lekker geslapen?", "Hoi, gij hier ook?"],
+      "reply": ["Goed, en gij?", "Ge mag nie klagen, hè.", "Alles goed, jong!", "Ik mag nie mopperen.", "Prima, dank oe!"],
+      "sunny": ["Lekker weertje, hè!", "Mooi weer, efkes een terraske pakken?", "Zonneke erbij, wat wilde nog meer?", "Heerlijk, ge kunt buiten zitten!", "Mooi weer om te fietsen, jong."],
+      "rain": ["Het regent pijpenstelen.", "Wa een weer, hè!", "Regen, dan blijven we lekker binnen.", "Neem oewe jas mee, jong.", "Natte boel vandaag, hè."],
+      "bye": ["Houdoe!", "Houdoe en bedankt!", "Houdoe, tot de volgende!", "Doei, houdoe hè!", "Houdoe, fijne avond!"],
+      "busy": ["Ik moet gaan, houdoe!", "Gin tijd, jong, tot later!", "Druk, druk, druk, houdoe!", "Ik ben te laat, sorry hè!", "Ik moet rennen, houdoe!"]
+    }
+  },
+  "transport": {
+    "bus": "bus",
+    "moto_taxi": "deelscooter",
+    "tricycle": "bakfiets",
+    "taxi": "taxi",
+    "conductor": "controleur",
+    "stage": "halte",
+    "train": "trein",
+    "bike_share": "OV-fiets",
+    "ride_hail": "Uber",
+    "card": "OV-chipkaart",
+    "bike": "fiets"
+  },
+  "touts": [
+    "Volgende halte: High Tech Campus.",
+    "De trein naar Amsterdam Centraal vertrekt van spoor 2.",
+    "Vergeet niet uit te checken.",
+    "Kom maar proeven, verse kaas!",
+    "Straatkrant, fijne dag nog!",
+    "Next stop: Eindhoven Centraal."
+  ],
+  "hawkers": [
+    ["Verse saucijzenbroodjes!", "Fresh sausage rolls!"],
+    ["Worstenbrood, warm uit de oven!", "Brabant sausage bread, warm from the oven!"],
+    ["Drie kilo appels, twee euro!", "Three kilos of apples, two euros!"],
+    ["Kibbeling, lekker warm!", "Battered fish bites, nice and hot!"],
+    ["Oliebollen, vers gebakken!", "Doughnut balls, freshly fried! (around New Year)"],
+    ["Bloemen, twee bossen vijf euro!", "Flowers, two bunches five euros!"]
+  ],
+  "food": {
+    "street": ["worstenbrood", "frikandel speciaal", "patat met mayo", "kroket", "kibbeling", "saucijzenbroodje", "shoarma"],
+    "dishes": ["stamppot", "bitterballen", "erwtensoep", "Brabantse koffietafel", "zuurvlees", "pannenkoeken", "Bossche bol"],
+    "drinks": ["biertje", "Dommelsch", "Bavaria", "koffie", "jenever", "chocomel", "advocaat"]
+  },
+  "places": {
+    "neighbourhoods": ["Strijp-S", "Strijp-T", "Woensel", "Stratum", "Gestel", "Tongelre", "Centrum", "Witte Dame", "Meerhoven", "Philipsdorp", "Kruidenbuurt", "Bergen"],
+    "streets": ["Stratumseind", "Demer", "Vestdijk", "Kleine Berg", "Wilhelminaplein", "Torenallee", "Kennedylaan", "Hoogstraat", "Markt", "Boschdijk", "Fuutlaan", "Dommelstraat"],
+    "landmarks": ["Philips Stadion", "Evoluon", "High Tech Campus", "TU/e campus", "Van Abbemuseum", "Klokgebouw", "Lichttoren", "De Blob", "18 Septemberplein", "Catharinakerk", "Genneper Parken", "Eindhoven Airport"]
+  },
+  "small_talk": [
+    "Glow festival is coming, the centre will be packed.",
+    "The bus to the High Tech Campus was full of ASML badges again.",
+    "Stratumseind on a Thursday is students everywhere.",
+    "Ryanair to Porto from Eindhoven Airport, can't beat it.",
+    "Did you see PSV on Sunday? The whole city was out.",
+    "Dutch Design Week is on, Strijp-S is full of installations.",
+    "The Evoluon still looks like a spaceship landed.",
+    "Carnival here and the city turns into Lampegat for a week.",
+    "Half my team commutes to Veldhoven by bike."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Eindhoven",
+    "https://en.wikipedia.org/wiki/Brabantian_dialect",
+    "https://en.wikipedia.org/wiki/Brainport",
+    "https://www.ns.nl/en",
+    "https://en.wikipedia.org/wiki/Stratumseind"
+  ]
+}

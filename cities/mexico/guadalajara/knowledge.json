@@ -1,0 +1,339 @@
+{
+  "street": {
+    "es": 0.72,
+    "tapatio": 0.26,
+    "en": 0.02
+  },
+  "registers": {
+    "tapatio": {
+      "name": "Tapatío",
+      "about": "Guadalajara's easy-going street Spanish: ¿qué onda?, cámara, me late, a todo dar, with its own food words like lonche, birote and tejuino."
+    }
+  },
+  "names": {
+    "weights": {
+      "mexican": 0.985,
+      "american": 0.015
+    }
+  },
+  "phrases": {
+    "tapatio": {
+      "hello": [
+        [
+          "¿Qué onda?",
+          "What's up?"
+        ],
+        [
+          "¿Quihubo, pues?",
+          "Hey there, then?"
+        ]
+      ],
+      "fine": [
+        [
+          "A todo dar",
+          "Great, really good"
+        ],
+        [
+          "Bien, pues",
+          "Good, then"
+        ],
+        [
+          "Aquí nomás",
+          "Just getting by"
+        ]
+      ],
+      "yes": [
+        [
+          "Cámara",
+          "Sure, okay"
+        ],
+        [
+          "Simón",
+          "Yeah"
+        ],
+        [
+          "Me late",
+          "I like it, sounds good"
+        ]
+      ],
+      "no": [
+        [
+          "Nel",
+          "Nope"
+        ]
+      ],
+      "bye": [
+        [
+          "Ahí nos vemos, pues",
+          "See you around, then"
+        ]
+      ]
+    }
+  },
+  "chat": {
+    "es": {
+      "greet": [
+        "¡Buenos días! ¿Cómo le va?",
+        "¡Hola! ¿Qué tal todo?",
+        "¡Buenas tardes! ¿Cómo ha estado?",
+        "¡Qué gusto verlo! ¿Cómo está la familia?",
+        "Buen día, ¿cómo amaneció?"
+      ],
+      "reply": [
+        "Muy bien, gracias, ¿y usted?",
+        "Bien, aquí trabajando.",
+        "Todo bien, gracias a Dios.",
+        "Pues aquí, echándole ganas.",
+        "Bien, gracias por preguntar."
+      ],
+      "sunny": [
+        "¡Qué calor hace hoy!",
+        "Bonito día para ir a la Minerva.",
+        "Con este sol se antoja un tejuino.",
+        "Hace un sol bien fuerte, póngase bloqueador.",
+        "Buen día para ir a Chapala."
+      ],
+      "rain": [
+        "Ya viene la tormenta de la tarde.",
+        "Traiga paraguas, se va a soltar el agua.",
+        "Con esta lluvia se inunda López Mateos.",
+        "Cayó un aguacero tremendo.",
+        "Ojalá deje de llover para el partido."
+      ],
+      "bye": [
+        "¡Que le vaya bien!",
+        "Hasta luego, cuídese.",
+        "Nos vemos pronto.",
+        "¡Que tenga buen día!",
+        "Saludos a su familia."
+      ],
+      "busy": [
+        "Disculpe, voy tarde al trabajo.",
+        "Tengo que alcanzar el Macro, nos vemos.",
+        "Voy a una junta, luego le hablo.",
+        "Ahorita no puedo, ando con prisa.",
+        "Voy a recoger a los niños, hasta luego."
+      ]
+    },
+    "tapatio": {
+      "greet": [
+        "¿Qué onda? ¿Cómo estás?",
+        "¡Quihubo, pues! ¿Qué cuentas?",
+        "¿Qué onda, carnal? ¡Tiempo sin verte!",
+        "¡Ey! ¿Todo bien?"
+      ],
+      "reply": [
+        "A todo dar, ¿y tú?",
+        "Aquí nomás, pues.",
+        "Bien, con mucha chamba.",
+        "Todo chido, gracias."
+      ],
+      "sunny": [
+        "Está bien bonito el día, pues.",
+        "¡Qué calorón! Vamos por un tejuino.",
+        "Me late este solecito.",
+        "Día perfecto pa' una torta ahogada."
+      ],
+      "rain": [
+        "Ya se va a soltar el agua, pues.",
+        "¡Aguas, que se inunda la calle!",
+        "Otra vez la tormenta de las cinco.",
+        "Con esta lluvia mejor una birria calientita."
+      ],
+      "bye": [
+        "Ahí nos vemos, pues.",
+        "Cámara, luego te escribo.",
+        "Cuídate, carnal.",
+        "Sale, nos vemos."
+      ],
+      "busy": [
+        "Ahorita no puedo, voy tarde a la chamba.",
+        "Me voy, ya viene el camión.",
+        "Ando a las carreras, luego hablamos.",
+        "Tengo junta, ahí nos vemos, pues."
+      ]
+    },
+    "en": {
+      "greet": [
+        "Hi! How's it going?",
+        "Morning! Have you had a torta ahogada yet?",
+        "Hey, good to see you!",
+        "Hola! How are you?",
+        "Hey there, how was Chapala?"
+      ],
+      "reply": [
+        "Good, thanks! You?",
+        "Great, just had birria for breakfast.",
+        "Not bad, busy week at work.",
+        "All good, gracias!",
+        "Doing well, enjoying the weather."
+      ],
+      "sunny": [
+        "Another perfect day, this weather never quits.",
+        "Sunny and warm, perfect for a walk on Chapultepec.",
+        "Gorgeous out, let's grab a tejuino.",
+        "The jacarandas are out, everything's purple.",
+        "Nice day for a trip to Tlaquepaque."
+      ],
+      "rain": [
+        "Rainy season, it pours every afternoon.",
+        "Bring an umbrella, the storm comes at five.",
+        "The streets are flooding again, careful.",
+        "Big storm tonight, the thunder is wild.",
+        "Rain again, traffic on López Mateos will be terrible."
+      ],
+      "bye": [
+        "See you later!",
+        "Take care!",
+        "Hasta luego!",
+        "Have a good one!",
+        "Catch you later."
+      ],
+      "busy": [
+        "Gotta run, I have a call.",
+        "Late for a meeting in Zapopan.",
+        "Catching the light rail, talk later!",
+        "Running, my Uber is here.",
+        "Can't stop, see you!"
+      ]
+    }
+  },
+  "transport": {
+    "bus": "camión",
+    "brt": "Mi Macro",
+    "metro": "Tren Ligero",
+    "taxi": "taxi",
+    "rideshare": "Uber or DiDi",
+    "bike": "MiBici",
+    "stage": "parada"
+  },
+  "touts": [
+    "¡Súbale, súbale, hay lugar!",
+    "¡Tortas ahogadas, pásele!",
+    "¡Tejuino bien frío!",
+    "¿Le cantamos una? ¡Mariachi para la mesa!",
+    "¡Birria, birria de chivo, pásele!"
+  ],
+  "hawkers": [
+    [
+      "¡Tejuino con nieve de limón!",
+      "Tejuino, the fermented corn drink, with lime sorbet!"
+    ],
+    [
+      "¡Tortas ahogadas, bien picosas!",
+      "Drowned sandwiches, nice and spicy!"
+    ],
+    [
+      "¡Jericallas, jericallas!",
+      "Jericalla, Guadalajara's baked custard!"
+    ],
+    [
+      "¡Cocos fríos, con chile y limón!",
+      "Cold coconuts, with chile and lime!"
+    ],
+    [
+      "¡Pásele a la birria!",
+      "Come in for birria!"
+    ]
+  ],
+  "food": {
+    "street": [
+      "tortas ahogadas",
+      "tejuino",
+      "tacos de birria",
+      "lonches",
+      "tacos dorados",
+      "jericalla",
+      "elotes",
+      "cocos con chile"
+    ],
+    "dishes": [
+      "carne en su jugo",
+      "birria",
+      "pozole rojo",
+      "menudo",
+      "enchiladas tapatías",
+      "tamales",
+      "pollo a la plaza"
+    ],
+    "drinks": [
+      "tejuino",
+      "tequila",
+      "cantarito",
+      "agua de horchata",
+      "agua de jamaica",
+      "café de olla"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "Centro",
+      "Colonia Americana",
+      "Lafayette",
+      "Chapultepec",
+      "Providencia",
+      "Santa Tere",
+      "Chapalita",
+      "Analco",
+      "Mexicaltzingo",
+      "Ladrón de Guevara",
+      "Jardines del Bosque",
+      "Oblatos",
+      "Tlaquepaque",
+      "Zapopan",
+      "Tonalá",
+      "Puerta de Hierro"
+    ],
+    "streets": [
+      "Avenida Chapultepec",
+      "Avenida Vallarta",
+      "Avenida Juárez",
+      "Avenida López Mateos",
+      "Avenida Hidalgo",
+      "Calzada Independencia",
+      "Avenida México",
+      "Avenida Américas",
+      "Periférico",
+      "Avenida Lázaro Cárdenas",
+      "Avenida Alcalde",
+      "Calle Morelos"
+    ],
+    "landmarks": [
+      "la Catedral de Guadalajara",
+      "el Hospicio Cabañas",
+      "el Teatro Degollado",
+      "la Plaza de Armas",
+      "el Mercado San Juan de Dios",
+      "la Plaza de los Mariachis",
+      "la Minerva",
+      "los Arcos Vallarta",
+      "el Estadio Akron",
+      "el Estadio Jalisco",
+      "el Parque Agua Azul",
+      "el Templo Expiatorio",
+      "la Barranca de Huentitán",
+      "la Universidad de Guadalajara",
+      "El Parián de Tlaquepaque"
+    ]
+  },
+  "small_talk": [
+    "Chivas or Atlas? Careful how you answer that here.",
+    "You want your torta ahogada half drowned or fully drowned?",
+    "Half the tech companies in Mexico have an office in Guadalajara now.",
+    "We're going to Chapala this weekend for the lake.",
+    "On Sunday the Vía RecreActiva closes the big avenues to cars.",
+    "The afternoon storm came right on time again.",
+    "Mariachi was born in Jalisco, you know that, right?",
+    "Traffic around the Minerva was a disaster.",
+    "Let's take the light rail, the line to Zapopan is quick.",
+    "Tequila is an hour away, we should go one Saturday."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Guadalajara",
+    "https://es.wikipedia.org/wiki/Guadalajara_(Jalisco)",
+    "https://en.wikipedia.org/wiki/Torta_ahogada",
+    "https://en.wikipedia.org/wiki/Guadalajara_light_rail_system",
+    "https://www.mibici.net",
+    "https://www.asale.org/damer/"
+  ]
+}

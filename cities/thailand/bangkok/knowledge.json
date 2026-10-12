@@ -1,0 +1,120 @@
+{
+  "street": { "th": 0.8, "en": 0.13, "isan": 0.07 },
+  "registers": {
+    "isan": {
+      "name": "Isan",
+      "about": "The Lao-related speech of Thailand's northeast, heard all over Bangkok from taxi and win motorsai drivers, som tam cooks and builders who came from Khon Kaen, Udon or Ubon."
+    }
+  },
+  "names": { "weights": { "thai": 0.68, "thai_chinese": 0.32 } },
+  "phrases": {
+    "th": {
+      "never_mind": [["Mai pen rai", "Never mind, it's fine (ไม่เป็นไร)"]],
+      "relaxed": [["Sabai sabai", "Easy, relaxed (สบายๆ)"], ["Chill chill", "Take it easy, Bangkok slang"]],
+      "really": [["Jing pa?", "Really? (จริงป่ะ)"], ["Jing dio?", "Seriously? (จริงดิ)"]],
+      "how_much": [["Thao rai khrap?", "How much is it? (เท่าไหร่ครับ)"], ["Lot noi dai mai kha?", "Can you knock a bit off? (ลดหน่อยได้ไหมคะ)"]],
+      "delicious": [["Aroi mak", "Very tasty (อร่อยมาก)"]]
+    },
+    "isan": {
+      "hello": [["Sabaidee bo?", "Hello, are you well? (สบายดีบ่)"]],
+      "how_are_you": [["Pai sai ma?", "Where have you been? (ไปไสมา)"], ["Kin khao laew bo?", "Eaten yet? (กินข้าวแล้วบ่)"]],
+      "fine": [["Sabaidee yu", "I'm fine (สบายดีอยู่)"]],
+      "thanks": [["Khop jai lai lai", "Thanks a lot (ขอบใจหลายๆ)"]],
+      "sorry": [["Bo pen nyang", "Never mind (บ่เป็นหยัง)"]],
+      "no": [["Bo", "No, not (บ่)"]],
+      "bye": [["Pai kon der", "I'm off, OK? (ไปก่อนเด้อ)"]],
+      "delicious": [["Saep lai", "Really tasty (แซ่บหลาย)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hello! Have you eaten yet?", "Morning! The BTS was packed today.", "Hi there, how's your day going?", "Hey! Long time no see.", "Sawatdee! Nice to see you."],
+      "reply": ["Good, thanks, same same.", "All good, just a bit hot.", "Fine thank you, and you?", "Not bad, busy week.", "Doing well, thanks for asking."],
+      "sunny": ["So hot today, I need a cha yen.", "The sun is fierce, walk in the shade.", "Clear sky, good day for the river.", "Forty degrees again, I'm melting.", "Nice and sunny, Lumphini will be busy later."],
+      "rain": ["Here comes the afternoon storm.", "Take an umbrella, it will pour soon.", "The soi is flooded again.", "Rain like this means the traffic will not move.", "Wait it out, it usually stops in half an hour."],
+      "bye": ["See you, take care!", "Bye bye, chok dee!", "Catch you later.", "Have a good one!", "See you next time."],
+      "busy": ["Sorry, I'm late for a meeting.", "Traffic was terrible, I have to run.", "Can't stop, my Grab is here.", "Busy day, let's talk later.", "I need to catch the next skytrain, sorry!"]
+    },
+    "th": {
+      "greet": ["Sawatdee khrap, sabai dee mai?", "Sawatdee kha, kin khao rue yang?", "Pai nai ma khrap?", "Pen yangngai bang kha?", "Sawatdee kha Phi, wan ni pen yangngai bang?"],
+      "reply": ["Sabai dee khrap, khop khun.", "Kor rueai rueai kha.", "Kin laeo khrap, laeo Khun la?", "Sabai dee kha, Phi la?", "Mai pen rai, sabai dee khrap."],
+      "sunny": ["Wan ni ron mak loei.", "Daet ron jang loei kha.", "Ron jang, kin cha yen kan mai?", "Fa sai dee na wan ni."],
+      "rain": ["Fon tok ik laeo.", "Ao rom pai duay na kha.", "Fon tok yang ni, rot tit nae loei.", "Nam thuam thanon ik laeo."],
+      "bye": ["Pai gon na khrap.", "Laeo jer gan kha.", "Chok dee na.", "Dulae tua eng duay na kha."],
+      "busy": ["Kho thot khrap, rip mak loei.", "Rot tit mak, sai laeo kha.", "Ngan yoe mak wan ni.", "Wai khoi khui gan na kha."]
+    },
+    "isan": {
+      "greet": ["Sabaidee bo?", "Sabaidee bo, ai?", "Kin khao laew bo?", "Pai sai ma, nong?"],
+      "reply": ["Sabaidee yu, khop jai lai lai.", "Bo pen nyang, sabaidee.", "Kin laew, khop jai.", "Sabaidee yu der."],
+      "sunny": ["Hon lai mue ni.", "Daet hon lai.", "Mue ni fa sai.", "Hon lai, kin nam kon der."],
+      "rain": ["Fon tok lai mue ni.", "Fon si tok laew.", "Ao hom pai nam der.", "Fon tok bo yut."],
+      "bye": ["Pai kon der.", "Laew phop kan mai der.", "Sok di der.", "Pai laew der."],
+      "busy": ["Bo mi wela, pai kon der.", "Fao der, si sai laew.", "Viak lai mue ni.", "Ton ni bo wang der."]
+    }
+  },
+  "transport": {
+    "bus": "rot me",
+    "skytrain": "BTS",
+    "metro": "MRT",
+    "moto_taxi": "win motorsai",
+    "tricycle": "tuk-tuk",
+    "taxi": "taxi (thaek-si)",
+    "ride_hail": "Grab",
+    "songthaew": "songthaew",
+    "van": "rot tu",
+    "boat": "rua duan (Chao Phraya Express boat)",
+    "canal_boat": "rua khlong Saen Saep",
+    "conductor": "kra-pao rot me",
+    "stage": "pai rot me"
+  },
+  "touts": [
+    "Tuk-tuk! Grand Palace, Wat Pho!",
+    "Where you go? Tuk-tuk, tuk-tuk!",
+    "Pai nai khrap? Motorsai!",
+    "Rangsit, Rangsit! Rot tu, khuen loei!",
+    "Mo Chit, Mo Chit, khuen loei khrap!",
+    "Sanam Luang, Sanam Luang, mi thi nang khrap!",
+    "Tha Chang, Tha Chang! Rua ok laeo!",
+    "Taxi, taxi, pai nai khrap?"
+  ],
+  "hawkers": [
+    ["Mu ping, mai la sip baht kha!", "Grilled pork skewers, ten baht a stick!"],
+    ["Nam yen, nam yen kha!", "Cold water, cold water!"],
+    ["Phonlamai sot sot kha!", "Fresh fruit!"],
+    ["Khao niao mamuang kha!", "Mango sticky rice!"],
+    ["Roti, roti kluai khai!", "Roti with banana and egg!"],
+    ["Cha yen, cha manao kha!", "Thai iced tea, iced lime tea!"],
+    ["Luk chin ping, mai la sip!", "Grilled meatballs, ten a stick!"],
+    ["Som tam, som tam kha!", "Green papaya salad!"]
+  ],
+  "food": {
+    "street": ["som tam", "mu ping", "khao niao mamuang", "pad thai", "kuay teow ruea (boat noodles)", "luk chin ping", "sai krok Isan", "khanom buang", "kai yang", "khao man kai", "roti"],
+    "dishes": ["tom yum kung", "pad kra pao mu sap", "khao pad", "kaeng khiao wan", "massaman curry", "pad see ew", "larb", "mu krob", "khao mok kai", "yen ta fo"],
+    "drinks": ["cha yen (Thai iced tea)", "cha manao", "oliang", "nam maphrao (coconut water)", "nom yen (pink milk)", "nam krachiap (roselle juice)", "kafae boran"]
+  },
+  "places": {
+    "neighbourhoods": ["Sukhumvit", "Silom", "Sathorn", "Ari", "Thonglor", "Ekkamai", "Bang Rak", "Yaowarat (Chinatown)", "Banglamphu", "Ratchada", "Lat Phrao", "On Nut", "Huai Khwang", "Phaya Thai", "Thonburi"],
+    "streets": ["Sukhumvit Road", "Silom Road", "Rama IV Road", "Ratchadamri Road", "Phahonyothin Road", "Yaowarat Road", "Khao San Road", "Phetchaburi Road", "Ratchadaphisek Road", "Wireless Road (Witthayu)"],
+    "landmarks": ["Grand Palace", "Wat Pho", "Wat Arun", "Victory Monument", "Siam Paragon", "MBK Center", "Chatuchak Weekend Market", "Lumphini Park", "Benjakitti Park", "Iconsiam", "King Power Mahanakhon", "Chao Phraya River", "True Digital Park", "Krung Thep Aphiwat Central Terminal"]
+  },
+  "small_talk": [
+    "The BTS was packed at Siam this morning.",
+    "Traffic on Sukhumvit did not move for an hour.",
+    "Rainy season, the storm comes at four every afternoon.",
+    "Let's get boat noodles near Victory Monument.",
+    "Chatuchak this weekend? Go early before it gets hot.",
+    "Songkran is coming, keep your phone in a plastic bag.",
+    "The soi flooded again after last night's storm.",
+    "Grab is surging, I'll just take a win motorsai.",
+    "There's a new coffee place in Ari, half the startups work from there.",
+    "Hot season is no joke, it's forty degrees by noon.",
+    "The som tam lady at the end of the soi has the best one."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Bangkok",
+    "https://en.wikipedia.org/wiki/Transport_in_Bangkok",
+    "https://en.wikipedia.org/wiki/BTS_Skytrain",
+    "https://en.wikipedia.org/wiki/Thai_cuisine",
+    "https://en.wikipedia.org/wiki/Isan_language"
+  ]
+}

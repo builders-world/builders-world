@@ -1,0 +1,94 @@
+{
+  "languages": [
+    { "code": "zh", "name": "Mandarin", "official": true, "spoken": "widely" },
+    { "code": "nan", "name": "Taiwanese Hokkien (Taigi)", "official": true, "spoken": "widely, especially among older people, in markets and in the south" },
+    { "code": "en", "name": "English", "official": false, "spoken": "in tech, business and among the young" }
+  ],
+  "names": {
+    "order": "family given",
+    "conventions": "Family name first, then a two-syllable given name: Chen Chia-hao, Lin Ya-ting. In Latin letters most people use the older Wade-Giles style spelling on their passport, with the given name hyphenated (Chen Chia-hao, not Chen Jiahao), so names here follow that. Chen and Lin are the commonest family names by far, then Huang, Chang, Li and Wang. Friends use the given name or add A- or Xiao- in front of one syllable (A-hao, Xiao-ting), and many people also go by an English name such as Kevin or Vivian, at school, at work and among friends.",
+    "groups": {
+      "taiwanese": {
+        "given": {
+          "m": ["Chia-hao", "Chih-wei", "Chun-chieh", "Chien-hung", "Kuan-yu", "Yu-hsiang", "Cheng-en", "Po-yu", "Tsung-han", "Chih-hao", "Ming-te", "Wen-hsiung", "Chun-hung", "Yu-cheng", "Tzu-hao", "Pin-hsun"],
+          "f": ["Shu-fen", "Ya-ting", "Yi-chen", "Pei-shan", "Hsin-yi", "Shu-hui", "Mei-ling", "Yu-ting", "Hui-ju", "Chia-hui", "Ching-yi", "Yu-han", "Pin-yu", "Tzu-han", "Yi-ting", "Hsiao-wen"]
+        },
+        "family": ["Chen", "Lin", "Huang", "Chang", "Li", "Wang", "Wu", "Liu", "Tsai", "Yang", "Hsu", "Cheng", "Hsieh", "Kuo", "Hung", "Tseng", "Chiu", "Liao", "Lai", "Chou"],
+        "also": { "m": ["Kevin", "Jason", "Eric", "Allen", "Vincent", "Jerry", "Steven", "Leo"], "f": ["Vivian", "Amy", "Grace", "Joyce", "Tiffany", "Cindy", "Peggy", "Irene"] }
+      }
+    },
+    "weights": { "taiwanese": 1 }
+  },
+  "honorifics": {
+    "elder_m": "A-peh",
+    "elder_f": "Āyí",
+    "peer_m": "Shuàigē",
+    "peer_f": "Měinǚ",
+    "boss": "Lǎobǎn",
+    "boss_f": "Lǎobǎnniáng",
+    "uncle_mandarin": "Shūshu",
+    "auntie_taigi": "A-sím"
+  },
+  "phrases": {
+    "zh": {
+      "hello": [["Nǐ hǎo", "Hello (你好)"], ["Hāi", "Hi (嗨)"]],
+      "morning": [["Zǎo ān", "Good morning (早安)"], ["Zǎo!", "Morning! (早)"]],
+      "evening": [["Wǎn ān", "Good night (晚安)"], ["Wǎnshàng hǎo", "Good evening (晚上好)"]],
+      "how_are_you": [["Zuìjìn hǎo ma?", "How have you been? (最近好嗎?)"], ["Chī bǎo le méi?", "Have you eaten? (吃飽了沒?)"]],
+      "fine": [["Hái hǎo", "Not bad (還好)"], ["Hěn hǎo", "Very good (很好)"], ["Bú cuò", "Pretty good (不錯)"]],
+      "thanks": [["Xièxie", "Thank you (謝謝)"], ["Gǎnxiè", "Thanks, warmer (感謝)"]],
+      "bye": [["Bàibai", "Bye bye (掰掰)"], ["Zàijiàn", "Goodbye (再見)"]],
+      "welcome": [["Huānyíng guānglín", "Welcome, said in shops (歡迎光臨)"], ["Bú kèqì", "You're welcome (不客氣)"]],
+      "sorry": [["Bù hǎoyìsi", "Sorry, excuse me (不好意思)"], ["Duìbùqǐ", "Sorry (對不起)"]],
+      "excuse": [["Bù hǎoyìsi, jiè guò yí xià", "Excuse me, coming through (不好意思,借過一下)"], ["Qǐngwèn", "May I ask (請問)"]],
+      "yes": [["Duì", "Right (對)"], ["Hǎo", "OK (好)"], ["Shì", "Yes (是)"]],
+      "no": [["Bù", "No (不)"], ["Bú shì", "No, it isn't (不是)"], ["Bú yòng", "No need (不用)"], ["Méiyǒu", "Don't have (沒有)"]]
+    },
+    "nan": {
+      "hello": [["Lí hó", "Hello (你好)"]],
+      "morning": [["Gâu-tsá", "Good morning (𠢕早)"]],
+      "evening": [["Àm-an", "Good evening, good night (暗安)"]],
+      "how_are_you": [["Lí hó--bô?", "How are you? (你好無?)"], ["Tsia̍h-pá buē?", "Have you eaten? (食飽未?)"]],
+      "fine": [["Bē-bái", "Not bad (袂䆀)"], ["Tsia̍h-pá ah", "I've eaten, all good (食飽矣)"]],
+      "thanks": [["To-siā", "Thank you (多謝)"], ["Kám-siā", "Thanks (感謝)"]],
+      "bye": [["Tsài-kiàn", "Goodbye (再見)"], ["Sè-jī--ooh", "Take care (細膩喔)"]],
+      "welcome": [["Huan-gîng", "Welcome (歡迎)"], ["Lâi tsē", "Come in and sit (來坐)"]],
+      "sorry": [["Pháinn-sè", "Sorry, excuse me (歹勢)"], ["Sit-lé", "Sorry, my apologies (失禮)"]],
+      "excuse": [["Pháinn-sè", "Excuse me (歹勢)"]],
+      "yes": [["Sī", "Yes (是)"], ["Tio̍h", "Right (著)"]],
+      "no": [["M̄-sī", "No, it isn't (毋是)"], ["Bô", "Don't have, no (無)"], ["M̄-bián", "No need (毋免)"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"], ["Hi", "Hi"]],
+      "morning": [["Good morning", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["Fine, thanks", "Fine, thanks"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Bye bye", "Bye bye"]],
+      "welcome": [["Welcome", "Welcome"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"], ["OK", "OK"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "TWD",
+    "symbol": "NT$",
+    "words": [
+      ["kuài", "dollar, the everyday Mandarin word (塊)"],
+      ["khoo", "dollar, in Taiwanese (箍)"],
+      ["Yōuyóu kǎ", "EasyCard, for the MRT, buses and convenience stores (悠遊卡)"],
+      ["fāpiào", "receipt, with a lottery number on it (發票)"],
+      ["hóngbāo", "red envelope of money (紅包)"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Taiwan",
+    "https://en.wikipedia.org/wiki/Taiwanese_Hokkien",
+    "https://en.wikipedia.org/wiki/Taiwanese_Romanization_System",
+    "https://en.wikipedia.org/wiki/Chinese_name",
+    "https://en.wikipedia.org/wiki/Wade%E2%80%93Giles"
+  ]
+}

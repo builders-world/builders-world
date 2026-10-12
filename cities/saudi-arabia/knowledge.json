@@ -1,0 +1,1154 @@
+{
+  "languages": [
+    {
+      "code": "ar",
+      "name": "Arabic (Najdi Arabic in Riyadh)",
+      "official": true,
+      "spoken": "everywhere; the language of the street, offices and signs"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "widely in business, hospitals, malls and among expatriates"
+    },
+    {
+      "code": "hi",
+      "name": "Hindi-Urdu (Hindustani)",
+      "official": false,
+      "spoken": "among Indian, Pakistani and Bangladeshi workers; drivers and shopkeepers"
+    },
+    {
+      "code": "fil",
+      "name": "Filipino (Tagalog)",
+      "official": false,
+      "spoken": "among the Filipino community, in hospitals and hotels"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Saudis carry their own name, bin (son of) or bint (daughter of) their father's name, the grandfather's name, then the family or tribal name, usually with Al, as in Abdullah bin Saad Al Qahtani or Sara bint Fahad Al Otaibi. On a badge or in a meeting it is the first name and family name, and women keep their own family name after marriage. Older men are often called by kunya, Abu plus the eldest son's name (Abu Fahad), and women Umm plus the son's name. Egyptians, Yemenis and Levantines use Arabic names with a father's or family name; South Asians and Filipinos keep their home conventions.",
+    "groups": {
+      "saudi": {
+        "given": {
+          "m": [
+            "Abdullah",
+            "Mohammed",
+            "Fahad",
+            "Faisal",
+            "Khalid",
+            "Saud",
+            "Turki",
+            "Nawaf",
+            "Sultan",
+            "Abdulaziz",
+            "Majed",
+            "Bandar",
+            "Saad",
+            "Omar",
+            "Yousef",
+            "Abdulrahman",
+            "Mishal",
+            "Rakan"
+          ],
+          "f": [
+            "Nora",
+            "Sara",
+            "Reem",
+            "Lama",
+            "Haya",
+            "Abeer",
+            "Amal",
+            "Hessa",
+            "Dana",
+            "Jawaher",
+            "Lulwa",
+            "Shahad",
+            "Rahaf",
+            "Ghada",
+            "Munira",
+            "Asma"
+          ]
+        },
+        "family": [
+          "Al Qahtani",
+          "Al Otaibi",
+          "Al Ghamdi",
+          "Al Zahrani",
+          "Al Dosari",
+          "Al Shehri",
+          "Al Harbi",
+          "Al Mutairi",
+          "Al Shammari",
+          "Al Anazi",
+          "Al Subaie",
+          "Al Asmari",
+          "Al Malki",
+          "Al Juhani",
+          "Al Rashidi",
+          "Al Yami",
+          "Al Amri",
+          "Al Tamimi"
+        ]
+      },
+      "egyptian": {
+        "given": {
+          "m": [
+            "Mohamed",
+            "Ahmed",
+            "Mahmoud",
+            "Mostafa",
+            "Amr",
+            "Karim",
+            "Tarek",
+            "Hossam",
+            "Sherif",
+            "Hany",
+            "Ayman",
+            "Waleed",
+            "Ramy",
+            "Youssef",
+            "Mina",
+            "Islam"
+          ],
+          "f": [
+            "Mai",
+            "Nour",
+            "Yasmin",
+            "Heba",
+            "Dina",
+            "Rania",
+            "Shaimaa",
+            "Aya",
+            "Mariam",
+            "Salma",
+            "Esraa",
+            "Doaa",
+            "Marwa",
+            "Nada",
+            "Menna",
+            "Hagar"
+          ]
+        },
+        "family": [
+          "Hassan",
+          "Ibrahim",
+          "Abdel Aziz",
+          "Mahmoud",
+          "El Sayed",
+          "Abdel Rahman",
+          "Fathy",
+          "Gamal",
+          "Soliman",
+          "Mostafa",
+          "Farouk",
+          "Kamal",
+          "Shawky",
+          "Saad",
+          "Hegazy",
+          "Naguib"
+        ]
+      },
+      "yemeni": {
+        "given": {
+          "m": [
+            "Mohammed",
+            "Ahmed",
+            "Ali",
+            "Abdullah",
+            "Saleh",
+            "Nasser",
+            "Mansour",
+            "Fuad",
+            "Hussein",
+            "Abdulkarim",
+            "Khaled",
+            "Adel",
+            "Nabil",
+            "Waleed",
+            "Saeed",
+            "Hamoud"
+          ],
+          "f": [
+            "Fatima",
+            "Amal",
+            "Huda",
+            "Afrah",
+            "Arwa",
+            "Bilqees",
+            "Samira",
+            "Nadia",
+            "Ibtisam",
+            "Rana",
+            "Hanan",
+            "Maha",
+            "Asmaa",
+            "Wafa"
+          ]
+        },
+        "family": [
+          "Al Hadrami",
+          "Al Amoudi",
+          "Bawazir",
+          "Al Kathiri",
+          "Al Haddad",
+          "Bin Mahfouz",
+          "Al Sanaani",
+          "Al Saqqaf",
+          "Ba Shammakh",
+          "Al Aidarous",
+          "Al Junaid",
+          "Al Yafei",
+          "Bahamdan"
+        ]
+      },
+      "indian": {
+        "given": {
+          "m": [
+            "Rahul",
+            "Amit",
+            "Rohit",
+            "Vikas",
+            "Sanjay",
+            "Deepak",
+            "Ravi",
+            "Manish",
+            "Ajay",
+            "Sunil",
+            "Pankaj",
+            "Vivek",
+            "Arjun",
+            "Nikhil",
+            "Gaurav",
+            "Hitesh",
+            "Karan",
+            "Imran"
+          ],
+          "f": [
+            "Priya",
+            "Pooja",
+            "Neha",
+            "Ritu",
+            "Sunita",
+            "Kavita",
+            "Shweta",
+            "Swati",
+            "Nisha",
+            "Sneha",
+            "Megha",
+            "Komal",
+            "Preeti",
+            "Aarti",
+            "Heena",
+            "Riya"
+          ]
+        },
+        "family": [
+          "Sharma",
+          "Verma",
+          "Gupta",
+          "Singh",
+          "Patel",
+          "Shah",
+          "Mehta",
+          "Agarwal",
+          "Joshi",
+          "Kumar",
+          "Yadav",
+          "Mishra",
+          "Pandey",
+          "Desai",
+          "Lalwani",
+          "Advani",
+          "D'Souza",
+          "Shaikh"
+        ]
+      },
+      "malayali": {
+        "given": {
+          "m": [
+            "Anoop",
+            "Arun",
+            "Vishnu",
+            "Sreejith",
+            "Rajesh",
+            "Manoj",
+            "Shaji",
+            "Shameer",
+            "Riyas",
+            "Faisal",
+            "Jijo",
+            "Bibin",
+            "Jithin",
+            "Akhil",
+            "Nithin",
+            "Ajith",
+            "Muhammed",
+            "Sanju"
+          ],
+          "f": [
+            "Anjali",
+            "Divya",
+            "Remya",
+            "Lakshmi",
+            "Aswathy",
+            "Sreeja",
+            "Neethu",
+            "Jisha",
+            "Shilpa",
+            "Fathima",
+            "Shabna",
+            "Reshma",
+            "Ancy",
+            "Jincy",
+            "Athira",
+            "Sumayya"
+          ]
+        },
+        "family": [
+          "Nair",
+          "Menon",
+          "Pillai",
+          "Kurup",
+          "Panicker",
+          "Nambiar",
+          "Varghese",
+          "Kurian",
+          "Mathew",
+          "Thomas",
+          "Joseph",
+          "Abraham",
+          "Rahman",
+          "Basheer",
+          "Ashraf",
+          "Kutty"
+        ]
+      },
+      "pakistani": {
+        "given": {
+          "m": [
+            "Muhammad",
+            "Ahmed",
+            "Ali",
+            "Usman",
+            "Bilal",
+            "Imran",
+            "Asif",
+            "Faisal",
+            "Hamza",
+            "Hassan",
+            "Zubair",
+            "Kamran",
+            "Waqas",
+            "Adnan",
+            "Shahid",
+            "Tariq",
+            "Irfan",
+            "Naveed"
+          ],
+          "f": [
+            "Ayesha",
+            "Fatima",
+            "Sana",
+            "Hina",
+            "Amna",
+            "Mahnoor",
+            "Sadia",
+            "Maryam",
+            "Iqra",
+            "Rabia",
+            "Saima",
+            "Nadia",
+            "Zainab",
+            "Kiran",
+            "Sidra",
+            "Anum"
+          ]
+        },
+        "family": [
+          "Khan",
+          "Ahmed",
+          "Malik",
+          "Butt",
+          "Qureshi",
+          "Sheikh",
+          "Chaudhry",
+          "Iqbal",
+          "Hussain",
+          "Raza",
+          "Siddiqui",
+          "Mirza",
+          "Awan",
+          "Akhtar",
+          "Shah",
+          "Abbasi",
+          "Khattak",
+          "Afridi"
+        ]
+      },
+      "bangladeshi": {
+        "given": {
+          "m": [
+            "Mohammad",
+            "Rahim",
+            "Karim",
+            "Rafiq",
+            "Jamal",
+            "Shahin",
+            "Sohel",
+            "Rubel",
+            "Mamun",
+            "Sumon",
+            "Hasan",
+            "Habib",
+            "Arif",
+            "Shakil",
+            "Jahangir",
+            "Masud"
+          ],
+          "f": [
+            "Nasrin",
+            "Fatema",
+            "Ruma",
+            "Shirin",
+            "Taslima",
+            "Sharmin",
+            "Nusrat",
+            "Sultana",
+            "Rehana",
+            "Parvin",
+            "Shapla",
+            "Mitu",
+            "Tania",
+            "Ayesha"
+          ]
+        },
+        "family": [
+          "Hossain",
+          "Rahman",
+          "Islam",
+          "Ahmed",
+          "Uddin",
+          "Miah",
+          "Alam",
+          "Chowdhury",
+          "Khan",
+          "Sarker",
+          "Haque",
+          "Ali",
+          "Molla",
+          "Sheikh",
+          "Bhuiyan",
+          "Talukder"
+        ]
+      },
+      "filipino": {
+        "given": {
+          "m": [
+            "John Paul",
+            "Mark",
+            "Jerome",
+            "Christian",
+            "Joel",
+            "Rommel",
+            "Ronald",
+            "Jayson",
+            "Michael",
+            "Carlo",
+            "Paolo",
+            "Raymond",
+            "Marvin",
+            "Arnel",
+            "Ramon",
+            "Joseph"
+          ],
+          "f": [
+            "Maricel",
+            "Jocelyn",
+            "Rowena",
+            "Kristine",
+            "Mary Grace",
+            "Joy",
+            "Lovely",
+            "Princess",
+            "Angelica",
+            "Rhea",
+            "Cherry",
+            "Mylene",
+            "Jennifer",
+            "Liza",
+            "Analyn",
+            "Jasmine"
+          ]
+        },
+        "family": [
+          "Santos",
+          "Reyes",
+          "Cruz",
+          "Bautista",
+          "Garcia",
+          "Mendoza",
+          "Torres",
+          "Dela Cruz",
+          "Ramos",
+          "Villanueva",
+          "Gonzales",
+          "Fernandez",
+          "Castillo",
+          "Rivera",
+          "Flores",
+          "Navarro",
+          "Del Rosario"
+        ]
+      },
+      "levantine": {
+        "given": {
+          "m": [
+            "Omar",
+            "Khaled",
+            "Rami",
+            "Fadi",
+            "Ziad",
+            "Tarek",
+            "Karim",
+            "Samer",
+            "Wael",
+            "Majd",
+            "Hadi",
+            "Yazan",
+            "Elie",
+            "Georges",
+            "Ahmad",
+            "Firas"
+          ],
+          "f": [
+            "Lina",
+            "Rania",
+            "Dana",
+            "Hala",
+            "Rasha",
+            "Nour",
+            "Yara",
+            "Lara",
+            "Maya",
+            "Rita",
+            "Tala",
+            "Dima",
+            "Farah",
+            "Rawan",
+            "Lama",
+            "Joelle"
+          ]
+        },
+        "family": [
+          "Haddad",
+          "Khoury",
+          "Nassar",
+          "Saab",
+          "Haddadin",
+          "Khalil",
+          "Darwish",
+          "Hamdan",
+          "Sabbagh",
+          "Najjar",
+          "Abboud",
+          "Mansour",
+          "Karam",
+          "Halabi",
+          "Masri",
+          "Awad"
+        ]
+      }
+    },
+    "weights": {
+      "saudi": 0.6,
+      "egyptian": 0.07,
+      "yemeni": 0.04,
+      "indian": 0.05,
+      "malayali": 0.04,
+      "pakistani": 0.07,
+      "bangladeshi": 0.07,
+      "filipino": 0.04,
+      "levantine": 0.02
+    }
+  },
+  "honorifics": {
+    "elder_m": "Ammi",
+    "elder_f": "Khalti",
+    "peer_m": "Akhooy",
+    "peer_f": "Ukhti",
+    "boss": "Ya mudeer",
+    "respected_m": "Ya sheikh",
+    "dear": "Ya ghali",
+    "brother_hi": "Bhai",
+    "fellow_filipino": "Kabayan"
+  },
+  "phrases": {
+    "ar": {
+      "hello": [
+        [
+          "Assalamu alaikum",
+          "Peace be upon you, the everyday greeting (السلام عليكم)"
+        ],
+        [
+          "Hala",
+          "Hi (هلا)"
+        ],
+        [
+          "Hala wallah",
+          "Hey, so good to see you"
+        ],
+        [
+          "Marhaba",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Sabah al khair",
+          "Good morning (صباح الخير)"
+        ],
+        [
+          "Sabah al noor",
+          "Good morning, the reply"
+        ]
+      ],
+      "evening": [
+        [
+          "Masa al khair",
+          "Good evening (مساء الخير)"
+        ],
+        [
+          "Masa al noor",
+          "Good evening, the reply"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Wesh lonak?",
+          "How are you? Najdi, to a man (وش لونك)"
+        ],
+        [
+          "Wesh lonich?",
+          "How are you? to a woman"
+        ],
+        [
+          "Kaif al hal?",
+          "How are things?"
+        ],
+        [
+          "Wesh akhbarak?",
+          "What's your news?"
+        ]
+      ],
+      "fine": [
+        [
+          "Bikhair, alhamdulillah",
+          "Fine, thank God (بخير الحمد لله)"
+        ],
+        [
+          "Zain",
+          "Good"
+        ],
+        [
+          "Tamam",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Shukran",
+          "Thank you"
+        ],
+        [
+          "Ya'tik al 'afia",
+          "Thanks, God give you health"
+        ],
+        [
+          "Ma qassart",
+          "Thanks, you did not fall short (ما قصرت)"
+        ]
+      ],
+      "bye": [
+        [
+          "Ma'a al salama",
+          "Goodbye"
+        ],
+        [
+          "Fi aman Allah",
+          "Go in God's safety"
+        ],
+        [
+          "Nshoofak ba'dain",
+          "See you later"
+        ]
+      ],
+      "welcome": [
+        [
+          "Ahlan wa sahlan",
+          "Welcome"
+        ],
+        [
+          "Hayak Allah",
+          "Welcome (حياك الله)"
+        ],
+        [
+          "Tfaddal",
+          "Please, come in, go ahead"
+        ]
+      ],
+      "sorry": [
+        [
+          "Asif",
+          "Sorry"
+        ],
+        [
+          "Ma'lish",
+          "Sorry, never mind"
+        ]
+      ],
+      "excuse": [
+        [
+          "Law samaht",
+          "Excuse me, if you please"
+        ],
+        [
+          "Min fadlak",
+          "Please"
+        ]
+      ],
+      "yes": [
+        [
+          "Na'am",
+          "Yes"
+        ],
+        [
+          "Aiwa",
+          "Yes"
+        ],
+        [
+          "Abshir",
+          "Yes, consider it done (أبشر)"
+        ]
+      ],
+      "no": [
+        [
+          "La",
+          "No"
+        ],
+        [
+          "La, shukran",
+          "No, thanks"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hi",
+          "Hi"
+        ],
+        [
+          "Hello, my friend",
+          "Hello, my friend"
+        ],
+        [
+          "Hi habibi",
+          "Hi, dear (Arabic word everyone uses)"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you?",
+          "How are you?"
+        ],
+        [
+          "All good?",
+          "All good?"
+        ]
+      ],
+      "fine": [
+        [
+          "All good, thanks",
+          "All good, thanks"
+        ],
+        [
+          "Fine, alhamdulillah",
+          "Fine, thank God"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thank you",
+          "Thank you"
+        ],
+        [
+          "Thanks, boss",
+          "Thanks, boss"
+        ]
+      ],
+      "bye": [
+        [
+          "Bye, take care",
+          "Bye, take care"
+        ],
+        [
+          "Yalla, bye",
+          "Okay then, bye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome",
+          "Welcome"
+        ],
+        [
+          "Welcome, sir, welcome madam",
+          "Shop welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ],
+        [
+          "Yes, sure",
+          "Yes, sure"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ],
+        [
+          "No, thank you",
+          "No, thank you"
+        ]
+      ]
+    },
+    "hi": {
+      "hello": [
+        [
+          "Namaste",
+          "Hello, Hindu greeting (नमस्ते)"
+        ],
+        [
+          "Assalamu alaikum",
+          "Hello, Muslim greeting"
+        ],
+        [
+          "Kya haal hai?",
+          "What's up?"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning",
+          "Good morning, people use the English"
+        ],
+        [
+          "Subah bakhair",
+          "Good morning, Urdu"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening, people use the English"
+        ],
+        [
+          "Shaam bakhair",
+          "Good evening, Urdu"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Kaise ho?",
+          "How are you?"
+        ],
+        [
+          "Aap kaise hain?",
+          "How are you? polite"
+        ]
+      ],
+      "fine": [
+        [
+          "Theek hoon",
+          "I'm fine"
+        ],
+        [
+          "Badhiya",
+          "Great"
+        ],
+        [
+          "Sab theek",
+          "All fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Shukriya",
+          "Thank you"
+        ],
+        [
+          "Dhanyavaad",
+          "Thank you, Hindi formal"
+        ]
+      ],
+      "bye": [
+        [
+          "Phir milenge",
+          "See you again"
+        ],
+        [
+          "Khuda hafiz",
+          "Goodbye, Urdu"
+        ],
+        [
+          "Chalo, bye",
+          "Okay, bye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Aaiye, aaiye",
+          "Come in, come in"
+        ],
+        [
+          "Swagat hai",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Maaf kijiye",
+          "Sorry, polite"
+        ],
+        [
+          "Sorry yaar",
+          "Sorry, mate"
+        ]
+      ],
+      "excuse": [
+        [
+          "Suniye",
+          "Excuse me, listen"
+        ],
+        [
+          "Bhai sahab, zara",
+          "Excuse me, brother"
+        ]
+      ],
+      "yes": [
+        [
+          "Haan",
+          "Yes"
+        ],
+        [
+          "Ji haan",
+          "Yes, polite"
+        ]
+      ],
+      "no": [
+        [
+          "Nahin",
+          "No"
+        ],
+        [
+          "Ji nahin",
+          "No, polite"
+        ]
+      ]
+    },
+    "fil": {
+      "hello": [
+        [
+          "Kumusta?",
+          "Hello, how are you?"
+        ],
+        [
+          "Uy, kabayan!",
+          "Hey, fellow Filipino!"
+        ]
+      ],
+      "morning": [
+        [
+          "Magandang umaga",
+          "Good morning"
+        ],
+        [
+          "Magandang umaga po",
+          "Good morning, polite"
+        ]
+      ],
+      "evening": [
+        [
+          "Magandang gabi",
+          "Good evening"
+        ],
+        [
+          "Magandang hapon",
+          "Good afternoon"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Kumusta ka?",
+          "How are you?"
+        ],
+        [
+          "Musta na?",
+          "How's it going?"
+        ]
+      ],
+      "fine": [
+        [
+          "Mabuti naman",
+          "I'm fine"
+        ],
+        [
+          "Okay lang",
+          "Just okay"
+        ],
+        [
+          "Ayos lang",
+          "All right"
+        ]
+      ],
+      "thanks": [
+        [
+          "Salamat",
+          "Thanks"
+        ],
+        [
+          "Salamat po",
+          "Thank you, polite"
+        ],
+        [
+          "Maraming salamat",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Ingat!",
+          "Take care!"
+        ],
+        [
+          "Sige, una na ako",
+          "Okay, I'll go ahead"
+        ],
+        [
+          "Paalam",
+          "Goodbye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Maligayang pagdating",
+          "Welcome"
+        ],
+        [
+          "Pasok po kayo",
+          "Please come in"
+        ]
+      ],
+      "sorry": [
+        [
+          "Pasensya na",
+          "Sorry, my apologies"
+        ],
+        [
+          "Sorry po",
+          "Sorry, polite"
+        ]
+      ],
+      "excuse": [
+        [
+          "Makikiraan po",
+          "Excuse me, coming through"
+        ],
+        [
+          "Excuse me po",
+          "Excuse me, polite"
+        ]
+      ],
+      "yes": [
+        [
+          "Oo",
+          "Yes"
+        ],
+        [
+          "Opo",
+          "Yes, polite"
+        ]
+      ],
+      "no": [
+        [
+          "Hindi",
+          "No"
+        ],
+        [
+          "Hindi po",
+          "No, polite"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "SAR",
+    "symbol": "SR",
+    "words": [
+      [
+        "riyal",
+        "the currency, written SR or SAR"
+      ],
+      [
+        "halala",
+        "a hundredth of a riyal"
+      ],
+      [
+        "khamsa riyal",
+        "five riyals"
+      ],
+      [
+        "alf",
+        "a thousand"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Najdi_Arabic",
+    "https://en.wikipedia.org/wiki/Demographics_of_Saudi_Arabia",
+    "https://en.wikipedia.org/wiki/Arabic_name",
+    "https://en.wikipedia.org/wiki/Kunya_(Arabic)",
+    "https://en.wikipedia.org/wiki/Saudi_riyal",
+    "https://en.wikipedia.org/wiki/Hadhrami_people"
+  ]
+}

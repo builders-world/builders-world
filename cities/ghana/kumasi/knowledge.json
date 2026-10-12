@@ -1,0 +1,254 @@
+{
+  "street": {
+    "tw": 0.52,
+    "en": 0.4,
+    "gpe": 0.08
+  },
+  "names": {
+    "weights": {
+      "akan": 0.76,
+      "northern": 0.14,
+      "ewe": 0.06,
+      "ga": 0.04
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "Good morning! How's Adum today?",
+        "Hello! Busy day at Kejetia?",
+        "Hi! How was the trotro from Tech?",
+        "Good afternoon, all well at home?",
+        "Hey, long time! You've been hiding."
+      ],
+      "reply": [
+        "I'm fine, thank you!",
+        "By God's grace, we're fine.",
+        "All good, just busy at the shop.",
+        "Doing well. And you?",
+        "We're there, thank God."
+      ],
+      "sunny": [
+        "Bright Kumasi morning today.",
+        "Hot one today, drink water.",
+        "The Garden City looks green in this sun.",
+        "Lovely evening for Rattray Park.",
+        "Clear skies over Manhyia today."
+      ],
+      "rain": [
+        "It's raining heavily.",
+        "Wait it out, it will pass.",
+        "Kejetia will be pure mud now.",
+        "Rainy season is here for real.",
+        "Proper Kumasi downpour, stay in."
+      ],
+      "bye": [
+        "Take care!",
+        "See you later.",
+        "Have a good one.",
+        "Safe journey home.",
+        "Greet everyone at home for me."
+      ],
+      "busy": [
+        "I have to open the shop in Adum, see you!",
+        "Got to catch a trotro at Kejetia!",
+        "Lecture at KNUST in ten minutes, bye!",
+        "Heading to Asokwa for work, later!",
+        "Deadline today, I'll call you."
+      ]
+    },
+    "tw": {
+      "greet": [
+        "Maakye!",
+        "Maaha!",
+        "Maadwo!",
+        "Ɛte sɛn?",
+        "Wo ho te sɛn?",
+        "Akwaaba!"
+      ],
+      "reply": [
+        "Me ho yɛ.",
+        "Ɛyɛ, medaase.",
+        "Onyame adom, me ho yɛ.",
+        "Ɛyɛ paa.",
+        "Yaa nua!"
+      ],
+      "sunny": [
+        "Ɛyɛ hyew nnɛ!"
+      ],
+      "rain": [
+        "Nsuo retɔ!",
+        "Nsuo no tɔ dodo."
+      ],
+      "bye": [
+        "Yɛbɛhyia bio!",
+        "Nante yie.",
+        "Da yie!",
+        "Medaase, nante yie."
+      ],
+      "busy": [
+        "Merekɔ ntɛm.",
+        "Merekɔ adwuma.",
+        "Adwuma dɔɔso nnɛ.",
+        "Merekɔ Kejetia."
+      ]
+    },
+    "gpe": {
+      "greet": [
+        "Chale, how far?",
+        "How you dey?",
+        "Charley, wassup?"
+      ],
+      "reply": [
+        "I dey kraa.",
+        "We dey, chale."
+      ],
+      "bye": [
+        "Later, chale.",
+        "I dey go."
+      ],
+      "busy": [
+        "Chale, I dey rush.",
+        "Make I catch trotro first!"
+      ]
+    }
+  },
+  "transport": {
+    "bus": "trotro",
+    "big_bus": "Metro Mass bus",
+    "moto_taxi": "okada",
+    "tricycle": "pragya (motor tricycle); a cargo one is an aboboyaa",
+    "taxi": "taxi (shared along the route; a 'dropping' when it's yours alone)",
+    "ride_hail": "Uber, Bolt or Yango",
+    "conductor": "mate",
+    "driver": "driver",
+    "stage": "station"
+  },
+  "touts": [
+    "Kejetia! Kejetia!",
+    "Adum! Adum, enter!",
+    "Tech! Tech! Ayeduase!",
+    "Suame! Suame, one more!",
+    "Asafo! Asafo!",
+    "Santasi! Santasi!",
+    "Bantama! Bantama!",
+    "Accra! Accra, VIP!"
+  ],
+  "hawkers": [
+    ["Pure water! Ice water!", "Sachet water!"],
+    ["Kelewele!", "Spicy fried plantain!"],
+    ["Bofrot!", "Ghanaian doughnuts!"],
+    ["Plantain chips!", "Plantain crisps!"],
+    ["Nkatie burger!", "Groundnut brittle!"],
+    ["Koko and koose!", "Millet porridge and bean fritters!"],
+    ["Credit! MTN credit!", "Phone credit!"]
+  ],
+  "food": {
+    "street": [
+      "kelewele",
+      "waakye",
+      "bofrot",
+      "koose",
+      "khebab",
+      "roasted plantain and groundnuts",
+      "fried yam with shito",
+      "nkatie burger (groundnut brittle)",
+      "Fante kenkey with fried fish",
+      "tuo zaafi from the Zongo"
+    ],
+    "dishes": [
+      "fufu and light soup",
+      "fufu and groundnut soup (nkatenkwan)",
+      "fufu and palm nut soup (abenkwan)",
+      "ampesi with kontomire stew",
+      "omo tuo (rice balls) and groundnut soup",
+      "jollof rice",
+      "red-red",
+      "banku and okro stew",
+      "mpotompoto (cocoyam pottage)",
+      "fried rice"
+    ],
+    "drinks": [
+      "sobolo",
+      "asaana",
+      "palm wine",
+      "brukina",
+      "pito",
+      "Malta Guinness",
+      "Club beer"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "Adum",
+      "Bantama",
+      "Asokwa",
+      "Asafo",
+      "Nhyiaeso",
+      "Ahodwo",
+      "Danyame",
+      "Manhyia",
+      "Suame",
+      "Tafo",
+      "Kwadaso",
+      "Santasi",
+      "Ayigya",
+      "Ayeduase",
+      "Bomso",
+      "Atonsu",
+      "Oforikrom",
+      "Aboabo"
+    ],
+    "streets": [
+      "Harper Road",
+      "Prempeh II Street",
+      "Okomfo Anokye Road",
+      "Lake Road",
+      "the Accra Road",
+      "Sunyani Road",
+      "Mampong Road",
+      "the Sofoline Interchange",
+      "Anloga Junction",
+      "Tech Junction",
+      "Santasi Roundabout",
+      "Ahodwo Roundabout"
+    ],
+    "landmarks": [
+      "Kejetia Market",
+      "Kumasi Central Market",
+      "Manhyia Palace",
+      "the Manhyia Palace Museum",
+      "KNUST",
+      "Komfo Anokye Teaching Hospital",
+      "Baba Yara Sports Stadium",
+      "Prempeh Assembly Hall",
+      "the Okomfo Anokye Sword",
+      "the Kumasi Fort and Military Museum",
+      "the Centre for National Culture",
+      "Rattray Park",
+      "Kumasi City Mall",
+      "Kumasi Zoo"
+    ]
+  },
+  "small_talk": [
+    "Kejetia was packed this morning, I could hardly pass.",
+    "Kotoko play at Baba Yara on Sunday, are you coming?",
+    "Fufu and light soup at the chop bar near Adum?",
+    "Traffic at Anloga Junction was terrible today.",
+    "My cousin is at Tech, doing engineering.",
+    "Akwasidae is on Sunday, Manhyia will be full.",
+    "Rattray Park is lovely in the evening.",
+    "My auntie is going to Bonwire this weekend to buy kente.",
+    "The trotro from Kejetia to Tech was full again.",
+    "Kumasi is still the Garden City, look at all these trees."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Kumasi",
+    "https://en.wikipedia.org/wiki/Kejetia_Market",
+    "https://en.wikipedia.org/wiki/Manhyia_Palace",
+    "https://en.wikipedia.org/wiki/Kwame_Nkrumah_University_of_Science_and_Technology",
+    "https://en.wikipedia.org/wiki/Asante_Twi",
+    "https://en.wikipedia.org/wiki/Ghanaian_cuisine"
+  ],
+  "needs_native_review": "Twi lines are kept to everyday phrases we are sure of, written in the Twi alphabet as in ghana/knowledge.json. Twi has only one sunny line and two rain lines (the game speaks English for the rest); Kumasi speakers, please add weather lines and check 'Yaa nua!' (reply to a peer's greeting), 'Da yie!' and 'Merekɔ Kejetia.'. Ghanaian Pidgin is light in Kumasi, so it has a few lines only. Please also check the street list (Prempeh II Street, Lake Road) and the touts."
+}

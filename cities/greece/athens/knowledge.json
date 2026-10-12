@@ -1,0 +1,79 @@
+{
+  "street": { "el": 0.88, "en": 0.12 },
+  "names": { "weights": { "greek": 0.86, "albanian": 0.08, "georgian": 0.02, "egyptian": 0.015, "pakistani": 0.015, "filipino": 0.01 } },
+  "chat": {
+    "en": {
+      "greet": ["Kalimera! How's it going?", "Hey, good to see you!", "Hi! Freddo before we start?", "Morning! All good?", "Hey, how was the weekend?"],
+      "reply": ["Good, thanks! You?", "All good, a bit sleepy.", "Not bad at all.", "Great, thanks!", "Busy, but good."],
+      "sunny": ["Freddo espresso weather, as always.", "Beach after work? Glyfada's half an hour away.", "Too hot to walk up Lycabettus today.", "Clear sky, you can see the Acropolis from the office.", "Summer cinema tonight?"],
+      "rain": ["Rare rain, and suddenly all of Athens is stuck in traffic.", "It's pouring, grab an umbrella.", "Kifisias Avenue will be a car park now.", "The marble pavements are slippery when it rains.", "At least the rain cleared the dust."],
+      "bye": ["Ta leme!", "See you tomorrow!", "Catch you later!", "Have a good one!", "Bye, see you at the office!"],
+      "busy": ["Sorry, running for the metro!", "Can't stop, call in five.", "Late for a meeting, talk later!", "Got to dash, see you at lunch.", "Deadline today, catch you later!"]
+    },
+    "el": {
+      "greet": ["Γεια σου! Τι κάνεις;", "Καλημέρα! Όλα καλά;", "Έλα, ρε φίλε! Τι λέει;", "Καλησπέρα! Πώς πας;", "Γεια σας, τι κάνετε;"],
+      "reply": ["Καλά, εσύ;", "Μια χαρά, ευχαριστώ!", "Εκεί, τα ίδια.", "Καλά είμαι, εσύ τι λες;"],
+      "sunny": ["Τι ωραία μέρα σήμερα!", "Με τέτοιο ήλιο, για παραλία!", "Καύσωνας σήμερα, κάτσε στη σκιά.", "Πάμε για ένα φρέντο σε καμιά πλατεία;"],
+      "rain": ["Βρέχει καρεκλοπόδαρα!", "Πάρε ομπρέλα, θα βρέξει.", "Με τη βροχή, η Αθήνα κόλλησε στην κίνηση.", "Τι συννεφιά σήμερα!"],
+      "bye": ["Γεια, τα λέμε!", "Άντε, καλή συνέχεια!", "Τα λέμε αύριο!", "Γεια χαρά!", "Καλό βράδυ!"],
+      "busy": ["Συγγνώμη, βιάζομαι, τα λέμε μετά!", "Δεν προλαβαίνω, θα χάσω το μετρό!", "Έχω ραντεβού σε πέντε λεπτά, θα σε πάρω τηλέφωνο!", "Άργησα, μιλάμε αργότερα!"]
+    }
+  },
+  "transport": {
+    "bus": "λεωφορείο",
+    "moto_taxi": "πατίνι",
+    "tricycle": "τουριστικό τρενάκι (Πλάκα)",
+    "taxi": "ταξί (κίτρινο)",
+    "conductor": "ελεγκτής",
+    "stage": "στάση",
+    "metro": "μετρό",
+    "tram": "τραμ",
+    "trolley": "τρόλεϊ",
+    "train": "προαστιακός",
+    "ride_hail": "ταξί από εφαρμογή (Uber, FREENOW)"
+  },
+  "touts": [
+    "Επόμενος σταθμός: Σύνταγμα. Ανταπόκριση με τη γραμμή 3.",
+    "Κουλούρια, φρέσκα κουλούρια!",
+    "Ελάτε, ελάτε, δύο ευρώ το κιλό!",
+    "Λαχεία, το τυχερό!",
+    "Κάστανα ψητά, καλαμπόκι!",
+    "An accordion player works the café tables on Ermou."
+  ],
+  "hawkers": [
+    ["Κουλούρια, φρέσκα κουλούρια!", "Fresh koulouri bread rings!"],
+    ["Έλα, κυρία μου, δύο ευρώ το κιλό!", "Come on, madam, two euros a kilo! (at the laiki market)"],
+    ["Κάστανα ψητά!", "Roast chestnuts!"],
+    ["Καλαμπόκι ψητό!", "Grilled corn!"],
+    ["Λαχεία, το τυχερό!", "Lottery tickets, the lucky one!"],
+    ["Γλυκές οι ντομάτες, δοκίμασε!", "Sweet tomatoes, have a taste!"]
+  ],
+  "food": {
+    "street": ["σουβλάκι (καλαμάκι)", "γύρος πίτα", "κουλούρι Θεσσαλονίκης", "τυρόπιτα", "σπανακόπιτα", "μπουγάτσα", "λουκουμάδες", "καλαμπόκι ψητό"],
+    "dishes": ["μουσακάς", "παστίτσιο", "γεμιστά", "φασολάδα", "σουτζουκάκια", "χωριάτικη σαλάτα", "κεφτεδάκια", "χταπόδι στα κάρβουνα", "φάβα"],
+    "drinks": ["φρέντο εσπρέσο", "φρέντο καπουτσίνο", "φραπέ", "ελληνικός καφές", "ούζο", "τσίπουρο", "ρετσίνα"]
+  },
+  "places": {
+    "neighbourhoods": ["Πλάκα", "Μοναστηράκι", "Ψυρρή", "Κουκάκι", "Εξάρχεια", "Κολωνάκι", "Παγκράτι", "Κεραμεικός", "Γκάζι", "Θησείο", "Πετράλωνα", "Κυψέλη", "Μετς", "Γλυφάδα", "Χαλάνδρι", "Μαρούσι"],
+    "streets": ["Ερμού", "Πανεπιστημίου", "Σταδίου", "Λεωφόρος Βασιλίσσης Σοφίας", "Λεωφόρος Κηφισίας", "Αθηνάς", "Διονυσίου Αρεοπαγίτου", "Αδριανού", "Πατησίων", "Λεωφόρος Συγγρού"],
+    "landmarks": ["Ακρόπολη", "Παρθενώνας", "Μουσείο Ακρόπολης", "Πλατεία Συντάγματος", "Λυκαβηττός", "Αρχαία Αγορά", "Παναθηναϊκό Στάδιο", "Ναός του Ολυμπίου Διός", "Εθνικός Κήπος", "Βαρβάκειος Αγορά", "Τεχνόπολη", "Κέντρο Πολιτισμού Ίδρυμα Σταύρος Νιάρχος", "Λόφος Φιλοπάππου"]
+  },
+  "small_talk": [
+    "Kifisias was a car park this morning.",
+    "Summer cinema at Thissio tonight, with the Acropolis in the background.",
+    "Koulouri and a freddo, breakfast sorted.",
+    "Everyone's leaving for the islands on Friday, Piraeus will be chaos.",
+    "Laiki on Saturday, the tomatoes are amazing this week.",
+    "The meltemi is blowing, nice and cool for once.",
+    "Name day tomorrow, I have to call Giorgos.",
+    "The metro to the airport is easier than a taxi.",
+    "Sunset from Philopappou hill, best free view in the city.",
+    "We sat over one coffee for three hours, as usual."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Athens",
+    "https://en.wikipedia.org/wiki/Koulouri",
+    "https://www.stasy.gr/",
+    "https://www.oasa.gr/"
+  ]
+}

@@ -1,0 +1,219 @@
+{
+  "street": { "pt": 0.62, "calao": 0.34, "en": 0.04 },
+  "registers": {
+    "calao": {
+      "name": "Calão (Luanda street Portuguese)",
+      "about": "Luanda's street Portuguese: quick, warm and full of Kimbundu words like bué, kota and mambo, plus the city's own slang (camba, kumbu, bazar, bumbar). The talk of the candongueiros, the markets and kuduro."
+    }
+  },
+  "names": { "weights": { "ambundu": 0.45, "ovimbundu": 0.33, "bakongo": 0.22 } },
+  "phrases": {
+    "calao": {
+      "hello": [["Xé, mano!", "Hey, bro!"], ["Ya, camba!", "Yo, friend!"], ["Qual é o mambo?", "What's going on?"]],
+      "how_are_you": [["Tás bom?", "You good?"], ["Tás fixe?", "You alright?"]],
+      "fine": [["Tá-se bem", "All good"], ["Tudo kuia", "All great"], ["Na boa", "Easy, all fine"]],
+      "thanks": [["Obrigado, camba", "Thanks, friend"]],
+      "bye": [["Vou bazar", "I'm off"], ["Bazei!", "I'm gone!"]],
+      "words": [
+        ["bué", "a lot, very"],
+        ["kota", "elder, an older person"],
+        ["camba", "friend"],
+        ["kumbu", "money"],
+        ["bazar", "to leave, to head off"],
+        ["bumbar", "to work"],
+        ["candengue", "kid, youngster"],
+        ["mambo", "thing, matter"],
+        ["garina", "girl"],
+        ["boda", "party"]
+      ]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "Good morning! How is everything?",
+        "Hey, long time! How is the family?",
+        "Good afternoon, elder, all well?",
+        "Hello, friend! Where are you off to?",
+        "Morning! Did you get here before the traffic?"
+      ],
+      "reply": [
+        "All good, thank you, and you?",
+        "Fine, fine, the day is moving.",
+        "Very well, thanks for asking.",
+        "We are here, all calm.",
+        "Good, just tired from the traffic."
+      ],
+      "sunny": [
+        "The sun is strong today, stay in the shade.",
+        "Perfect day for the Ilha.",
+        "Hot one today, I need a cold drink.",
+        "Beautiful sky over the bay this morning.",
+        "In this heat even the zungueiras are resting under the trees."
+      ],
+      "rain": [
+        "Rain is coming, the streets will fill up fast.",
+        "Heavy rain, the candongueiros will be slow.",
+        "Let's wait here until it passes.",
+        "Rain in Luanda means traffic everywhere.",
+        "At least the rain cools things down."
+      ],
+      "bye": [
+        "See you later, take care!",
+        "Greet the family for me.",
+        "Bye, see you tomorrow!",
+        "Go well, call me when you get there.",
+        "Until next time!"
+      ],
+      "busy": [
+        "Sorry, I'm in a rush, my candongueiro is leaving!",
+        "Running to a meeting in Talatona, talk later.",
+        "Can't stop, I'm late for work.",
+        "Heading to the market before it closes.",
+        "I'll call you tonight, I'm busy now!"
+      ]
+    },
+    "pt": {
+      "greet": [
+        "Bom dia, tudo bem?",
+        "Boa tarde, mais-velho, como está?",
+        "Olá, há quanto tempo! Como vai a família?",
+        "Boa noite, mamã, tudo bem?"
+      ],
+      "reply": [
+        "Tudo bem, obrigado, e você?",
+        "Estou bem, graças a Deus.",
+        "Tudo tranquilo por aqui.",
+        "Bem, obrigado por perguntar."
+      ],
+      "sunny": [
+        "Está muito calor hoje!",
+        "Que sol! Dia bom para ir à Ilha.",
+        "O céu está lindo sobre a baía.",
+        "Com este calor, só uma água gelada."
+      ],
+      "rain": [
+        "Vem aí chuva, vamos depressa.",
+        "Com esta chuva, as ruas vão encher.",
+        "Vamos esperar aqui até a chuva passar.",
+        "Está a chover muito, não há táxi."
+      ],
+      "bye": [
+        "Até logo, cuida-te!",
+        "Até amanhã!",
+        "Cumprimentos à família.",
+        "Tchau, boa continuação!"
+      ],
+      "busy": [
+        "Desculpa, estou com pressa!",
+        "Tenho uma reunião em Talatona, falamos depois.",
+        "Estou atrasado para o trabalho.",
+        "Estou a correr, ligo-te logo."
+      ]
+    },
+    "calao": {
+      "greet": [
+        "Ya, camba! Tás bom?",
+        "Xé, mano, qual é o mambo?",
+        "Mais-velho, bom dia! Tudo kuia?",
+        "Mana, tás fixe?"
+      ],
+      "reply": [
+        "Tá-se bem, camba!",
+        "Na boa, mano, tudo kuia.",
+        "Tou bué bem, obrigado.",
+        "Ya, tá tranquilo."
+      ],
+      "sunny": [
+        "Hoje o sol tá bué quente, mano!",
+        "Calor bué! Vamos bazar para a Ilha?",
+        "Dia bonito para dar uma volta na Marginal.",
+        "Esse sol tá a bater forte, camba."
+      ],
+      "rain": [
+        "Xé, chuva! As ruas vão encher bué.",
+        "Bazamos antes que a chuva aperte!",
+        "Com essa chuva o candongueiro vai demorar bué.",
+        "Chuva em Luanda é sério, mano, cuidado."
+      ],
+      "bye": [
+        "Vou bazar, camba. Até logo!",
+        "Fica bem, mano!",
+        "Tchau, kota, até amanhã!",
+        "Bazei! Falamos depois."
+      ],
+      "busy": [
+        "Tou a bumbar, mano, falamos depois!",
+        "Tou atrasado, o candongueiro tá a sair!",
+        "Agora não dá, camba, tou bué ocupado.",
+        "Tou a correr, depois te ligo!"
+      ]
+    }
+  },
+  "transport": {
+    "bus": "candongueiro",
+    "big_bus": "machimbombo",
+    "moto_taxi": "kupapata",
+    "tricycle": "kaleluia",
+    "taxi": "táxi",
+    "conductor": "cobrador",
+    "stage": "paragem"
+  },
+  "touts": [
+    "Mutamba, Mutamba!",
+    "Congolenses, Congolenses!",
+    "São Paulo, São Paulo!",
+    "Viana directo!",
+    "Cacuaco, Cacuaco!",
+    "Kinaxixi, Kinaxixi!",
+    "Benfica, Benfica!",
+    "Golfe, Golfe!"
+  ],
+  "hawkers": [
+    ["Olha a jinguba!", "Peanuts here!"],
+    ["Água fresca, água!", "Cold water!"],
+    ["Pão quente!", "Hot bread!"],
+    ["Bombó com jinguba!", "Dried cassava with peanuts!"],
+    ["Olha o peixe fresco!", "Fresh fish here!"],
+    ["Recarga, recarga Unitel!", "Airtime, Unitel top-up!"],
+    ["Banana assada!", "Roasted plantain!"],
+    ["Gasosa gelada!", "Ice-cold soft drinks!"]
+  ],
+  "food": {
+    "street": ["jinguba torrada", "bombó com jinguba", "banana assada", "milho assado", "mandioca assada", "peixe grelhado", "espetada", "pão com chouriço", "kitaba"],
+    "dishes": ["funje", "muamba de galinha", "calulu", "mufete", "kizaca", "feijão de óleo de palma", "cabidela", "muamba de jinguba"],
+    "drinks": ["Cuca", "N'gola", "Eka", "kissângua", "sumo de múcua", "gasosa"]
+  },
+  "places": {
+    "neighbourhoods": ["Ingombota", "Maianga", "Alvalade", "Miramar", "Talatona", "Kilamba", "Viana", "Cazenga", "Rangel", "Sambizanga", "Prenda", "Samba", "Vila Alice", "Bairro Operário", "Ilha de Luanda", "Benfica", "Cacuaco", "Morro Bento"],
+    "streets": ["Avenida 4 de Fevereiro (Marginal)", "Avenida Deolinda Rodrigues", "Rua Rainha Ginga", "Avenida Comandante Valódia", "Avenida Ho Chi Minh", "Avenida Lenine", "Estrada de Catete", "Via Expressa", "Avenida 21 de Janeiro", "Rua Amílcar Cabral"],
+    "landmarks": ["Fortaleza de São Miguel", "Marginal de Luanda", "Baía de Luanda", "Ilha de Luanda", "Mussulo", "Largo do Kinaxixi", "Mercado dos Congolenses", "Estádio 11 de Novembro", "Museu Nacional de Antropologia", "Palácio de Ferro", "Igreja de Nossa Senhora dos Remédios", "Miradouro da Lua"]
+  },
+  "small_talk": [
+    "Deolinda Rodrigues was blocked all morning, I took a kupapata in the end.",
+    "Let's walk the Marginal this evening, the breeze off the bay is lovely.",
+    "Going over to Mussulo on Saturday, the boats leave early.",
+    "The candongueiro to Viana was full before I even got to the paragem.",
+    "My aunt is making muamba de galinha and funje on Sunday, you have to come.",
+    "Kizomba night on the Ilha on Friday, are you in?",
+    "Bought jinguba from the zungueira at the corner, still warm.",
+    "The Palancas Negras play this weekend, we are watching at the kota's place.",
+    "It is cacimbo now, mornings in Luanda are grey and cool.",
+    "Fresh fish at the Ilha this morning, the boats came in early."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Luanda",
+    "https://en.wikipedia.org/wiki/Angolan_Portuguese",
+    "https://en.wikipedia.org/wiki/Angolan_cuisine",
+    "https://en.wikipedia.org/wiki/Muamba_de_galinha",
+    "https://en.wikipedia.org/wiki/Calulu",
+    "https://en.wikipedia.org/wiki/Fortress_of_S%C3%A3o_Miguel",
+    "https://en.wikipedia.org/wiki/Ilha_de_Luanda",
+    "https://en.wikipedia.org/wiki/Luanda_Bay",
+    "https://en.wikipedia.org/wiki/Mussulo",
+    "https://en.wikipedia.org/wiki/Ingombota",
+    "https://en.wikipedia.org/wiki/Talatona",
+    "https://en.wikipedia.org/wiki/Kizomba",
+    "https://en.wikipedia.org/wiki/Kuduro"
+  ]
+}

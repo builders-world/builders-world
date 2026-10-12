@@ -1,0 +1,258 @@
+{
+  "street": { "pt": 0.55, "ts": 0.2, "calao": 0.2, "en": 0.05 },
+  "registers": {
+    "calao": {
+      "name": "Calão (Maputo street Portuguese)",
+      "about": "Maputo's street Portuguese, mixed with Changana and a little English: maningue nice, mola, bro, xará, mufana, estamos juntos. Young people switch between it, Portuguese and Changana in the same sentence."
+    }
+  },
+  "names": { "weights": { "changana": 0.78, "macua": 0.08, "sena_ndau": 0.14 } },
+  "phrases": {
+    "calao": {
+      "hello": [["Ei bro!", "Hey bro!"], ["Xará!", "Hey, namesake! (said to a friend)"]],
+      "how_are_you": [["Estás fixe?", "You alright?"], ["Tás bem?", "You good?"]],
+      "fine": [["Estou maningue bem", "I'm really good"], ["Tudo fixe", "All cool"]],
+      "thanks": [["Khanimambo, bro", "Thanks, bro"]],
+      "bye": [["Estamos juntos!", "We're together! (see you, take care)"], ["Vou andar", "I'm heading off"]],
+      "words": [
+        ["maningue", "a lot, very"],
+        ["maningue nice", "really good"],
+        ["mola", "money"],
+        ["xará", "namesake, used for a friend"],
+        ["mufana", "boy, young guy"],
+        ["mamana", "madam, an older woman"],
+        ["madala", "old man, a respected elder"],
+        ["dumba-nengue", "street market, informal trade"],
+        ["mata-bicho", "breakfast"],
+        ["barraca", "small bar or stall"]
+      ]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "Good morning! How is everything?",
+        "Hey, long time! How is the family?",
+        "Good afternoon, papá, all well?",
+        "Hello, friend! Where are you off to?",
+        "Morning! Did you catch the early chapa?"
+      ],
+      "reply": [
+        "All good, thank you, and you?",
+        "Fine, the day is going well.",
+        "Very well, thanks for asking.",
+        "We are here, all calm.",
+        "Good, just tired from the chapa ride."
+      ],
+      "sunny": [
+        "The sun is strong today, find some shade.",
+        "Perfect day for Costa do Sol.",
+        "Hot one today, I need a cold drink.",
+        "Beautiful sky over the bay this morning.",
+        "Great day to sit by the Marginal."
+      ],
+      "rain": [
+        "Rain is coming, let's move.",
+        "Heavy rain, the chapas will be slow.",
+        "Let's wait here until it passes.",
+        "When it rains like this the whole city stops.",
+        "At least the rain cools things down."
+      ],
+      "bye": [
+        "See you later, take care!",
+        "Greet the family for me.",
+        "Bye, see you tomorrow!",
+        "Go well, call me when you get home.",
+        "Estamos juntos, see you!"
+      ],
+      "busy": [
+        "Sorry, I'm in a rush, my chapa is leaving!",
+        "Running to a meeting in the Baixa, talk later.",
+        "Can't stop, I'm late for work.",
+        "Heading to the market before it closes.",
+        "I'll call you tonight, I'm busy now!"
+      ]
+    },
+    "pt": {
+      "greet": [
+        "Bom dia, tudo bem?",
+        "Boa tarde, papá, como está?",
+        "Olá, há quanto tempo! E a família?",
+        "Boa noite, mamana, tudo bem?"
+      ],
+      "reply": [
+        "Estou bem, obrigado, e tu?",
+        "Tudo bem, graças a Deus.",
+        "Está tudo tranquilo.",
+        "Bem, obrigado por perguntar."
+      ],
+      "sunny": [
+        "Está muito calor hoje!",
+        "Que dia bonito para a Marginal.",
+        "O sol está forte, procura uma sombra.",
+        "Dia perfeito para ir à praia."
+      ],
+      "rain": [
+        "Vem aí chuva, vamos depressa.",
+        "Com esta chuva o trânsito vai parar.",
+        "Vamos esperar aqui até a chuva passar.",
+        "Está a chover muito, não há chapa."
+      ],
+      "bye": [
+        "Até logo!",
+        "Até amanhã!",
+        "Cumprimentos à família.",
+        "Tchau, bom trabalho!"
+      ],
+      "busy": [
+        "Desculpa, estou com pressa!",
+        "Tenho uma reunião na Baixa, falamos depois.",
+        "Estou atrasado para o trabalho.",
+        "Estou a correr, ligo-te logo."
+      ]
+    },
+    "ts": {
+      "greet": [
+        "Dzixile, mamana!",
+        "Kunjhani, papá?",
+        "Inhlekani! U bom?",
+        "Dzipelile! Kunjhani?"
+      ],
+      "reply": [
+        "Ni bom, khanimambo!",
+        "Ni bom, na wena?",
+        "Ni bom ngopfu, khanimambo.",
+        "Ni bom, mamana, khanimambo."
+      ],
+      "sunny": [
+        "Ka hisa namuntlha!",
+        "Ka hisa ngopfu!",
+        "Dyambu ra hisa namuntlha.",
+        "Ka hisa, hi lava mati."
+      ],
+      "rain": [
+        "Mpfula ya na!",
+        "Mpfula ya na ngopfu namuntlha.",
+        "Ka titimeta namuntlha.",
+        "Hi rindza mpfula yi hela."
+      ],
+      "bye": [
+        "Hi ta vonana!",
+        "Hi ta vonana mundzuku!",
+        "Hambanini!",
+        "Famba kahle!"
+      ],
+      "busy": [
+        "Ni hatlisa, hi ta vonana!",
+        "Ni ya entirhweni, hi ta vonana.",
+        "Ni hatlisa, khanimambo!",
+        "Ni famba, hi ta vonana mundzuku!"
+      ]
+    },
+    "calao": {
+      "greet": [
+        "Ei bro, estás fixe?",
+        "Xará! Como estás?",
+        "Mamana, bom dia! Tudo bem?",
+        "Mufana, há quanto tempo!"
+      ],
+      "reply": [
+        "Estou maningue bem, bro!",
+        "Tudo fixe, xará.",
+        "Está tudo bem, khanimambo!",
+        "Na boa, estamos juntos!"
+      ],
+      "sunny": [
+        "Hoje está maningue quente, bro!",
+        "Sol bom para ir à Costa do Sol!",
+        "Com este calor só uma 2M gelada.",
+        "Está a queimar hoje, xará!"
+      ],
+      "rain": [
+        "Ei, chuva! O chapa vai demorar maningue.",
+        "Vamos esperar a chuva passar, bro.",
+        "Com esta chuva a Julius Nyerere vai encher.",
+        "Chuva maningue, fica em casa!"
+      ],
+      "bye": [
+        "Estamos juntos, bro!",
+        "Até logo, xará!",
+        "Vou andar, falamos!",
+        "Fica bem, mufana, estamos juntos."
+      ],
+      "busy": [
+        "Agora não dá, bro, estou a correr!",
+        "Estou atrasado, o chapa já está a sair!",
+        "Tenho que ir, estou maningue apressado!",
+        "Estou a trabalhar, ligo-te depois."
+      ]
+    }
+  },
+  "transport": {
+    "bus": "chapa",
+    "big_bus": "machimbombo",
+    "open_truck": "my love",
+    "moto_taxi": "mototáxi",
+    "tricycle": "txopela",
+    "taxi": "táxi",
+    "conductor": "cobrador",
+    "stage": "paragem",
+    "terminal": "terminal"
+  },
+  "touts": [
+    "Baixa, Baixa!",
+    "Museu, Museu!",
+    "Xipamanine, Xipamanine!",
+    "Zimpeto, Zimpeto!",
+    "Matola, Matola!",
+    "Xiquelene, Xiquelene!",
+    "Junta, Junta!",
+    "Magoanine!",
+    "Laulane, Laulane!",
+    "Boane, Boane!"
+  ],
+  "hawkers": [
+    ["Castanha de caju!", "Cashew nuts!"],
+    ["Água, água fresca!", "Cold water!"],
+    ["Chamussas quentes!", "Hot samosas!"],
+    ["Badjias, badjias!", "Bean fritters!"],
+    ["Recarga, recarga Vodacom, Movitel!", "Airtime! Vodacom, Movitel!"],
+    ["Amendoim torrado!", "Roasted peanuts!"],
+    ["Água de coco!", "Coconut water!"],
+    ["Jornal Notícias!", "The Notícias newspaper!"]
+  ],
+  "food": {
+    "street": ["chamussas", "badjias", "rissóis", "prego no pão", "espetadas", "milho assado", "castanha de caju", "amendoim torrado"],
+    "dishes": ["matapa", "xima", "caril de amendoim", "galinha à zambeziana", "mucapata", "camarão grelhado", "caril de caranguejo", "frango grelhado com piri-piri"],
+    "drinks": ["2M", "Laurentina", "Manica", "Tipo Tinto", "água de coco", "sura", "chá"]
+  },
+  "places": {
+    "neighbourhoods": ["Baixa", "Polana Cimento", "Sommerschield", "Coop", "Alto Maé", "Malhangalene", "Mafalala", "Chamanculo", "Xipamanine", "Maxaquene", "Polana Caniço", "Costa do Sol", "Triunfo", "Zimpeto", "Magoanine", "Hulene", "Laulane", "KaTembe"],
+    "streets": ["Avenida Julius Nyerere", "Avenida 24 de Julho", "Avenida Eduardo Mondlane", "Avenida Karl Marx", "Avenida Vladimir Lenine", "Avenida Samora Machel", "Avenida 25 de Setembro", "Avenida Marginal", "Avenida Mao Tse Tung", "Avenida Kenneth Kaunda", "Avenida Acordos de Lusaka"],
+    "landmarks": ["Estação Central dos CFM", "Fortaleza de Maputo", "Mercado Central", "Casa de Ferro", "Hotel Polana", "Ponte Maputo-KaTembe", "Catedral de Nossa Senhora da Conceição", "Praça da Independência", "Jardim Tunduru", "Mercado do Peixe", "Praia da Costa do Sol", "Museu de História Natural", "FEIMA"]
+  },
+  "small_talk": [
+    "The chapa to the Baixa was packed this morning, I stood all the way.",
+    "Let's get prawns at the Mercado do Peixe tonight.",
+    "With the bridge, KaTembe is only minutes away now.",
+    "Julius Nyerere was jammed again, I walked from Sommerschield.",
+    "Nice breeze on the Marginal this evening, let's sit by the water.",
+    "Buy cashews from the mamana by the Mercado Central, hers are the best.",
+    "The Mambas play on Saturday, we are watching at the barraca.",
+    "It's xitique day on Friday, I have to put in my part.",
+    "Let's grab mata-bicho before work, the bread at the corner is fresh.",
+    "Txopela to Costa do Sol? It's too hot to walk."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Maputo",
+    "https://en.wikipedia.org/wiki/Mozambican_Portuguese",
+    "https://en.wikipedia.org/wiki/Mozambican_cuisine",
+    "https://en.wikipedia.org/wiki/Matapa",
+    "https://en.wikipedia.org/wiki/Maputo_Central_Railway_Station",
+    "https://en.wikipedia.org/wiki/Maputo%E2%80%93Katembe_bridge",
+    "https://en.wikipedia.org/wiki/Tunduru_Gardens",
+    "https://en.wikipedia.org/wiki/Matola",
+    "https://en.wikipedia.org/wiki/Tsonga_language",
+    "https://www.changana.info/basic-phrases/"
+  ]
+}

@@ -1,0 +1,369 @@
+{
+  "street": {
+    "es": 0.7,
+    "chilango": 0.27,
+    "en": 0.03
+  },
+  "registers": {
+    "chilango": {
+      "name": "Chilango",
+      "about": "Mexico City's own street Spanish: ¿qué onda?, chido, neta, güey, ahorita, the quick, playful talk of the capital."
+    }
+  },
+  "names": {
+    "weights": {
+      "mexican": 0.98,
+      "american": 0.02
+    }
+  },
+  "phrases": {
+    "chilango": {
+      "hello": [
+        [
+          "¿Qué onda, güey?",
+          "What's up, dude?"
+        ],
+        [
+          "¿Quihubo?",
+          "Hi there!"
+        ],
+        [
+          "¿Qué hongo?",
+          "What's up? (playful)"
+        ]
+      ],
+      "fine": [
+        [
+          "Chido",
+          "Cool, good"
+        ],
+        [
+          "Bien padre",
+          "Really nice"
+        ],
+        [
+          "Al cien",
+          "A hundred percent, great"
+        ]
+      ],
+      "yes": [
+        [
+          "Neta",
+          "Really, for real"
+        ],
+        [
+          "Va",
+          "Okay, deal"
+        ],
+        [
+          "Sale",
+          "Okay, sure"
+        ]
+      ],
+      "bye": [
+        [
+          "Sale, nos vidrios",
+          "Okay, see you (playful)"
+        ],
+        [
+          "Ahí nos vemos",
+          "See you around"
+        ]
+      ],
+      "thanks": [
+        [
+          "Gracias, carnal",
+          "Thanks, bro"
+        ]
+      ]
+    }
+  },
+  "chat": {
+    "es": {
+      "greet": [
+        "¡Buenos días! ¿Cómo le va?",
+        "¡Hola! ¿Qué tal su día?",
+        "¡Buenas tardes! ¿Cómo está?",
+        "¡Qué gusto verlo! ¿Cómo ha estado?",
+        "Buen día, ¿todo bien?"
+      ],
+      "reply": [
+        "Muy bien, gracias, ¿y usted?",
+        "Bien, aquí trabajando.",
+        "Todo bien, gracias a Dios.",
+        "Pues aquí, con mucho trabajo.",
+        "Bien, gracias por preguntar."
+      ],
+      "sunny": [
+        "Qué bonito día, ni una nube.",
+        "Hace un sol muy fuerte, póngase bloqueador.",
+        "Hoy se ven los volcanes, ¡qué bonito!",
+        "Buen día para ir a Chapultepec.",
+        "Hace calor, se antoja un agua de jamaica."
+      ],
+      "rain": [
+        "Ya va a llover, siempre llueve a esta hora.",
+        "Traiga paraguas, en la tarde cae el aguacero.",
+        "Con esta lluvia el tráfico va a estar terrible.",
+        "Se encharcó otra vez el Periférico.",
+        "Cayó granizo en la tarde, ¡increíble!"
+      ],
+      "bye": [
+        "¡Que le vaya bien!",
+        "Hasta luego, cuídese.",
+        "Nos vemos pronto.",
+        "¡Que tenga buen día!",
+        "Saludos a su familia."
+      ],
+      "busy": [
+        "Disculpe, voy tarde al trabajo.",
+        "Tengo que alcanzar el Metro, nos vemos.",
+        "Voy corriendo a una junta, luego le hablo.",
+        "Ahorita no puedo, ando con prisa.",
+        "Voy a recoger a los niños, hasta luego."
+      ]
+    },
+    "chilango": {
+      "greet": [
+        "¿Qué onda, güey? ¿Cómo estás?",
+        "¡Quihubo! ¿Qué hongo?",
+        "¿Qué onda, carnal? ¡Tiempo sin verte!",
+        "¡Qué onda! ¿Todo chido?"
+      ],
+      "reply": [
+        "Todo chido, ¿y tú?",
+        "Aquí nomás, echándole ganas.",
+        "Al cien, carnal.",
+        "Bien, güey, con mucha chamba."
+      ],
+      "sunny": [
+        "¡Qué calorón, güey!",
+        "Está bien padre el día.",
+        "Hoy sí se ven los volcanes, neta.",
+        "Con este sol se antoja una chela."
+      ],
+      "rain": [
+        "¡Aguas, ya va a llover!",
+        "Neta que siempre llueve en la tarde.",
+        "No manches, cayó granizo.",
+        "El tráfico va a estar de locos con esta lluvia."
+      ],
+      "bye": [
+        "Sale, nos vidrios.",
+        "Ahí nos vemos, carnal.",
+        "Cuídate, güey.",
+        "Va, luego te escribo."
+      ],
+      "busy": [
+        "Ahorita no puedo, voy tarde a la chamba.",
+        "Me voy, se me va el Metro.",
+        "Ando a las carreras, luego hablamos.",
+        "Tengo junta, ahí nos vemos."
+      ]
+    },
+    "en": {
+      "greet": [
+        "Hi! How's it going?",
+        "Morning! Coffee in Roma?",
+        "Hey, good to see you!",
+        "Hola! How are you?",
+        "Hey there, how was the weekend?"
+      ],
+      "reply": [
+        "Good, thanks! You?",
+        "Great, just had the best tacos of my life.",
+        "Not bad, a bit tired from the altitude.",
+        "All good, busy week.",
+        "Doing well, gracias!"
+      ],
+      "sunny": [
+        "Gorgeous day, you can see the volcanoes.",
+        "Sunny and warm, perfect for a walk on Reforma.",
+        "The jacarandas are blooming, the whole city is purple.",
+        "Beautiful out, Chapultepec will be busy.",
+        "Nice day, sun's strong up here at this altitude."
+      ],
+      "rain": [
+        "Rainy season, it pours every afternoon.",
+        "Bring an umbrella, it'll start around five.",
+        "It's hailing, I can't believe it.",
+        "Traffic is going to be insane with this rain.",
+        "The streets are flooding again, careful."
+      ],
+      "bye": [
+        "See you later!",
+        "Take care!",
+        "Hasta luego!",
+        "Have a good one!",
+        "Catch you later."
+      ],
+      "busy": [
+        "Gotta run, I have a call.",
+        "Late for a meeting in Polanco.",
+        "Catching the Metrobús, talk later!",
+        "Running, my Uber is here.",
+        "Can't stop, see you!"
+      ]
+    }
+  },
+  "transport": {
+    "bus": "camión",
+    "minibus": "micro",
+    "metro": "Metro",
+    "brt": "Metrobús",
+    "cable_car": "Cablebús",
+    "trolley": "trolebús",
+    "taxi": "taxi",
+    "rideshare": "Uber or DiDi",
+    "bike": "Ecobici",
+    "stage": "parada"
+  },
+  "touts": [
+    "¡Súbale, súbale, hay lugar!",
+    "¡Metro Chapultepec, Observatorio, súbale!",
+    "¡Lleve, lleve, a diez pesos!",
+    "¡Ricos tamales oaxaqueños!",
+    "Se compran colchones, tambores, refrigeradores, estufas, lavadoras, microondas..."
+  ],
+  "hawkers": [
+    [
+      "¡Ricos tamales oaxaqueños, tamales calientitos!",
+      "Tasty Oaxacan tamales, nice and hot! (the bicycle loudspeaker call)"
+    ],
+    [
+      "Se compran colchones, tambores, refrigeradores, estufas, lavadoras...",
+      "We buy old mattresses, drums, fridges, stoves, washing machines... (the scrap buyer's recording)"
+    ],
+    [
+      "¡Lleve, lleve, a diez pesos!",
+      "Take one, ten pesos! (a vendor on the Metro)"
+    ],
+    [
+      "¡Hay elotes y esquites!",
+      "Corn on the cob and corn in a cup!"
+    ],
+    [
+      "¡Pásele, pásele! ¿Qué va a llevar?",
+      "Come in, come in! What will you take? (a market stall)"
+    ],
+    [
+      "¡El gas!",
+      "Gas! (the gas cylinder truck)"
+    ]
+  ],
+  "food": {
+    "street": [
+      "tacos al pastor",
+      "tacos de canasta",
+      "tacos de suadero",
+      "tamales",
+      "guajolotas",
+      "esquites",
+      "elotes",
+      "quesadillas",
+      "tlacoyos",
+      "pambazos",
+      "churros",
+      "tortas"
+    ],
+    "dishes": [
+      "chilaquiles",
+      "pozole",
+      "mole",
+      "barbacoa on a Sunday",
+      "carnitas",
+      "chiles en nogada",
+      "enchiladas",
+      "pancita",
+      "sopa de tortilla"
+    ],
+    "drinks": [
+      "atole",
+      "champurrado",
+      "agua de jamaica",
+      "horchata",
+      "café de olla",
+      "tepache",
+      "pulque",
+      "michelada"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "Centro Histórico",
+      "Roma",
+      "Condesa",
+      "Coyoacán",
+      "Polanco",
+      "Juárez",
+      "San Rafael",
+      "Santa María la Ribera",
+      "Tlalpan",
+      "Xochimilco",
+      "Iztapalapa",
+      "Tepito",
+      "Doctores",
+      "Narvarte",
+      "Del Valle",
+      "Santa Fe",
+      "San Ángel",
+      "Azcapotzalco",
+      "Lindavista",
+      "Escandón"
+    ],
+    "streets": [
+      "Paseo de la Reforma",
+      "Avenida Insurgentes",
+      "Calle Madero",
+      "Eje Central",
+      "Avenida Ámsterdam",
+      "Álvaro Obregón",
+      "Avenida Chapultepec",
+      "Calzada de Tlalpan",
+      "Periférico",
+      "Viaducto",
+      "Avenida Universidad",
+      "Avenida Revolución",
+      "Calle Regina"
+    ],
+    "landmarks": [
+      "el Zócalo",
+      "Palacio de Bellas Artes",
+      "el Ángel de la Independencia",
+      "Bosque de Chapultepec",
+      "Castillo de Chapultepec",
+      "Museo Nacional de Antropología",
+      "Torre Latinoamericana",
+      "Templo Mayor",
+      "Catedral Metropolitana",
+      "Basílica de Guadalupe",
+      "Estadio Azteca",
+      "Ciudad Universitaria",
+      "Mercado de la Merced",
+      "Monumento a la Revolución",
+      "la Casa Azul",
+      "las trajineras de Xochimilco",
+      "Arena México"
+    ]
+  },
+  "small_talk": [
+    "In the rainy season it pours every afternoon, you can set your watch by it.",
+    "The Metro at rush hour is a full contact sport.",
+    "Does a quesadilla come with cheese here? Depends who you ask.",
+    "You could see Popocatépetl this morning, it was puffing a little.",
+    "Periférico was stopped solid for an hour.",
+    "The best tacos al pastor are from the stand on the corner, not a restaurant.",
+    "Sunday morning they close Reforma to cars, everyone's out on bikes.",
+    "The seismic alert test went off at noon and half the office jumped.",
+    "Every vendor here calls you jefe or joven.",
+    "The jacarandas turn the whole city purple in March."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Mexico_City",
+    "https://en.wikipedia.org/wiki/Mexican_Spanish",
+    "https://www.metro.cdmx.gob.mx",
+    "https://www.metrobus.cdmx.gob.mx",
+    "https://www.asale.org/damer/",
+    "https://en.wikipedia.org/wiki/Chilango"
+  ]
+}

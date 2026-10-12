@@ -1,0 +1,85 @@
+{
+  "street": { "aeb": 0.82, "fr": 0.15, "en": 0.03 },
+  "names": { "weights": { "tunisian": 1 } },
+  "phrases": {
+    "aeb": {
+      "hello": [["Aslema!", "Hello!"], ["Ahla sahbi!", "Hi, my friend!"]],
+      "how_are_you": [["Labes?", "All good?"], ["Chnowa jdid?", "What's new?"]],
+      "fine": [["Labes, hamdoulah", "Fine, thank God"], ["Mrigel!", "Great!"]],
+      "bye": [["Bslema", "Goodbye"], ["Rodd belek ala rouhek", "Take care of yourself"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hello! All good?", "Good morning! How are you?", "Hello, how is the family?", "Good evening, how was work?", "Ah, long time! Where have you been?"],
+      "reply": ["Fine, thank God. And you?", "All good, thanks.", "Great, everything is fine.", "Not bad, can't complain.", "Doing well, thanks for asking."],
+      "sunny": ["Beautiful day, let's go to La Marsa.", "Perfect weather for Sidi Bou Said.", "It's hot today, find some shade.", "Clear sky over the lake this morning.", "Summer is here, the beaches will be packed."],
+      "rain": ["It's raining, take an umbrella.", "Rain again, the streets downtown will flood.", "Cold and wet today, lablebi weather.", "Wait a bit, it will pass.", "This rain is good for the olives."],
+      "bye": ["Goodbye, take care!", "See you tomorrow.", "Good night.", "Greet the family for me.", "Take care of yourself."],
+      "busy": ["Sorry, I'm in a hurry.", "I'm late for the office in the Lac.", "I'll miss the TGM, see you!", "Traffic on Mohamed V, I have to go.", "I'll call you this evening."]
+    },
+    "aeb": {
+      "greet": ["Aslema! Labes?", "Ahla sahbi, chniya ahwelek?", "Sbeh el khir! Labes alik?", "Aslema okhti, chnowa jdid?", "Ahla bik, win ghayeb?"],
+      "reply": ["Labes, hamdoulah. W enti?", "Behi barcha, yaychek!", "Kol chay behi.", "Mrigel!"],
+      "sunny": ["El youm skhoun barcha!", "Ech-chams behia, nemchiw lel bhar?", "Taqs behi el youm.", "Sif, nemchiw La Marsa!"],
+      "rain": ["El mtar nazel!", "Mtar barcha el youm, khoudh parapluie.", "Bard barcha el youm.", "Ech-chte ja, bard barcha."],
+      "bye": ["Bslema!", "Nchoufek ghodwa.", "Yaychek, bslema.", "Rodd belek ala rouhek."],
+      "busy": ["Ma andich wakt tawa, nahkiw baad.", "Tawa nji!", "Rani fi el khedma tawa.", "El métro bech yfoutni!"]
+    },
+    "fr": {
+      "greet": ["Salut, ça va?", "Bonjour! Ça fait longtemps!", "Bonsoir, la famille va bien?", "Coucou, tu vas bien?"],
+      "reply": ["Ça va, hamdoulah.", "Très bien, et toi?", "Ça va, merci.", "Nickel!"],
+      "sunny": ["Il fait beau aujourd'hui!", "Belle journée pour La Marsa.", "Le soleil tape fort.", "Quel temps magnifique."],
+      "rain": ["Il pleut encore!", "Prends ton parapluie.", "Il fait froid aujourd'hui.", "Attends que ça passe."],
+      "bye": ["À plus!", "À demain.", "Bonne soirée!", "Bonne nuit."],
+      "busy": ["Je suis pressé, on se parle.", "Je suis en retard au bureau.", "Je vais rater le TGM, à plus!", "Je t'appelle ce soir."]
+    }
+  },
+  "transport": { "bus": "bus", "moto_taxi": "", "tricycle": "", "taxi": "taxi", "shared_taxi": "louage", "conductor": "receveur", "stage": "station" },
+  "touts": [
+    "Sousse! Sousse! Wahed!",
+    "Sfax! Sfax!",
+    "Nabeul! Nabeul!",
+    "Bizerte! Bizerte!",
+    "Hammamet! Hammamet!",
+    "Kairouan! Kairouan!",
+    "Baqi blasa wahda!",
+    "Ariana! Ariana!"
+  ],
+  "hawkers": [
+    ["Bambalouni skhoun!", "Hot sugared doughnuts!"],
+    ["Fricassé! Fricassé!", "Fried rolls with tuna!"],
+    ["Lablebi skhoun!", "Hot chickpea soup!"],
+    ["Glibet w kakawiya!", "Seeds and peanuts!"],
+    ["Ma bered!", "Cold water!"],
+    ["Mechmoum! Mechmoum!", "Jasmine posies!"]
+  ],
+  "food": {
+    "street": ["fricassé", "lablebi", "kafteji", "bambalouni", "mlawi", "chapati (Tunisian sandwich)", "brik", "makloub", "sandwich tunisien"],
+    "dishes": ["couscous au poisson", "ojja", "mloukhia", "kamounia", "chorba frik", "salade mechouia", "tajine tunisien"],
+    "drinks": ["thé aux pignons (pine nut tea)", "café direct", "citronnade", "Boga cidre", "lagmi (palm sap)", "Celtia beer"]
+  },
+  "places": {
+    "neighbourhoods": ["Médina", "Bab Souika", "Lafayette", "El Menzah", "El Manar", "Ennasr", "La Marsa", "Carthage", "Sidi Bou Said", "La Goulette", "Le Bardo", "Mutuelleville", "Les Berges du Lac", "Montplaisir", "Bab Saadoun", "El Aouina"],
+    "streets": ["Avenue Habib Bourguiba", "Avenue de Paris", "Avenue Mohamed V", "Rue Jamaa Ez-Zitouna", "Avenue de la Liberté", "Avenue de France", "Rue de Marseille", "Avenue Hédi Nouira", "Avenue de Carthage"],
+    "landmarks": ["Zitouna Mosque", "Bab el Bhar", "Cathedral of St Vincent de Paul", "Bardo Museum", "Théâtre municipal de Tunis", "Carthage ruins", "Café des Délices", "Lac de Tunis", "Tunis Marine station", "Place Barcelone", "Souk El Attarine", "Belvédère Park"]
+  },
+  "small_talk": [
+    "Avenue Bourguiba is lively tonight.",
+    "The TGM to La Marsa was late again.",
+    "Lablebi in the Médina on a cold morning, nothing better.",
+    "Café des Délices in Sidi Bou Said for the sunset?",
+    "The louages at Moncef Bey were full before the holiday.",
+    "The Lac is packed with joggers this evening.",
+    "Fricassé from the place near Bab Saadoun, you know the one.",
+    "The derby is on Sunday, Espérance or Club Africain?"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Tunis",
+    "https://en.wikipedia.org/wiki/Tunisian_Arabic",
+    "https://en.wikipedia.org/wiki/Tunisian_cuisine",
+    "https://en.wikipedia.org/wiki/Lablabi",
+    "https://en.wikipedia.org/wiki/Louage",
+    "https://en.wikipedia.org/wiki/Sidi_Bou_Said"
+  ]
+}

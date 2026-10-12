@@ -1,0 +1,96 @@
+{
+  "street": { "arq": 0.7, "kab": 0.12, "fr": 0.15, "en": 0.03 },
+  "names": { "weights": { "arab": 0.68, "kabyle": 0.32 } },
+  "phrases": {
+    "arq": {
+      "hello": [["Wesh khouya!", "Hey, brother!"], ["Salam alikoum", "Peace be upon you"]],
+      "how_are_you": [["Wesh rak?", "How are you?"], ["Wach rak dayer?", "How are you doing?"]],
+      "fine": [["Labes, hamdoullah", "Fine, thank God"], ["Ghaya", "Great"]],
+      "bye": [["Bslama", "Goodbye"], ["Nchoufek ghodwa", "See you tomorrow"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Peace be upon you! How are you?", "Morning! All well?", "Hello, how is the family?", "Good evening, how was work?", "Ah, long time, brother! Where have you been?"],
+      "reply": ["Fine, thank God. And you?", "All good, thanks.", "Great, the family is well.", "Not bad, can't complain.", "Doing well, thanks for asking."],
+      "sunny": ["It's hot today, the beaches will be packed.", "Perfect day for a walk on the Sablettes.", "The sun is strong, stay in the shade.", "Clear sky, you can see the whole bay.", "Too hot for the bus, I'll take the metro."],
+      "rain": ["It's pouring, take an umbrella.", "Rain again, Bab El Oued will flood.", "It's cold and wet today.", "Wait a bit, it will pass.", "This rain is good for the dams."],
+      "bye": ["Goodbye, take care!", "See you tomorrow.", "Good night.", "Greet the family for me.", "Go in peace."],
+      "busy": ["Sorry, I'm in a hurry.", "I'm late for work, we'll talk later.", "Traffic on the Moutonnière, I have to go now.", "Let me catch the tram.", "I'll call you this evening."]
+    },
+    "arq": {
+      "greet": ["Salam alikoum, wesh rak khouya?", "Sbah el kheir! Labes?", "Wesh, kirak? Ça va la famille?", "Ahlan okhti, labes?", "Wesh, wach rak dayer?"],
+      "reply": ["Labes, hamdoullah. W enta?", "Hamdoullah, kolchi mlih.", "Ça va, labes. Saha!", "Ghaya, hamdoullah."],
+      "sunny": ["Lyoum skhana bezzaf!", "El jaw mlih lyoum.", "Chems ghaya lyoum, nroho l'bhar?", "Rana fi sif, skhana!"],
+      "rain": ["Rahi tsob ech-chta!", "El bard bezzaf lyoum.", "Ech-chta men sbah.", "Rahi tsob, dir parapluie."],
+      "bye": ["Bslama, tsbah ala kheir.", "Yalah, nchoufek ghodwa.", "Allah ysahel, bslama.", "A plus khouya, bslama."],
+      "busy": ["Rani mzroub, nchoufek mbaad!", "Smahli, rani nkhdem, nahdro mbaad.", "Rani rayeh l'khedma, bslama!", "El bus rah ja, yalah!"]
+    },
+    "kab": {
+      "greet": ["Azul fell-ak! Amek telliḍ?", "Azul, labas?", "Sbaḥ lxir! Amek telliḍ?", "Azul a gma!", "Azul a weltma!"],
+      "reply": ["Labas, ṣaḥḥa.", "Ulac lbas, tanemmirt.", "Labas, lḥamdullah.", "Nekk labas, tanemmirt."],
+      "sunny": ["Yella yiṭij ass-a.", "Ass-a yeḥma lḥal!", "Yeḥma lḥal.", "Ass-a d ass yelhan."],
+      "rain": ["Yekkat ugeffur!", "Ass-a ad yekkat ugeffur.", "Yesmeḍ lḥal ass-a.", "Ugeffur ur yeḥbis ara."],
+      "bye": ["Ar timlilit!", "Ar azekka!", "Ar timlilit, a gma!", "Ar tufat!"],
+      "busy": ["Zerbeɣ, ar timlilit!", "Ad ruḥeɣ ɣer lxedma.", "Ur sɛiɣ ara lweqt.", "Ad nemlil azekka."]
+    },
+    "fr": {
+      "greet": ["Salut, ça va?", "Bonjour! Ça fait longtemps!", "Bonsoir, la famille va bien?", "Coucou, tu vas bien?"],
+      "reply": ["Ça va, hamdoullah.", "Très bien, et toi?", "Ça va, merci.", "On fait aller."],
+      "sunny": ["Il fait chaud aujourd'hui!", "Belle journée pour la plage.", "Quel beau temps sur la baie.", "Le soleil tape fort."],
+      "rain": ["Il pleut des cordes!", "Prends ton parapluie.", "Il fait froid aujourd'hui.", "Attends que ça passe."],
+      "bye": ["À plus!", "À demain.", "Bonne soirée!", "Bonne nuit."],
+      "busy": ["Je suis pressé, on se parle.", "Je suis en retard au boulot.", "Je dois prendre le métro, à plus!", "Je t'appelle ce soir."]
+    }
+  },
+  "transport": { "bus": "bus", "moto_taxi": "", "tricycle": "", "taxi": "taxi", "shared_taxi": "clandestin", "conductor": "receveur", "stage": "station" },
+  "touts": [
+    "Bab El Oued! Bab El Oued!",
+    "Kouba! Kouba!",
+    "Place des Martyrs!",
+    "Hussein Dey! Hussein Dey!",
+    "1er Mai! 1er Mai!",
+    "Ben Aknoun! Ben Aknoun!",
+    "Kayen plassa! Zid el goddam!",
+    "Bab Ezzouar! El Harrach!"
+  ],
+  "hawkers": [
+    ["Karantika skhouna!", "Hot chickpea flan!"],
+    ["Mhajeb! Mhajeb skhoun!", "Hot stuffed flatbread!"],
+    ["Lma bared!", "Cold water!"],
+    ["Zlabia! Zlabia!", "Honey fritters!"],
+    ["Kalb el louz!", "Almond semolina cake!"],
+    ["Bourek skhoun!", "Hot fried pastry rolls!"],
+    ["Flexy! Flexy!", "Phone credit top-up!"]
+  ],
+  "food": {
+    "street": ["karantika", "mhajeb", "sandwich kebda (liver)", "chawarma", "bourek", "msemen", "zlabia", "kalb el louz"],
+    "dishes": ["couscous", "chorba frik", "rechta", "chakhchoukha", "dolma", "tajine zitoune", "loubia", "mtewem", "hmiss"],
+    "drinks": ["café", "thé à la menthe", "lben", "cherbet (lemon drink)", "Selecto", "Hamoud Boualem lemonade"]
+  },
+  "places": {
+    "neighbourhoods": ["Casbah", "Bab El Oued", "Hussein Dey", "El Biar", "Hydra", "Kouba", "Belouizdad (Belcourt)", "Bab Ezzouar", "Ben Aknoun", "Chéraga", "Bir Mourad Raïs", "El Madania", "Sidi M'Hamed", "Dely Ibrahim", "Bologhine", "El Harrach"],
+    "streets": ["Rue Didouche Mourad", "Rue Larbi Ben M'hidi", "Boulevard Che Guevara", "Rue Hassiba Ben Bouali", "Boulevard Krim Belkacem", "Route Moutonnière", "Boulevard Colonel Amirouche", "Boulevard Zighoud Youcef"],
+    "landmarks": ["Maqam Echahid (Martyrs' Memorial)", "Notre-Dame d'Afrique", "Grande Poste", "Jardin d'Essai du Hamma", "Djamaâ el Djazaïr", "Ketchaoua Mosque", "Place des Martyrs", "Palais des Raïs", "Port of Algiers", "Les Sablettes", "Riadh El Feth", "Casbah of Algiers"]
+  },
+  "small_talk": [
+    "The metro to Place des Martyrs was packed this morning.",
+    "Traffic on the Moutonnière was terrible again.",
+    "Let's grab karantika in Bab El Oued.",
+    "The view from Notre-Dame d'Afrique is something else today.",
+    "I took the cable car up to Riadh El Feth.",
+    "The Sablettes are full of families tonight.",
+    "Did you watch the derby, Mouloudia against USMA?",
+    "Coffee on Didouche Mourad after work?",
+    "The Jardin d'Essai is beautiful this time of year."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Algiers",
+    "https://en.wikipedia.org/wiki/Algerian_Arabic",
+    "https://en.wikipedia.org/wiki/Kabyle_language",
+    "https://en.wikipedia.org/wiki/Algerian_cuisine",
+    "https://en.wikipedia.org/wiki/Karantika",
+    "https://en.wikipedia.org/wiki/Casbah_of_Algiers",
+    "https://en.wikipedia.org/wiki/Algiers_Metro"
+  ]
+}

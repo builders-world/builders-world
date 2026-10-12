@@ -1,0 +1,98 @@
+{
+  "street": { "ru": 0.55, "kk": 0.38, "en": 0.07 },
+  "registers": {},
+  "names": { "weights": { "kazakh": 0.66, "russian": 0.24, "uyghur": 0.06, "koryo": 0.02, "tatar": 0.02 } },
+  "phrases": {
+    "ru": {
+      "long_time": [["Skolko let, skolko zim!", "Long time no see! (Сколько лет, сколько зим)"]],
+      "getting_by": [["Potikhonku", "Getting by, slowly (Потихоньку)"]],
+      "lets_go": [["Davai!", "Come on, okay, see you (Давай)"]]
+    },
+    "kk": {
+      "long_time": [["Kop boldy korispegeli!", "Long time no see! (Көп болды көріспегелі)"]],
+      "and_you": [["Ozin she?", "And you? (Өзің ше?)"]],
+      "great": [["Keremet!", "Wonderful! (Керемет)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hi! How's it going?", "Morning! Seen the mountains today?", "Hey, good to see you!", "Hello! Coffee before work?", "Evening! Long day?"],
+      "reply": ["All good, thanks!", "Fine, just busy at work.", "Not bad, and you?", "Great, the weekend in the mountains helped.", "Pretty good, thanks for asking."],
+      "sunny": ["You can see the peaks so clearly today.", "Perfect day to go up to Shymbulak.", "Lovely and warm, the apple trees are in bloom.", "Great day for a walk on the Arbat.", "Sunny again, let's eat on a terrace."],
+      "rain": ["Snow again, the roads will be slow.", "The smog is heavy today, stay inside if you can.", "Rain all day, take an umbrella.", "Icy pavements this morning, careful.", "Storm over the mountains, it's getting cold."],
+      "bye": ["See you!", "Take care!", "Bye, see you tomorrow!", "Have a good evening!", "Catch you later!"],
+      "busy": ["Sorry, I'm late for a meeting.", "Got to run, my taxi is here.", "Can't talk, stuck in traffic on Al-Farabi.", "In a rush, call you later!", "Sorry, deadline today."]
+    },
+    "ru": {
+      "greet": ["Privet! Kak dela?", "Dobroye utro!", "O, skolko let, skolko zim!", "Zdravstvuyte! Kak vy?", "Dobryy vecher!"],
+      "reply": ["Vsyo khorosho, spasibo!", "Normalno, a u tebya?", "Potikhonku.", "Otlichno, spasibo!", "Da nichego, rabotayu."],
+      "sunny": ["Pogoda segodnya super!", "Gory segodnya tak khorosho vidno!", "Idealnyy den, chtoby poekhat na Medeu.", "Solntse, nakonets-to vesna!", "Zharko segodnya, poydyom za morozhenym."],
+      "rain": ["Opyat dozhd, vozmi zontik.", "Snegom vsyo zasypalo!", "Na Al-Farabi probki iz-za dozhdya.", "Smog segodnya, luchshe sidet doma.", "Dozhd kak iz vedra!"],
+      "bye": ["Poka!", "Do zavtra!", "Davai, uvidimsya!", "Schastlivo!", "Do svidaniya, vsego khoroshego!"],
+      "busy": ["Izvini, speshu!", "Opazdyvayu na vstrechu, potom pogovorim.", "Ne mogu, rabota zhdyot!", "Begu na avtobus, poka!", "Sozvonimsya pozzhe, ladno?"]
+    },
+    "kk": {
+      "greet": ["Salem! Kalyn kalay?", "Kayyrly tan!", "Assalaumagaleikum, aga!", "Kop boldy korispegeli!", "Salemetsiz be!"],
+      "reply": ["Zhaksy, rakhmet!", "Zhaman emes, ozin she?", "Bari zhaksy!", "Rakhmet, zhaksy. Ozin kalaisyn?"],
+      "sunny": ["Bugin aua rayy keremet!", "Kun zhyly eken.", "Taular anyk korinip tur!", "Medeuge baramyz ba?"],
+      "rain": ["Zhanbyr zhauyp tur.", "Kolshatyr aldyn ba?", "Kar zhauyp tur!", "Bugin suyk eken."],
+      "bye": ["Sau bol!", "Erten koriskenshe!", "Zhaksy bar!", "Sau bolynyz!"],
+      "busy": ["Keshir, asygyp turmyn.", "Kezdesuge keshigip baramyn.", "Keyin soilesemiz!", "Avtobuska ulgeruim kerek!"]
+    }
+  },
+  "transport": {
+    "bus": "avtobus (автобус)",
+    "trolleybus": "trolleybus",
+    "metro": "metro (Almaty Metro)",
+    "taxi": "taksi (такси)",
+    "ride_hail": "Yandex Go or inDrive",
+    "stage": "ostanovka (остановка), ayaldama in Kazakh (аялдама)",
+    "card": "Onay card",
+    "cable_car": "kanatka (канатка), up to Kok-Tobe and Shymbulak"
+  },
+  "touts": [
+    "Taksi, taksi! Kuda yedem?",
+    "Aeroport, aeroport! Sadites!",
+    "Kelesi ayaldama: Abai.",
+    "Sleduyushchaya ostanovka: Zelyonyy Bazar.",
+    "Medeu, Shymbulak! Kto edet?",
+    "Oplata po karte Onay, prokhodite!"
+  ],
+  "hawkers": [
+    ["Kurt, kurt! Domashniy!", "Kurt, dried cheese balls, homemade!"],
+    ["Goryachiye samsy!", "Hot samsa!"],
+    ["Kumys, shubat, svezhiy!", "Fresh kumys and shubat!"],
+    ["Aport, almatinskiye yabloki!", "Aport, the Almaty apple!"],
+    ["Baursaki, tolko chto!", "Baursak, just made!"],
+    ["Kurt satamyz!", "We sell kurt! (Kazakh)"],
+    ["Kukuruza, goryachaya!", "Hot corn!"]
+  ],
+  "food": {
+    "street": ["samsa", "tandyr samsa", "baursak", "shashlyk", "belyash", "chebureki", "kurt"],
+    "dishes": ["beshbarmak", "plov", "lagman", "manty", "kazy", "kuyrdak", "kuksi", "morkovcha"],
+    "drinks": ["tea with milk", "kumys", "shubat", "ayran", "kvas", "kompot"]
+  },
+  "places": {
+    "neighbourhoods": ["Almaly", "Medeu", "Bostandyk", "Auezov", "Samal", "Koktem", "Orbita", "Gorny Gigant", "Tastak", "Turksib", "Kok-Tobe", "Aksai"],
+    "streets": ["Abai Avenue", "Al-Farabi Avenue", "Dostyk Avenue", "Tole Bi Street", "Zheltoksan Street", "Satpayev Street", "Gogol Street", "Zhibek Zholy Street", "Raiymbek Avenue"],
+    "landmarks": ["Kok-Tobe", "Medeu", "Shymbulak", "Green Bazaar", "Panfilov Park", "Big Almaty Lake", "Republic Square", "Esentai Mall", "Arbat", "Almaty TV Tower"]
+  },
+  "small_talk": [
+    "The traffic on Al-Farabi was awful again.",
+    "The smog is bad today, you can't even see the mountains.",
+    "Going up to Shymbulak this weekend if the snow holds.",
+    "The Green Bazaar has the best kurt and kazy.",
+    "The aport apples this year are huge.",
+    "Paid for everything by Kaspi again, I never carry cash.",
+    "Turn up towards the mountains and it's two blocks on your left.",
+    "We took the cable car up Kok-Tobe for the view.",
+    "Nauryz is coming, time for a bowl of nauryz kozhe."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Almaty",
+    "https://en.wikipedia.org/wiki/Almaty_Metro",
+    "https://en.wikipedia.org/wiki/Kazakh_cuisine",
+    "https://en.wikipedia.org/wiki/Medeu",
+    "https://en.wikipedia.org/wiki/Kok_Tobe"
+  ]
+}

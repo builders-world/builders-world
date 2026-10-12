@@ -1,0 +1,250 @@
+{
+  "street": {
+    "en": 0.4,
+    "pcm": 0.3,
+    "ibb": 0.3
+  },
+  "names": {
+    "weights": {
+      "ibibio": 0.72,
+      "igbo": 0.1,
+      "yoruba": 0.06,
+      "ijaw": 0.05,
+      "edo": 0.03,
+      "hausa": 0.02,
+      "ikwerre": 0.02
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "Good morning! How's Uyo today?",
+        "Hello! Busy day on Ikot Ekpene Road?",
+        "Hi! All well at home?",
+        "Good afternoon!",
+        "Hey, long time!"
+      ],
+      "reply": [
+        "I'm fine, thank God.",
+        "We're doing well.",
+        "All good. And you?",
+        "Can't complain.",
+        "Fine, thank you."
+      ],
+      "sunny": [
+        "Bright day in Uyo.",
+        "Hot afternoon, stay in the shade.",
+        "Clear skies over Ibom Plaza.",
+        "Lovely sunny day.",
+        "Good day for a walk."
+      ],
+      "rain": [
+        "It's pouring.",
+        "Rain is heavy today.",
+        "Wait it out.",
+        "Akwa Ibom rain, no joke.",
+        "Carry an umbrella."
+      ],
+      "bye": [
+        "Take care!",
+        "See you later.",
+        "Have a lovely day.",
+        "Safe trip home.",
+        "Bye bye."
+      ],
+      "busy": [
+        "Running to a meeting!",
+        "Late for work, see you!",
+        "Got to catch a keke!",
+        "Deadline today, I'll call you.",
+        "Heading to the stadium, later!"
+      ]
+    },
+    "pcm": {
+      "greet": [
+        "How far?",
+        "How you dey?",
+        "My guy, how body?",
+        "Wetin dey?"
+      ],
+      "reply": [
+        "I dey o!",
+        "We dey.",
+        "No wahala.",
+        "God dey!"
+      ],
+      "sunny": [
+        "Sun dey hot today.",
+        "Weather fine well well.",
+        "This heat ehn!",
+        "Today bright o."
+      ],
+      "rain": [
+        "Rain don start!",
+        "Rain no dey joke today.",
+        "Make we wait first.",
+        "Water don full road."
+      ],
+      "bye": [
+        "I dey go.",
+        "Later.",
+        "Waka well.",
+        "Make we see."
+      ],
+      "busy": [
+        "I dey rush.",
+        "I dey come.",
+        "Work plenty.",
+        "Make I catch keke."
+      ]
+    },
+    "ibb": {
+      "greet": [
+        "Mesiere!",
+        "Abadie?",
+        "Amesiere!",
+        "Amedi!"
+      ],
+      "reply": [
+        "Mmesong.",
+        "Mmesong, sosongo."
+      ],
+      "bye": [
+        "Sosongo!"
+      ]
+    }
+  },
+  "transport": {
+    "bus": "bus",
+    "moto_taxi": "okada (restricted in the city)",
+    "tricycle": "keke",
+    "taxi": "taxi",
+    "ride_hail": "Bolt",
+    "conductor": "conductor",
+    "driver": "driver",
+    "stage": "park"
+  },
+  "touts": [
+    "Itam! Itam!",
+    "Ikot Ekpene Road, enter!",
+    "Plaza! Ibom Plaza!",
+    "Eket, Eket, one more!",
+    "Aka Road, Nwaniba!",
+    "Oron Road, oya!"
+  ],
+  "hawkers": [
+    [
+      "Pure water!",
+      "Sachet water!"
+    ],
+    [
+      "Ekpang nkukwo!",
+      "Cocoyam and leaf pottage!"
+    ],
+    [
+      "Roasted corn and ube!",
+      "Corn and African pear!"
+    ],
+    [
+      "Abak bread!",
+      "Bread!"
+    ],
+    [
+      "Recharge card!",
+      "Phone credit!"
+    ],
+    [
+      "Groundnut!",
+      "Peanuts!"
+    ]
+  ],
+  "food": {
+    "street": [
+      "roasted corn and ube",
+      "boli and fish",
+      "puff-puff",
+      "akara",
+      "suya",
+      "groundnut",
+      "ekpang nkukwo"
+    ],
+    "dishes": [
+      "afang soup",
+      "edikang ikong",
+      "ekpang nkukwo",
+      "fisherman soup",
+      "afia efere (white soup)",
+      "atama soup",
+      "editan soup",
+      "pepper soup",
+      "jollof rice",
+      "abak atama"
+    ],
+    "drinks": [
+      "palm wine",
+      "zobo",
+      "malt",
+      "Chapman",
+      "kunu"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "Ewet Housing Estate",
+      "Shelter Afrique",
+      "Itam",
+      "Use Offot",
+      "Atiamkpat",
+      "Uyo Village",
+      "Ikot Ekpene Road",
+      "Osongama Estate",
+      "Mbiabong",
+      "Ifa Atai",
+      "Eket",
+      "Ikot Ekpene"
+    ],
+    "streets": [
+      "Ikot Ekpene Road",
+      "Oron Road",
+      "Aka Road",
+      "Abak Road",
+      "Nwaniba Road",
+      "Udo Udoma Avenue",
+      "Wellington Bassey Way",
+      "IBB Avenue",
+      "Edet Akpan Avenue",
+      "Atiku Abubakar Avenue"
+    ],
+    "landmarks": [
+      "Ibom Plaza",
+      "the Godswill Akpabio International Stadium",
+      "Ibom Tropicana",
+      "the University of Uyo",
+      "Ibom Icon Hotel",
+      "Akwa Ibom Airport",
+      "the Uyo Itam market",
+      "Ikot Ekpene raffia market",
+      "the Ibeno beach"
+    ]
+  },
+  "small_talk": [
+    "Uyo roads are the cleanest in Nigeria, I said what I said.",
+    "Afang soup at my mum's on Sunday, you're invited.",
+    "Let's catch a movie at Ibom Tropicana.",
+    "There's a match at the stadium tonight.",
+    "Ibeno beach this weekend?",
+    "The keke from Itam took forever.",
+    "Edikang ikong is a soup for celebrations.",
+    "The new tech hub on Ikot Ekpene Road is open.",
+    "Ikot Ekpene raffia is the best in the country.",
+    "Ibom Plaza is lovely at night."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Uyo",
+    "https://en.wikipedia.org/wiki/Ibibio_language",
+    "https://en.wikipedia.org/wiki/Ibibio_people",
+    "https://en.wikipedia.org/wiki/Afang_soup",
+    "https://en.wikipedia.org/wiki/Edikang_ikong"
+  ],
+  "needs_native_review": "Ibibio: only phrases we are sure of are here (Mesiere, Abadie, Amesiere, Mmesong, Sosongo, Amedi, Mbok); where Ibibio has no line the game speaks English or Pidgin. Native speakers, please add everyday lines for sunny and rainy days, goodbyes and being busy."
+}

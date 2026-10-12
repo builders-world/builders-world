@@ -1,0 +1,124 @@
+{
+  "street": { "en": 0.4, "kn": 0.33, "hi": 0.15, "ta": 0.12 },
+  "registers": {},
+  "names": {
+    "weights": {
+      "kannada": 0.3,
+      "tamil": 0.13,
+      "telugu": 0.13,
+      "malayali": 0.08,
+      "hindi": 0.13,
+      "muslim": 0.12,
+      "christian": 0.04,
+      "marathi": 0.02,
+      "bengali": 0.03,
+      "punjabi": 0.01,
+      "gujarati": 0.01
+    }
+  },
+  "phrases": {
+    "kn": {
+      "hello": [["Namaskara", "Hello (ನಮಸ್ಕಾರ)"], ["Enri, hegiddira?", "Hey, how are you? polite"], ["En guru?", "What's up, mate? (Bengaluru)"]],
+      "fine": [["Sakkath", "Super, great"], ["Chennagide", "It's good"]],
+      "adjust": [["Swalpa adjust maadi", "Please adjust a little, the city's most famous line"]],
+      "friend": [["Guru", "Mate, buddy (literally 'teacher')"], ["Maga", "Buddy, among friends (literally 'son')"]],
+      "okay": [["Sari", "Okay"], ["Aytu", "Done, okay"]],
+      "auto": [["Meter haaki", "Put the meter on, please"], ["Illi nilsi", "Stop here"]]
+    },
+    "en": {
+      "friend": [["Macha", "Mate, buddy, used across Bengaluru"], ["Da", "Buddy, among friends"]],
+      "okay": [["Done, macha", "Agreed"], ["Chill maadi", "Relax, chill (Kannada-English)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hi, how are you doing?", "Morning! Had your filter coffee?", "Hey macha, what's up?", "Hello sir, all good?", "Hi! Long time no see."],
+      "reply": ["All good, thanks. You?", "Doing well, just back from work.", "Super, macha. Busy week, but fine.", "Fine, fine. How's office?", "Good only, all set."],
+      "sunny": ["Lovely weather today, typical Bangalore.", "Bit warm today, but the breeze is nice.", "Perfect day for a walk in Cubbon Park.", "Summer is here, it is getting hot now.", "Clear skies today, good for a ride to Nandi Hills."],
+      "rain": ["It's pouring, Silk Board will be flooded.", "Rain again in the evening, carry an umbrella.", "Roads are waterlogged near Bellandur, take another way.", "Nice rain, perfect for a hot coffee and bajji.", "The autos are all refusing now that it is raining."],
+      "bye": ["Okay, bye, take care.", "Catch you later, macha.", "See you at the weekend.", "Bye, reach home safe.", "Ping me when you are free."],
+      "busy": ["Stuck at Silk Board, I'll call you back.", "Running late for standup, talk later.", "Have a client call, catch you in the evening.", "Sorry, deploy day, I am totally swamped.", "Need to catch the metro, bye!"]
+    },
+    "kn": {
+      "greet": ["Namaskara, hegiddira?", "En guru, hegiddiya?", "Oota aytha?", "Banni sir, en samachara?", "Enri, chennagiddira?"],
+      "reply": ["Chennagiddini, neevu?", "Sakkath aagide guru!", "Paravagilla, nadeeta ide.", "Ella chennagide, thanks.", "Oota aytu, neevu?"],
+      "sunny": ["Ivattu bisilu jaasti.", "Bengaluru weather sakkath ivattu.", "Swalpa bisilu, aadre chennagide.", "Bisilu ide, neeru kudiri."],
+      "rain": ["Male bartide, kode tagondu hogi.", "Male bandre traffic jaasti aagutte.", "Male shuru aaytu!", "Kode ide tane? Jor male."],
+      "bye": ["Sari, sigona.", "Hogbartini.", "Hogi banni.", "Aamele sigona guru."],
+      "busy": ["Swalpa late aaytu, aamele maatadona.", "Meeting ide, hogbeku.", "Silk Board traffic, already late guru.", "Aamele call maadtini."]
+    },
+    "hi": {
+      "greet": ["Namaste ji, kaise ho?", "Kya haal hai bhai?", "Aur bhai, sab badhiya?", "Hello ji, kaisa chal raha hai?"],
+      "reply": ["Sab badhiya, aap batao.", "Bilkul theek, shukriya.", "Mast chal raha hai.", "Theek hai bhai, chal raha hai."],
+      "sunny": ["Aaj dhoop achhi hai.", "Bangalore ka mausam toh kamaal hai.", "Halki dhoop, mast weather.", "Garmi thodi badh gayi hai."],
+      "rain": ["Baarish aa rahi hai, chhata le lo.", "Baarish mein traffic aur bura hoga.", "Phir se baarish!", "Bheeg mat jaana, bahut tez hai."],
+      "bye": ["Chalo, milte hain.", "Phir milenge.", "Take care bhai.", "Chalta hoon, bye."],
+      "busy": ["Late ho raha hoon, baad mein baat karte hain.", "Meeting hai, bhaagna padega.", "Ek call aa raha hai, baad mein.", "Abhi thoda busy hoon yaar."]
+    },
+    "ta": {
+      "greet": ["Vanakkam, eppadi irukkeenga?", "Enna machan, eppadi irukka?", "Saaptiya?", "Hi da, enna vishayam?"],
+      "reply": ["Nalla irukken, neenga?", "Super da!", "Paravaalla, poguthu.", "Saapten, neenga?"],
+      "sunny": ["Inniki veyil konjam jaasti.", "Bangalore weather semma.", "Nalla climate inniki.", "Veyil adikkuthu, thanni kudi."],
+      "rain": ["Mazhai varuthu, kodai eduthutu po.", "Mazhai vandhaa traffic jaasti.", "Semma mazhai!", "Nanaiyaama po."],
+      "bye": ["Poittu varen.", "Appram paakalaam.", "Sari, bye da.", "Paathu po."],
+      "busy": ["Late aachu, appram pesalaam.", "Meeting irukku, kilambanum.", "Traffic la maatikitten.", "Appram call panren."]
+    }
+  },
+  "transport": {
+    "bus": "BMTC bus",
+    "metro": "Namma Metro",
+    "tricycle": "auto",
+    "taxi": "cab",
+    "ride_hail": "Ola, Uber or Namma Yatri",
+    "moto_taxi": "Rapido bike",
+    "airport_bus": "Vayu Vajra",
+    "conductor": "conductor",
+    "stage": "bus stop"
+  },
+  "touts": [
+    "Majestic, Majestic! Banni!",
+    "Shivajinagar, Shivajinagar!",
+    "KR Market, KR Market, hatti!",
+    "Silk Board, Electronic City!",
+    "Auto beka sir? Meter haaktini.",
+    "Airport, airport! Vayu Vajra here!",
+    "Whitefield, Marathahalli, ready!"
+  ],
+  "hawkers": [
+    ["Kadlekai, kadlekai!", "Peanuts! (ಕಡಲೆಕಾಯಿ)"],
+    ["Bisi bisi bajji!", "Hot hot fritters!"],
+    ["Mallige hoovu!", "Jasmine flowers!"],
+    ["Seebe hannu, seebe!", "Guavas!"],
+    ["Elaneeru, elaneeru!", "Tender coconut!"],
+    ["Masala corn, bisi bisi!", "Hot spiced corn!"],
+    ["Churumuri, churumuri!", "Spiced puffed rice!"]
+  ],
+  "food": {
+    "street": ["masala dosa", "benne dosa", "idli vada", "gobi manchurian", "pani puri", "masala puri", "churumuri", "mirchi bajji", "kadlekai"],
+    "dishes": ["bisi bele bath", "ragi mudde with saaru", "donne biryani", "khara bath", "kesari bath", "akki roti", "Mangalorean fish curry", "thatte idli"],
+    "drinks": ["filter coffee", "chai", "craft beer", "nimbu soda", "sugarcane juice", "badam milk", "tender coconut water"]
+  },
+  "places": {
+    "neighbourhoods": ["Koramangala", "Indiranagar", "HSR Layout", "Whitefield", "Jayanagar", "Basavanagudi", "Malleshwaram", "Electronic City", "JP Nagar", "Marathahalli", "Hebbal", "Rajajinagar", "Bellandur"],
+    "streets": ["MG Road", "Brigade Road", "Church Street", "100 Feet Road", "Outer Ring Road", "Hosur Road", "Old Airport Road", "Bannerghatta Road", "Sarjapur Road", "Commercial Street"],
+    "landmarks": ["Vidhana Soudha", "Cubbon Park", "Lalbagh", "Bangalore Palace", "Majestic bus stand", "Silk Board junction", "UB City", "Chinnaswamy Stadium", "Visvesvaraya Museum", "KR Market"]
+  },
+  "small_talk": [
+    "Silk Board took forty minutes again today.",
+    "The new metro line to Whitefield has saved me so much time.",
+    "Bangalore weather is the only reason I am still here.",
+    "My auto guy wanted fifty extra because it was raining.",
+    "Breakfast at Vidyarthi Bhavan on Sunday? The queue will be long.",
+    "Our startup moved from Koramangala to HSR, rents are mad.",
+    "Bellandur flooded again after one evening of rain.",
+    "Filter coffee at the darshini, then office.",
+    "Did you see the RCB match at Chinnaswamy? The whole city was out."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Bangalore",
+    "https://en.wikipedia.org/wiki/Kannada",
+    "https://en.wikipedia.org/wiki/Namma_Metro",
+    "https://en.wikipedia.org/wiki/Bangalore_Metropolitan_Transport_Corporation",
+    "https://en.wikipedia.org/wiki/Filter_coffee"
+  ]
+}

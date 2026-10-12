@@ -1,0 +1,100 @@
+{
+  "languages": [
+    { "code": "tr", "name": "Turkish", "official": true, "spoken": "widely" },
+    { "code": "ku", "name": "Kurdish (Kurmanji)", "official": false, "spoken": "regionally" },
+    { "code": "en", "name": "English", "official": false, "spoken": "some" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Given name then family name. Family names only date from the 1934 Surname Law, so many are plain Turkish words: Yılmaz ('never gives up'), Demir ('iron'), Kaya ('rock'), Yıldız ('star'). Surnames are the same for men and women; married women usually take the husband's name and may keep their own before it. Lots of people have two given names (Mehmet Emre, Ayşe Nur) and go by one. Kurdish families mostly carry registered Turkish-style surnames, while Kurdish given names such as Baran, Rojda and Berfin have become common, and letters like w and x that were once refused in names are now accepted. Armenian Istanbullus often have surnames ending in -yan built on a trade (Kuyumcuyan, 'jeweller'). Arabic-speaking residents, many from Syria, keep Arabic names. People use first names with a title of respect: Ayşe Hanım, Mehmet Bey, or abi and abla for someone a bit older.",
+    "groups": {
+      "turkish": {
+        "given": {
+          "m": ["Mehmet", "Mustafa", "Ahmet", "Ali", "Hüseyin", "Hasan", "İbrahim", "Murat", "Emre", "Burak", "Can", "Kerem", "Yusuf", "Eren", "Serkan", "Onur", "Barış", "Oğuzhan"],
+          "f": ["Ayşe", "Fatma", "Zeynep", "Elif", "Emine", "Merve", "Esra", "Büşra", "Selin", "Ece", "Deniz", "Gizem", "Özge", "Derya", "Hatice", "Ebru", "Duygu", "İrem"]
+        },
+        "family": ["Yılmaz", "Kaya", "Demir", "Şahin", "Çelik", "Yıldız", "Yıldırım", "Öztürk", "Aydın", "Özdemir", "Arslan", "Doğan", "Kılıç", "Aslan", "Çetin", "Kara", "Koç", "Kurt", "Özkan", "Şimşek"]
+      },
+      "kurdish": {
+        "given": {
+          "m": ["Baran", "Rojhat", "Welat", "Serhat", "Berzan", "Agit", "Azad", "Diyar", "Ferhat", "Mazlum", "Şiyar", "Zana", "Bawer", "Rênas"],
+          "f": ["Rojda", "Berfin", "Zelal", "Dilan", "Ronahi", "Jiyan", "Rojin", "Delal", "Viyan", "Helin", "Evin", "Berivan", "Şilan", "Zozan", "Gulistan"]
+        },
+        "family": ["Aslan", "Polat", "Ekinci", "Tekin", "Akın", "Bulut", "Güneş", "Altun", "Tunç", "Oruç", "Ateş", "Erdem", "Kaplan", "Acar", "Baysal"],
+        "also": { "m": ["Mehmet", "Abdullah", "Hasan", "Ömer", "İbrahim", "Ramazan"], "f": ["Fatma", "Ayşe", "Hatice", "Emine", "Leyla", "Zeynep"] }
+      },
+      "arab": {
+        "given": {
+          "m": ["Mohammad", "Ahmad", "Omar", "Khaled", "Mahmoud", "Yousef", "Ali", "Hasan", "Ibrahim", "Mustafa", "Abdullah", "Rami", "Samer", "Bilal"],
+          "f": ["Fatima", "Aya", "Rasha", "Nour", "Hiba", "Rana", "Lina", "Sara", "Maryam", "Rahaf", "Hala", "Reem", "Dima", "Yasmin"]
+        },
+        "family": ["Halabi", "Hamwi", "Shami", "Haddad", "Khatib", "Hamdan", "Darwish", "Kassab", "Najjar", "Sabbagh", "Masri", "Othman", "Hijazi", "Idlibi"]
+      },
+      "armenian": {
+        "given": {
+          "m": ["Aram", "Hagop", "Garbis", "Sarkis", "Krikor", "Vartan", "Arto", "Raffi", "Ara", "Levon", "Kevork", "Tigran", "Agop", "Sevan"],
+          "f": ["Ani", "Maral", "Lusin", "Nayiri", "Talin", "Sona", "Arpi", "Silva", "Nora", "Anahit", "Lilit", "Karin"]
+        },
+        "family": ["Kalaycıyan", "Bakırcıyan", "Demirciyan", "Terziyan", "Ohanyan", "Manukyan", "Kasapyan", "Papazyan", "Boyacıyan", "Hekimyan", "Kuyumcuyan", "Asadoryan", "Garabetyan", "Agopyan", "Minasyan"]
+      }
+    },
+    "weights": { "turkish": 0.8, "kurdish": 0.17, "arab": 0.025, "armenian": 0.005 }
+  },
+  "honorifics": { "elder_m": "amca", "elder_f": "teyze", "peer_m": "abi", "peer_f": "abla", "boss": "patron" },
+  "phrases": {
+    "tr": {
+      "hello": [["Merhaba", "Hello"], ["Selam!", "Hi!"]],
+      "morning": [["Günaydın", "Good morning"]],
+      "evening": [["İyi akşamlar", "Good evening"]],
+      "how_are_you": [["Nasılsın?", "How are you?"], ["Nasılsınız?", "How are you? (polite)"], ["Ne var ne yok?", "What's up?"]],
+      "fine": [["İyiyim, teşekkürler", "I'm fine, thanks"], ["İdare eder", "So-so"], ["Çok iyi", "Very good"]],
+      "thanks": [["Teşekkürler", "Thanks"], ["Sağ ol", "Cheers, thanks"], ["Teşekkür ederim", "Thank you"]],
+      "bye": [["Görüşürüz!", "See you!"], ["Hoşça kal", "Goodbye (said by the one leaving)"], ["Güle güle", "Goodbye (said to the one leaving)"]],
+      "welcome": [["Hoş geldiniz", "Welcome"], ["Buyurun", "Please, come in / go ahead"]],
+      "sorry": [["Özür dilerim", "I'm sorry"], ["Pardon", "Sorry"]],
+      "excuse": [["Afedersiniz", "Excuse me"], ["Bakar mısınız?", "Excuse me (to get attention)"]],
+      "yes": [["Evet", "Yes"], ["Tabii", "Of course"]],
+      "no": [["Hayır", "No"], ["Yok", "No, there isn't"]]
+    },
+    "ku": {
+      "hello": [["Silav!", "Hello!"], ["Merheba", "Hello"]],
+      "morning": [["Rojbaş", "Good morning"]],
+      "evening": [["Êvarbaş", "Good evening"]],
+      "how_are_you": [["Tu çawa yî?", "How are you?"], ["Çawa yî?", "How are you?"]],
+      "fine": [["Baş im, spas", "I'm fine, thanks"], ["Ez baş im", "I'm well"]],
+      "thanks": [["Spas", "Thanks"], ["Gelek spas", "Thanks a lot"]],
+      "bye": [["Bi xatirê te", "Goodbye"], ["Oxir be", "Go well (reply to a goodbye)"]],
+      "welcome": [["Bi xêr hatî", "Welcome"], ["Bi xêr hatin", "Welcome (to several people)"]],
+      "sorry": [["Bibore", "Sorry"], ["Biborin", "Sorry (polite)"]],
+      "excuse": [["Bibore", "Excuse me"]],
+      "yes": [["Erê", "Yes"], ["Belê", "Yes (polite)"]],
+      "no": [["Na", "No"], ["Nexêr", "No (polite)"]]
+    },
+    "en": {
+      "hello": [["Hi!", "Hi!"], ["Hello", "Hello"]],
+      "morning": [["Good morning", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["Fine, thanks", "Fine, thanks"]],
+      "thanks": [["Thanks", "Thanks"]],
+      "bye": [["See you", "See you"]],
+      "welcome": [["Welcome", "Welcome"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "TRY",
+    "symbol": "₺",
+    "words": [["lira", "the Turkish lira"], ["kuruş", "a hundredth of a lira"], ["bozukluk", "loose change"], ["mangır", "money, old slang"]]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Turkish_name",
+    "https://en.wikipedia.org/wiki/Surname_Law_(Turkey)",
+    "https://en.wikipedia.org/wiki/Kurmanji",
+    "https://en.wikipedia.org/wiki/Armenians_in_Turkey",
+    "https://www.tuik.gov.tr/"
+  ]
+}

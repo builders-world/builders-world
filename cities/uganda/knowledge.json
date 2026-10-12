@@ -1,0 +1,106 @@
+{
+  "languages": [
+    { "code": "en", "name": "English", "official": true, "spoken": "widely" },
+    { "code": "lg", "name": "Luganda", "official": false, "spoken": "widely" },
+    { "code": "sw", "name": "Swahili", "official": true, "spoken": "some" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Most Ugandans carry an English, Christian or Muslim first name together with a name in their own language, and the local name is their own rather than a shared family surname: a father and his children often have different second names. People are often written surname first, like Nakato Sarah. Baganda names come from the father's clan, and women's forms usually start with Na-, like Nalubega beside the male Lubega. Twins have set names in Luganda: Waswa and Kato for boys, Babirye and Nakato for girls. Banyankole and Bakiga names are often short sentences about God or the family, like Tumusiime (let us thank him) or Ainembabazi (he has mercy), with girls' names often starting Ke-, Kyo- or Ko-. Acholi names mark the circumstances of birth: Okello for a boy born after twins, Akello for a girl, Opio and Apio for first-born twins.",
+    "groups": {
+      "ganda": {
+        "given": {
+          "m": ["Mukasa", "Ssemakula", "Kiggundu", "Ssekandi", "Lubega", "Kato", "Waswa", "Ssentongo", "Mulondo", "Kasozi", "Kizito", "Kiwanuka", "Lwanga", "Kaggwa", "Mayanja", "Ssenyonga", "Nsubuga", "Musoke", "Bbosa", "Kibuuka"],
+          "f": ["Nakato", "Babirye", "Nalubega", "Namuli", "Nakawuki", "Nansubuga", "Namubiru", "Nakimuli", "Nalwoga", "Nassali", "Nabukenya", "Nakku", "Namatovu", "Nalule", "Nanyonga", "Namugga"]
+        },
+        "family": ["Mukasa", "Ssemakula", "Kiggundu", "Lubega", "Kasozi", "Kiwanuka", "Lwanga", "Ssempala", "Kaggwa", "Mayanja", "Ssenyonga", "Nsubuga", "Musoke", "Bbosa", "Kibuuka", "Ssali", "Walusimbi", "Mulondo"],
+        "also": {
+          "m": ["John", "Joseph", "Brian", "Ivan", "Isaac", "Moses", "Ronald", "Denis", "Emmanuel", "Edward", "Hassan", "Twaha"],
+          "f": ["Sarah", "Grace", "Esther", "Joan", "Doreen", "Prossy", "Florence", "Brenda", "Shamim", "Aisha", "Hadijah", "Juliet"]
+        }
+      },
+      "nyankole_kiga": {
+        "given": {
+          "m": ["Mugisha", "Tumusiime", "Byaruhanga", "Tumwesigye", "Ahimbisibwe", "Mwesigwa", "Bainomugisha", "Muhwezi", "Kakuru", "Agaba", "Barigye", "Twinomugisha", "Mwesigye", "Asiimwe"],
+          "f": ["Ainembabazi", "Atuhaire", "Kemigisha", "Kyomuhendo", "Kobusingye", "Ninsiima", "Natukunda", "Ampaire", "Ayebare", "Kansiime", "Kemirembe", "Komugisha", "Kyarikunda", "Akankwasa"]
+        },
+        "family": ["Mugisha", "Tumusiime", "Byaruhanga", "Tumwesigye", "Ahimbisibwe", "Mwesigwa", "Muhwezi", "Kakuru", "Agaba", "Barigye", "Asiimwe", "Bainomugisha", "Twinomugisha"],
+        "also": {
+          "m": ["Patrick", "Robert", "Julius", "Godfrey", "Allan", "Arthur", "Derrick", "Collins", "Martin", "Edgar"],
+          "f": ["Patience", "Gloria", "Peace", "Annet", "Brenda", "Phiona", "Rachael", "Judith", "Olivia", "Sylvia"]
+        }
+      },
+      "acholi": {
+        "given": {
+          "m": ["Okello", "Opio", "Odong", "Ojok", "Okot", "Komakech", "Oryema", "Ocaya", "Otim", "Ocan", "Oloya", "Onen", "Okumu"],
+          "f": ["Akello", "Apio", "Adong", "Akot", "Aciro", "Atim", "Aber", "Laker", "Abalo", "Ayaa", "Akumu", "Anena", "Lanyero", "Lamwaka"]
+        },
+        "family": ["Okello", "Ojok", "Okot", "Komakech", "Oryema", "Ocaya", "Otim", "Ocan", "Oloya", "Onen", "Okumu", "Odong", "Opio", "Olweny"],
+        "also": {
+          "m": ["Geoffrey", "Charles", "Simon", "Richard", "Denis", "Patrick", "Samuel", "Francis", "Jimmy", "Walter"],
+          "f": ["Susan", "Christine", "Harriet", "Stella", "Betty", "Florence", "Agnes", "Margaret", "Lilly", "Irene"]
+        }
+      }
+    },
+    "weights": { "ganda": 0.5, "nyankole_kiga": 0.3, "acholi": 0.2 }
+  },
+  "honorifics": { "elder_m": "Ssebo", "elder_f": "Nnyabo", "peer_m": "Munange", "peer_f": "Munange", "boss": "Boss" },
+  "phrases": {
+    "lg": {
+      "hello": [["Oli otya?", "Hello, how are you?"], ["Gyebale ko!", "Well done, a greeting to anyone at work"], ["Ki kati?", "What's up?"]],
+      "morning": [["Wasuze otya?", "Good morning, how did you sleep?"], ["Wasuze otya nno?", "Good morning to you"]],
+      "evening": [["Osiibye otya?", "Good evening, how was your day?"]],
+      "how_are_you": [["Oli otya?", "How are you?"], ["Ki kati?", "How's it going?"]],
+      "fine": [["Bulungi", "Fine, well"], ["Gyendi", "I'm fine"], ["Ndi bulungi", "I am well"]],
+      "thanks": [["Webale", "Thank you"], ["Webale nnyo", "Thank you very much"]],
+      "bye": [["Weraba", "Goodbye"], ["Tulabagana", "We'll see each other"], ["Sula bulungi", "Sleep well"]],
+      "welcome": [["Tukusanyukidde", "We welcome you"], ["Kaale, yingira", "Okay, come in"]],
+      "sorry": [["Nsonyiwa", "Forgive me"], ["Kitalo", "So sorry, said in sympathy"]],
+      "excuse": [["Ssebo", "Excuse me, sir"], ["Nnyabo", "Excuse me, madam"]],
+      "yes": [["Yee", "Yes"], ["Kale", "Okay"]],
+      "no": [["Nedda", "No"]]
+    },
+    "en": {
+      "hello": [["Hello!", "Hello"], ["Well done!", "A greeting to anyone at work"], ["You are lost!", "I haven't seen you in ages"]],
+      "morning": [["Good morning!", "Good morning"], ["How was the night?", "Good morning, did you sleep well?"]],
+      "evening": [["Good evening!", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"], ["How is home?", "How is the family?"]],
+      "fine": [["I'm fine.", "I'm fine"], ["We are there.", "We're doing okay"]],
+      "thanks": [["Thank you!", "Thank you"], ["Thank you so much.", "Thank you so much"]],
+      "bye": [["Bye bye!", "Goodbye"], ["Let me go, we'll talk.", "I'm off, talk later"]],
+      "welcome": [["You are welcome!", "You are welcome"], ["Welcome, feel at home.", "Make yourself at home"]],
+      "sorry": [["Sorry!", "Sorry, also said in sympathy when something happens to you"]],
+      "excuse": [["Excuse me.", "Excuse me"], ["Extend.", "Move over a bit"]],
+      "yes": [["Yes.", "Yes"], ["Sure.", "Of course"]],
+      "no": [["No.", "No"], ["Not now, thank you.", "Not now, thank you"]]
+    },
+    "sw": {
+      "hello": [["Habari?", "Hello, any news?"], ["Jambo", "Hello"]],
+      "morning": [["Habari ya asubuhi?", "Good morning"]],
+      "evening": [["Habari ya jioni?", "Good evening"]],
+      "how_are_you": [["Habari yako?", "How are you?"]],
+      "fine": [["Nzuri", "Fine"], ["Mzuri", "Fine, as many Ugandans say it"]],
+      "thanks": [["Asante", "Thank you"]],
+      "bye": [["Kwaheri", "Goodbye"]],
+      "welcome": [["Karibu", "Welcome"]],
+      "sorry": [["Pole", "Sorry"]],
+      "excuse": [["Samahani", "Excuse me"]],
+      "yes": [["Ndiyo", "Yes"]],
+      "no": [["Hapana", "No"]]
+    }
+  },
+  "money": {
+    "currency": "UGX",
+    "symbol": "USh",
+    "words": [["sente", "money, in Luganda"], ["lukumi", "a thousand shillings"], ["mutwalo", "ten thousand shillings"], ["kakadde", "a million shillings"]]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Uganda",
+    "https://en.wikipedia.org/wiki/Luganda",
+    "https://en.wikipedia.org/wiki/Ugandan_English",
+    "https://en.wikipedia.org/wiki/Baganda",
+    "https://en.wikipedia.org/wiki/Banyankole",
+    "https://en.wikipedia.org/wiki/Acholi_people",
+    "https://en.wikipedia.org/wiki/Ugandan_shilling"
+  ]
+}

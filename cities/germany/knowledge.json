@@ -1,0 +1,1084 @@
+{
+  "languages": [
+    {
+      "code": "de",
+      "name": "German",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "in tech circles"
+    },
+    {
+      "code": "tr",
+      "name": "Turkish",
+      "official": false,
+      "spoken": "commonly"
+    },
+    {
+      "code": "nds",
+      "name": "Low German (Plattdeutsch)",
+      "official": false,
+      "spoken": "regionally"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "One or two given names and a family name, usually inherited from the father, though couples may keep either name or join them with a hyphen. Most German family names come from trades (Müller, Schmidt, Fischer) or places. Turkish German families keep Turkish names, often written without the Turkish letters on German documents (Yilmaz for Yılmaz). Families from Poland, the former Soviet Union, the Arab world, the Balkans, Italy and Vietnam keep their own names; many Russian German Aussiedler carry old German surnames like Klassen or Friesen.",
+    "groups": {
+      "german": {
+        "given": {
+          "m": [
+            "Thomas",
+            "Michael",
+            "Andreas",
+            "Stefan",
+            "Christian",
+            "Markus",
+            "Daniel",
+            "Tobias",
+            "Jan",
+            "Florian",
+            "Sebastian",
+            "Alexander",
+            "Lukas",
+            "Felix",
+            "Jonas",
+            "Niklas",
+            "Maximilian",
+            "Philipp"
+          ],
+          "f": [
+            "Julia",
+            "Anna",
+            "Sarah",
+            "Laura",
+            "Lisa",
+            "Katharina",
+            "Sandra",
+            "Nicole",
+            "Stefanie",
+            "Christina",
+            "Lena",
+            "Hannah",
+            "Sophie",
+            "Lea",
+            "Marie",
+            "Johanna",
+            "Sabine",
+            "Anja"
+          ]
+        },
+        "family": [
+          "Müller",
+          "Schmidt",
+          "Schneider",
+          "Fischer",
+          "Weber",
+          "Meyer",
+          "Wagner",
+          "Becker",
+          "Schulz",
+          "Hoffmann",
+          "Schäfer",
+          "Koch",
+          "Bauer",
+          "Richter",
+          "Klein",
+          "Wolf",
+          "Schröder",
+          "Neumann",
+          "Schwarz",
+          "Zimmermann"
+        ]
+      },
+      "turkish": {
+        "given": {
+          "m": [
+            "Mehmet",
+            "Mustafa",
+            "Ahmet",
+            "Ali",
+            "Hüseyin",
+            "Hasan",
+            "İbrahim",
+            "Murat",
+            "Emre",
+            "Burak",
+            "Can",
+            "Deniz",
+            "Serkan",
+            "Cem",
+            "Yusuf",
+            "Kerem"
+          ],
+          "f": [
+            "Ayşe",
+            "Fatma",
+            "Emine",
+            "Elif",
+            "Zeynep",
+            "Merve",
+            "Esra",
+            "Derya",
+            "Aylin",
+            "Melike",
+            "Selin",
+            "Büşra",
+            "Gül",
+            "Sevgi",
+            "Hatice",
+            "Dilara"
+          ]
+        },
+        "family": [
+          "Yılmaz",
+          "Kaya",
+          "Demir",
+          "Şahin",
+          "Çelik",
+          "Yıldız",
+          "Yıldırım",
+          "Öztürk",
+          "Aydın",
+          "Özdemir",
+          "Arslan",
+          "Doğan",
+          "Kılıç",
+          "Aslan",
+          "Polat",
+          "Koç"
+        ]
+      },
+      "polish": {
+        "given": {
+          "m": [
+            "Piotr",
+            "Krzysztof",
+            "Tomasz",
+            "Paweł",
+            "Michał",
+            "Marcin",
+            "Łukasz",
+            "Marek",
+            "Jakub",
+            "Kamil",
+            "Adam",
+            "Grzegorz",
+            "Mateusz",
+            "Dawid"
+          ],
+          "f": [
+            "Anna",
+            "Katarzyna",
+            "Agnieszka",
+            "Magdalena",
+            "Joanna",
+            "Monika",
+            "Aleksandra",
+            "Karolina",
+            "Natalia",
+            "Ewa",
+            "Małgorzata",
+            "Justyna",
+            "Paulina",
+            "Marta"
+          ]
+        },
+        "family": [
+          "Nowak",
+          "Kowalski",
+          "Wiśniewski",
+          "Wójcik",
+          "Kowalczyk",
+          "Kamiński",
+          "Lewandowski",
+          "Zieliński",
+          "Szymański",
+          "Woźniak",
+          "Dąbrowski",
+          "Kozłowski",
+          "Jankowski",
+          "Mazur"
+        ],
+        "family_f": [
+          "Nowak",
+          "Kowalska",
+          "Wiśniewska",
+          "Wójcik",
+          "Kowalczyk",
+          "Kamińska",
+          "Lewandowska",
+          "Zielińska",
+          "Szymańska",
+          "Woźniak",
+          "Dąbrowska",
+          "Kozłowska",
+          "Jankowska",
+          "Mazur"
+        ]
+      },
+      "russian_german": {
+        "given": {
+          "m": [
+            "Alexander",
+            "Dmitri",
+            "Sergej",
+            "Andrej",
+            "Viktor",
+            "Waldemar",
+            "Eugen",
+            "Artur",
+            "Maxim",
+            "Roman",
+            "Denis",
+            "Nikolai",
+            "Pavel",
+            "Igor"
+          ],
+          "f": [
+            "Olga",
+            "Natalia",
+            "Irina",
+            "Tatjana",
+            "Swetlana",
+            "Elena",
+            "Julia",
+            "Anastasia",
+            "Ekaterina",
+            "Viktoria",
+            "Ljudmila",
+            "Valentina",
+            "Oxana",
+            "Alina"
+          ]
+        },
+        "family": [
+          "Klassen",
+          "Penner",
+          "Friesen",
+          "Dück",
+          "Rempel",
+          "Unruh",
+          "Schmidt",
+          "Becker",
+          "Iwanow",
+          "Petrow",
+          "Kusnezow",
+          "Popow",
+          "Smirnow",
+          "Wolkow"
+        ],
+        "family_f": [
+          "Klassen",
+          "Penner",
+          "Friesen",
+          "Dück",
+          "Rempel",
+          "Unruh",
+          "Schmidt",
+          "Becker",
+          "Iwanowa",
+          "Petrowa",
+          "Kusnezowa",
+          "Popowa",
+          "Smirnowa",
+          "Wolkowa"
+        ]
+      },
+      "arab": {
+        "given": {
+          "m": [
+            "Mohammed",
+            "Ahmad",
+            "Omar",
+            "Khaled",
+            "Ali",
+            "Hassan",
+            "Mahmoud",
+            "Youssef",
+            "Ibrahim",
+            "Karim",
+            "Samer",
+            "Rami",
+            "Bilal",
+            "Tarek"
+          ],
+          "f": [
+            "Fatima",
+            "Aya",
+            "Rana",
+            "Noor",
+            "Lina",
+            "Rasha",
+            "Hiba",
+            "Mariam",
+            "Yasmin",
+            "Leila",
+            "Sara",
+            "Dana",
+            "Huda",
+            "Reem"
+          ]
+        },
+        "family": [
+          "Haddad",
+          "Khalil",
+          "Saleh",
+          "Hamdan",
+          "Darwish",
+          "Nasser",
+          "Abboud",
+          "Hussein",
+          "Ibrahim",
+          "Mansour",
+          "Khoury",
+          "Al-Ahmad",
+          "Al-Hassan",
+          "Othman",
+          "Sabbagh"
+        ]
+      },
+      "bks": {
+        "given": {
+          "m": [
+            "Ivan",
+            "Marko",
+            "Luka",
+            "Josip",
+            "Ante",
+            "Tomislav",
+            "Dario",
+            "Nikola",
+            "Stefan",
+            "Milan",
+            "Dragan",
+            "Goran",
+            "Adnan",
+            "Emir"
+          ],
+          "f": [
+            "Ana",
+            "Ivana",
+            "Marija",
+            "Petra",
+            "Maja",
+            "Jelena",
+            "Katarina",
+            "Mirela",
+            "Snježana",
+            "Tamara",
+            "Sanja",
+            "Lejla",
+            "Amra",
+            "Jasmina"
+          ]
+        },
+        "family": [
+          "Horvat",
+          "Kovačević",
+          "Babić",
+          "Marić",
+          "Jurić",
+          "Novak",
+          "Knežević",
+          "Petrović",
+          "Jovanović",
+          "Nikolić",
+          "Hodžić",
+          "Begić",
+          "Delić",
+          "Kovač",
+          "Perić"
+        ]
+      },
+      "italian": {
+        "given": {
+          "m": [
+            "Marco",
+            "Luca",
+            "Giuseppe",
+            "Antonio",
+            "Francesco",
+            "Alessandro",
+            "Andrea",
+            "Matteo",
+            "Davide",
+            "Stefano",
+            "Salvatore",
+            "Giovanni",
+            "Simone",
+            "Paolo"
+          ],
+          "f": [
+            "Giulia",
+            "Francesca",
+            "Chiara",
+            "Sara",
+            "Valentina",
+            "Federica",
+            "Martina",
+            "Elena",
+            "Alessia",
+            "Maria",
+            "Silvia",
+            "Laura",
+            "Roberta",
+            "Paola"
+          ]
+        },
+        "family": [
+          "Rossi",
+          "Russo",
+          "Ferrari",
+          "Esposito",
+          "Bianchi",
+          "Romano",
+          "Colombo",
+          "Ricci",
+          "Marino",
+          "Greco",
+          "Bruno",
+          "Gallo",
+          "Conti",
+          "De Luca",
+          "Costa"
+        ]
+      },
+      "vietnamese": {
+        "given": {
+          "m": [
+            "Minh",
+            "Tuan",
+            "Duc",
+            "Hung",
+            "Long",
+            "Nam",
+            "Thanh",
+            "Hoang",
+            "Quang",
+            "Trung",
+            "Hieu",
+            "Dung",
+            "Khanh",
+            "Viet"
+          ],
+          "f": [
+            "Lan",
+            "Linh",
+            "Huong",
+            "Mai",
+            "Thu",
+            "Ha",
+            "Trang",
+            "Ngoc",
+            "Hoa",
+            "Thao",
+            "Anh",
+            "Hanh",
+            "Yen",
+            "Nhung"
+          ]
+        },
+        "family": [
+          "Nguyen",
+          "Tran",
+          "Le",
+          "Pham",
+          "Hoang",
+          "Phan",
+          "Vu",
+          "Vo",
+          "Dang",
+          "Bui",
+          "Do",
+          "Ho",
+          "Ngo",
+          "Duong"
+        ]
+      },
+      "afghan": {
+        "given": {
+          "m": [
+            "Ahmad",
+            "Mohammad",
+            "Farid",
+            "Jawad",
+            "Hamid",
+            "Wahid",
+            "Nasir",
+            "Rahim",
+            "Sohail",
+            "Mustafa",
+            "Habib",
+            "Ajmal",
+            "Mansur",
+            "Omid"
+          ],
+          "f": [
+            "Mariam",
+            "Zahra",
+            "Fatima",
+            "Laila",
+            "Nargis",
+            "Shabnam",
+            "Parwana",
+            "Mursal",
+            "Freshta",
+            "Sima",
+            "Hamida",
+            "Roya",
+            "Zarifa",
+            "Mina"
+          ]
+        },
+        "family": [
+          "Ahmadi",
+          "Rahimi",
+          "Hakimi",
+          "Karimi",
+          "Haidari",
+          "Sultani",
+          "Amiri",
+          "Noori",
+          "Popal",
+          "Wardak",
+          "Sadat",
+          "Hashimi",
+          "Nazari",
+          "Azizi"
+        ]
+      }
+    },
+    "weights": {
+      "german": 0.7,
+      "turkish": 0.08,
+      "polish": 0.05,
+      "russian_german": 0.05,
+      "arab": 0.04,
+      "bks": 0.03,
+      "italian": 0.03,
+      "vietnamese": 0.01,
+      "afghan": 0.01
+    }
+  },
+  "honorifics": {
+    "elder_m": "Herr",
+    "elder_f": "Frau",
+    "peer_m": "Alter",
+    "peer_f": "meine Liebe",
+    "boss": "Chef",
+    "titles": {
+      "elder_m": "Herr",
+      "elder_f": "Frau",
+      "with": "family"
+    }
+  },
+  "phrases": {
+    "de": {
+      "hello": [
+        [
+          "Hallo",
+          "Hello"
+        ],
+        [
+          "Guten Tag",
+          "Good day"
+        ],
+        [
+          "Hi",
+          "Hi"
+        ]
+      ],
+      "morning": [
+        [
+          "Guten Morgen",
+          "Good morning"
+        ],
+        [
+          "Morgen!",
+          "Morning!"
+        ]
+      ],
+      "evening": [
+        [
+          "Guten Abend",
+          "Good evening"
+        ],
+        [
+          "'n Abend",
+          "Evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Wie geht's?",
+          "How are you?"
+        ],
+        [
+          "Wie geht es Ihnen?",
+          "How are you? (formal)"
+        ],
+        [
+          "Alles gut?",
+          "All good?"
+        ]
+      ],
+      "fine": [
+        [
+          "Gut, danke",
+          "Fine, thanks"
+        ],
+        [
+          "Alles gut",
+          "All good"
+        ],
+        [
+          "Geht so",
+          "So-so"
+        ]
+      ],
+      "thanks": [
+        [
+          "Danke",
+          "Thanks"
+        ],
+        [
+          "Danke schön",
+          "Thank you very much"
+        ],
+        [
+          "Vielen Dank",
+          "Many thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "Tschüss",
+          "Bye"
+        ],
+        [
+          "Auf Wiedersehen",
+          "Goodbye (formal)"
+        ],
+        [
+          "Bis später",
+          "See you later"
+        ]
+      ],
+      "welcome": [
+        [
+          "Willkommen",
+          "Welcome"
+        ],
+        [
+          "Herzlich willkommen",
+          "A warm welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Entschuldigung",
+          "Sorry"
+        ],
+        [
+          "Tut mir leid",
+          "I'm sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Entschuldigung",
+          "Excuse me"
+        ],
+        [
+          "Darf ich mal vorbei?",
+          "May I get past?"
+        ]
+      ],
+      "yes": [
+        [
+          "Ja",
+          "Yes"
+        ],
+        [
+          "Genau",
+          "Exactly"
+        ]
+      ],
+      "no": [
+        [
+          "Nein",
+          "No"
+        ],
+        [
+          "Nee",
+          "Nope"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hi",
+          "Hi"
+        ],
+        [
+          "Hello",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you?",
+          "How are you?"
+        ],
+        [
+          "How's it going?",
+          "How's it going?"
+        ]
+      ],
+      "fine": [
+        [
+          "Fine, thanks",
+          "Fine, thanks"
+        ],
+        [
+          "All good",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks",
+          "Thanks"
+        ],
+        [
+          "Thank you",
+          "Thank you"
+        ]
+      ],
+      "bye": [
+        [
+          "Bye",
+          "Bye"
+        ],
+        [
+          "See you",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ],
+        [
+          "Yeah",
+          "Yeah"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ],
+        [
+          "Nope",
+          "Nope"
+        ]
+      ]
+    },
+    "tr": {
+      "hello": [
+        [
+          "Merhaba",
+          "Hello"
+        ],
+        [
+          "Selam",
+          "Hi"
+        ]
+      ],
+      "morning": [
+        [
+          "Günaydın",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "İyi akşamlar",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Nasılsın?",
+          "How are you?"
+        ],
+        [
+          "Nasılsınız?",
+          "How are you? (polite)"
+        ],
+        [
+          "Naber?",
+          "What's up?"
+        ]
+      ],
+      "fine": [
+        [
+          "İyiyim, teşekkürler",
+          "I'm fine, thanks"
+        ],
+        [
+          "İyidir",
+          "It's good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Teşekkürler",
+          "Thanks"
+        ],
+        [
+          "Sağ ol",
+          "Thanks (casual)"
+        ],
+        [
+          "Teşekkür ederim",
+          "Thank you"
+        ]
+      ],
+      "bye": [
+        [
+          "Görüşürüz",
+          "See you"
+        ],
+        [
+          "Hoşça kal",
+          "Goodbye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Hoş geldiniz",
+          "Welcome"
+        ],
+        [
+          "Hoş geldin",
+          "Welcome (to one friend)"
+        ]
+      ],
+      "sorry": [
+        [
+          "Özür dilerim",
+          "I'm sorry"
+        ],
+        [
+          "Pardon",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Pardon",
+          "Excuse me"
+        ],
+        [
+          "Bakar mısınız?",
+          "Excuse me (to get someone's attention)"
+        ]
+      ],
+      "yes": [
+        [
+          "Evet",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Hayır",
+          "No"
+        ],
+        [
+          "Yok",
+          "No, there isn't"
+        ]
+      ]
+    },
+    "nds": {
+      "hello": [
+        [
+          "Moin",
+          "Hello (any time of day)"
+        ],
+        [
+          "Moin moin",
+          "Hello there"
+        ]
+      ],
+      "morning": [
+        [
+          "Moin",
+          "Morning"
+        ],
+        [
+          "Goden Morgen",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Goden Avend",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Wo geiht di dat?",
+          "How are you doing?"
+        ],
+        [
+          "Allens kloor?",
+          "All good?"
+        ]
+      ],
+      "fine": [
+        [
+          "Allens goot",
+          "All good"
+        ],
+        [
+          "Dat geiht",
+          "Getting by"
+        ]
+      ],
+      "thanks": [
+        [
+          "Dank di",
+          "Thank you"
+        ],
+        [
+          "Veelen Dank",
+          "Many thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "Tschüüs",
+          "Bye"
+        ],
+        [
+          "Adschüss",
+          "Bye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Willkamen",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Deit mi leed",
+          "I'm sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Entschülligen Se",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Jo",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Nee",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "EUR",
+    "symbol": "€",
+    "words": [
+      [
+        "Kohle",
+        "money, cash"
+      ],
+      [
+        "Knete",
+        "money"
+      ],
+      [
+        "Kröten",
+        "money, a few coins"
+      ],
+      [
+        "ein Zehner",
+        "a ten-euro note"
+      ],
+      [
+        "ein Fuffi",
+        "a fifty-euro note"
+      ],
+      [
+        "ein Hunni",
+        "a hundred-euro note"
+      ],
+      [
+        "Pfand",
+        "the deposit on a bottle"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/German_name",
+    "https://en.wikipedia.org/wiki/Turks_in_Germany",
+    "https://en.wikipedia.org/wiki/Low_German",
+    "https://en.wikipedia.org/wiki/Demographics_of_Germany",
+    "https://www.destatis.de/",
+    "https://gfds.de/"
+  ]
+}

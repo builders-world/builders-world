@@ -1,0 +1,84 @@
+{
+  "street": { "zh": 0.9, "en": 0.1 },
+  "registers": {},
+  "names": { "weights": { "north": 0.2, "jiangnan": 0.7, "south": 0.1 } },
+  "phrases": {
+    "zh": {
+      "how_are_you": [["Zuìjìn zěnmeyàng?", "How are things lately? (最近怎么样?)"]],
+      "fine": [["Hái kěyǐ", "Not bad (还可以)"]],
+      "yes": [["Hǎo de", "OK, sure (好的)"]],
+      "tea": [["Hē bēi Lóngjǐng ba", "Have a cup of Longjing tea (喝杯龙井吧)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! Off to the office?", "Hi, how's your day?", "Hello! Long time no see.", "Hey, did you eat yet?", "Good morning, lovely out by the lake."],
+      "reply": ["Good, thanks!", "Not bad, busy with work.", "All fine, how about you?", "Great, I had pian'erchuan for lunch.", "OK, a bit tired."],
+      "sunny": ["Perfect day for a walk on the Su Causeway.", "So sunny, the lake looks like a painting.", "Hot today, find some shade by the willows.", "Great weather to cycle round West Lake.", "Clear skies, you can see the hills all round the lake."],
+      "rain": ["West Lake in the rain is beautiful, honestly.", "Bring an umbrella, it's raining again.", "Plum rain season, everything's damp.", "Typhoon's coming, the river will be rough.", "Wait a bit, it'll ease off."],
+      "bye": ["See you later!", "Bye, take care!", "Talk soon!", "See you tomorrow!", "Have a nice evening!"],
+      "busy": ["Sorry, I need to catch the metro to Binjiang.", "Got a meeting, talk later.", "Busy launch week, catch up after.", "Running late, my shuttle bus is leaving!", "Can't stop, my delivery rider is waiting."]
+    },
+    "zh": {
+      "greet": ["Zǎo a! Chī le méi?", "Hāi, zuìjìn zěnmeyàng?", "Hǎo jiǔ bú jiàn!", "Āyí zǎo! Qù hú biān zǒuzou?", "Zǎo, jīntiān yòu shàngbān a?"],
+      "reply": ["Hái kěyǐ, xièxie!", "Tǐng hǎo de, nǐ ne?", "Máng shì máng, hái xíng.", "Bú cuò, chī le piànrchuān."],
+      "sunny": ["Tiānqì zhēn hǎo, qù Sū Dī zǒuzou.", "Xī Hú jīntiān tài piàoliang le.", "Rè sǐ le, zhǎo gè yīnliáng de dìfang.", "Hǎo tiānqì, qí chē rào hú yì quān ba."],
+      "rain": ["Xià yǔ de Xī Hú yě hǎo kàn.", "Yòu xià yǔ le, dài sǎn le ma?", "Méiyǔ jì, dōu cháo cháo de.", "Táifēng yào lái le, zǎo diǎn huí jiā."],
+      "bye": ["Zàijiàn!", "Bàibai, màn zǒu!", "Gǎitiān jiàn!", "Míngtiān jiàn!"],
+      "busy": ["Bù hǎoyìsi, gǎn dìtiě qù Bīnjiāng.", "Mǎshàng kāi huì, děng huìr liáo.", "Zhè zhōu tài máng le, gǎitiān jiàn.", "Kuài chídào le, xiān zǒu le!"]
+    }
+  },
+  "transport": {
+    "metro": "dìtiě (地铁)",
+    "bus": "gōngjiāo (公交)",
+    "taxi": "chūzūchē (出租车)",
+    "ride_hail": "Dīdī (滴滴)",
+    "bike": "gōnggòng zìxíngchē (公共自行车, the city's public bikes)",
+    "e_bike": "diàndòngchē (电动车)",
+    "boat": "yóuchuán (游船, West Lake boat)",
+    "stage": "zhàn (站, stop)"
+  },
+  "touts": [
+    "Yóu hú ma? Chuán mǎshàng kāi!",
+    "Lóngjǐng chá, zìjiā chá yuán de, lái pǐn yí xià!",
+    "Dǎ chē ma? Dōng Zhàn, jīchǎng!",
+    "Lǐbian yǒu zuò, Xī Hú cùyú!",
+    "Língyǐn Sì yí rì yóu, zuò chē qù!",
+    "Měinǚ, kàn yí xià sīchóu ba!"
+  ],
+  "hawkers": [
+    ["Cōngbāo huìr, rè de!", "Hangzhou fried scallion roll, hot (葱包桧儿)"],
+    ["Dìngshèng gāo, gāng zhēng hǎo!", "Dingsheng rice cakes, just steamed (定胜糕)"],
+    ["Xīn chá, míngqián Lóngjǐng!", "New tea, Longjing picked before Qingming (明前龙井)"],
+    ["Ǒufěn, Xī Hú ǒufěn!", "West Lake lotus root starch (藕粉)"],
+    ["Táng chǎo lìzi!", "Sugar-roasted chestnuts (糖炒栗子)"],
+    ["Yángméi, xīnxiān de!", "Fresh bayberries (杨梅)"]
+  ],
+  "food": {
+    "street": ["cōngbāo huìr (葱包桧儿)", "dìngshèng gāo (定胜糕)", "shēngjiān (生煎)", "xiǎolóngbāo (小笼包)", "chòu dòufu (臭豆腐)", "ǒufěn (藕粉)", "yóudūnzi (油墩子)"],
+    "dishes": ["Dōngpō ròu (东坡肉)", "Xī Hú cùyú (西湖醋鱼)", "Lóngjǐng xiārén (龙井虾仁)", "jiàohuā jī (叫花鸡, beggar's chicken)", "piànrchuān (片儿川 noodles)", "sòngsǎo yúgēng (宋嫂鱼羹)"],
+    "drinks": ["Lóngjǐng chá (龙井茶)", "nǎichá (奶茶)", "dòujiāng (豆浆)", "huángjiǔ (黄酒)", "kāfēi (咖啡)", "suānméitāng (酸梅汤)"]
+  },
+  "places": {
+    "neighbourhoods": ["Xihu District", "Shangcheng", "Gongshu", "Binjiang", "Qianjiang New City", "Hubin", "Yuhang", "Xiaoshan", "Future Sci-Tech City", "Xixi", "Longjing Village"],
+    "streets": ["Hefang Street", "Nanshan Road", "Beishan Street", "Yan'an Road", "Zhongshan Road", "Wensan Road", "Jiefang Road", "Hubin Road"],
+    "landmarks": ["West Lake", "Su Causeway", "Bai Causeway", "Leifeng Pagoda", "Lingyin Temple", "Six Harmonies Pagoda", "Grand Canal at Gongchen Bridge", "Xixi Wetland", "Hangzhou Olympic Sports Centre"]
+  },
+  "small_talk": [
+    "The weekend crowds on the Su Causeway were unreal.",
+    "My cousin got a job in Binjiang, everyone's in tech there.",
+    "New Longjing is out, my aunt brought some from the village.",
+    "The metro to Future Sci-Tech City is packed every morning.",
+    "Hefang Street at night is all tourists and stinky tofu.",
+    "We walked the Grand Canal at Gongchen Bridge on Sunday.",
+    "The osmanthus is blooming, the whole city smells sweet.",
+    "Plum rain again, my shoes haven't dried in a week."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Hangzhou",
+    "https://en.wikipedia.org/wiki/West_Lake",
+    "https://en.wikipedia.org/wiki/Zhejiang_cuisine",
+    "https://en.wikipedia.org/wiki/Longjing_tea",
+    "https://en.wikipedia.org/wiki/Dongpo_pork"
+  ]
+}

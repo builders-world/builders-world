@@ -1,0 +1,282 @@
+{
+  "street": {
+    "en": 0.38,
+    "pcm": 0.52,
+    "ig": 0.1
+  },
+  "names": {
+    "weights": {
+      "ikwerre": 0.24,
+      "ijaw": 0.24,
+      "igbo": 0.3,
+      "ibibio": 0.07,
+      "yoruba": 0.08,
+      "edo": 0.04,
+      "hausa": 0.03
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "Good morning! How's the Garden City treating you?",
+        "Hello! Busy day in GRA?",
+        "Hi! How was the traffic at Rumuokoro?",
+        "Good afternoon, all well?",
+        "Hey, long time no see!"
+      ],
+      "reply": [
+        "I'm good, thanks!",
+        "We're fine, thank God.",
+        "All good, just busy.",
+        "Doing well. And you?",
+        "Can't complain."
+      ],
+      "sunny": [
+        "Bright day in PH.",
+        "Hot one today, drink water.",
+        "Nice and sunny for once.",
+        "Sunny day at the waterfront.",
+        "Clear skies today."
+      ],
+      "rain": [
+        "It's raining again, as usual in PH.",
+        "The roads will flood now.",
+        "Wait it out, it'll pass.",
+        "Proper Garden City rain.",
+        "Carry an umbrella everywhere here."
+      ],
+      "bye": [
+        "Take care!",
+        "See you later.",
+        "Have a good day.",
+        "Safe trip.",
+        "Talk soon."
+      ],
+      "busy": [
+        "Late for a meeting in Trans-Amadi!",
+        "Got to run, see you!",
+        "Deadline today, I'll call.",
+        "Off to the office, later!",
+        "Catching a keke, bye!"
+      ]
+    },
+    "pcm": {
+      "greet": [
+        "How far?",
+        "How you dey?",
+        "My guy, how body?",
+        "Wetin dey happen?",
+        "Omo, how far now?"
+      ],
+      "reply": [
+        "I dey o!",
+        "We dey kampe!",
+        "No wahala.",
+        "Body dey inside cloth.",
+        "God dey!"
+      ],
+      "sunny": [
+        "Sun dey shine today.",
+        "Weather fine o.",
+        "This heat ehn!",
+        "Today hot well well."
+      ],
+      "rain": [
+        "Rain don start again!",
+        "PH rain no dey tire.",
+        "Make we wait make rain stop.",
+        "Water go full road now."
+      ],
+      "bye": [
+        "I dey go.",
+        "Make we see later.",
+        "Waka well o!",
+        "Later."
+      ],
+      "busy": [
+        "I dey rush.",
+        "Abeg I dey come.",
+        "Work plenty today.",
+        "Make I catch keke first."
+      ]
+    },
+    "ig": {
+      "greet": [
+        "Ndewo!",
+        "Kedu?",
+        "Ututu oma!",
+        "Kedu ka i mere?"
+      ],
+      "reply": [
+        "O di mma.",
+        "Adim mma, daalu.",
+        "Anyi no.",
+        "Chukwu di mma."
+      ],
+      "sunny": [
+        "Anwu na-acha taa.",
+        "Taa di mma.",
+        "Okpomoku di taa.",
+        "Anwu di ike taa."
+      ],
+      "rain": [
+        "Mmiri na-ezo!",
+        "Mmiri ozuzo di ike.",
+        "Ka anyi chere ka mmiri kwusi.",
+        "Mmiri amalitela."
+      ],
+      "bye": [
+        "Ka omesia!",
+        "Ka emecha.",
+        "Jee nke oma.",
+        "Daalu."
+      ],
+      "busy": [
+        "Ana m agba oso.",
+        "Agafeela m oge!",
+        "Oru di ukwuu taa.",
+        "Ana m aga oru."
+      ]
+    }
+  },
+  "transport": {
+    "bus": "bus",
+    "moto_taxi": "okada (restricted)",
+    "tricycle": "keke",
+    "taxi": "taxi (a 'drop')",
+    "shared_taxi": "taxi on a route",
+    "ride_hail": "Bolt",
+    "conductor": "conductor",
+    "driver": "driver",
+    "stage": "park",
+    "boat": "speedboat"
+  },
+  "touts": [
+    "Rumuokoro! Rumuokoro!",
+    "Garrison! Garrison!",
+    "Mile One, Mile Three!",
+    "Choba, Choba, enter!",
+    "Waterlines, Agip!",
+    "Eleme Junction, one more!",
+    "Rumuola, GRA!"
+  ],
+  "hawkers": [
+    [
+      "Bole and fish!",
+      "Roast plantain and fish!"
+    ],
+    [
+      "Pure water!",
+      "Sachet water!"
+    ],
+    [
+      "Onunu!",
+      "Pounded yam and plantain!"
+    ],
+    [
+      "Periwinkle!",
+      "Periwinkles!"
+    ],
+    [
+      "Recharge card!",
+      "Phone credit!"
+    ],
+    [
+      "Gala!",
+      "Sausage rolls!"
+    ]
+  ],
+  "food": {
+    "street": [
+      "bole and fish",
+      "roasted corn and pear (ube)",
+      "suya",
+      "puff-puff",
+      "periwinkle",
+      "akara",
+      "shawarma",
+      "boiled groundnut"
+    ],
+    "dishes": [
+      "native soup",
+      "onunu",
+      "kekefia",
+      "fisherman soup",
+      "pepper soup",
+      "jollof rice",
+      "banga soup and starch",
+      "pounded yam and egusi",
+      "afang soup",
+      "oha soup"
+    ],
+    "drinks": [
+      "palm wine",
+      "zobo",
+      "Chapman",
+      "malt",
+      "kunu",
+      "Gulder"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "Old GRA",
+      "New GRA",
+      "D-Line",
+      "Rumuola",
+      "Trans-Amadi",
+      "Diobu",
+      "Rumuokoro",
+      "Choba",
+      "Eliozu",
+      "Woji",
+      "Rumuomasi",
+      "Borokiri",
+      "Rumuibekwe",
+      "Ada George"
+    ],
+    "streets": [
+      "Aba Road",
+      "Ikwerre Road",
+      "Olu Obasanjo Road",
+      "Trans-Amadi Road",
+      "Stadium Road",
+      "Rumuola Road",
+      "Tombia Street",
+      "Ada George Road",
+      "East-West Road",
+      "Woji Road"
+    ],
+    "landmarks": [
+      "the Port Harcourt Pleasure Park",
+      "Isaac Boro Park",
+      "Port Harcourt Mall",
+      "the Garden City Golf Club",
+      "the University of Port Harcourt",
+      "Rivers State Polytechnic",
+      "the waterfront",
+      "Bonny Island ferries",
+      "Mile One Market",
+      "the Garrison junction"
+    ]
+  },
+  "small_talk": [
+    "Aba Road traffic was crazy this morning.",
+    "Let's go to Pleasure Park on Sunday.",
+    "The soot was bad again last week.",
+    "Bole and fish at Rumuola is the real deal.",
+    "Rain again? Garden City rain doesn't rest.",
+    "There's a devs meetup in Trans-Amadi.",
+    "Choba to GRA in a keke takes forever.",
+    "I'm going to Bonny next weekend by boat.",
+    "Native soup at my aunt's place on Sunday.",
+    "The new flyover at Rumuokoro is finally open."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Port_Harcourt",
+    "https://en.wikipedia.org/wiki/Ikwerre_people",
+    "https://en.wikipedia.org/wiki/Ijaw_people",
+    "https://en.wikipedia.org/wiki/Nigerian_Pidgin"
+  ],
+  "needs_native_review": "Pidgin and Igbo lines: please check; Ikwerre and Ijaw lines are welcome."
+}

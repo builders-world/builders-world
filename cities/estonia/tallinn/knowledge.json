@@ -1,0 +1,65 @@
+{
+  "street": { "et": 0.55, "ru": 0.33, "en": 0.12 },
+  "names": {
+    "weights": { "estonian": 0.53, "russian": 0.38, "ukrainian": 0.06, "finnish": 0.03 }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Tere! How are you?", "Morning! Coffee yet?", "Hey, long time!", "Hi there, all good?", "Tervist! How's work?"],
+      "reply": ["Fine, thanks! You?", "All good, aitäh!", "Okay, can't complain.", "Pretty good, busy week.", "Good, thanks for asking!"],
+      "sunny": ["Beautiful day, let's walk in Kadriorg.", "Sun's out, the Telliskivi terraces will be full.", "Perfect day for the beach at Pirita.", "Finally warm!", "Great light over the Old Town today."],
+      "rain": ["Raining again, take an umbrella.", "Sleet again, careful on the cobbles.", "The wind off the sea is crazy today.", "Grey day, good day for a sauna.", "It's pouring, I'm getting a Bolt."],
+      "bye": ["Head aega!", "Tšau!", "See you!", "Have a good day!", "Take care!"],
+      "busy": ["Sorry, my tram is coming!", "Got a meeting, talk later!", "In a rush, tšau!", "Have to run, I'll call you later!", "Catching the ferry, talk soon!"]
+    },
+    "et": {
+      "greet": ["Tere! Kuidas läheb?", "Tšau! Mis teed?", "Tere hommikust! Kas kohv on juba joodud?", "Tervist! Ammu pole näinud!", "Tere-tere! Kõik hästi?"],
+      "reply": ["Hästi, aitäh! Ja sul?", "Normaalselt, ei kurda.", "Päris hästi, aitäh.", "Kõik on korras!"],
+      "sunny": ["Nii ilus ilm täna!", "Lähme Kalamaja randa? Ilm on super.", "Päike paistab, lähme Kadriorgu jalutama.", "Lõpuks ometi soe!"],
+      "rain": ["Jälle sajab, võta vihmavari kaasa.", "Täna on päris jube ilm.", "Lörtsi sajab jälle.", "Mere ääres puhub täna nii kõvasti."],
+      "bye": ["Head aega!", "Nägemist!", "Tšau-tšau!", "Kohtumiseni!", "Head päeva!"],
+      "busy": ["Vabandust, mu tramm läheb!", "Mul on koosolek, räägime hiljem!", "Kiire, tšau!", "Pean jooksma, helistan hiljem!"]
+    },
+    "ru": {
+      "greet": ["Привет! Как дела?", "Здравствуйте! Как вы?", "Доброе утро! Кофе уже пил?", "О, привет! Сто лет не виделись!", "Привет-привет! Всё нормально?"],
+      "reply": ["Нормально, спасибо! А у тебя?", "Хорошо, всё в порядке.", "Да ничего, потихоньку.", "Отлично, спасибо!"],
+      "sunny": ["Какая сегодня хорошая погода!", "Пошли гулять в Кадриорг, солнце!", "Наконец-то тепло!", "Отличный день, чтобы поехать на Пириту."],
+      "rain": ["Опять дождь, бери зонтик.", "Погода сегодня ужасная.", "Снова мокрый снег.", "Ветер с моря сегодня такой сильный."],
+      "bye": ["Пока!", "До свидания!", "Увидимся!", "Хорошего дня!"],
+      "busy": ["Извини, у меня трамвай уходит!", "У меня встреча, созвонимся позже!", "Спешу, пока!", "Надо бежать, позвоню!"]
+    }
+  },
+  "transport": {
+    "bus": "buss",
+    "moto_taxi": "Bolt tõukeratas",
+    "tricycle": "kaubaratas",
+    "taxi": "takso",
+    "conductor": "piletikontrolör",
+    "stage": "peatus",
+    "tram": "tramm",
+    "train": "rong (Elron)",
+    "ferry": "laev Helsingisse",
+    "ride_hail": "Bolt"
+  },
+  "touts": ["Järgmine peatus: Vabaduse väljak.", "Следующая остановка: Балтийский вокзал.", "Värsked maasikad, kodumaised!", "A busker on Viru tänav playing violin under the old gate towers.", "Свежая клубника, недорого!", "Soojad pirukad, kohv ka!"],
+  "hawkers": [
+    ["Värsked maasikad!", "Fresh strawberries!"],
+    ["Kodumaised kurgid!", "Home-grown cucumbers!"],
+    ["Свежая рыба!", "Fresh fish! (Russian)"],
+    ["Soojad pirukad!", "Warm pastries!"],
+    ["Kiluvõileivad!", "Sprat sandwiches!"],
+    ["Мёд, домашний мёд!", "Honey, home-made honey! (Russian)"]
+  ],
+  "food": {
+    "street": ["pirukas", "kiluvõileib", "šašlõkk", "pontšik", "kohuke", "suitsukala", "pelmeenid"],
+    "dishes": ["verivorst", "mulgipuder", "kama", "rosolje", "sült", "seljanka", "hapukapsas", "rukkileib"],
+    "drinks": ["kali", "Vana Tallinn", "õlu", "keefir", "kohv", "kissell", "kasemahl"]
+  },
+  "places": {
+    "neighbourhoods": ["Vanalinn", "Kalamaja", "Kadriorg", "Kesklinn", "Rotermanni kvartal", "Telliskivi", "Pirita", "Nõmme", "Lasnamäe", "Mustamäe", "Ülemiste", "Kopli", "Põhja-Tallinn", "Kristiine"],
+    "streets": ["Viru tänav", "Pikk tänav", "Narva maantee", "Pärnu maantee", "Tartu maantee", "Telliskivi tänav", "Kopli tänav", "Suur-Karja", "Toompuiestee", "Vabaduse väljak"],
+    "landmarks": ["Raekoja plats", "Toompea", "Paks Margareeta", "Aleksander Nevski katedraal", "Kadrioru loss", "Telliskivi Loomelinnak", "Balti jaam", "Lennusadam", "Teletorn", "Patarei", "Lauluväljak", "Kumu", "Ülemiste City"]
+  },
+  "small_talk": ["The Bolt driver got here in two minutes, as usual.", "Balti Jaam market has the best pelmeni, honestly.", "Took the morning ferry to Helsinki, back in time for dinner.", "Kalamaja's wooden houses look great in the snow.", "Public transport is free with the Tallinn residency card, can't complain.", "Just sign it with your ID card, it takes two seconds.", "Telliskivi was buzzing on Saturday.", "Jaanipäev bonfire at your place or ours this year?", "The wind off the sea in Kadriorg was brutal today."],
+  "sources": ["https://en.wikipedia.org/wiki/Tallinn", "https://en.wikipedia.org/wiki/Estonian_cuisine", "https://www.tallinn.ee/en", "https://www.stat.ee/en"]
+}

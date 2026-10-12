@@ -1,0 +1,124 @@
+{
+  "street": { "mr": 0.45, "en": 0.3, "bambaiya": 0.25 },
+  "registers": {
+    "bambaiya": {
+      "name": "Bambaiya Hindi",
+      "about": "The Mumbai-style street Hindi, full of Marathi words, that Pune's students, IT crowd and newcomers use with each other."
+    }
+  },
+  "names": {
+    "weights": {
+      "marathi": 0.55,
+      "hindi": 0.15,
+      "muslim": 0.1,
+      "gujarati": 0.04,
+      "telugu": 0.03,
+      "tamil": 0.03,
+      "malayali": 0.03,
+      "kannada": 0.02,
+      "bengali": 0.02,
+      "punjabi": 0.02,
+      "christian": 0.01
+    }
+  },
+  "phrases": {
+    "mr": {
+      "hello": [["Kay mag?", "So, what's up?"], ["Kay re?", "Hey, what's up?"]],
+      "how_are_you": [["Kay vishesh?", "What's new?"]],
+      "fine": [["Ekdum bhari", "Really great"], ["Kadak", "Excellent, top"], ["Bhannat", "Fantastic (Pune slang)"]],
+      "friend": [["Bhau", "Brother, mate"], ["Kaka", "Uncle, to an older man"], ["Kaku", "Aunty, to an older woman"]],
+      "okay": [["Chalel", "That'll do"], ["Barobar", "Right, correct"]],
+      "auto": [["Meter taka", "Put the meter on"], ["Ithe thamba", "Stop here"]]
+    },
+    "bambaiya": {
+      "hello": [["Kya bolta, bhidu?", "What's up, mate?"]],
+      "fine": [["Ekdum jhakaas", "Totally awesome"], ["Bindaas", "All good, no worries"]],
+      "yes": [["Chalega", "That'll do, okay"]],
+      "no": [["Nahi re", "No"]],
+      "friend": [["Bhidu", "Mate"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hi, how are you?", "Morning! Had your chai?", "Hey, what's up?", "Hello kaka, all good?", "Hi! Long time, no see."],
+      "reply": ["All good, thanks. You?", "Fine, just back from Hinjewadi.", "Doing well, busy week.", "Good, good. How's college?", "Fine, survived the traffic."],
+      "sunny": ["Hot afternoon, but the evenings are lovely.", "Pune winter mornings are the best.", "Nice day for a trek to Sinhagad.", "It's warm today, grab a mastani.", "Clear sky, great for a walk on Vetal Tekdi."],
+      "rain": ["Monsoon's here, everyone is off to Lonavala.", "University Road is flooded again.", "Carry a raincoat if you are on the bike.", "Perfect weather for bhajji and chai.", "Khadakwasla must be full by now."],
+      "bye": ["Okay, bye, take care.", "Catch you later.", "See you at the weekend.", "Bye, ride safe.", "Let's meet on FC Road soon."],
+      "busy": ["Stuck at Wakad bridge, call you later.", "Running late for standup, talk in the evening.", "In a meeting, catch you later.", "Need to rush to Magarpatta, bye!", "Too busy today, tomorrow?"]
+    },
+    "mr": {
+      "greet": ["Namaskar, kase aahat?", "Kay mhantos?", "Kay re, kasa aahes?", "Kay vishesh?", "Chaha ghetla ka?"],
+      "reply": ["Mast, tu bol.", "Ekdum bhari.", "Bara aahe, tumhi kase aahat?", "Chalu aahe neet."],
+      "sunny": ["Aaj oon khup aahe.", "Punyachi thandi chhaan aste.", "Oon aahe, topi ghe.", "Sandhyakali chhan vaara sutlay."],
+      "rain": ["Paus aala, Sinhagad la jaaycha ka?", "Chhatri ghe, paus padtoy.", "Pavsat bhajji aani chaha pahije.", "Rasta purna bhijla."],
+      "bye": ["Yeto.", "Nantar bhetu.", "Chal, nighto.", "Kaalji ghe."],
+      "busy": ["Ushir zala, nantar bolu.", "Hinjewadi la traffic, nighto aata.", "Meeting aahe, nantar phone karto.", "Aata vel nahi re."]
+    },
+    "bambaiya": {
+      "greet": ["Kya bolta, bhidu?", "Kya re, kidhar?", "Arre boss, kya scene hai?", "Kaisa hai bhai?"],
+      "reply": ["Ekdum mast, tu bol.", "Bindaas, sab set hai.", "Jhakaas chal raha hai.", "Chalta hai boss."],
+      "sunny": ["Aaj garmi full hai re.", "Dopahar mein bahar nahi jaane ka.", "Shaam ko FC Road chal, mausam achha hai.", "Itni dhoop, mastani peete hai."],
+      "rain": ["Baarish shuru, Lonavala chalega?", "Raincoat leke nikal, bike pe bheeg jayega.", "Bhajji aur chai ka time hai.", "Road pe paani hi paani hai re."],
+      "bye": ["Chal, nikalta hoon.", "Milte hai, boss.", "Chal bhidu, baad mein.", "Kalti maarta hoon, bye."],
+      "busy": ["Abhi time nahi re, office jaana hai.", "Hinjewadi ka traffic, waat lag gayi.", "Meeting hai, baad mein call kar.", "Baad mein milte, abhi jhol hai."]
+    }
+  },
+  "transport": {
+    "bus": "PMPML bus",
+    "metro": "Pune Metro",
+    "tricycle": "rickshaw",
+    "taxi": "cab",
+    "ride_hail": "Uber or Ola",
+    "moto_taxi": "Rapido bike",
+    "train": "local to Lonavala",
+    "conductor": "conductor",
+    "stage": "bus stop"
+  },
+  "touts": [
+    "Swargate, Swargate!",
+    "Shivajinagar, Shivajinagar!",
+    "Hinjewadi Phase 1, chala!",
+    "Station, station!",
+    "Katraj, Katraj!",
+    "Mumbai, Dadar, shared cab!",
+    "Rickshaw pahije ka? Meter ne chalto."
+  ],
+  "hawkers": [
+    ["Garam vada pav!", "Hot vada pav!"],
+    ["Bhel, bhel!", "Bhel puri!"],
+    ["Chaha, garam chaha!", "Hot tea!"],
+    ["Bhutta, garam bhutta!", "Hot roasted corn!"],
+    ["Peru, peru!", "Guavas!"],
+    ["Kairi, tikhat-goad!", "Raw mango, spicy and sweet!"],
+    ["Usacha ras, thanda!", "Cold sugarcane juice!"]
+  ],
+  "food": {
+    "street": ["vada pav", "misal pav", "pani puri", "bhel", "sabudana vada", "kanda poha", "bun maska", "kanda bhaji"],
+    "dishes": ["Puneri misal", "pithla bhakri", "thalipeeth", "puran poli", "Maharashtrian thali", "Shrewsbury biscuits", "sabudana khichdi"],
+    "drinks": ["cutting chai", "amruttulya chai", "mastani", "sugarcane juice", "kokum sarbat", "Irani chai", "solkadhi"]
+  },
+  "places": {
+    "neighbourhoods": ["Koregaon Park", "Kothrud", "Hinjewadi", "Baner", "Aundh", "Viman Nagar", "Kalyani Nagar", "Deccan", "Shivajinagar", "Camp", "Hadapsar", "Wakad", "Kharadi", "Sadashiv Peth", "Magarpatta"],
+    "streets": ["FC Road", "JM Road", "MG Road", "Laxmi Road", "East Street", "Karve Road", "North Main Road", "Baner Road", "University Road"],
+    "landmarks": ["Shaniwar Wada", "Aga Khan Palace", "Sinhagad Fort", "Parvati Hill", "Savitribai Phule Pune University", "Vetal Tekdi", "Khadakwasla Dam", "Pune station", "Phoenix Marketcity", "Pataleshwar caves"]
+  },
+  "small_talk": [
+    "Hinjewadi traffic took an hour again today.",
+    "Misal for breakfast on Sunday? I know a good place in Kothrud.",
+    "Sinhagad trek this weekend if it does not rain too much.",
+    "FC Road is full of college kids every evening.",
+    "The metro to Shivajinagar is finally making life easier.",
+    "Laxmi Road before Diwali is total chaos.",
+    "Pune winters are so pleasant, you need a sweater in the morning.",
+    "Bun maska and chai at the Irani cafe in Camp.",
+    "Everyone is going to Lonavala this weekend for the monsoon."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Pune",
+    "https://en.wikipedia.org/wiki/Marathi_people",
+    "https://en.wikipedia.org/wiki/Pune_Metro",
+    "https://en.wikipedia.org/wiki/Misal_pav",
+    "https://en.wikipedia.org/wiki/Bombay_Hindi"
+  ]
+}

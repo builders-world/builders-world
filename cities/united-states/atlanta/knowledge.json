@@ -1,0 +1,84 @@
+{
+  "street": { "en": 0.9, "es": 0.06, "ko": 0.015, "zh": 0.015, "vi": 0.01 },
+  "registers": {},
+  "names": {
+    "weights": {
+      "african_american": 0.46,
+      "american": 0.33,
+      "latino": 0.08,
+      "indian": 0.03,
+      "korean": 0.03,
+      "chinese": 0.02,
+      "vietnamese": 0.015,
+      "west_indian": 0.015,
+      "ethiopian": 0.01,
+      "haitian": 0.005
+    }
+  },
+  "phrases": {
+    "en": {
+      "hello": [["Hey y'all!", "Hello, everyone"], ["Hey now!", "Hey there!"], ["What's the word?", "What's new?"]],
+      "how_are_you": [["How y'all doing?", "How are you all?"], ["You good?", "Are you okay? How are you?"]],
+      "fine": [["I'm blessed", "I'm doing well"], ["Bet", "Okay, sounds good"]],
+      "bye": [["Y'all be safe now", "Take care, all of you"], ["I'll holla at you", "I'll talk to you later"]],
+      "thanks": [["Thank you kindly", "Thank you very much"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hey y'all, how we doing today?", "Morning! You good?", "Heyyy, long time no see!", "Well hey there! How's your mama and them?", "Hey now! What's the word?"],
+      "reply": ["I'm blessed, can't complain.", "Doing good, doing good. You?", "Hanging in there, just trying to beat the heat.", "Bet, I'm good.", "All good over here, thanks for asking."],
+      "sunny": ["It is hot out here today, whew.", "Sun is out, Piedmont Park is about to be packed.", "Perfect day to walk the BeltLine.", "Pollen got everything yellow, but at least it's sunny.", "It's not the heat, it's the humidity, I'm telling you."],
+      "rain": ["Here comes one of those afternoon storms.", "It's pouring, 85 is about to be a parking lot.", "Grab an umbrella, it's coming down sideways.", "Rain's gonna wash the pollen off, at least.", "Flash flood warning again, be careful driving."],
+      "bye": ["Alright now, y'all be safe!", "Take it easy, I'll holla at you later.", "Have a blessed day!", "Bet, catch you later.", "See you round, drive safe on the Connector."],
+      "busy": ["Can't talk long, I've got to catch MARTA.", "Running late, 285 was backed up.", "I'm on my way to work, holla at you later.", "Gotta run, I've got a meeting in Midtown.", "Trying to make it to the game, talk soon!"]
+    },
+    "es": {
+      "greet": ["¡Buenos días! ¿Cómo le va?", "¡Hola! ¿Qué tal todo?", "¿Qué onda? ¿Cómo has estado?", "¡Buenas! ¿Cómo amaneció?"],
+      "reply": ["Muy bien, gracias.", "Aquí, echándole ganas.", "Todo bien, ¿y usted?", "Bien, bien, trabajando."],
+      "sunny": ["¡Qué calor hace hoy!", "Está bonito el día.", "Con este sol hay que tomar mucha agua.", "Hace un calor bien húmedo."],
+      "rain": ["Ya viene la tormenta.", "Está lloviendo fuerte, maneje con cuidado.", "Se nubló de repente.", "Traiga su paraguas, va a llover."],
+      "bye": ["¡Nos vemos!", "Cuídese mucho.", "Que le vaya bien.", "Hasta luego, ¡saludos a la familia!"],
+      "busy": ["Voy tarde al trabajo, luego hablamos.", "Ando con prisa, ¡nos vemos!", "Tengo que agarrar el bus, ¡bye!", "Ahorita no puedo, voy a recoger a los niños."]
+    }
+  },
+  "transport": { "bus": "MARTA bus", "train": "MARTA train", "streetcar": "Atlanta Streetcar", "taxi": "cab", "rideshare": "Uber or Lyft", "stage": "bus stop", "station": "MARTA station" },
+  "touts": ["Next stop, Five Points. Transfer to all lines.", "Water! Ice cold water, a dollar!", "Boiled peanuts, cajun or regular!", "Lemon pepper wings, come get 'em hot!", "Who needs tickets for the game tonight?"],
+  "hawkers": [
+    ["Ice cold water, one dollar!", "A water seller at a traffic light"],
+    ["Boiled peanuts!", "A roadside stand selling a Southern snack"],
+    ["Georgia peaches, fresh today!", "A fruit stand in summer"],
+    ["¡Elotes, elotes calientitos!", "Hot corn on the cob, on Buford Highway"],
+    ["¡Paletas de fruta!", "Fruit ice pops"]
+  ],
+  "food": {
+    "street": ["lemon pepper wings", "boiled peanuts", "chili dogs from The Varsity", "food truck tacos", "elotes on Buford Highway", "hot fried chicken sandwiches"],
+    "dishes": ["fried chicken", "shrimp and grits", "collard greens", "mac and cheese", "chicken and waffles", "peach cobbler", "banana pudding", "pho on Buford Highway", "Korean barbecue in Duluth"],
+    "drinks": ["sweet tea", "Coca-Cola", "lemonade", "Arnold Palmer", "a frosted orange at The Varsity"]
+  },
+  "places": {
+    "neighbourhoods": ["Midtown", "Buckhead", "Downtown", "Old Fourth Ward", "Inman Park", "Little Five Points", "East Atlanta Village", "West End", "Grant Park", "Virginia-Highland", "Kirkwood", "Decatur", "Castleberry Hill", "Summerhill", "Cabbagetown", "Sweet Auburn"],
+    "streets": ["Peachtree Street", "Ponce de Leon Avenue", "Auburn Avenue", "Buford Highway", "Peachtree Road", "Piedmont Avenue", "North Avenue", "Edgewood Avenue", "Memorial Drive", "Moreland Avenue", "Ralph David Abernathy Boulevard", "Joseph E. Lowery Boulevard", "the Downtown Connector", "I-285"],
+    "landmarks": ["the Atlanta BeltLine", "Piedmont Park", "Ponce City Market", "Centennial Olympic Park", "Georgia Aquarium", "World of Coca-Cola", "Mercedes-Benz Stadium", "State Farm Arena", "the Fox Theatre", "Martin Luther King Jr. National Historical Park", "Krog Street Market", "The Varsity", "Hartsfield-Jackson Atlanta International Airport", "Georgia Tech", "the Atlanta University Center"]
+  },
+  "small_talk": [
+    "Traffic on the Connector was crazy this morning.",
+    "Did you see how many people were out on the BeltLine Saturday?",
+    "The pollen count is off the charts, my car is yellow.",
+    "Are you ITP or OTP?",
+    "I'm getting lemon pepper wings after this, you want some?",
+    "Hartsfield was packed, took forty minutes to get through security.",
+    "Every other street in this city is called Peachtree something.",
+    "It's going to hit ninety-five today and the humidity is no joke.",
+    "You catching the Hawks game tonight?",
+    "Buford Highway has the best pho in the city, no question."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Atlanta",
+    "https://en.wikipedia.org/wiki/Demographics_of_Atlanta",
+    "https://www.itsmarta.com",
+    "https://beltline.org",
+    "https://en.wikipedia.org/wiki/Buford_Highway",
+    "https://en.wikipedia.org/wiki/Southern_American_English"
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "street": { "es": 0.88, "en": 0.12 },
+  "names": { "weights": { "spanish": 0.66, "latin_american": 0.2, "catalan": 0.02, "basque": 0.01, "moroccan": 0.04, "romanian": 0.04, "chinese": 0.03 } },
+  "chat": {
+    "en": {
+      "greet": ["Morning! How's it going?", "Hey! Good weekend?", "Hi, did you survive the Castellana traffic?", "Buenas! Coffee?", "Hey, long time no see!"],
+      "reply": ["Good, thanks! You?", "All good, bit tired.", "Not bad, can't complain.", "Great, thanks!", "Busy, but good busy."],
+      "sunny": ["Proper Madrid sun today.", "Terrace weather, a caña after work?", "It's thirty-five already, stay in the shade.", "Clear blue sky again, classic Madrid.", "Retiro this afternoon?"],
+      "rain": ["Finally some rain, the city needed it.", "Grab an umbrella, it's coming down.", "The metro will be rammed with everyone avoiding the rain.", "Everyone's sheltering under the awnings on Gran Vía.", "It never rains here, and then it pours."],
+      "bye": ["See you later!", "Hasta luego!", "Catch you tomorrow!", "Have a good one!", "Venga, bye!"],
+      "busy": ["Sorry, running for the metro!", "Can't stop, meeting in five.", "Late for a call, talk later!", "Got to dash, see you at lunch.", "Deadline today, catch you later!"]
+    },
+    "es": {
+      "greet": ["¡Buenas! ¿Qué pasa?", "¡Hola, tío! ¿Qué tal?", "¡Ey, tía! ¿Cómo vas?", "Buenos días, ¿qué tal todo?", "¿Qué pasa? ¿Cómo lo llevas?"],
+      "reply": ["Bien, aquí andamos. ¿Y tú?", "Todo guay, gracias.", "Pues nada, tirando.", "Muy bien, ¿y tú qué tal?"],
+      "sunny": ["¡Menudo calor hace hoy!", "Qué solazo. ¿Una caña en una terraza?", "Hace un día que mola mucho.", "Con este sol, al Retiro."],
+      "rain": ["Está cayendo una buena.", "Coge paraguas, que llueve.", "Qué día más feo, ¿eh?", "Con la lluvia el metro va hasta arriba."],
+      "bye": ["¡Venga, hasta luego!", "¡Nos vemos, tío!", "Vale, ¡chao!", "¡Hasta mañana!"],
+      "busy": ["Perdona, voy con prisa, ¡luego te llamo!", "No puedo pararme, que pierdo el metro.", "Tengo reunión en cinco minutos, ¡hablamos!", "Voy fatal de tiempo, ¡otro día!"]
+    }
+  },
+  "transport": {
+    "bus": "autobús (EMT)",
+    "moto_taxi": "patinete, moto compartida",
+    "tricycle": "bicitaxi",
+    "taxi": "taxi (blanco con franja roja)",
+    "conductor": "revisor",
+    "stage": "parada",
+    "metro": "metro",
+    "tram": "Metro Ligero",
+    "train": "Cercanías",
+    "bike_share": "BiciMAD",
+    "ride_hail": "Cabify, Uber"
+  },
+  "touts": [
+    "Próxima estación: Sol. Correspondencia con líneas 2 y 3 y Cercanías.",
+    "¡Para hoy, me quedan para hoy!",
+    "¡Castañas calentitas, recién asadas!",
+    "¡Todo a un euro, todo a un euro!",
+    "An accordion player gets on at Ópera and plays all the way to Sol.",
+    "¡Barquillos, barquillos!"
+  ],
+  "hawkers": [
+    ["¡Castañas calentitas!", "Hot chestnuts!"],
+    ["¡Para hoy, me quedan para hoy!", "Lottery tickets for today!"],
+    ["¡Todo a un euro!", "Everything one euro! (El Rastro)"],
+    ["¡Barquillos, barquillos!", "Wafer rolls! (at San Isidro)"],
+    ["¡Agua fresquita, un euro!", "Cold water, one euro!"],
+    ["¡Mira qué tomates, guapa!", "Look at these tomatoes, love!"]
+  ],
+  "food": {
+    "street": ["bocadillo de calamares", "churros con chocolate", "porras", "patatas bravas", "oreja a la plancha", "torreznos", "croquetas", "pincho de tortilla"],
+    "dishes": ["cocido madrileño", "callos a la madrileña", "huevos rotos", "sopa de ajo", "tortilla de patatas", "gallinejas", "rosquillas de San Isidro"],
+    "drinks": ["caña", "vermut de grifo", "café con leche", "tinto de verano", "clara", "chocolate caliente"]
+  },
+  "places": {
+    "neighbourhoods": ["Malasaña", "Chueca", "Lavapiés", "La Latina", "Chamberí", "Salamanca", "Retiro", "Barrio de las Letras", "Argüelles", "Tetuán", "Usera", "Carabanchel", "Arganzuela"],
+    "streets": ["Gran Vía", "Calle de Alcalá", "Paseo de la Castellana", "Calle Mayor", "Calle de Fuencarral", "Calle de Serrano", "Calle de Atocha", "Paseo del Prado", "Calle de la Princesa", "Calle de Toledo"],
+    "landmarks": ["Puerta del Sol", "Plaza Mayor", "Parque del Retiro", "Palacio Real", "Museo del Prado", "Templo de Debod", "Mercado de San Miguel", "Santiago Bernabéu", "Cuatro Torres", "El Rastro", "Madrid Río", "Casa de Campo"]
+  },
+  "small_talk": [
+    "The Castellana was gridlocked again this morning.",
+    "Line 6 is the circle line, you'll get there eventually.",
+    "Off to El Rastro on Sunday, anyone coming?",
+    "August here, everyone's left for the coast.",
+    "San Isidro is coming, chotis and rosquillas in the park.",
+    "Best bocadillo de calamares is round Plaza Mayor.",
+    "You can see the Cuatro Torres from the office, never gets old.",
+    "Malasaña on a Friday is packed till late.",
+    "Dinner at ten is early here.",
+    "Sunset at the Templo de Debod tonight?"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Madrid",
+    "https://en.wikipedia.org/wiki/BiciMAD",
+    "https://www.emtmadrid.es/",
+    "https://www.metromadrid.es/",
+    "https://www.madrid.es/"
+  ]
+}

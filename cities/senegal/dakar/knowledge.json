@@ -1,0 +1,91 @@
+{
+  "street": { "wo": 0.7, "fr": 0.25, "en": 0.05 },
+  "registers": {},
+  "names": { "weights": { "wolof": 0.5, "pulaar": 0.22, "serer": 0.15, "diola": 0.08, "mandinka": 0.05 } },
+  "phrases": {
+    "wo": {
+      "hello": [["Salaam aleekum", "Peace be upon you"], ["Lu bees?", "What's new?"], ["Nanga def?", "How are you?"]],
+      "fine": [["Mangi fi rekk", "I'm here, all fine"], ["Dara bees", "Nothing new"], ["Jàmm rekk", "Peace only"]],
+      "thanks": [["Jërëjëf", "Thank you"], ["Jërëjëf, goorgui", "Thanks, sir"]],
+      "bye": [["Ba beneen yoon", "Until next time"], ["Ba ci kanam", "See you later"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Salaam aleekum! How is the family?", "Morning! Did you sleep well?", "Hello, how is work going?", "Good evening, how was the day?", "Ah, it's been a long time! Are you well?"],
+      "reply": ["All good, thank God. And you?", "Fine, the family is well.", "We're here, just fine.", "Not bad at all, thanks.", "Doing well, thanks for asking."],
+      "sunny": ["It's hot today, the Corniche will be packed.", "Perfect day for the beach at Ngor.", "This sun is strong, find some shade.", "Beautiful sky over the ocean today.", "Too hot for the car rapide, I'll take a taxi."],
+      "rain": ["The rains have arrived, hivernage is here.", "The streets in Médina will be flooded after this.", "Carry an umbrella, the sky over Yoff is dark.", "This rain is good for the farmers in the Sine.", "Wait a bit, it will pass."],
+      "bye": ["Until next time!", "See you tomorrow, God willing.", "Go in peace.", "Greet the family for me.", "Safe journey home."],
+      "busy": ["Sorry, I'm rushing to catch the TER.", "I'm late for work, let's talk later.", "Traffic on the VDN, I have to go now.", "I'll call you, I have a meeting at the Plateau.", "Let me run, the car rapide is leaving."]
+    },
+    "wo": {
+      "greet": ["Salaam aleekum! Nanga def?", "Nanga fanaan? Jàmm rekk?", "Naka waa kër ga?", "Goorgui, nanga def?", "Lu bees, sama xarit?"],
+      "reply": ["Mangi fi rekk, alhamdoulilah.", "Jàmm rekk, jërëjëf.", "Mangi fi, yow nag?", "Dara bees, mangi fi.", "Ñu ngi fi rekk."],
+      "sunny": ["Tey dafa tàng lool!", "Naaj wi dafa metti tey.", "Bés bu rafet la.", "Tàngaay bi dafa metti!"],
+      "rain": ["Taw bi ñëw na!", "Dina taw tey.", "Nawet bi ñëw na!", "Mbedd mi fees na ndox."],
+      "bye": ["Ba beneen yoon!", "Ba suba, inchallah.", "Ba ci kanam!", "Fanaanal ak jàmm."],
+      "busy": ["Dama yàkkamti, ba ci kanam!", "Dama am rendez-vous, ma dem.", "Liggéey bi bari na tey.", "Maa ngi dem marse, ba ci kanam."]
+    },
+    "fr": {
+      "greet": ["Bonjour, ça va? Et la famille?", "Bonsoir! Ça fait longtemps!", "Salut, tu vas bien?", "Bonjour patron, ça va?"],
+      "reply": ["Ça va, alhamdoulilah.", "Ça va bien, on rend grâce à Dieu.", "On est là, merci.", "Très bien, et toi?"],
+      "sunny": ["Il fait chaud aujourd'hui!", "Belle journée pour la plage.", "Le soleil tape fort ce matin.", "Il fait beau sur la Corniche."],
+      "rain": ["L'hivernage est arrivé!", "Il va pleuvoir, prends un parapluie.", "Avec cette pluie, les rues vont être inondées.", "La pluie a commencé à Pikine."],
+      "bye": ["À tout à l'heure!", "À demain, inchallah.", "Bonne journée!", "Salue la famille."],
+      "busy": ["Je suis pressé, on se parle plus tard.", "Je suis en retard pour le boulot.", "Le TER part bientôt, je file!", "Je t'appelle ce soir."]
+    }
+  },
+  "transport": { "bus": "car rapide", "moto_taxi": "Jakarta", "tricycle": "", "taxi": "taxi", "shared_taxi": "clando", "conductor": "apprenti", "stage": "garage" },
+  "touts": [
+    "Colobane! Colobane!",
+    "Palais, Palais! Plateau!",
+    "Petersen! Petersen!",
+    "Liberté 6, Parcelles!",
+    "Yoff, Ouakam!",
+    "Pikine, Guédiawaye!",
+    "Ngor, Almadies!",
+    "Am na place! Ñaari place!"
+  ],
+  "hawkers": [
+    ["Café Touba! Café Touba!", "Spiced Touba coffee!"],
+    ["Ndox bu sedd!", "Cold water!"],
+    ["Bissap bu sedd!", "Cold hibiscus juice!"],
+    ["Fataya! Fataya!", "Fried pastries!"],
+    ["Gerte caaf!", "Roasted peanuts!"],
+    ["Mburu ak ndambé!", "Bread with bean stew!"],
+    ["Thiakry bu sedd!", "Cold millet and yoghurt dessert!"],
+    ["Crédit! Crédit!", "Phone credit!"]
+  ],
+  "food": {
+    "street": ["dibi (grilled lamb)", "fataya", "accara", "ndambé sandwich", "café Touba", "thiakry", "pastels", "chawarma", "roasted peanuts"],
+    "dishes": ["thiéboudienne (ceebu jën)", "yassa poulet", "mafé", "thiébou yapp", "domoda", "soupou kandja", "thiéré", "caldou", "lakh"],
+    "drinks": ["bissap", "bouye (baobab juice)", "gingembre (ginger juice)", "café Touba", "ataya (green tea, three rounds)", "ditakh juice"]
+  },
+  "places": {
+    "neighbourhoods": ["Plateau", "Médina", "Fann", "Point E", "Mermoz", "Sacré-Cœur", "Ouakam", "Ngor", "Yoff", "Almadies", "Liberté 6", "Grand Yoff", "Parcelles Assainies", "HLM", "Colobane", "Gueule Tapée", "Pikine", "Guédiawaye"],
+    "streets": ["Avenue Cheikh Anta Diop", "Corniche Ouest", "VDN (Voie de Dégagement Nord)", "Avenue Bourguiba", "Avenue Blaise Diagne", "Avenue Lamine Guèye", "Avenue Georges Pompidou", "Route de Ouakam", "Boulevard du Général de Gaulle", "Autoroute à péage"],
+    "landmarks": ["Monument de la Renaissance africaine", "Marché Sandaga", "Marché Kermel", "Place de l'Indépendance", "Île de Gorée", "Mosquée de la Divinité", "Phare des Mamelles", "Université Cheikh Anta Diop", "Gare de Dakar (TER)", "Musée des Civilisations noires", "Plage de Ngor", "Pointe des Almadies", "Soumbédioune fish market", "Village des Arts"]
+  },
+  "small_talk": [
+    "The car rapide to Colobane took ages this morning.",
+    "The TER from Diamniadio is so smooth now.",
+    "The Corniche is the best place to jog at sunset.",
+    "Sandaga is packed, everyone is shopping before Tabaski.",
+    "Ataya after lunch, three rounds as usual?",
+    "Traffic on the VDN again, I left an hour early for nothing.",
+    "The harmattan dust is back, my car is covered.",
+    "Fresh fish at Soumbédioune this evening.",
+    "There is wrestling at the arena on Sunday, are you going?",
+    "The Gorée ferry was full of school trips today."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Dakar",
+    "https://en.wikipedia.org/wiki/Car_rapide",
+    "https://en.wikipedia.org/wiki/Senegalese_cuisine",
+    "https://en.wikipedia.org/wiki/Thieboudienne",
+    "https://en.wikipedia.org/wiki/Caf%C3%A9_Touba",
+    "https://en.wikipedia.org/wiki/African_Renaissance_Monument",
+    "https://en.wikipedia.org/wiki/Wolof_language"
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "street": { "it": 0.86, "en": 0.14 },
+  "registers": {
+    "milanes": { "name": "Milanese", "about": "The old Lombard dialect of Milan. Few young people speak it in full, but its words and greetings are everywhere in Milanese Italian." }
+  },
+  "names": { "weights": { "italian": 0.76, "egyptian": 0.04, "filipino": 0.04, "chinese": 0.04, "peruvian": 0.03, "romanian": 0.03, "albanian": 0.02, "moroccan": 0.02, "sri_lankan": 0.02 } },
+  "phrases": {
+    "milanes": {
+      "hello": [["Uela!", "Hey!"], ["Ciao bèla!", "Hi there! (said to anyone, man or woman)"]],
+      "how_are_you": [["Come la va?", "How's it going?"]],
+      "fine": [["La va ben", "It's going well"]],
+      "thanks": [["Grazie, neh!", "Thanks, eh!"]],
+      "bye": [["Ciao neh!", "Bye then!"], ["Ciao bèla!", "Bye!"]],
+      "other": [["Andemm!", "Let's go!"], ["Taac!", "Done, there you go!"], ["Sciur", "Sir"], ["Sciura", "Madam"], ["Te capì?", "Got it?"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! How's it going?", "Hey, ciao! Coffee at the bar?", "Hi! Good weekend?", "Ciao! All good?", "Hey, long time no see!"],
+      "reply": ["Good, thanks! You?", "All good, bit tired.", "Not bad at all.", "Great, thanks!", "Busy, but good."],
+      "sunny": ["You can see the Alps from the office today!", "Aperitivo on the Navigli later?", "Lovely day, let's eat outside.", "Finally some sun after all that fog.", "Parco Sempione at lunch?"],
+      "rain": ["Proper fog this morning, couldn't see the end of the street.", "Grab an umbrella, it's pouring.", "The tram will be packed in this rain.", "Grey and wet, classic Milan November.", "The umbrella sellers appeared out of nowhere again."],
+      "bye": ["Ciao ciao!", "See you tomorrow!", "Catch you later!", "Have a good evening!", "Bye, see you at aperitivo!"],
+      "busy": ["Sorry, running for the metro!", "Can't stop, call in five.", "Late for a meeting, talk later!", "Got to dash, see you at lunch.", "Deadline today, catch you later!"]
+    },
+    "it": {
+      "greet": ["Ciao! Come va?", "Buongiorno! Tutto bene?", "Uela, ciao! Come stai?", "Ciao bella, da quanto tempo!", "Ehi, ciao! Caffè?"],
+      "reply": ["Tutto bene, grazie! E tu?", "Bene dai, si va avanti.", "Benissimo, grazie!", "Tutto a posto, tu?"],
+      "sunny": ["Che bella giornata oggi!", "Con questo sole, aperitivo sui Navigli?", "Oggi si vedono le montagne!", "Fa un caldo oggi!"],
+      "rain": ["Piove di nuovo, che tempo!", "Prendi l'ombrello, viene giù forte.", "C'è una nebbia stamattina, non si vede niente.", "Con la pioggia il tram è pienissimo."],
+      "bye": ["Ciao, a dopo!", "Ci vediamo!", "Ciao ciao, buona serata!", "A domani!"],
+      "busy": ["Scusa, sono di corsa, ci sentiamo dopo!", "Non posso, ho una call tra cinque minuti!", "Devo scappare, perdo la metro!", "Sono in ritardo, ti scrivo dopo!"]
+    }
+  },
+  "transport": {
+    "bus": "autobus (ATM)",
+    "moto_taxi": "monopattino",
+    "tricycle": "risciò",
+    "taxi": "taxi (bianco)",
+    "conductor": "controllore",
+    "stage": "fermata",
+    "tram": "tram",
+    "metro": "metropolitana, metro",
+    "train": "treno (Trenord, Passante)",
+    "bike_share": "BikeMi",
+    "ride_hail": "Uber, taxi app"
+  },
+  "touts": [
+    "Prossima fermata: Duomo. Interscambio con la linea M3.",
+    "Attenzione: allontanarsi dalla linea gialla.",
+    "Venite, venite, tutto a cinque euro!",
+    "Caldarroste, caldarroste calde!",
+    "Ombrelli, ombrelli, cinque euro!",
+    "A busker plays the violin under the glass roof of the Galleria."
+  ],
+  "hawkers": [
+    ["Caldarroste calde!", "Hot roasted chestnuts!"],
+    ["Tutto a cinque euro!", "Everything five euros! (street market)"],
+    ["Assaggi, signora, assaggi!", "Have a taste, madam!"],
+    ["Ombrelli, cinque euro!", "Umbrellas, five euros!"],
+    ["Fiori freschi, tre mazzi dieci euro!", "Fresh flowers, three bunches for ten!"],
+    ["Arance dolci, dolcissime!", "Sweet oranges, really sweet!"]
+  ],
+  "food": {
+    "street": ["panzerotto", "piadina", "focaccia", "pizza al trancio", "tramezzino", "arancino", "gelato", "brioche"],
+    "dishes": ["risotto alla milanese", "cotoletta alla milanese", "ossobuco", "cassoeula", "mondeghili", "minestrone alla milanese", "panettone"],
+    "drinks": ["caffè", "cappuccino", "spritz", "Negroni sbagliato", "Campari", "acqua frizzante", "Prosecco"]
+  },
+  "places": {
+    "neighbourhoods": ["Brera", "Navigli", "Isola", "Porta Romana", "Porta Venezia", "NoLo", "Città Studi", "Lambrate", "CityLife", "Porta Nuova", "Paolo Sarpi", "Bicocca", "Tortona", "Sempione"],
+    "streets": ["Corso Buenos Aires", "Via Montenapoleone", "Corso Como", "Via Torino", "Corso Vittorio Emanuele II", "Via Paolo Sarpi", "Corso di Porta Ticinese", "Alzaia Naviglio Grande", "Via Dante"],
+    "landmarks": ["Duomo di Milano", "Galleria Vittorio Emanuele II", "Castello Sforzesco", "Teatro alla Scala", "Bosco Verticale", "Piazza Gae Aulenti", "Stazione Centrale", "San Siro", "Arco della Pace", "Parco Sempione", "Torre Velasca", "Pirellone", "Santa Maria delle Grazie"]
+  },
+  "small_talk": [
+    "The M1 was rammed this morning.",
+    "Design Week next month, the whole city turns into a party.",
+    "Aperitivo at seven on the Navigli?",
+    "The fog in November here is something else.",
+    "Milan is empty in August, everyone's at the seaside.",
+    "The queue at Luini for panzerotti went round the corner.",
+    "You can see the Alps today, the sky is so clear.",
+    "Tram 1 is still the old orange one, I love it.",
+    "Derby this weekend, the whole office is split.",
+    "Panettone in the shops already and it's only October."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Milan",
+    "https://en.wikipedia.org/wiki/Milanese_dialect",
+    "https://www.atm.it/",
+    "https://www.comune.milano.it/"
+  ]
+}

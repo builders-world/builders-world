@@ -1,3 +1,4 @@
+import { nameFor } from './knowledge.js';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { shared } from '../shaders.js';
@@ -338,14 +339,15 @@ export function buildProps(world, scene, { lowQuality = false, reduced = false }
   interact.push({ id: 'board', label: 'Open community board', x: boardPos.x - N.x * 1.8, z: boardPos.z - N.z * 1.8, r: 4.2 });
 
   // two builders reading it
-  [['Kemi', '#3a8f6d', 'jacket', -1.0], ['Tunde', '#2d3f66', 'hoodie', 1.1]].forEach(([name, color, style, o]) => {
+  // (named as people are in this city: look/knowledge.js)
+  [[nameFor('board-a', 'f')?.first || 'Kemi', '#3a8f6d', 'jacket', -1.0, true], [nameFor('board-b', 'm')?.first || 'Tunde', '#2d3f66', 'hoodie', 1.1, false]].forEach(([name, color, style, o, fem]) => {
     const av = createAvatarModel({ color, style });
     const p = at(bSpot.a + o, bSpot.c - 1.7);
     av.root.position.set(p.x, 0, p.z);
     av.root.rotation.y = Math.atan2(N.x, N.z);
     root.add(av.root);
-    prepareLook(av.root); const brig = rigAvatar(av.root); dress(av.root, { ...lookFor(name, { fem: name === 'Kemi', tier: 1 }), topColor: color }, brig);
-    builders.push({ name, obj: av.root, live: true, dispose: av.dispose, rig: brig, tier: name === 'Kemi' ? 1 : 2 });
+    prepareLook(av.root); const brig = rigAvatar(av.root); dress(av.root, { ...lookFor(name, { fem, tier: 1 }), topColor: color }, brig);
+    builders.push({ name, obj: av.root, live: true, dispose: av.dispose, rig: brig, tier: fem ? 1 : 2 });
     interact.push({ id: `npc:${name}`, label: `Say hi to ${name}`, x: p.x, z: p.z, r: 2.2 });
   });
 

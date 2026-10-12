@@ -1,0 +1,108 @@
+{
+  "street": { "nl": 0.55, "en": 0.33, "straattaal": 0.12 },
+  "registers": {
+    "straattaal": { "name": "Straattaal", "about": "Amsterdam's young street talk: Dutch mixed with words from Sranan, Papiamento, Moroccan Arabic, Berber and English. Mattie, fissa, doekoe." }
+  },
+  "names": { "weights": { "dutch": 0.5, "moroccan_dutch": 0.1, "turkish_dutch": 0.05, "surinamese": 0.09, "antillean": 0.02, "indonesian_dutch": 0.04, "international": 0.2 } },
+  "phrases": {
+    "straattaal": {
+      "hello": [["Ewa mattie!", "Hey mate!"], ["Fawaka?", "What's up? (Sranan)"], ["Yo, alles goed?", "Yo, all good?"]],
+      "how_are_you": [["Hoe is het, mattie?", "How's it going, mate?"], ["Fawaka?", "What's going on?"]],
+      "fine": [["Alles chill", "All chill"], ["Alles top", "All great"], ["Gewoon rustig", "Just calm"]],
+      "thanks": [["Dankje mattie", "Thanks, mate"], ["Respect", "Respect, thanks"]],
+      "bye": [["Ga ik doen, later!", "Will do, later!"], ["Later mattie!", "Later, mate!"], ["Doei doei!", "Bye bye!"]],
+      "party": [["Fissa vanavond?", "Party tonight?"]],
+      "money": [["Geen doekoe, man", "No cash, man"]],
+      "shoes": [["Nieuwe patta's!", "New sneakers!"]],
+      "car": [["Die waggie is hard", "That car is sick"]],
+      "broke": [["Ik ben skeer", "I'm broke"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hi! Did you cycle in through all that wind?", "Morning! Coffee before standup?", "Hey, welcome to Amsterdam!", "Hello! Are you at the meetup in Noord tonight?", "Hi there, lovely to finally meet in person!"],
+      "reply": ["All good, thanks, still learning to dodge tourists in the bike lane.", "Great, just found a flat, after four months.", "Fine thanks, bit windswept.", "Pretty good, how about you?", "Not bad, the ferry was lovely this morning."],
+      "sunny": ["Sun's out, the whole city will be on the canals.", "Perfect day for the Vondelpark.", "Terrace weather, finally.", "Gorgeous, let's take lunch outside by the IJ.", "Sunny and no wind, a miracle."],
+      "rain": ["Rain and headwind, the classic Amsterdam combo.", "Raining sideways again.", "Grab your rain trousers, it's coming down.", "Wet day, perfect for a brown café.", "The Buienradar says it stops in ten minutes. Sure."],
+      "bye": ["See you later!", "Bye, have a nice evening!", "Doei! As they say here.", "Take care, see you at the borrel!", "Ciao, enjoy the weekend!"],
+      "busy": ["Sorry, got a call in five, catch you later!", "Running for the ferry, talk soon!", "Late for a demo at the office, see you!", "Busy day, let's grab a coffee tomorrow?", "Can't stop, my bike's parked badly!"]
+    },
+    "nl": {
+      "greet": ["Hoi! Alles goed?", "Goedemorgen! Lekker geslapen?", "Hé, hoe is het?", "Hallo! Lang niet gezien!", "Hoi! Ook op weg naar kantoor?"],
+      "reply": ["Goed, en met jou?", "Prima, dank je!", "Lekker, alles goed.", "Gaat wel, beetje moe.", "Top, dank je wel!"],
+      "sunny": ["Wat een lekker weertje!", "Zonnetje, terrasje pakken?", "Prachtig weer, het Vondelpark ligt vol.", "Eindelijk zon, heerlijk!", "Bootje varen vandaag?"],
+      "rain": ["Het regent weer, echt Hollands weer.", "Tegenwind en regen, lekker hoor.", "Neem je regenjas mee.", "Het plenst, ik blijf binnen.", "Volgens Buienradar is het zo droog."],
+      "bye": ["Doei!", "Tot straks!", "Fijne avond!", "Tot morgen!", "Doei doei, fijn weekend!"],
+      "busy": ["Sorry, ik moet rennen!", "Ik heb zo een meeting, doei!", "Ik mis mijn pont, tot later!", "Geen tijd, ik app je!", "Ik ben te laat, sorry!"]
+    },
+    "straattaal": {
+      "greet": ["Ewa mattie, alles goed?", "Fawaka, broer?", "Yo, lang niet gezien!", "Ewa, hoe is het?", "Yo mattie, wat ga je doen?"],
+      "reply": ["Alles chill, en jij?", "Gewoon rustig, mattie.", "Alles top, dankje.", "Chill, chill.", "Alles goed, broer!"],
+      "sunny": ["Zon is lit vandaag!", "Mooi weer, fissa in het park?", "Hard warm, mattie!", "Chill weer, we gaan naar buiten.", "Zonnetje, ik trek mijn nieuwe patta's aan."],
+      "rain": ["Serieus, weer regen?", "Regen, mijn patta's zijn kapot.", "Natte dag, ik blijf in de osso.", "Regen, mattie, ik ga niet naar buiten.", "Alles nat, ik ga chillen binnen."],
+      "bye": ["Later mattie!", "Ga ik doen, doei!", "Yo, spreek je!", "Later broer!", "Doei doei, mattie!"],
+      "busy": ["Ik moet gaan, spreek je later!", "Geen tijd mattie, ik ben laat!", "Ik moet rennen, later!", "Druk druk, ik app je!", "Moet werken, spreek je!"]
+    }
+  },
+  "transport": {
+    "bus": "bus",
+    "moto_taxi": "deelscooter",
+    "tricycle": "fietstaxi",
+    "taxi": "taxi",
+    "conductor": "controleur",
+    "stage": "halte",
+    "tram": "tram",
+    "metro": "metro",
+    "train": "trein",
+    "ferry": "pont",
+    "bike_share": "OV-fiets",
+    "ride_hail": "Uber",
+    "card": "OV-chipkaart",
+    "bike": "fiets"
+  },
+  "touts": [
+    "Volgende halte: Leidseplein.",
+    "Let op: bij deze halte kunt u niet uitstappen.",
+    "Vergeet niet uit te checken.",
+    "Hé, kijk uit! Fietspad!",
+    "Daklozenkrant, de Straatkrant! Fijne dag!",
+    "Kaas proeven, kom maar binnen!",
+    "Mind the gap between the train and the platform."
+  ],
+  "hawkers": [
+    ["Verse stroopwafels, warm van de plaat!", "Fresh stroopwafels, warm off the iron!"],
+    ["Hollandse nieuwe, vers binnen!", "New season herring, just in!"],
+    ["Drie kilo mandarijnen, twee euro!", "Three kilos of mandarins, two euros!"],
+    ["Kibbeling, lekker warm!", "Battered fish bites, nice and hot!"],
+    ["Oliebollen, tien voor tien euro!", "Doughnut balls, ten for ten euros! (around New Year)"],
+    ["Bloemen, twee bossen vijf euro!", "Flowers, two bunches five euros!"]
+  ],
+  "food": {
+    "street": ["haring met uitjes", "kibbeling", "patat met mayo", "kroket uit de muur (FEBO)", "stroopwafel", "broodje bal", "Surinaams broodje pom", "oliebollen", "poffertjes"],
+    "dishes": ["stamppot", "bitterballen", "erwtensoep", "rijsttafel", "roti", "kapsalon", "pannenkoeken", "appeltaart met slagroom", "hutspot"],
+    "drinks": ["biertje", "Heineken", "koffie verkeerd", "jenever", "Fristi", "chocomel", "fresh mint tea", "speciaalbier"]
+  },
+  "places": {
+    "neighbourhoods": ["De Jordaan", "De Pijp", "Oud-West", "Noord", "Oost", "Zuidas", "Bos en Lommer", "De Wallen", "Westerpark", "Indische Buurt", "Bijlmer", "Grachtengordel", "Oostelijk Havengebied", "Nieuw-West"],
+    "streets": ["Damrak", "Kalverstraat", "Prinsengracht", "Herengracht", "Keizersgracht", "Albert Cuypstraat", "Haarlemmerstraat", "Utrechtsestraat", "Ferdinand Bolstraat", "Javastraat", "Overtoom", "Spuistraat"],
+    "landmarks": ["Centraal Station", "Rijksmuseum", "Van Gogh Museum", "Dam Square", "Anne Frank Huis", "Vondelpark", "EYE Filmmuseum", "A'DAM Toren", "NDSM-werf", "Albert Cuypmarkt", "Johan Cruijff ArenA", "Westerkerk"]
+  },
+  "small_talk": [
+    "The ferry to Noord was packed with bikes again.",
+    "My bike got stolen, third one this year.",
+    "Took me six months to find a flat, and it's in Diemen.",
+    "Tourists keep walking in the bike lane on the Damrak.",
+    "The Albert Cuyp has the best stroopwafels, don't argue.",
+    "King's Day is coming, everyone's buying orange.",
+    "Everyone at the Zuidas switches to English the second you hesitate.",
+    "The Noord/Zuidlijn changed my commute completely.",
+    "Headwind both ways, how is that even possible?"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Amsterdam",
+    "https://en.wikipedia.org/wiki/Straattaal",
+    "https://www.gvb.nl/",
+    "https://en.wikipedia.org/wiki/Boroughs_of_Amsterdam",
+    "https://www.ns.nl/en/door-to-door/ov-fiets"
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "languages": [
+    { "code": "mfe", "name": "Mauritian Creole (Kreol Morisien)", "official": false, "spoken": "widely" },
+    { "code": "fr", "name": "French", "official": false, "spoken": "widely" },
+    { "code": "en", "name": "English", "official": true, "spoken": "some" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Mauritius is a mix of communities and names show it. Hindu Mauritians, mostly descended from Bhojpuri-speaking indentured workers, carry Indian first names with surnames spelled the colonial way (Beeharry, Seechurn, Ramlogun). Tamil and Telugu families have their own surnames (Pillay, Moorghen, Veerasamy, Appadoo). Muslim Mauritians carry Arabic and Indian Muslim names, again with Mauritian spellings (Shafick, Jaufeerally). Creoles mostly have French first names and French surnames, often double first names like Jean-Marc or Marie-Claire. Sino-Mauritians usually have a French or English first name with a Hakka surname (Ah-Kee, Lam, Wong). Franco-Mauritians have French names. English is the language of law and government, but everyone speaks Kreol and most use French too; Bhojpuri is still heard in villages and among older people.",
+    "groups": {
+      "hindu_mauritian": {
+        "given": {
+          "m": ["Ravi", "Vikash", "Anil", "Rajesh", "Kavish", "Yashvin", "Nitin", "Ashvin", "Dev", "Sanjay", "Kunal", "Pravin", "Rishi", "Vinay"],
+          "f": ["Priya", "Anjali", "Kavita", "Pooja", "Neha", "Shalini", "Divya", "Nishta", "Vandana", "Sharmila", "Reshma", "Swati", "Teena", "Bhavna"]
+        },
+        "family": ["Ramdin", "Beeharry", "Gopaul", "Seechurn", "Boodhoo", "Dookhun", "Gungadin", "Ramlogun", "Rughoobur", "Jhurry", "Seetohul", "Mohabeer", "Teeluck", "Ramdhony"]
+      },
+      "tamil_mauritian": {
+        "given": {
+          "m": ["Kumaren", "Selven", "Ganesh", "Saravanen", "Vimal", "Prakash", "Rajen", "Karthik", "Dinesh", "Sivan", "Arjoon", "Mooroogen"],
+          "f": ["Kavitha", "Lakshmi", "Meena", "Devi", "Priyanka", "Shanthi", "Pavitra", "Nalini", "Revathi", "Kamala", "Saranya", "Anitha"]
+        },
+        "family": ["Pillay", "Moorghen", "Veerasamy", "Moonsamy", "Ramasawmy", "Mootoosamy", "Arnasalon", "Coopen", "Valaydon", "Kistnen", "Govinden", "Chinapen", "Appadoo"]
+      },
+      "muslim_mauritian": {
+        "given": {
+          "m": ["Imran", "Ahmad", "Faizal", "Irfan", "Yusuf", "Bilal", "Nawaz", "Shabir", "Zaid", "Arshad", "Adil", "Shafick", "Raffick", "Rehaan"],
+          "f": ["Aisha", "Fatima", "Nazia", "Yasmin", "Shaheen", "Zaynab", "Ruksana", "Nadia", "Sabrina", "Hafsa", "Mariam", "Shenaz", "Farzana"]
+        },
+        "family": ["Dauhoo", "Peerbux", "Jaufeerally", "Hosany", "Sookia", "Ramjaun", "Goolamaully", "Joomun", "Ackbarally", "Emambocus", "Mohamed", "Sumodhee"]
+      },
+      "creole": {
+        "given": {
+          "m": ["Jean-Marc", "Stéphane", "Jonathan", "Kevin", "Patrick", "Fabrice", "Jérémie", "Jean-Claude", "Gilbert", "Ludovic", "Didier", "Christopher", "Dylan", "Bruno"],
+          "f": ["Marie-Claire", "Nathalie", "Sandra", "Vanessa", "Mélanie", "Sabrina", "Jessica", "Josiane", "Cindy", "Natacha", "Marie-Laure", "Priscilla", "Laura"]
+        },
+        "family": ["Augustin", "Bégué", "Casimir", "Désiré", "Félicité", "Jean-Louis", "Labonne", "Lafleur", "Laval", "Prosper", "Pierre-Louis", "Ravina", "Agathe", "Joseph"]
+      },
+      "sino_mauritian": {
+        "given": {
+          "m": ["Michael", "Patrick", "Jean-Pierre", "Eric", "Steven", "David", "Alain", "Kevin", "Christian", "Jason", "Philippe", "Raymond"],
+          "f": ["Christine", "Michelle", "Caroline", "Sylvie", "Melissa", "Jenny", "Valérie", "Vanessa", "Annie", "Karen", "Stéphanie", "Josée"]
+        },
+        "family": ["Ah-Chuen", "Ah-Kee", "Ah-Sing", "Chan", "Chung", "Fok", "Lai", "Lam", "Lee", "Leung", "Ng", "Wong", "Yip"]
+      },
+      "franco_mauritian": {
+        "given": {
+          "m": ["Jean", "Pierre", "Olivier", "Christophe", "Thierry", "Guillaume", "Arnaud", "Laurent", "Antoine", "Nicolas", "Hugues", "Marc"],
+          "f": ["Anne", "Caroline", "Sophie", "Isabelle", "Valérie", "Nathalie", "Claire", "Emilie", "Virginie", "Marie", "Delphine", "Aurélie"]
+        },
+        "family": ["de Chazal", "Rey", "Lagesse", "Maingard", "Koenig", "Baissac", "Pitot", "Rivalland", "Ducray", "Merven", "Lenoir", "Hardy", "Couacaud", "Le Breton"]
+      }
+    },
+    "weights": { "hindu_mauritian": 0.4, "tamil_mauritian": 0.08, "muslim_mauritian": 0.17, "creole": 0.3, "sino_mauritian": 0.03, "franco_mauritian": 0.02 }
+  },
+  "honorifics": { "elder_m": "Tonton", "elder_f": "Tantinn", "peer_m": "Frer", "peer_f": "Ser", "boss": "Boss" },
+  "phrases": {
+    "mfe": {
+      "hello": [["Bonzour!", "Hello!"], ["Alo!", "Hi!"]],
+      "morning": [["Bonzour!", "Good morning!"]],
+      "evening": [["Bonswar!", "Good evening!"]],
+      "how_are_you": [["Ki manyer?", "How are you?"], ["Ki nouvel?", "What's new?"]],
+      "fine": [["Mo byen, mersi", "I'm fine, thanks"], ["Korek", "All good"], ["Tou korek", "Everything's fine"]],
+      "thanks": [["Mersi", "Thank you"], ["Mersi bokou", "Thank you very much"]],
+      "bye": [["Orevwar", "Goodbye"], ["A pli tar", "See you later"]],
+      "welcome": [["Byenveni", "Welcome"]],
+      "sorry": [["Sori", "Sorry"], ["Pardon", "Sorry"]],
+      "excuse": [["Pardon", "Excuse me"]],
+      "yes": [["Wi", "Yes"]],
+      "no": [["Non", "No"]]
+    },
+    "fr": {
+      "hello": [["Bonjour !", "Hello!"], ["Salut !", "Hi!"]],
+      "morning": [["Bonjour", "Good morning"]],
+      "evening": [["Bonsoir", "Good evening"]],
+      "how_are_you": [["Ça va ?", "How's it going?"], ["Comment allez-vous ?", "How are you? (polite)"]],
+      "fine": [["Ça va bien", "I'm fine"], ["Très bien, merci", "Very well, thanks"]],
+      "thanks": [["Merci", "Thank you"], ["Merci beaucoup", "Thank you very much"]],
+      "bye": [["Au revoir", "Goodbye"], ["À tout à l'heure", "See you later"]],
+      "welcome": [["Bienvenue", "Welcome"]],
+      "sorry": [["Pardon", "Sorry"], ["Désolé", "I'm sorry"]],
+      "excuse": [["Excusez-moi", "Excuse me"]],
+      "yes": [["Oui", "Yes"]],
+      "no": [["Non", "No"]]
+    },
+    "en": {
+      "hello": [["Hello!", "Hello!"], ["Hi!", "Hi!"]],
+      "morning": [["Good morning", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["Fine, thanks", "Fine, thanks"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Goodbye", "Goodbye"], ["See you", "See you"]],
+      "welcome": [["Welcome", "Welcome"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "MUR",
+    "symbol": "Rs",
+    "words": [
+      ["roupi", "rupee, in Kreol"],
+      ["sou", "cents; small change"],
+      ["enn mil", "a thousand rupees"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Mauritian_Creole",
+    "https://en.wikipedia.org/wiki/Languages_of_Mauritius",
+    "https://en.wikipedia.org/wiki/Demographics_of_Mauritius",
+    "https://en.wikipedia.org/wiki/Indo-Mauritians",
+    "https://en.wikipedia.org/wiki/Sino-Mauritians",
+    "https://en.wikipedia.org/wiki/Franco-Mauritians",
+    "https://en.wikipedia.org/wiki/Mauritian_rupee",
+    "https://www.omniglot.com/language/phrases/mauritiancreole.htm"
+  ]
+}

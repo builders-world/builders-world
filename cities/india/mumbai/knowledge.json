@@ -1,0 +1,127 @@
+{
+  "street": { "bambaiya": 0.42, "en": 0.33, "mr": 0.25 },
+  "registers": {
+    "bambaiya": {
+      "name": "Bambaiya Hindi",
+      "about": "Mumbai's street Hindi, mixed with Marathi, Gujarati, Konkani and English words. Heard on every local train, at every tapri and on every film set."
+    }
+  },
+  "names": {
+    "weights": {
+      "marathi": 0.35,
+      "hindi": 0.2,
+      "gujarati": 0.12,
+      "muslim": 0.18,
+      "christian": 0.04,
+      "tamil": 0.03,
+      "malayali": 0.02,
+      "punjabi": 0.02,
+      "bengali": 0.02,
+      "kannada": 0.02
+    }
+  },
+  "phrases": {
+    "bambaiya": {
+      "hello": [["Kya bolta, bhidu?", "What's up, mate?"], ["Kya re?", "Hey, what's up?"]],
+      "how_are_you": [["Kya scene hai?", "What's the scene, how's it going?"], ["Kaisa hai, boss?", "How are you, boss?"]],
+      "fine": [["Ekdum jhakaas", "Totally awesome"], ["Bindaas", "Carefree, all good"], ["Mast", "Great"]],
+      "thanks": [["Thank you, boss", "Thanks"], ["Shukriya re", "Thanks, mate"]],
+      "bye": [["Chal, nikalta hoon", "Right, I'm off"], ["Kalti maarta hoon", "I'm slipping off"]],
+      "yes": [["Haan re", "Yes"], ["Chalega", "That'll do, okay"]],
+      "no": [["Nahi re", "No"], ["Nahi mangta", "Don't want it"]],
+      "friend": [["Bhidu", "Mate"], ["Bhai log", "The guys"], ["Apun", "I, me (street style)"]],
+      "trouble": [["Lafda", "Trouble, a fuss"], ["Waat lag gayi", "We're in trouble"], ["Tension nahi lene ka", "Don't stress"]],
+      "move": [["Aage chalo, aage!", "Move inside! (on the local train)"], ["Utarna hai?", "Getting off? (at the train door)"]]
+    },
+    "mr": {
+      "hello": [["Kay mag?", "So, what's up?"], ["Kay re?", "Hey, what's up?"]],
+      "fine": [["Ekdum bhari", "Really great"], ["Jhakaas", "Awesome"]],
+      "friend": [["Bhau", "Brother, mate"], ["Kaka", "Uncle, to an older man"], ["Mavshi", "Aunty, to an older woman"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hi, how are you?", "Morning! Caught the local okay?", "Hey boss, what's up?", "Hello, all good?", "Hi! Long time, yaar."],
+      "reply": ["All good, thanks. You?", "Surviving the commute, yaar.", "Doing well, busy week.", "Fine, just about made the 8:45.", "Good, good. Weekend plans?"],
+      "sunny": ["So humid today, I'm drenched already.", "October heat is the worst.", "Perfect evening for Marine Drive.", "Nice breeze at Bandstand today.", "Clear skies after the monsoon, finally."],
+      "rain": ["Monsoon's here, the trains will be late for sure.", "Andheri subway is flooded again.", "Carry an umbrella, it's pouring.", "Perfect weather for cutting chai and vada pav.", "Red alert today, work from home if you can."],
+      "bye": ["Okay, bye, take care.", "Catch you later, boss.", "See you at the weekend.", "Bye, reach home safe.", "Text me when you get to Thane."],
+      "busy": ["Got to run, need to catch the fast local.", "Stuck on the Western Express Highway, call you later.", "Meeting in Lower Parel, talk in the evening.", "Shoot is running late, catch you tomorrow.", "So swamped today, sorry yaar."]
+    },
+    "bambaiya": {
+      "greet": ["Kya bolta, bhidu?", "Kya re, kidhar?", "Arre boss, kya scene hai?", "Kaisa hai mere bhai?"],
+      "reply": ["Ekdum mast, tu bol.", "Bindaas, sab set hai.", "Jhakaas chal raha hai.", "Chalta hai boss, kya karne ka."],
+      "sunny": ["Aaj garmi ekdum full hai re.", "Kya ghaam aa raha hai!", "Dhoop mein bahar nahi jaane ka.", "Shaam ko Marine Drive chal, hawa achhi hai."],
+      "rain": ["Baarish shuru, local late hogi pakka.", "Andheri subway phir bhar gaya.", "Chhatri leke nikal, bahut pad raha hai.", "Monsoon aa gaya, ab cutting chai aur vada pav."],
+      "bye": ["Chal, nikalta hoon.", "Milte hai, boss.", "Chal bhidu, baad mein.", "Kalti maarta hoon, bye."],
+      "busy": ["Abhi time nahi re, local pakadna hai.", "8:12 ki fast pakadni hai, baad mein.", "Meeting hai, waat lag jayegi.", "Baad mein call kar, abhi jhol hai."]
+    },
+    "mr": {
+      "greet": ["Namaskar, kasa aahes?", "Kay mhantos?", "Kay re, kay chalu aahe?", "Kase aahat kaka?", "Kay mag, kasa kay?"],
+      "reply": ["Mast, tu sang.", "Ekdum bhari.", "Mi bara aahe, tumhi?", "Chalu aahe, nehmi pramane."],
+      "sunny": ["Aaj khup oon aahe.", "Khup garmi hotey.", "Ghaam yetoy nusta.", "Paani pi, oon jaast aahe."],
+      "rain": ["Paus aala, chhatri ghe.", "Pavsat local ushira yeil.", "Kay paus padtoy!", "Bhijoo nakos."],
+      "bye": ["Yeto.", "Nantar bhetu.", "Chal, nighto.", "Kaalji ghe."],
+      "busy": ["Ushir zala, nantar bolu.", "Local pakdaychi aahe, nighto.", "Meeting aahe, nantar phone karto.", "Aata vel nahi, nantar bhetu."]
+    }
+  },
+  "transport": {
+    "train": "local train",
+    "bus": "BEST bus",
+    "metro": "Mumbai Metro",
+    "taxi": "kaali-peeli taxi",
+    "tricycle": "rickshaw",
+    "ride_hail": "Uber or Ola",
+    "boat": "ferry",
+    "conductor": "conductor",
+    "stage": "station"
+  },
+  "touts": [
+    "Kurla, Kurla, share!",
+    "Andheri station, ek seat!",
+    "Bandra, Bandra, chalo!",
+    "Thane, Thane, direct!",
+    "Elephanta ferry, ticket idhar!",
+    "CST, CST, last seat!",
+    "Aage chalo, aage, andar chalo!"
+  ],
+  "hawkers": [
+    ["Vada pav, garam garam!", "Hot vada pav!"],
+    ["Bhel, sev puri!", "Bhel, sev puri!"],
+    ["Cutting chai, cutting!", "Half-glass tea!"],
+    ["Kanda bhaji, garam!", "Hot onion fritters!"],
+    ["Bhutta, bhutta!", "Roasted corn!"],
+    ["Paani bottle, thanda!", "Cold water bottle!"],
+    ["Mogra gajra!", "Jasmine hair strings!"],
+    ["Hairclip, rubber band, das rupaye!", "Hairclips, rubber bands, ten rupees! (on the ladies' compartment)"]
+  ],
+  "food": {
+    "street": ["vada pav", "pav bhaji", "bhel puri", "sev puri", "pani puri", "Bombay sandwich", "misal pav", "kanda bhaji", "frankie", "bun maska"],
+    "dishes": ["fish thali", "bombil fry", "berry pulav", "keema pav", "Malvani chicken", "puran poli", "kheema ghotala", "prawn koliwada"],
+    "drinks": ["cutting chai", "Irani chai", "nimbu pani", "kokum sharbat", "sugarcane juice", "falooda", "solkadhi"]
+  },
+  "places": {
+    "neighbourhoods": ["Bandra", "Andheri", "Dadar", "Colaba", "Lower Parel", "Powai", "Juhu", "Worli", "Malad", "Goregaon", "Borivali", "Chembur", "Ghatkopar", "Fort", "Girgaon"],
+    "streets": ["Linking Road", "Hill Road", "Marine Drive", "SV Road", "Western Express Highway", "LBS Marg", "Carter Road", "Colaba Causeway", "Senapati Bapat Marg", "Peddar Road"],
+    "landmarks": ["Gateway of India", "Chhatrapati Shivaji Maharaj Terminus", "Marine Drive", "Bandra-Worli Sea Link", "Juhu Beach", "Kala Ghoda", "Crawford Market", "Bandstand", "Powai Lake", "Dadar flower market"]
+  },
+  "small_talk": [
+    "The 8:12 Virar fast was packed again.",
+    "Western line is running fifteen minutes late.",
+    "Linking Road on a Sunday is impossible.",
+    "The Sea Link saved me forty minutes today.",
+    "Took the new underground metro, so much cooler than the local.",
+    "Get me a cutting chai from the tapri downstairs?",
+    "High tide at Marine Drive, the waves were splashing the road.",
+    "Rent in Bandra is crazy, I'm looking in Andheri now.",
+    "Monsoon's here, the society is fighting over waterproofing again.",
+    "Dabbawala delivered my tiffin on time, as always."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Mumbai",
+    "https://en.wikipedia.org/wiki/Bombay_Hindi",
+    "https://en.wikipedia.org/wiki/Mumbai_Suburban_Railway",
+    "https://en.wikipedia.org/wiki/Vada_pav",
+    "https://en.wikipedia.org/wiki/Marathi_people"
+  ]
+}

@@ -1,0 +1,327 @@
+{
+  "street": {
+    "en": 0.8,
+    "zh": 0.06,
+    "vi": 0.03,
+    "el": 0.03,
+    "it": 0.02,
+    "pa": 0.02,
+    "ar": 0.02,
+    "yue": 0.02
+  },
+  "registers": {},
+  "names": {
+    "weights": {
+      "anglo_celtic": 0.54,
+      "chinese": 0.11,
+      "indian": 0.07,
+      "italian": 0.06,
+      "greek": 0.05,
+      "vietnamese": 0.05,
+      "punjabi": 0.03,
+      "lebanese": 0.02,
+      "filipino": 0.02
+    }
+  },
+  "phrases": {
+    "en": {
+      "hello": [
+        [
+          "Hey, how ya going?",
+          "Hi, how are you?"
+        ]
+      ],
+      "welcome": [
+        [
+          "Wominjeka",
+          "Welcome, in Woiwurrung, the language of the Wurundjeri people of Melbourne"
+        ]
+      ],
+      "fine": [
+        [
+          "Yeah, not bad",
+          "Fine"
+        ]
+      ],
+      "bye": [
+        [
+          "See ya, have a good one",
+          "Goodbye"
+        ]
+      ]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "Hey! How ya going?",
+        "Morning! Had your coffee yet?",
+        "G'day, how's things?",
+        "Oh hey, long time no see!",
+        "Hiya, how was the footy?"
+      ],
+      "reply": [
+        "Yeah, good thanks, you?",
+        "Not bad, the tram was packed though.",
+        "Pretty good, flat out at work.",
+        "All good, mate.",
+        "Good, just grabbed a flat white in a laneway."
+      ],
+      "sunny": [
+        "Gorgeous day, St Kilda will be packed.",
+        "Sunny now, but give it an hour.",
+        "Perfect arvo for a picnic in the Botanic Gardens.",
+        "Thirty-eight today, it's a scorcher.",
+        "Sun's out, everyone's at a rooftop bar."
+      ],
+      "rain": [
+        "Four seasons in one day, classic Melbourne.",
+        "It's freezing and drizzling again.",
+        "Cool change is coming through, finally.",
+        "Grab a brolly, it's bucketing down.",
+        "Rainy weekend, perfect excuse for a long lunch on Lygon Street."
+      ],
+      "bye": [
+        "See ya!",
+        "Catch ya later!",
+        "No worries, have a good one.",
+        "Cheers, see you round.",
+        "Enjoy the footy!"
+      ],
+      "busy": [
+        "Gotta run, my tram's coming.",
+        "Running late, the Monash was a car park.",
+        "Got a meeting in Docklands, chat soon.",
+        "Off to the footy at the G, see ya!",
+        "Flat out today, catch you later."
+      ]
+    },
+    "zh": {
+      "greet": [
+        "早！吃了吗？",
+        "你好，最近怎么样？",
+        "好久不见！",
+        "早上好！"
+      ],
+      "reply": [
+        "挺好的，谢谢。",
+        "还行，就是忙。",
+        "不错，你呢？",
+        "老样子。"
+      ],
+      "sunny": [
+        "今天天气真好。",
+        "太阳好大啊。",
+        "今天好热。",
+        "天气不错，出去走走。"
+      ],
+      "rain": [
+        "下雨了，带伞了吗？",
+        "雨下得好大。",
+        "今天风好大，还下雨。",
+        "下雨天，路上好堵。"
+      ],
+      "bye": [
+        "再见！",
+        "拜拜，慢走。",
+        "回头见！",
+        "改天聊。"
+      ],
+      "busy": [
+        "我赶电车，先走了。",
+        "我要迟到了，回头聊。",
+        "不好意思，我赶时间。",
+        "我去上班了，再见。"
+      ]
+    },
+    "el": {
+      "greet": [
+        "Γεια σου! Τι κάνεις;",
+        "Καλημέρα! Όλα καλά;",
+        "Γεια σας! Τι νέα;",
+        "Καλησπέρα! Πώς πάει;"
+      ],
+      "reply": [
+        "Καλά, ευχαριστώ. Εσύ;",
+        "Μια χαρά!",
+        "Όλα καλά, δόξα τω Θεώ.",
+        "Καλά, με πολλή δουλειά."
+      ],
+      "sunny": [
+        "Τι ωραία μέρα σήμερα!",
+        "Έχει πολύ ζέστη σήμερα.",
+        "Ωραίος καιρός για θάλασσα.",
+        "Λιακάδα! Πάμε για καφέ έξω;"
+      ],
+      "rain": [
+        "Βρέχει πάλι.",
+        "Πάρε ομπρέλα, θα βρέξει.",
+        "Κάνει κρύο σήμερα.",
+        "Τέσσερις εποχές σε μια μέρα, όπως πάντα στη Μελβούρνη."
+      ],
+      "bye": [
+        "Γεια σου, τα λέμε!",
+        "Καλή συνέχεια!",
+        "Να προσέχεις.",
+        "Τα λέμε αύριο."
+      ],
+      "busy": [
+        "Συγγνώμη, αργώ για τη δουλειά.",
+        "Πρέπει να προλάβω το τραμ, γεια!",
+        "Βιάζομαι, τα λέμε μετά.",
+        "Έχω ραντεβού, θα σε πάρω αργότερα."
+      ]
+    }
+  },
+  "transport": {
+    "tram": "tram",
+    "train": "train",
+    "bus": "bus",
+    "taxi": "taxi",
+    "rideshare": "Uber or DiDi",
+    "card": "myki",
+    "stage": "tram stop"
+  },
+  "touts": [
+    "Next stop, Flinders Street Station.",
+    "Hot jam doughnuts!",
+    "Footy Record, get your Record!",
+    "Dim sims, potato cakes!",
+    "Hot pies, get your pies!"
+  ],
+  "hawkers": [
+    [
+      "Hot jam doughnuts!",
+      "The famous van at the Queen Victoria Market"
+    ],
+    [
+      "Footy Record, get your Record!",
+      "A seller of the match program at the MCG"
+    ],
+    [
+      "Two kilos of tomatoes for five bucks!",
+      "A Queen Vic Market stall near closing time"
+    ],
+    [
+      "Dim sims, potato cakes!",
+      "A fish and chip shop counter"
+    ],
+    [
+      "Gözleme, hot off the grill!",
+      "A stall at a weekend market"
+    ]
+  ],
+  "food": {
+    "street": [
+      "hot jam doughnuts",
+      "dim sims",
+      "potato cakes",
+      "souvlaki",
+      "burek",
+      "meat pie at the footy",
+      "bánh mì on Victoria Street",
+      "gözleme",
+      "gelato on Lygon Street"
+    ],
+    "dishes": [
+      "chicken parma",
+      "smashed avo on toast",
+      "pho in Richmond",
+      "dumplings in Box Hill",
+      "slow-roasted Greek lamb",
+      "pasta on Lygon Street",
+      "laksa in the CBD",
+      "Vegemite on toast"
+    ],
+    "drinks": [
+      "flat white",
+      "a magic",
+      "long black",
+      "a pot of beer",
+      "chai latte"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "the CBD",
+      "Fitzroy",
+      "Collingwood",
+      "Carlton",
+      "Brunswick",
+      "St Kilda",
+      "South Yarra",
+      "Richmond",
+      "Footscray",
+      "Prahran",
+      "Docklands",
+      "Southbank",
+      "Northcote",
+      "Box Hill",
+      "Springvale",
+      "Oakleigh",
+      "Coburg",
+      "Williamstown",
+      "Brighton",
+      "Thornbury",
+      "Sunshine",
+      "Dandenong"
+    ],
+    "streets": [
+      "Swanston Street",
+      "Bourke Street",
+      "Collins Street",
+      "Flinders Street",
+      "Elizabeth Street",
+      "Lygon Street",
+      "Brunswick Street",
+      "Smith Street",
+      "Chapel Street",
+      "Sydney Road",
+      "Victoria Street",
+      "Acland Street",
+      "Hosier Lane",
+      "Degraves Street",
+      "St Kilda Road",
+      "the Monash"
+    ],
+    "landmarks": [
+      "Flinders Street Station",
+      "Federation Square",
+      "the MCG",
+      "Queen Victoria Market",
+      "the Royal Botanic Gardens",
+      "the Shrine of Remembrance",
+      "St Kilda Pier",
+      "Luna Park",
+      "Hosier Lane",
+      "State Library Victoria",
+      "Eureka Tower",
+      "Melbourne Museum",
+      "the Royal Exhibition Building",
+      "Rod Laver Arena",
+      "Marvel Stadium",
+      "the Brighton bathing boxes",
+      "the Yarra River"
+    ]
+  },
+  "small_talk": [
+    "Four seasons in one day, bring a jacket.",
+    "Meet you under the clocks at Flinders Street.",
+    "I still can't do a hook turn without panicking.",
+    "Best coffee in the world is right here, don't tell Sydney.",
+    "Grand Final week, the whole city goes footy mad.",
+    "The trams are free in the CBD, just hop on.",
+    "The Monash was a car park again.",
+    "Aus Open is on, the city is buzzing.",
+    "Melbourne has one of the biggest Greek communities outside Greece.",
+    "Half the good restaurants here are down a laneway you'd never find."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Melbourne",
+    "https://www.ptv.vic.gov.au",
+    "https://www.abs.gov.au/census",
+    "https://en.wikipedia.org/wiki/Greek_Australians",
+    "https://en.wikipedia.org/wiki/Woiwurrung_language",
+    "https://www.wurundjeri.com.au"
+  ]
+}
