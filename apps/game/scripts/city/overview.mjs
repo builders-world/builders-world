@@ -27,7 +27,7 @@ function simplify(p, tol) {
 const area = (p) => { let a = 0; for (let i = 0, n = p.length / 2; i < n; i++) { const j = (i + 1) % n; a += p[i * 2] * p[j * 2 + 1] - p[j * 2] * p[i * 2 + 1]; } return Math.abs(a / 2); };
 // the places a taxi can take you to across the city (look/rides.js): the landmarks, not every shop
 const DEST = new Set(['shop:mall', 'marketplace', 'bus_station', 'ferry_terminal', 'hospital', 'university', 'college', 'hotel', 'cinema', 'arts_centre', 'museum', 'sports_centre', 'stadium', 'library', 'townhall', 'courthouse', 'embassy', 'station']);
-const LAND = new Set(['park', 'grass', 'golf', 'pitch', 'cemetery', 'wood', 'scrub', 'campus', 'commercial', 'industrial']);
+const LAND = new Set(['park', 'grass', 'golf', 'pitch', 'cemetery', 'wood', 'scrub', 'campus', 'commercial', 'industrial', 'sand']);
 
 export function overview(dir) {
   const index = JSON.parse(readFileSync(new URL('index.json', dir), 'utf8'));

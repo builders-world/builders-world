@@ -3,7 +3,7 @@
 // service lanes, the parks, woods and water, in the city's frame (metres east and south of its centre).
 import { roadClass, ROAD_KINDS } from './roadclass.js';
 
-export const CITY_LAND = { park: '#8cc463', grass: '#8cc463', golf: '#7cbf55', pitch: '#6fb14f', cemetery: '#9db57e', wood: '#5e9a48', scrub: '#8fae62', campus: '#93c66a', paved: '#cfc6b4', commercial: '#d6cbb5', industrial: '#cbbfa8', bare: '#c9a77c' };
+export const CITY_LAND = { park: '#8cc463', grass: '#8cc463', golf: '#7cbf55', pitch: '#6fb14f', cemetery: '#9db57e', wood: '#5e9a48', scrub: '#8fae62', campus: '#93c66a', paved: '#cfc6b4', commercial: '#d6cbb5', industrial: '#cbbfa8', bare: '#c9a77c', sand: '#efdcab' };
 // a street's width in metres by its class (index.json's classes: motorway, trunk, primary ... the links)
 export const CITY_W = [16, 14, 11, 9, 8, 6, 6, 5, 4, 7, 7, 6, 6, 6];
 const WATER = '#8ed3c4';

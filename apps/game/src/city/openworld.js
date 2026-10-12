@@ -170,6 +170,9 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
     // hand over finished chunks, one or two a frame, so a burst of them never stalls the game
     for (let k = 0; k < 2 && ready.length; k++) install(ready.shift());
     if (!index || (tick -= dt) > 0) return; tick = 0.25;
+    // not during quick travel's flight (main.js swoop): high over the city it asked for hundreds of far chunks along the
+    // way, and the ones round where you land then waited behind them for 15 seconds or more
+    if (typeof document !== 'undefined' && document.body?.classList.contains('bw-swoop')) return;
     const cx = camera.position.x + off.x, cz = camera.position.z + off.z, alt = Math.max(0, camera.position.y - 20);
     // nothing is built past the haze: at street level that is a kilometre or so; from the air, the whole city
     const r0 = T[0] + alt * 0.25 * GROW, r1 = T[1] + alt * 0.45 * GROW, r2 = T[2] + alt * 0.7 * GROW, r3 = Math.min(FAR, Math.max(r2, fogFar * 1.05)), S = index.chunk;
@@ -194,6 +197,8 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
     group.traverse((o) => { if (o.userData.bulbs) o.visible = n > 0.05; });
   };
   api.classes = () => index?.classes || null;
+  // the city's beaches (bake.mjs): [name or null, x, z, the way to the sea], in the district's frame here
+  api.beaches = () => (index?.beaches || []).map(([n, x, z, sx, sz]) => ({ name: n, x: x - off.x, z: z - off.z, sea: { x: sx, z: sz } }));
   api.mapVersion = 0; // goes up whenever a chunk's map arrives or leaves (the city's traffic rebuilds its streets)
   /** Every loaded chunk's map (the streets near you), with its key: fn(map, key). */
   api.eachMap = (fn) => chunks.forEach((c, k) => { if (c.map && c.lod <= 1) fn(c.map, k); });

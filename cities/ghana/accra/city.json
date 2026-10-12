@@ -8,10 +8,10 @@
   "lon": -0.187,
   "tech": "West Africa's calm tech capital: big-company offices, startups and hubs round Osu and Airport City.",
   "open": {
-    "south": 5.53,
+    "south": 5.525,
     "west": -0.23,
     "north": 5.62,
-    "east": -0.15,
+    "east": -0.13,
     "chunk": 200
   }
 }
