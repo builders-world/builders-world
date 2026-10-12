@@ -266,17 +266,20 @@ pois.forEach((p) => { if (inBox(p.x, p.z)) chunk(ck(p.x, p.z)).poi.push(p); });
 // ---------- 7. write ----------
 const out = new URL(`public/city/${slug}/`, GAME);
 mkdirSync(out, { recursive: true }); for (const f of readdirSync(out)) rmSync(new URL(f, out));
-const index = [];
+// the chunks go out TILE x TILE to a file (t_<a>_<b>.json, { "<i>_<j>": chunk }): a city is a few hundred files, not
+// thousands, and each is still small enough to fetch whole as you walk (src/city/chunkworker.js)
+const TILE = 4, index = [], tiles = new Map();
 let bytes = 0;
 for (const [k, c] of [...chunks].sort()) {
-  const [i, j] = k.split('_').map(Number);
-  const body = Object.fromEntries(Object.entries(c).filter(([, v]) => v.length));
-  const s = JSON.stringify(body); writeFileSync(new URL(`${k}.json`, out), s); bytes += s.length;
+  const [i, j] = k.split('_').map(Number), t = `t_${Math.floor(i / TILE)}_${Math.floor(j / TILE)}`;
+  if (!tiles.has(t)) tiles.set(t, {});
+  tiles.get(t)[k] = Object.fromEntries(Object.entries(c).filter(([, v]) => v.length));
   index.push([i, j, c.bld.length, Math.round(Math.max(0, ...c.bld.map((b) => b.h)))]);
 }
-const meta = { version: 2, city: city.name, key, center: C0, chunk: CH, drive: country.drive || 'right', box: { x0: r1(x0), z0: r1(z0), x1: r1(x1), z1: r1(z1) }, classes: CLASSES, ends: ENDS, names, chunks: index, far: { water: farWater },
+for (const [t, body] of tiles) { const s = JSON.stringify(body); writeFileSync(new URL(`${t}.json`, out), s); bytes += s.length; }
+const meta = { version: 3, city: city.name, key, center: C0, chunk: CH, tile: TILE, drive: country.drive || 'right', box: { x0: r1(x0), z0: r1(z0), x1: r1(x1), z1: r1(z1) }, classes: CLASSES, ends: ENDS, names, chunks: index, far: { water: farWater },
   counts: { buildings: blds.length, segments: net.segs.length, junctions: net.junctions.length, roundabouts: net.islands.length, lamps: lamps.length, trees: trees.length, places: pois.length },
   sources: 'Map data © OpenStreetMap contributors (ODbL); building heights partly GHS-BUILT-H 2018, European Commission JRC (CC BY 4.0)' };
 writeFileSync(new URL('index.json', out), JSON.stringify(meta)); bytes += JSON.stringify(meta).length;
-log(`${index.length} chunks, ${(bytes / 1e6).toFixed(1)} MB -> public/city/${slug}/`);
+log(`${index.length} chunks in ${tiles.size} files, ${(bytes / 1e6).toFixed(1)} MB -> public/city/${slug}/`);
 { const o = overview(out); log(`map.json: ${o.roads} streets, ${(o.bytes / 1e3).toFixed(0)} kB`); } // the whole city for the big map

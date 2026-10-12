@@ -23,7 +23,7 @@ const S = meta.chunk;
 let n = 0;
 for (const [i, j] of meta.chunks) {
   const cx = (i + 0.5) * S, cz = (j + 0.5) * S; if (Math.hypot(cx - X, cz - Z) > RAD + S) continue;
-  const d = await (await fetch(`${base}${i}_${j}.json`)).json(), o = meshChunk(d, meta, { lod, ci: i, cj: j, size: S });
+  const T = meta.tile, f = await (await fetch(`${base}${T ? `t_${Math.floor(i / T)}_${Math.floor(j / T)}` : `${i}_${j}`}.json`)).json(), d = T ? f[`${i}_${j}`] || {} : f, o = meshChunk(d, meta, { lod, ci: i, cj: j, size: S });
   const geo = (L, f) => { const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(L.p, 3)); g.setAttribute('normal', new THREE.BufferAttribute(L.n, 3)); g.setAttribute('color', new THREE.BufferAttribute(L.c, 3)); if (f) g.setAttribute('aFac', new THREE.BufferAttribute(L.f, 4)); return g; };
   scene.add(new THREE.Mesh(geo(o.ground), flat), new THREE.Mesh(geo(o.solid), flat), new THREE.Mesh(geo(o.facade, true), fac));
   n++;

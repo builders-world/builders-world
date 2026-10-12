@@ -1,17 +1,20 @@
-// The open city's builder, off the main thread: fetches a chunk's baked data (and keeps the last few hundred, so a
+// The open city's builder, off the main thread: fetches a chunk's baked data (a tile of 16 at a time, kept a while so a
 // change of detail does not fetch again), meshes it (chunkmesh.js) and hands the arrays back without copying them.
 import { meshChunk } from './chunkmesh.js';
 
-const cache = new Map(), MAX = 400;
-async function data(url) {
+// the last few dozen files (a tile is 16 chunks), kept as their promises so the chunks of one tile asked for together
+// fetch it once
+const cache = new Map(), MAX = 48;
+function data(url) {
   if (cache.has(url)) { const d = cache.get(url); cache.delete(url); cache.set(url, d); return d; }
-  const r = await fetch(url); const d = r.ok ? await r.json() : {};
+  const d = fetch(url).then((r) => (r.ok ? r.json() : {})).catch(() => { cache.delete(url); return {}; });
   cache.set(url, d); if (cache.size > MAX) cache.delete(cache.keys().next().value);
   return d;
 }
 self.onmessage = async ({ data: job }) => {
   try {
-    const d = await data(job.url);
+    // a tile of chunks (bake.mjs TILE) or, baked before, a chunk of its own
+    const t = await data(job.url), d = job.tile ? t[job.key] || {} : t;
     const out = meshChunk(d, job.meta, job);
     // what the minimap draws and the city's traffic drives, near the player only: street centrelines (class, name, points,
     // one way, lanes, roundabout, deck heights), land, water

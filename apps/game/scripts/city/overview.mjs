@@ -33,9 +33,13 @@ export function overview(dir) {
   const index = JSON.parse(readFileSync(new URL('index.json', dir), 'utf8'));
   const service = index.classes.indexOf('service');
   const roads = [], land = [], water = [], places = [], seen = new Set();
+  // the chunks, from their tiles (t_<a>_<b>.json, bake.mjs), or one file each as baked before
+  const each = [];
   for (const f of readdirSync(dir)) {
-    if (!/^-?\d+_-?\d+\.json$/.test(f)) continue;
-    const d = JSON.parse(readFileSync(new URL(f, dir), 'utf8'));
+    if (/^t_-?\d+_-?\d+\.json$/.test(f)) each.push(...Object.values(JSON.parse(readFileSync(new URL(f, dir), 'utf8'))));
+    else if (/^-?\d+_-?\d+\.json$/.test(f)) each.push(JSON.parse(readFileSync(new URL(f, dir), 'utf8')));
+  }
+  for (const d of each) {
     (d.segs || []).forEach((q) => { if (q.c === service) return; const p = simplify(q.p, 1.5); if (p.length >= 4) roads.push([q.c, q.n ?? -1, p]); });
     (d.land || []).forEach((l) => { if (!LAND.has(l.k)) return; const p = simplify(l.p, 3); if (p.length >= 6 && area(p) > 600) land.push([l.k, p]); });
     (d.poi || []).forEach((q) => { if (!DEST.has(q.k) || !q.n || seen.has(q.n) || /^(department|faculty|school of|lecture|room|block|wing|ward)\b/i.test(q.n)) return; seen.add(q.n); places.push([q.k, q.n, Math.round(q.x), Math.round(q.z)]); });

@@ -83,7 +83,7 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
     while (queue.length && busy.size < workers.length) {
       const job = queue.shift(), c = chunks.get(job.key); if (!c || c.want !== job.lod) { if (c) c.busy = false; continue; }
       const w = workers.find((x) => !busy.has(x)); busy.add(w);
-      w.postMessage({ id: ++jobId, key: job.key, url: `${base}${job.key}.json`, meta: { classes: index.classes, ends: index.ends, drive: index.drive }, lod: job.lod, hole, ci: c.i, cj: c.j, size: index.chunk });
+      w.postMessage({ id: ++jobId, key: job.key, url: `${base}${index.tile ? `t_${Math.floor(c.i / index.tile)}_${Math.floor(c.j / index.tile)}` : job.key}.json`, tile: index.tile || 0, meta: { classes: index.classes, ends: index.ends, drive: index.drive }, lod: job.lod, hole, ci: c.i, cj: c.j, size: index.chunk });
     }
   }
   fetch(`${base}index.json`).then((r) => (r.ok ? r.json() : null)).then((ix) => { if (!ix) { api.active = false; return; } index = ix; farWater(ix.far?.water); api.ready = true; }).catch(() => { api.active = false; });
