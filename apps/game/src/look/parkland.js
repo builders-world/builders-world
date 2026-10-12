@@ -195,5 +195,5 @@ export function buildParkland({ rects, city = 'Lagos', country = 'Nigeria', dist
   if (vc.length) { const m = new THREE.Mesh(mergeGeometries(vc), floraMaterial()); m.castShadow = true; m.receiveShadow = true; m.name = 'parkland_things'; group.add(m); }
   // lamp globes and fairy lights: glowing, no light sources
   if (lights.length) { const glow = new THREE.InstancedMesh(new THREE.SphereGeometry(1, 8, 6), new THREE.MeshBasicMaterial({ color: 0xfff1c9 }), lights.length); const m4 = new THREE.Matrix4(); lights.forEach(([x, y, z, small], i) => glow.setMatrixAt(i, m4.makeScale(small ? 0.05 : 0.18, small ? 0.05 : 0.18, small ? 0.05 : 0.18).setPosition(x, y, z))); glow.name = 'parkland_lights'; group.add(glow); }
-  return { group, cols, seats, pois, interact, flora, claims };
+  return { group, cols, seats, pois, interact, flora, claims, lights };
 }

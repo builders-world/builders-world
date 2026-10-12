@@ -345,5 +345,5 @@ export function buildGreenrey({ renderer, scene, world, group, park = null }) {
   world.addColliders?.(cols);
   claims.forEach((c) => world.claim?.(c));
   const sum = { open: zones.filter((z) => z.use !== 'grass').reduce((a, z) => a + z.area, 0), laterite: zones.filter((z) => z.use === 'laterite').reduce((a, z) => a + z.area, 0), green: zones.filter((z) => z.use === 'green').reduce((a, z) => a + z.area, 0), trees: treeSpots.length, parks: parkRects.length, parkKinds: pl.pois.map((q) => q.theme), paving: zones.filter((z) => z.use === 'paving').length, plots: plots.length, carParks: parks.length, accessibleBays: accessible, carParkSpots: parks.map((p) => ({ x: p.x, z: p.z, ang: p.ang, face: p.face, len: p.len })) };
-  return { group: out, summary: sum, parks: { seats: pl.seats, pois: pl.pois, interact: pl.interact, rects: parkRects } };
+  return { group: out, summary: sum, parks: { seats: pl.seats, pois: pl.pois, interact: pl.interact, rects: parkRects, lights: pl.lights || [], trees: [...(pl.flora || []), ...rowTrees].map((t) => ({ x: t.x, z: t.z })) } };
 }
