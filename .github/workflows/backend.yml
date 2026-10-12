@@ -1,18 +1,28 @@
-name: CI
+name: Backend
 
+# The Rust backend (services/backend): exactly the checks its CLAUDE.md requires before review. Runs only when the
+# backend or this file changes.
 on:
   pull_request:
-    branches: [develop, master]
+    branches: [main]
+    paths: ['services/backend/**', '.github/workflows/backend.yml']
+  push:
+    branches: [main]
+    paths: ['services/backend/**', '.github/workflows/backend.yml']
   workflow_call:
 
 concurrency:
-  group: ci-${{ github.workflow }}-${{ github.ref }}
+  group: backend-${{ github.ref }}
   cancel-in-progress: true
 
 env:
   CARGO_TERM_COLOR: always
   DATABASE_URL: postgres://postgres:postgres@localhost:5432/open_world
   REDIS_URL: redis://localhost:6379
+
+defaults:
+  run:
+    working-directory: services/backend
 
 jobs:
   ci:
@@ -36,6 +46,8 @@ jobs:
         with:
           components: clippy, rustfmt
       - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: services/backend
       - run: cargo install sqlx-cli --version 0.7.4 --no-default-features --features rustls,postgres --locked
       - run: tools/sqlx-prepare.sh --check
       - run: cargo fmt --all --check
