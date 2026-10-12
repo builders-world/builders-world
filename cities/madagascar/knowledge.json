@@ -1,0 +1,100 @@
+{
+  "languages": [
+    { "code": "mg", "name": "Malagasy", "official": true, "spoken": "widely" },
+    { "code": "fr", "name": "French", "official": true, "spoken": "widely" },
+    { "code": "en", "name": "English", "official": false, "spoken": "some" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Malagasy names are long compounds with a meaning, often a blessing or a wish. Highland names commonly start with the prefix Ra- (a mark of respect) or Andria- (once a noble prefix, now common), as in Rakotomalala or Andrianjafy. Traditionally every child got a name of their own rather than inheriting one, but today many families pass the father's name down as a surname. On forms the long name is written first in capitals, but day to day people go by a short Malagasy given name (Hery, Fanja, Tiana) or a French Christian first name (Jean, Marie). Rakoto and Rasoa are the everyday stand-ins for any man and woman, like John and Jane. Coastal peoples (Betsimisaraka, Sakalava, Antandroy and others) have their own naming styles, often without the Ra- prefix; they are not yet listed here.",
+    "groups": {
+      "merina": {
+        "given": {
+          "m": ["Hery", "Haja", "Mamy", "Fidy", "Toky", "Rado", "Njaka", "Tahina", "Mahery", "Andry", "Tsiry", "Rija", "Fetra", "Tojo", "Feno", "Lova"],
+          "f": ["Fanja", "Mialy", "Hanitra", "Voahangy", "Lalao", "Hanta", "Volana", "Miora", "Onja", "Kanto", "Nomena", "Tiana", "Faniry", "Sarobidy", "Haingo", "Ony"]
+        },
+        "family": ["Rakotomalala", "Rakotonirina", "Rakotoarisoa", "Razafindrakoto", "Randrianarisoa", "Rasolofomanana", "Andrianjafy", "Ramanantsoa", "Rabemananjara", "Rasoanaivo", "Ravelojaona", "Ratsimbazafy", "Razafimahefa", "Andrianaivo", "Rakotondrabe", "Randriamampionona"],
+        "also": {
+          "m": ["Jean", "Paul", "Jean-Claude", "Patrick", "Christian", "Olivier", "Eric", "Pascal", "Thierry", "Michel"],
+          "f": ["Marie", "Claudine", "Nathalie", "Sandrine", "Elisabeth", "Monique", "Virginie", "Josiane", "Juliette", "Nadia"]
+        }
+      },
+      "betsileo": {
+        "given": {
+          "m": ["Hasina", "Tiavina", "Rindra", "Mendrika", "Fanomezana", "Sitraka", "Tolotra", "Zo", "Aina", "Ando", "Nirina", "Faly", "Tsilavina", "Manitra"],
+          "f": ["Holy", "Soa", "Fitia", "Lova", "Domoina", "Nirina", "Tsiky", "Ravo", "Lantosoa", "Vola", "Malala", "Fara", "Noro", "Bodo"]
+        },
+        "family": ["Rakotozafy", "Randrianasolo", "Rabearisoa", "Randriamanantena", "Rakotobe", "Ramaroson", "Rasamoelina", "Rakotovao", "Razafiarison", "Andrianasolo", "Ratovonirina", "Rafanomezantsoa", "Rasoloarison", "Ralaivao"],
+        "also": {
+          "m": ["Jean", "Joseph", "Pierre", "Albert", "Jacques", "Dieudonné", "François", "Martin"],
+          "f": ["Marie", "Thérèse", "Hélène", "Jeanne", "Christine", "Odette", "Berthe", "Lucie"]
+        }
+      }
+    },
+    "weights": { "merina": 0.65, "betsileo": 0.35 }
+  },
+  "honorifics": { "elder_m": "Dadabe", "elder_f": "Bebe", "peer_m": "Zalahy", "peer_f": "Ry namana", "boss": "Tompoko" },
+  "phrases": {
+    "mg": {
+      "hello": [["Manao ahoana!", "Hello!"], ["Salama!", "Hi!"], ["Akory e!", "Hi there, how goes it!"]],
+      "morning": [["Manao ahoana tompoko!", "Good morning, sir or madam (polite hello at any hour)"], ["Salama tompoko!", "Morning, sir or madam!"]],
+      "evening": [["Manao ahoana e!", "Good evening!"], ["Tafandria mandry", "Good night, sleep well"]],
+      "how_are_you": [["Manao ahoana ianao?", "How are you?"], ["Inona no vaovao?", "What's new?"], ["Salama ve?", "Are you well?"]],
+      "fine": [["Tsara fa misaotra", "Good, thank you"], ["Tsy misy fa salama", "Nothing new, all well"], ["Salama tsara", "Very well"]],
+      "thanks": [["Misaotra", "Thank you"], ["Misaotra betsaka", "Thank you very much"], ["Misaotra tompoko", "Thank you, sir or madam"]],
+      "bye": [["Veloma", "Goodbye"], ["Mandra-pihaona", "See you later"], ["Rahampitso indray", "See you tomorrow"]],
+      "welcome": [["Tongasoa", "Welcome"]],
+      "sorry": [["Miala tsiny", "I'm sorry, excuse me"], ["Azafady", "Sorry, please"]],
+      "excuse": [["Azafady", "Excuse me, please"]],
+      "yes": [["Eny", "Yes"], ["Eny tompoko", "Yes, sir or madam"]],
+      "no": [["Tsia", "No"], ["Tsia tompoko", "No, sir or madam"]]
+    },
+    "fr": {
+      "hello": [["Bonjour !", "Hello!"], ["Salut !", "Hi!"]],
+      "morning": [["Bonjour", "Good morning"]],
+      "evening": [["Bonsoir", "Good evening"]],
+      "how_are_you": [["Ça va ?", "How's it going?"], ["Comment allez-vous ?", "How are you? (polite)"]],
+      "fine": [["Ça va bien", "I'm fine"], ["Très bien, merci", "Very well, thanks"]],
+      "thanks": [["Merci", "Thank you"], ["Merci beaucoup", "Thank you very much"]],
+      "bye": [["Au revoir", "Goodbye"], ["À plus", "See you later"]],
+      "welcome": [["Bienvenue", "Welcome"]],
+      "sorry": [["Pardon", "Sorry"], ["Désolé", "I'm sorry"]],
+      "excuse": [["Excusez-moi", "Excuse me"]],
+      "yes": [["Oui", "Yes"]],
+      "no": [["Non", "No"]]
+    },
+    "en": {
+      "hello": [["Hello!", "Hello!"]],
+      "morning": [["Good morning", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["Fine, thanks", "Fine, thanks"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Goodbye", "Goodbye"]],
+      "welcome": [["Welcome", "Welcome"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "MGA",
+    "symbol": "Ar",
+    "words": [
+      ["ariary", "the currency"],
+      ["arivo", "a thousand (ariary)"],
+      ["iraimbilanja", "a fifth of an ariary, still heard when counting"],
+      ["Fmg", "old Malagasy francs, five to the ariary; some people still quote prices in them"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Malagasy_language",
+    "https://en.wikipedia.org/wiki/Languages_of_Madagascar",
+    "https://en.wikipedia.org/wiki/Malagasy_people",
+    "https://en.wikipedia.org/wiki/Merina_people",
+    "https://en.wikipedia.org/wiki/Betsileo_people",
+    "https://en.wikipedia.org/wiki/Malagasy_ariary",
+    "https://www.omniglot.com/language/phrases/malagasy.htm"
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "languages": [
+    { "code": "vi", "name": "Vietnamese", "official": true, "spoken": "widely" },
+    { "code": "en", "name": "English", "official": false, "spoken": "in business, tech and tourism, more among the young" }
+  ],
+  "names": {
+    "order": "family given",
+    "conventions": "Vietnamese names run family name, middle name, given name: Nguyễn Văn Hùng, Trần Thị Lan. About four in ten people are Nguyễn, and Trần, Lê, Phạm, Hoàng (Huỳnh in the south), Vũ (Võ in the south) and Phan are next, so people are called by the LAST part, the given name, never the family name: Hùng, Lan. The middle name was traditionally Văn for men and Thị for women; today it is usually a chosen word that pairs with the given name (Minh Anh, Đức Anh, Ngọc Anh), so the given lists here hold middle and given name together. In speech a name always comes with a kinship word by age: anh (older man), chị (older woman), em (younger), cô and chú (aunt and uncle age), bác (older still). Hoa families, Vietnamese of Chinese descent, mostly in Chợ Lớn, use Vietnamese readings of Chinese surnames such as Lâm, Trương, Quách and Diệp.",
+    "groups": {
+      "north": {
+        "given": {
+          "m": ["Văn Hùng", "Đức Anh", "Minh Quân", "Quang Huy", "Tuấn Anh", "Mạnh Cường", "Hoàng Long", "Việt Dũng", "Trung Kiên", "Gia Bảo", "Hải Đăng", "Đức Thắng", "Văn Nam", "Minh Đức"],
+          "f": ["Thu Hà", "Ngọc Anh", "Thị Lan", "Phương Linh", "Thu Trang", "Minh Ngọc", "Thanh Hương", "Hồng Nhung", "Khánh Linh", "Bảo Ngọc", "Thị Hoa", "Thùy Dung", "Mai Anh"]
+        },
+        "family": ["Nguyễn", "Trần", "Lê", "Phạm", "Hoàng", "Vũ", "Đặng", "Bùi", "Đỗ", "Ngô", "Dương", "Đinh", "Trịnh", "Phan", "Lương"]
+      },
+      "south": {
+        "given": {
+          "m": ["Văn Tài", "Minh Trí", "Thanh Phong", "Hoàng Phúc", "Quốc Bảo", "Tấn Lộc", "Hữu Phước", "Minh Khang", "Thành Đạt", "Gia Huy", "Tuấn Kiệt", "Nhật Minh"],
+          "f": ["Ngọc Hân", "Thanh Thảo", "Kim Ngân", "Mỹ Linh", "Thị Tuyết", "Bích Ngọc", "Thảo Vy", "Ngọc Trâm", "Diễm My", "Kim Phượng", "Thùy Trang", "Bảo Châu"]
+        },
+        "family": ["Nguyễn", "Trần", "Lê", "Phạm", "Huỳnh", "Võ", "Phan", "Trương", "Đặng", "Bùi", "Ngô", "Hồ", "Đoàn", "Lý"]
+      },
+      "hoa": {
+        "given": {
+          "m": ["Vĩnh Phát", "Gia Kiệt", "Kiến Huy", "Thiên Phú", "Chí Cường", "Quốc Vinh", "Hào Kiệt", "Vĩnh Khang", "Gia Vinh", "Minh Hào", "Thiện Nhân", "Chí Thành"],
+          "f": ["Mỹ Phụng", "Huệ Linh", "Ngọc Mai", "Tuyết Mai", "Lệ Quyên", "Mỹ Lệ", "Thục Uyên", "Gia Hân", "Uyển Nhi", "Huệ Mẫn", "Bảo Nghi", "Tú Anh"]
+        },
+        "family": ["Lâm", "Trương", "Lý", "Quách", "Lưu", "Tạ", "Mã", "Diệp", "Châu", "Hứa", "Lương", "Thái", "Tăng", "La", "Giang"]
+      }
+    },
+    "weights": { "north": 0.5, "south": 0.48, "hoa": 0.02 }
+  },
+  "honorifics": {
+    "elder_m": "Bác",
+    "elder_f": "Cô",
+    "peer_m": "Anh",
+    "peer_f": "Chị",
+    "boss": "Sếp",
+    "younger": "Em",
+    "uncle": "Chú",
+    "grandfather": "Ông",
+    "grandmother": "Bà"
+  },
+  "phrases": {
+    "vi": {
+      "hello": [["Xin chào", "Hello, formal"], ["Chào anh", "Hello, to a man a bit older"], ["Chào chị", "Hello, to a woman a bit older"], ["Chào em", "Hello, to someone younger"]],
+      "morning": [["Chào buổi sáng", "Good morning, formal; in daily talk people just say chào"], ["Ăn sáng chưa?", "Had breakfast yet?"]],
+      "evening": [["Chào buổi tối", "Good evening, formal"], ["Ăn tối chưa?", "Had dinner yet?"]],
+      "how_are_you": [["Anh có khỏe không?", "Are you well? (to a man)"], ["Dạo này thế nào?", "How have you been lately?"], ["Ăn cơm chưa?", "Have you eaten yet?"]],
+      "fine": [["Khỏe, cảm ơn", "Fine, thanks"], ["Bình thường", "Same as usual"], ["Ổn", "Okay"]],
+      "thanks": [["Cảm ơn", "Thank you"], ["Cảm ơn nhiều", "Thanks a lot"], ["Cám ơn", "Thank you, the southern way"]],
+      "bye": [["Tạm biệt", "Goodbye"], ["Hẹn gặp lại", "See you again"], ["Chào nhé", "Bye then"]],
+      "welcome": [["Chào mừng", "Welcome, formal, as on signs"], ["Mời vào", "Please come in"], ["Mời anh chị", "Please, come in, to customers"]],
+      "sorry": [["Xin lỗi", "Sorry"], ["Không sao", "No problem, never mind"]],
+      "excuse": [["Xin lỗi", "Excuse me"], ["Cho em hỏi", "May I ask, polite, as the younger one"]],
+      "yes": [["Vâng", "Yes, polite, northern"], ["Dạ", "Yes, polite, southern and also heard in the north"], ["Có", "Yes, I do, there is"], ["Ừ", "Yeah, casual, to someone younger"]],
+      "no": [["Không", "No"], ["Không phải", "No, that's not it"], ["Thôi", "No thanks, never mind"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"], ["Hi", "Hi"]],
+      "morning": [["Good morning", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["Fine, thank you", "Fine, thank you"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Bye bye", "Goodbye"], ["See you", "See you"]],
+      "welcome": [["Welcome", "Welcome"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"], ["OK", "OK"]],
+      "no": [["No", "No"], ["No, thank you", "No, thank you"]]
+    }
+  },
+  "money": {
+    "currency": "VND",
+    "symbol": "₫",
+    "words": [
+      ["đồng", "the currency"],
+      ["nghìn", "a thousand, northern"],
+      ["ngàn", "a thousand, southern"],
+      ["k", "a thousand, as in 30k for 30,000 đồng"],
+      ["lít", "100,000 đồng, northern slang"],
+      ["xị", "100,000 đồng, southern slang"],
+      ["triệu", "a million"],
+      ["củ", "a million, slang"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Vietnamese_name",
+    "https://en.wikipedia.org/wiki/Vietnamese_language",
+    "https://en.wikipedia.org/wiki/Hoa_people",
+    "https://en.wikipedia.org/wiki/Vietnamese_%C4%91%E1%BB%93ng"
+  ]
+}

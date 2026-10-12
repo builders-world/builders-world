@@ -1,3 +1,4 @@
+import { phrase, registerFor, street } from './knowledge.js';
 import * as THREE from 'three';
 import { playEmote } from './expressions.js';
 import { createAvatarModel } from '../onboarding/avatar.js';
@@ -122,9 +123,10 @@ export function createFood({ scene, props, toast, getEnv, reduced, addLamps, wor
     const st = at, [name, price, , feed] = st.M.items[i];
     if (!walletEngine().spend(price, `${name} at ${st.it.name}`)) { render(`Ah, you no get enough Efforts for ${name.toLowerCase()}. ${fmt(price)} na the price.`); return; }
     // food for the animals goes in your bag, not your mouth (fear.js)
-    if (feed) { addFeed(feed, 6); sfx('pick'); render(feed === 'corn' ? 'Na for the pigeons? Throw am small small, dem go gather.' : 'Hold am out flat. Even the fierce ones go soft.'); toast(`In your bag: ${feed === 'corn' ? 'corn for the birds' : 'dog biscuits'} (${feedStock(feed)}). Press F near animals to hold some out.`, 3200); return; }
+    if (feed) { addFeed(feed, 6); sfx('pick'); render(street().pcm ? (feed === 'corn' ? 'Na for the pigeons? Throw am small small, dem go gather.' : 'Hold am out flat. Even the fierce ones go soft.') : (feed === 'corn' ? 'For the pigeons? Throw a little at a time and they will gather.' : 'Hold it out flat. Even the fierce ones go soft.')); toast(`In your bag: ${feed === 'corn' ? 'corn for the birds' : 'dog biscuits'} (${feedStock(feed)}). Press F near animals to hold some out.`, 3200); return; }
     sfx('interact');
-    render(st.M.cooking ? st.M.cooking : st.kind === 'suya' ? 'Ehen! Make I cut am fresh for you.' : st.kind === 'cafe' ? 'Coming right up.' : 'No wahala, one minute.', true);
+    // (Pidgin where people speak it; elsewhere the city's own welcome, then English: look/knowledge.js)
+    { const w = phrase('welcome', registerFor(1, `cook-${st.kind}`)), ng = street().pcm; render(st.M.cooking ? st.M.cooking : st.kind === 'cafe' ? 'Coming right up.' : ng ? (st.kind === 'suya' ? 'Ehen! Make I cut am fresh for you.' : 'No wahala, one minute.') : `${w && w[0] !== 'You\'re welcome.' ? `${w[0]}! ` : ''}One minute, I'll make it fresh.`, true); }
     if (st.indoor) { setTimeout(() => { if (at !== st) return; sfx('arrive'); render('Here you go. Enjoy!'); toast(`${name}: ${['delicious', 'exactly what you needed', 'worth every Effort'][Math.floor(Math.random() * 3)]}.`, 2800); }, 2200); return; }
     st.making = { t: 0, name, parcel: null };
   }

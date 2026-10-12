@@ -1,0 +1,80 @@
+{
+  "street": { "pt": 0.88, "en": 0.12 },
+  "names": { "weights": { "portuguese": 0.82, "brazilian": 0.1, "cape_verdean": 0.02, "angolan": 0.02, "south_asian": 0.02, "ukrainian": 0.02 } },
+  "chat": {
+    "en": {
+      "greet": ["Bom dia! How's it going?", "Hey, good to see you!", "Hi! Cimbalino first?", "Morning! All good?", "Hey, how was the weekend?"],
+      "reply": ["Good, thanks! You?", "All good, can't complain.", "Not bad at all.", "Great, thanks!", "Busy, but good."],
+      "sunny": ["Fino by the river after work?", "Sunset from the Jardim do Morro tonight?", "Beach day in Matosinhos.", "The Douro looks amazing today.", "Proper sun for once, enjoy it."],
+      "rain": ["Porto rain, the umbrella lives in my bag.", "It's that fine drizzle again, morrinha they call it.", "Grab an umbrella, it's coming down.", "The steps down to the Ribeira are slippery today.", "Grey and wet, perfect francesinha weather."],
+      "bye": ["Até logo!", "See you tomorrow!", "Catch you later!", "Have a good one!", "Bye, see you at the office!"],
+      "busy": ["Running for the metro!", "Late for a call, talk later!", "Sorry, meeting in five.", "Got to dash, see you at lunch.", "Deadline today, catch you later!"]
+    },
+    "pt": {
+      "greet": ["Bom dia, menino! Tudo bem?", "Olá! Então, como vai isso?", "Boa tarde! Tudo bem consigo?", "Ei, rapaz! Há quanto tempo!"],
+      "reply": ["Vai-se andando, e tu?", "Tudo ótimo, obrigado!", "Bem, bem, e contigo?", "Cá estamos!"],
+      "sunny": ["Que dia lindo, vamos à Foz?", "Com este sol, um fino na Ribeira é que era.", "Está um calor!", "O Douro está bonito hoje."],
+      "rain": ["Está a chover a cântaros!", "Isto é o Porto, leva sempre guarda-chuva.", "Que morrinha!", "Com esta chuva, a calçada da Ribeira escorrega."],
+      "bye": ["Até logo, menino!", "Adeus, até amanhã!", "Tchau, beijinhos!", "Até já!"],
+      "busy": ["Desculpa, vou a correr para o metro!", "Agora não posso, tenho uma reunião.", "Estou atrasada, falamos depois!", "Vou ao Bolhão antes que feche, até já!"]
+    }
+  },
+  "transport": {
+    "bus": "autocarro (STCP)",
+    "moto_taxi": "trotinete",
+    "tricycle": "tuk-tuk",
+    "taxi": "táxi",
+    "conductor": "fiscal",
+    "stage": "paragem",
+    "metro": "metro",
+    "tram": "elétrico",
+    "train": "comboio (CP)",
+    "funicular": "Funicular dos Guindais",
+    "cable_car": "Teleférico de Gaia",
+    "ride_hail": "Uber, Bolt"
+  },
+  "touts": [
+    "Próxima estação: Trindade.",
+    "Cruzeiro das seis pontes, sai já!",
+    "Quentes e boas!",
+    "Olha a sorte grande!",
+    "Entre, prove o vinho do Porto!",
+    "A guitarist plays on the Ponte Luís I as the sun goes down."
+  ],
+  "hawkers": [
+    ["Quentes e boas!", "Hot chestnuts!"],
+    ["Olha a fruta, freguesa!", "Fruit here, madam!"],
+    ["Cruzeiro das seis pontes?", "Six bridges cruise?"],
+    ["Olha a sorte grande!", "Lottery, the big prize!"],
+    ["Sardinha fresquinha!", "Fresh sardines!"],
+    ["Olha os martelinhos para o São João!", "Plastic hammers for São João!"]
+  ],
+  "food": {
+    "street": ["bifana", "prego no pão", "sandes de pernil", "cachorrinho", "castanhas assadas", "pastel de nata", "bola de Berlim"],
+    "dishes": ["francesinha", "tripas à moda do Porto", "bacalhau à Gomes de Sá", "caldo verde", "rojões", "polvo à lagareiro", "sardinhas assadas"],
+    "drinks": ["cimbalino", "fino", "vinho do Porto", "vinho verde", "galão", "meia de leite", "Super Bock"]
+  },
+  "places": {
+    "neighbourhoods": ["Ribeira", "Baixa", "Cedofeita", "Bonfim", "Foz do Douro", "Boavista", "Miragaia", "Massarelos", "Campanhã", "Paranhos", "Matosinhos", "Vila Nova de Gaia"],
+    "streets": ["Avenida dos Aliados", "Rua de Santa Catarina", "Rua das Flores", "Rua de Cedofeita", "Rua de Miguel Bombarda", "Avenida da Boavista", "Rua de Passos Manuel", "Rua Galeria de Paris"],
+    "landmarks": ["Ponte Luís I", "Torre dos Clérigos", "Livraria Lello", "Estação de São Bento", "Mercado do Bolhão", "Casa da Música", "Estádio do Dragão", "Palácio de Cristal", "Serralves", "Sé do Porto", "Cais da Ribeira", "Jardim do Morro"]
+  },
+  "small_talk": [
+    "São João is coming, get your plastic hammer ready.",
+    "The queue at Livraria Lello is round the corner again.",
+    "Best francesinha in town? Don't start that argument.",
+    "The Bolhão looks great since it reopened.",
+    "Walking up from the Ribeira is a proper workout.",
+    "Fino here, imperial in Lisbon, same beer.",
+    "Grilled fish in Matosinhos on Sunday?",
+    "The metro to the airport was packed this morning.",
+    "Fog came in off the sea at Foz again.",
+    "Sunset from the Gaia side, Porto all lit up across the river."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Porto",
+    "https://en.wikipedia.org/wiki/Francesinha",
+    "https://www.metrodoporto.pt/",
+    "https://www.stcp.pt/"
+  ]
+}

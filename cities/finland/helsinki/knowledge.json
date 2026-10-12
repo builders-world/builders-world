@@ -1,0 +1,96 @@
+{
+  "street": { "fi": 0.76, "en": 0.17, "sv": 0.07 },
+  "names": {
+    "weights": {
+      "finnish": 0.74,
+      "finland_swedish": 0.07,
+      "russian_speaking": 0.06,
+      "estonian": 0.04,
+      "somali": 0.04,
+      "middle_eastern": 0.05
+    }
+  },
+  "phrases": {
+    "fi": {
+      "hello": [
+        ["Moro!", "Hi!"],
+        ["Moikka!", "Hi!"]
+      ],
+      "bye": [
+        ["Heippa!", "Bye!"],
+        ["Moi moi!", "Bye bye!"]
+      ],
+      "slang": [
+        ["Stadi", "Helsinki, in local slang"],
+        ["spora", "tram, in Helsinki slang"],
+        ["himaan", "home, heading home"]
+      ]
+    },
+    "sv": {
+      "hello": [
+        ["Morjens!", "Hi! (Finland-Swedish)"]
+      ]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Moi! How's it going?", "Morning! Coffee already?", "Hey, long time no see!", "Terve! All good?", "Hi! How was the summer cottage?"],
+      "reply": ["Good, thanks! You?", "Fine, nothing special.", "All good, a bit tired.", "Pretty well, kiitti!", "Can't complain."],
+      "sunny": ["Lovely day, let's sit on the Esplanadi lawn.", "Sun's out, perfect for Suomenlinna.", "Terrace season has started!", "So much light today, enjoy it while it lasts.", "Ice cream by Kauppatori?"],
+      "rain": ["Raining again, grab an umbrella.", "Sleet again, classic Helsinki.", "Grey and wet, good sauna weather.", "The wind off the sea is brutal today.", "Pouring down, let's wait in Oodi."],
+      "bye": ["Moikka!", "Heippa, see you!", "Moi moi!", "See you tomorrow!", "Take care!"],
+      "busy": ["Sorry, my spora is leaving!", "Got a meeting, talk later!", "In a hurry, moikka!", "Have to run, call you later!", "Busy week, coffee next week?"]
+    },
+    "fi": {
+      "greet": ["Moi! Mitä kuuluu?", "Moikka! Miten menee?", "Terve! Pitkästä aikaa!", "Huomenta! Onks kahvit jo juotu?", "Moro! Mitäs sulle?"],
+      "reply": ["Hyvää kuuluu, kiitti!", "Ihan hyvin, entä sulle?", "No ei mitään ihmeempää.", "Kiitti, hyvin menee!", "Väsyttää vähän, mut hyvin."],
+      "sunny": ["Ihana ilma tänään!", "Nyt kannattaa mennä Espalle nauttimaan auringosta.", "Vihdoin aurinko! Terassikausi alkaa.", "Tänään ois hyvä päivä lähteä Suomenlinnaan."],
+      "rain": ["Taas sataa, ota sateenvarjo.", "Ihan kamala keli tänään.", "Räntää taas, ei voi mitään.", "Sadetakki päälle, ei tässä muu auta."],
+      "bye": ["Moikka!", "Heippa, nähdään!", "Nähdään huomenna!", "Moi moi!", "Pidä huolta!"],
+      "busy": ["Sori, mun spora lähtee just!", "Mulla on palaveri, puhutaan myöhemmin!", "Kiire, moikka!", "Pakko mennä, soitellaan!"]
+    },
+    "sv": {
+      "greet": ["Hej! Hur är läget?", "Morjens! Länge sen!", "God morgon! Har du hunnit dricka kaffe?", "Tjena! Allt bra?"],
+      "reply": ["Bra, tack! Och du?", "Jo, det är bra.", "Inte så illa, tack!", "Allt bra här!"],
+      "sunny": ["Vilket härligt väder idag!", "Äntligen sol, nu sitter vi ute.", "Perfekt dag att åka ut till Sveaborg.", "Solen skiner, nu börjar sommaren!"],
+      "rain": ["Det regnar igen, ta med paraply.", "Vilket ruskväder.", "Snöslask igen, typiskt.", "Det öser ner idag."],
+      "bye": ["Hej då!", "Vi ses!", "Ha det bra!", "Hej då, vi hörs!"],
+      "busy": ["Förlåt, spårvagnen går nu!", "Jag har bråttom, vi hörs senare!", "Jag har ett möte, vi ses!", "Måste springa, hej!"]
+    }
+  },
+  "transport": {
+    "bus": "bussi",
+    "moto_taxi": "sähköpotkulauta",
+    "tricycle": "laatikkopyörä",
+    "taxi": "taksi",
+    "conductor": "lipuntarkastaja",
+    "stage": "pysäkki",
+    "tram": "spora (raitiovaunu)",
+    "metro": "metro",
+    "train": "lähijuna",
+    "ferry": "lautta",
+    "bike_share": "kaupunkipyörä",
+    "ride_hail": "Uber, Bolt"
+  },
+  "touts": ["Rautatientori. Järnvägstorget.", "Seuraava pysäkki: Kauppatori. Nästa hållplats: Salutorget.", "Iso Numero, katulehti! Ostatko?", "Tuoreita mansikoita, suoraan tilalta!", "An accordion busker outside Kamppi playing old Finnish waltzes.", "Herneitä! Tuoreita herneitä!"],
+  "hawkers": [
+    ["Tuoreita mansikoita!", "Fresh strawberries!"],
+    ["Uusia perunoita!", "New potatoes!"],
+    ["Lämpimiä lihapiirakoita!", "Hot meat pies!"],
+    ["Paistettuja muikkuja!", "Fried vendace!"],
+    ["Iso Numero, katulehti!", "Iso Numero, the street paper!"],
+    ["Herneitä, tuoreita herneitä!", "Peas, fresh peas!"]
+  ],
+  "food": {
+    "street": ["lihapiirakka", "paistetut muikut", "karjalanpiirakka", "korvapuusti", "grillimakkara", "porilainen", "munkki"],
+    "dishes": ["lohikeitto", "karjalanpiirakka munavoilla", "poronkäristys", "makaronilaatikko", "ruisleipä", "hernekeitto ja pannukakku", "kalakukko"],
+    "drinks": ["kahvi", "lonkero", "maito", "kotikalja", "glögi", "Jaffa", "salmiakkikossu"]
+  },
+  "places": {
+    "neighbourhoods": ["Kallio", "Kamppi", "Punavuori", "Töölö", "Kruununhaka", "Sörnäinen", "Vallila", "Kalasatama", "Ruoholahti", "Pasila", "Eira", "Arabianranta"],
+    "streets": ["Mannerheimintie", "Aleksanterinkatu", "Esplanadi", "Bulevardi", "Hämeentie", "Fredrikinkatu", "Iso Roobertinkatu", "Helsinginkatu", "Mechelininkatu", "Pohjoisesplanadi"],
+    "landmarks": ["Helsingin päärautatieasema", "Senaatintori", "Tuomiokirkko", "Kauppatori", "Suomenlinna", "Oodi", "Kiasma", "Temppeliaukion kirkko", "Linnanmäki", "Hakaniemen kauppahalli", "Löyly", "Allas Sea Pool"]
+  },
+  "small_talk": ["The spora was packed again this morning.", "Löyly was full, we had to queue for the sauna.", "Have you been to Oodi yet? The third floor is basically my office now.", "It's dark by three already, vitamin D time.", "The first strawberries at Kauppatori cost a fortune.", "Slush week, the whole city is full of founders in hoodies.", "Vappu is coming, got your student cap ready?", "The sea froze near Kaivopuisto again, people are walking on it.", "The ice cream kiosk on Espa is open, so summer's officially here."],
+  "sources": ["https://en.wikipedia.org/wiki/Helsinki", "https://en.wikipedia.org/wiki/Helsinki_slang", "https://www.hsl.fi/en", "https://en.wikipedia.org/wiki/Finnish_cuisine", "https://www.stat.fi/en"]
+}

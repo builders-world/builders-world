@@ -1,0 +1,104 @@
+{
+  "street": { "de": 0.58, "bairisch": 0.27, "en": 0.15 },
+  "registers": {
+    "bairisch": {
+      "name": "Bairisch",
+      "about": "Bavarian: Servus and Grüß Gott, Pfiat di on the way out, and passt scho for nearly everything. Heard all over Munich, stronger the older and more local the speaker."
+    }
+  },
+  "names": { "weights": { "german": 0.72, "turkish": 0.06, "bks": 0.06, "italian": 0.05, "polish": 0.03, "russian_german": 0.03, "arab": 0.03, "afghan": 0.01, "vietnamese": 0.01 } },
+  "phrases": {
+    "bairisch": {
+      "hello": [["Servus!", "Hi (also bye)"], ["Grüß Gott", "Hello (polite, any time)"], ["Griaß di!", "Hello (to one person)"]],
+      "how_are_you": [["Wia geht's?", "How are you?"], ["Ois guad?", "All good?"]],
+      "fine": [["Passt scho", "It's fine"], ["Ois guad", "All good"]],
+      "thanks": [["Dankschee", "Thank you"], ["Merci", "Thanks"]],
+      "bye": [["Pfiat di!", "Bye (to one person)"], ["Pfiat eich!", "Bye (to several people)"], ["Servus!", "Bye"]],
+      "yes": [["Jo", "Yes"], ["Freilich!", "Of course!"]],
+      "no": [["Na", "No"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! Off to the office?", "Hey, how are you?", "Servus! Good weekend?", "Hello! Coming to the Biergarten later?", "Hi! Did you get a table for the Wiesn this year?"],
+      "reply": ["Good, thanks, you?", "All fine, just back from the mountains.", "Not bad, a bit tired after the weekend.", "Pretty good, the S-Bahn even ran on time.", "Great, I was at the Isar all day yesterday."],
+      "sunny": ["Föhn today, you can see the Alps from the city.", "Biergarten weather!", "The Englischer Garten will be packed.", "Perfect day to cool off in the Isar.", "Sun's out, everyone's heading to the lakes."],
+      "rain": ["Raining again, at least the mountains get snow.", "Grab an umbrella, it's pouring.", "Good day for a museum on the Kunstareal.", "Grey and wet, typical November.", "Shame, the Biergarten's empty in this."],
+      "bye": ["Servus!", "See you later!", "Have a good one!", "Take care, see you!", "Bye, enjoy the evening!"],
+      "busy": ["Sorry, got to catch the S-Bahn!", "Running late for a meeting.", "Can't stop, my train's in five.", "In a rush, see you!", "Got a call, talk later!"]
+    },
+    "de": {
+      "greet": ["Grüß Gott! Wie geht's Ihnen?", "Hallo! Wie geht's?", "Guten Morgen! Schon im Büro?", "Hi, lange nicht gesehen!", "Hallo, alles gut bei dir?"],
+      "reply": ["Gut, danke! Und dir?", "Alles gut, viel zu tun.", "Ganz okay, bisschen müde.", "Super, war am Wochenende in den Bergen.", "Geht so, Montag halt."],
+      "sunny": ["Endlich Sonne!", "Biergartenwetter heute!", "Bei Föhn sieht man heute die Berge.", "Perfektes Wetter für die Isar.", "Heute ist der Englische Garten bestimmt voll."],
+      "rain": ["Schon wieder Regen.", "Nimm lieber einen Schirm mit.", "So ein graues Wetter heute.", "Es regnet schon den ganzen Tag.", "Bei dem Wetter bleib ich drinnen."],
+      "bye": ["Tschüss!", "Bis später!", "Mach's gut!", "Schönen Tag noch!", "Servus, bis bald!"],
+      "busy": ["Sorry, ich muss los, meine S-Bahn kommt!", "Keine Zeit, ich bin spät dran.", "Ich hab gleich ein Meeting, bis später!", "Ich bin in Eile, wir hören uns!", "Muss weiter, servus!"]
+    },
+    "bairisch": {
+      "greet": ["Servus!", "Griaß di! Wia geht's?", "Grüß Gott beinand!", "Servus, lang ned gseng!", "Ja servus, wos machst denn du do?"],
+      "reply": ["Passt scho, und bei dir?", "Ois guad, merci.", "Muass ja.", "Ned schlecht, kann ned klagn.", "Guad, a bissl miad hoid."],
+      "sunny": ["Heid is a Wedda, herrlich!", "Bei dem Wedda gemma in Biergarten.", "Föhn heid, ma siagt bis zu de Berg!", "So a schee's Wedda!", "Heid is d'Isar sicher voi."],
+      "rain": ["Es schifft scho wieda.", "So a Sauwedda heid.", "Nimm an Schirm mit, des werd nix heid.", "Bei dem Wedda bleib i dahoam."],
+      "bye": ["Pfiat di!", "Servus, bis boid!", "Pfiat eich!", "Mach's guad!"],
+      "busy": ["I muass weida, servus!", "Koa Zeit, mei S-Bahn kimmt!", "I bin spat dran, pfiat di!", "Muass glei in a Meeting, servus!"]
+    }
+  },
+  "transport": {
+    "bus": "Bus",
+    "moto_taxi": "E-Scooter",
+    "tricycle": "Rikscha",
+    "taxi": "Taxi",
+    "conductor": "Kontrolleur",
+    "stage": "Haltestelle",
+    "tram": "Tram",
+    "metro": "U-Bahn",
+    "train": "S-Bahn",
+    "bike_share": "MVG Rad",
+    "ride_hail": "Uber, Bolt"
+  },
+  "touts": [
+    "Nächster Halt: Marienplatz.",
+    "Bitte zurückbleiben!",
+    "Fahrkartenkontrolle, die Fahrscheine bitte!",
+    "Grüß Gott, die neue BISS, das Münchner Straßenmagazin!",
+    "Wegen einer Störung auf der Stammstrecke kommt es zu Verspätungen.",
+    "Grüß Gott, liebe Fahrgäste, a kleines Liedl für Sie, dann bin i scho wieder weg."
+  ],
+  "hawkers": [
+    ["Brezn, frische Brezn!", "Pretzels, fresh pretzels!"],
+    ["Steckerlfisch, frisch vom Grill!", "Fish on a stick, fresh off the grill!"],
+    ["Radieserl, der Bund nur an Euro!", "Radishes, just a euro a bunch!"],
+    ["Gebrannte Mandeln!", "Roasted sugared almonds!"],
+    ["Weißwürscht, nur bis zwölfe!", "White sausage, only until noon!"],
+    ["Spargel aus Schrobenhausen, ganz frisch!", "Asparagus from Schrobenhausen, really fresh!"]
+  ],
+  "food": {
+    "street": ["Leberkässemmel", "Brezn", "Weißwurst", "Steckerlfisch", "Obatzda", "Bratwurstsemmel", "Döner"],
+    "dishes": ["Schweinsbraten mit Knödel", "Weißwurstfrühstück", "Hendl", "Käsespätzle", "Kaiserschmarrn", "Dampfnudeln", "Wiener Schnitzel"],
+    "drinks": ["Helles", "a Mass", "Weißbier", "Radler", "Spezi", "Russ'n", "Apfelschorle"]
+  },
+  "places": {
+    "neighbourhoods": ["Schwabing", "Maxvorstadt", "Glockenbachviertel", "Haidhausen", "Au", "Giesing", "Sendling", "Neuhausen", "Bogenhausen", "Westend", "Lehel"],
+    "streets": ["Leopoldstraße", "Maximilianstraße", "Ludwigstraße", "Sendlinger Straße", "Kaufingerstraße", "Tal", "Müllerstraße", "Rosenheimer Straße", "Kapuzinerstraße", "Theresienstraße"],
+    "landmarks": ["Marienplatz", "Frauenkirche", "Englischer Garten", "Viktualienmarkt", "Hofbräuhaus", "Olympiapark", "Allianz Arena", "Theresienwiese", "Eisbach", "Deutsches Museum", "Chinesischer Turm", "Schloss Nymphenburg"]
+  },
+  "small_talk": [
+    "Föhn today, you can see the Alps from the Olympiaberg.",
+    "The surfers were on the Eisbach again this morning.",
+    "The Stammstrecke was down, so the whole S-Bahn was chaos.",
+    "Rent in Maxvorstadt is something else.",
+    "Weißwurst before noon, that's the rule.",
+    "Wiesn starts in a few weeks, have you got your Tracht sorted?",
+    "Viktualienmarkt had the first asparagus today.",
+    "Heading to the Tegernsee on Sunday if the weather holds.",
+    "The Chinesischer Turm Biergarten was full by four."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Munich",
+    "https://en.wikipedia.org/wiki/Bavarian_language",
+    "https://www.mvg.de/",
+    "https://en.wikipedia.org/wiki/Oktoberfest",
+    "https://de.wikipedia.org/wiki/Bairische_Dialekte"
+  ]
+}

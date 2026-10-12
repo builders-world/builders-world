@@ -1,0 +1,104 @@
+{
+  "street": { "fr": 0.5, "nouchi": 0.32, "dyu": 0.13, "en": 0.05 },
+  "registers": {
+    "nouchi": {
+      "name": "Nouchi",
+      "about": "Abidjan's street French, born in the 1970s and now the city's own voice, mixing French with Dioula, Baoulé and English words: môgô, bramôgô, go, enjailler, y a fohi."
+    }
+  },
+  "names": { "weights": { "akan": 0.45, "north": 0.4, "kru": 0.15 } },
+  "phrases": {
+    "nouchi": {
+      "hello": [["On dit quoi?", "What's up?"], ["C'est comment?", "How is it?"], ["Ça dit quoi?", "What's the word?"]],
+      "how_are_you": [["Tu es en forme?", "You good?"], ["Ça va aller?", "Doing alright?"]],
+      "fine": [["Y a fohi", "No worries, all good"], ["On est là", "We're here, fine"], ["C'est doux", "It's sweet, all good"]],
+      "thanks": [["Merci dêh", "Thanks, really"], ["Merci mon bramôgô", "Thanks, my friend"]],
+      "bye": [["On est ensemble", "We're together (see you)"], ["Je viens", "I'm off, back soon"]],
+      "yes": [["C'est ça même", "That's exactly it"], ["Ya pas palabre", "No argument, sure"]],
+      "no": [["Ah non dêh", "Oh no, really not"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Good morning! Did you sleep well?", "Hello, how is it going?", "Good evening, how was work?", "Ah, it's been a while! How is the family?", "Hi, welcome back!"],
+      "reply": ["Fine, thank God.", "We're here, getting by.", "All good, and you?", "Doing well, thanks.", "No worries, everything is fine."],
+      "sunny": ["It's hot today, Abidjan heat.", "Good day for the beach at Bassam.", "The sun is strong, find some shade.", "Clear sky over the lagoon this morning.", "Too hot to walk, I'll take a woro-woro."],
+      "rain": ["The rainy season does not joke in June.", "Rain again, the roads in Yopougon will flood.", "Carry an umbrella, the sky is dark over Cocody.", "Wait a bit, it will ease off.", "This rain will cool the city down."],
+      "bye": ["We're together!", "See you tomorrow.", "Have a good evening.", "Greet the family for me.", "Go well, I'm off."],
+      "busy": ["Sorry, I'm late for the office in Plateau.", "Traffic on the bridge, I have to go now.", "Let me run, the gbaka is leaving.", "I'll call you this evening.", "Busy day, we'll talk later."]
+    },
+    "nouchi": {
+      "greet": ["On dit quoi mon bramôgô?", "Ça dit quoi?", "C'est comment, ma sœur?", "Vieux père, on dit quoi?", "Eh, môgô, tu es où depuis?"],
+      "reply": ["Y a fohi, on est là.", "On est là, tranquille.", "Ça va un peu dêh.", "C'est doux, merci."],
+      "sunny": ["Soleil-là tape dêh!", "Il fait chaud, faut gnamankoudji glacé.", "Soleil-là est méchant aujourd'hui.", "Il fait chaud, on part à Bassam?"],
+      "rain": ["Pluie-là ne blague pas!", "Il pleut dêh, on va rester.", "Avec pluie-là, Yop est dans l'eau.", "Pluie a mouillé tout le monde au carrefour."],
+      "bye": ["On est ensemble!", "Je viens.", "Bon, on se voit.", "À tout, mon bramôgô."],
+      "busy": ["Je suis pressé dêh, on se voit.", "Gbaka-là va me laisser, je dois partir.", "Patron m'attend au bureau.", "Woro-woro m'attend, je t'appelle."]
+    },
+    "fr": {
+      "greet": ["Bonjour, bien dormi?", "Bonsoir! La famille va bien?", "Bonjour tantie, ça va?", "Salut, ça fait longtemps!", "Bonne arrivée!"],
+      "reply": ["Ça va, Dieu merci.", "On est là, merci.", "Très bien, et vous?", "Ça va un peu."],
+      "sunny": ["Il fait chaud aujourd'hui!", "Belle journée pour la plage.", "Le soleil tape fort.", "Il fait beau sur la lagune."],
+      "rain": ["Il pleut encore!", "Prends ton parapluie.", "Avec cette pluie, il y a des bouchons partout.", "Attends que ça passe."],
+      "bye": ["Bonne journée!", "À demain.", "Bonne soirée!", "Salue la famille."],
+      "busy": ["Je suis en retard, on se parle.", "J'ai une réunion au Plateau.", "Il y a des embouteillages, je dois partir.", "Je t'appelle ce soir."]
+    },
+    "dyu": {
+      "greet": ["I ni sɔgɔma! I ka kɛnɛ wa?", "I ni wula!", "Aw ni ce!", "I ni ce! I ka kɛnɛ?"],
+      "reply": ["Tɔɔrɔ tɛ.", "N ka kɛnɛ, i ni ce.", "Hɛrɛ dɔrɔn.", "Tɔɔrɔ tɛ, i ni ce."],
+      "bye": ["K'an bɛn!", "K'an bɛn sini!", "I ni ce, k'an bɛn.", "Ka su hɛrɛ caya."]
+    }
+  },
+  "transport": { "bus": "gbaka", "moto_taxi": "moto-taxi", "tricycle": "tricycle", "taxi": "taxi compteur", "shared_taxi": "woro-woro", "conductor": "apprenti", "stage": "gare" },
+  "touts": [
+    "Adjamé! Adjamé!",
+    "Yop! Yopougon!",
+    "Abobo! Abobo!",
+    "Plateau! Plateau!",
+    "Cocody, Riviera!",
+    "Treichville, Marcory!",
+    "Bassam! Bassam!",
+    "Koumassi, Port-Bouët! On a encore une place!"
+  ],
+  "hawkers": [
+    ["Garba! Garba!", "Attiéké with fried tuna!"],
+    ["Alloco chaud!", "Hot fried plantain!"],
+    ["Gnamankoudji glacé!", "Cold ginger juice!"],
+    ["Bissap glacé!", "Cold hibiscus juice!"],
+    ["Eau glacée! Sachet!", "Cold water sachets!"],
+    ["Choukouya!", "Grilled meat!"],
+    ["Arachides grillées!", "Roasted peanuts!"],
+    ["Crédit! Crédit!", "Phone credit!"]
+  ],
+  "food": {
+    "street": ["garba", "alloco", "choukouya", "poisson braisé", "poulet braisé", "galettes", "beignets", "roasted corn"],
+    "dishes": ["attiéké poisson", "kedjenou", "foutou banane with sauce graine", "placali with sauce kopè", "sauce arachide", "sauce claire", "foutou igname"],
+    "drinks": ["bissap", "gnamankoudji (ginger juice)", "bangui (palm wine)", "tchapalo (millet beer)", "Bock beer", "Flag beer"]
+  },
+  "places": {
+    "neighbourhoods": ["Plateau", "Cocody", "Riviera", "Deux Plateaux", "Angré", "Treichville", "Marcory", "Zone 4", "Yopougon", "Abobo", "Adjamé", "Koumassi", "Port-Bouët", "Attécoubé", "Bingerville", "Anyama"],
+    "streets": ["Boulevard Latrille", "Boulevard Valéry Giscard d'Estaing (VGE)", "Boulevard de la République", "Boulevard François Mitterrand", "Rue des Jardins", "Boulevard de Marseille", "Avenue Chardy", "Boulevard Nangui Abrogoua", "Autoroute du Nord", "Pont Henri Konan Bédié (HKB)", "Pont Félix Houphouët-Boigny"],
+    "landmarks": ["Cathédrale Saint-Paul", "Plateau skyline and La Pyramide", "Marché d'Adjamé", "Marché de Treichville", "Hôtel Ivoire", "Parc national du Banco", "Stade Félix Houphouët-Boigny", "Stade Olympique d'Ebimpé", "Allocodrome de Cocody", "Lagune Ébrié", "Musée des Civilisations de Côte d'Ivoire"]
+  },
+  "small_talk": [
+    "The gbaka to Yop was packed, I stood all the way.",
+    "Garba at lunchtime, same spot as always?",
+    "Traffic on the HKB bridge this morning was crazy.",
+    "Let's go to the allocodrome tonight.",
+    "June rain in Abidjan doesn't joke.",
+    "Coupé-décalé played all night in Yopougon.",
+    "Bassam beach on Sunday, who's in?",
+    "The woro-woro driver wanted extra because of the rain.",
+    "Adjamé market has everything, if you can find your way out."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Abidjan",
+    "https://en.wikipedia.org/wiki/Nouchi",
+    "https://en.wikipedia.org/wiki/Ivorian_cuisine",
+    "https://en.wikipedia.org/wiki/Atti%C3%A9k%C3%A9",
+    "https://en.wikipedia.org/wiki/Alloco",
+    "https://en.wikipedia.org/wiki/Coup%C3%A9-d%C3%A9cal%C3%A9",
+    "https://en.wikipedia.org/wiki/Henri_Konan_B%C3%A9di%C3%A9_Bridge",
+    "https://en.wikipedia.org/wiki/Banco_National_Park"
+  ]
+}

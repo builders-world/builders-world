@@ -1,0 +1,897 @@
+{
+  "languages": [
+    {
+      "code": "de",
+      "name": "German (Austrian German)",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "in tech circles"
+    },
+    {
+      "code": "hbs",
+      "name": "Bosnian, Croatian, Serbian (BKS)",
+      "official": false,
+      "spoken": "commonly"
+    },
+    {
+      "code": "tr",
+      "name": "Turkish",
+      "official": false,
+      "spoken": "some"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "One or two given names and a family name from the father, though couples may choose either name. Austrian family names come from farms, trades and places (Gruber, Huber, Bauer, Pichler); Vienna is full of Czech surnames from the old empire (Novotny, Swoboda, Prohaska). Academic titles are part of how people are addressed: Frau Magistra, Herr Diplomingenieur, Herr Doktor. Families from Bosnia, Croatia, Serbia, Turkey, Poland and Romania keep their own names.",
+    "groups": {
+      "austrian": {
+        "given": {
+          "m": [
+            "Thomas",
+            "Michael",
+            "Andreas",
+            "Stefan",
+            "Christian",
+            "Markus",
+            "Daniel",
+            "Lukas",
+            "Florian",
+            "David",
+            "Maximilian",
+            "Tobias",
+            "Philipp",
+            "Georg",
+            "Alexander",
+            "Martin",
+            "Wolfgang",
+            "Jakob"
+          ],
+          "f": [
+            "Julia",
+            "Anna",
+            "Lisa",
+            "Sarah",
+            "Katharina",
+            "Christina",
+            "Sandra",
+            "Barbara",
+            "Sabine",
+            "Verena",
+            "Elisabeth",
+            "Theresa",
+            "Magdalena",
+            "Lena",
+            "Hannah",
+            "Johanna",
+            "Birgit",
+            "Claudia"
+          ]
+        },
+        "family": [
+          "Gruber",
+          "Huber",
+          "Bauer",
+          "Wagner",
+          "Müller",
+          "Pichler",
+          "Steiner",
+          "Moser",
+          "Mayer",
+          "Hofer",
+          "Leitner",
+          "Berger",
+          "Fuchs",
+          "Eder",
+          "Fischer",
+          "Winkler",
+          "Novotny",
+          "Swoboda",
+          "Prohaska",
+          "Kratochwil"
+        ]
+      },
+      "bks": {
+        "given": {
+          "m": [
+            "Ivan",
+            "Marko",
+            "Luka",
+            "Josip",
+            "Ante",
+            "Tomislav",
+            "Dario",
+            "Nikola",
+            "Stefan",
+            "Milan",
+            "Dragan",
+            "Goran",
+            "Adnan",
+            "Emir",
+            "Dejan",
+            "Aleksandar"
+          ],
+          "f": [
+            "Ana",
+            "Ivana",
+            "Marija",
+            "Petra",
+            "Maja",
+            "Jelena",
+            "Katarina",
+            "Mirela",
+            "Snježana",
+            "Tamara",
+            "Sanja",
+            "Lejla",
+            "Amra",
+            "Jasmina",
+            "Milica",
+            "Dragana"
+          ]
+        },
+        "family": [
+          "Horvat",
+          "Kovačević",
+          "Babić",
+          "Marić",
+          "Jurić",
+          "Novak",
+          "Knežević",
+          "Petrović",
+          "Jovanović",
+          "Nikolić",
+          "Hodžić",
+          "Begić",
+          "Delić",
+          "Kovač",
+          "Perić",
+          "Ilić",
+          "Stojanović"
+        ]
+      },
+      "turkish": {
+        "given": {
+          "m": [
+            "Mehmet",
+            "Mustafa",
+            "Ahmet",
+            "Ali",
+            "Hüseyin",
+            "Hasan",
+            "İbrahim",
+            "Murat",
+            "Emre",
+            "Burak",
+            "Can",
+            "Deniz",
+            "Serkan",
+            "Cem",
+            "Yusuf",
+            "Kerem"
+          ],
+          "f": [
+            "Ayşe",
+            "Fatma",
+            "Emine",
+            "Elif",
+            "Zeynep",
+            "Merve",
+            "Esra",
+            "Derya",
+            "Aylin",
+            "Melike",
+            "Selin",
+            "Büşra",
+            "Gül",
+            "Sevgi",
+            "Hatice",
+            "Dilara"
+          ]
+        },
+        "family": [
+          "Yılmaz",
+          "Kaya",
+          "Demir",
+          "Şahin",
+          "Çelik",
+          "Yıldız",
+          "Yıldırım",
+          "Öztürk",
+          "Aydın",
+          "Özdemir",
+          "Arslan",
+          "Doğan",
+          "Kılıç",
+          "Aslan",
+          "Polat",
+          "Koç"
+        ]
+      },
+      "romanian": {
+        "given": {
+          "m": [
+            "Andrei",
+            "Alexandru",
+            "Mihai",
+            "Ionuț",
+            "Florin",
+            "Adrian",
+            "Cristian",
+            "Bogdan",
+            "Daniel",
+            "Marius",
+            "Gabriel",
+            "Ștefan",
+            "Vlad",
+            "Răzvan"
+          ],
+          "f": [
+            "Maria",
+            "Ioana",
+            "Andreea",
+            "Elena",
+            "Alexandra",
+            "Mihaela",
+            "Cristina",
+            "Ana",
+            "Gabriela",
+            "Raluca",
+            "Diana",
+            "Irina",
+            "Roxana",
+            "Alina"
+          ]
+        },
+        "family": [
+          "Popescu",
+          "Ionescu",
+          "Popa",
+          "Pop",
+          "Radu",
+          "Dumitru",
+          "Stan",
+          "Stoica",
+          "Gheorghe",
+          "Matei",
+          "Constantin",
+          "Munteanu",
+          "Ciobanu",
+          "Rusu",
+          "Moldovan"
+        ]
+      },
+      "polish": {
+        "given": {
+          "m": [
+            "Piotr",
+            "Krzysztof",
+            "Tomasz",
+            "Paweł",
+            "Michał",
+            "Marcin",
+            "Łukasz",
+            "Marek",
+            "Jakub",
+            "Kamil",
+            "Adam",
+            "Grzegorz",
+            "Mateusz",
+            "Dawid"
+          ],
+          "f": [
+            "Anna",
+            "Katarzyna",
+            "Agnieszka",
+            "Magdalena",
+            "Joanna",
+            "Monika",
+            "Aleksandra",
+            "Karolina",
+            "Natalia",
+            "Ewa",
+            "Małgorzata",
+            "Justyna",
+            "Paulina",
+            "Marta"
+          ]
+        },
+        "family": [
+          "Nowak",
+          "Kowalski",
+          "Wiśniewski",
+          "Wójcik",
+          "Kowalczyk",
+          "Kamiński",
+          "Lewandowski",
+          "Zieliński",
+          "Szymański",
+          "Woźniak",
+          "Dąbrowski",
+          "Kozłowski",
+          "Jankowski",
+          "Mazur"
+        ],
+        "family_f": [
+          "Nowak",
+          "Kowalska",
+          "Wiśniewska",
+          "Wójcik",
+          "Kowalczyk",
+          "Kamińska",
+          "Lewandowska",
+          "Zielińska",
+          "Szymańska",
+          "Woźniak",
+          "Dąbrowska",
+          "Kozłowska",
+          "Jankowska",
+          "Mazur"
+        ]
+      },
+      "arab": {
+        "given": {
+          "m": [
+            "Mohammed",
+            "Ahmad",
+            "Omar",
+            "Khaled",
+            "Ali",
+            "Hassan",
+            "Mahmoud",
+            "Youssef",
+            "Ibrahim",
+            "Karim",
+            "Samer",
+            "Rami",
+            "Bilal",
+            "Tarek"
+          ],
+          "f": [
+            "Fatima",
+            "Aya",
+            "Rana",
+            "Noor",
+            "Lina",
+            "Rasha",
+            "Hiba",
+            "Mariam",
+            "Yasmin",
+            "Leila",
+            "Sara",
+            "Dana",
+            "Huda",
+            "Reem"
+          ]
+        },
+        "family": [
+          "Haddad",
+          "Khalil",
+          "Saleh",
+          "Hamdan",
+          "Darwish",
+          "Nasser",
+          "Abboud",
+          "Hussein",
+          "Ibrahim",
+          "Mansour",
+          "Khoury",
+          "Al-Ahmad",
+          "Al-Hassan",
+          "Othman",
+          "Sabbagh"
+        ]
+      }
+    },
+    "weights": {
+      "austrian": 0.74,
+      "bks": 0.1,
+      "turkish": 0.07,
+      "romanian": 0.03,
+      "polish": 0.03,
+      "arab": 0.03
+    }
+  },
+  "honorifics": {
+    "elder_m": "der Herr",
+    "elder_f": "gnä' Frau",
+    "peer_m": "Hawara",
+    "peer_f": "Hawerin",
+    "boss": "Chef",
+    "titles": {
+      "elder_m": "Herr",
+      "elder_f": "Frau",
+      "with": "family"
+    }
+  },
+  "phrases": {
+    "de": {
+      "hello": [
+        [
+          "Grüß Gott",
+          "Hello (polite)"
+        ],
+        [
+          "Servus",
+          "Hi (also bye)"
+        ],
+        [
+          "Hallo",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Guten Morgen",
+          "Good morning"
+        ],
+        [
+          "Morgen!",
+          "Morning!"
+        ]
+      ],
+      "evening": [
+        [
+          "Guten Abend",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Wie geht's?",
+          "How are you?"
+        ],
+        [
+          "Wie geht es Ihnen?",
+          "How are you? (formal)"
+        ]
+      ],
+      "fine": [
+        [
+          "Gut, danke",
+          "Fine, thanks"
+        ],
+        [
+          "Passt",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Danke",
+          "Thanks"
+        ],
+        [
+          "Danke schön",
+          "Thank you very much"
+        ],
+        [
+          "Vielen Dank",
+          "Many thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "Auf Wiedersehen",
+          "Goodbye (formal)"
+        ],
+        [
+          "Baba",
+          "Bye (Vienna)"
+        ],
+        [
+          "Servus",
+          "Bye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Willkommen",
+          "Welcome"
+        ],
+        [
+          "Herzlich willkommen",
+          "A warm welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Entschuldigung",
+          "Sorry"
+        ],
+        [
+          "Tut mir leid",
+          "I'm sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Entschuldigen Sie",
+          "Excuse me"
+        ],
+        [
+          "Darf ich vorbei?",
+          "May I get past?"
+        ]
+      ],
+      "yes": [
+        [
+          "Ja",
+          "Yes"
+        ],
+        [
+          "Jo",
+          "Yeah"
+        ]
+      ],
+      "no": [
+        [
+          "Nein",
+          "No"
+        ],
+        [
+          "Na",
+          "Nah"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hi",
+          "Hi"
+        ],
+        [
+          "Hello",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you?",
+          "How are you?"
+        ],
+        [
+          "How's it going?",
+          "How's it going?"
+        ]
+      ],
+      "fine": [
+        [
+          "Fine, thanks",
+          "Fine, thanks"
+        ],
+        [
+          "All good",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks",
+          "Thanks"
+        ],
+        [
+          "Thank you",
+          "Thank you"
+        ]
+      ],
+      "bye": [
+        [
+          "Bye",
+          "Bye"
+        ],
+        [
+          "See you",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ],
+        [
+          "Yeah",
+          "Yeah"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    },
+    "hbs": {
+      "hello": [
+        [
+          "Zdravo",
+          "Hello"
+        ],
+        [
+          "Bok",
+          "Hi (Croatian)"
+        ],
+        [
+          "Ćao",
+          "Hi"
+        ]
+      ],
+      "morning": [
+        [
+          "Dobro jutro",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Dobro veče",
+          "Good evening (Bosnian, Serbian)"
+        ],
+        [
+          "Dobra večer",
+          "Good evening (Croatian)"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Kako si?",
+          "How are you?"
+        ],
+        [
+          "Kako ste?",
+          "How are you? (polite)"
+        ],
+        [
+          "Šta ima?",
+          "What's up?"
+        ]
+      ],
+      "fine": [
+        [
+          "Dobro, hvala",
+          "Fine, thanks"
+        ],
+        [
+          "Sve je dobro",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Hvala",
+          "Thanks"
+        ],
+        [
+          "Hvala lijepa",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Doviđenja",
+          "Goodbye"
+        ],
+        [
+          "Ćao",
+          "Bye"
+        ],
+        [
+          "Vidimo se",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Dobro došli",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Izvini",
+          "Sorry (Bosnian, Serbian)"
+        ],
+        [
+          "Oprosti",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Izvinite",
+          "Excuse me (polite)"
+        ],
+        [
+          "Oprostite",
+          "Excuse me (polite)"
+        ]
+      ],
+      "yes": [
+        [
+          "Da",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Ne",
+          "No"
+        ]
+      ]
+    },
+    "tr": {
+      "hello": [
+        [
+          "Merhaba",
+          "Hello"
+        ],
+        [
+          "Selam",
+          "Hi"
+        ]
+      ],
+      "morning": [
+        [
+          "Günaydın",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "İyi akşamlar",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Nasılsın?",
+          "How are you?"
+        ],
+        [
+          "Nasılsınız?",
+          "How are you? (polite)"
+        ],
+        [
+          "Naber?",
+          "What's up?"
+        ]
+      ],
+      "fine": [
+        [
+          "İyiyim, teşekkürler",
+          "I'm fine, thanks"
+        ],
+        [
+          "İyidir",
+          "It's good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Teşekkürler",
+          "Thanks"
+        ],
+        [
+          "Sağ ol",
+          "Thanks (casual)"
+        ]
+      ],
+      "bye": [
+        [
+          "Görüşürüz",
+          "See you"
+        ],
+        [
+          "Hoşça kal",
+          "Goodbye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Hoş geldiniz",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Özür dilerim",
+          "I'm sorry"
+        ],
+        [
+          "Pardon",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Pardon",
+          "Excuse me"
+        ],
+        [
+          "Bakar mısınız?",
+          "Excuse me (to get someone's attention)"
+        ]
+      ],
+      "yes": [
+        [
+          "Evet",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Hayır",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "EUR",
+    "symbol": "€",
+    "words": [
+      [
+        "Kohle",
+        "money"
+      ],
+      [
+        "Marie",
+        "money (Viennese slang)"
+      ],
+      [
+        "Göd",
+        "money (dialect for Geld)"
+      ],
+      [
+        "a Zehner",
+        "a ten-euro note"
+      ],
+      [
+        "Trinkgeld",
+        "a tip, usually rounding up the bill"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Austrian_German",
+    "https://en.wikipedia.org/wiki/Demographics_of_Austria",
+    "https://de.wikipedia.org/wiki/Wienerisch",
+    "https://www.statistik.at/"
+  ]
+}

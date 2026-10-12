@@ -1,0 +1,350 @@
+{
+  "street": {
+    "es": 0.62,
+    "montevideano": 0.35,
+    "pt": 0.02,
+    "en": 0.01
+  },
+  "registers": {
+    "montevideano": {
+      "name": "Montevideano",
+      "about": "Montevideo's laid-back street Spanish: ta, bo, de más, gurí, botija, salado, bondi, re, and vos verbs, often with tú as the pronoun (tú tenés)."
+    }
+  },
+  "names": {
+    "weights": {
+      "hispanic": 0.6,
+      "italian": 0.34,
+      "european": 0.06
+    }
+  },
+  "phrases": {
+    "montevideano": {
+      "hello": [
+        [
+          "¿Qué hacés, bo?",
+          "What's up, mate?"
+        ],
+        [
+          "¡Buenas, bo!",
+          "Hey there!"
+        ]
+      ],
+      "fine": [
+        [
+          "De más",
+          "Great, awesome"
+        ],
+        [
+          "Tranqui",
+          "Fine, relaxed"
+        ],
+        [
+          "Re bien",
+          "Really good"
+        ]
+      ],
+      "yes": [
+        [
+          "Ta",
+          "Okay"
+        ],
+        [
+          "Ta, dale",
+          "Okay, go on"
+        ]
+      ],
+      "thanks": [
+        [
+          "Gracias, bo",
+          "Thanks, mate"
+        ]
+      ],
+      "bye": [
+        [
+          "Ta, nos vemos",
+          "Okay, see you"
+        ],
+        [
+          "Chau, bo",
+          "Bye, mate"
+        ]
+      ]
+    }
+  },
+  "chat": {
+    "es": {
+      "greet": [
+        "¡Buen día! ¿Cómo le va?",
+        "¡Hola! ¿Cómo andás?",
+        "Buenas tardes, ¿cómo está?",
+        "¡Qué alegría verte! ¿Cómo estás?",
+        "¡Hola! ¿Todo bien en casa?"
+      ],
+      "reply": [
+        "Muy bien, gracias, ¿y usted?",
+        "Bien, por suerte, ¿y vos?",
+        "Todo bien, trabajando.",
+        "Bárbaro, gracias.",
+        "Bien, acá andamos."
+      ],
+      "sunny": [
+        "Qué lindo día para la rambla.",
+        "Hace calor, vamos a Pocitos.",
+        "Día perfecto para un mate en la playa.",
+        "Qué sol lindo, dan ganas de salir.",
+        "Hoy la rambla va a estar llena."
+      ],
+      "rain": [
+        "Se largó a llover, día de tortas fritas.",
+        "Llevá paraguas, viene tormenta.",
+        "Qué viento, el río está bravo.",
+        "Hace un frío húmedo bárbaro.",
+        "Llueve todo el día, mejor quedarse adentro."
+      ],
+      "bye": [
+        "Chau, ¡que andes bien!",
+        "Nos vemos, cuidate.",
+        "Hasta luego, saludos a la familia.",
+        "¡Buen fin de semana!",
+        "Chau, un beso."
+      ],
+      "busy": [
+        "Perdoná, llego tarde al trabajo.",
+        "Me tengo que tomar el ómnibus, ¡chau!",
+        "Tengo una reunión, después te llamo.",
+        "Estoy apurado, hablamos.",
+        "Voy a buscar a los gurises a la escuela."
+      ]
+    },
+    "montevideano": {
+      "greet": [
+        "¿Qué hacés, bo? ¿Todo bien?",
+        "¡Buenas, bo! ¿Cómo andás?",
+        "¡Eh, tanto tiempo, bo!",
+        "¿Todo tranqui?"
+      ],
+      "reply": [
+        "Ta, todo bien, ¿y vos?",
+        "De más, bo.",
+        "Re bien, tranqui.",
+        "Acá, laburando."
+      ],
+      "sunny": [
+        "Está de más el día, bo.",
+        "Vamos a la rambla con el mate.",
+        "Qué calor, una cerveza bien fría.",
+        "Día de playa, bo, vamos a Ramírez."
+      ],
+      "rain": [
+        "Ta, llueve, tortas fritas y mate.",
+        "Qué viento, bo, el río está picado.",
+        "Se largó, no pasa ni un bondi.",
+        "Qué frío, bo."
+      ],
+      "bye": [
+        "Ta, nos vemos.",
+        "Chau, bo.",
+        "Dale, después hablamos.",
+        "Abrazo, cuidate."
+      ],
+      "busy": [
+        "Bo, llego tarde al laburo.",
+        "Me voy, se me va el bondi.",
+        "Estoy a mil, después te escribo.",
+        "Ta, me voy, chau."
+      ]
+    },
+    "en": {
+      "greet": [
+        "Hi! How's it going?",
+        "Morning! Mate on the rambla?",
+        "Hey, good to see you!",
+        "Hola! How are you?",
+        "Hey there, how was the weekend?"
+      ],
+      "reply": [
+        "Good, thanks! You?",
+        "Great, I just had my first chivito.",
+        "Not bad, quiet week.",
+        "All good, gracias!",
+        "Doing well, the city is so relaxed."
+      ],
+      "sunny": [
+        "Beautiful day for a walk on the rambla.",
+        "Hot and sunny, Pocitos beach will be busy.",
+        "Gorgeous out, everyone has a thermos and mate.",
+        "Sunny Sunday, let's go to the feria.",
+        "Lovely sunset over the river tonight."
+      ],
+      "rain": [
+        "Rainy day, time for tortas fritas.",
+        "Bring an umbrella, a storm is coming off the river.",
+        "The wind is wild today.",
+        "Cold and damp, perfect for a café in Ciudad Vieja.",
+        "Rain all day, the buses are packed."
+      ],
+      "bye": [
+        "See you later!",
+        "Take care!",
+        "Chau!",
+        "Have a good one!",
+        "Catch you later."
+      ],
+      "busy": [
+        "Gotta run, meeting in Ciudad Vieja.",
+        "Late, the bus took forever.",
+        "Catching the ómnibus, talk later!",
+        "Running, my Uber is here.",
+        "Can't stop, see you!"
+      ]
+    }
+  },
+  "transport": {
+    "bus": "ómnibus",
+    "bus_slang": "bondi",
+    "taxi": "taxi",
+    "rideshare": "Uber or Cabify",
+    "card": "tarjeta STM",
+    "stage": "parada"
+  },
+  "touts": [
+    "¡Lleve, lleve, que se termina!",
+    "¡Tortas fritas calentitas!",
+    "¡Garrapiñada, garrapiñada!",
+    "¡Chivitos al pan, pasen!",
+    "¡Naranjas, a cien el cajón!"
+  ],
+  "hawkers": [
+    [
+      "¡Tortas fritas calentitas!",
+      "Hot fried dough! (a rainy day favourite)"
+    ],
+    [
+      "¡Garrapiñada!",
+      "Candied peanuts!"
+    ],
+    [
+      "¡Lleve, lleve, que se termina!",
+      "Buy now, it's running out! (a Sunday feria stall)"
+    ],
+    [
+      "¡Bizcochos calentitos!",
+      "Warm pastries!"
+    ],
+    [
+      "¡Helado, helado!",
+      "Ice cream! (a beach seller)"
+    ]
+  ],
+  "food": {
+    "street": [
+      "chivito al pan",
+      "torta frita",
+      "choripán",
+      "pancho",
+      "garrapiñada",
+      "bizcochos",
+      "fainá",
+      "muzzarella al corte"
+    ],
+    "dishes": [
+      "chivito al plato",
+      "asado",
+      "milanesa",
+      "pizza con fainá",
+      "empanadas",
+      "pascualina",
+      "ñoquis del 29",
+      "martín fierro",
+      "chajá",
+      "alfajores"
+    ],
+    "drinks": [
+      "mate",
+      "medio y medio",
+      "grappamiel",
+      "Tannat",
+      "café con leche",
+      "cerveza"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "Ciudad Vieja",
+      "Centro",
+      "Cordón",
+      "Pocitos",
+      "Punta Carretas",
+      "Parque Rodó",
+      "Malvín",
+      "Buceo",
+      "Carrasco",
+      "Palermo",
+      "Barrio Sur",
+      "Prado",
+      "La Blanqueada",
+      "Tres Cruces",
+      "Aguada",
+      "Unión",
+      "Punta Gorda",
+      "Cerro",
+      "La Teja",
+      "Goes"
+    ],
+    "streets": [
+      "Avenida 18 de Julio",
+      "la Rambla",
+      "Bulevar Artigas",
+      "Avenida Italia",
+      "Avenida Rivera",
+      "Calle Sarandí",
+      "Calle Tristán Narvaja",
+      "Avenida Agraciada",
+      "Avenida Brasil",
+      "Bulevar España",
+      "Avenida 8 de Octubre",
+      "Avenida Millán",
+      "Calle 21 de Setiembre",
+      "Avenida del Libertador"
+    ],
+    "landmarks": [
+      "Palacio Salvo",
+      "Teatro Solís",
+      "Plaza Independencia",
+      "Puerta de la Ciudadela",
+      "Mercado del Puerto",
+      "Estadio Centenario",
+      "la Feria de Tristán Narvaja",
+      "Playa Pocitos",
+      "Playa Ramírez",
+      "Cerro de Montevideo",
+      "Palacio Legislativo",
+      "Parque Rodó",
+      "Torre Antel",
+      "Faro de Punta Carretas",
+      "Mercado Agrícola",
+      "el cartel de Montevideo",
+      "Gran Parque Central"
+    ]
+  },
+  "small_talk": [
+    "Nacional or Peñarol? There's no neutral answer here.",
+    "Sunday at the Tristán Narvaja feria, you find everything.",
+    "Everybody walks the rambla with a thermos under the arm.",
+    "The llamadas drums go through Barrio Sur on Sunday evening.",
+    "It's raining, so it's tortas fritas at my place.",
+    "Everything is so salado this month.",
+    "Carnaval lasts forty days here, the murgas are the best part.",
+    "Taking the ferry to Buenos Aires for the weekend.",
+    "The wind off the river cuts right through you in winter.",
+    "A chivito is the best sandwich in the world, I won't argue."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Montevideo",
+    "https://en.wikipedia.org/wiki/Uruguayan_Spanish",
+    "https://montevideo.gub.uy",
+    "https://www.ine.gub.uy",
+    "https://en.wikipedia.org/wiki/Candombe"
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "street": { "en": 0.35, "af": 0.15, "sepitori": 0.5 },
+  "registers": {
+    "sepitori": {
+      "name": "Sepitori",
+      "about": "Pretoria's own township talk, also called Pretoria Sotho: Setswana and Sepedi at its core, with Sesotho, isiZulu, Afrikaans and English words mixed in. The everyday language of Mamelodi, Atteridgeville and Soshanguve, and of anyone who calls the city Pitori."
+    }
+  },
+  "names": {
+    "weights": {
+      "pedi": 0.18,
+      "tswana": 0.17,
+      "afrikaans": 0.17,
+      "tsonga": 0.09,
+      "zulu": 0.1,
+      "sotho": 0.05,
+      "venda": 0.05,
+      "ndebele": 0.05,
+      "english_sa": 0.09,
+      "xhosa": 0.02,
+      "coloured": 0.02,
+      "indian": 0.02
+    }
+  },
+  "phrases": {
+    "sepitori": {
+      "hello": [["Dumela!", "Hello!"], ["Sho!", "Hey!"], ["Ek sê!", "Hey, I say!"], ["Heita!", "Hi!"]],
+      "how_are_you": [["O kae?", "How are you?"], ["O reng?", "What's up?"]],
+      "fine": [["Ke teng", "I'm here (I'm fine)"], ["Ke sharp", "I'm good"], ["Dilo di sharp", "Things are good"]],
+      "thanks": [["Ke a leboga", "Thank you"], ["Sharp!", "Thanks!"]],
+      "bye": [["Sharp sharp!", "Later!"], ["Re tla bonana", "We'll see each other"]],
+      "friend": [["ntwana", "buddy"], ["mjita", "guy, friend"], ["bra", "brother, mate"]],
+      "money": [["zaka", "money"], ["nyoko", "money"]],
+      "place": [["Pitori", "Pretoria"], ["kasi", "the township"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Howzit! How's your day?", "Morning! Hot one already, hey?", "Hey, long time, how are things?", "Dumela! You good?", "Howzit, all well at home?"],
+      "reply": ["I'm good, thanks, and you?", "Lekker, can't complain!", "All good, just busy.", "Fine thanks, just tired.", "Sharp, I'm well!"],
+      "sunny": ["Pretoria is baking today.", "The jacarandas look beautiful in this sun.", "Not a cloud in the sky over the Union Buildings.", "Hot one, it's always warmer here than in Joburg.", "Perfect day for a braai in the garden."],
+      "rain": ["Here comes the afternoon storm.", "It's bucketing down, the roads will flood.", "Thunder again, hey, unplug the TV.", "The rain is good for the gardens at least.", "Those clouds over the Magaliesberg look serious."],
+      "bye": ["Cheers, go well!", "Sharp, see you later!", "Later, hey, safe drive.", "Shot, catch you now now.", "Go well, greet the family!"],
+      "busy": ["Sorry, I'm late, the N1 was standing still!", "Can't stop, I need to catch the Gautrain at Hatfield!", "I'll call you just now, I'm in a meeting.", "Rushing to class at Tuks, later!", "Eish, I'm in a hurry, let's chat later."]
+    },
+    "af": {
+      "greet": ["Goeiemôre! Hoe gaan dit?", "Hallo, hoe gaan dit met jou?", "Môre, tannie!", "Goeiemiddag, oom!", "Haai, lekker om jou te sien!"],
+      "reply": ["Goed dankie, en jy?", "Baie goed, dankie!", "Nie te sleg nie, dankie.", "Alles reg, dankie."],
+      "sunny": ["Dis warm vandag, nè?", "Die son skyn lekker.", "Die jakarandas is pragtig.", "Lekker weer vir 'n braai!"],
+      "rain": ["Dit reën weer.", "Vat jou sambreel, dit gaan reën.", "Daar kom 'n donderstorm.", "Dit reën dat dit sous!"],
+      "bye": ["Totsiens!", "Lekker bly!", "Sien jou later!", "Mooi loop!"],
+      "busy": ["Ek is laat, ek moet hardloop!", "Jammer, ek is haastig.", "Ek moet gaan werk, sien jou later.", "Ek bel jou later, ek is besig."]
+    },
+    "sepitori": {
+      "greet": ["Sho, o kae?", "Heita! O kae, ntwana?", "Dumela, mjita!", "Ek sê, o reng?", "Dumelang, o kae?"],
+      "reply": ["Ke teng, wena o kae?", "Ke sharp, ntwana.", "Re teng, re a leboga.", "Dilo di sharp!"],
+      "sunny": ["Pitori e a fisa gompieno!", "Letsatsi le a fisa, bra.", "Ke letsatsi le lentle gompieno.", "Yoh, go a fisa, ntwana!"],
+      "rain": ["Pula e a na, bra!", "Pula e a tla, ntwana.", "Maru a mantsho, pula e a tla.", "Pula e tla na maitseboa."],
+      "bye": ["Sharp sharp!", "Sala sentle!", "Re tla bonana!", "Tsamaya sentle, ntwana!"],
+      "busy": ["Ke a itlhaganela, sharp!", "Ke busy jaanong, ke tla go leletsa.", "Ke late, ke tshwanetse go tsamaya!", "Ayt, ke a tsamaya, re tla bua."]
+    }
+  },
+  "transport": { "bus": "taxi", "moto_taxi": "", "tricycle": "", "taxi": "metered taxi", "conductor": "", "stage": "rank" },
+  "touts": ["Town, town! Bosman!", "Mamelodi! Mamelodi!", "Soshanguve, Soshanguve!", "Atteridgeville!", "Marabastad!", "Hatfield, Hatfield!", "Menlyn! Still one seat!"],
+  "hawkers": [
+    ["Airtime! Airtime, data!", "Phone airtime and data for sale!"],
+    ["Mielies! Hot mielies!", "Hot roasted corn!"],
+    ["Meetsi! Cold water!", "Water! Cold water!"],
+    ["Magwinya, fresh!", "Fresh vetkoek (fried dough)!"],
+    ["Sphatlho! Sphatlho with chips!", "Quarter loaf filled with chips and polony!"],
+    ["Ama-charger, earphones!", "Phone chargers and earphones!"],
+    ["Peaches, R20 a packet!", "Peaches, twenty rand a packet!"]
+  ],
+  "food": {
+    "street": ["sphatlho (kota)", "magwinya (vetkoek)", "boerewors roll", "chicken feet", "mielies", "shisa nyama"],
+    "dishes": ["pap le nama", "mogodu", "morogo", "chakalaka", "samp and beans", "beef stew with pap", "biltong"],
+    "drinks": ["mageu", "rooibos tea", "ginger beer", "cream soda", "umqombothi"]
+  },
+  "places": {
+    "neighbourhoods": ["Hatfield", "Arcadia", "Brooklyn", "Sunnyside", "Mamelodi", "Soshanguve", "Atteridgeville", "Centurion", "Menlo Park", "Waterkloof", "Pretoria North", "Marabastad", "Lynnwood", "Garsfontein"],
+    "streets": ["Lynnwood Road", "Atterbury Road", "Burnett Street", "Garsfontein Road", "Jan Shoba Street", "Francis Baard Street", "Solomon Mahlangu Drive", "Lois Avenue"],
+    "landmarks": ["Union Buildings", "Church Square", "Voortrekker Monument", "Freedom Park", "Loftus Versfeld", "University of Pretoria", "Menlyn Park", "National Zoological Gardens", "Unisa", "Bosman Station"]
+  },
+  "small_talk": [
+    "The jacarandas are out, the whole of Pitori is purple.",
+    "Did you watch Sundowns at Loftus on Saturday?",
+    "The N1 at Brooklyn was a parking lot this morning.",
+    "I took the Gautrain from Hatfield, so easy.",
+    "Menlyn is going to be packed, it's month-end.",
+    "It's always a few degrees hotter here than in Joburg.",
+    "Let's get sphatlho in Mamelodi after work.",
+    "Students are back, Hatfield is full again.",
+    "That afternoon storm came out of nowhere."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Pretoria",
+    "https://en.wikipedia.org/wiki/Sepitori",
+    "https://en.wikipedia.org/wiki/Tswana_language",
+    "https://en.wikipedia.org/wiki/Northern_Sotho_language",
+    "https://en.wikipedia.org/wiki/Afrikaans",
+    "https://en.wikipedia.org/wiki/Mamelodi",
+    "https://en.wikipedia.org/wiki/Mamelodi_Sundowns_F.C.",
+    "https://en.wikipedia.org/wiki/Gautrain"
+  ]
+}

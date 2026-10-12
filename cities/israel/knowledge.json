@@ -1,0 +1,769 @@
+{
+  "languages": [
+    {
+      "code": "he",
+      "name": "Hebrew",
+      "official": true,
+      "spoken": "everywhere; the language of the street, offices and signs"
+    },
+    {
+      "code": "ar",
+      "name": "Arabic (Levantine, Palestinian dialect)",
+      "official": false,
+      "spoken": "by Arab citizens, in Jaffa and Arab towns; on many signs"
+    },
+    {
+      "code": "ru",
+      "name": "Russian",
+      "official": false,
+      "spoken": "widely among immigrants from the former Soviet Union and their families"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "widely, especially in tech and among young people"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Most Israelis have a given name and a family name. Many first names are modern Hebrew ones (Noa, Itai, Omer, Shira), often unisex (Noam, Amit, Adi, Shani), and people are known by short forms like Yossi, Avi or Dudi. Family names come from where a family came from: Ashkenazi names such as Friedman or Katz, Mizrahi and Sephardi names such as Peretz, Biton or Azoulay, and Hebraised names such as Golan or Ben-David chosen on arrival. Russian-speaking Israelis often keep Russian first names (Dmitri, Olga) and shortened forms (Sasha, Katya) alongside a Jewish family name. Arab citizens use an Arabic given name, often the father's name, and a family name such as Khoury, Haddad or Mansour, with Christian and Muslim given names both common.",
+    "groups": {
+      "hebrew": {
+        "given": {
+          "m": [
+            "Noam",
+            "Itai",
+            "Yonatan",
+            "Omer",
+            "Daniel",
+            "Ariel",
+            "Eitan",
+            "Ido",
+            "Amit",
+            "Yossi",
+            "Avi",
+            "David",
+            "Tomer",
+            "Guy",
+            "Uri",
+            "Lior",
+            "Yuval",
+            "Roi"
+          ],
+          "f": [
+            "Noa",
+            "Maya",
+            "Tamar",
+            "Shira",
+            "Yael",
+            "Michal",
+            "Noga",
+            "Adi",
+            "Talia",
+            "Hila",
+            "Liat",
+            "Roni",
+            "Inbar",
+            "Shani",
+            "Efrat",
+            "Gali"
+          ]
+        },
+        "family": [
+          "Cohen",
+          "Levi",
+          "Mizrahi",
+          "Peretz",
+          "Biton",
+          "Friedman",
+          "Avraham",
+          "Dahan",
+          "Azoulay",
+          "Katz",
+          "Shapira",
+          "Ben-David",
+          "Malka",
+          "Golan",
+          "Ohana",
+          "Amar",
+          "Segal",
+          "Weiss"
+        ]
+      },
+      "russian_speaking": {
+        "given": {
+          "m": [
+            "Dmitri",
+            "Alexander",
+            "Igor",
+            "Sergei",
+            "Mikhail",
+            "Evgeny",
+            "Andrei",
+            "Maxim",
+            "Artyom",
+            "Pavel",
+            "Yuri",
+            "Boris",
+            "Roman",
+            "Ilya",
+            "Vadim",
+            "Leonid"
+          ],
+          "f": [
+            "Anna",
+            "Olga",
+            "Natalia",
+            "Yulia",
+            "Elena",
+            "Svetlana",
+            "Irina",
+            "Ekaterina",
+            "Marina",
+            "Tatiana",
+            "Alina",
+            "Polina",
+            "Daria",
+            "Ksenia",
+            "Sofia",
+            "Vera"
+          ]
+        },
+        "family": [
+          "Kaplan",
+          "Gurevich",
+          "Rabinovich",
+          "Feldman",
+          "Berkovich",
+          "Goldberg",
+          "Zilberman",
+          "Rosenberg",
+          "Levin",
+          "Lerner",
+          "Kogan",
+          "Gordon",
+          "Rubinstein",
+          "Shulman",
+          "Vinokur",
+          "Abramov"
+        ],
+        "also": {
+          "m": [
+            "Sasha",
+            "Misha",
+            "Zhenya",
+            "Dima"
+          ],
+          "f": [
+            "Katya",
+            "Natasha",
+            "Lena",
+            "Sveta"
+          ]
+        }
+      },
+      "arab": {
+        "given": {
+          "m": [
+            "Mohammad",
+            "Ahmad",
+            "Yousef",
+            "Omar",
+            "Ali",
+            "Mahmoud",
+            "Khaled",
+            "Rami",
+            "Elias",
+            "Fadi",
+            "Sami",
+            "Majd",
+            "Wassim",
+            "Karim",
+            "Amir",
+            "Hani"
+          ],
+          "f": [
+            "Rawan",
+            "Lina",
+            "Maryam",
+            "Nour",
+            "Yara",
+            "Dima",
+            "Hala",
+            "Reem",
+            "Rasha",
+            "Aya",
+            "Samar",
+            "Maysa",
+            "Haneen",
+            "Lama",
+            "Rana",
+            "Rula"
+          ]
+        },
+        "family": [
+          "Khoury",
+          "Haddad",
+          "Mansour",
+          "Masarwa",
+          "Jabareen",
+          "Agbaria",
+          "Mahajna",
+          "Safadi",
+          "Khatib",
+          "Kassem",
+          "Awad",
+          "Saleh",
+          "Hamdan",
+          "Nassar",
+          "Bishara",
+          "Shehadeh"
+        ]
+      }
+    },
+    "weights": {
+      "hebrew": 0.66,
+      "russian_speaking": 0.14,
+      "arab": 0.2
+    }
+  },
+  "honorifics": {
+    "elder_m": "Adoni",
+    "elder_f": "Geverti",
+    "peer_m": "Achi",
+    "peer_f": "Achoti",
+    "boss": "Bos",
+    "friend": "Gever",
+    "elder_m_ar": "Ammo",
+    "elder_f_ar": "Khalto",
+    "dear": "Motek",
+    "titles": {
+      "with": "none"
+    }
+  },
+  "phrases": {
+    "he": {
+      "hello": [
+        [
+          "Shalom",
+          "Hello (שלום)"
+        ],
+        [
+          "Ahlan",
+          "Hi, borrowed from Arabic, very common"
+        ],
+        [
+          "Hey",
+          "Hi"
+        ]
+      ],
+      "morning": [
+        [
+          "Boker tov",
+          "Good morning (בוקר טוב)"
+        ],
+        [
+          "Boker or",
+          "Good morning, the reply (בוקר אור)"
+        ]
+      ],
+      "evening": [
+        [
+          "Erev tov",
+          "Good evening (ערב טוב)"
+        ],
+        [
+          "Laila tov",
+          "Good night (לילה טוב)"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Ma nishma?",
+          "What's up? (מה נשמע)"
+        ],
+        [
+          "Ma shlomkha?",
+          "How are you? to a man (מה שלומך)"
+        ],
+        [
+          "Ma shlomekh?",
+          "How are you? to a woman"
+        ],
+        [
+          "Ma koreh?",
+          "What's happening?"
+        ]
+      ],
+      "fine": [
+        [
+          "Beseder",
+          "Okay, fine (בסדר)"
+        ],
+        [
+          "Sababa",
+          "Great, cool (סבבה)"
+        ],
+        [
+          "Hakol tov",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Toda",
+          "Thanks (תודה)"
+        ],
+        [
+          "Toda raba",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Lehitraot",
+          "See you (להתראות)"
+        ],
+        [
+          "Yalla bye",
+          "Okay, bye"
+        ],
+        [
+          "Shalom",
+          "Goodbye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Bruchim ha-ba'im",
+          "Welcome (ברוכים הבאים)"
+        ],
+        [
+          "Baruch ha-ba",
+          "Welcome, to one man"
+        ]
+      ],
+      "sorry": [
+        [
+          "Slicha",
+          "Sorry (סליחה)"
+        ],
+        [
+          "Sori",
+          "Sorry, casual"
+        ]
+      ],
+      "excuse": [
+        [
+          "Slicha",
+          "Excuse me"
+        ],
+        [
+          "Rega",
+          "One moment (רגע)"
+        ]
+      ],
+      "yes": [
+        [
+          "Ken",
+          "Yes (כן)"
+        ],
+        [
+          "Betach",
+          "Sure (בטח)"
+        ]
+      ],
+      "no": [
+        [
+          "Lo",
+          "No (לא)"
+        ],
+        [
+          "Lo, toda",
+          "No, thanks"
+        ]
+      ]
+    },
+    "ar": {
+      "hello": [
+        [
+          "Marhaba",
+          "Hello (مرحبا)"
+        ],
+        [
+          "Ahlan",
+          "Hi"
+        ],
+        [
+          "Assalamu alaikum",
+          "Peace be upon you, the everyday greeting"
+        ],
+        [
+          "Hala wallah",
+          "Hey, great to see you"
+        ]
+      ],
+      "morning": [
+        [
+          "Sabah il kheir",
+          "Good morning (صباح الخير)"
+        ],
+        [
+          "Sabah il noor",
+          "Good morning, the reply"
+        ]
+      ],
+      "evening": [
+        [
+          "Masa il kheir",
+          "Good evening (مساء الخير)"
+        ],
+        [
+          "Masa il noor",
+          "Good evening, the reply"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Kifak?",
+          "How are you? to a man (كيفك)"
+        ],
+        [
+          "Kifik?",
+          "How are you? to a woman"
+        ],
+        [
+          "Shu akhbarak?",
+          "What's new?"
+        ]
+      ],
+      "fine": [
+        [
+          "Il hamdilla",
+          "Fine, thank God"
+        ],
+        [
+          "Mnih",
+          "Good"
+        ],
+        [
+          "Tamam",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Shukran",
+          "Thanks"
+        ],
+        [
+          "Yislamu",
+          "Thank you, bless your hands"
+        ],
+        [
+          "Ya'tik il 'afyeh",
+          "Thanks, God give you strength, to someone working"
+        ]
+      ],
+      "bye": [
+        [
+          "Ma'a salameh",
+          "Goodbye"
+        ],
+        [
+          "Bashoofak",
+          "See you"
+        ],
+        [
+          "Allah ma'ak",
+          "God be with you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Ahlan wa sahlan",
+          "Welcome"
+        ],
+        [
+          "Ya hala",
+          "Welcome, warm"
+        ],
+        [
+          "Tfaddal",
+          "Please, come in, go ahead"
+        ]
+      ],
+      "sorry": [
+        [
+          "Mit'assif",
+          "Sorry (m)"
+        ],
+        [
+          "Mit'assfeh",
+          "Sorry (f)"
+        ],
+        [
+          "Sorry",
+          "Sorry, used as it is"
+        ]
+      ],
+      "excuse": [
+        [
+          "Law samaht",
+          "Excuse me, if you please"
+        ],
+        [
+          "Min fadlak",
+          "Please (to a man)"
+        ]
+      ],
+      "yes": [
+        [
+          "Aah",
+          "Yeah"
+        ],
+        [
+          "Na'am",
+          "Yes, polite"
+        ],
+        [
+          "Akeed",
+          "Sure"
+        ]
+      ],
+      "no": [
+        [
+          "La'",
+          "No"
+        ],
+        [
+          "La, shukran",
+          "No, thanks"
+        ]
+      ]
+    },
+    "ru": {
+      "hello": [
+        [
+          "Privet",
+          "Hi (Привет)"
+        ],
+        [
+          "Zdravstvuyte",
+          "Hello, polite (Здравствуйте)"
+        ]
+      ],
+      "morning": [
+        [
+          "Dobroye utro",
+          "Good morning (Доброе утро)"
+        ]
+      ],
+      "evening": [
+        [
+          "Dobryy vecher",
+          "Good evening (Добрый вечер)"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Kak dela?",
+          "How are things? (Как дела)"
+        ],
+        [
+          "Kak ty?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Normalno",
+          "Okay, fine"
+        ],
+        [
+          "Khorosho",
+          "Good"
+        ],
+        [
+          "Vsyo khorosho",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Spasibo",
+          "Thank you (Спасибо)"
+        ],
+        [
+          "Bolshoye spasibo",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Poka",
+          "Bye (Пока)"
+        ],
+        [
+          "Do svidaniya",
+          "Goodbye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Dobro pozhalovat",
+          "Welcome (Добро пожаловать)"
+        ]
+      ],
+      "sorry": [
+        [
+          "Izvini",
+          "Sorry, informal"
+        ],
+        [
+          "Prostite",
+          "Sorry, polite"
+        ]
+      ],
+      "excuse": [
+        [
+          "Izvinite",
+          "Excuse me (Извините)"
+        ]
+      ],
+      "yes": [
+        [
+          "Da",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Net",
+          "No"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hi",
+          "Hi"
+        ],
+        [
+          "Hey",
+          "Hey"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you?",
+          "How are you?"
+        ],
+        [
+          "What's up?",
+          "What's up?"
+        ]
+      ],
+      "fine": [
+        [
+          "Fine, thanks",
+          "Fine, thanks"
+        ],
+        [
+          "All good",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "Bye",
+          "Bye"
+        ],
+        [
+          "Yalla bye",
+          "Okay, bye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "ILS",
+    "symbol": "NIS",
+    "words": [
+      [
+        "shekel",
+        "the currency (שקל), plural shkalim"
+      ],
+      [
+        "agorot",
+        "a hundredth of a shekel"
+      ],
+      [
+        "kesef",
+        "money"
+      ],
+      [
+        "NIS",
+        "how prices are written, New Israeli Shekel"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Modern_Hebrew",
+    "https://en.wikipedia.org/wiki/Hebrew_name",
+    "https://en.wikipedia.org/wiki/Demographics_of_Israel",
+    "https://en.wikipedia.org/wiki/Russian_language_in_Israel",
+    "https://en.wikipedia.org/wiki/Israeli_new_shekel",
+    "https://en.wikipedia.org/wiki/Arab_citizens_of_Israel"
+  ]
+}

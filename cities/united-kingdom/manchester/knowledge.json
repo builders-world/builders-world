@@ -1,0 +1,176 @@
+{
+  "street": { "en": 0.6, "manc": 0.4 },
+  "registers": {
+    "manc": {
+      "name": "Mancunian",
+      "about": "Manchester's own English: flat vowels, \"our kid\" for a brother or a mate, and everything good is mint, sound or dead nice."
+    }
+  },
+  "names": {
+    "weights": {
+      "english": 0.62,
+      "irish": 0.04,
+      "scottish": 0.015,
+      "welsh": 0.01,
+      "indian": 0.03,
+      "pakistani": 0.1,
+      "bangladeshi": 0.02,
+      "caribbean": 0.03,
+      "west_african": 0.04,
+      "east_european": 0.04,
+      "somali": 0.015,
+      "chinese": 0.02,
+      "arab": 0.02
+    }
+  },
+  "phrases": {
+    "manc": {
+      "hello": [["Alright, our kid?", "Hi, mate"], ["Hiya!", "Hello!"]],
+      "how_are_you": [["You alright?", "How are you?"], ["How's it going, kid?", "How are you, mate?"]],
+      "fine": [["Sound", "Fine, good"], ["Buzzing", "Really happy"], ["Mint, ta", "Great, thanks"]],
+      "thanks": [["Ta", "Thanks"], ["Cheers, our kid", "Thanks, mate"]],
+      "bye": [["Ta-ra!", "Bye!"], ["See ya later", "See you later"]],
+      "yes": [["Yeah, sound", "Yes, fine"]],
+      "no": [["Nah", "No"], ["Don't mither", "Don't worry about it, don't bother"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "Morning! You alright?",
+        "Hiya, how's things?",
+        "Oh hello, how are you doing?",
+        "Alright, love? Haven't seen you in ages.",
+        "Hey, you're out early!"
+      ],
+      "reply": [
+        "Not bad, thanks. You?",
+        "Good, ta. Bit tired.",
+        "Can't complain. Well, I could, but I won't.",
+        "Yeah, fine thanks. Busy week.",
+        "All good, ta love."
+      ],
+      "sunny": [
+        "Sun's out in Manchester. Mark it on the calendar.",
+        "Lovely day. Everyone's out in Piccadilly Gardens.",
+        "Proper warm today, isn't it?",
+        "Beer garden weather, this.",
+        "Make the most of it, it won't last."
+      ],
+      "rain": [
+        "Raining again. Manchester, eh?",
+        "It's that fine rain that soaks you right through.",
+        "Never trust a dry morning round here.",
+        "Chucking it down out there.",
+        "Brolly weather again."
+      ],
+      "bye": [
+        "See you later!",
+        "Take care, love.",
+        "Right, I'll let you go. Ta-ra!",
+        "Have a good one!",
+        "Catch you soon."
+      ],
+      "busy": [
+        "Sorry, can't stop, the tram's due.",
+        "Running late, the trains out of Piccadilly are a mess.",
+        "Got a meeting in Spinningfields, talk later?",
+        "Can't stop, I'm parked on a meter.",
+        "Sorry, flat out today. Message me."
+      ]
+    },
+    "manc": {
+      "greet": [
+        "Alright, our kid?",
+        "Hiya, how's it going?",
+        "Ey, look who it is! You alright?",
+        "Alright, kid? Long time no see."
+      ],
+      "reply": [
+        "Sound, ta. You?",
+        "Buzzing, mate.",
+        "Not bad, can't complain.",
+        "Mint, cheers. Yourself?"
+      ],
+      "sunny": [
+        "It's dead nice out today.",
+        "Sun's out, I'm buzzing.",
+        "Mint weather, this. Get out in it.",
+        "Roasting today, our kid."
+      ],
+      "rain": [
+        "It's peeing down again.",
+        "Proper grim out there.",
+        "Raining again. What's new?",
+        "I'm wet through, kid. Got drenched coming down the ginnel."
+      ],
+      "bye": [
+        "Ta-ra!",
+        "See ya later, kid.",
+        "Laters, look after yourself.",
+        "Right, sound, see ya."
+      ],
+      "busy": [
+        "Can't stop, kid, I'm late.",
+        "Sorry, I'm up to my eyes today.",
+        "Got to dash, tram's here.",
+        "I'm dead busy, catch you later."
+      ]
+    }
+  },
+  "transport": {
+    "bus": "bus",
+    "moto_taxi": "Bee Network bike",
+    "tricycle": "cargo bike",
+    "taxi": "black cab",
+    "conductor": "ticket inspector",
+    "stage": "bus stop",
+    "tram": "Metrolink",
+    "train": "train",
+    "bike_share": "Bee Network bike hire",
+    "ride_hail": "Uber"
+  },
+  "touts": [
+    "This tram is for Altrincham.",
+    "The next stop is Piccadilly Gardens.",
+    "Please take all your belongings with you when leaving the tram.",
+    "Big Issue! Cheers, love.",
+    "A busker on Market Street: \"Any requests? Not Wonderwall, I've done it three times already.\"",
+    "Three for a pound, three for a pound!"
+  ],
+  "hawkers": [
+    ["Big Issue, love!", "Buy the Big Issue street magazine"],
+    ["Get your scarves, get your hats!", "Football scarves and hats on match day"],
+    ["Fresh doughnuts, still warm!", "Doughnuts at the market"],
+    ["Three punnets for two pound!", "Three punnets of fruit for two pounds"],
+    ["Programmes, get your programmes!", "Match day programmes"]
+  ],
+  "food": {
+    "street": ["chip barm", "chippy tea", "kebab on the Curry Mile", "pie and peas", "Eccles cake", "dim sum in Chinatown"],
+    "dishes": ["Lancashire hotpot", "black pudding", "Manchester tart", "Sunday roast", "lamb biryani", "Rusholme curry"],
+    "drinks": ["a brew", "Vimto", "a pint of bitter", "mango lassi", "Manchester gin", "a pint of lager"]
+  },
+  "places": {
+    "neighbourhoods": ["Northern Quarter", "Ancoats", "Chorlton", "Didsbury", "Rusholme", "Hulme", "Salford", "Levenshulme", "Fallowfield", "Spinningfields", "Castlefield", "Withington", "Moss Side"],
+    "streets": ["Deansgate", "Oxford Road", "Market Street", "Wilmslow Road", "Oldham Street", "Canal Street", "Portland Street", "Thomas Street", "Whitworth Street", "Tib Street"],
+    "landmarks": ["Manchester Town Hall", "Old Trafford", "the Etihad", "Piccadilly Gardens", "John Rylands Library", "MediaCityUK", "Beetham Tower", "Manchester Cathedral", "the Arndale", "Central Library", "Afflecks"]
+  },
+  "small_talk": [
+    "Tram's packed again, there must be a match on.",
+    "Have you been to the new place in Ancoats? Queue round the corner.",
+    "Everyone says it always rains here. To be fair, it does.",
+    "The Curry Mile was heaving last night.",
+    "Afflecks still has the best weird stuff in town.",
+    "Half the people I know work at MediaCity now.",
+    "Traffic on the Mancunian Way was a joke this morning.",
+    "The yellow buses are proper handy now.",
+    "Shall we get a brew before the meeting?",
+    "Northern Quarter on a Saturday is something else."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Manchester",
+    "https://en.wikipedia.org/wiki/Manchester_dialect",
+    "https://en.wikipedia.org/wiki/Bee_Network",
+    "https://tfgm.com/"
+  ]
+}

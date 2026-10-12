@@ -1,0 +1,368 @@
+{
+  "street": {
+    "es": 0.6,
+    "limeno": 0.36,
+    "qu": 0.02,
+    "en": 0.02
+  },
+  "registers": {
+    "limeno": {
+      "name": "Limeño",
+      "about": "Lima's street Spanish (jerga limeña): ¡habla, causa!, pata, chamba, jato, bacán, mostro, al toque, and a lot of 'pe' at the end of sentences."
+    }
+  },
+  "names": {
+    "weights": {
+      "peruvian": 0.55,
+      "andean": 0.33,
+      "venezuelan": 0.07,
+      "chinese_peruvian": 0.03,
+      "japanese_peruvian": 0.02
+    }
+  },
+  "phrases": {
+    "limeno": {
+      "hello": [
+        [
+          "¡Habla, causa!",
+          "Hey, mate!"
+        ],
+        [
+          "¿Qué fue, pe?",
+          "What's up, then?"
+        ],
+        [
+          "¡Qué tal, mi pata!",
+          "How's it going, my friend!"
+        ]
+      ],
+      "fine": [
+        [
+          "Bacán",
+          "Great"
+        ],
+        [
+          "Chévere",
+          "Cool"
+        ],
+        [
+          "Mostro",
+          "Awesome"
+        ]
+      ],
+      "yes": [
+        [
+          "Al toque",
+          "Right away"
+        ],
+        [
+          "Ya pe",
+          "Okay then"
+        ],
+        [
+          "Normal",
+          "Sure, no problem"
+        ]
+      ],
+      "thanks": [
+        [
+          "Gracias, mi pata",
+          "Thanks, my friend"
+        ]
+      ],
+      "bye": [
+        [
+          "Nos vemos, causa",
+          "See you, mate"
+        ],
+        [
+          "Chau, chau",
+          "Bye, bye"
+        ]
+      ]
+    }
+  },
+  "chat": {
+    "es": {
+      "greet": [
+        "¡Buenos días! ¿Cómo está?",
+        "¡Hola! ¿Qué tal todo?",
+        "Buenas tardes, ¿cómo le va?",
+        "¡Qué gusto verte! ¿Cómo has estado?",
+        "¡Hola! ¿Cómo está la familia?"
+      ],
+      "reply": [
+        "Muy bien, gracias, ¿y usted?",
+        "Bien, aquí trabajando.",
+        "Todo bien, gracias a Dios.",
+        "Bien, con bastante trabajo.",
+        "Tranquilo, gracias por preguntar."
+      ],
+      "sunny": [
+        "¡Por fin salió el sol!",
+        "Qué calor, ya llegó el verano.",
+        "Día perfecto para ir a la playa.",
+        "Con este sol provoca un ceviche.",
+        "Qué rico sol, vamos al malecón."
+      ],
+      "rain": [
+        "Otra vez garúa, todo está mojado.",
+        "Qué cielo tan gris, panza de burro.",
+        "Hace un frío húmedo que cala los huesos.",
+        "La neblina no deja ver el mar.",
+        "Garúa todo el día, abrígate."
+      ],
+      "bye": [
+        "Chau, que te vaya bien.",
+        "Nos vemos, cuídate.",
+        "Saludos a tu familia.",
+        "¡Que tengas buen día!",
+        "Hasta luego."
+      ],
+      "busy": [
+        "Disculpa, voy tarde al trabajo.",
+        "Tengo que tomar el Metropolitano, nos vemos.",
+        "Voy a una reunión, después te llamo.",
+        "Estoy apurado, hablamos.",
+        "Voy a recoger a los chicos al colegio."
+      ]
+    },
+    "limeno": {
+      "greet": [
+        "¡Habla, causa! ¿Qué fue?",
+        "¿Qué tal, mi pata? ¡Tiempo!",
+        "¿Qué fue, pe? ¿Todo bien?",
+        "¡Habla, chochera!"
+      ],
+      "reply": [
+        "Bacán, ¿y tú?",
+        "Tranqui, aquí en la chamba.",
+        "Todo mostro, causa.",
+        "Normal, pe."
+      ],
+      "sunny": [
+        "¡Qué calor, causa!",
+        "Vamos a la playa al toque.",
+        "Con este sol, un cevichito pe.",
+        "Día bacán pa' correr en el malecón."
+      ],
+      "rain": [
+        "Otra vez la garúa, pe.",
+        "Qué friazo, causa.",
+        "Panza de burro todo el día.",
+        "Esta garúa no moja pero fastidia."
+      ],
+      "bye": [
+        "Nos vemos, causa.",
+        "Chau, chau.",
+        "Ya pe, hablamos.",
+        "Cuídate, mi pata."
+      ],
+      "busy": [
+        "Voy tarde a la chamba, causa.",
+        "Me voy al toque, se me va la combi.",
+        "Estoy full, después hablamos.",
+        "Ya me voy al jato, chau."
+      ]
+    },
+    "en": {
+      "greet": [
+        "Hi! How's it going?",
+        "Morning! Have you had ceviche yet?",
+        "Hey, good to see you!",
+        "Hola! How are you?",
+        "Hey there, how was the surf?"
+      ],
+      "reply": [
+        "Good, thanks! You?",
+        "Great, I just had the best lomo saltado.",
+        "Not bad, the traffic was wild.",
+        "All good, gracias!",
+        "Doing well, enjoying the malecón."
+      ],
+      "sunny": [
+        "Summer is here, the beaches will be packed.",
+        "Sunny day, let's walk the malecón in Miraflores.",
+        "Hot and bright, perfect for ceviche.",
+        "Clear sky, the paragliders are out.",
+        "Gorgeous sunset over the Pacific tonight."
+      ],
+      "rain": [
+        "It never really rains here, it just drizzles.",
+        "Grey sky again, they call it donkey belly.",
+        "The fog rolled in off the sea.",
+        "Damp and chilly, perfect for a chifa lunch.",
+        "Winter in Lima is grey every single day."
+      ],
+      "bye": [
+        "See you later!",
+        "Take care!",
+        "Chau!",
+        "Have a good one!",
+        "Catch you later."
+      ],
+      "busy": [
+        "Gotta run, meeting in San Isidro.",
+        "Late, Javier Prado was a parking lot.",
+        "Catching the Metropolitano, talk later!",
+        "Running, my taxi is here.",
+        "Can't stop, see you!"
+      ]
+    }
+  },
+  "transport": {
+    "bus": "micro",
+    "minibus": "combi",
+    "brt": "Metropolitano",
+    "metro": "Metro de Lima",
+    "moto_taxi": "mototaxi",
+    "taxi": "taxi",
+    "rideshare": "Uber, DiDi, inDrive or Cabify",
+    "conductor": "cobrador",
+    "stage": "paradero"
+  },
+  "touts": [
+    "¡Todo Arequipa, todo Arequipa! ¡Sube, sube!",
+    "¡Al fondo hay sitio!",
+    "¡Javier Prado, Javier Prado, baja rápido!",
+    "¡Emoliente calientito!",
+    "¡Picarones, picarones!"
+  ],
+  "hawkers": [
+    [
+      "¡Emoliente calientito!",
+      "Hot herbal barley drink! (a morning cart)"
+    ],
+    [
+      "¡Picarones, picarones!",
+      "Sweet potato doughnuts with syrup!"
+    ],
+    [
+      "¡Marcianos heladitos!",
+      "Ice pops in a bag!"
+    ],
+    [
+      "¡Anticuchos, pasen!",
+      "Grilled beef heart skewers, come in!"
+    ],
+    [
+      "¡Caserita, lleve su palta!",
+      "Avocados, my regular customer! (a market stall)"
+    ]
+  ],
+  "food": {
+    "street": [
+      "anticuchos",
+      "picarones",
+      "emoliente",
+      "salchipapas",
+      "butifarra",
+      "pan con chicharrón",
+      "choclo con queso",
+      "papa rellena",
+      "tamales",
+      "turrón de Doña Pepa"
+    ],
+    "dishes": [
+      "ceviche",
+      "lomo saltado",
+      "ají de gallina",
+      "causa limeña",
+      "arroz chaufa",
+      "pollo a la brasa",
+      "tacu tacu",
+      "rocoto relleno",
+      "papa a la huancaína",
+      "tiradito",
+      "arroz con pollo"
+    ],
+    "drinks": [
+      "chicha morada",
+      "Inca Kola",
+      "emoliente",
+      "pisco sour",
+      "maracuyá sour",
+      "café pasado"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "Miraflores",
+      "Barranco",
+      "San Isidro",
+      "Surco",
+      "La Molina",
+      "Lince",
+      "Jesús María",
+      "Magdalena",
+      "Pueblo Libre",
+      "San Borja",
+      "Centro de Lima",
+      "Rímac",
+      "La Victoria",
+      "San Miguel",
+      "Chorrillos",
+      "Surquillo",
+      "Los Olivos",
+      "San Juan de Lurigancho",
+      "Villa El Salvador",
+      "Comas",
+      "Breña"
+    ],
+    "streets": [
+      "Avenida Larco",
+      "Avenida Arequipa",
+      "Avenida Javier Prado",
+      "la Vía Expresa",
+      "Avenida Benavides",
+      "Avenida Pardo",
+      "Jirón de la Unión",
+      "Avenida Abancay",
+      "Avenida Brasil",
+      "Avenida La Marina",
+      "Avenida Primavera",
+      "la Panamericana Sur",
+      "la Costa Verde",
+      "Calle San Ramón"
+    ],
+    "landmarks": [
+      "Plaza Mayor",
+      "Catedral de Lima",
+      "Convento de San Francisco",
+      "Parque Kennedy",
+      "Larcomar",
+      "el Malecón de Miraflores",
+      "Parque del Amor",
+      "Puente de los Suspiros",
+      "Huaca Pucllana",
+      "Circuito Mágico del Agua",
+      "Estadio Nacional",
+      "Mercado de Surquillo",
+      "Gamarra",
+      "Museo Larco",
+      "Plaza San Martín",
+      "el Barrio Chino",
+      "Morro Solar"
+    ]
+  },
+  "small_talk": [
+    "Donkey belly sky again, I haven't seen the sun since May.",
+    "Javier Prado was stopped solid for an hour.",
+    "Pollo a la brasa on Sunday, it's tradition.",
+    "Alianza or la U? Don't start that at the table.",
+    "Say hi to the cats in Parque Kennedy for me.",
+    "Ceviche is for lunch, my grandmother would never eat it at night.",
+    "We're going for chifa on Capón street, you coming?",
+    "Bought everything for the party at Gamarra, so cheap.",
+    "Surfers are out at the Costa Verde even in winter.",
+    "The paragliders over the Miraflores cliffs never get old."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Lima",
+    "https://en.wikipedia.org/wiki/Peruvian_Spanish",
+    "https://www.atu.gob.pe",
+    "https://www.lineauno.pe",
+    "https://www.inei.gob.pe",
+    "https://www.asale.org/damer/"
+  ]
+}

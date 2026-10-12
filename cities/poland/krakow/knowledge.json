@@ -1,0 +1,94 @@
+{
+  "street": { "pl": 0.8, "uk": 0.1, "en": 0.1 },
+  "names": { "weights": { "polish": 0.87, "ukrainian": 0.1, "belarusian": 0.02, "vietnamese": 0.01 } },
+  "phrases": {
+    "pl": {
+      "hello": [["Cześć!", "Hi!"], ["Siema!", "Hey!"]],
+      "fine": [["Spoko", "Cool"], ["Dobrze, dzięki", "Fine, thanks"]],
+      "outside": [["na polu", "outside (Kraków says 'na polu', Warsaw 'na dworze')"], ["Idziemy na pole?", "Shall we go outside?"]],
+      "meet": [["Spotkajmy się pod Adasiem", "Let's meet under Adaś (the Mickiewicz statue on the Rynek)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! Coffee on Zabłocie before work?", "Hey, how's it going?", "Hi! Long time no see.", "Good to see you. Good weekend?", "Hello! Did you make it through the tourists on Floriańska?"],
+      "reply": ["Not bad, thanks. Busy week.", "All good, you?", "Pretty good, just tired.", "Fine, thanks for asking!", "Great, I finally moved to Podgórze."],
+      "sunny": ["Gorgeous out. The bulwary will be full tonight.", "Perfect weather for a walk round the Planty.", "Sun's out, let's get a table outside in Kazimierz.", "Lovely day, Kopiec Kościuszki after work?", "Finally some sun. Lunch on the grass by the Vistula?"],
+      "rain": ["Pouring again, grab an umbrella.", "Rain all day, apparently.", "Typical, I left my umbrella at the office.", "It's wet out there, the trams will be packed.", "Rain again. Good day for pierogi and tea."],
+      "bye": ["See you!", "Take care!", "Catch you tomorrow.", "Have a good one!", "Bye, see you under Adaś on Friday."],
+      "busy": ["Sorry, running for my tram!", "Can't stop, meeting in five.", "Late for a call, talk later!", "Got to dash, my bus is here.", "Busy day, catch you after work?"]
+    },
+    "pl": {
+      "greet": ["Cześć! Co słychać?", "Siema, jak leci?", "Dzień dobry! Jak się pan miewa?", "Hej! Dawno cię nie widziałam.", "Dzień dobry, wszystko w porządku?"],
+      "reply": ["Dobrze, dzięki. A u ciebie?", "Spoko, po staremu.", "Nie narzekam!", "W porządku, tylko trochę zmęczona."],
+      "sunny": ["Ale piękna pogoda, chodźmy na pole!", "Słońce, w końcu! Idziemy nad Wisłę?", "Super dzień na spacer po Plantach.", "Ciepło dziś, siądźmy w ogródku na Kazimierzu."],
+      "rain": ["Ale leje!", "Na polu leje, weź parasol.", "Pogoda pod psem.", "Leje od rana, tramwaje pełne."],
+      "bye": ["Na razie!", "Do zobaczenia!", "Trzymaj się!", "Do widzenia, miłego dnia!", "Cześć, pa!"],
+      "busy": ["Sorry, lecę na tramwaj!", "Nie mogę gadać, spieszę się.", "Jestem spóźniona, pogadamy później!", "Mam spotkanie za pięć minut, pa!"]
+    },
+    "uk": {
+      "greet": ["Привіт! Як справи?", "Добрий день! Як ви?", "Привіт, давно не бачились!", "Доброго ранку! Все добре?"],
+      "reply": ["Добре, дякую. А ти?", "Все нормально, працюю.", "Потроху, дякую!", "Чудово, дякую, що спитав."],
+      "sunny": ["Яка гарна погода сьогодні!", "Сонечко! Ходімо гуляти до Вісли.", "Тепло, нарешті!", "Чудовий день для прогулянки по Плантах."],
+      "rain": ["Знову дощ, візьми парасольку.", "Ллє з самого ранку.", "Такий дощ, трамваї переповнені.", "Погода сьогодні не дуже."],
+      "bye": ["Бувай!", "До побачення!", "На все добре!", "До зустрічі!"],
+      "busy": ["Вибач, біжу на трамвай!", "Не можу говорити, запізнююсь.", "У мене зараз зустріч, поговоримо пізніше!", "Поспішаю на роботу, бувай!"]
+    }
+  },
+  "transport": {
+    "bus": "autobus",
+    "moto_taxi": "hulajnoga elektryczna",
+    "tricycle": "melex",
+    "taxi": "taksówka",
+    "conductor": "kanar",
+    "stage": "przystanek",
+    "tram": "tramwaj",
+    "train": "pociąg",
+    "ride_hail": "Bolt"
+  },
+  "touts": [
+    "Melex tour! Old Town, Kazimierz, Schindler's Factory, good price!",
+    "Zwiedzanie melexem, zapraszamy!",
+    "(the hejnał trumpet call sounds from St Mary's tower and breaks off mid-tune)",
+    "Następny przystanek: Rondo Mogilskie.",
+    "Concert tonight, Chopin, only one hour, tickets here!",
+    "(a busker plays the accordion under the Sukiennice)"
+  ],
+  "hawkers": [
+    ["Obwarzanki, świeże obwarzanki!", "Pretzel rings, fresh!"],
+    ["Z sezamem, z makiem, z solą!", "With sesame, poppy seed or salt!"],
+    ["Oscypki z żurawiną!", "Smoked cheese with cranberry!"],
+    ["Kwiaty, piękne kwiaty!", "Flowers, lovely flowers!"],
+    ["Grzaniec, gorący grzaniec!", "Mulled wine, hot!"],
+    ["Zapiekanka, prosto z pieca!", "Zapiekanka, straight from the oven!"]
+  ],
+  "food": {
+    "street": ["obwarzanek krakowski", "zapiekanka z Okrąglaka", "kiełbasa z Hali Targowej", "oscypek z żurawiną", "lody", "gofry"],
+    "dishes": ["pierogi", "żurek", "maczanka krakowska", "bigos", "placki ziemniaczane", "kotlet schabowy", "kwaśnica", "sernik krakowski"],
+    "drinks": ["piwo", "herbata", "kawa", "kompot", "grzaniec", "wódka"]
+  },
+  "places": {
+    "neighbourhoods": ["Stare Miasto", "Kazimierz", "Podgórze", "Zabłocie", "Nowa Huta", "Krowodrza", "Grzegórzki", "Dębniki", "Bronowice", "Prądnik Biały", "Czyżyny", "Ruczaj"],
+    "streets": ["Floriańska", "Grodzka", "Szeroka", "Plac Nowy", "Karmelicka", "Długa", "Dietla", "Józefińska", "Aleja Róż", "Mogilska"],
+    "landmarks": ["Rynek Główny", "Sukiennice", "Kościół Mariacki", "Wawel", "Smok Wawelski", "Planty", "Kopiec Kościuszki", "Bulwary Wiślane", "Kładka Ojca Bernatka", "Fabryka Emalia Schindlera", "Hala Targowa", "Tauron Arena"]
+  },
+  "small_talk": [
+    "Floriańska is full of tourists again, walk the Planty instead.",
+    "Coming out on the pole later? It's warm.",
+    "The queue at Okrąglak for zapiekanka was mad.",
+    "Smog was bad this morning, check the app before you run.",
+    "Zabłocie has so many new offices now.",
+    "Meet you under Adaś at seven?",
+    "The hejnał always cuts off mid-tune and I still love it.",
+    "Juwenalia week, the students have taken over the city.",
+    "Kazimierz on a Friday night, good luck finding a table.",
+    "The sausage van by Hala Targowa is the best late-night food in town."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Krak%C3%B3w",
+    "https://en.wikipedia.org/wiki/Obwarzanek_krakowski",
+    "https://en.wikipedia.org/wiki/Hejna%C5%82_mariacki",
+    "https://www.mpk.krakow.pl/",
+    "https://en.wikipedia.org/wiki/Polish_cuisine"
+  ]
+}

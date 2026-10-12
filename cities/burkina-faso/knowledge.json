@@ -1,0 +1,112 @@
+{
+  "languages": [
+    { "code": "mos", "name": "Mooré", "official": true, "spoken": "widely" },
+    { "code": "fr", "name": "French", "official": false, "spoken": "widely, as the working language" },
+    { "code": "dyu", "name": "Dioula", "official": true, "spoken": "commonly, and widely in the west" },
+    { "code": "ff", "name": "Fulfulde", "official": true, "spoken": "in Fulani families" },
+    { "code": "en", "name": "English", "official": false, "spoken": "a little" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "A first name, Muslim or Christian in its Burkinabè spelling (Inoussa, Rasmané, Salamata, Bibata, or Jean-Baptiste and Pélagie), and a family name from the father. Mossi family names like Ouédraogo, Sawadogo and Kaboré are the most common in Ouagadougou. Mossi first names often carry Wend (God): Wendkouni (gift of God), Wendyam. Dioula and Bobo families of the west carry names like Ouattara, Traoré and Sanou, Fulani families Diallo and Dicko, and Gourmantché families Ouoba and Lompo. Joking kinship (rakiiré) links whole communities, so Mossi and Samo, or Bobo and Peul, tease each other when they meet.",
+    "groups": {
+      "mossi": {
+        "given": {
+          "m": ["Rasmané", "Boukary", "Issaka", "Noufou", "Inoussa", "Mahamadi", "Salif", "Adama", "Hamado", "Souleymane", "Abdoulaye", "Moussa", "Wendyam", "Wendkouni", "Ousmane", "Idrissa"],
+          "f": ["Rasmata", "Aïssata", "Mariam", "Awa", "Salamata", "Zénabo", "Azèta", "Fatimata", "Haoua", "Bibata", "Rakiéta", "Asséta", "Alimata", "Safiatou", "Wendlassida", "Fati"]
+        },
+        "family": ["Ouédraogo", "Sawadogo", "Kaboré", "Zongo", "Ilboudo", "Nikiéma", "Zoungrana", "Tapsoba", "Kinda", "Yaméogo", "Compaoré", "Kafando", "Belem", "Tiendrébéogo", "Nana", "Koanda", "Sana", "Zida"],
+        "also": { "m": ["Jean-Baptiste", "Emmanuel", "Paul", "Joseph", "Arsène", "Fidèle"], "f": ["Pélagie", "Pauline", "Marie", "Odile", "Florence", "Clarisse"] }
+      },
+      "west": {
+        "given": {
+          "m": ["Lassina", "Siaka", "Bakary", "Drissa", "Yacouba", "Seydou", "Sibiri", "Karim", "Souleymane", "Mamadou", "Adama", "Dramane"],
+          "f": ["Fatoumata", "Aminata", "Mariam", "Salimata", "Djénéba", "Kadiatou", "Assita", "Bintou", "Sita", "Mamou", "Awa", "Rokia"]
+        },
+        "family": ["Ouattara", "Traoré", "Sanou", "Konaté", "Coulibaly", "Barro", "Sanogo", "Diabaté", "Bamba", "Kouyaté", "Millogo", "Dembélé", "Somé", "Hien"]
+      },
+      "fulani": {
+        "given": {
+          "m": ["Amadou", "Hamadoum", "Boubacar", "Oumarou", "Abdoulaye", "Hamidou", "Moussa", "Ousmane", "Ibrahim", "Issa", "Souleymane", "Alassane"],
+          "f": ["Aïssata", "Fatimata", "Kadidiatou", "Mariam", "Hadjara", "Aminata", "Ramata", "Hawa", "Djeneba", "Oumou", "Safiatou", "Hamsatou"]
+        },
+        "family": ["Diallo", "Dicko", "Sidibé", "Barry", "Sangaré", "Bandé", "Cissé", "Tamboura", "Boly", "Ba", "Dia", "Ly"]
+      },
+      "gourmantche": {
+        "given": {
+          "m": ["Jean", "Emmanuel", "Paul", "Moussa", "Issa", "Adama", "Seydou", "Joseph", "André", "Daniel", "Boukari", "Yembila"],
+          "f": ["Marie", "Pauline", "Martine", "Aïssa", "Mariam", "Awa", "Pascaline", "Odette", "Salimata", "Rosalie", "Fatimata", "Delphine"]
+        },
+        "family": ["Ouoba", "Lompo", "Thiombiano", "Tankoano", "Yonli", "Combary", "Lankoandé", "Tindano", "Namoano", "Ouali", "Yonaba", "Tandamba"]
+      }
+    },
+    "weights": { "mossi": 0.65, "west": 0.2, "fulani": 0.08, "gourmantche": 0.07 }
+  },
+  "honorifics": { "elder_m": "Tonton", "elder_f": "Tantie", "peer_m": "Kôrô", "peer_f": "Ma sœur", "boss": "Patron" },
+  "phrases": {
+    "mos": {
+      "hello": [["Ne y windiga", "Good day"]],
+      "morning": [["Ne y yibeoogo", "Good morning"]],
+      "evening": [["Ne y zaabre", "Good evening"]],
+      "how_are_you": [["Laafi bééme?", "Is there health? (how are you)"], ["Kibaare?", "What's the news?"]],
+      "fine": [["Laafi bala", "Health only, fine"], ["Yel ka be", "No problem"]],
+      "thanks": [["Barka", "Thank you"], ["Barka wʋsgo", "Thank you very much"]],
+      "bye": [["Wẽnd na kõ laafi", "Goodbye (may God give you health)"]],
+      "yes": [["Ee", "Yes"]],
+      "no": [["Ayo", "No"]]
+    },
+    "dyu": {
+      "hello": [["I ni ce", "Hello"]],
+      "morning": [["I ni sɔgɔma", "Good morning"]],
+      "evening": [["I ni wula", "Good evening"]],
+      "how_are_you": [["I ka kɛnɛ wa?", "Are you well?"]],
+      "fine": [["Tɔɔrɔ tɛ", "No trouble"]],
+      "thanks": [["I ni ce", "Thank you"]],
+      "bye": [["K'an bɛn", "See you"]],
+      "yes": [["Ɔwɔ", "Yes"]],
+      "no": [["Ayi", "No"]]
+    },
+    "fr": {
+      "hello": [["Bonjour", "Hello"], ["On dit quoi?", "What's up?"]],
+      "morning": [["Bonjour, bien dormi?", "Good morning, sleep well?"]],
+      "evening": [["Bonsoir", "Good evening"]],
+      "how_are_you": [["Ça va?", "How's it going?"], ["Et la famille?", "And the family?"]],
+      "fine": [["Ça va un peu", "Getting by, fine"], ["Y a pas de problème", "No problem"]],
+      "thanks": [["Merci", "Thank you"], ["Merci beaucoup", "Thanks a lot"]],
+      "bye": [["Au revoir", "Goodbye"], ["On est ensemble", "We're together (see you)"]],
+      "welcome": [["Bonne arrivée", "Welcome, glad you arrived"], ["Bienvenue", "Welcome"]],
+      "sorry": [["Pardon", "Sorry"], ["Désolé", "Sorry"]],
+      "excuse": [["Excusez-moi", "Excuse me"]],
+      "yes": [["Oui", "Yes"]],
+      "no": [["Non", "No"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["Fine, thanks", "Fine, thanks"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Goodbye", "Goodbye"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "XOF",
+    "symbol": "FCFA",
+    "words": [
+      ["ligdi", "money, in Mooré"],
+      ["wari", "money, in Dioula"],
+      ["mille", "a thousand francs"],
+      ["dix mille", "ten thousand francs"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Burkina_Faso",
+    "https://en.wikipedia.org/wiki/Mossi_language",
+    "https://en.wikipedia.org/wiki/Mossi_people",
+    "https://en.wikipedia.org/wiki/Dyula_language",
+    "https://en.wikipedia.org/wiki/Gurma_people",
+    "https://en.wikipedia.org/wiki/Joking_relationship",
+    "https://en.wikivoyage.org/wiki/Burkina_Faso"
+  ]
+}

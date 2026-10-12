@@ -1,0 +1,85 @@
+{
+  "languages": [
+    { "code": "ja", "name": "Japanese", "official": true, "spoken": "widely" },
+    { "code": "en", "name": "English", "official": false, "spoken": "some, in business, tech and tourism" }
+  ],
+  "names": {
+    "order": "family given",
+    "conventions": "Japanese names put the family name first: Tanaka Yuki, where Tanaka is the family. People address each other by family name plus -san (Tanaka-san); given names are for family, close friends and children. Names here are in passport-style Hepburn without long-vowel marks (Sato, Ito, Yuko), the way people write them in Latin letters. Kyushu, and Fukuoka with it, has its own common family names such as Koga, Ogata and Matsuo.",
+    "groups": {
+      "japanese": {
+        "given": {
+          "m": ["Haruto", "Sota", "Yuto", "Ren", "Hiroshi", "Takashi", "Kenta", "Daiki", "Shota", "Ryota", "Takuya", "Kazuki", "Naoki", "Satoshi", "Kenji", "Makoto", "Yusuke", "Minato"],
+          "f": ["Yui", "Aoi", "Hina", "Sakura", "Yuka", "Ayaka", "Misaki", "Mai", "Haruka", "Nanami", "Yoko", "Keiko", "Tomoko", "Emi", "Rina", "Mio", "Akiko", "Natsuki"]
+        },
+        "family": ["Sato", "Suzuki", "Takahashi", "Tanaka", "Watanabe", "Ito", "Yamamoto", "Nakamura", "Kobayashi", "Kato", "Yoshida", "Yamada", "Sasaki", "Yamaguchi", "Matsumoto", "Inoue", "Kimura", "Hayashi", "Shimizu", "Saito"]
+      },
+      "kyushu": {
+        "given": {
+          "m": ["Haruto", "Sota", "Yuto", "Ren", "Hiroshi", "Takashi", "Kenta", "Daiki", "Shota", "Ryota", "Kazuki", "Yusuke", "Kosuke", "Shun"],
+          "f": ["Yui", "Aoi", "Hina", "Sakura", "Yuka", "Ayaka", "Misaki", "Mai", "Haruka", "Nanami", "Keiko", "Emi", "Rina", "Miyu"]
+        },
+        "family": ["Tanaka", "Nakamura", "Inoue", "Koga", "Yamaguchi", "Matsumoto", "Yoshida", "Yamamoto", "Hayashi", "Watanabe", "Shimizu", "Ogata", "Matsuo", "Nakashima", "Furukawa"]
+      }
+    },
+    "weights": { "japanese": 0.88, "kyushu": 0.12 }
+  },
+  "honorifics": {
+    "elder_m": "-san",
+    "elder_f": "-san",
+    "peer_m": "-kun",
+    "peer_f": "-chan",
+    "boss": "Shacho",
+    "teacher_or_doctor": "Sensei",
+    "note": "Japanese honorifics follow the family name: Tanaka-san, Sato-sensei. -kun and -chan are for juniors, friends and children."
+  },
+  "phrases": {
+    "ja": {
+      "hello": [["Konnichiwa", "Hello (こんにちは)"], ["Dōmo", "Hi, casual (どうも)"]],
+      "morning": [["Ohayō gozaimasu", "Good morning (おはようございます)"], ["Ohayō", "Morning, casual (おはよう)"]],
+      "evening": [["Konbanwa", "Good evening (こんばんは)"]],
+      "how_are_you": [["O-genki desu ka?", "How are you? (お元気ですか)"], ["Genki?", "You good? casual (元気?)"]],
+      "fine": [["Genki desu", "I'm fine (元気です)"], ["Okagesama de", "I'm well, thanks to you (おかげさまで)"], ["Mā mā desu", "So-so (まあまあです)"]],
+      "thanks": [["Arigatō gozaimasu", "Thank you (ありがとうございます)"], ["Dōmo arigatō", "Thanks a lot (どうもありがとう)"]],
+      "bye": [["Sayōnara", "Goodbye (さようなら)"], ["Ja ne", "See you (じゃあね)"], ["Mata ne", "See you again (またね)"], ["Otsukaresama desu", "Thanks for your hard work, said leaving work (お疲れ様です)"]],
+      "welcome": [["Irasshaimase", "Welcome, in a shop (いらっしゃいませ)"], ["Yōkoso", "Welcome (ようこそ)"]],
+      "sorry": [["Gomen nasai", "Sorry (ごめんなさい)"], ["Sumimasen", "Sorry (すみません)"], ["Mōshiwake arimasen", "I'm very sorry, formal (申し訳ありません)"]],
+      "excuse": [["Sumimasen", "Excuse me (すみません)"], ["Shitsurei shimasu", "Excuse me, entering or leaving a room (失礼します)"]],
+      "yes": [["Hai", "Yes (はい)"], ["Ee", "Yes, softer (ええ)"], ["Un", "Yeah, casual (うん)"]],
+      "no": [["Iie", "No (いいえ)"], ["Chigaimasu", "That's not right (違います)"], ["Daijōbu desu", "No thanks, I'm fine (大丈夫です)"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"], ["Hi", "Hi"]],
+      "morning": [["Good morning", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["I'm fine, thank you", "I'm fine, thank you"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Goodbye", "Goodbye"], ["See you", "See you"]],
+      "welcome": [["Welcome", "Welcome"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "JPY",
+    "symbol": "¥",
+    "words": [
+      ["en", "yen (円)"],
+      ["sen-en", "a thousand yen (千円)"],
+      ["ichiman-en", "ten thousand yen, the biggest note (一万円)"],
+      ["o-tsuri", "change given back (お釣り)"],
+      ["o-kaikei", "the bill (お会計)"],
+      ["warikan", "splitting the bill evenly (割り勘)"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Japanese_name",
+    "https://en.wikipedia.org/wiki/List_of_common_Japanese_surnames",
+    "https://en.wikipedia.org/wiki/Japanese_honorifics",
+    "https://en.wikipedia.org/wiki/Hepburn_romanization",
+    "https://en.wikipedia.org/wiki/Japanese_yen"
+  ]
+}

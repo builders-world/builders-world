@@ -1,0 +1,498 @@
+{
+  "languages": [
+    {
+      "code": "ro",
+      "name": "Romanian",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "commonly"
+    },
+    {
+      "code": "hu",
+      "name": "Hungarian",
+      "official": false,
+      "spoken": "regionally"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Given name then family name. Romanian surnames are the same for men and women and many end in -escu or -eanu (Popescu, Munteanu), while others are plain first names or trades (Radu, Ciobanu 'shepherd'). Plenty of people carry two given names, written with a hyphen or without (Ana-Maria, Ionuț Alexandru), and Orthodox name days such as Sfântul Ion or Sfânta Maria are celebrated like small birthdays. Diminutives are everyday: Ionuț, Andreiuț, Mihăiță, Irinuca. Hungarians, mostly in Transylvania, say the family name first in Hungarian (Nagy László) but Romanian papers write it given first; they keep Hungarian spellings with á, é, ő and ű.",
+    "groups": {
+      "romanian": {
+        "given": {
+          "m": [
+            "Andrei",
+            "Alexandru",
+            "Mihai",
+            "Ionuț",
+            "Gabriel",
+            "Cristian",
+            "Florin",
+            "Adrian",
+            "Ștefan",
+            "Bogdan",
+            "Răzvan",
+            "Vlad",
+            "George",
+            "Daniel",
+            "Marius",
+            "Constantin",
+            "Radu",
+            "Cătălin"
+          ],
+          "f": [
+            "Maria",
+            "Elena",
+            "Ioana",
+            "Andreea",
+            "Alexandra",
+            "Mihaela",
+            "Ana",
+            "Cristina",
+            "Gabriela",
+            "Raluca",
+            "Diana",
+            "Irina",
+            "Bianca",
+            "Daniela",
+            "Alina",
+            "Roxana",
+            "Larisa",
+            "Oana"
+          ]
+        },
+        "family": [
+          "Popescu",
+          "Popa",
+          "Pop",
+          "Radu",
+          "Dumitru",
+          "Stan",
+          "Stoica",
+          "Gheorghe",
+          "Matei",
+          "Ciobanu",
+          "Ionescu",
+          "Rusu",
+          "Constantin",
+          "Munteanu",
+          "Mihai",
+          "Moldovan",
+          "Dobre",
+          "Nistor",
+          "Florea"
+        ]
+      },
+      "hungarian": {
+        "given": {
+          "m": [
+            "László",
+            "István",
+            "Zoltán",
+            "Attila",
+            "Levente",
+            "Csaba",
+            "Gábor",
+            "Sándor",
+            "Tamás",
+            "Botond",
+            "Szabolcs",
+            "Róbert",
+            "Péter",
+            "Lóránd",
+            "Ferenc"
+          ],
+          "f": [
+            "Katalin",
+            "Erzsébet",
+            "Enikő",
+            "Tímea",
+            "Ildikó",
+            "Andrea",
+            "Réka",
+            "Orsolya",
+            "Boglárka",
+            "Emese",
+            "Krisztina",
+            "Judit",
+            "Melinda",
+            "Zsófia",
+            "Noémi"
+          ]
+        },
+        "family": [
+          "Nagy",
+          "Kovács",
+          "Szabó",
+          "Tóth",
+          "Kiss",
+          "Molnár",
+          "Farkas",
+          "Balogh",
+          "Varga",
+          "Fekete",
+          "Bíró",
+          "Szilágyi",
+          "Fazakas",
+          "Kelemen",
+          "Pál",
+          "Ferencz",
+          "Szőcs"
+        ]
+      }
+    },
+    "weights": {
+      "romanian": 0.94,
+      "hungarian": 0.06
+    }
+  },
+  "honorifics": {
+    "elder_m": "domnule",
+    "elder_f": "doamnă",
+    "peer_m": "frate",
+    "peer_f": "dragă",
+    "boss": "șefu'",
+    "titles": {
+      "elder_m": "Domnul",
+      "elder_f": "Doamna",
+      "with": "family"
+    }
+  },
+  "phrases": {
+    "ro": {
+      "hello": [
+        [
+          "Salut!",
+          "Hi!"
+        ],
+        [
+          "Bună!",
+          "Hi! (casual)"
+        ],
+        [
+          "Bună ziua",
+          "Good day"
+        ]
+      ],
+      "morning": [
+        [
+          "Bună dimineața",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Bună seara",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Ce faci?",
+          "How are you doing?"
+        ],
+        [
+          "Ce mai faci?",
+          "How have you been?"
+        ],
+        [
+          "Ce mai zici?",
+          "What's new?"
+        ]
+      ],
+      "fine": [
+        [
+          "Bine, mersi",
+          "Fine, thanks"
+        ],
+        [
+          "Foarte bine",
+          "Very well"
+        ],
+        [
+          "Merge",
+          "Getting on"
+        ]
+      ],
+      "thanks": [
+        [
+          "Mulțumesc",
+          "Thank you"
+        ],
+        [
+          "Mersi",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "La revedere",
+          "Goodbye"
+        ],
+        [
+          "Pa!",
+          "Bye!"
+        ],
+        [
+          "Pe curând!",
+          "See you soon!"
+        ]
+      ],
+      "welcome": [
+        [
+          "Bine ați venit",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Îmi pare rău",
+          "I'm sorry"
+        ],
+        [
+          "Scuze",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Scuzați-mă",
+          "Excuse me"
+        ],
+        [
+          "Pardon",
+          "Pardon"
+        ]
+      ],
+      "yes": [
+        [
+          "Da",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Nu",
+          "No"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hi!",
+          "Hi!"
+        ],
+        [
+          "Hello",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Fine, thanks",
+          "Fine, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "See you",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    },
+    "hu": {
+      "hello": [
+        [
+          "Szia!",
+          "Hi!"
+        ],
+        [
+          "Jó napot!",
+          "Good day"
+        ],
+        [
+          "Sziasztok!",
+          "Hi, all!"
+        ]
+      ],
+      "morning": [
+        [
+          "Jó reggelt!",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Jó estét!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Hogy vagy?",
+          "How are you?"
+        ],
+        [
+          "Mi újság?",
+          "What's new?"
+        ]
+      ],
+      "fine": [
+        [
+          "Jól, köszönöm",
+          "Fine, thank you"
+        ],
+        [
+          "Megvagyok",
+          "Getting by"
+        ]
+      ],
+      "thanks": [
+        [
+          "Köszönöm",
+          "Thank you"
+        ],
+        [
+          "Köszi",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "Viszontlátásra",
+          "Goodbye"
+        ],
+        [
+          "Szia!",
+          "Bye!"
+        ]
+      ],
+      "welcome": [
+        [
+          "Isten hozott!",
+          "Welcome!"
+        ],
+        [
+          "Üdvözöljük",
+          "Welcome (formal)"
+        ]
+      ],
+      "sorry": [
+        [
+          "Bocsánat",
+          "Sorry"
+        ],
+        [
+          "Bocsi",
+          "Sorry (casual)"
+        ]
+      ],
+      "excuse": [
+        [
+          "Elnézést",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Igen",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Nem",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "RON",
+    "symbol": "lei",
+    "words": [
+      [
+        "leu",
+        "the currency; one leu, two lei"
+      ],
+      [
+        "ban",
+        "a hundredth of a leu; bani in the plural"
+      ],
+      [
+        "un milion",
+        "a hundred lei, as older people still say from before the 2005 redenomination"
+      ],
+      [
+        "mărunțiș",
+        "small change"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Romanian_name",
+    "https://en.wikipedia.org/wiki/Hungarians_in_Romania",
+    "https://en.wikipedia.org/wiki/Romanian_leu",
+    "https://insse.ro/"
+  ]
+}

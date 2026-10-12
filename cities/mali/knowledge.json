@@ -1,0 +1,103 @@
+{
+  "languages": [
+    { "code": "bm", "name": "Bambara (Bamanankan)", "official": true, "spoken": "widely" },
+    { "code": "fr", "name": "French", "official": false, "spoken": "commonly, as the working language" },
+    { "code": "ff", "name": "Fulfulde", "official": true, "spoken": "commonly" },
+    { "code": "snk", "name": "Soninke", "official": true, "spoken": "in Soninke families" },
+    { "code": "en", "name": "English", "official": false, "spoken": "a little, in business" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Most Malians carry a Muslim first name in a local form (Seydou for Saïdou, Bakary for Abu Bakr, Fousseyni for Hussein) and a family name (jamu) passed down from the father. The jamu places a family: Traoré, Diarra and Coulibaly are Bambara; Keïta and Konaté are Malinke; Diallo and Sidibé are Fulani; Cissé and Sylla are Soninke. Each jamu has its own greeting and joking partners (senankuya), so a Traoré and a Diarra may tease each other warmly when they meet. Girls are often named after a grandmother, and nicknames like Madou, Nana or Mah are common.",
+    "groups": {
+      "bambara": {
+        "given": {
+          "m": ["Moussa", "Mamadou", "Seydou", "Bakary", "Drissa", "Souleymane", "Adama", "Modibo", "Sékou", "Lassana", "Oumar", "Boubacar", "Yacouba", "Daouda", "Issa", "Siaka", "Madou", "Fousseyni"],
+          "f": ["Aminata", "Fatoumata", "Kadiatou", "Awa", "Mariam", "Oumou", "Djénéba", "Bintou", "Assitan", "Rokia", "Sitan", "Nana", "Mah", "Kadidia", "Salimata", "Hawa", "Fanta", "Korotoumou"]
+        },
+        "family": ["Traoré", "Coulibaly", "Diarra", "Dembélé", "Doumbia", "Samaké", "Koné", "Diakité", "Bagayoko", "Mariko", "Togola", "Fomba", "Ballo", "Dao", "Sangaré", "Kanté"]
+      },
+      "malinke": {
+        "given": {
+          "m": ["Sékou", "Mamadou", "Lansana", "Moussa", "Fodé", "Sidiki", "Mamady", "Karamoko", "Bréhima", "Siaka", "Nfaly", "Daouda"],
+          "f": ["Fanta", "Sira", "Nantenin", "Djénéba", "Massaran", "Mariam", "Kadiatou", "Saran", "Fatoumata", "Assitan", "Kankou", "Sona"]
+        },
+        "family": ["Keïta", "Camara", "Konaté", "Kouyaté", "Sissoko", "Diabaté", "Cissoko", "Doumbia", "Fofana", "Kanté", "Konaré", "Dansoko"]
+      },
+      "fulani": {
+        "given": {
+          "m": ["Amadou", "Hamadoun", "Boubacar", "Oumar", "Abdoulaye", "Moussa", "Alpha", "Hamidou", "Mamoudou", "Samba", "Ousmane", "Bocar"],
+          "f": ["Aïssata", "Fatoumata", "Kadiatou", "Mariam", "Oumou", "Hawa", "Djénéba", "Coumba", "Penda", "Ramata", "Kadidia", "Hamsatou"]
+        },
+        "family": ["Diallo", "Sidibé", "Sangaré", "Bah", "Barry", "Bocoum", "Dicko", "Tall", "Sow", "Cissé", "Diakité", "Touré"]
+      },
+      "soninke": {
+        "given": {
+          "m": ["Mamadou", "Moussa", "Samba", "Demba", "Bakary", "Hamady", "Mahamadou", "Ousmane", "Sékou", "Diadié", "Boubou", "Fodié"],
+          "f": ["Fatoumata", "Kadiatou", "Hawa", "Assa", "Coumba", "Djénéba", "Mariam", "Founé", "Bintou", "Aminata", "Oumou", "Sali"]
+        },
+        "family": ["Cissé", "Sylla", "Doucouré", "Diawara", "Sacko", "Dramé", "Kanouté", "Diaby", "Soumaré", "Tounkara", "Touré", "Gakou", "Magassa", "Baradji"]
+      }
+    },
+    "weights": { "bambara": 0.55, "fulani": 0.17, "soninke": 0.14, "malinke": 0.14 }
+  },
+  "honorifics": { "elder_m": "Tonton", "elder_f": "Tantie", "peer_m": "N teri", "peer_f": "N teri", "boss": "Patron" },
+  "phrases": {
+    "bm": {
+      "hello": [["I ni ce", "Hello (to one person)"], ["Aw ni ce", "Hello (to several people)"]],
+      "morning": [["I ni sɔgɔma", "Good morning"]],
+      "evening": [["I ni wula", "Good evening (late afternoon)"], ["I ni su", "Good evening (after dark)"]],
+      "how_are_you": [["I ka kɛnɛ wa?", "Are you well?"], ["Hɛrɛ tɛ?", "No trouble? All in peace?"], ["Somɔgɔw ka kɛnɛ wa?", "Is the family well?"]],
+      "fine": [["Tɔɔrɔ si tɛ", "No trouble at all"], ["Hɛrɛ dɔrɔn", "Peace only"], ["N'ba", "Yes, thank you (a man's reply)"], ["N'se", "Yes, thank you (a woman's reply)"]],
+      "thanks": [["I ni ce", "Thank you"], ["I ni baara", "Thanks for your work"]],
+      "bye": [["K'an bɛn", "See you"], ["K'an bɛn sini", "See you tomorrow"], ["Ka su hɛrɛ caya", "Good night (may the night be peaceful)"]],
+      "welcome": [["I bisimila", "Welcome"]],
+      "sorry": [["Hakɛto", "Sorry, forgive me"]],
+      "excuse": [["Hakɛto", "Excuse me"]],
+      "yes": [["Ɔwɔ", "Yes"]],
+      "no": [["Ayi", "No"]]
+    },
+    "fr": {
+      "hello": [["Bonjour", "Hello"], ["Salut", "Hi"]],
+      "morning": [["Bonjour", "Good morning"]],
+      "evening": [["Bonsoir", "Good evening"]],
+      "how_are_you": [["Ça va?", "How's it going?"], ["Et la famille?", "And the family?"]],
+      "fine": [["Ça va, merci", "Fine, thanks"], ["Pas de problème", "No problem"]],
+      "thanks": [["Merci", "Thank you"]],
+      "bye": [["Au revoir", "Goodbye"], ["À demain", "See you tomorrow"]],
+      "welcome": [["Bienvenue", "Welcome"], ["Bonne arrivée", "Welcome, glad you arrived"]],
+      "sorry": [["Pardon", "Sorry"]],
+      "excuse": [["Excusez-moi", "Excuse me"]],
+      "yes": [["Oui", "Yes"]],
+      "no": [["Non", "No"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["Fine, thanks", "Fine, thanks"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Goodbye", "Goodbye"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "XOF",
+    "symbol": "FCFA",
+    "words": [
+      ["wari", "money"],
+      ["dɔrɔmɛ", "five francs; prices in Bambara are counted in dɔrɔmɛ"],
+      ["mugan", "twenty dɔrɔmɛ, which is 100 francs"],
+      ["kɛmɛ", "a hundred dɔrɔmɛ, which is 500 francs"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Mali",
+    "https://en.wikipedia.org/wiki/Bambara_language",
+    "https://en.wikipedia.org/wiki/Bambara_people",
+    "https://en.wikipedia.org/wiki/Mandinka_people",
+    "https://en.wikipedia.org/wiki/Soninke_people",
+    "https://en.wikipedia.org/wiki/Joking_relationship",
+    "https://en.wikivoyage.org/wiki/Bambara_phrasebook"
+  ]
+}

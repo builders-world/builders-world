@@ -1,0 +1,113 @@
+{
+  "street": { "de": 0.62, "berlinerisch": 0.15, "en": 0.13, "tr": 0.1 },
+  "registers": {
+    "berlinerisch": {
+      "name": "Berlinerisch",
+      "about": "Berlin's own city German: ick for ich, wat for was, jut for gut, and a famously dry, direct tone. Heard at Spätis, market stalls and from born-and-raised Berliners."
+    }
+  },
+  "names": { "weights": { "german": 0.65, "turkish": 0.1, "arab": 0.07, "polish": 0.05, "russian_german": 0.04, "vietnamese": 0.04, "italian": 0.03, "bks": 0.01, "afghan": 0.01 } },
+  "phrases": {
+    "berlinerisch": {
+      "hello": [["Na?", "Hi, how's it going? (the all-purpose Berlin greeting)"], ["Tach!", "Hello! (Guten Tag)"]],
+      "how_are_you": [["Na, allet jut?", "All good?"], ["Na, wie isset?", "So, how is it?"]],
+      "fine": [["Allet jut", "All good"], ["Muss ja", "Got to keep going"], ["Allet schick", "All sorted"]],
+      "thanks": [["Danke dir", "Thanks"], ["Dankeschön, Meister", "Thanks, mate"]],
+      "bye": [["Tschüssi", "Bye"], ["Mach's jut", "Take care"], ["Bis denne", "See you then"]],
+      "yes": [["Jo", "Yeah"], ["Ja, wa?", "Yes, right?"]],
+      "no": [["Nee", "No"], ["Keene Ahnung", "No idea"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! Coffee before the U-Bahn?", "Hey, how's it going?", "Hi, haven't seen you at the Späti in ages.", "Hello! Busy week?", "Hey! You coming to the Kiez party on Saturday?"],
+      "reply": ["All good, thanks, you?", "Not bad, just back from Tempelhofer Feld.", "Fine, a bit tired, long night in Kreuzberg.", "Pretty good, the weekend helped.", "Can't complain, the Ringbahn was on time for once."],
+      "sunny": ["Perfect weather for Tempelhofer Feld.", "Everyone's out by the canal today.", "Sun's out, the Biergarten will be packed.", "Finally! Berlin was grey for weeks.", "Great day for a ride along the Spree."],
+      "rain": ["Typical Berlin, grey and drizzly again.", "Take an umbrella, it's pouring at Kotti.", "Rain again, good day for a museum.", "The cobbles get slippery on a bike in this.", "Wait it out at the Späti, it'll pass."],
+      "bye": ["See you around!", "Tschüss, take care!", "Catch you later!", "Have a good one!", "See you at the market on Saturday!"],
+      "busy": ["Sorry, my S-Bahn is leaving!", "Can't stop, I'm late for stand-up.", "Got to run, the Ringbahn won't wait.", "In a rush, catch you later!", "Late for a call, sorry!"]
+    },
+    "de": {
+      "greet": ["Hallo! Wie geht's?", "Guten Morgen! Schon einen Kaffee gehabt?", "Hi, lange nicht gesehen!", "Hallo, alles gut bei dir?", "Hey, schön dich zu sehen!"],
+      "reply": ["Gut, danke! Und dir?", "Alles gut, viel zu tun.", "Ganz okay, bisschen müde.", "Super, das Wochenende war schön.", "Geht so, Montag halt."],
+      "sunny": ["Endlich Sonne!", "Heute ist der Kanal bestimmt voll.", "Perfektes Wetter fürs Tempelhofer Feld.", "So ein schöner Tag, ab in den Park.", "Bei dem Wetter grillen wir heute im Görli."],
+      "rain": ["Schon wieder Regen.", "Nimm lieber einen Schirm mit.", "So ein graues Wetter heute.", "Es nieselt schon den ganzen Tag.", "Bei dem Wetter bleib ich drinnen."],
+      "bye": ["Tschüss!", "Bis später!", "Mach's gut!", "Schönen Tag noch!", "Bis bald!"],
+      "busy": ["Sorry, ich muss los, meine Bahn kommt!", "Keine Zeit, ich bin spät dran.", "Ich hab gleich ein Meeting, bis später!", "Ich bin in Eile, wir hören uns!", "Muss weiter, tschüss!"]
+    },
+    "berlinerisch": {
+      "greet": ["Na?", "Na, allet jut?", "Tach! Wie isset?", "Na, ooch wieder da?", "Na, wat machste?"],
+      "reply": ["Allet jut, und bei dir?", "Muss ja, wa.", "Jut, kann nich meckern.", "Jeht so, Montag eben.", "Allet schick!"],
+      "sunny": ["Wat für'n Wetter heute!", "Bei dem Wetter isset am Kanal rappelvoll.", "Endlich mal Sonne, wa?", "Heute jeht's ab ins Strandbad.", "Schön warm heute, ick sach dir."],
+      "rain": ["Wat'n Mistwetter heute.", "Schon wieder Regen, ick gloob et nich.", "Nimm 'n Schirm mit, det pladdert gleich.", "Grau in grau, wie immer, wa?", "Det regnet ja schon wieder!"],
+      "bye": ["Tschüssi!", "Mach's jut!", "Bis denne!", "Tschö, bis die Tage!"],
+      "busy": ["Keene Zeit, meine Bahn kommt!", "Ick muss los, bis denne!", "Hab's eilig, tschüss!", "Ick bin spät dran, mach's jut!"]
+    },
+    "tr": {
+      "greet": ["Merhaba! Nasılsın?", "Selam, naber?", "Günaydın! Kahvaltı yaptın mı?", "Selam abi, nasıl gidiyor?", "Merhaba abla, iyi misin?"],
+      "reply": ["İyiyim, sağ ol. Sen nasılsın?", "Fena değil, biraz yorgunum.", "İyi, işler yoğun.", "Her şey yolunda, teşekkürler.", "Süper, hafta sonu çok güzeldi."],
+      "sunny": ["Bugün hava çok güzel!", "Güneş açtı, parka gidelim.", "Bu havada kanal kenarı dolu olur.", "Harika bir gün, değil mi?"],
+      "rain": ["Yine yağmur yağıyor.", "Şemsiyeni al, hava bozuk.", "Berlin'in havası hep böyle gri.", "Bugün dışarı çıkılmaz, yağmur var."],
+      "bye": ["Görüşürüz!", "Hoşça kal!", "Kendine iyi bak!", "Sonra görüşürüz!"],
+      "busy": ["Kusura bakma, acelem var!", "Otobüsü kaçıracağım, görüşürüz!", "İşe geç kaldım, sonra konuşuruz!", "Şimdi koşmam lazım, sonra ararım!"]
+    }
+  },
+  "transport": {
+    "bus": "Bus",
+    "moto_taxi": "E-Scooter",
+    "tricycle": "Velotaxi",
+    "taxi": "Taxi",
+    "conductor": "Kontrolleur",
+    "stage": "Haltestelle",
+    "tram": "Tram",
+    "metro": "U-Bahn",
+    "train": "S-Bahn",
+    "bike_share": "Nextbike",
+    "ride_hail": "Uber, Bolt"
+  },
+  "touts": [
+    "Zurückbleiben, bitte!",
+    "Nächster Halt: Kottbusser Tor. Übergang zur U1 und U3.",
+    "Die Fahrausweise, bitte!",
+    "Hallo, ich verkaufe die motz, das Berliner Straßenmagazin. Schönen Tag noch!",
+    "Schönen guten Tag, liebe Fahrgäste, ich spiel euch ein Lied, wenn's gefällt, freu ich mich über eine kleine Spende.",
+    "Wegen Bauarbeiten: Ersatzverkehr mit Bussen.",
+    "Bitte beachten Sie: Auf der Linie U8 kommt es zu Verzögerungen."
+  ],
+  "hawkers": [
+    ["Frische Erdbeeren, die Schale nur drei Euro!", "Fresh strawberries, just three euros a tray!"],
+    ["Mit alles?", "With everything? (the Döner question)"],
+    ["Spargel, frisch aus Beelitz!", "Asparagus, fresh from Beelitz!"],
+    ["Kalte Getränke, Mate, Bier!", "Cold drinks, Club-Mate, beer!"],
+    ["Probieren Sie mal, ganz frisch!", "Have a taste, really fresh!"],
+    ["Gözleme, frisch vom Blech!", "Gözleme, fresh off the griddle!"]
+  ],
+  "food": {
+    "street": ["Döner Kebab", "Currywurst", "Falafel", "Dürüm", "Gözleme", "Pfannkuchen (Berlin's jam doughnut)", "Lahmacun"],
+    "dishes": ["Buletten mit Kartoffelsalat", "Eisbein mit Sauerkraut", "Königsberger Klopse", "Kartoffelsuppe mit Würstchen", "Schnitzel", "Pho", "Käsespätzle"],
+    "drinks": ["Berliner Weisse", "Club-Mate", "Fassbrause", "Berliner Pilsner", "Kaffee", "Wegbier from the Späti"]
+  },
+  "places": {
+    "neighbourhoods": ["Kreuzberg", "Neukölln", "Friedrichshain", "Prenzlauer Berg", "Mitte", "Wedding", "Moabit", "Schöneberg", "Charlottenburg", "Lichtenberg"],
+    "streets": ["Kurfürstendamm", "Unter den Linden", "Friedrichstraße", "Karl-Marx-Allee", "Oranienstraße", "Sonnenallee", "Torstraße", "Kastanienallee", "Bergmannstraße", "Warschauer Straße"],
+    "landmarks": ["Brandenburger Tor", "Fernsehturm", "East Side Gallery", "Tempelhofer Feld", "Museumsinsel", "Alexanderplatz", "Oberbaumbrücke", "Tiergarten", "Mauerpark", "Checkpoint Charlie"]
+  },
+  "small_talk": [
+    "The Ringbahn was packed again this morning.",
+    "The Späti on the corner stays open till four now.",
+    "Did you get a Bürgeramt appointment yet? I've been trying for weeks.",
+    "Mauerpark flea market was heaving on Sunday.",
+    "My S-Bahn had Ersatzverkehr again, buses all the way.",
+    "Tempelhofer Feld is full of kites today.",
+    "The Turkish market on Maybachufer had cheap cherries this week.",
+    "Half my team speaks English at work, the other half is learning German at night.",
+    "Berlin summer is the reward for the winter."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Berlin",
+    "https://de.wikipedia.org/wiki/Berlinisch",
+    "https://www.bvg.de/",
+    "https://www.statistik-berlin-brandenburg.de/",
+    "https://en.wikipedia.org/wiki/Turks_in_Berlin"
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "street": { "fil": 0.5, "taglish": 0.36, "en": 0.14 },
+  "registers": {
+    "taglish": {
+      "name": "Taglish",
+      "about": "Tagalog and English in one breath, how Metro Manila talks at work, in malls, in school and online."
+    }
+  },
+  "names": { "weights": { "filipino": 0.92, "tsinoy": 0.08 } },
+  "phrases": {
+    "taglish": {
+      "hello": [["Uy, kumusta na?", "Hey, how are you?"], ["Hi po, good morning!", "Hi, good morning, polite"]],
+      "fine": [["Okay lang, super busy lang", "I'm okay, just super busy"], ["Good naman", "Good, really"]],
+      "thanks": [["Thank you po", "Thank you, polite"], ["Thanks, ha", "Thanks, okay?"]],
+      "bye": [["Sige, ingat ka ha!", "Okay, take care!"], ["Bye, see you later!", "Bye, see you later!"]],
+      "lets_go": [["Tara na!", "Let's go!"], ["Arat na!", "Let's go! (tara, reversed)"]],
+      "great": [["Petmalu!", "Awesome! (malupit, reversed)"], ["Lodi!", "Idol, someone you look up to"]],
+      "envy": [["Sana all!", "Wish that were all of us!"]],
+      "kidding": [["Charot!", "Just kidding!"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Good morning! How are you?", "Hi! Have you eaten?", "Hello po!", "Hey, long time no see!", "Good evening, ma'am!"],
+      "reply": ["I'm good, thanks!", "Doing fine, a bit tired from the commute.", "All good, how about you?", "Great, it's payday!", "Fine, thank you po."],
+      "sunny": ["So hot today, stay hydrated!", "Perfect day for halo-halo.", "Sunny again, bring an umbrella for the shade.", "Great weather for the beach this weekend.", "The sunset over Manila Bay will be beautiful tonight."],
+      "rain": ["It's flooding on Taft again.", "The typhoon signal is up, classes are suspended.", "Bring an umbrella, it's the rainy season.", "Traffic on EDSA is terrible with the rain.", "It's pouring, let's wait it out at the mall."],
+      "bye": ["Take care!", "Ingat! See you tomorrow.", "Bye, have a good night!", "Text me when you get home.", "See you around!"],
+      "busy": ["Sorry, I'm late for work!", "I have to catch the MRT, talk later.", "Can't stay, I have a deadline.", "In a rush, my Grab is here.", "Sorry, I have to run!"]
+    },
+    "fil": {
+      "greet": ["Magandang umaga po!", "Uy, kumusta ka na?", "Musta na, pare?", "Magandang gabi po!", "Kumain ka na?"],
+      "reply": ["Mabuti naman, salamat!", "Ayos lang, ikaw?", "Okay lang, medyo pagod.", "Eto, buhay pa!", "Busog na ako, salamat!"],
+      "sunny": ["Ang init ngayon!", "Grabe ang araw, magpayong ka.", "Sarap mag-swimming ngayon.", "Init na naman, halo-halo tayo!", "Ganda ng panahon ngayon."],
+      "rain": ["Umuulan na naman.", "Baha na sa España!", "May bagyo raw bukas.", "Dalhin mo ang payong mo.", "Ang lakas ng ulan, traffic na naman sa EDSA."],
+      "bye": ["Ingat ka!", "Sige, una na ako.", "Kita tayo bukas!", "Paalam po!", "Ingat sa biyahe!"],
+      "busy": ["Pasensya, nagmamadali ako.", "Mahuhuli na ako sa trabaho!", "Mamaya na lang tayo mag-usap.", "Hahabol pa ako sa jeep!", "Ang dami kong gagawin ngayon."]
+    },
+    "taglish": {
+      "greet": ["Uy, long time no see! Kumusta ka na?", "Hi po, good morning!", "Pare, musta na ang work?", "Hello! Saan ka papunta?", "Uy, nag-lunch ka na?"],
+      "reply": ["Okay lang, super busy lang sa work.", "Ayos naman, medyo stressed lang.", "Good naman, ikaw?", "Okay lang, tired lang talaga.", "Sobrang okay, payday kasi!"],
+      "sunny": ["Grabe, ang init talaga today!", "Sobrang hot, mag-mall na lang tayo.", "Ganda ng weather, sana all naka-beach.", "Super init, need ko ng iced coffee."],
+      "rain": ["Bring ka ng payong, uulan daw.", "Baha na naman, nag-cancel na lang ako.", "Walang classes daw bukas dahil sa bagyo.", "Traffic na naman sa EDSA kasi umuulan."],
+      "bye": ["Sige, ingat ka ha!", "Bye! See you later!", "Text mo ako pag nakauwi ka na.", "Sige, una na ako, bye!"],
+      "busy": ["Sorry, late na ako for my meeting!", "Wait lang, may deadline ako.", "Later na lang tayo mag-chat ha?", "Sorry, rush ako, hahabol pa ako sa MRT."]
+    }
+  },
+  "transport": {
+    "bus": "bus (EDSA Carousel)",
+    "jeepney": "jeep, jeepney",
+    "tricycle": "tricycle (traysikel)",
+    "pedicab": "pedicab, padyak",
+    "metro": "MRT and LRT",
+    "taxi": "taxi",
+    "ride_hail": "Grab",
+    "moto_taxi": "Angkas, JoyRide, Move It",
+    "van": "UV Express",
+    "conductor": "konduktor, and the barker who calls passengers",
+    "stage": "terminal, sakayan",
+    "boat": "Pasig River Ferry",
+    "card": "beep card"
+  },
+  "touts": [
+    "Cubao! Cubao! Sakay na!",
+    "Quiapo, Quiapo! Isa na lang, aalis na!",
+    "Baclaran, Baclaran! Lakad na!",
+    "Ayala, Ayala! Dalawa pa!",
+    "Lawton! Lawton! Sakay na kayo!",
+    "Bayad po, isa lang!",
+    "Para po!"
+  ],
+  "hawkers": [
+    ["Tahooo!", "Taho, warm silken tofu with syrup and pearls!"],
+    ["Balut! Penoy!", "Balut and penoy, boiled duck eggs!"],
+    ["Mani, mani! Mainit pa!", "Peanuts, still warm!"],
+    ["Kwek-kwek, isaw, fishball!", "Fried quail eggs, grilled intestines, fish balls!"],
+    ["Sorbetes!", "Street ice cream!"],
+    ["Mineral water, malamig!", "Cold bottled water!"],
+    ["Pandesal! Mainit na pandesal!", "Hot pandesal bread!"]
+  ],
+  "food": {
+    "street": ["fishball", "kwek-kwek", "isaw", "balut", "taho", "turon", "banana cue", "kikiam", "siomai rice"],
+    "dishes": ["adobo", "sinigang", "kare-kare", "lechon", "pancit canton", "sisig", "tapsilog", "lumpia", "arroz caldo", "halo-halo"],
+    "drinks": ["sago't gulaman", "buko juice", "calamansi juice", "San Miguel beer", "Red Horse", "kapeng barako", "milk tea"]
+  },
+  "places": {
+    "neighbourhoods": ["Makati", "BGC", "Ortigas", "Binondo", "Intramuros", "Malate", "Ermita", "Quiapo", "Cubao", "Poblacion", "Tondo", "Sampaloc", "Eastwood", "Pasay"],
+    "streets": ["EDSA", "Taft Avenue", "España Boulevard", "Roxas Boulevard", "Ayala Avenue", "Commonwealth Avenue", "Katipunan Avenue", "C-5", "Ongpin Street", "Recto Avenue"],
+    "landmarks": ["Intramuros", "Rizal Park", "Manila Bay", "Binondo Chinatown", "SM Mall of Asia", "Greenbelt", "Fort Santiago", "Manila Cathedral", "Divisoria", "Araneta City", "BGC High Street"]
+  },
+  "small_talk": [
+    "EDSA was a parking lot again this morning.",
+    "Typhoon signal number two is up, classes might be suspended.",
+    "Payday today, let's eat at the mall.",
+    "The MRT queue at North Avenue was so long.",
+    "Christmas songs are already playing and it's only September.",
+    "I'll grab some pandesal on the way home.",
+    "Got caught in the flood on España again.",
+    "Binondo for dumplings on Saturday?",
+    "My Grab was surge priced because of the rain."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Metro_Manila",
+    "https://en.wikipedia.org/wiki/Jeepney",
+    "https://en.wikipedia.org/wiki/Epifanio_de_los_Santos_Avenue",
+    "https://en.wikipedia.org/wiki/Philippine_cuisine",
+    "https://en.wikipedia.org/wiki/Taglish"
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "street": { "mg": 0.8, "fr": 0.16, "en": 0.04 },
+  "registers": {},
+  "names": { "weights": { "merina": 0.85, "betsileo": 0.15 } },
+  "phrases": {},
+  "chat": {
+    "en": {
+      "greet": ["Good morning! How are you today?", "Hello! Nice to see you.", "Hi there, how is the day going?", "Morning! Did you make it through the traffic?", "Hello, welcome to Tana!"],
+      "reply": ["Fine, thank you!", "All good, and you?", "Very well, thanks.", "Not bad at all, thank you.", "Good, a bit tired from the stairs!"],
+      "sunny": ["Beautiful day over the hills.", "The sun is out, the jacarandas look lovely.", "Clear sky, you can see all the way to the rice fields.", "Warm today, but the evening will be cool.", "Perfect day for a walk round Lake Anosy."],
+      "rain": ["Here comes the afternoon storm.", "Take an umbrella, it is pouring.", "The streets in Analakely turn to rivers when it rains like this.", "Rainy season is here, every afternoon on time.", "Wait under the arcades until it passes."],
+      "bye": ["Goodbye, take care!", "See you later!", "Have a good day!", "Safe trip home!", "See you tomorrow!"],
+      "busy": ["Sorry, I'm in a hurry!", "I'm late, see you later!", "My taxi-be is leaving, I have to run!", "Can't stop, I have a meeting in Ankorondrano.", "Busy day, let's talk tomorrow."]
+    },
+    "mg": {
+      "greet": ["Manao ahoana tompoko!", "Salama e!", "Akory e! Inona no vaovao?", "Manao ahoana ianao, salama tsara ve?", "Salama tompoko, tongasoa!"],
+      "reply": ["Tsy misy fa salama, misaotra!", "Salama tsara, ary ianao?", "Tsara be, misaotra tompoko.", "Tsy misy, mbola tsara ihany."],
+      "sunny": ["Tsara ny andro anio!", "Mafana be ny andro anio.", "Mamiratra ny masoandro.", "Andro tsara hivoahana."],
+      "rain": ["Avy ny orana!", "Mitondrà elo fa hilatsaka ny orana.", "Be fotaka ny lalana noho ny orana.", "Mangatsiaka sady mando ny andro."],
+      "bye": ["Veloma!", "Mandra-pihaona!", "Veloma tompoko, mazotoa!", "Soava dia!", "Rahampitso indray!"],
+      "busy": ["Miala tsiny, maika aho!", "Tara aho, mandra-pihaona!", "Mbola misy asa aho, rahampitso indray.", "Maika aho fa handeha ny taxi-be!"]
+    },
+    "fr": {
+      "greet": ["Bonjour ! Ça va ?", "Salut, ça va bien ?", "Bonjour monsieur, bonne journée !", "Coucou ! Quoi de neuf ?"],
+      "reply": ["Ça va bien, merci !", "Très bien, et toi ?", "Ça va, tranquille.", "Pas mal, merci."],
+      "sunny": ["Il fait beau aujourd'hui !", "Quel soleil ce matin !", "Il fait chaud, hein !", "Belle journée pour sortir."],
+      "rain": ["Il pleut encore !", "Prends ton parapluie.", "Les rues sont boueuses avec cette pluie.", "La saison des pluies est là."],
+      "bye": ["Au revoir !", "À plus !", "Bonne journée !", "À demain !"],
+      "busy": ["Désolé, je suis pressé !", "Je suis en retard, à plus !", "Je file, on se voit plus tard.", "Pas le temps, le taxi-be part !"]
+    }
+  },
+  "transport": { "bus": "taxi-be", "moto_taxi": "taxi-moto", "tricycle": "", "taxi": "taxi", "conductor": "receveur", "stage": "arrêt" },
+  "touts": [
+    "Analakely! Analakely!",
+    "Ankorondrano, Ankorondrano!",
+    "67 Ha! 67 Ha!",
+    "Anosy, Ampefiloha!",
+    "Behoririka, mbola misy toerana!",
+    "Andravoahangy, Andravoahangy!",
+    "Mbola misy toerana iray!"
+  ],
+  "hawkers": [
+    ["Mofo gasy mafana!", "Hot mofo gasy rice cakes!"],
+    ["Mofo baolina!", "Doughnut balls!"],
+    ["Sambos, sambos!", "Samosas!"],
+    ["Koba, koba!", "Koba, banana and peanut cake in leaves!"],
+    ["Voanjo, voanjo!", "Peanuts!"],
+    ["Kitoza!", "Smoked strips of beef!"],
+    ["Ranom-boankazo!", "Fruit juice!"]
+  ],
+  "food": {
+    "street": ["mofo gasy", "mofo baolina", "sambos", "koba", "kitoza", "masikita", "menakely", "nems"],
+    "dishes": ["romazava", "ravitoto sy henakisoa", "vary amin'anana", "akoho sy voanio", "lasary", "soupe chinoise", "henomby ritra"],
+    "drinks": ["ranovola", "THB beer", "rhum arrangé", "ranom-boankazo", "kafe"]
+  },
+  "places": {
+    "neighbourhoods": ["Analakely", "Isoraka", "Antaninarenina", "Ambohijatovo", "Ankorondrano", "Ivandry", "Andohalo", "Faravohitra", "Behoririka", "Ampefiloha", "67 Ha", "Tsaralalana", "Mahamasina"],
+    "streets": ["Avenue de l'Indépendance", "Route des Hydrocarbures", "Route Digue", "Route Circulaire", "Rue Rainitovo", "Rue Andrianampoinimerina"],
+    "landmarks": ["Rova of Antananarivo", "Lake Anosy", "Gare de Soarano", "Analakely Market", "Mahamasina Stadium", "Tsimbazaza Zoo", "Andafiavaratra Palace", "Ambohimanga"]
+  },
+  "small_talk": [
+    "The jacarandas round Lake Anosy are out, the whole city is purple.",
+    "Took the taxi-be from 67 Ha and sat in traffic at Anosy for an hour.",
+    "Those stairs up to Antaninarenina get me every single time.",
+    "Cold this morning, everyone was in jackets and scarves.",
+    "The afternoon storm came right on time, like every day this season.",
+    "Analakely market is packed on a Saturday.",
+    "Had mofo gasy and a coffee at the corner before work.",
+    "From up at the Rova you can see the rice fields all round the city.",
+    "Romazava for lunch, nothing beats it on a cold day."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Antananarivo",
+    "https://en.wikipedia.org/wiki/Malagasy_language",
+    "https://en.wikipedia.org/wiki/Malagasy_cuisine",
+    "https://en.wikipedia.org/wiki/Rova_of_Antananarivo",
+    "https://en.wikipedia.org/wiki/Lake_Anosy",
+    "https://www.omniglot.com/language/phrases/malagasy.htm"
+  ]
+}

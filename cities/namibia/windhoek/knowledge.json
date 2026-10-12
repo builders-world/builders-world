@@ -1,0 +1,95 @@
+{
+  "street": { "en": 0.3, "af": 0.3, "namlish": 0.4 },
+  "registers": {
+    "namlish": {
+      "name": "Namlish",
+      "about": "Namibian English as the street speaks it, laced with Afrikaans and Oshiwambo: hosh, is it?, now now, eish, lekker, sharp."
+    }
+  },
+  "names": { "weights": { "ovambo": 0.6, "nama_damara": 0.17, "afrikaans": 0.19, "german_namibian": 0.04 } },
+  "phrases": {
+    "namlish": {
+      "hello": [["Hosh!", "Hi!"], ["Hoezit?", "What's up?"]],
+      "how_are_you": [["Otherwise?", "And how are you otherwise?"], ["How is the morning?", "How are you?"]],
+      "fine": [["Fine fine", "All good"], ["Lekker", "Nice, good"], ["Somehow", "So-so"]],
+      "thanks": [["Thanks hey", "Thanks a lot"]],
+      "bye": [["Sharp sharp", "Bye, all good"], ["Go well", "Goodbye"]],
+      "yes": [["Ja", "Yes"]],
+      "no": [["Nee", "No"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Good morning! How is the morning?", "Hello! How was the weekend?", "Hi there, how are you keeping?", "Morning Tate, how are you?", "Hello Meme, how is the family?"],
+      "reply": ["I'm fine, thank you. And you?", "All good, thanks!", "Very well, thank you.", "Fine, just a bit cold this morning.", "Good, can't complain."],
+      "sunny": ["Not a cloud in the sky again.", "It's going to be a hot one today.", "Beautiful day, the hills around town look golden.", "Perfect weather for a braai this evening.", "The sun here does not play, wear a hat."],
+      "rain": ["Can you smell it? Rain is coming.", "Finally some rain, the farmers will be happy.", "The riverbeds will be flowing after this.", "Drive carefully, the roads are slippery.", "First rain of the season, everyone is standing outside."],
+      "bye": ["Go well!", "See you tomorrow!", "Have a good day!", "Greet the family for me.", "Safe travels up north!"],
+      "busy": ["Sorry, I'm in a hurry!", "Running late for work, talk later!", "I must catch a taxi, see you!", "Busy day at the office, I'll call you.", "Meeting in town, let's chat later."]
+    },
+    "namlish": {
+      "greet": ["Hosh, my bra! How's it?", "Hoezit, sussie?", "Hosh hosh! Long time no see!", "Ja my bra, otherwise?", "Morning Meme, how is the morning?"],
+      "reply": ["Fine fine, and you?", "Lekker, my bra!", "Ja, no, all good.", "Somehow, it's Monday."],
+      "sunny": ["Eish, this sun is too hot!", "Lekker day for a braai, hey.", "Not one cloud again, is it?", "Heat is too much, let's find shade."],
+      "rain": ["Eish, rain is coming, can you smell it?", "Finally rain, the farmers will be happy!", "The river is coming down, don't cross!", "Rain season is here, hey."],
+      "bye": ["Sharp sharp!", "Later, my bra!", "Go well, sussie!", "Ja, I'm going, sharp!"],
+      "busy": ["Eish, I'm late late!", "I'll come back now now.", "The time is going, I must run!", "The taxi is waiting, sharp!"]
+    },
+    "af": {
+      "greet": ["Goeie môre!", "Hallo, hoe gaan dit?", "Middag! Alles reg?", "Haai, lanklaas gesien!"],
+      "reply": ["Goed dankie, en met jou?", "Nee, dit gaan goed.", "Alles reg, dankie.", "Baie goed, dankie."],
+      "sunny": ["Dis warm vandag!", "Mooi dag vir 'n braai.", "Die son brand vandag.", "Geen wolk in die lug nie."],
+      "rain": ["Dit gaan reën!", "Lekker reën, ons het dit nodig.", "Vat jou sambreel.", "Die riviere loop!"],
+      "bye": ["Totsiens!", "Mooi bly!", "Sien jou later!", "Lekker dag verder!"],
+      "busy": ["Jammer, ek is haastig!", "Ek is laat, sien jou later!", "Ek moet nou ry.", "Die taxi wag vir my!"]
+    }
+  },
+  "transport": { "bus": "bus", "moto_taxi": "", "tricycle": "", "taxi": "taxi", "conductor": "", "stage": "taxi rank" },
+  "touts": [
+    "Katutura! Katutura!",
+    "Town, town!",
+    "Wanaheda! Wanaheda!",
+    "Khomasdal, Khomasdal!",
+    "Okuryangava!",
+    "Single Quarters!",
+    "Taxi! Where are you going?"
+  ],
+  "hawkers": [
+    ["Kapana! Kapana!", "Grilled street meat!"],
+    ["Vetkoek, vetkoek!", "Fried dough bread!"],
+    ["Fat cakes!", "Fried dough balls!"],
+    ["Omagungu!", "Mopane worms!"],
+    ["Biltong! Biltong!", "Dried meat!"],
+    ["Airtime! Airtime!", "Phone airtime!"],
+    ["Cold drinks! Cold water!", "Cold drinks and water!"]
+  ],
+  "food": {
+    "street": ["kapana", "vetkoek", "fat cakes", "omagungu", "biltong", "boerewors roll"],
+    "dishes": ["oshifima", "potjiekos", "braaied game", "Eisbein", "schnitzel", "mahangu porridge"],
+    "drinks": ["Windhoek Lager", "Tafel Lager", "oshikundu", "Rock Shandy", "rooibos tea"]
+  },
+  "places": {
+    "neighbourhoods": ["Katutura", "Klein Windhoek", "Ludwigsdorf", "Eros", "Olympia", "Khomasdal", "Wanaheda", "Okuryangava", "Pionierspark", "Hochland Park", "Windhoek West", "Otjomuise", "Kleine Kuppe"],
+    "streets": ["Independence Avenue", "Sam Nujoma Drive", "Robert Mugabe Avenue", "Hosea Kutako Drive", "Fidel Castro Street", "Nelson Mandela Avenue", "Jan Jonker Road"],
+    "landmarks": ["Christuskirche", "Tintenpalast", "Independence Memorial Museum", "Maerua Mall", "Grove Mall", "Single Quarters market", "Zoo Park", "Alte Feste"]
+  },
+  "small_talk": [
+    "Kapana at Single Quarters after work?",
+    "First rain of the season and the whole office went outside to smell it.",
+    "Grove Mall on Saturday?",
+    "Cold this morning, winter in Windhoek is no joke.",
+    "Going up north to the village for the holidays.",
+    "Windhoek Lager and a braai this weekend, are we together?",
+    "The riverbed in Klein Windhoek was flowing after last night's rain.",
+    "The jacarandas are out all over town.",
+    "Taxi took the long way round Katutura dropping everyone off."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Windhoek",
+    "https://en.wikipedia.org/wiki/Katutura",
+    "https://en.wikipedia.org/wiki/Namlish",
+    "https://en.wikipedia.org/wiki/Namibian_cuisine",
+    "https://en.wikipedia.org/wiki/Christ_Church,_Windhoek",
+    "https://en.wikipedia.org/wiki/Tintenpalast"
+  ]
+}

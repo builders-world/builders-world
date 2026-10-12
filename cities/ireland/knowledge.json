@@ -1,0 +1,832 @@
+{
+  "languages": [
+    {
+      "code": "en",
+      "name": "English",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "ga",
+      "name": "Irish",
+      "official": true,
+      "spoken": "some"
+    },
+    {
+      "code": "pl",
+      "name": "Polish",
+      "official": false,
+      "spoken": "some"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Given name then family name. Irish first names come in Irish and English forms (Seán and John, Pádraig and Patrick), and Irish forms like Aoife, Oisín, Saoirse and Tadhg are very common today, written with their fadas. Surnames often carry O' or Mac; in Irish a woman's surname changes form (Ó Súilleabháin for a man, Ní Shúilleabháin for a woman), but in everyday English the anglicised O'Sullivan is the usual one. Dublin also has large Polish, Lithuanian, Romanian, Brazilian, Indian, Nigerian and Filipino communities. Polish surnames change their ending for women, so the list keeps ones that do not.",
+    "groups": {
+      "irish": {
+        "given": {
+          "m": [
+            "Seán",
+            "Conor",
+            "Cian",
+            "Oisín",
+            "Darragh",
+            "Niall",
+            "Eoin",
+            "Ciarán",
+            "Pádraig",
+            "Fionn",
+            "Ronan",
+            "Colm",
+            "Diarmuid",
+            "Cathal",
+            "Tadhg",
+            "Dónal",
+            "Fergal",
+            "Shane"
+          ],
+          "f": [
+            "Aoife",
+            "Siobhán",
+            "Niamh",
+            "Ciara",
+            "Orla",
+            "Róisín",
+            "Sinéad",
+            "Gráinne",
+            "Aisling",
+            "Caoimhe",
+            "Clodagh",
+            "Saoirse",
+            "Éabha",
+            "Méabh",
+            "Áine",
+            "Deirdre",
+            "Úna",
+            "Ailbhe"
+          ]
+        },
+        "family": [
+          "Murphy",
+          "Kelly",
+          "O'Sullivan",
+          "Walsh",
+          "Smith",
+          "O'Brien",
+          "Byrne",
+          "Ryan",
+          "O'Connor",
+          "O'Neill",
+          "Doyle",
+          "McCarthy",
+          "Gallagher",
+          "Lynch",
+          "Kennedy",
+          "Brennan",
+          "Kavanagh",
+          "Nolan",
+          "Dunne",
+          "Farrell"
+        ],
+        "also": {
+          "m": [
+            "Jack",
+            "James",
+            "Daniel",
+            "Michael",
+            "John",
+            "David",
+            "Mark",
+            "Paul"
+          ],
+          "f": [
+            "Emma",
+            "Sarah",
+            "Laura",
+            "Rachel",
+            "Lisa",
+            "Katie",
+            "Emily",
+            "Anne"
+          ]
+        }
+      },
+      "east_european": {
+        "given": {
+          "m": [
+            "Piotr",
+            "Tomasz",
+            "Krzysztof",
+            "Marcin",
+            "Paweł",
+            "Michał",
+            "Łukasz",
+            "Jakub",
+            "Kamil",
+            "Mateusz",
+            "Andrei",
+            "Mihai",
+            "Bogdan",
+            "Mantas",
+            "Tadas",
+            "Darius"
+          ],
+          "f": [
+            "Anna",
+            "Agnieszka",
+            "Katarzyna",
+            "Magdalena",
+            "Joanna",
+            "Monika",
+            "Karolina",
+            "Ewelina",
+            "Justyna",
+            "Natalia",
+            "Ioana",
+            "Elena",
+            "Andreea",
+            "Alina",
+            "Rūta",
+            "Agnė"
+          ]
+        },
+        "family": [
+          "Nowak",
+          "Wójcik",
+          "Kowalczyk",
+          "Mazur",
+          "Krawczyk",
+          "Kaczmarek",
+          "Zając",
+          "Król",
+          "Wieczorek",
+          "Pawlak",
+          "Sikora",
+          "Walczak",
+          "Popescu",
+          "Ionescu",
+          "Popa",
+          "Dumitru",
+          "Munteanu",
+          "Stan"
+        ]
+      },
+      "nigerian": {
+        "given": {
+          "m": [
+            "Chinedu",
+            "Emeka",
+            "Tunde",
+            "Femi",
+            "Segun",
+            "Ikenna",
+            "Obinna",
+            "Chukwudi",
+            "Olumide",
+            "Tobi",
+            "Kayode",
+            "Nnamdi",
+            "Uche",
+            "Dapo",
+            "Ifeanyi",
+            "Ade"
+          ],
+          "f": [
+            "Ngozi",
+            "Chioma",
+            "Amaka",
+            "Adaeze",
+            "Funmi",
+            "Bisi",
+            "Yetunde",
+            "Temi",
+            "Tolu",
+            "Nkechi",
+            "Folake",
+            "Ifeoma",
+            "Chiamaka",
+            "Bukola",
+            "Omolara",
+            "Uju"
+          ]
+        },
+        "family": [
+          "Okafor",
+          "Adeyemi",
+          "Okonkwo",
+          "Eze",
+          "Nwosu",
+          "Ogunleye",
+          "Adebayo",
+          "Bello",
+          "Oladipo",
+          "Obi",
+          "Nwankwo",
+          "Okeke",
+          "Balogun",
+          "Afolabi",
+          "Olawale",
+          "Akinola",
+          "Uzor",
+          "Chukwu"
+        ],
+        "also": {
+          "m": [
+            "David",
+            "Samuel",
+            "Emmanuel",
+            "Daniel",
+            "Michael",
+            "Joseph",
+            "Victor"
+          ],
+          "f": [
+            "Grace",
+            "Blessing",
+            "Esther",
+            "Joy",
+            "Precious",
+            "Faith"
+          ]
+        }
+      },
+      "indian": {
+        "given": {
+          "m": [
+            "Arjun",
+            "Rahul",
+            "Vikram",
+            "Rohan",
+            "Amit",
+            "Sanjay",
+            "Nikhil",
+            "Karan",
+            "Anil",
+            "Ravi",
+            "Suresh",
+            "Vivek",
+            "Aditya",
+            "Abhishek",
+            "Jithin",
+            "Anoop",
+            "Sreejith",
+            "Prakash"
+          ],
+          "f": [
+            "Priya",
+            "Anjali",
+            "Neha",
+            "Pooja",
+            "Divya",
+            "Shreya",
+            "Meera",
+            "Kavya",
+            "Lakshmi",
+            "Sneha",
+            "Anu",
+            "Reshma",
+            "Swathi",
+            "Deepa",
+            "Aishwarya",
+            "Nisha"
+          ]
+        },
+        "family": [
+          "Sharma",
+          "Patel",
+          "Kumar",
+          "Nair",
+          "Menon",
+          "Pillai",
+          "Reddy",
+          "Rao",
+          "Iyer",
+          "Singh",
+          "Gupta",
+          "Joseph",
+          "Thomas",
+          "Varghese",
+          "Mathew",
+          "Krishnan",
+          "Shah",
+          "Das"
+        ]
+      },
+      "brazilian": {
+        "given": {
+          "m": [
+            "Lucas",
+            "Gabriel",
+            "Rafael",
+            "Matheus",
+            "Felipe",
+            "Thiago",
+            "Bruno",
+            "Rodrigo",
+            "Gustavo",
+            "Leonardo",
+            "Diego",
+            "Vinícius",
+            "João",
+            "Pedro",
+            "Caio",
+            "Marcelo"
+          ],
+          "f": [
+            "Ana",
+            "Juliana",
+            "Fernanda",
+            "Camila",
+            "Beatriz",
+            "Larissa",
+            "Mariana",
+            "Gabriela",
+            "Letícia",
+            "Amanda",
+            "Bruna",
+            "Aline",
+            "Carolina",
+            "Patrícia",
+            "Renata",
+            "Jéssica"
+          ]
+        },
+        "family": [
+          "Silva",
+          "Santos",
+          "Oliveira",
+          "Souza",
+          "Lima",
+          "Pereira",
+          "Ferreira",
+          "Costa",
+          "Rodrigues",
+          "Almeida",
+          "Nascimento",
+          "Carvalho",
+          "Gomes",
+          "Ribeiro",
+          "Martins",
+          "Araújo"
+        ]
+      },
+      "filipino": {
+        "given": {
+          "m": [
+            "Mark",
+            "John Paul",
+            "Jerome",
+            "Christian",
+            "Rommel",
+            "Arnel",
+            "Ramon",
+            "Joel",
+            "Ronaldo",
+            "Rey",
+            "Paolo",
+            "Carlo",
+            "Miguel",
+            "Angelo",
+            "Jayson",
+            "Noel"
+          ],
+          "f": [
+            "Maria",
+            "Joy",
+            "Grace",
+            "Kristine",
+            "Mary Ann",
+            "Jennifer",
+            "Rowena",
+            "Cherry",
+            "Liza",
+            "Marites",
+            "Jasmine",
+            "Angelica",
+            "Divina",
+            "Rosalie",
+            "Princess",
+            "Jocelyn"
+          ]
+        },
+        "family": [
+          "Santos",
+          "Reyes",
+          "Cruz",
+          "Bautista",
+          "Garcia",
+          "Mendoza",
+          "Dela Cruz",
+          "Ramos",
+          "Aquino",
+          "Villanueva",
+          "Fernandez",
+          "Castillo",
+          "Del Rosario",
+          "Torres",
+          "Flores",
+          "Navarro"
+        ]
+      }
+    },
+    "weights": {
+      "irish": 0.835,
+      "east_european": 0.07,
+      "nigerian": 0.025,
+      "indian": 0.035,
+      "brazilian": 0.025,
+      "filipino": 0.01
+    }
+  },
+  "honorifics": {
+    "elder_m": "sir",
+    "elder_f": "love",
+    "peer_m": "bud",
+    "peer_f": "hun",
+    "boss": "boss",
+    "titles": {
+      "elder_m": "Mr",
+      "elder_f": "Mrs",
+      "with": "family"
+    }
+  },
+  "phrases": {
+    "en": {
+      "hello": [
+        [
+          "Howya!",
+          "Hello!"
+        ],
+        [
+          "Hiya!",
+          "Hello!"
+        ]
+      ],
+      "morning": [
+        [
+          "Morning!",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Evening!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you getting on?",
+          "How are you?"
+        ],
+        [
+          "How's things?",
+          "How are you?"
+        ],
+        [
+          "How's the form?",
+          "How are you doing?"
+        ]
+      ],
+      "fine": [
+        [
+          "Grand, thanks",
+          "Fine, thanks"
+        ],
+        [
+          "Not too bad",
+          "Fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks a million",
+          "Thank you very much"
+        ],
+        [
+          "Cheers",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "See you after",
+          "See you later"
+        ],
+        [
+          "Mind yourself",
+          "Take care"
+        ],
+        [
+          "Bye bye bye",
+          "Bye (the Irish phone goodbye)"
+        ]
+      ],
+      "welcome": [
+        [
+          "You're very welcome",
+          "You're welcome"
+        ],
+        [
+          "Come in, come in",
+          "Welcome, come in"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ],
+        [
+          "Ah, sorry about that",
+          "Sorry about that"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ],
+        [
+          "Sorry, can I just get past?",
+          "Excuse me, can I get past?"
+        ]
+      ],
+      "yes": [
+        [
+          "Yeah",
+          "Yes"
+        ],
+        [
+          "I am",
+          "Yes (answered with the verb, Irish style)"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ],
+        [
+          "Ah no",
+          "No"
+        ]
+      ]
+    },
+    "ga": {
+      "hello": [
+        [
+          "Dia dhuit",
+          "Hello (to one person)"
+        ],
+        [
+          "Dia daoibh",
+          "Hello (to several people)"
+        ],
+        [
+          "Haigh",
+          "Hi"
+        ]
+      ],
+      "morning": [
+        [
+          "Maidin mhaith",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Tráthnóna maith",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Conas atá tú?",
+          "How are you? (Munster and standard)"
+        ],
+        [
+          "Cén chaoi a bhfuil tú?",
+          "How are you? (Connacht)"
+        ],
+        [
+          "Cad é mar atá tú?",
+          "How are you? (Ulster)"
+        ]
+      ],
+      "fine": [
+        [
+          "Tá mé go maith",
+          "I'm well"
+        ],
+        [
+          "Go breá",
+          "Grand"
+        ]
+      ],
+      "thanks": [
+        [
+          "Go raibh maith agat",
+          "Thank you"
+        ],
+        [
+          "Go raibh míle maith agat",
+          "Thanks a million"
+        ]
+      ],
+      "bye": [
+        [
+          "Slán",
+          "Bye"
+        ],
+        [
+          "Slán go fóill",
+          "Bye for now"
+        ],
+        [
+          "Slán abhaile",
+          "Safe home"
+        ]
+      ],
+      "welcome": [
+        [
+          "Fáilte",
+          "Welcome"
+        ],
+        [
+          "Céad míle fáilte",
+          "A hundred thousand welcomes"
+        ]
+      ],
+      "sorry": [
+        [
+          "Tá brón orm",
+          "I'm sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Gabh mo leithscéal",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Tá",
+          "Yes (it is)"
+        ],
+        [
+          "Sea",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Níl",
+          "No (it isn't)"
+        ],
+        [
+          "Ní hea",
+          "No"
+        ]
+      ],
+      "cheers": [
+        [
+          "Sláinte!",
+          "Cheers! (health)"
+        ]
+      ]
+    },
+    "pl": {
+      "hello": [
+        [
+          "Cześć!",
+          "Hi!"
+        ],
+        [
+          "Dzień dobry",
+          "Hello (polite)"
+        ]
+      ],
+      "morning": [
+        [
+          "Dzień dobry",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Dobry wieczór",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Jak się masz?",
+          "How are you?"
+        ],
+        [
+          "Co słychać?",
+          "What's new?"
+        ]
+      ],
+      "fine": [
+        [
+          "Dobrze, dzięki",
+          "Fine, thanks"
+        ],
+        [
+          "W porządku",
+          "All right"
+        ]
+      ],
+      "thanks": [
+        [
+          "Dziękuję",
+          "Thank you"
+        ],
+        [
+          "Dzięki",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "Do widzenia",
+          "Goodbye"
+        ],
+        [
+          "Na razie",
+          "See you"
+        ],
+        [
+          "Cześć!",
+          "Bye!"
+        ]
+      ],
+      "welcome": [
+        [
+          "Witamy",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Przepraszam",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Przepraszam",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Tak",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Nie",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "EUR",
+    "symbol": "€",
+    "words": [
+      [
+        "quid",
+        "a euro, still said by many from the pound days"
+      ],
+      [
+        "a fiver",
+        "a five euro note"
+      ],
+      [
+        "a tenner",
+        "a ten euro note"
+      ],
+      [
+        "a grand",
+        "a thousand euro"
+      ],
+      [
+        "a score",
+        "twenty euro"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Ireland",
+    "https://en.wikipedia.org/wiki/Irish_language",
+    "https://en.wikipedia.org/wiki/Irish_name",
+    "https://www.cso.ie/",
+    "https://www.teanglann.ie/"
+  ]
+}

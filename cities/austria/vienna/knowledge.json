@@ -1,0 +1,123 @@
+{
+  "street": { "de": 0.55, "wienerisch": 0.2, "en": 0.1, "hbs": 0.09, "tr": 0.06 },
+  "registers": {
+    "wienerisch": {
+      "name": "Wienerisch",
+      "about": "Vienna's own German: Servus and Baba, leiwand for great, Oida as a friendly exclamation, and a talent for cheerful grumbling (the Wiener Grant) and dry jokes (the Wiener Schmäh)."
+    }
+  },
+  "names": { "weights": { "austrian": 0.64, "bks": 0.14, "turkish": 0.09, "polish": 0.04, "romanian": 0.04, "arab": 0.05 } },
+  "phrases": {
+    "wienerisch": {
+      "hello": [["Servus!", "Hi"], ["Seawas!", "Hi (very Viennese)"], ["Grüß Gott", "Hello (polite)"]],
+      "how_are_you": [["Wie geht's da?", "How are you doing?"], ["Alles leiwand?", "All good?"]],
+      "fine": [["Passt eh", "It's fine anyway"], ["Leiwand!", "Great!"], ["Geht scho", "It's alright"]],
+      "thanks": [["Danke vielmals", "Thanks a lot"], ["Merci", "Thanks"]],
+      "bye": [["Baba!", "Bye!"], ["Baba und foi ned!", "Bye, and don't fall over!"], ["Servus!", "Bye"]],
+      "yes": [["Jo eh", "Yeah, of course"]],
+      "no": [["Na", "No"]],
+      "excuse": [["Heast!", "Hey! (to get attention, a bit gruff)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! Coffee first?", "Hey, how are you?", "Servus! Good weekend?", "Hello, haven't seen you in ages!", "Hi! Heading to the Naschmarkt?"],
+      "reply": ["Good, thanks, you?", "All fine, just back from a Heuriger.", "Not bad, a bit tired.", "Pretty good, the U-Bahn was quick today.", "Great, spent Sunday on the Donauinsel."],
+      "sunny": ["Schanigarten weather!", "Everyone's on the Donauinsel today.", "Perfect day for the Prater.", "Lovely, the whole Ring is out walking.", "Great day for a swim in the Alte Donau."],
+      "rain": ["Raining again, Kaffeehaus day.", "Take an umbrella, it's pouring.", "The wind is something else today.", "Grey and wet, typical November.", "Good weather for a long Melange inside."],
+      "bye": ["Baba!", "See you later!", "Have a good one!", "Take care!", "Bye, enjoy the evening!"],
+      "busy": ["Sorry, my tram's coming!", "Running late for a meeting.", "Can't stop, the U4 won't wait.", "In a rush, see you!", "Got a call, talk later!"]
+    },
+    "de": {
+      "greet": ["Grüß Gott! Wie geht es Ihnen?", "Hallo, wie geht's?", "Guten Morgen! Schon im Büro?", "Servus, schön dich zu sehen!", "Hallo! Lange nicht gesehen."],
+      "reply": ["Gut, danke, und Ihnen?", "Danke, passt alles.", "Ganz gut, viel zu tun.", "Gut, das Wochenende war schön.", "Geht so, ein bisschen müde."],
+      "sunny": ["Was für ein schöner Tag!", "Perfektes Wetter für den Schanigarten.", "Heute gehen alle an die Alte Donau.", "Endlich wieder Sonne!", "Bei dem Wetter spazieren wir durch den Prater."],
+      "rain": ["Schon wieder Regen.", "Nehmen Sie lieber einen Schirm mit.", "Heute ist ein Wetter fürs Kaffeehaus.", "Grau und nass, typisch November.", "Es regnet schon den ganzen Vormittag."],
+      "bye": ["Auf Wiedersehen!", "Schönen Tag noch!", "Bis bald!", "Servus!", "Baba!"],
+      "busy": ["Entschuldigung, ich muss zur U-Bahn!", "Ich bin spät dran, bis später!", "Ich hab gleich einen Termin.", "Keine Zeit, die Straßenbahn kommt!", "Ich muss los, servus!"]
+    },
+    "wienerisch": {
+      "greet": ["Servus!", "Seawas, wie geht's da?", "Grüß di! Lang ned gsehn!", "Servus, alles leiwand?", "Heast, servus!"],
+      "reply": ["Passt eh, und bei dir?", "Leiwand, danke!", "Geht scho, muss jo.", "Eh guat.", "Ned schlecht, a bissl miad."],
+      "sunny": ["Heut is a Wetter, leiwand!", "Bei dem Wetter geh ma auf die Donauinsel.", "Endlich Sonne, ab in den Schanigarten!", "Heut is der Prater sicher voll.", "So a schöner Tag, oida!"],
+      "rain": ["Heut is a grausliches Wetter.", "Nimm an Schirm mit, es schüttet.", "Grau in grau, typisch Wien.", "Bei dem Wetter geh i ins Kaffeehaus.", "Der Wind pfeift heut wieder ordentlich."],
+      "bye": ["Baba!", "Baba und foi ned!", "Servus, bis bald!", "Schönen Tag no!"],
+      "busy": ["I muss weiter, die Bim kommt!", "Ka Zeit, baba!", "I bin scho spät dran, servus!", "Muss zur U-Bahn, baba!"]
+    },
+    "hbs": {
+      "greet": ["Zdravo! Kako si?", "Ćao, šta ima?", "Dobro jutro! Jesi li popio kafu?", "Bok, kako ide?", "Zdravo komšija, kako ste?"],
+      "reply": ["Dobro sam, hvala. A ti?", "Sve u redu, puno posla.", "Nije loše, malo sam umoran.", "Odlično, hvala!", "Eto, polako."],
+      "sunny": ["Danas je predivno vrijeme!", "Sunce je, idemo na Dunav.", "Kakav lijep dan!", "Po ovom vremenu treba sjesti na kafu napolju."],
+      "rain": ["Opet pada kiša.", "Ponesi kišobran, lije.", "Danas je baš sivo.", "Po ovoj kiši ostajem kod kuće."],
+      "bye": ["Ćao, vidimo se!", "Doviđenja!", "Pozdrav!", "Čujemo se!"],
+      "busy": ["Izvini, žurim na posao!", "Nemam vremena, tramvaj dolazi!", "Kasnim, vidimo se kasnije!", "Moram ići, čujemo se!"]
+    },
+    "tr": {
+      "greet": ["Merhaba! Nasılsın?", "Selam, naber?", "Günaydın! Kahvaltı yaptın mı?", "Selam abi, nasıl gidiyor?", "Merhaba abla, iyi misin?"],
+      "reply": ["İyiyim, sağ ol. Sen nasılsın?", "Fena değil, biraz yorgunum.", "İyi, işler yoğun.", "Her şey yolunda, teşekkürler."],
+      "sunny": ["Bugün hava çok güzel!", "Güneş açtı, Tuna'ya gidelim.", "Bu havada Prater dolu olur.", "Harika bir gün, değil mi?"],
+      "rain": ["Yine yağmur yağıyor.", "Şemsiyeni al, hava bozuk.", "Bugün rüzgar da çok sert.", "Bugün dışarı çıkılmaz, yağmur var."],
+      "bye": ["Görüşürüz!", "Hoşça kal!", "Kendine iyi bak!", "Sonra görüşürüz!"],
+      "busy": ["Kusura bakma, acelem var!", "Tramvayı kaçıracağım, görüşürüz!", "İşe geç kaldım, sonra konuşuruz!", "Şimdi koşmam lazım, sonra ararım!"]
+    }
+  },
+  "transport": {
+    "bus": "Bus",
+    "moto_taxi": "E-Scooter",
+    "tricycle": "Fiaker (horse carriage)",
+    "taxi": "Taxi",
+    "conductor": "Kontrollor",
+    "stage": "Haltestelle",
+    "tram": "Bim",
+    "metro": "U-Bahn",
+    "train": "S-Bahn",
+    "public_transport": "Öffis",
+    "bike_share": "WienMobil Rad",
+    "ride_hail": "Uber, Bolt"
+  },
+  "touts": [
+    "Zurückbleiben, bitte!",
+    "Nächste Station: Stephansplatz. Umsteigen zur U1.",
+    "Fahrscheinkontrolle, die Fahrscheine bitte!",
+    "Grüß Gott, der neue Augustin!",
+    "Rundfahrt mit dem Fiaker, die Herrschaften?",
+    "Grüß Gott, a kleines Lied für Sie, und wenn's gefällt, freu ich mich über a Münzerl."
+  ],
+  "hawkers": [
+    ["Heiße Maroni!", "Hot chestnuts!"],
+    ["Probieren Sie, ganz frisch, Oliven, Schafkäse!", "Have a taste, really fresh, olives, sheep's cheese!"],
+    ["A Eitrige mit an Buckl?", "A cheese sausage with the heel of the bread?"],
+    ["Der neue Augustin!", "The new Augustin street paper!"],
+    ["Punsch, heißer Punsch!", "Punch, hot punch!"],
+    ["Burenwurst, Käsekrainer, Bratwürstel!", "Sausages: Burenwurst, cheese sausage, bratwurst!"]
+  ],
+  "food": {
+    "street": ["Käsekrainer", "Burenwurst", "Leberkässemmel", "Langos", "Maroni", "Kebap", "Bosna"],
+    "dishes": ["Wiener Schnitzel", "Tafelspitz", "Gulasch", "Kaiserschmarrn", "Sachertorte", "Apfelstrudel", "Backhendl", "Beuschel"],
+    "drinks": ["Melange", "Einspänner", "Almdudler", "Gespritzter", "Sturm", "Ottakringer", "Grüner Veltliner", "Punsch"]
+  },
+  "places": {
+    "neighbourhoods": ["Innere Stadt", "Leopoldstadt", "Neubau", "Mariahilf", "Josefstadt", "Ottakring", "Favoriten", "Wieden", "Margareten", "Döbling", "Landstraße", "Brigittenau"],
+    "streets": ["Ringstraße", "Mariahilfer Straße", "Kärntner Straße", "Graben", "Praterstraße", "Neubaugasse", "Favoritenstraße", "Thaliastraße", "Landstraßer Hauptstraße", "Gumpendorfer Straße"],
+    "landmarks": ["Stephansdom", "Riesenrad", "Schönbrunn", "Belvedere", "Hofburg", "Naschmarkt", "Donauinsel", "MuseumsQuartier", "Karlskirche", "Staatsoper", "Brunnenmarkt", "Hundertwasserhaus"]
+  },
+  "small_talk": [
+    "The U6 was packed again, as always.",
+    "Heuriger at the weekend? Grinzing or Stammersdorf?",
+    "The Würstelstand by the Albertina was busy at two in the morning.",
+    "Sturm season, first glass of the year!",
+    "My landlord finally fixed the heating in our Altbau.",
+    "The Donauinsel was full of people barbecuing.",
+    "The waiter was grumpy, but that's just the Wiener Schmäh.",
+    "The punch stands on the Rathausplatz open next week.",
+    "The U-Bahn works have half of Neubau dug up.",
+    "Brunnenmarkt has the best cheap vegetables in town."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Vienna",
+    "https://de.wikipedia.org/wiki/Wienerisch",
+    "https://www.wienerlinien.at/",
+    "https://www.wien.gv.at/",
+    "https://www.augustin.or.at/"
+  ]
+}

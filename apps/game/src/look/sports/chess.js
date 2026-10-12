@@ -1,3 +1,4 @@
+import { nameFor, titled } from '../knowledge.js';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { Chess } from 'chess.js';
@@ -20,6 +21,10 @@ export const CHALLENGERS = [
   { name: 'Aunty Kemi', level: 2, kind: 'club player', reward: 350, look: { body: 'f', skin: '#7a4a2e', hair: 'gele', hairColor: '#2a9d94', top: 'ankara', topColor: '#2a9d94', bottom: 'wrapper', bottomColor: '#f2b33d', shoes: 'sandals', shoeColor: '#3b2a20', acc: ['earrings'] } },
   { name: 'Coach Emeka', level: 3, kind: 'strong', reward: 800, look: { body: 'm', skin: '#4a2e1c', hair: 'low', hairColor: '#1b1714', top: 'tee', topColor: '#22336a', bottom: 'trousers', bottomColor: '#3b3f45', shoes: 'sneakers', shoeColor: '#f4f1ea', acc: ['watch'] } },
 ];
+// the regulars, named as people are in this city, with the respect people show their elders here (look/knowledge.js)
+export function challengers() {
+  return CHALLENGERS.map((c, i) => { const n = nameFor(`chess-${i}`, c.look?.body === 'f' ? 'f' : 'm'); if (!n) return c; return { ...c, name: i === 0 ? titled('elder_m', n, 'Baba') : i === 1 ? titled('elder_f', n, 'Aunty') : `Coach ${n.first}` }; });
+}
 
 const CSS = `
 #lk-chess { position: fixed; inset: 0; z-index: 40; display: none; align-items: center; justify-content: center; pointer-events: none; }
@@ -150,9 +155,10 @@ export function createChess({ world, scene, props, used, findSite, toast, avatar
     };
     tables[0].regulars = [seat(tables[0], 1, reg[0]), seat(tables[0], -1, reg[1])];
     // one challenger at each of tables 1 to 3
-    tables[1].npc = { ...seat(tables[1], -1, CHALLENGERS[0]), ...CHALLENGERS[0] };
-    tables[2].npc = { ...seat(tables[2], -1, CHALLENGERS[1]), ...CHALLENGERS[1] };
-    tables[3].npc = { ...seat(tables[3], -1, CHALLENGERS[2]), ...CHALLENGERS[2] };
+    const CH = challengers();
+    tables[1].npc = { ...seat(tables[1], -1, CH[0]), ...CH[0] };
+    tables[2].npc = { ...seat(tables[2], -1, CH[1]), ...CH[1] };
+    tables[3].npc = { ...seat(tables[3], -1, CH[2]), ...CH[2] };
     // the open table for players stands just outside the pavilion
     const open = new THREE.Group(); open.position.set(0, 0, -3.6); group.add(open);
     {
@@ -279,7 +285,7 @@ export function createChess({ world, scene, props, used, findSite, toast, avatar
       <div class="row"><button data-start="local">Two players here</button></div>
       <p><b>Online now</b></p>
       ${online?.online ? (others.length ? `<ul>${others.slice(0, 20).map((p) => `<li><b>${String(p.name || 'Builder').replace(/[<>&"]/g, '')}</b><button data-start="invite" data-arg="${p.id}">Invite</button></li>`).join('')}</ul>` : '<p>Nobody else is online in the district right now. Try again later, or play the regulars in the pavilion.</p>') : '<p>You are offline, so there is nobody to invite.</p>'}
-      <p>Or play the regulars: ${CHALLENGERS.map((c) => `${c.name} (${c.kind})`).join(', ')}.</p>
+      <p>Or play the regulars: ${challengers().map((c) => `${c.name} (${c.kind})`).join(', ')}.</p>
       <div class="row"><button class="soft" data-act="leave">Leave · Esc</button></div>
       <p style="font-size:12px">Playing as ${me}.</p></div>`;
   }

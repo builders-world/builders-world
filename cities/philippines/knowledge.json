@@ -1,0 +1,95 @@
+{
+  "languages": [
+    { "code": "fil", "name": "Filipino (Tagalog)", "official": true, "spoken": "widely" },
+    { "code": "en", "name": "English", "official": true, "spoken": "widely, in work, school and business" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Filipinos carry a given name (often two, like John Paul or Mary Grace), the mother's maiden family name as a middle name, and the father's family name last: Maria Cruz Santos. Most family names are Spanish, handed out from a catalogue in 1849, so Santos, Reyes and Cruz are everywhere. Almost everyone also has a nickname that friends use instead (Jun, Bong, Tin, Ging). Chinese Filipinos (Tsinoy) often carry short Hokkien family names such as Tan, Sy, Go and Uy.",
+    "groups": {
+      "filipino": {
+        "given": {
+          "m": ["Juan", "Jose", "Mark", "John Paul", "Christian", "Joshua", "Angelo", "Rodel", "Ramon", "Carlo", "Miguel", "Paolo", "Jerome", "Rommel", "Ronaldo", "Jayson", "Kenneth", "Francis"],
+          "f": ["Maria", "Ana", "Kristine", "Angelica", "Joy", "Princess", "Jasmine", "Maricel", "Rowena", "Lorna", "Camille", "Patricia", "Mary Grace", "Jennifer", "Shiela", "Rhea", "Nicole", "Divina"]
+        },
+        "family": ["Santos", "Reyes", "Cruz", "Bautista", "Garcia", "Mendoza", "Ramos", "Villanueva", "Castillo", "Flores", "Gonzales", "Dela Cruz", "Del Rosario", "Torres", "Navarro", "Mercado", "Pascual", "Domingo", "Soriano", "Manalo", "Ocampo", "Fernandez"],
+        "also": {
+          "m": ["Jun", "Bong", "Jojo", "Dong", "Toto", "Buboy", "Jun-jun", "Ton"],
+          "f": ["Ging", "Tin", "Bea", "Ning", "Mimi", "Cha", "Len", "Joyjoy"]
+        }
+      },
+      "tsinoy": {
+        "given": {
+          "m": ["Kenneth", "Jason", "Patrick", "Raymond", "Vincent", "Anthony", "Michael", "Jonathan", "Henry", "Edward", "Stanley", "Wilson"],
+          "f": ["Michelle", "Karen", "Stephanie", "Jacqueline", "Cheryl", "Joanne", "Christine", "Melissa", "Janice", "Vanessa", "Abigail", "Tiffany"]
+        },
+        "family": ["Tan", "Lim", "Go", "Sy", "Co", "Uy", "Chua", "Ong", "Ang", "Yu", "Dy", "Chan", "Tiu", "Lao", "Yap"]
+      }
+    },
+    "weights": { "filipino": 0.95, "tsinoy": 0.05 }
+  },
+  "honorifics": {
+    "elder_m": "Manong",
+    "elder_f": "Manang",
+    "peer_m": "Kuya",
+    "peer_f": "Ate",
+    "boss": "Boss",
+    "buddy_m": "Pare",
+    "buddy_f": "Mare",
+    "sir": "Sir",
+    "maam": "Ma'am",
+    "note": "Kuya (older brother) and Ate (older sister) are used for anyone a bit older: the driver, the guard, the cashier. Add po to a sentence to be polite to elders and strangers."
+  },
+  "phrases": {
+    "fil": {
+      "hello": [["Kumusta!", "Hello!"], ["Uy!", "Hey!"], ["Magandang araw po", "Good day, polite"]],
+      "morning": [["Magandang umaga po", "Good morning, polite"], ["Magandang umaga", "Good morning"]],
+      "afternoon": [["Magandang hapon po", "Good afternoon, polite"]],
+      "evening": [["Magandang gabi po", "Good evening, polite"]],
+      "how_are_you": [["Kumusta ka?", "How are you?"], ["Kumusta po kayo?", "How are you, polite"], ["Musta na?", "How's it going?"]],
+      "fine": [["Mabuti naman", "I'm fine"], ["Ayos lang", "I'm okay"], ["Okay lang", "Just okay"]],
+      "thanks": [["Salamat", "Thanks"], ["Salamat po", "Thank you, polite"], ["Maraming salamat", "Thank you very much"]],
+      "bye": [["Paalam", "Goodbye"], ["Ingat!", "Take care!"], ["Sige, una na ako", "Okay, I'll go ahead"]],
+      "welcome": [["Mabuhay!", "Welcome!"], ["Tuloy po kayo", "Please come in"]],
+      "sorry": [["Pasensya na", "Sorry, my apologies"], ["Sorry po", "Sorry, polite"], ["Patawad", "Forgive me"]],
+      "excuse": [["Makikiraan po", "Excuse me, let me pass"], ["Excuse me po", "Excuse me, polite"], ["Mawalang-galang na po", "Excuse me, formal"]],
+      "yes": [["Oo", "Yes"], ["Opo", "Yes, polite"], ["Oo nga", "Yes, indeed"]],
+      "no": [["Hindi", "No"], ["Hindi po", "No, polite"], ["Ayoko", "I don't want to"]],
+      "eaten": [["Kumain ka na?", "Have you eaten?"]]
+    },
+    "en": {
+      "hello": [["Hello po", "Hello, polite"], ["Hi", "Hi"]],
+      "morning": [["Good morning po", "Good morning, polite"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["I'm fine, thank you", "I'm fine, thank you"]],
+      "thanks": [["Thank you po", "Thank you, polite"]],
+      "bye": [["Bye, take care!", "Bye, take care!"]],
+      "welcome": [["Welcome po", "Welcome, polite"]],
+      "sorry": [["Sorry po", "Sorry, polite"]],
+      "excuse": [["Excuse me po", "Excuse me, polite"]],
+      "yes": [["Yes po", "Yes, polite"]],
+      "no": [["No po", "No, polite"]]
+    }
+  },
+  "money": {
+    "currency": "PHP",
+    "symbol": "₱",
+    "words": [
+      ["piso", "a peso"],
+      ["sentimo", "a centavo"],
+      ["isang daan", "a hundred pesos"],
+      ["isang libo", "a thousand pesos"],
+      ["barya", "coins, small change"],
+      ["sukli", "change given back"],
+      ["GCash", "the mobile wallet everyone uses"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Filipino_name",
+    "https://en.wikipedia.org/wiki/Filipino_language",
+    "https://en.wikipedia.org/wiki/Chinese_Filipinos",
+    "https://en.wikipedia.org/wiki/Catálogo_alfabético_de_apellidos",
+    "https://en.wikipedia.org/wiki/Philippine_peso"
+  ]
+}

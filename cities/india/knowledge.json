@@ -1,0 +1,311 @@
+{
+  "languages": [
+    { "code": "hi", "name": "Hindi", "official": true, "spoken": "widely, the link language of the north and of Mumbai's streets" },
+    { "code": "en", "name": "English (Indian English)", "official": true, "spoken": "widely in offices, tech, colleges and between people from different states" },
+    { "code": "mr", "name": "Marathi", "official": true, "spoken": "Maharashtra: Mumbai and Pune" },
+    { "code": "ta", "name": "Tamil", "official": true, "spoken": "Tamil Nadu: Chennai, and a large community in Bengaluru" },
+    { "code": "te", "name": "Telugu", "official": true, "spoken": "Telangana and Andhra Pradesh: Hyderabad, and many in Bengaluru and Chennai" },
+    { "code": "kn", "name": "Kannada", "official": true, "spoken": "Karnataka: Bengaluru" },
+    { "code": "ur", "name": "Urdu", "official": true, "spoken": "among many Muslims, strongest in Hyderabad, Delhi and Mumbai" },
+    { "code": "pa", "name": "Punjabi", "official": true, "spoken": "Punjabi families across Delhi and the north" },
+    { "code": "bn", "name": "Bengali", "official": true, "spoken": "Bengali communities in every big city" },
+    { "code": "ml", "name": "Malayalam", "official": true, "spoken": "Malayali communities, large in Bengaluru, Chennai and Mumbai" },
+    { "code": "gu", "name": "Gujarati", "official": true, "spoken": "Gujarati communities, large in Mumbai" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Most people carry a first name and a family name, and the family name usually tells you the region or community: Sharma or Gupta in the north, Patil or Kulkarni in Maharashtra, Shah or Patel in Gujarat, Banerjee or Das in Bengal, Gowda or Shetty in Karnataka, Reddy or Rao in Telugu country, Nair or Menon in Kerala. Tamils often have no family name at all: the father's first name becomes the surname, or is written as an initial before the given name (R. Karthik, son of Ramasamy). Telugu people traditionally put the house name first (Kotha Srinivas), though offices often flip it. Sikh men carry Singh and Sikh women Kaur, often followed by a family name (Harpreet Singh Gill, Simran Kaur Sandhu). Muslim names are Arabic, Persian or Urdu (Mohammed Imran Khan). Goan, Mangalorean and East Indian Catholics have Portuguese family names (D'Souza, Fernandes). Strangers are addressed by role or kinship words (bhaiya, didi, anna, akka, uncle, aunty) rather than by name, often with the respectful ji.",
+    "groups": {
+      "hindi": {
+        "given": {
+          "m": ["Rahul", "Amit", "Rohit", "Vikas", "Ankit", "Saurabh", "Abhishek", "Manish", "Gaurav", "Pankaj", "Deepak", "Ajay", "Aditya", "Varun", "Nitin", "Sandeep"],
+          "f": ["Priya", "Pooja", "Neha", "Anjali", "Shweta", "Ritu", "Swati", "Kavita", "Sunita", "Nisha", "Shalini", "Divya", "Aarti", "Payal", "Megha"]
+        },
+        "family": ["Sharma", "Verma", "Gupta", "Singh", "Mishra", "Pandey", "Tiwari", "Yadav", "Srivastava", "Chauhan", "Agarwal", "Jain", "Saxena", "Dubey", "Tripathi", "Kumar"]
+      },
+      "punjabi": {
+        "given": {
+          "m": ["Gurpreet", "Harpreet", "Manpreet", "Jaspreet", "Harjeet", "Amandeep", "Navjot", "Karan", "Arjun", "Rajinder", "Sukhwinder", "Kulwinder", "Gagandeep", "Rohan"],
+          "f": ["Simran", "Harleen", "Navneet", "Gurleen", "Jasleen", "Manpreet", "Amrit", "Rupinder", "Kiran", "Parminder", "Baljeet", "Harpreet", "Mehak"]
+        },
+        "family": ["Gill", "Sandhu", "Dhillon", "Sidhu", "Grewal", "Bajwa", "Malhotra", "Kapoor", "Khanna", "Arora", "Chopra", "Mehra", "Sethi", "Bedi", "Ahuja"]
+      },
+      "marathi": {
+        "given": {
+          "m": ["Sachin", "Prasad", "Aniket", "Omkar", "Swapnil", "Nikhil", "Sagar", "Mandar", "Tushar", "Shrikant", "Vinayak", "Akshay", "Mahesh", "Yogesh", "Siddharth"],
+          "f": ["Snehal", "Pallavi", "Prajakta", "Ashwini", "Madhuri", "Sayali", "Gauri", "Rutuja", "Shruti", "Manasi", "Aishwarya", "Vaishali", "Sonali", "Ketaki"]
+        },
+        "family": ["Patil", "Deshmukh", "Kulkarni", "Joshi", "Pawar", "Jadhav", "Shinde", "Gaikwad", "Deshpande", "Kale", "More", "Chavan", "Bhosale", "Sawant", "Naik", "Apte"]
+      },
+      "gujarati": {
+        "given": {
+          "m": ["Hardik", "Jignesh", "Ketan", "Paresh", "Nilesh", "Bhavin", "Chirag", "Mehul", "Hiren", "Darshan", "Parth", "Dhaval", "Kunal"],
+          "f": ["Hetal", "Krupa", "Dhara", "Jinal", "Bhavna", "Nidhi", "Khushbu", "Komal", "Mansi", "Riddhi", "Falguni", "Foram", "Urvi"]
+        },
+        "family": ["Shah", "Patel", "Mehta", "Desai", "Parikh", "Doshi", "Trivedi", "Bhatt", "Thakkar", "Sanghvi", "Vora", "Kothari", "Panchal", "Dave"]
+      },
+      "bengali": {
+        "given": {
+          "m": ["Arijit", "Sourav", "Subhajit", "Debashish", "Anirban", "Arnab", "Indranil", "Rajib", "Sayan", "Tanmoy", "Abhijit", "Partha", "Soumya"],
+          "f": ["Ananya", "Moumita", "Priyanka", "Sharmila", "Rituparna", "Sohini", "Debjani", "Tanushree", "Paromita", "Sreeja", "Madhurima", "Ishita", "Rupa"]
+        },
+        "family": ["Banerjee", "Chatterjee", "Mukherjee", "Bose", "Das", "Ghosh", "Sen", "Dutta", "Roy", "Chakraborty", "Bhattacharya", "Sarkar", "Mitra", "Ganguly"]
+      },
+      "tamil": {
+        "given": {
+          "m": ["Karthik", "Senthil", "Saravanan", "Arun", "Vignesh", "Prakash", "Murugan", "Balaji", "Dinesh", "Ganesh", "Rajesh", "Suresh", "Selvam", "Venkatesh", "Aravind"],
+          "f": ["Lakshmi", "Meena", "Divya", "Priya", "Kavya", "Deepa", "Revathi", "Anitha", "Gayathri", "Sangeetha", "Keerthana", "Nithya", "Vidya", "Sowmya"]
+        },
+        "family": ["Subramanian", "Krishnan", "Ramasamy", "Natarajan", "Rajendran", "Shanmugam", "Iyer", "Pillai", "Raman", "Sundaram", "Murugesan", "Balasubramanian", "Venkatesan", "Narayanan", "Kannan"]
+      },
+      "telugu": {
+        "given": {
+          "m": ["Srinivas", "Venkatesh", "Ravi", "Suresh", "Ramesh", "Kiran", "Sai", "Naveen", "Praveen", "Mahesh", "Vamsi", "Chaitanya", "Harsha", "Teja", "Srikanth"],
+          "f": ["Lakshmi", "Sravani", "Swathi", "Bhavani", "Padma", "Sirisha", "Haritha", "Keerthi", "Sneha", "Mounika", "Anusha", "Sravya", "Pavani", "Lavanya"]
+        },
+        "family": ["Reddy", "Rao", "Naidu", "Chowdary", "Varma", "Raju", "Goud", "Murthy", "Sastry", "Gupta", "Setty", "Kotha", "Bandi", "Yadav"]
+      },
+      "kannada": {
+        "given": {
+          "m": ["Manjunath", "Raghavendra", "Prashanth", "Shivakumar", "Nagaraj", "Basavaraj", "Girish", "Santosh", "Anand", "Kiran", "Chetan", "Darshan", "Puneeth", "Mahesh"],
+          "f": ["Shwetha", "Rashmi", "Kavya", "Pooja", "Shilpa", "Bhavya", "Ramya", "Chaitra", "Sowmya", "Nandini", "Vidya", "Spoorthi", "Akshatha", "Divya"]
+        },
+        "family": ["Gowda", "Hegde", "Shetty", "Rao", "Bhat", "Kamath", "Patil", "Naik", "Murthy", "Shastri", "Kulkarni", "Rai", "Pai", "Acharya"]
+      },
+      "malayali": {
+        "given": {
+          "m": ["Anoop", "Arjun", "Vishnu", "Sreejith", "Rahul", "Jithin", "Akhil", "Nikhil", "Sanjay", "Praveen", "Ajith", "Biju", "Manoj", "Rajeev"],
+          "f": ["Anjali", "Aswathy", "Lakshmi", "Divya", "Reshma", "Neethu", "Sreelakshmi", "Athira", "Anu", "Parvathy", "Remya", "Sruthi", "Meera"]
+        },
+        "family": ["Nair", "Menon", "Pillai", "Kurup", "Panicker", "Varghese", "Thomas", "Kurian", "Mathew", "Joseph", "Nambiar", "Warrier", "Jacob", "George"]
+      },
+      "muslim": {
+        "given": {
+          "m": ["Mohammed", "Imran", "Faisal", "Salman", "Arif", "Irfan", "Javed", "Sameer", "Tariq", "Zaheer", "Rizwan", "Aamir", "Shoaib", "Asif", "Nadeem"],
+          "f": ["Ayesha", "Fatima", "Sana", "Zainab", "Nazia", "Rukhsar", "Shabana", "Farah", "Heena", "Mehreen", "Saba", "Rubina", "Sadia", "Afreen"]
+        },
+        "family": ["Khan", "Ahmed", "Shaikh", "Siddiqui", "Qureshi", "Ansari", "Hussain", "Syed", "Pathan", "Mirza", "Rizvi", "Baig", "Hashmi", "Farooqui"]
+      },
+      "christian": {
+        "given": {
+          "m": ["Clinton", "Melwyn", "Anthony", "Francis", "Joel", "Brian", "Wilson", "Savio", "Leon", "Glen", "Roshan", "Ronald", "Cyril", "Neil"],
+          "f": ["Maria", "Sharon", "Jennifer", "Precilla", "Rachel", "Fiona", "Anisha", "Nicole", "Lavina", "Sheryl", "Joanne", "Reena", "Clara"]
+        },
+        "family": ["D'Souza", "Fernandes", "Pereira", "Rodrigues", "D'Costa", "Pinto", "Gomes", "Lobo", "Dias", "Mascarenhas", "Saldanha", "Coutinho", "Menezes", "Noronha"]
+      }
+    },
+    "weights": {
+      "hindi": 0.24,
+      "punjabi": 0.05,
+      "marathi": 0.12,
+      "gujarati": 0.05,
+      "bengali": 0.05,
+      "tamil": 0.1,
+      "telugu": 0.1,
+      "kannada": 0.07,
+      "malayali": 0.05,
+      "muslim": 0.13,
+      "christian": 0.04
+    }
+  },
+  "honorifics": {
+    "elder_m": "Uncle",
+    "elder_f": "Aunty",
+    "peer_m": "Bhai",
+    "peer_f": "Didi",
+    "boss": "Sir",
+    "boss_f": "Madam",
+    "respect": "ji (added after a name or yes: Sharma ji, haan ji)",
+    "brother_hindi": "Bhaiya",
+    "brother_south": "Anna (Tamil, Kannada, Telugu)",
+    "sister_south": "Akka (Tamil, Kannada, Telugu)",
+    "brother_marathi_bengali": "Dada",
+    "sister_marathi": "Tai",
+    "brother_malayalam": "Chetta",
+    "sister_malayalam": "Chechi",
+    "brother_punjabi": "Paaji",
+    "polite_telugu": "Garu (after a name: Rao garu)"
+  },
+  "phrases": {
+    "hi": {
+      "hello": [["Namaste", "Hello (नमस्ते)"], ["Namaskar", "Hello, a little more formal (नमस्कार)"]],
+      "morning": [["Suprabhat", "Good morning, formal (सुप्रभात)"], ["Good morning ji", "Good morning, as most people say it"]],
+      "evening": [["Shubh sandhya", "Good evening, formal (शुभ संध्या)"], ["Namaste ji", "Good evening, in practice"]],
+      "how_are_you": [["Aap kaise hain?", "How are you? polite (आप कैसे हैं?)"], ["Kya haal hai?", "How are things? (क्या हाल है?)"], ["Sab theek?", "All good?"]],
+      "fine": [["Main theek hoon", "I'm fine (मैं ठीक हूँ)"], ["Badhiya", "Great (बढ़िया)"], ["Sab badhiya", "All good"]],
+      "thanks": [["Dhanyavaad", "Thank you, formal (धन्यवाद)"], ["Shukriya", "Thanks (शुक्रिया)"], ["Thank you ji", "Thank you, everyday"]],
+      "bye": [["Phir milte hain", "See you again (फिर मिलते हैं)"], ["Chalta hoon", "I'll be off (चलता हूँ)"], ["Namaste", "Goodbye, polite"]],
+      "welcome": [["Swagat hai", "Welcome (स्वागत है)"], ["Aaiye, aaiye", "Come in, come in (आइए)"]],
+      "sorry": [["Maaf kijiye", "Sorry, polite (माफ़ कीजिए)"], ["Sorry yaar", "Sorry, mate"]],
+      "excuse": [["Suniye", "Excuse me, listen (सुनिए)"], ["Ek minute", "One minute"], ["Bhaiya, zara sunna", "Brother, a moment please"]],
+      "yes": [["Haan", "Yes (हाँ)"], ["Ji haan", "Yes, polite"], ["Haan ji", "Yes, polite"]],
+      "no": [["Nahin", "No (नहीं)"], ["Ji nahin", "No, polite"], ["Na", "No"]]
+    },
+    "en": {
+      "hello": [["Hi, hello!", "Hi"], ["Hello sir", "Hello, to a stranger or a customer"], ["Hi ji", "Hi, polite and friendly"]],
+      "morning": [["Good morning", "Good morning"], ["Very good morning", "Good morning, warmly"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"], ["What's up, yaar?", "What's up, mate?"], ["All good?", "All good?"]],
+      "fine": [["I'm good, all fine", "I'm fine"], ["Fine, fine", "Fine"], ["Doing good", "Doing well"]],
+      "thanks": [["Thank you so much", "Thank you"], ["Thanks, boss", "Thanks"]],
+      "bye": [["Bye, take care", "Goodbye"], ["Okay, see you", "See you"], ["Catch you later", "See you later"]],
+      "welcome": [["Welcome, welcome", "Welcome"], ["Please come, have a seat", "Come in, sit down"]],
+      "sorry": [["Sorry, sorry", "Sorry"], ["Very sorry", "So sorry"]],
+      "excuse": [["Excuse me", "Excuse me"], ["One minute please", "Just a moment"]],
+      "yes": [["Yes", "Yes"], ["Okay, done", "Yes, agreed"], ["Sure, sure", "Of course"]],
+      "no": [["No, no", "No"], ["Not required", "No thanks, in Indian English"]]
+    },
+    "mr": {
+      "hello": [["Namaskar", "Hello (नमस्कार)"], ["Kay mhantos?", "What's up? to a man (काय म्हणतोस?)"]],
+      "morning": [["Shubh sakal", "Good morning (शुभ सकाळ)"], ["Suprabhat", "Good morning, formal"]],
+      "evening": [["Shubh sandhyakal", "Good evening (शुभ संध्याकाळ)"]],
+      "how_are_you": [["Kase aahat?", "How are you? polite (कसे आहात?)"], ["Kasa aahes?", "How are you? to a man (कसा आहेस?)"], ["Kashi aahes?", "How are you? to a woman (कशी आहेस?)"], ["Kay chalu aahe?", "What's going on?"]],
+      "fine": [["Mi bara aahe", "I'm fine, said by a man (मी बरा आहे)"], ["Mi bari aahe", "I'm fine, said by a woman (मी बरी आहे)"], ["Mast", "Great"], ["Ekdum bhari", "Really great"]],
+      "thanks": [["Dhanyavaad", "Thank you (धन्यवाद)"], ["Aabhari aahe", "I'm grateful (आभारी आहे)"]],
+      "bye": [["Yeto", "I'll be off, said by a man (literally 'I'll come', येतो)"], ["Yete", "I'll be off, said by a woman (येते)"], ["Bhetu", "See you (भेटू)"]],
+      "welcome": [["Swagat aahe", "Welcome (स्वागत आहे)"], ["Ya, basa", "Come, sit (या, बसा)"]],
+      "sorry": [["Maaf kara", "Sorry, forgive me (माफ करा)"], ["Sorry ho", "Sorry, friendly"]],
+      "excuse": [["Jara aika", "Excuse me, listen a moment (जरा ऐका)"], ["Ek minute, dada", "One minute, brother"]],
+      "yes": [["Ho", "Yes (हो)"], ["Haan", "Yes"]],
+      "no": [["Nahi", "No (नाही)"], ["Nako", "Don't want it (नको)"]]
+    },
+    "ta": {
+      "hello": [["Vanakkam", "Hello (வணக்கம்)"]],
+      "morning": [["Kaalai vanakkam", "Good morning (காலை வணக்கம்)"]],
+      "evening": [["Maalai vanakkam", "Good evening (மாலை வணக்கம்)"]],
+      "how_are_you": [["Eppadi irukkeenga?", "How are you? polite (எப்படி இருக்கீங்க?)"], ["Saapteengala?", "Have you eaten? a friendly hello (சாப்டீங்களா?)"]],
+      "fine": [["Nalla irukken", "I'm well (நல்லா இருக்கேன்)"], ["Super", "Great"]],
+      "thanks": [["Nandri", "Thank you (நன்றி)"], ["Romba nandri", "Thank you very much"]],
+      "bye": [["Poittu varen", "I'll go and come back, i.e. bye (போயிட்டு வரேன்)"], ["Varen", "Bye (literally 'I'll come')"]],
+      "welcome": [["Vaanga", "Come in, welcome (வாங்க)"], ["Vaanga, vaanga", "Do come in"]],
+      "sorry": [["Mannichidunga", "Sorry, forgive me (மன்னிச்சிடுங்க)"], ["Sorry pa", "Sorry, friendly"]],
+      "excuse": [["Excuse me, anna", "Excuse me, brother"], ["Oru nimisham", "One minute (ஒரு நிமிஷம்)"]],
+      "yes": [["Aamaam", "Yes (ஆமாம்)"], ["Sari", "Okay (சரி)"]],
+      "no": [["Illai", "No (இல்லை)"], ["Venaam", "Don't want it (வேணாம்)"]]
+    },
+    "te": {
+      "hello": [["Namaskaram", "Hello (నమస్కారం)"]],
+      "morning": [["Shubhodayam", "Good morning (శుభోదయం)"]],
+      "evening": [["Shubha saayantram", "Good evening (శుభ సాయంత్రం)"]],
+      "how_are_you": [["Ela unnaru?", "How are you? polite (ఎలా ఉన్నారు?)"], ["Ela unnav?", "How are you? casual"], ["Tinnara?", "Have you eaten? a friendly hello"]],
+      "fine": [["Bagunnanu", "I'm fine (బాగున్నాను)"], ["Baagane undi", "It's going well"]],
+      "thanks": [["Dhanyavaadalu", "Thank you (ధన్యవాదాలు)"], ["Thanks andi", "Thanks, polite"]],
+      "bye": [["Vellostanu", "I'll go and come back, i.e. bye (వెళ్ళొస్తాను)"], ["Malli kaluddam", "Let's meet again (మళ్ళీ కలుద్దాం)"]],
+      "welcome": [["Randi", "Come in (రండి)"], ["Swagatham", "Welcome (స్వాగతం)"]],
+      "sorry": [["Kshaminchandi", "Sorry, forgive me (క్షమించండి)"], ["Sorry andi", "Sorry, polite"]],
+      "excuse": [["Emandi", "Excuse me, sir or madam (ఏమండీ)"], ["Oka nimisham", "One minute"]],
+      "yes": [["Avunu", "Yes (అవును)"], ["Haa andi", "Yes, polite"]],
+      "no": [["Ledu", "No, there isn't (లేదు)"], ["Vaddu", "Don't want it (వద్దు)"]]
+    },
+    "kn": {
+      "hello": [["Namaskara", "Hello (ನಮಸ್ಕಾರ)"]],
+      "morning": [["Shubhodaya", "Good morning (ಶುಭೋದಯ)"]],
+      "evening": [["Shubha sanje", "Good evening (ಶುಭ ಸಂಜೆ)"]],
+      "how_are_you": [["Hegiddira?", "How are you? polite (ಹೇಗಿದ್ದೀರಾ?)"], ["Hegiddiya?", "How are you? casual"], ["Oota aytha?", "Have you eaten? a friendly hello (ಊಟ ಆಯ್ತಾ?)"]],
+      "fine": [["Chennagiddini", "I'm fine (ಚೆನ್ನಾಗಿದ್ದೀನಿ)"], ["Sakkath", "Great (ಸಕ್ಕತ್)"]],
+      "thanks": [["Dhanyavaadagalu", "Thank you (ಧನ್ಯವಾದಗಳು)"], ["Thanks ri", "Thanks, polite"]],
+      "bye": [["Hogbartini", "I'll go and come back, i.e. bye (ಹೋಗ್ಬರ್ತೀನಿ)"], ["Hogi banni", "Goodbye, go and come back (ಹೋಗಿ ಬನ್ನಿ)"], ["Sigona", "See you (ಸಿಗೋಣ)"]],
+      "welcome": [["Banni", "Come in, welcome (ಬನ್ನಿ)"], ["Swagatha", "Welcome (ಸ್ವಾಗತ)"]],
+      "sorry": [["Kshamisi", "Sorry, forgive me (ಕ್ಷಮಿಸಿ)"]],
+      "excuse": [["Swalpa daari bidi", "Please make way a little (ಸ್ವಲ್ಪ ದಾರಿ ಬಿಡಿ)"], ["Ondu nimisha", "One minute"]],
+      "yes": [["Houdu", "Yes (ಹೌದು)"], ["Sari", "Okay"]],
+      "no": [["Illa", "No (ಇಲ್ಲ)"], ["Beda", "Don't want it (ಬೇಡ)"]]
+    },
+    "ur": {
+      "hello": [["Assalamu alaikum", "Peace be upon you, hello (السلام علیکم)"], ["Adaab", "Greetings, polite (آداب)"]],
+      "morning": [["Subah bakhair", "Good morning (صبح بخیر)"]],
+      "evening": [["Shaam bakhair", "Good evening (شام بخیر)"]],
+      "how_are_you": [["Aap kaise hain?", "How are you?"], ["Mizaaj kaise hain?", "How are you keeping? formal"]],
+      "fine": [["Alhamdulillah, theek hoon", "Fine, thank God"], ["Sab khairiyat", "All well"]],
+      "thanks": [["Shukriya", "Thank you (شکریہ)"], ["Bahut meharbani", "Very kind of you"]],
+      "bye": [["Khuda hafiz", "Goodbye (خدا حافظ)"], ["Allah hafiz", "Goodbye"]],
+      "welcome": [["Khush aamdeed", "Welcome (خوش آمدید)"], ["Tashreef laiye", "Please come in, formal"]],
+      "sorry": [["Maaf kijiye", "Sorry"], ["Maazrat", "Apologies"]],
+      "excuse": [["Suniye", "Excuse me"], ["Zara suniye", "Listen a moment, please"]],
+      "yes": [["Ji haan", "Yes, polite"], ["Haan", "Yes"]],
+      "no": [["Ji nahin", "No, polite"], ["Nahin", "No"]]
+    },
+    "pa": {
+      "hello": [["Sat Sri Akal", "Hello (ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ)"], ["Sat Sri Akal ji", "Hello, polite"]],
+      "morning": [["Shubh savere", "Good morning (ਸ਼ੁਭ ਸਵੇਰ)"], ["Sat Sri Akal ji", "Good morning, the greeting works all day"]],
+      "evening": [["Shubh shaam", "Good evening (ਸ਼ੁਭ ਸ਼ਾਮ)"]],
+      "how_are_you": [["Ki haal aa?", "How are you? (ਕੀ ਹਾਲ ਆ?)"], ["Ki haal chaal?", "How's it going?"]],
+      "fine": [["Vadhiya", "Great (ਵਧੀਆ)"], ["Changa", "Good (ਚੰਗਾ)"], ["Theek-thaak", "Fine"]],
+      "thanks": [["Dhanvaad", "Thank you (ਧੰਨਵਾਦ)"], ["Meharbani", "Kind of you, thanks"]],
+      "bye": [["Rabb rakha", "God keep you, goodbye (ਰੱਬ ਰਾਖਾ)"], ["Fer milange", "We'll meet again (ਫੇਰ ਮਿਲਾਂਗੇ)"]],
+      "welcome": [["Jee aayan nu", "Welcome (ਜੀ ਆਇਆਂ ਨੂੰ)"]],
+      "sorry": [["Maaf karna", "Sorry"], ["Maafi ji", "Sorry, polite"]],
+      "excuse": [["Paaji, zara sunna", "Brother, a moment"], ["Suno ji", "Excuse me"]],
+      "yes": [["Haan ji", "Yes, polite"], ["Aaho", "Yes (ਆਹੋ)"]],
+      "no": [["Nahin ji", "No, polite"], ["Na", "No"]]
+    },
+    "bn": {
+      "hello": [["Nomoshkar", "Hello (নমস্কার)"]],
+      "morning": [["Shubho shokal", "Good morning (শুভ সকাল)"]],
+      "evening": [["Shubho shondhya", "Good evening (শুভ সন্ধ্যা)"]],
+      "how_are_you": [["Kemon achhen?", "How are you? polite (কেমন আছেন?)"], ["Ki khobor?", "What's the news?"]],
+      "fine": [["Bhalo achhi", "I'm well (ভালো আছি)"], ["Darun", "Great"]],
+      "thanks": [["Dhonnobad", "Thank you (ধন্যবাদ)"]],
+      "bye": [["Ashi", "I'll be off (literally 'I'll come', আসি)"], ["Abar dekha hobe", "See you again"]],
+      "welcome": [["Swagatam", "Welcome (স্বাগতম)"], ["Ashun, boshun", "Come in, sit"]],
+      "sorry": [["Dukkhito", "Sorry (দুঃখিত)"], ["Kichhu mone korben na", "Please don't mind"]],
+      "excuse": [["Shunchhen?", "Excuse me? (শুনছেন?)"], ["Dada, ektu", "Brother, a moment"]],
+      "yes": [["Hyan", "Yes (হ্যাঁ)"], ["Achha", "Okay"]],
+      "no": [["Na", "No (না)"]]
+    },
+    "ml": {
+      "hello": [["Namaskaram", "Hello (നമസ്കാരം)"]],
+      "morning": [["Suprabhatham", "Good morning (സുപ്രഭാതം)"]],
+      "evening": [["Shubha saayahnam", "Good evening (ശുഭ സായാഹ്നം)"]],
+      "how_are_you": [["Sukhamano?", "Are you well? (സുഖമാണോ?)"], ["Enthokke undu vishesham?", "What's new?"]],
+      "fine": [["Sukham", "Fine (സുഖം)"], ["Kuzhappamilla", "Not bad, all fine"]],
+      "thanks": [["Nanni", "Thank you (നന്ദി)"]],
+      "bye": [["Pinne kaanaam", "See you later (പിന്നെ കാണാം)"], ["Poyittu varam", "I'll go and come back, i.e. bye"]],
+      "welcome": [["Swagatham", "Welcome (സ്വാഗതം)"], ["Varoo", "Come in (വരൂ)"]],
+      "sorry": [["Kshamikkanam", "Sorry, forgive me (ക്ഷമിക്കണം)"]],
+      "excuse": [["Chetta, onnu", "Brother, a moment"], ["Oru nimisham", "One minute"]],
+      "yes": [["Athe", "Yes (അതെ)"], ["Sheri", "Okay (ശരി)"]],
+      "no": [["Illa", "No (ഇല്ല)"], ["Venda", "Don't want it (വേണ്ട)"]]
+    },
+    "gu": {
+      "hello": [["Kem cho?", "Hello, how are you? (કેમ છો?)"], ["Namaste", "Hello"]],
+      "morning": [["Suprabhat", "Good morning (સુપ્રભાત)"]],
+      "evening": [["Shubh saanj", "Good evening (શુભ સાંજ)"]],
+      "how_are_you": [["Kem cho?", "How are you?"], ["Shu chale?", "What's going on? (શું ચાલે?)"]],
+      "fine": [["Majama", "Fine, all good (મજામાં)"], ["Saru che", "It's good"]],
+      "thanks": [["Aabhar", "Thanks (આભાર)"], ["Dhanyavaad", "Thank you"]],
+      "bye": [["Aavjo", "Goodbye, come again (આવજો)"]],
+      "welcome": [["Padharo", "Welcome, come in (પધારો)"], ["Aavo, aavo", "Come, come"]],
+      "sorry": [["Maaf karjo", "Sorry (માફ કરજો)"]],
+      "excuse": [["Saambhalo", "Excuse me, listen"], ["Ek minute", "One minute"]],
+      "yes": [["Haa", "Yes (હા)"]],
+      "no": [["Na", "No (ના)"], ["Nathi", "There isn't"]]
+    }
+  },
+  "money": {
+    "currency": "INR",
+    "symbol": "₹",
+    "words": [
+      ["rupaye", "rupees"],
+      ["paisa", "money in general; also a hundredth of a rupee"],
+      ["lakh", "one hundred thousand (1,00,000)"],
+      ["crore", "ten million (1,00,00,000)"],
+      ["peti", "a lakh rupees, Mumbai slang"],
+      ["khokha", "a crore rupees, Mumbai slang"],
+      ["chhutta", "small change"],
+      ["UPI", "paying by phone, which nearly everyone does"],
+      ["GPay kar do", "pay me by Google Pay"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Indian_name",
+    "https://en.wikipedia.org/wiki/Languages_of_India",
+    "https://en.wikipedia.org/wiki/Indian_English",
+    "https://en.wikipedia.org/wiki/Tamil_name",
+    "https://en.wikipedia.org/wiki/Telugu_name",
+    "https://en.wikipedia.org/wiki/Bengali_name",
+    "https://en.wikipedia.org/wiki/Sikh_names",
+    "https://en.wikipedia.org/wiki/Indian_numbering_system",
+    "https://en.wikipedia.org/wiki/Indian_rupee"
+  ]
+}

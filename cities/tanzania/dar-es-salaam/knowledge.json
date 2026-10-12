@@ -1,0 +1,87 @@
+{
+  "street": { "sw": 0.5, "mtaani": 0.3, "en": 0.2 },
+  "registers": {
+    "mtaani": {
+      "name": "Kiswahili cha mtaani",
+      "about": "Dar es Salaam's street Swahili, the talk of the daladala stages, Kariakoo and the Bongo Flava crowd: Mambo, Poa, Oya, mwanangu, mshikaji, kitaa, and a steady stream of new words."
+    }
+  },
+  "names": { "weights": { "swahili_coastal": 0.5, "chagga": 0.25, "sukuma": 0.2, "maasai": 0.05 } },
+  "phrases": {
+    "mtaani": {
+      "hello": [["Mambo!", "Hi! What's up?"], ["Vipi!", "Hey, how's it going?"], ["Oya!", "Hey!"], ["Niaje mwanangu?", "What's up, my guy?"]],
+      "fine": [["Poa!", "Cool"], ["Safi!", "Great"], ["Freshi!", "All fresh"], ["Shwari", "All calm"], ["Poa kichizi!", "Crazy good"]],
+      "friend": [["Mwanangu", "My guy"], ["Mshikaji", "Buddy"], ["Washkaji", "The crew, friends"]],
+      "great": [["Bomba!", "Awesome!"], ["Noma sana!", "Wicked!"], ["Balaa!", "Too much, intense"]],
+      "bye": [["Tuko pamoja!", "We're together, take care"], ["Baadaye!", "Later!"], ["Tutaonana kitaa", "See you in the hood"]],
+      "words": [["kitaa", "the neighbourhood, the hood"], ["Bongo", "Dar es Salaam, or Tanzania"], ["mchongo", "an opportunity, a lead"], ["dili", "a deal"], ["foleni", "a traffic jam"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! How's the heat treating you?", "Hello there, karibu!", "Good morning, how was the traffic?", "Hey! Long time, how have you been?", "Good afternoon, how is work?"],
+      "reply": ["I'm fine, thanks, and you?", "All good, just a bit tired.", "Fine, glad for the breeze today.", "Very well, thank you.", "Doing well, slowly by slowly."],
+      "sunny": ["So hot today, even the sea breeze has given up.", "Perfect day for Coco Beach.", "That Dar sun is no joke, find some shade.", "Good day for a cold dafu.", "Clear skies over the harbour today."],
+      "rain": ["The rains are here, Jangwani will flood again.", "Carry an umbrella, the masika rains are heavy.", "Rain means traffic on Morogoro Road all evening.", "It's pouring, let's wait it out under this roof.", "The roads are rivers after that downpour."],
+      "bye": ["Take care, see you later!", "Safe journey home!", "Goodnight, greet the family.", "See you tomorrow!", "Have a good evening!"],
+      "busy": ["Sorry, I'm rushing to catch the mwendokasi.", "Running late for work, let's talk later.", "I have a meeting in Posta, catch you later!", "Can't stop, Kariakoo closes soon.", "In a hurry, I'll call you."]
+    },
+    "sw": {
+      "greet": ["Shikamoo mzee!", "Habari za asubuhi?", "Mambo vipi?", "Hujambo rafiki?", "Habari za kazi?"],
+      "reply": ["Marahaba, mwanangu.", "Nzuri sana, asante.", "Salama tu, wewe je?", "Sijambo, asante."],
+      "sunny": ["Leo jua kali kweli!", "Hali ya hewa ni nzuri leo.", "Jua linawaka, tafuta kivuli.", "Joto la leo si la kawaida."],
+      "rain": ["Mvua inanyesha, chukua mwavuli.", "Mvua imeanza, twende ndani.", "Barabara zote zimejaa maji.", "Mvua za masika zimefika."],
+      "bye": ["Kwaheri, tutaonana!", "Haya, baadaye!", "Usiku mwema!", "Wasalimie nyumbani."],
+      "busy": ["Nina haraka kidogo, tutaongea baadaye.", "Nimechelewa kazini, samahani!", "Ngoja, nawahi daladala.", "Niko bize leo, kesho tuongee."]
+    },
+    "mtaani": {
+      "greet": ["Mambo mwanangu!", "Oya, vipi mshikaji?", "Niaje bro, mambo?", "Vipi kitaa, poa?"],
+      "reply": ["Poa tu, wewe je?", "Freshi kabisa!", "Shwari mwanangu.", "Poa kichizi!"],
+      "sunny": ["Jua la Bongo leo si mchezo!", "Joto kali, twende tukanywe madafu.", "Leo ni siku ya beach, Coco tukutane.", "Jua kali, tuko kivulini tu."],
+      "rain": ["Mvua imeleta foleni balaa!", "Jangwani imejaa tena, mwanangu.", "Mvua hii si poa, tutapanda bajaji.", "Maji yamejaa kitaa, ngoja ipite."],
+      "bye": ["Tuko pamoja!", "Baadaye mwanangu!", "Poa, tutaonana kitaa!", "Haya, salimia washkaji!"],
+      "busy": ["Nina mchongo, tutaongea baadaye!", "Niko bize sana, kesho!", "Nawahi daladala, poa!", "Kuna dili nafuatilia, tuongee baadaye."]
+    }
+  },
+  "transport": { "bus": "daladala", "moto_taxi": "bodaboda", "tricycle": "bajaji", "taxi": "teksi", "conductor": "konda", "stage": "kituo" },
+  "touts": ["Posta, Posta! Kariakoo!", "Kimara mwisho, panda!", "Mwenge, Mwenge, siti zipo!", "Ubungo, Ubungo, gari linaondoka!", "Tegeta, Tegeta!", "Gongo la Mboto, panda twende!", "Buguruni, Buguruni, haraka!", "Shuka, shuka! Tumefika Kariakoo!"],
+  "hawkers": [
+    ["Maji baridi!", "Cold water!"],
+    ["Karanga, karanga!", "Peanuts!"],
+    ["Madafu, madafu!", "Fresh coconuts!"],
+    ["Mahindi ya kuchoma!", "Roasted maize!"],
+    ["Kahawa, kashata!", "Coffee, and coconut sweets!"],
+    ["Miwa, miwa!", "Sugarcane!"],
+    ["Mishkaki ya moto!", "Hot meat skewers!"]
+  ],
+  "food": {
+    "street": ["chipsi mayai", "mishkaki", "mihogo ya kukaanga", "mahindi ya kuchoma", "vitumbua", "maandazi", "sambusa", "urojo", "kashata"],
+    "dishes": ["wali na maharage", "ugali na samaki", "pilau", "biriani", "ndizi nyama", "wali na samaki wa kupaka", "makande"],
+    "drinks": ["chai", "kahawa", "madafu", "juisi ya miwa", "juisi ya ukwaju", "chai ya tangawizi"]
+  },
+  "places": {
+    "neighbourhoods": ["Kariakoo", "Kinondoni", "Mikocheni", "Masaki", "Oyster Bay", "Sinza", "Mwenge", "Ubungo", "Kijitonyama", "Mbezi Beach", "Temeke", "Upanga", "Msasani", "Tegeta", "Kigamboni", "Manzese", "Buguruni", "Magomeni"],
+    "streets": ["Ali Hassan Mwinyi Road", "Bagamoyo Road", "Morogoro Road", "Nyerere Road", "Samora Avenue", "Uhuru Street", "Kawawa Road", "Sam Nujoma Road", "Bibi Titi Mohamed Street", "Kilwa Road", "Mandela Road"],
+    "landmarks": ["Kariakoo Market", "Kivukoni Fish Market", "Coco Beach", "Askari Monument", "National Museum", "Selander Bridge", "Mlimani City", "Mwenge Carvers Market", "Kigamboni ferry", "Benjamin Mkapa Stadium", "University of Dar es Salaam", "Slipway"]
+  },
+  "small_talk": [
+    "Traffic on Morogoro Road was mad this morning, foleni all the way.",
+    "Took the mwendokasi from Kimara, much quicker than the daladala.",
+    "Kariakoo is packed today, everyone is shopping.",
+    "Let's go to Coco Beach for mishkaki this evening.",
+    "The ferry to Kigamboni was full, so I went round by the bridge.",
+    "When it rains like this, Jangwani floods every time.",
+    "Simba and Yanga fans have been arguing since morning.",
+    "Get your vitumbua early, by ten they are gone.",
+    "The heat in Dar today, jamani!"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Dar_es_Salaam",
+    "https://en.wikipedia.org/wiki/Daladala",
+    "https://en.wikipedia.org/wiki/Kariakoo",
+    "https://en.wikipedia.org/wiki/Dar_es_Salaam_bus_rapid_transit",
+    "https://en.wikipedia.org/wiki/Bongo_Flava",
+    "https://en.wikipedia.org/wiki/Swahili_language",
+    "https://en.wikipedia.org/wiki/Tanzanian_cuisine"
+  ]
+}

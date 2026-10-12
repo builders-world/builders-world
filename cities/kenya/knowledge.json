@@ -1,0 +1,849 @@
+{
+  "languages": [
+    {
+      "code": "sw",
+      "name": "Swahili",
+      "official": true,
+      "spoken": "widely, the national language"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": true,
+      "spoken": "widely, at work, school and in offices"
+    },
+    {
+      "code": "ki",
+      "name": "Kikuyu",
+      "official": false,
+      "spoken": "at home and among Kikuyu families"
+    },
+    {
+      "code": "luo",
+      "name": "Dholuo",
+      "official": false,
+      "spoken": "at home and among Luo families"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Most Kenyans carry an English or Christian first name (Brian, Faith, Kevin, Mercy) or a Muslim one (Hassan, Amina), then a name from their own community, which often works as the family name: Kamau, Otieno, Wanjiru. Kikuyu children are traditionally named after their grandparents, so Wanjiru and Kamau recur in every family. Luo names tell the time or the conditions of birth: Otieno and Atieno at night, Odhiambo and Adhiambo in the evening, Ochieng and Achieng when the sun was out, Omondi and Amondi at dawn; names starting with O are for boys and with A for girls. Kalenjin names do the same with Kip for boys and Che (Chep) for girls: Kiprop and Cheptoo were born in the rain. People are usually called by either name.",
+    "groups": {
+      "kikuyu": {
+        "given": {
+          "m": [
+            "Kamau",
+            "Mwangi",
+            "Njoroge",
+            "Kariuki",
+            "Githinji",
+            "Ndungu",
+            "Kimani",
+            "Waweru",
+            "Gitau",
+            "Macharia",
+            "Njuguna",
+            "Kinyua",
+            "Muriuki",
+            "Wachira"
+          ],
+          "f": [
+            "Wanjiru",
+            "Njeri",
+            "Wambui",
+            "Nyambura",
+            "Wairimu",
+            "Wanjiku",
+            "Njoki",
+            "Wangari",
+            "Muthoni",
+            "Waithera",
+            "Wangui",
+            "Nyokabi",
+            "Wangeci",
+            "Mumbi"
+          ]
+        },
+        "family": [
+          "Kamau",
+          "Mwangi",
+          "Njoroge",
+          "Kariuki",
+          "Githinji",
+          "Ndungu",
+          "Kimani",
+          "Waweru",
+          "Gitau",
+          "Macharia",
+          "Njuguna",
+          "Kinyua",
+          "Mburu",
+          "Maina",
+          "Wachira",
+          "Gachanja"
+        ],
+        "also": {
+          "m": [
+            "Brian",
+            "Kevin",
+            "Dennis",
+            "Peter",
+            "John",
+            "Samuel",
+            "Joseph",
+            "Ian",
+            "Collins",
+            "Martin",
+            "Stephen",
+            "James"
+          ],
+          "f": [
+            "Faith",
+            "Mercy",
+            "Grace",
+            "Esther",
+            "Ruth",
+            "Joy",
+            "Caroline",
+            "Lucy",
+            "Mary",
+            "Purity",
+            "Ann",
+            "Jane"
+          ]
+        }
+      },
+      "luo": {
+        "given": {
+          "m": [
+            "Otieno",
+            "Ochieng",
+            "Odhiambo",
+            "Omondi",
+            "Onyango",
+            "Ouma",
+            "Owino",
+            "Okoth",
+            "Oduor",
+            "Opiyo",
+            "Okello",
+            "Ogola",
+            "Obiero",
+            "Juma"
+          ],
+          "f": [
+            "Achieng",
+            "Atieno",
+            "Adhiambo",
+            "Akinyi",
+            "Awino",
+            "Anyango",
+            "Auma",
+            "Akoth",
+            "Amondi",
+            "Apiyo",
+            "Aoko",
+            "Adoyo",
+            "Awuor",
+            "Aloo"
+          ]
+        },
+        "family": [
+          "Otieno",
+          "Ochieng",
+          "Odhiambo",
+          "Omondi",
+          "Onyango",
+          "Ouma",
+          "Owino",
+          "Okoth",
+          "Oduor",
+          "Opiyo",
+          "Okello",
+          "Ogola",
+          "Obiero",
+          "Oloo",
+          "Ndege",
+          "Were"
+        ],
+        "also": {
+          "m": [
+            "Kevin",
+            "Brian",
+            "Collins",
+            "George",
+            "Felix",
+            "Victor",
+            "Erick",
+            "Fredrick",
+            "Maurice",
+            "Calvin",
+            "Dennis",
+            "Tom"
+          ],
+          "f": [
+            "Grace",
+            "Sharon",
+            "Mercy",
+            "Lilian",
+            "Diana",
+            "Beatrice",
+            "Pamela",
+            "Linet",
+            "Vivian",
+            "Millicent",
+            "Christine",
+            "Sylvia"
+          ]
+        }
+      },
+      "luhya": {
+        "given": {
+          "m": [
+            "Wafula",
+            "Wanjala",
+            "Barasa",
+            "Simiyu",
+            "Wekesa",
+            "Makokha",
+            "Wamalwa",
+            "Shikuku",
+            "Mukhwana",
+            "Juma",
+            "Shiundu",
+            "Wanyama"
+          ],
+          "f": [
+            "Nekesa",
+            "Nafula",
+            "Naliaka",
+            "Nasimiyu",
+            "Khadija",
+            "Nanjala",
+            "Nasirumbi",
+            "Atsieno",
+            "Mmbone",
+            "Kavaya",
+            "Imali",
+            "Andisi"
+          ]
+        },
+        "family": [
+          "Wafula",
+          "Wanjala",
+          "Barasa",
+          "Simiyu",
+          "Wekesa",
+          "Makokha",
+          "Wamalwa",
+          "Shikuku",
+          "Mukhwana",
+          "Wanyama",
+          "Masinde",
+          "Khaemba",
+          "Opiyo",
+          "Shitanda"
+        ],
+        "also": {
+          "m": [
+            "Moses",
+            "Dennis",
+            "Brian",
+            "Isaac",
+            "Patrick",
+            "Kelvin",
+            "Edwin",
+            "Nelson"
+          ],
+          "f": [
+            "Mercy",
+            "Faith",
+            "Linda",
+            "Brenda",
+            "Jackline",
+            "Sarah",
+            "Eunice",
+            "Rose"
+          ]
+        }
+      },
+      "kamba": {
+        "given": {
+          "m": [
+            "Mutua",
+            "Musyoka",
+            "Kioko",
+            "Mutiso",
+            "Mwendwa",
+            "Kyalo",
+            "Musau",
+            "Munyao",
+            "Muthoka",
+            "Nzioka",
+            "Wambua",
+            "Kilonzo"
+          ],
+          "f": [
+            "Mwende",
+            "Mutheu",
+            "Ndinda",
+            "Mwikali",
+            "Syokau",
+            "Kanini",
+            "Nduku",
+            "Mumbua",
+            "Kalekye",
+            "Mwongeli",
+            "Ndanu",
+            "Katunge"
+          ]
+        },
+        "family": [
+          "Mutua",
+          "Musyoka",
+          "Kioko",
+          "Mutiso",
+          "Kyalo",
+          "Musau",
+          "Munyao",
+          "Muthoka",
+          "Nzioka",
+          "Wambua",
+          "Kilonzo",
+          "Maundu",
+          "Kavita",
+          "Mulwa"
+        ],
+        "also": {
+          "m": [
+            "Peter",
+            "Stephen",
+            "Daniel",
+            "Joseph",
+            "Ian",
+            "Alex"
+          ],
+          "f": [
+            "Ruth",
+            "Faith",
+            "Esther",
+            "Caroline",
+            "Joy",
+            "Gladys"
+          ]
+        }
+      },
+      "kalenjin": {
+        "given": {
+          "m": [
+            "Kiprop",
+            "Kipchoge",
+            "Kiptoo",
+            "Kibet",
+            "Kipkemboi",
+            "Kiprono",
+            "Kipngetich",
+            "Cheruiyot",
+            "Kipruto",
+            "Kimutai",
+            "Rotich",
+            "Koech"
+          ],
+          "f": [
+            "Chebet",
+            "Chepkoech",
+            "Jepkosgei",
+            "Cherono",
+            "Chelangat",
+            "Jeptoo",
+            "Chepngeno",
+            "Chemutai",
+            "Jebet",
+            "Cheptoo",
+            "Chepkirui",
+            "Jelagat"
+          ]
+        },
+        "family": [
+          "Kiprop",
+          "Kiptoo",
+          "Kibet",
+          "Rotich",
+          "Koech",
+          "Cheruiyot",
+          "Kiprono",
+          "Kipruto",
+          "Kimutai",
+          "Langat",
+          "Mutai",
+          "Korir",
+          "Tanui",
+          "Ruto"
+        ],
+        "also": {
+          "m": [
+            "Gideon",
+            "Elias",
+            "Emmanuel",
+            "Hillary",
+            "Wesley",
+            "Abel"
+          ],
+          "f": [
+            "Sharon",
+            "Mercy",
+            "Faith",
+            "Edna",
+            "Gladys",
+            "Winnie"
+          ]
+        }
+      },
+      "kisii": {
+        "given": {
+          "m": [
+            "Nyamweya",
+            "Ondieki",
+            "Onsongo",
+            "Nyakundi",
+            "Mogaka",
+            "Nyabuti",
+            "Omwenga",
+            "Momanyi",
+            "Nyamari",
+            "Bosire",
+            "Ombati",
+            "Makori"
+          ],
+          "f": [
+            "Kerubo",
+            "Moraa",
+            "Bosibori",
+            "Kwamboka",
+            "Nyaboke",
+            "Kemunto",
+            "Nyanchama",
+            "Mokeira",
+            "Bitutu",
+            "Nyamoita",
+            "Kemuma",
+            "Nyakerario"
+          ]
+        },
+        "family": [
+          "Nyamweya",
+          "Ondieki",
+          "Onsongo",
+          "Nyakundi",
+          "Mogaka",
+          "Nyabuti",
+          "Omwenga",
+          "Momanyi",
+          "Bosire",
+          "Ombati",
+          "Makori",
+          "Ogeto"
+        ],
+        "also": {
+          "m": [
+            "Dennis",
+            "Vincent",
+            "Evans",
+            "Duke"
+          ],
+          "f": [
+            "Lydia",
+            "Mercy",
+            "Joyce",
+            "Irene"
+          ]
+        }
+      },
+      "somali": {
+        "given": {
+          "m": [
+            "Hassan",
+            "Abdi",
+            "Mohamed",
+            "Ahmed",
+            "Ali",
+            "Omar",
+            "Ibrahim",
+            "Abdullahi",
+            "Yusuf",
+            "Farah",
+            "Hussein",
+            "Mahamud"
+          ],
+          "f": [
+            "Amina",
+            "Fatuma",
+            "Halima",
+            "Hodan",
+            "Sahra",
+            "Faiza",
+            "Ifrah",
+            "Hawa",
+            "Zainab",
+            "Asha",
+            "Maryan",
+            "Ubah"
+          ]
+        },
+        "family": [
+          "Abdi",
+          "Hassan",
+          "Mohamed",
+          "Ahmed",
+          "Ali",
+          "Farah",
+          "Hussein",
+          "Osman",
+          "Yusuf",
+          "Ibrahim",
+          "Abdullahi",
+          "Aden"
+        ],
+        "also": {}
+      },
+      "swahili_coast": {
+        "given": {
+          "m": [
+            "Juma",
+            "Omar",
+            "Rashid",
+            "Salim",
+            "Bakari",
+            "Hamisi",
+            "Athumani",
+            "Swaleh",
+            "Baraka",
+            "Shaban",
+            "Musa",
+            "Said"
+          ],
+          "f": [
+            "Zawadi",
+            "Mwanaisha",
+            "Rehema",
+            "Zuhura",
+            "Mwanamisi",
+            "Saida",
+            "Halima",
+            "Neema",
+            "Imani",
+            "Riziki",
+            "Amani",
+            "Pendo"
+          ]
+        },
+        "family": [
+          "Juma",
+          "Omar",
+          "Rashid",
+          "Salim",
+          "Bakari",
+          "Hamisi",
+          "Athumani",
+          "Swaleh",
+          "Shaban",
+          "Said",
+          "Mohamed",
+          "Abdalla"
+        ],
+        "also": {}
+      },
+      "indian_kenyan": {
+        "given": {
+          "m": [
+            "Raj",
+            "Sanjay",
+            "Amit",
+            "Nikhil",
+            "Rohan",
+            "Karan",
+            "Vikram",
+            "Arjun",
+            "Hitesh",
+            "Mehul",
+            "Kunal",
+            "Aman"
+          ],
+          "f": [
+            "Priya",
+            "Anjali",
+            "Riya",
+            "Nisha",
+            "Pooja",
+            "Kavita",
+            "Meera",
+            "Shreya",
+            "Komal",
+            "Hetal",
+            "Sonal",
+            "Asha"
+          ]
+        },
+        "family": [
+          "Shah",
+          "Patel",
+          "Mehta",
+          "Chandaria",
+          "Bhatt",
+          "Kotecha",
+          "Sodha",
+          "Dodhia",
+          "Haria",
+          "Rupani",
+          "Varsani",
+          "Pindoria"
+        ],
+        "also": {}
+      }
+    },
+    "weights": {
+      "kikuyu": 0.3,
+      "luo": 0.16,
+      "luhya": 0.16,
+      "kamba": 0.11,
+      "kalenjin": 0.1,
+      "kisii": 0.07,
+      "somali": 0.05,
+      "swahili_coast": 0.03,
+      "indian_kenyan": 0.02
+    }
+  },
+  "honorifics": {
+    "elder_m": "Mzee",
+    "elder_f": "Mama",
+    "peer_m": "Bro",
+    "peer_f": "Sis",
+    "boss": "Boss",
+    "young": "Msee",
+    "customer": "Customer"
+  },
+  "phrases": {
+    "sw": {
+      "hello": [
+        [
+          "Habari?",
+          "Hello, how are things?"
+        ],
+        [
+          "Jambo",
+          "Hello (to visitors)"
+        ],
+        [
+          "Hujambo?",
+          "How are you?"
+        ]
+      ],
+      "morning": [
+        [
+          "Habari ya asubuhi?",
+          "Good morning, how's the morning?"
+        ]
+      ],
+      "evening": [
+        [
+          "Habari ya jioni?",
+          "Good evening, how's the evening?"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Uko aje?",
+          "How are you?"
+        ],
+        [
+          "U hali gani?",
+          "How are you doing?"
+        ]
+      ],
+      "fine": [
+        [
+          "Nzuri",
+          "Fine"
+        ],
+        [
+          "Salama",
+          "All well"
+        ],
+        [
+          "Sijambo",
+          "I'm fine (reply to Hujambo)"
+        ]
+      ],
+      "thanks": [
+        [
+          "Asante",
+          "Thank you"
+        ],
+        [
+          "Asante sana",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Kwaheri",
+          "Goodbye"
+        ],
+        [
+          "Tutaonana",
+          "See you later"
+        ]
+      ],
+      "welcome": [
+        [
+          "Karibu",
+          "Welcome, come in"
+        ],
+        [
+          "Karibu tena",
+          "Come again"
+        ]
+      ],
+      "sorry": [
+        [
+          "Pole",
+          "Sorry (for your trouble)"
+        ],
+        [
+          "Pole sana",
+          "So sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Samahani",
+          "Excuse me, sorry"
+        ]
+      ],
+      "yes": [
+        [
+          "Ndiyo",
+          "Yes"
+        ],
+        [
+          "Sawa",
+          "Okay"
+        ]
+      ],
+      "no": [
+        [
+          "Hapana",
+          "No"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hello!",
+          "Hello"
+        ],
+        [
+          "Hi there!",
+          "Hi"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning!",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "I'm fine, thank you.",
+          "I'm fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thank you.",
+          "Thank you"
+        ]
+      ],
+      "bye": [
+        [
+          "Bye, see you!",
+          "Goodbye"
+        ]
+      ],
+      "welcome": [
+        [
+          "You're welcome.",
+          "You're welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry about that.",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me.",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes.",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "No.",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "KES",
+    "symbol": "KSh",
+    "words": [
+      [
+        "bob",
+        "a shilling (slang)"
+      ],
+      [
+        "ngiri",
+        "a thousand shillings"
+      ],
+      [
+        "thao",
+        "a thousand"
+      ],
+      [
+        "soo",
+        "a hundred shillings"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Kenya",
+    "https://en.wikipedia.org/wiki/Kikuyu_people",
+    "https://en.wikipedia.org/wiki/Luo_people_of_Kenya_and_Tanzania",
+    "https://en.wikipedia.org/wiki/Kalenjin_people",
+    "https://en.wikipedia.org/wiki/Swahili_language",
+    "https://en.wikipedia.org/wiki/Sheng_slang"
+  ]
+}

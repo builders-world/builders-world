@@ -1,0 +1,107 @@
+{
+  "street": { "fr": 0.62, "argot": 0.2, "en": 0.18 },
+  "registers": {
+    "argot": { "name": "Parisian street French", "about": "The everyday slang of young Parisians and the banlieue: verlan (words flipped back to front), borrowings from Arabic, Wolof and English, said fast and friendly." }
+  },
+  "names": { "weights": { "french": 0.55, "maghrebi": 0.17, "west_african": 0.12, "portuguese": 0.05, "caribbean": 0.06, "asian_french": 0.05 } },
+  "phrases": {
+    "argot": {
+      "hello": [["Wesh !", "Hey!"], ["Salut, ça dit quoi ?", "Hi, what's up?"], ["Yo !", "Yo!"]],
+      "how_are_you": [["Ça va ou quoi ?", "You alright or what?"], ["Bien ou bien ?", "Good or good?"], ["La forme ?", "Feeling good?"]],
+      "fine": [["Tranquille", "All calm"], ["Ça va grave", "Really good"], ["Tkt", "Don't worry (t'inquiète)"]],
+      "thanks": [["Merci frérot", "Thanks, bro"], ["Merci, t'es un frère", "Thanks, you're a brother"], ["Trop sympa", "That's so nice"]],
+      "bye": [["Allez, à plus", "Right, see you"], ["Bisous !", "Kisses! (bye)"], ["Vas-y, à toute", "Go on, see you in a bit"]],
+      "yes": [["Grave", "Totally"], ["Carrément", "Absolutely"], ["Vas-y", "Go on / fine"]],
+      "no": [["Laisse tomber", "Forget it"], ["Ça va pas la tête ?", "Are you mad?"]],
+      "great": [["C'est ouf !", "That's crazy good! (verlan of fou)"], ["Je kiffe", "I love it"], ["C'est de la balle", "It's brilliant"]],
+      "weird": [["C'est chelou", "That's weird (verlan of louche)"], ["Il est relou", "He's annoying (verlan of lourd)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hi! Sorry, my French is still a work in progress.", "Morning! Did you find a seat on line 13? Me neither.", "Hey! Are you here for the meetup at Station F?", "Hello! First week in Paris?", "Hi there, lovely to see a friendly face."],
+      "reply": ["All good, thanks! Still getting used to the bises.", "Pretty good, just had the best croissant of my life.", "Fine, a bit tired, the metro was packed.", "Great, thanks for asking!", "Not bad at all, Paris is treating me well."],
+      "sunny": ["Sun's out, the terraces will be full tonight.", "Perfect day for a walk along the Seine.", "Everyone's on the Canal Saint-Martin today, I bet.", "Gorgeous weather, let's take lunch outside.", "Sunny and warm, picnic at the Buttes-Chaumont?"],
+      "rain": ["Classic Paris drizzle again.", "It's pouring, let's wait it out in this café.", "Grey sky over the zinc roofs, very Parisian.", "Raining again, the Vélib' will have to wait.", "Bring an umbrella, it's turning nasty."],
+      "bye": ["See you later!", "Bye, have a good one!", "Take care, see you at the next meetup!", "Ciao, enjoy your evening!", "Bye! Don't miss the last metro."],
+      "busy": ["Sorry, I've got a call in five, catch you later!", "Running to catch the RER, talk soon!", "Can't stop, investor meeting in the 8th!", "I'm late for a demo, see you!", "Busy day, let's grab a coffee tomorrow?"]
+    },
+    "fr": {
+      "greet": ["Bonjour ! Vous allez bien ?", "Salut ! Ça fait longtemps !", "Bonjour Madame, belle journée, hein ?", "Coucou ! Tu vas bien ?", "Bonsoir ! On se retrouve au café ?"],
+      "reply": ["Très bien, merci, et vous ?", "Ça va, ça va, on fait aller.", "Pas mal du tout, merci !", "Ça va bien, un peu fatigué mais ça va.", "Super, merci de demander !"],
+      "sunny": ["Quel beau temps aujourd'hui !", "Il fait trop beau, les terrasses sont pleines.", "Soleil sur les quais, on va pique-niquer ?", "Enfin du soleil, ça fait du bien.", "Il fait doux, on se fait une terrasse ce soir ?"],
+      "rain": ["Encore de la pluie, quel temps !", "Il pleut des cordes, prends un parapluie.", "Le ciel est gris, typique de Paris.", "Ça mouille, on reste au chaud ?", "Il pleut encore, j'en ai marre."],
+      "bye": ["Au revoir, bonne journée !", "Allez, à plus tard !", "Bonne soirée !", "À demain !", "Salut, à bientôt !"],
+      "busy": ["Désolé, je suis pressé, on se voit plus tard !", "J'ai un rendez-vous, je file !", "Je vais rater mon métro, à plus !", "Excusez-moi, je suis en retard !", "Pas le temps, je t'appelle ce soir !"]
+    },
+    "argot": {
+      "greet": ["Wesh, ça va ou quoi ?", "Yo frérot, bien ou bien ?", "Salut, ça dit quoi ?", "Wesh la famille !", "Eh, ça fait un bail !"],
+      "reply": ["Tranquille, et toi ?", "Ça va grave, merci !", "Tranquille, t'inquiète.", "Bien, bien, on est là.", "Ça roule, et de ton côté ?"],
+      "sunny": ["Il fait trop chaud, c'est ouf !", "Grand soleil, on se pose au canal ?", "Trop beau, je kiffe ce temps.", "Le soleil est là, on sort ce soir !", "Il fait grave beau, on va aux Buttes ?"],
+      "rain": ["Il flotte encore, c'est relou.", "La pluie, sérieux ? Trop chelou cette météo.", "Ça caille et ça pleut, je rentre.", "Il pleut grave, on se capte plus tard ?", "Encore la flotte, c'est relou de ouf."],
+      "bye": ["Allez, à plus !", "Vas-y, à toute !", "Bisous, on se capte !", "Ciao frérot !", "Allez, à demain la famille !"],
+      "busy": ["Je suis à la bourre, je file !", "J'ai pas le temps là, on se capte ce soir !", "Vas-y, je dois y aller, à toute !", "Grave en retard, désolé !", "Je cours, on se parle plus tard !"]
+    }
+  },
+  "transport": {
+    "bus": "bus",
+    "moto_taxi": "moto-taxi",
+    "tricycle": "vélo-taxi",
+    "taxi": "taxi",
+    "conductor": "contrôleur",
+    "stage": "arrêt",
+    "metro": "métro",
+    "train": "RER",
+    "tram": "tramway",
+    "bike_share": "Vélib'",
+    "ride_hail": "VTC",
+    "scooter": "trottinette",
+    "pass": "passe Navigo"
+  },
+  "touts": [
+    "Prochaine station : Châtelet. Correspondance avec les lignes 1, 4, 7, 11 et 14 et les RER A, B et D.",
+    "Attention à la fermeture des portes.",
+    "Mesdames et messieurs, je vais vous jouer un petit morceau, merci pour votre attention !",
+    "En raison d'un incident voyageur, le trafic est interrompu sur la ligne.",
+    "Faites attention aux pickpockets, gardez vos affaires près de vous.",
+    "Bonjour, contrôle des titres de transport, s'il vous plaît.",
+    "Allez, allez, les belles fraises, deux barquettes cinq euros !"
+  ],
+  "hawkers": [
+    ["Châtaignes chaudes, chaudes les châtaignes !", "Hot chestnuts, hot!"],
+    ["Allez, mesdames, elles sont belles mes tomates !", "Come on, ladies, my tomatoes are lovely!"],
+    ["Le melon, goûtez le melon !", "The melon, taste the melon!"],
+    ["Trois barquettes pour cinq euros !", "Three punnets for five euros!"],
+    ["Crêpe au Nutella, crêpe au sucre !", "Nutella crêpe, sugar crêpe!"],
+    ["L'Itinérant, le journal des sans-abri, bonne journée !", "L'Itinérant, the street paper, have a good day!"]
+  ],
+  "food": {
+    "street": ["jambon-beurre", "crêpe", "falafel rue des Rosiers", "croque-monsieur", "kebab", "French tacos", "châtaignes grillées", "bao from the 13th"],
+    "dishes": ["steak frites", "bœuf bourguignon", "poulet rôti", "couscous", "mafé", "pho", "croque-madame", "soupe à l'oignon", "tartare", "confit de canard"],
+    "drinks": ["un café (espresso)", "un crème", "un demi", "un verre de rouge", "Perrier", "diabolo menthe", "kir", "pastis", "thé à la menthe"]
+  },
+  "places": {
+    "neighbourhoods": ["Le Marais", "Montmartre", "Belleville", "Bastille", "Saint-Germain-des-Prés", "Pigalle", "Oberkampf", "La Défense", "Batignolles", "Goutte d'Or", "Quartier Latin", "Ménilmontant", "Canal Saint-Martin", "Chinatown (13th)"],
+    "streets": ["Champs-Élysées", "Rue de Rivoli", "Boulevard Saint-Germain", "Rue Oberkampf", "Rue de la Roquette", "Boulevard Haussmann", "Rue Montorgueil", "Rue des Martyrs", "Avenue de l'Opéra", "Quai de Valmy"],
+    "landmarks": ["Tour Eiffel", "Louvre", "Notre-Dame", "Sacré-Cœur", "Arc de Triomphe", "Centre Pompidou", "Station F", "Gare du Nord", "Jardin du Luxembourg", "Parc des Buttes-Chaumont", "Place de la République", "Les Halles"]
+  },
+  "small_talk": [
+    "Line 13 at rush hour, never again.",
+    "The bakery downstairs closes in August, I'm lost.",
+    "There's a strike on the RER B tomorrow, I'll work from home.",
+    "No Vélib' left at the station again, of course.",
+    "Station F is full of new startups this month.",
+    "Did you see the queue outside that new boulangerie in the 11th?",
+    "Rent in the Marais is mad, I'm moving to Montreuil.",
+    "The waiter switched to English the second I opened my mouth.",
+    "I walked along the Canal Saint-Martin, everyone was out.",
+    "The 14 to Orly is a game changer."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Paris",
+    "https://en.wikipedia.org/wiki/Verlan",
+    "https://www.ratp.fr/",
+    "https://www.velib-metropole.fr/",
+    "https://en.wikipedia.org/wiki/List_of_neighbourhoods_of_Paris"
+  ]
+}

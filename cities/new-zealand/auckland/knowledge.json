@@ -1,0 +1,286 @@
+{
+  "street": {
+    "en": 0.84,
+    "mi": 0.04,
+    "sm": 0.04,
+    "zh": 0.04,
+    "to": 0.02,
+    "hi": 0.02
+  },
+  "registers": {},
+  "names": {
+    "weights": {
+      "pakeha": 0.48,
+      "maori": 0.11,
+      "chinese": 0.1,
+      "indian": 0.1,
+      "samoan": 0.07,
+      "tongan": 0.04,
+      "filipino": 0.03,
+      "korean": 0.02
+    }
+  },
+  "phrases": {
+    "en": {
+      "hello": [
+        [
+          "Kia ora, bro!",
+          "Hello, mate!"
+        ],
+        [
+          "Kia ora e hoa",
+          "Hello, friend"
+        ]
+      ],
+      "thanks": [
+        [
+          "Chur",
+          "Thanks, cheers"
+        ]
+      ],
+      "fine": [
+        [
+          "Good as, eh",
+          "Really good"
+        ]
+      ],
+      "bye": [
+        [
+          "Ka kite, bro",
+          "See you, mate"
+        ]
+      ]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "Kia ora! How's it going?",
+        "Mōrena! Had your coffee yet?",
+        "Hey bro, how's things?",
+        "Kia ora e hoa, long time!",
+        "Gidday, how was the weekend?"
+      ],
+      "reply": [
+        "Yeah, good as, you?",
+        "Sweet as, can't complain.",
+        "Not bad, eh. Busy week.",
+        "All good, chur.",
+        "Good, just got off the ferry from Devonport."
+      ],
+      "sunny": [
+        "Stunner of a day, Takapuna will be packed.",
+        "Perfect day to walk up Maungawhau.",
+        "Sun's out, let's grab an ice cream at Mission Bay.",
+        "Hot one today, slap on the sunblock.",
+        "Beautiful out, the harbour is sparkling."
+      ],
+      "rain": [
+        "Four seasons in one day, typical Auckland.",
+        "Rain again, the motorway will be chocka.",
+        "Grab a brolly, it's pouring.",
+        "Humid and raining, so muggy.",
+        "Bit of a southerly coming through, bring a jacket."
+      ],
+      "bye": [
+        "Ka kite!",
+        "See ya, bro!",
+        "Catch ya later, chur.",
+        "Have a good one!",
+        "Hei konā, take care!"
+      ],
+      "busy": [
+        "Gotta run, my train's at Britomart.",
+        "Running late, the Southern Motorway is chocka.",
+        "Got a meeting in Wynyard Quarter, chat soon.",
+        "Off to the rugby at Eden Park, see ya!",
+        "Flat out today, catch you later."
+      ]
+    },
+    "mi": {
+      "greet": [
+        "Kia ora e hoa!",
+        "Mōrena!",
+        "Tēnā koe!",
+        "Kia ora whānau!"
+      ],
+      "reply": [
+        "Kei te pai, kia ora!",
+        "Ka pai!",
+        "Tino pai, ā, ko koe?",
+        "Kei te pai ahau."
+      ],
+      "sunny": [
+        "He rā paki tēnei!",
+        "He rā wera tēnei.",
+        "Ātaahua te rangi i tēnei rā.",
+        "Ka pai te rā!"
+      ],
+      "rain": [
+        "Kei te ua!",
+        "Kua tīmata te ua.",
+        "He rā makariri tēnei.",
+        "Kei te ua tonu, auē!"
+      ],
+      "bye": [
+        "Ka kite anō!",
+        "Hei konā!",
+        "Haere rā!",
+        "Ka kite, e hoa!"
+      ],
+      "busy": [
+        "Aroha mai, kei te tōmuri ahau!",
+        "Kei te pukumahi ahau.",
+        "Me haere au, ka kite!",
+        "He nui aku mahi i tēnei rā."
+      ]
+    }
+  },
+  "transport": {
+    "bus": "bus",
+    "train": "train",
+    "ferry": "ferry",
+    "taxi": "taxi",
+    "rideshare": "Uber",
+    "card": "AT HOP card",
+    "stage": "bus stop"
+  },
+  "touts": [
+    "The next stop is Britomart.",
+    "Ferry to Waiheke, now boarding!",
+    "Hāngī packs, fresh out of the ground!",
+    "Sausage sizzle, gold coin donation!",
+    "Raffle tickets, two bucks, for the school!"
+  ],
+  "hawkers": [
+    [
+      "Hāngī packs, fresh out of the ground!",
+      "Food cooked in an earth oven, sold at a fundraiser"
+    ],
+    [
+      "Sausage sizzle, grab one!",
+      "A fundraiser barbecue outside the supermarket"
+    ],
+    [
+      "Panikeke, still warm!",
+      "Pacific fried doughnuts at the Ōtara Markets"
+    ],
+    [
+      "Fresh kina!",
+      "Sea urchin, a Māori delicacy, at a fish stall"
+    ],
+    [
+      "Whitebait fritters!",
+      "A stall at a weekend market"
+    ]
+  ],
+  "food": {
+    "street": [
+      "mince and cheese pie",
+      "fish and chips",
+      "whitebait fritters",
+      "panikeke",
+      "hāngī pack",
+      "kumara chips",
+      "hokey pokey ice cream",
+      "dumplings on Dominion Road"
+    ],
+    "dishes": [
+      "hāngī",
+      "boil-up",
+      "pavlova",
+      "roast lamb with kumara",
+      "mussel fritters",
+      "oka",
+      "sapasui",
+      "lū sipi",
+      "butter chicken from the local Indian takeaway"
+    ],
+    "drinks": [
+      "flat white",
+      "L&P",
+      "Milo",
+      "kombucha",
+      "a cold one"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "the CBD",
+      "Ponsonby",
+      "Grey Lynn",
+      "Parnell",
+      "Newmarket",
+      "Mount Eden",
+      "Kingsland",
+      "Devonport",
+      "Takapuna",
+      "Mission Bay",
+      "Ōtara",
+      "Ōtāhuhu",
+      "Māngere",
+      "Manukau",
+      "Papatoetoe",
+      "Onehunga",
+      "Henderson",
+      "New Lynn",
+      "Remuera",
+      "Point Chevalier",
+      "Sandringham",
+      "Botany",
+      "Glen Innes"
+    ],
+    "streets": [
+      "Queen Street",
+      "Karangahape Road",
+      "Ponsonby Road",
+      "Dominion Road",
+      "Great North Road",
+      "Symonds Street",
+      "Tāmaki Drive",
+      "Broadway",
+      "Customs Street",
+      "Quay Street",
+      "Great South Road",
+      "the Southern Motorway"
+    ],
+    "landmarks": [
+      "the Sky Tower",
+      "the Auckland Harbour Bridge",
+      "Maungawhau / Mount Eden",
+      "Maungakiekie / One Tree Hill",
+      "Rangitoto Island",
+      "the Auckland Domain",
+      "Auckland War Memorial Museum",
+      "Eden Park",
+      "Viaduct Harbour",
+      "Wynyard Quarter",
+      "Britomart",
+      "Albert Park",
+      "the Ōtara Markets",
+      "Auckland Zoo",
+      "Western Springs",
+      "Waiheke Island"
+    ]
+  },
+  "small_talk": [
+    "The Southern Motorway was chocka this morning.",
+    "All Blacks at Eden Park on Saturday, you keen?",
+    "We're taking the ferry to Waiheke for the weekend.",
+    "Four seasons in one day, bring a jacket and your togs.",
+    "Matariki long weekend is coming up, whānau dinner at mine.",
+    "Polyfest is on, the whole school is practising.",
+    "Best dumplings in town are on Dominion Road.",
+    "You can see Rangitoto from every beach on the North Shore.",
+    "Pasifika Festival at Western Springs was massive this year.",
+    "House prices in Auckland are just mean, eh."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Auckland",
+    "https://at.govt.nz",
+    "https://www.stats.govt.nz/topics/census",
+    "https://maoridictionary.co.nz",
+    "https://www.tetaurawhiri.govt.nz",
+    "https://en.wikipedia.org/wiki/Pasifika_Festival"
+  ]
+}

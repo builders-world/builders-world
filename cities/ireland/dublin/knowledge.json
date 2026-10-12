@@ -1,0 +1,208 @@
+{
+  "street": { "en": 0.55, "dub": 0.4, "ga": 0.05 },
+  "registers": {
+    "dub": {
+      "name": "Dublin English",
+      "about": "The way Dubliners talk: \"What's the story?\" for hello, everything is grand, deadly or savage, and nobody ever says goodbye only once."
+    }
+  },
+  "names": {
+    "weights": {
+      "irish": 0.76,
+      "east_european": 0.09,
+      "nigerian": 0.03,
+      "indian": 0.05,
+      "brazilian": 0.05,
+      "filipino": 0.02
+    }
+  },
+  "phrases": {
+    "dub": {
+      "hello": [["Howya!", "Hello!"], ["Story?", "What's the story? Hi!"]],
+      "how_are_you": [["What's the story?", "How are you, what's new?"], ["How's the form?", "How are you doing?"]],
+      "fine": [["Grand", "Fine"], ["Deadly", "Brilliant"], ["Not a bother", "No problem at all"]],
+      "thanks": [["Thanks a million", "Thanks very much"], ["Cheers, bud", "Thanks, mate"]],
+      "bye": [["Seeya", "See you"], ["Mind yourself", "Take care"]],
+      "yes": [["Yeah, go on", "Yes, okay"]],
+      "no": [["Ah no", "No"], ["Ah stop", "No way, you're joking"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "Morning! How are you getting on?",
+        "Hiya, how's things?",
+        "Ah hello, long time no see!",
+        "Howya, are you well?",
+        "Morning! Cold one today."
+      ],
+      "reply": [
+        "Not too bad, thanks. Yourself?",
+        "Grand, thanks. Busy week.",
+        "Ah sure, can't complain.",
+        "Doing well, thanks for asking.",
+        "All good, thanks a million."
+      ],
+      "sunny": [
+        "Gorgeous day! The whole city's in Stephen's Green.",
+        "Sun's out, everyone's heading for Dún Laoghaire pier.",
+        "Some day, isn't it? Make the most of it.",
+        "A proper summer's day for once.",
+        "Perfect weather for a swim at the Forty Foot."
+      ],
+      "rain": [
+        "Lashing again, isn't it?",
+        "A soft day, as they say.",
+        "That rain is going sideways along the quays.",
+        "Typical, I left the umbrella at home.",
+        "Drizzly and grey. Dublin in a nutshell."
+      ],
+      "bye": [
+        "See you after!",
+        "Mind yourself.",
+        "Bye bye bye bye!",
+        "Good luck now.",
+        "Safe home!"
+      ],
+      "busy": [
+        "Sorry, can't stop, the Luas is due.",
+        "Running late, the traffic on the quays is mental.",
+        "Got a meeting down in the Docklands, talk later?",
+        "Can't stop, I have to catch the DART.",
+        "Sorry, flat out today. Text me?"
+      ]
+    },
+    "dub": {
+      "greet": [
+        "Howya! What's the story?",
+        "Story, bud?",
+        "Ah, how's it goin'?",
+        "Well! How's the form?"
+      ],
+      "reply": [
+        "Grand, yeah. You?",
+        "Ah, deadly, thanks.",
+        "Sound, sound. Can't complain.",
+        "Not a bother on me."
+      ],
+      "sunny": [
+        "It's roasting out. Savage.",
+        "Deadly weather, wha'?",
+        "Scorcher today, the canal's packed.",
+        "Lovely day, the whole of Dublin's out."
+      ],
+      "rain": [
+        "It's absolutely lashin'.",
+        "Bleedin' pouring again.",
+        "I'm drenched, soaked to the bone.",
+        "Ah, it's a soft day."
+      ],
+      "bye": [
+        "Seeya so.",
+        "Mind yourself, bud.",
+        "Laters.",
+        "Good luck, good luck, good luck."
+      ],
+      "busy": [
+        "Can't stop, I'm up the walls.",
+        "Gotta leg it, the bus is here.",
+        "I'm up to me eyes today, talk later.",
+        "Sorry, I'm flyin' it today."
+      ]
+    },
+    "ga": {
+      "greet": [
+        "Dia dhuit! Conas atá tú?",
+        "Haigh! Cén chaoi a bhfuil tú?",
+        "Dia daoibh, a chairde!",
+        "Maidin mhaith! Conas atá cúrsaí?"
+      ],
+      "reply": [
+        "Tá mé go maith, go raibh maith agat.",
+        "Go breá, agus tú féin?",
+        "Níl caill orm.",
+        "Ar fheabhas, go raibh maith agat."
+      ],
+      "sunny": [
+        "Lá breá atá ann!",
+        "Tá an ghrian ag taitneamh inniu.",
+        "Nach álainn an lá é?",
+        "Tá sé te inniu, ar fheabhas!"
+      ],
+      "rain": [
+        "Tá sé ag cur báistí arís.",
+        "Lá fliuch atá ann.",
+        "Tá sé ag stealladh báistí!",
+        "Nach gránna an lá é?"
+      ],
+      "bye": [
+        "Slán go fóill!",
+        "Feicfidh mé ar ball thú.",
+        "Go n-éirí leat!",
+        "Slán abhaile!"
+      ],
+      "busy": [
+        "Tá deifir orm, slán!",
+        "Tá brón orm, tá mé déanach!",
+        "Caithfidh mé imeacht, labhróimid níos déanaí.",
+        "Tá mé an-ghnóthach inniu."
+      ]
+    }
+  },
+  "transport": {
+    "bus": "bus",
+    "moto_taxi": "e-scooter",
+    "tricycle": "cargo bike",
+    "taxi": "taxi",
+    "conductor": "ticket inspector",
+    "stage": "bus stop",
+    "tram": "Luas",
+    "train": "DART",
+    "bike_share": "Dublinbikes",
+    "ride_hail": "Free Now"
+  },
+  "touts": [
+    "The next stop is Abbey Street.",
+    "This is a DART service to Greystones.",
+    "Please move down the bus, there's loads of room at the back.",
+    "Get the last of the bananas!",
+    "Herald, get your Herald!",
+    "A busker on Grafton Street with a crowd singing along to every word."
+  ],
+  "hawkers": [
+    ["Get the last of the bananas!", "A Moore Street fruit seller's call"],
+    ["Strawberries, five for two euro!", "Five punnets of strawberries for two euro"],
+    ["Wrapping paper, five for two euro!", "Henry Street sellers at Christmas"],
+    ["Herald, get your Herald!", "The evening newspaper seller"],
+    ["Big Issue, thanks love!", "Buy the Big Issue street magazine"]
+  ],
+  "food": {
+    "street": ["chicken fillet roll", "spice bag", "breakfast roll", "chips from the chipper", "a 99 from Teddy's", "Tayto sandwich"],
+    "dishes": ["Dublin coddle", "Irish stew", "full Irish breakfast", "bacon and cabbage", "boxty", "seafood chowder"],
+    "drinks": ["a pint of Guinness", "a cup of Barry's", "Club Orange", "hot whiskey", "Jameson", "Lyons tea"]
+  },
+  "places": {
+    "neighbourhoods": ["Rathmines", "Ranelagh", "Stoneybatter", "Phibsborough", "Drumcondra", "Smithfield", "Temple Bar", "the Docklands", "Ringsend", "Clontarf", "Dún Laoghaire", "Portobello", "the Liberties", "Tallaght"],
+    "streets": ["Grafton Street", "O'Connell Street", "Henry Street", "Moore Street", "Camden Street", "Dame Street", "South Great George's Street", "Capel Street", "Baggot Street", "Thomas Street"],
+    "landmarks": ["the Spire", "the Ha'penny Bridge", "Trinity College", "St Stephen's Green", "the Guinness Storehouse", "Phoenix Park", "Dublin Castle", "the Forty Foot", "Croke Park", "the GPO", "Grand Canal Dock", "the Aviva Stadium"]
+  },
+  "small_talk": [
+    "My mate's paying a fortune for a box room in Rathmines.",
+    "The Luas was rammed this morning.",
+    "Half of Silicon Docks is in the pub on a Friday.",
+    "Are you heading to Croker for the match?",
+    "Nothing beats a spice bag after a night out.",
+    "The app said five minutes, then ten, then the bus just vanished.",
+    "Grafton Street is mobbed with Christmas shoppers already.",
+    "Went for a dip at the Forty Foot. Freezing, but deadly.",
+    "Northside or southside? Go on, tell me.",
+    "A chicken fillet roll from the Centra and I'm sorted."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Dublin",
+    "https://en.wikipedia.org/wiki/Hiberno-English",
+    "https://www.cso.ie/",
+    "https://www.transportforireland.ie/",
+    "https://www.teanglann.ie/"
+  ]
+}

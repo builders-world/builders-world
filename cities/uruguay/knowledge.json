@@ -1,0 +1,681 @@
+{
+  "languages": [
+    {
+      "code": "es",
+      "name": "Spanish",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "pt",
+      "name": "Portuguese",
+      "official": false,
+      "spoken": "some"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "some"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Uruguayans have two surnames on paper, father's then mother's (Martina Rodríguez Techera), but in daily life most go by the first one. Two given names are common (Juan Pablo, María Noel). Families are mostly of Spanish, Canary Island and Galician origin (Píriz, Techera, De León, Olivera are very Uruguayan) or Italian, with many Ligurian surnames in Montevideo (Ferrando, Peirano, Canessa, Raffo). Near the Brazilian border Portuguese surnames like Pereira, Da Silva and Machado are everywhere.",
+    "groups": {
+      "hispanic": {
+        "given": {
+          "m": [
+            "Mateo",
+            "Benjamín",
+            "Joaquín",
+            "Santiago",
+            "Bautista",
+            "Facundo",
+            "Martín",
+            "Nicolás",
+            "Agustín",
+            "Federico",
+            "Gonzalo",
+            "Diego",
+            "Juan Pablo",
+            "Rodrigo",
+            "Sebastián",
+            "Felipe",
+            "Lucas",
+            "Emiliano"
+          ],
+          "f": [
+            "Sofía",
+            "Emma",
+            "Catalina",
+            "Isabella",
+            "Martina",
+            "Valentina",
+            "Agustina",
+            "Florencia",
+            "Lucía",
+            "Victoria",
+            "Camila",
+            "Micaela",
+            "Natalia",
+            "Rocío",
+            "Paula",
+            "Romina",
+            "Lourdes",
+            "María Noel"
+          ]
+        },
+        "family": [
+          "Rodríguez",
+          "González",
+          "Fernández",
+          "García",
+          "Martínez",
+          "López",
+          "Pérez",
+          "Silva",
+          "Pereira",
+          "Sosa",
+          "Suárez",
+          "Díaz",
+          "Gómez",
+          "Álvarez",
+          "Núñez",
+          "Méndez",
+          "Cabrera",
+          "Acosta",
+          "Ramos",
+          "Techera",
+          "Olivera",
+          "Correa",
+          "Machado",
+          "Da Silva",
+          "De León",
+          "Ferreira",
+          "Hernández",
+          "Sánchez",
+          "Romero",
+          "Castro",
+          "Píriz",
+          "Barreto"
+        ]
+      },
+      "italian": {
+        "given": {
+          "m": [
+            "Franco",
+            "Bruno",
+            "Lorenzo",
+            "Luca",
+            "Marco",
+            "Nicolás",
+            "Mauricio",
+            "Fabián",
+            "Gianni",
+            "Leonardo",
+            "Emiliano",
+            "Renzo"
+          ],
+          "f": [
+            "Giuliana",
+            "Bianca",
+            "Antonella",
+            "Florencia",
+            "Luciana",
+            "Daniela",
+            "Gabriela",
+            "Carla",
+            "Paola",
+            "Stefanía",
+            "Francesca",
+            "Mónica"
+          ]
+        },
+        "family": [
+          "Rossi",
+          "Ferrari",
+          "Bruno",
+          "Romano",
+          "Lombardo",
+          "Caruso",
+          "Russo",
+          "Costa",
+          "Spinelli",
+          "Gallo",
+          "Bianchi",
+          "Fontana",
+          "Marino",
+          "Ferrando",
+          "Bonomi",
+          "Peirano",
+          "Cerruti",
+          "Canessa",
+          "Raffo",
+          "Pittaluga"
+        ]
+      },
+      "european": {
+        "given": {
+          "m": [
+            "Martín",
+            "Pablo",
+            "Daniel",
+            "Alejandro",
+            "Ezequiel",
+            "Damián",
+            "Ariel",
+            "Leonardo",
+            "Gabriel",
+            "Sebastián",
+            "Andrés",
+            "Hernán"
+          ],
+          "f": [
+            "Gabriela",
+            "Daniela",
+            "Paula",
+            "Laura",
+            "Mariana",
+            "Natalia",
+            "Ana",
+            "Carolina",
+            "Valeria",
+            "Jimena",
+            "Lucía",
+            "Tamara"
+          ]
+        },
+        "family": [
+          "Goldberg",
+          "Rosenberg",
+          "Kohan",
+          "Schwartz",
+          "Kaplan",
+          "Levy",
+          "Klein",
+          "Schmidt",
+          "Müller",
+          "Weber",
+          "Kowalski",
+          "Nowak",
+          "Dubois",
+          "Kasparian",
+          "Manoukian",
+          "Bedrossian",
+          "Kelly",
+          "O'Connor"
+        ]
+      }
+    },
+    "weights": {
+      "hispanic": 0.62,
+      "italian": 0.33,
+      "european": 0.05
+    }
+  },
+  "honorifics": {
+    "elder_m": "Don",
+    "elder_f": "Doña",
+    "peer_m": "Bo",
+    "peer_f": "Amiga",
+    "boss": "Jefe"
+  },
+  "phrases": {
+    "es": {
+      "hello": [
+        [
+          "¡Hola!",
+          "Hello!"
+        ],
+        [
+          "¿Todo bien?",
+          "All good?"
+        ],
+        [
+          "¡Buenas!",
+          "Hi there!"
+        ]
+      ],
+      "morning": [
+        [
+          "Buen día",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Buenas tardes",
+          "Good afternoon"
+        ],
+        [
+          "Buenas noches",
+          "Good evening, good night"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "¿Cómo andás?",
+          "How are you doing?"
+        ],
+        [
+          "¿Cómo estás?",
+          "How are you?"
+        ],
+        [
+          "¿Qué hacés?",
+          "Hi, how are you? (literally 'what are you doing?')"
+        ]
+      ],
+      "fine": [
+        [
+          "Bien, ¿y vos?",
+          "Fine, and you?"
+        ],
+        [
+          "Todo bien",
+          "All good"
+        ],
+        [
+          "Bárbaro",
+          "Great"
+        ]
+      ],
+      "thanks": [
+        [
+          "Gracias",
+          "Thank you"
+        ],
+        [
+          "Muchas gracias",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Chau",
+          "Bye"
+        ],
+        [
+          "Nos vemos",
+          "See you"
+        ],
+        [
+          "Que estés bien",
+          "Take care"
+        ]
+      ],
+      "welcome": [
+        [
+          "Bienvenido",
+          "Welcome"
+        ],
+        [
+          "Pasá",
+          "Come in"
+        ]
+      ],
+      "sorry": [
+        [
+          "Perdón",
+          "Sorry"
+        ],
+        [
+          "Disculpá",
+          "Sorry, my mistake"
+        ]
+      ],
+      "excuse": [
+        [
+          "Permiso",
+          "Excuse me, coming through"
+        ],
+        [
+          "Disculpá",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Sí",
+          "Yes"
+        ],
+        [
+          "Ta",
+          "Okay (very Uruguayan)"
+        ],
+        [
+          "Dale",
+          "Okay, sure"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    },
+    "pt": {
+      "hello": [
+        [
+          "Oi!",
+          "Hi!"
+        ],
+        [
+          "Olá!",
+          "Hello!"
+        ],
+        [
+          "E aí?",
+          "What's up?"
+        ]
+      ],
+      "morning": [
+        [
+          "Bom dia!",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Boa tarde!",
+          "Good afternoon"
+        ],
+        [
+          "Boa noite!",
+          "Good evening, good night"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Tudo bem?",
+          "All good? How are you?"
+        ],
+        [
+          "Como vai?",
+          "How are you?"
+        ],
+        [
+          "Beleza?",
+          "All good?"
+        ]
+      ],
+      "fine": [
+        [
+          "Tudo bem, e você?",
+          "All good, and you?"
+        ],
+        [
+          "Tudo ótimo",
+          "All great"
+        ],
+        [
+          "Tranquilo",
+          "All calm, fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Obrigado",
+          "Thank you (said by a man)"
+        ],
+        [
+          "Obrigada",
+          "Thank you (said by a woman)"
+        ],
+        [
+          "Valeu!",
+          "Thanks! (casual)"
+        ]
+      ],
+      "bye": [
+        [
+          "Tchau!",
+          "Bye!"
+        ],
+        [
+          "Até mais!",
+          "See you later!"
+        ],
+        [
+          "Falou!",
+          "Later! (casual)"
+        ]
+      ],
+      "welcome": [
+        [
+          "Bem-vindo!",
+          "Welcome!"
+        ],
+        [
+          "Fique à vontade",
+          "Make yourself at home"
+        ]
+      ],
+      "sorry": [
+        [
+          "Desculpa",
+          "Sorry"
+        ],
+        [
+          "Foi mal",
+          "My bad"
+        ]
+      ],
+      "excuse": [
+        [
+          "Com licença",
+          "Excuse me"
+        ],
+        [
+          "Por favor",
+          "Please, excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Sim",
+          "Yes"
+        ],
+        [
+          "É",
+          "Yeah"
+        ],
+        [
+          "Claro",
+          "Of course"
+        ]
+      ],
+      "no": [
+        [
+          "Não",
+          "No"
+        ],
+        [
+          "Não, obrigado",
+          "No, thanks"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hey!",
+          "Hello"
+        ],
+        [
+          "Hi there!",
+          "Hello"
+        ],
+        [
+          "What's up?",
+          "Hi, how are things?"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning!",
+          "Good morning"
+        ],
+        [
+          "Mornin'!",
+          "Morning!"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ],
+        [
+          "Evening!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How's it going?",
+          "How are you?"
+        ],
+        [
+          "How are you doing?",
+          "How are you?"
+        ],
+        [
+          "How you doin'?",
+          "How are you? (casual)"
+        ]
+      ],
+      "fine": [
+        [
+          "Good, thanks!",
+          "Fine, thanks"
+        ],
+        [
+          "Not bad",
+          "Fine"
+        ],
+        [
+          "Can't complain",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks!",
+          "Thank you"
+        ],
+        [
+          "Thank you so much",
+          "Thank you very much"
+        ],
+        [
+          "Appreciate it",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "See you later!",
+          "Goodbye"
+        ],
+        [
+          "Take care!",
+          "Goodbye"
+        ],
+        [
+          "Have a good one!",
+          "Have a good day"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome!",
+          "Welcome"
+        ],
+        [
+          "Come on in!",
+          "Please come in"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry!",
+          "Sorry"
+        ],
+        [
+          "My bad",
+          "Sorry, my fault"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ],
+        [
+          "Pardon me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yeah",
+          "Yes"
+        ],
+        [
+          "Sure",
+          "Yes, of course"
+        ],
+        [
+          "Yep",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Nope",
+          "No"
+        ],
+        [
+          "No, thanks",
+          "No, thank you"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "UYU",
+    "symbol": "$",
+    "words": [
+      [
+        "mango",
+        "a peso"
+      ],
+      [
+        "luca",
+        "a thousand pesos"
+      ],
+      [
+        "guita",
+        "money"
+      ],
+      [
+        "plata",
+        "money"
+      ],
+      [
+        "salado",
+        "expensive"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Uruguayan_Spanish",
+    "https://en.wikipedia.org/wiki/Rioplatense_Spanish",
+    "https://en.wikipedia.org/wiki/Italian_Uruguayans",
+    "https://www.ine.gub.uy",
+    "https://forebears.io/uruguay/surnames"
+  ]
+}

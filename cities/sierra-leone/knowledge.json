@@ -1,0 +1,85 @@
+{
+  "languages": [
+    { "code": "kri", "name": "Krio", "official": false, "spoken": "widely, everyone's common language" },
+    { "code": "en", "name": "English", "official": true, "spoken": "widely in school, offices and writing" },
+    { "code": "tem", "name": "Temne", "official": false, "spoken": "commonly, in the north and in Freetown" },
+    { "code": "men", "name": "Mende", "official": false, "spoken": "commonly, in the south and east" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "A first name, Muslim or Christian, and a family name from the father that usually tells people his community: Kamara, Sesay, Bangura and Kanu are Temne; Kallon, Lahai and Bockarie are Mende; Cole, Macauley and Davies are Krio, from the families of freed people who settled Freetown. Temne and Mende families are mostly Muslim, and the Krio mostly Christian, and many families are both. Kono first-borns are often Sahr (boy) or Finda (girl), and people are often called by a nickname or 'Pa' or 'Mammy' with their first name.",
+    "groups": {
+      "temne": {
+        "given": {
+          "m": ["Mohamed", "Ibrahim", "Abu", "Abdul", "Sorie", "Santigie", "Alimamy", "Osman", "Foday", "Musa", "Lamin", "Kemoh", "Sheku", "Yayah", "Alie", "Saidu"],
+          "f": ["Fatmata", "Aminata", "Isatu", "Mariama", "Adama", "Hawa", "Kadiatu", "Zainab", "Fanta", "Memunatu", "Ramatu", "Salamatu", "Yeabu", "Mabinty", "Haja", "Ramatulai"]
+        },
+        "family": ["Kamara", "Sesay", "Bangura", "Kanu", "Conteh", "Turay", "Koroma", "Fofanah", "Mansaray", "Kargbo", "Kabia", "Tarawally", "Dumbuya", "Yansaneh", "Thoronka", "Kamanda"]
+      },
+      "mende": {
+        "given": {
+          "m": ["Joseph", "Mohamed", "Musa", "Brima", "Lahai", "Momoh", "Vandi", "Joe", "Francis", "Alpha", "Amara", "Sahr", "Tamba", "Samuel", "James", "Augustine"],
+          "f": ["Hawa", "Kadie", "Isatu", "Jeneba", "Mamie", "Massah", "Kumba", "Yatta", "Finda", "Musu", "Fatmata", "Christiana", "Mariama", "Esther", "Theresa", "Agnes"]
+        },
+        "family": ["Kallon", "Kpaka", "Bockarie", "Brima", "Lahai", "Jusu", "Vandi", "Sowa", "Gbondo", "Kemokai", "Moiwo", "Kanneh", "Momoh", "Fomba", "Massaquoi", "Swaray"]
+      },
+      "krio": {
+        "given": {
+          "m": ["Samuel", "Emmanuel", "Joseph", "Michael", "David", "Christopher", "Andrew", "Daniel", "John", "George", "Richard", "Ebenezer", "Theophilus", "Olu"],
+          "f": ["Elizabeth", "Mary", "Gloria", "Patricia", "Josephine", "Victoria", "Christiana", "Comfort", "Grace", "Abigail", "Olivia", "Yvonne", "Ayo", "Florence"]
+        },
+        "family": ["Cole", "Macauley", "Williams", "Johnson", "Thomas", "Davies", "Nicol", "Wright", "Taylor", "Pratt", "Decker", "Carew", "Spaine", "Leigh", "John", "Campbell", "During", "Hyde"]
+      }
+    },
+    "weights": { "temne": 0.45, "mende": 0.45, "krio": 0.1 }
+  },
+  "honorifics": { "elder_m": "Pa", "elder_f": "Mammy", "peer_m": "Bra", "peer_f": "Sisi", "boss": "Boss" },
+  "phrases": {
+    "kri": {
+      "hello": [["Kushɛ", "Hello"], ["Kushɛ-o!", "Hello there!"]],
+      "morning": [["Gud mɔnin", "Good morning"], ["Aw yu slip?", "How did you sleep?"]],
+      "evening": [["Gud ivin", "Good evening"]],
+      "how_are_you": [["Aw di bɔdi?", "How is the body? (how are you)"], ["Aw yu de?", "How are you doing?"], ["Aw di wok?", "How is work?"]],
+      "fine": [["Di bɔdi fayn", "I'm fine"], ["A de", "I'm here, fine"], ["Nɔ bad", "Not bad"]],
+      "thanks": [["Tɛnki", "Thank you"], ["Tɛnki-o", "Thanks so much"]],
+      "bye": [["A de go", "I'm going"], ["Wi go si bak", "We'll see again"], ["Tek kia", "Take care"]],
+      "welcome": [["Yu wɛlkɔm", "You're welcome here"]],
+      "sorry": [["Sɔri-o", "Sorry"], ["A bɛg padin", "I beg pardon"]],
+      "excuse": [["Padin", "Excuse me"], ["A bɛg", "Please"]],
+      "yes": [["Yes", "Yes"], ["Na so", "That's right"]],
+      "no": [["Nɔ", "No"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"]],
+      "morning": [["Good morning", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["I'm fine, thank you", "I'm fine, thank you"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Goodbye", "Goodbye"]],
+      "welcome": [["You're welcome", "Welcome"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "SLE",
+    "symbol": "Le",
+    "words": [
+      ["kɔpɔ", "money"],
+      ["new Le", "the redenominated leone from 2022; one new leone is a thousand old ones"],
+      ["tawzin", "a thousand old leones, how many people still count"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Sierra_Leone",
+    "https://en.wikipedia.org/wiki/Krio_language",
+    "https://en.wikipedia.org/wiki/Sierra_Leone_Creole_people",
+    "https://en.wikipedia.org/wiki/Temne_people",
+    "https://en.wikipedia.org/wiki/Mende_people",
+    "https://en.wikivoyage.org/wiki/Krio_phrasebook",
+    "https://en.wikipedia.org/wiki/Sierra_Leonean_leone"
+  ]
+}

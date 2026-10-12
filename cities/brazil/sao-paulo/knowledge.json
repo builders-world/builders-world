@@ -1,0 +1,363 @@
+{
+  "street": {
+    "pt": 0.7,
+    "paulistano": 0.27,
+    "es": 0.02,
+    "en": 0.01
+  },
+  "registers": {
+    "paulistano": {
+      "name": "Paulistano",
+      "about": "São Paulo's street Portuguese: mano, meu, da hora, rolê, trampo, busão, said fast and with a lot of 'orra, meu'."
+    }
+  },
+  "names": {
+    "weights": {
+      "brazilian": 0.74,
+      "italian_brazilian": 0.12,
+      "japanese_brazilian": 0.05,
+      "arab_brazilian": 0.05,
+      "german_brazilian": 0.02,
+      "azorean": 0.01
+    }
+  },
+  "phrases": {
+    "paulistano": {
+      "hello": [
+        [
+          "E aí, mano?",
+          "What's up, bro?"
+        ],
+        [
+          "Fala, meu!",
+          "Hey, man!"
+        ],
+        [
+          "Salve!",
+          "Hey! (street greeting)"
+        ]
+      ],
+      "fine": [
+        [
+          "Suave",
+          "Smooth, all good"
+        ],
+        [
+          "De boa",
+          "All good, relaxed"
+        ],
+        [
+          "Firmeza",
+          "Solid, all good"
+        ]
+      ],
+      "yes": [
+        [
+          "Demorou!",
+          "Sure thing, let's do it!"
+        ],
+        [
+          "Bora",
+          "Let's go"
+        ]
+      ],
+      "thanks": [
+        [
+          "Valeu, mano",
+          "Thanks, bro"
+        ]
+      ],
+      "bye": [
+        [
+          "Falou, mano!",
+          "Later, bro!"
+        ],
+        [
+          "Tamo junto",
+          "We're together, take care"
+        ]
+      ]
+    }
+  },
+  "chat": {
+    "pt": {
+      "greet": [
+        "Bom dia! Tudo bem?",
+        "Oi! Como você está?",
+        "Boa tarde! Tudo certo?",
+        "Olá! Quanto tempo!",
+        "E aí, tudo bom?"
+      ],
+      "reply": [
+        "Tudo ótimo, e você?",
+        "Tudo bem, graças a Deus.",
+        "Corrido, mas tudo bem.",
+        "Bem, trabalhando muito.",
+        "Tudo certo, obrigado por perguntar."
+      ],
+      "sunny": [
+        "Que dia lindo hoje!",
+        "Que calor! O Ibirapuera vai lotar.",
+        "Dia perfeito pra Paulista aberta.",
+        "Está um sol forte, passa protetor.",
+        "Finalmente sol, depois de tanta garoa."
+      ],
+      "rain": [
+        "Olha a garoa paulistana.",
+        "Vai cair um temporal, leva guarda-chuva.",
+        "Com essa chuva a Marginal vai alagar.",
+        "Choveu forte e o trânsito parou.",
+        "Fez frio e choveu o dia todo."
+      ],
+      "bye": [
+        "Tchau, até mais!",
+        "Até amanhã!",
+        "Bom trabalho!",
+        "Se cuida!",
+        "Manda um abraço pra família."
+      ],
+      "busy": [
+        "Desculpa, estou atrasado pro trabalho.",
+        "Preciso pegar o metrô, até mais!",
+        "Tenho reunião agora, depois a gente fala.",
+        "Estou correndo, o trânsito está horrível.",
+        "Vou buscar as crianças na escola."
+      ]
+    },
+    "paulistano": {
+      "greet": [
+        "E aí, mano, beleza?",
+        "Fala, meu! Firmeza?",
+        "Salve! Tudo certo?",
+        "Orra, meu, quanto tempo!"
+      ],
+      "reply": [
+        "Suave, e você?",
+        "De boa, mano.",
+        "Firmeza, na correria.",
+        "Tudo certo, só no trampo."
+      ],
+      "sunny": [
+        "Que calor, mano!",
+        "Dia da hora pra dar um rolê no Ibira.",
+        "Sol forte, bora tomar uma gelada?",
+        "Mó sol, a Paulista vai bombar."
+      ],
+      "rain": [
+        "Orra, meu, que temporal!",
+        "Choveu e a Marginal travou, mano.",
+        "Essa garoa não para.",
+        "Vai alagar tudo, fica esperto."
+      ],
+      "bye": [
+        "Falou, mano!",
+        "Tamo junto!",
+        "Valeu, até mais!",
+        "Se cuida, meu."
+      ],
+      "busy": [
+        "Tô atrasado pro trampo, mano.",
+        "Vou pegar o busão, falou!",
+        "Tô na correria, depois a gente se fala.",
+        "Mano, não dá agora, tô com pressa."
+      ]
+    },
+    "en": {
+      "greet": [
+        "Hi! How's it going?",
+        "Morning! Survived the traffic?",
+        "Hey, good to see you!",
+        "Oi! How are you?",
+        "Hey there, how was the weekend?"
+      ],
+      "reply": [
+        "Good, thanks! You?",
+        "Great, just had a pastel at the feira.",
+        "Not bad, busy week.",
+        "All good, obrigado!",
+        "Doing well, the metro was quick today."
+      ],
+      "sunny": [
+        "Hot and sunny, Ibirapuera will be packed.",
+        "Beautiful day, Paulista is closed to cars today.",
+        "Sun's out, let's grab a coffee outside.",
+        "Gorgeous out, perfect for a walk in Vila Madalena.",
+        "Finally some sun after all that drizzle."
+      ],
+      "rain": [
+        "The garoa again, this city loves drizzle.",
+        "Huge storm coming, the Marginal will flood.",
+        "Rain stopped the whole city, I'll be late.",
+        "Bring an umbrella, it pours in the afternoon.",
+        "Cold and rainy, perfect day for a feijoada."
+      ],
+      "bye": [
+        "See you later!",
+        "Take care!",
+        "Tchau!",
+        "Have a good one!",
+        "Catch you later."
+      ],
+      "busy": [
+        "Gotta run, I have a meeting on Faria Lima.",
+        "Late, the traffic is insane.",
+        "Catching the metro, talk later!",
+        "Running, my Uber is here.",
+        "Can't stop, see you!"
+      ]
+    }
+  },
+  "transport": {
+    "bus": "ônibus",
+    "bus_slang": "busão",
+    "metro": "metrô",
+    "train": "trem da CPTM",
+    "taxi": "táxi",
+    "rideshare": "Uber or 99",
+    "card": "Bilhete Único",
+    "stage": "ponto de ônibus"
+  },
+  "touts": [
+    "Próxima estação: Sé. Desembarque pelo lado esquerdo do trem.",
+    "Olha a pamonha! Pamonhas de Piracicaba!",
+    "Olha o guarda-chuva, dez reais!",
+    "Água geladinha, três reais!",
+    "Pastel, pastel quentinho!"
+  ],
+  "hawkers": [
+    [
+      "Olha a pamonha! Pamonhas de Piracicaba!",
+      "Sweet corn pamonha! (the famous loudspeaker car)"
+    ],
+    [
+      "Água geladinha, três reais!",
+      "Ice cold water, three reais!"
+    ],
+    [
+      "Olha o guarda-chuva, dez reais!",
+      "Umbrellas, ten reais! (the moment it rains)"
+    ],
+    [
+      "Pastel e caldo de cana!",
+      "Pastel and sugarcane juice! (at the street market)"
+    ],
+    [
+      "Olha a banana, a dúzia é cinco!",
+      "Bananas, five reais a dozen! (a feira stall)"
+    ]
+  ],
+  "food": {
+    "street": [
+      "pastel de feira",
+      "caldo de cana",
+      "coxinha",
+      "pão de queijo",
+      "churrasquinho",
+      "cachorro-quente paulistano",
+      "milho verde",
+      "esfiha",
+      "açaí"
+    ],
+    "dishes": [
+      "virado à paulista",
+      "feijoada",
+      "pizza paulistana",
+      "sanduíche de mortadela do Mercadão",
+      "bauru",
+      "parmegiana",
+      "yakisoba in Liberdade",
+      "lamen",
+      "picanha"
+    ],
+    "drinks": [
+      "cafezinho",
+      "caldo de cana",
+      "guaraná",
+      "chopp",
+      "caipirinha",
+      "suco de laranja"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "Pinheiros",
+      "Vila Madalena",
+      "Jardins",
+      "Liberdade",
+      "Bela Vista",
+      "Moema",
+      "Itaim Bibi",
+      "Consolação",
+      "Centro",
+      "Mooca",
+      "Brás",
+      "Bom Retiro",
+      "Tatuapé",
+      "Santana",
+      "Butantã",
+      "Higienópolis",
+      "Perdizes",
+      "Vila Mariana",
+      "Barra Funda",
+      "Santo Amaro",
+      "Itaquera",
+      "Capão Redondo"
+    ],
+    "streets": [
+      "Avenida Paulista",
+      "Rua Augusta",
+      "Rua Oscar Freire",
+      "Avenida Faria Lima",
+      "Avenida Rebouças",
+      "Rua 25 de Março",
+      "Rua da Consolação",
+      "Avenida Ipiranga",
+      "Avenida São João",
+      "Rua Galvão Bueno",
+      "Marginal Pinheiros",
+      "Marginal Tietê",
+      "Avenida Berrini",
+      "Rua Teodoro Sampaio",
+      "o Minhocão"
+    ],
+    "landmarks": [
+      "o MASP",
+      "Parque Ibirapuera",
+      "o Mercadão",
+      "Catedral da Sé",
+      "Edifício Copan",
+      "Theatro Municipal",
+      "Pinacoteca",
+      "Estação da Luz",
+      "Museu do Ipiranga",
+      "Allianz Parque",
+      "Neo Química Arena",
+      "Estádio do Morumbi",
+      "Pacaembu",
+      "Beco do Batman",
+      "Ponte Estaiada",
+      "Edifício Itália",
+      "Farol Santander"
+    ]
+  },
+  "small_talk": [
+    "The Marginal was stopped for two hours, I gave up and took the metro.",
+    "Today's my rodízio day, I can't drive the car downtown.",
+    "Paulista is closed to cars on Sunday, everybody's out walking.",
+    "Four seasons in one day, only in São Paulo.",
+    "Corinthians or Palmeiras? Don't get me started.",
+    "The line for the mortadella sandwich at Mercadão was huge.",
+    "Feijoada is on Wednesday and Saturday, everyone knows that.",
+    "Pizza on Sunday night is a São Paulo tradition, we have it every week.",
+    "The Liberdade street fair on Sunday has the best gyoza.",
+    "Line 4 is the only one with air conditioning that works, I swear."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/S%C3%A3o_Paulo",
+    "https://pt.wikipedia.org/wiki/Paulistano",
+    "https://www.metro.sp.gov.br",
+    "https://www.sptrans.com.br",
+    "https://en.wikipedia.org/wiki/Brazilian_Portuguese",
+    "https://www.ibge.gov.br"
+  ]
+}

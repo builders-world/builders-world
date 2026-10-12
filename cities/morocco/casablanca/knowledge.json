@@ -1,0 +1,88 @@
+{
+  "street": { "ary": 0.8, "fr": 0.15, "en": 0.05 },
+  "names": { "weights": { "arab": 0.62, "amazigh": 0.38 } },
+  "phrases": {
+    "ary": {
+      "hello": [["Salam!", "Hi!"], ["Fin a sahbi?", "Where've you been, my friend?"]],
+      "how_are_you": [["Labas?", "All well?"], ["Kidayr?", "How are you?"]],
+      "fine": [["Labas, hamdullah", "Fine, thank God"], ["Kolchi mzyan", "All good"]],
+      "bye": [["Bslama", "Goodbye"], ["Thalla f rassek", "Take care"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Salam! How are you?", "Good morning! All well?", "Hello, how is the family?", "Good evening, how was work?", "Ah, long time! Where have you been?"],
+      "reply": ["Fine, thank God. And you?", "All good, thanks.", "Great, everything is fine.", "Not bad, can't complain.", "Doing well, thanks for asking."],
+      "sunny": ["Lovely day, the Corniche will be full.", "Perfect weather for Ain Diab beach.", "The sun is strong, find some shade.", "Clear sky over the mosque today.", "Nice day, let's have coffee on a terrace."],
+      "rain": ["It's raining, take an umbrella.", "Rain again, the streets will flood.", "The tram will be slow with this weather.", "Wait a bit, it will pass.", "Cold and wet today, harira weather."],
+      "bye": ["Goodbye, take care!", "See you later.", "Good night.", "Greet the family for me.", "Go in peace."],
+      "busy": ["Sorry, I'm in a hurry.", "I'm late for the office in Sidi Maarouf.", "Traffic on Zerktouni, I have to go now.", "I'll miss the tram, see you!", "I'll call you this evening."]
+    },
+    "ary": {
+      "greet": ["Salam, labas?", "Sbah l'khir a khouya, kidayr?", "Salam khti, labas alik?", "Ahlan, ach khbarek?", "Fin a sahbi? Ghbrti!"],
+      "reply": ["Labas, hamdullah. Nta?", "Bikhir, l'hamdullah.", "Kolchi mzyan, choukran.", "Mzyan bezzaf!"],
+      "sunny": ["Lhal skhoun lyoum!", "Chems zwina lyoum, yallah l'Corniche!", "Jow zwin lyoum.", "Lyoum skhoun bezzaf."],
+      "rain": ["Shta katsabb!", "Shta katsabb, khod parapluie.", "Lhal bared lyoum.", "Shta bezzaf, tram ghadi yt'akhar."],
+      "bye": ["Bslama!", "Nchoufek mn baad.", "Yallah, bslama, thalla f rassek.", "Tsbah ala khir."],
+      "busy": ["Ana mzroub, nchoufek mn baad!", "Smhli, ana khddam daba.", "Ghadi ifoutni tram!", "Ma andich lweqt daba, nhdro mn baad."]
+    },
+    "fr": {
+      "greet": ["Salut, ça va?", "Bonjour! Ça fait longtemps!", "Bonsoir, la famille va bien?", "Coucou, tu vas bien?"],
+      "reply": ["Ça va, hamdullah.", "Très bien, et toi?", "Ça va, merci.", "Ça roule!"],
+      "sunny": ["Il fait beau aujourd'hui!", "Belle journée pour la Corniche.", "Le soleil tape fort.", "Quel temps magnifique."],
+      "rain": ["Il pleut encore!", "Prends ton parapluie.", "Avec cette pluie, le tram va être lent.", "Attends que ça passe."],
+      "bye": ["À plus!", "À demain.", "Bonne soirée!", "Bonne nuit."],
+      "busy": ["Je suis pressé, on se parle.", "Je suis en retard au bureau.", "Je vais rater le tram, à plus!", "Je t'appelle ce soir."]
+    }
+  },
+  "transport": { "bus": "bus", "moto_taxi": "", "tricycle": "triporteur", "taxi": "petit taxi", "shared_taxi": "grand taxi", "conductor": "receveur", "stage": "mahatta" },
+  "touts": [
+    "Mohammedia! Mohammedia, wahed!",
+    "Derb Sultan! Derb Sultan!",
+    "Sidi Maarouf!",
+    "Hay Mohammadi! Hay Mohammadi!",
+    "Ain Sebaa!",
+    "Lmdina! Lmdina!",
+    "Baqa blassa wahda!",
+    "Rabat! Rabat!"
+  ],
+  "hawkers": [
+    ["Babbouche skhoun!", "Hot snail soup!"],
+    ["Hrira skhouna!", "Hot harira!"],
+    ["Maqouda skhouna!", "Hot potato fritters!"],
+    ["Sfenj skhoun!", "Hot doughnuts!"],
+    ["Lma bared!", "Cold water!"],
+    ["Zriaa w kaoukaou!", "Sunflower seeds and peanuts!"],
+    ["Msemen w harcha!", "Flaky flatbread and semolina cakes!"]
+  ],
+  "food": {
+    "street": ["babbouche (snail soup)", "maqouda", "sfenj", "msemen", "harcha", "bissara", "kefta sandwich", "fried sardines"],
+    "dishes": ["couscous on Friday", "tajine", "rfissa", "pastilla", "harira", "seffa", "zaalouk", "loubia"],
+    "drinks": ["atay (mint tea)", "café nss-nss (half coffee, half milk)", "jus d'avocat", "panaché", "lben", "fresh orange juice"]
+  },
+  "places": {
+    "neighbourhoods": ["Maârif", "Gauthier", "Ain Diab", "Anfa", "Bourgogne", "Derb Sultan", "Hay Mohammadi", "Sidi Maarouf", "Ain Sebaa", "Habous", "Ancienne Médina", "Hay Hassani", "Oulfa", "Sidi Bernoussi", "Belvédère", "Racine", "Californie"],
+    "streets": ["Boulevard Mohammed V", "Boulevard Zerktouni", "Boulevard d'Anfa", "Boulevard de la Corniche", "Avenue des FAR", "Boulevard Ghandi", "Boulevard Abdelmoumen", "Boulevard Hassan II", "Rue Prince Moulay Abdallah", "Boulevard Moulay Youssef"],
+    "landmarks": ["Hassan II Mosque", "Place Mohammed V", "Twin Center", "Marché Central", "Morocco Mall", "Casa-Voyageurs station", "Quartier des Habous", "Ain Diab Corniche", "Casablanca Marina", "Sacré-Cœur Cathedral", "Parc de la Ligue Arabe", "Derb Ghallef market", "Stade Mohammed V"]
+  },
+  "small_talk": [
+    "The tram from Casa-Voyageurs was full again.",
+    "Traffic on Zerktouni is impossible at this hour.",
+    "A nss-nss at the café on the corner?",
+    "The babbouche stall in Derb Sultan is the best.",
+    "The Corniche is packed with families tonight.",
+    "Derby at the Stade Mohammed V this weekend, Wydad or Raja?",
+    "Derb Ghallef has every phone charger you could want.",
+    "Let's walk to the Hassan II Mosque, the sea is wild today.",
+    "The petit taxi driver took three other passengers on the way."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Casablanca",
+    "https://en.wikipedia.org/wiki/Moroccan_Arabic",
+    "https://en.wikipedia.org/wiki/Moroccan_cuisine",
+    "https://en.wikipedia.org/wiki/Hassan_II_Mosque",
+    "https://en.wikipedia.org/wiki/Casablanca_Tramway",
+    "https://en.wikipedia.org/wiki/Share_taxi",
+    "https://en.wikipedia.org/wiki/Casablanca_derby"
+  ]
+}

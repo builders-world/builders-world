@@ -1,0 +1,626 @@
+{
+  "languages": [
+    {
+      "code": "es",
+      "name": "Spanish",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "some"
+    }
+  ],
+  "names": {
+    "order": "given family family",
+    "conventions": "Two surnames, father's first and mother's second (Juan Esteban Restrepo Gómez), and both are used on forms and often in speech. Compound first names are everywhere: Juan David, Juan Esteban, Juan Sebastián, María José, Luisa Fernanda, María Camila. Antioquia, around Medellín, has its own set of very common surnames (Restrepo, Arango, Mejía, Vélez, Echeverri, Jaramillo); Afro-Colombian families from the Pacific coast often carry Mosquera, Palacios, Rentería, Córdoba or Murillo. Colombia has also taken in millions of Venezuelans in the last decade.",
+    "groups": {
+      "andino": {
+        "given": {
+          "m": [
+            "Juan Sebastián",
+            "Juan David",
+            "Santiago",
+            "Samuel",
+            "Matías",
+            "Nicolás",
+            "Andrés",
+            "Felipe",
+            "Daniel",
+            "Alejandro",
+            "Camilo",
+            "Julián",
+            "Diego",
+            "Óscar",
+            "Jorge",
+            "Carlos Andrés",
+            "Luis Fernando"
+          ],
+          "f": [
+            "María José",
+            "Luisa Fernanda",
+            "María Camila",
+            "Valentina",
+            "Mariana",
+            "Daniela",
+            "Laura",
+            "Sara",
+            "Paula",
+            "Natalia",
+            "Juliana",
+            "Catalina",
+            "Carolina",
+            "Andrea",
+            "Diana",
+            "Ángela",
+            "Lina"
+          ]
+        },
+        "family": [
+          "Rodríguez",
+          "Martínez",
+          "García",
+          "López",
+          "González",
+          "Hernández",
+          "Gómez",
+          "Díaz",
+          "Sánchez",
+          "Ramírez",
+          "Torres",
+          "Rojas",
+          "Moreno",
+          "Castro",
+          "Vargas",
+          "Ortiz",
+          "Ruiz",
+          "Jiménez",
+          "Suárez",
+          "Pinzón",
+          "Cárdenas",
+          "Forero",
+          "Rincón",
+          "Bernal",
+          "Garzón",
+          "Beltrán",
+          "Ardila",
+          "Pardo",
+          "Cortés",
+          "Parra",
+          "Romero",
+          "Pulido",
+          "Sarmiento",
+          "Quintero"
+        ]
+      },
+      "paisa": {
+        "given": {
+          "m": [
+            "Juan Esteban",
+            "Juan José",
+            "Juan Pablo",
+            "Santiago",
+            "Samuel",
+            "Jerónimo",
+            "Emiliano",
+            "Simón",
+            "Mateo",
+            "Alejandro",
+            "Esteban",
+            "Mauricio",
+            "Sebastián",
+            "Andrés Felipe",
+            "Carlos Mario",
+            "Juan Fernando"
+          ],
+          "f": [
+            "Manuela",
+            "Salomé",
+            "Antonella",
+            "Mariana",
+            "Isabella",
+            "Sara",
+            "Valeria",
+            "Luciana",
+            "Ana María",
+            "Luisa María",
+            "Daniela",
+            "Laura",
+            "Alejandra",
+            "Natalia",
+            "Catalina",
+            "Juliana"
+          ]
+        },
+        "family": [
+          "Restrepo",
+          "Gómez",
+          "Arango",
+          "Mejía",
+          "Ochoa",
+          "Vélez",
+          "Echeverri",
+          "Jaramillo",
+          "Zuluaga",
+          "Montoya",
+          "Londoño",
+          "Botero",
+          "Cardona",
+          "Giraldo",
+          "Henao",
+          "Ospina",
+          "Posada",
+          "Correa",
+          "Álvarez",
+          "Agudelo",
+          "Quintero",
+          "Hoyos",
+          "Osorio",
+          "Sierra",
+          "Arbeláez",
+          "Betancur",
+          "Zapata",
+          "Toro",
+          "Valencia",
+          "Marín"
+        ]
+      },
+      "pacifico": {
+        "given": {
+          "m": [
+            "Carlos",
+            "Luis",
+            "Jorge",
+            "Andrés",
+            "Wilson",
+            "Fredy",
+            "Edwin",
+            "Jairo",
+            "Duván",
+            "Yeison",
+            "Juan Camilo",
+            "Óscar"
+          ],
+          "f": [
+            "María",
+            "Yolanda",
+            "Ana",
+            "Nelly",
+            "Liliana",
+            "Yamileth",
+            "Carolina",
+            "Paola",
+            "Daniela",
+            "Leidy",
+            "Kelly",
+            "Angie"
+          ]
+        },
+        "family": [
+          "Mosquera",
+          "Palacios",
+          "Córdoba",
+          "Rentería",
+          "Murillo",
+          "Valencia",
+          "Asprilla",
+          "Perea",
+          "Caicedo",
+          "Mena",
+          "Hinestroza",
+          "Lozano",
+          "Rivas",
+          "Cuesta",
+          "Angulo",
+          "Quiñones",
+          "Arboleda",
+          "Cuero",
+          "Riascos"
+        ]
+      },
+      "venezuelan": {
+        "given": {
+          "m": [
+            "José",
+            "Luis",
+            "Carlos",
+            "Jesús",
+            "Miguel",
+            "Alejandro",
+            "Jorge",
+            "Daniel",
+            "Andrés",
+            "Gabriel",
+            "Rafael",
+            "Héctor",
+            "Johan"
+          ],
+          "f": [
+            "María",
+            "Daniela",
+            "Andrea",
+            "Gabriela",
+            "Mariana",
+            "Valentina",
+            "Carolina",
+            "Andreína",
+            "Génesis",
+            "Oriana",
+            "Fabiola",
+            "Yuliana",
+            "Rosángela"
+          ]
+        },
+        "family": [
+          "González",
+          "Rodríguez",
+          "Pérez",
+          "Hernández",
+          "García",
+          "Martínez",
+          "López",
+          "Díaz",
+          "Rondón",
+          "Briceño",
+          "Contreras",
+          "Colmenares",
+          "Villalobos",
+          "Uzcátegui",
+          "Pacheco",
+          "Rivas",
+          "Medina",
+          "Marcano",
+          "Guevara",
+          "Sánchez"
+        ]
+      }
+    },
+    "weights": {
+      "andino": 0.58,
+      "paisa": 0.25,
+      "pacifico": 0.1,
+      "venezuelan": 0.07
+    }
+  },
+  "honorifics": {
+    "elder_m": "Don",
+    "elder_f": "Doña",
+    "peer_m": "Parce",
+    "peer_f": "Amiga",
+    "boss": "Patrón"
+  },
+  "phrases": {
+    "es": {
+      "hello": [
+        [
+          "¡Hola!",
+          "Hello!"
+        ],
+        [
+          "¿Qué más?",
+          "What's up? How are you?"
+        ],
+        [
+          "¿Quiubo?",
+          "Hey, what's new?"
+        ]
+      ],
+      "morning": [
+        [
+          "Buenos días",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Buenas tardes",
+          "Good afternoon"
+        ],
+        [
+          "Buenas noches",
+          "Good evening, good night"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "¿Cómo está?",
+          "How are you? (polite)"
+        ],
+        [
+          "¿Bien o qué?",
+          "All good, or what?"
+        ],
+        [
+          "¿Cómo vas?",
+          "How's it going?"
+        ]
+      ],
+      "fine": [
+        [
+          "Bien, gracias",
+          "Fine, thanks"
+        ],
+        [
+          "Todo bien",
+          "All good"
+        ],
+        [
+          "Ahí vamos",
+          "Getting by"
+        ]
+      ],
+      "thanks": [
+        [
+          "Gracias",
+          "Thank you"
+        ],
+        [
+          "Muy amable",
+          "Very kind of you"
+        ],
+        [
+          "Mil gracias",
+          "A thousand thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "Chao",
+          "Bye"
+        ],
+        [
+          "Que esté bien",
+          "Take care"
+        ],
+        [
+          "Nos vemos",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Bienvenido",
+          "Welcome"
+        ],
+        [
+          "Siga",
+          "Come in"
+        ],
+        [
+          "A la orden",
+          "At your service (from shopkeepers)"
+        ]
+      ],
+      "sorry": [
+        [
+          "Qué pena",
+          "Sorry, how embarrassing"
+        ],
+        [
+          "Perdón",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Qué pena con usted",
+          "Sorry to bother you, excuse me"
+        ],
+        [
+          "Permiso",
+          "Excuse me, coming through"
+        ],
+        [
+          "¿Me regala...?",
+          "Could I have...? (the polite way to ask in a shop)"
+        ]
+      ],
+      "yes": [
+        [
+          "Sí",
+          "Yes"
+        ],
+        [
+          "Listo",
+          "Okay, done"
+        ],
+        [
+          "De una",
+          "Sure, right away"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ],
+        [
+          "No, gracias",
+          "No, thank you"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hey!",
+          "Hello"
+        ],
+        [
+          "Hi there!",
+          "Hello"
+        ],
+        [
+          "What's up?",
+          "Hi, how are things?"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning!",
+          "Good morning"
+        ],
+        [
+          "Mornin'!",
+          "Morning!"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ],
+        [
+          "Evening!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How's it going?",
+          "How are you?"
+        ],
+        [
+          "How are you doing?",
+          "How are you?"
+        ],
+        [
+          "How you doin'?",
+          "How are you? (casual)"
+        ]
+      ],
+      "fine": [
+        [
+          "Good, thanks!",
+          "Fine, thanks"
+        ],
+        [
+          "Not bad",
+          "Fine"
+        ],
+        [
+          "Can't complain",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks!",
+          "Thank you"
+        ],
+        [
+          "Thank you so much",
+          "Thank you very much"
+        ],
+        [
+          "Appreciate it",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "See you later!",
+          "Goodbye"
+        ],
+        [
+          "Take care!",
+          "Goodbye"
+        ],
+        [
+          "Have a good one!",
+          "Have a good day"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome!",
+          "Welcome"
+        ],
+        [
+          "Come on in!",
+          "Please come in"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry!",
+          "Sorry"
+        ],
+        [
+          "My bad",
+          "Sorry, my fault"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ],
+        [
+          "Pardon me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yeah",
+          "Yes"
+        ],
+        [
+          "Sure",
+          "Yes, of course"
+        ],
+        [
+          "Yep",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Nope",
+          "No"
+        ],
+        [
+          "No, thanks",
+          "No, thank you"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "COP",
+    "symbol": "$",
+    "words": [
+      [
+        "luca",
+        "a thousand pesos"
+      ],
+      [
+        "barra",
+        "a thousand pesos"
+      ],
+      [
+        "palo",
+        "a million pesos"
+      ],
+      [
+        "plata",
+        "money"
+      ],
+      [
+        "sencillo",
+        "small change"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Colombian_Spanish",
+    "https://en.wikipedia.org/wiki/Spanish_naming_customs",
+    "https://en.wikipedia.org/wiki/Paisa_Region",
+    "https://www.dane.gov.co",
+    "https://forebears.io/colombia/surnames",
+    "https://www.registraduria.gov.co"
+  ]
+}

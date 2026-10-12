@@ -1,0 +1,362 @@
+{
+  "street": {
+    "es": 0.62,
+    "rolo": 0.35,
+    "en": 0.03
+  },
+  "registers": {
+    "rolo": {
+      "name": "Rolo",
+      "about": "Bogotá's polite, sing-song street Spanish: sumercé, ¿qué más?, ¿bien o qué?, chévere, parce, de una, camellar, and a tinto on every corner."
+    }
+  },
+  "names": {
+    "weights": {
+      "andino": 0.7,
+      "paisa": 0.1,
+      "venezuelan": 0.1,
+      "pacifico": 0.1
+    }
+  },
+  "phrases": {
+    "rolo": {
+      "hello": [
+        [
+          "¿Qué más, parce?",
+          "What's up, mate?"
+        ],
+        [
+          "¿Bien o qué?",
+          "All good, or what?"
+        ],
+        [
+          "¿Quiubo, sumercé?",
+          "Hi there (warm and polite)"
+        ]
+      ],
+      "fine": [
+        [
+          "Chévere",
+          "Great"
+        ],
+        [
+          "Bien, bien",
+          "Good, good"
+        ],
+        [
+          "Bacano",
+          "Cool"
+        ]
+      ],
+      "yes": [
+        [
+          "De una",
+          "Sure, right away"
+        ],
+        [
+          "Listo",
+          "Okay, done"
+        ]
+      ],
+      "no": [
+        [
+          "Ni de fundas",
+          "No way"
+        ]
+      ],
+      "sorry": [
+        [
+          "Qué boleta",
+          "How embarrassing"
+        ]
+      ],
+      "bye": [
+        [
+          "Chao, sumercé, que le vaya bien",
+          "Bye, all the best (polite)"
+        ]
+      ]
+    }
+  },
+  "chat": {
+    "es": {
+      "greet": [
+        "¡Buenos días! ¿Cómo está?",
+        "¡Hola! ¿Qué más, cómo le ha ido?",
+        "Buenas tardes, ¿cómo amaneció?",
+        "¡Qué gusto verlo! ¿Cómo va todo?",
+        "¡Hola! ¿Cómo está la familia?"
+      ],
+      "reply": [
+        "Muy bien, gracias, ¿y usted?",
+        "Bien, gracias a Dios.",
+        "Ahí vamos, trabajando.",
+        "Todo bien, gracias por preguntar.",
+        "Bien, con harto trabajo."
+      ],
+      "sunny": [
+        "¡Qué día tan bonito! Se ven los cerros.",
+        "Salió el sol, pero no se confíe.",
+        "Buen día para ir al parque Simón Bolívar.",
+        "Qué rico este solecito en la mañana.",
+        "Hoy sí está haciendo calor."
+      ],
+      "rain": [
+        "Lleve sombrilla, que en Bogotá llueve a cualquier hora.",
+        "Se vino el aguacero.",
+        "Cayó granizo otra vez.",
+        "Con esta lluvia la Séptima está imposible.",
+        "Hace un frío tremendo, tómese un tinto."
+      ],
+      "bye": [
+        "Chao, que esté bien.",
+        "Que le vaya muy bien.",
+        "Nos vemos, cuídese.",
+        "Saludos a la familia.",
+        "Hasta luego, que Dios lo bendiga."
+      ],
+      "busy": [
+        "Qué pena, voy tarde para el trabajo.",
+        "Me toca coger el TransMilenio, nos vemos.",
+        "Voy a una reunión, después lo llamo.",
+        "Voy de afán, hablamos luego.",
+        "Tengo que recoger a los niños en el colegio."
+      ]
+    },
+    "rolo": {
+      "greet": [
+        "¿Qué más, parce? ¿Bien o qué?",
+        "¡Quiubo! ¿Qué hubo de su vida?",
+        "¿Bien o qué, sumercé?",
+        "¡Uy, tanto tiempo! ¿Qué más?"
+      ],
+      "reply": [
+        "Bien, bien, ¿y usted?",
+        "Todo chévere, parce.",
+        "Ahí, camellando.",
+        "Bacano, gracias."
+      ],
+      "sunny": [
+        "¡Uy, qué solazo tan chévere!",
+        "Salió el sol, aprovechemos, parce.",
+        "Día bacano pa' subir a Monserrate.",
+        "Hoy hasta calor hace, ¡qué raro!"
+      ],
+      "rain": [
+        "Se largó el aguacero, parce.",
+        "Uy, qué frío tan berraco.",
+        "Con esta lluvia no pasa ni un bus.",
+        "Lleve sombrilla, que acá llueve cuando quiere."
+      ],
+      "bye": [
+        "Listo, parce, hablamos.",
+        "Chao, sumercé, que le vaya bien.",
+        "De una, nos vemos.",
+        "Cuídese mucho."
+      ],
+      "busy": [
+        "Voy de afán, parce.",
+        "Me toca coger el Transmi, chao.",
+        "Estoy camellando, hablamos luego.",
+        "Qué pena, voy tarde."
+      ]
+    },
+    "en": {
+      "greet": [
+        "Hi! How's it going?",
+        "Morning! Had your tinto yet?",
+        "Hey, good to see you!",
+        "Hola! How are you?",
+        "Hey there, did you do the Ciclovía?"
+      ],
+      "reply": [
+        "Good, thanks! You?",
+        "Great, I just had ajiaco.",
+        "Not bad, still getting used to the altitude.",
+        "All good, gracias!",
+        "Doing well, a bit cold though."
+      ],
+      "sunny": [
+        "Sunny morning, but I'm still bringing a jacket.",
+        "Clear day, you can see the mountains.",
+        "Nice day, let's walk up to Monserrate.",
+        "Sun's out, Parque Simón Bolívar will be busy.",
+        "Warm for once, enjoy it while it lasts."
+      ],
+      "rain": [
+        "Bring an umbrella, it rains every afternoon.",
+        "It's hailing again, can you believe it?",
+        "Rain and traffic, I'll be late.",
+        "Cold and wet, perfect for a hot chocolate with cheese.",
+        "Four seasons in one day, classic Bogotá."
+      ],
+      "bye": [
+        "See you later!",
+        "Take care!",
+        "Chao!",
+        "Have a good one!",
+        "Catch you later."
+      ],
+      "busy": [
+        "Gotta run, I have a meeting in Chapinero.",
+        "Late, TransMilenio was packed.",
+        "Catching a taxi, talk later!",
+        "Running, my Uber is here.",
+        "Can't stop, see you!"
+      ]
+    }
+  },
+  "transport": {
+    "bus": "bus del SITP",
+    "brt": "TransMilenio",
+    "cable_car": "TransMiCable",
+    "taxi": "taxi",
+    "rideshare": "Uber, DiDi or inDrive",
+    "bike": "cicla",
+    "card": "tarjeta TuLlave",
+    "stage": "paradero"
+  },
+  "touts": [
+    "Próxima estación: Calle 72.",
+    "¡Tinto, aromática!",
+    "¡A la orden, sumercé, a la orden!",
+    "¡Empanadas calienticas!",
+    "¡Obleas, obleas con arequipe!"
+  ],
+  "hawkers": [
+    [
+      "¡Tinto, aromática!",
+      "Black coffee, herbal tea! (from a thermos cart)"
+    ],
+    [
+      "¡Obleas con arequipe!",
+      "Wafers with caramel spread!"
+    ],
+    [
+      "¡Empanadas calienticas!",
+      "Hot empanadas!"
+    ],
+    [
+      "¡A la orden, sumercé, a la orden!",
+      "At your service, what can I get you? (a market stall)"
+    ],
+    [
+      "¡Mazorca asada!",
+      "Grilled corn!"
+    ],
+    [
+      "¡Minutos a celular!",
+      "Phone call minutes for sale!"
+    ]
+  ],
+  "food": {
+    "street": [
+      "obleas",
+      "empanadas",
+      "arepas",
+      "mazorca asada",
+      "salchipapa",
+      "perro caliente",
+      "mango biche con sal y limón",
+      "buñuelos",
+      "almojábanas",
+      "pandebono"
+    ],
+    "dishes": [
+      "ajiaco santafereño",
+      "changua",
+      "tamal con chocolate",
+      "lechona",
+      "bandeja paisa",
+      "sobrebarriga",
+      "caldo de costilla",
+      "chocolate santafereño con queso"
+    ],
+    "drinks": [
+      "tinto",
+      "aromática",
+      "agua de panela",
+      "chocolate caliente",
+      "Colombiana",
+      "Pony Malta",
+      "canelazo"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "La Candelaria",
+      "Chapinero",
+      "Zona Rosa",
+      "Usaquén",
+      "Teusaquillo",
+      "La Macarena",
+      "Chicó",
+      "Quinta Camacho",
+      "Rosales",
+      "Cedritos",
+      "Galerías",
+      "Salitre",
+      "Modelia",
+      "Suba",
+      "Kennedy",
+      "Engativá",
+      "Fontibón",
+      "Bosa",
+      "Ciudad Bolívar",
+      "Las Aguas"
+    ],
+    "streets": [
+      "la Carrera Séptima",
+      "Avenida Caracas",
+      "Avenida Boyacá",
+      "Avenida 68",
+      "Calle 26",
+      "Autopista Norte",
+      "Carrera 15",
+      "Calle 72",
+      "Calle 85",
+      "Avenida Jiménez",
+      "Carrera 11",
+      "Calle 80",
+      "Avenida Circunvalar",
+      "la NQS"
+    ],
+    "landmarks": [
+      "Monserrate",
+      "Plaza de Bolívar",
+      "Museo del Oro",
+      "Museo Botero",
+      "Catedral Primada",
+      "Parque Simón Bolívar",
+      "Torre Colpatria",
+      "Estadio El Campín",
+      "Jardín Botánico",
+      "Plaza de Mercado de Paloquemao",
+      "Mercado de las Pulgas de Usaquén",
+      "Centro Andino",
+      "Universidad Nacional",
+      "Universidad de los Andes",
+      "Parque de la 93",
+      "Biblioteca Virgilio Barco"
+    ]
+  },
+  "small_talk": [
+    "Sunday Ciclovía, half the city is out biking on the closed roads.",
+    "It's sunny now, but bring an umbrella, it'll pour by three.",
+    "I've got pico y placa today, so I'm taking TransMilenio.",
+    "The Caracas line at six in the evening, never again.",
+    "Ajiaco on Sunday at my grandmother's, no excuses.",
+    "Millonarios or Santa Fe? Choose carefully.",
+    "I walked up Monserrate this morning and my legs are dead.",
+    "Changua for breakfast, the only cure for the cold.",
+    "Paloquemao has every fruit you've never heard of.",
+    "Bogotá traffic is no joke, plan two hours for anything."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Bogot%C3%A1",
+    "https://en.wikipedia.org/wiki/Colombian_Spanish",
+    "https://www.transmilenio.gov.co",
+    "https://www.dane.gov.co",
+    "https://www.asale.org/damer/"
+  ]
+}

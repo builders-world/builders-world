@@ -1,0 +1,65 @@
+{
+  "street": { "lg": 0.6, "en": 0.4 },
+  "registers": {},
+  "names": { "weights": { "ganda": 0.6, "nyankole_kiga": 0.25, "acholi": 0.15 } },
+  "phrases": {},
+  "chat": {
+    "en": {
+      "greet": ["Hello! You are lost!", "Well done!", "Good morning, how was the night?", "How are you, boss?", "Hey, how is home?"],
+      "reply": ["I'm fine, and you?", "We are there.", "Fine, fine, how is work?", "I'm okay, just pushing on.", "We are around, thanks."],
+      "sunny": ["The sun is too much today!", "Kampala is so hot, let me first buy water.", "Nice day to roast some muchomo later.", "This sun, even the boda guys are hiding under the trees.", "Clear day, you can see all the hills."],
+      "rain": ["It is raining, everything has stopped.", "Wait for the rain to stop, you can't move in this.", "Jinja Road jam is going to be terrible in this rain.", "Carry an umbrella, Kampala rain doesn't warn you.", "Ah, rain! The boda can wait."],
+      "bye": ["Let me go, we'll talk!", "Okay, sleep well!", "Bye, greet the people at home.", "See you, don't get lost again!", "Safe journey!"],
+      "busy": ["I'm coming, let me first rush to town.", "Sorry, I'm late for work, we'll talk.", "Let me catch that taxi, I'll call you.", "I'm so busy today, let me first finish.", "I'm rushing for a meeting in Nakasero."]
+    },
+    "lg": {
+      "greet": ["Oli otya?", "Wasuze otya nno?", "Gyebale ko ssebo!", "Ki kati, munange?", "Osiibye otya?"],
+      "reply": ["Bulungi, ate ggwe?", "Gyendi, webale.", "Ndi bulungi nnyo.", "Kale, gyebale ko nawe!"],
+      "sunny": ["Leero omusana mungi nnyo!", "Omusana gwaka nnyo leero.", "Obudde bulungi leero.", "Omusana mungi, ka tunywe ku mazzi."],
+      "rain": ["Enkuba etonnya nnyo!", "Enkuba ejja, tugende munda.", "Linda enkuba ekye.", "Leero enkuba nnyingi nnyo."],
+      "bye": ["Weraba!", "Tulabagana enkya!", "Kale, weraba munange!", "Sula bulungi!"],
+      "busy": ["Nnina emirimu mingi leero!", "Ndi mu bwangu, tunaayogera oluvannyuma.", "Linda, nzija!", "Nkeeredde ku mulimu!"]
+    }
+  },
+  "transport": { "bus": "taxi", "moto_taxi": "boda boda", "tricycle": "", "taxi": "special hire", "conductor": "conductor", "stage": "stage" },
+  "touts": ["Ntinda, Ntinda! Tugende!", "Kireka, Kireka, one more!", "Entebbe, Entebbe, tugende!", "Nansana, Nansana!", "Kansanga, Kabalagala!", "Wandegeya, Kalerwe, Kawempe!", "Mukono, Mukono, we're leaving!", "Boss, boda? Tugende!"],
+  "hawkers": [
+    ["Rolex! Hot rolex!", "Chapati rolled with fried egg!"],
+    ["Gonja, gonja!", "Roasted plantain!"],
+    ["Nsenene! Nsenene!", "Fried grasshoppers!"],
+    ["Amazzi! Amazzi!", "Water! Water!"],
+    ["Muchomo! Muchomo!", "Grilled meat on sticks!"],
+    ["Kasooli!", "Roasted maize!"],
+    ["Airtime, airtime!", "Phone credit!"]
+  ],
+  "food": {
+    "street": ["rolex", "kikomando", "gonja", "muchomo", "nsenene", "sambusa", "kabalagala", "chapati", "roasted kasooli"],
+    "dishes": ["matooke", "luwombo", "posho and beans", "groundnut sauce", "katogo", "malewa", "fish stew", "pilau"],
+    "drinks": ["African tea", "milk tea", "passion juice", "bushera", "ginger tea", "mango juice"]
+  },
+  "places": {
+    "neighbourhoods": ["Kololo", "Nakasero", "Ntinda", "Kabalagala", "Kansanga", "Muyenga", "Wandegeya", "Bukoto", "Kamwokya", "Makindye", "Nsambya", "Kawempe", "Rubaga", "Mengo", "Naguru", "Bugolobi", "Kireka", "Najjera"],
+    "streets": ["Kampala Road", "Jinja Road", "Entebbe Road", "Bombo Road", "Acacia Avenue", "Yusuf Lule Road", "Kira Road", "Ggaba Road", "Luwum Street", "Kyaggwe Road"],
+    "landmarks": ["Old Taxi Park", "New Taxi Park", "Owino Market", "Nakasero Market", "Uganda Museum", "Kasubi Tombs", "Makerere University", "Independence Monument", "Namboole Stadium", "Garden City", "Acacia Mall", "Lubiri"]
+  },
+  "small_talk": [
+    "The jam on Jinja Road this morning, eh!",
+    "It started raining so the whole town just stopped.",
+    "Let me first get a rolex before work.",
+    "Owino is too full today, you can't even pass.",
+    "The taxi from Ntinda took an hour to reach town.",
+    "Nsenene season is here, they are selling them everywhere.",
+    "Kampala has many hills and I think I walked up all of them today.",
+    "The boda guy wanted to charge me double because of the rain.",
+    "Power went off in our area again last night."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Kampala",
+    "https://en.wikipedia.org/wiki/Boda_boda",
+    "https://en.wikipedia.org/wiki/Share_taxi",
+    "https://en.wikipedia.org/wiki/Rolex_(food)",
+    "https://en.wikipedia.org/wiki/Luganda",
+    "https://en.wikipedia.org/wiki/Ugandan_English",
+    "https://en.wikipedia.org/wiki/Kasubi_Tombs"
+  ]
+}

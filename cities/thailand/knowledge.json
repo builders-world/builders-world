@@ -1,0 +1,96 @@
+{
+  "languages": [
+    { "code": "th", "name": "Thai", "official": true, "spoken": "widely" },
+    { "code": "en", "name": "English", "official": false, "spoken": "in business, tech and tourism" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Thais carry a given name and a family name, given first. Family names only came in with the Surname Act of 1913, and each new surname had to be unique to its family, so they are long, often Pali or Sanskrit in origin (Wongsawat, Srisuk) and two strangers rarely share one. People are addressed by the given name with Khun in front, never by the family name. Almost everyone also has a short childhood nickname (chue len), often an English word or a single sound (Bank, Ploy, Nok, Mint), and that is what friends, colleagues and vendors use, with Phi or Nong in front by age. Many Thai Chinese families kept a Sae- surname from their clan (Saetang, Saelim), though most took Thai surnames, sometimes built on the clan name (Tangsakul). The 'also' lists are common nicknames.",
+    "groups": {
+      "thai": {
+        "given": {
+          "m": ["Somchai", "Somsak", "Prasert", "Wichai", "Anan", "Thanawat", "Kittipong", "Natthapong", "Chaiwat", "Pongsakorn", "Sompong", "Surachai", "Apichart", "Teerapat", "Jirayu", "Phongphat"],
+          "f": ["Siriporn", "Suda", "Malee", "Nittaya", "Kanokwan", "Pornthip", "Wanida", "Sunisa", "Ratchanee", "Chanida", "Supaporn", "Napaporn", "Pimchanok", "Kamonwan", "Thanyarat"]
+        },
+        "family": ["Srisuk", "Wongsawat", "Saengthong", "Boonmee", "Rattanakorn", "Chaiyaporn", "Suksawat", "Thongdee", "Jaidee", "Kaewmanee", "Phromma", "Srisawat", "Charoenrat", "Siriwat", "Bunyasiri"],
+        "also": {
+          "m": ["Bank", "Golf", "Beam", "Tong", "Boy", "Ton", "Nat", "Big", "Ball", "Oat", "Tum", "Pond"],
+          "f": ["Ploy", "Nok", "Mint", "Fon", "Pim", "Fah", "Joy", "Bee", "Noon", "May", "Ice", "Nan"]
+        }
+      },
+      "thai_chinese": {
+        "given": {
+          "m": ["Wiroj", "Sutham", "Chatchai", "Narong", "Somkiat", "Weerachai", "Pichai", "Kittisak", "Thanakorn", "Peerapat", "Sakda", "Worawit"],
+          "f": ["Wilai", "Jintana", "Rungnapa", "Sasithorn", "Duangjai", "Pranee", "Orawan", "Kanyarat", "Pattama", "Supattra", "Nuchanart", "Arunee"]
+        },
+        "family": ["Saetang", "Saelim", "Saeung", "Saeheng", "Saechua", "Saelee", "Saetae", "Saekow", "Tangsakul", "Limsakul", "Tangtrakul", "Wongwattana", "Kittiwong"],
+        "also": {
+          "m": ["Guy", "Tee", "Jack", "Max", "Benz", "Tor", "Arm", "Film", "Kong", "Nut", "Top", "Pete"],
+          "f": ["Toey", "Mai", "Gift", "Bow", "Kwan", "Aom", "Praew", "Fern", "Nina", "Ying", "Prae", "Jane"]
+        }
+      }
+    },
+    "weights": { "thai": 0.8, "thai_chinese": 0.2 }
+  },
+  "honorifics": {
+    "elder_m": "Lung",
+    "elder_f": "Pa",
+    "peer_m": "Phi",
+    "peer_f": "Phi",
+    "boss": "Hua na",
+    "polite": "Khun",
+    "younger": "Nong",
+    "older_brother_sino": "Hia",
+    "older_sister_sino": "Je"
+  },
+  "phrases": {
+    "th": {
+      "hello": [["Sawatdee khrap", "Hello, said by a man (สวัสดีครับ)"], ["Sawatdee kha", "Hello, said by a woman (สวัสดีค่ะ)"]],
+      "morning": [["Arun sawat khrap", "Good morning, formal (อรุณสวัสดิ์); most people just say sawatdee"], ["Sawatdeeton chao kha", "Good morning (สวัสดีตอนเช้าค่ะ)"]],
+      "evening": [["Sawatdee khrap", "Good evening; sawatdee works at any hour (สวัสดีครับ)"], ["Ratri sawat kha", "Good night, formal (ราตรีสวัสดิ์ค่ะ)"]],
+      "how_are_you": [["Sabai dee mai khrap?", "Are you well? (สบายดีไหมครับ)"], ["Pen yangngai bang kha?", "How are things? (เป็นยังไงบ้างคะ)"], ["Kin khao rue yang?", "Have you eaten yet? (กินข้าวหรือยัง), an everyday greeting"]],
+      "fine": [["Sabai dee khrap", "I'm fine, said by a man (สบายดีครับ)"], ["Sabai dee kha", "I'm fine, said by a woman (สบายดีค่ะ)"], ["Kor rueai rueai", "Same as usual, so-so (ก็เรื่อยๆ)"]],
+      "thanks": [["Khop khun khrap", "Thank you, said by a man (ขอบคุณครับ)"], ["Khop khun kha", "Thank you, said by a woman (ขอบคุณค่ะ)"], ["Khop jai na", "Thanks, to someone younger (ขอบใจนะ)"]],
+      "bye": [["Pai gon na khrap", "I'm off now (ไปก่อนนะครับ)"], ["Laeo jer gan kha", "See you (แล้วเจอกันค่ะ)"], ["La gon", "Goodbye, formal (ลาก่อน)"], ["Chok dee na", "Good luck, take care (โชคดีนะ)"]],
+      "welcome": [["Yindee tonrap", "Welcome (ยินดีต้อนรับ)"], ["Choen khrap", "Please, come in (เชิญครับ)"]],
+      "sorry": [["Kho thot khrap", "Sorry, said by a man (ขอโทษครับ)"], ["Kho thot kha", "Sorry, said by a woman (ขอโทษค่ะ)"], ["Mai pen rai", "Never mind, no worries (ไม่เป็นไร)"]],
+      "excuse": [["Kho thot kha", "Excuse me (ขอโทษค่ะ)"], ["Kho thang noi khrap", "Excuse me, coming through (ขอทางหน่อยครับ)"]],
+      "yes": [["Khrap", "Yes, said by a man (ครับ)"], ["Kha", "Yes, said by a woman (ค่ะ)"], ["Chai", "That's right (ใช่)"]],
+      "no": [["Mai chai", "No, that's not it (ไม่ใช่)"], ["Mai ao khrap", "No thanks, I don't want it (ไม่เอาครับ)"], ["Mai mi", "There isn't any (ไม่มี)"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"], ["Hi", "Hi"]],
+      "morning": [["Good morning", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["Fine, thank you", "Fine, thank you"], ["Same same", "About the same, in Thai English"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Bye bye", "Goodbye"], ["See you", "See you"]],
+      "welcome": [["Welcome", "Welcome"]],
+      "sorry": [["Sorry", "Sorry"], ["No problem", "Never mind"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"], ["OK", "OK"]],
+      "no": [["No", "No"], ["No have", "There isn't any, in Thai English"]]
+    }
+  },
+  "money": {
+    "currency": "THB",
+    "symbol": "฿",
+    "words": [
+      ["baht", "the currency (บาท)"],
+      ["satang", "a hundredth of a baht (สตางค์)"],
+      ["bai khiao", "a green note, 20 baht (ใบเขียว)"],
+      ["bai daeng", "a red note, 100 baht (ใบแดง)"],
+      ["bai muang", "a purple note, 500 baht (ใบม่วง)"],
+      ["phan", "a thousand (พัน)"],
+      ["muen", "ten thousand (หมื่น)"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Thai_name",
+    "https://en.wikipedia.org/wiki/Thai_language",
+    "https://en.wikipedia.org/wiki/Thai_Chinese",
+    "https://en.wikipedia.org/wiki/Royal_Thai_General_System_of_Transcription",
+    "https://en.wikipedia.org/wiki/Thai_baht"
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "street": { "lt": 0.7, "ru": 0.1, "pl": 0.08, "en": 0.12 },
+  "names": {
+    "weights": { "lithuanian": 0.66, "polish": 0.14, "russian": 0.1, "belarusian": 0.05, "ukrainian": 0.05 }
+  },
+  "phrases": {
+    "lt": {
+      "hello": [
+        ["Labukas!", "Hiya!"]
+      ],
+      "bye": [
+        ["Iki, susirašom!", "Bye, let's message!"]
+      ]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Labas! How are you?", "Morning! Coffee yet?", "Hey, long time!", "Hi there, all good?", "Sveiki! How's the week?"],
+      "reply": ["Good, ačiū! You?", "Fine, can't complain.", "All good, busy week.", "Pretty well, thanks!", "Normal, all fine."],
+      "sunny": ["Lovely day, let's walk by the Neris.", "Sun's out, coffee in Užupis?", "Perfect day for the Bernardine Garden.", "Finally summer!", "The balloons will be over the Old Town tonight, I bet."],
+      "rain": ["Raining again, take an umbrella.", "Sleet again, careful on the cobbles.", "Awful weather today.", "Grey day, stay in with a book.", "It's pouring, I'll get a Bolt."],
+      "bye": ["Iki!", "Viso gero!", "See you!", "Have a good day!", "Take care!"],
+      "busy": ["Sorry, my trolleybus is here!", "Got a meeting, talk later!", "In a hurry, iki!", "Have to run, I'll call you later!", "Busy day, coffee tomorrow?"]
+    },
+    "lt": {
+      "greet": ["Labas! Kaip sekasi?", "Sveiki! Kaip gyvenate?", "Labas rytas! Jau gėrei kavos?", "O, labas! Seniai matėm!", "Labukas! Kas naujo?"],
+      "reply": ["Gerai, ačiū! O tau?", "Normaliai, nesiskundžiu.", "Viskas gerai, ačiū.", "Puikiai! Ačiū, kad klausi."],
+      "sunny": ["Kokia graži diena!", "Einam pasivaikščioti prie Neries?", "Saulė! Pagaliau vasara.", "Puikus oras kavai Užupyje."],
+      "rain": ["Vėl lyja, pasiimk skėtį.", "Šiandien baisus oras.", "Vėl šlapdriba.", "Lyja kaip iš kibiro."],
+      "bye": ["Iki!", "Viso gero!", "Iki pasimatymo!", "Geros dienos!", "Iki, susirašom!"],
+      "busy": ["Atsiprašau, mano troleibusas jau atvažiuoja!", "Turiu susitikimą, pakalbėsim vėliau!", "Skubu, iki!", "Turiu bėgti, paskambinsiu!"]
+    },
+    "ru": {
+      "greet": ["Привет! Как дела?", "Здравствуйте! Как вы?", "Доброе утро! Кофе уже пил?", "О, привет! Сто лет не виделись!"],
+      "reply": ["Нормально, спасибо! А у тебя?", "Хорошо, всё в порядке.", "Да ничего, потихоньку.", "Отлично, спасибо!"],
+      "sunny": ["Какая сегодня хорошая погода!", "Пошли гулять у Нерис, солнце!", "Наконец-то тепло!", "Отличный день для кофе в Ужуписе."],
+      "rain": ["Опять дождь, бери зонтик.", "Погода сегодня ужасная.", "Снова мокрый снег.", "Льёт как из ведра."],
+      "bye": ["Пока!", "До свидания!", "Увидимся!", "Хорошего дня!"],
+      "busy": ["Извини, мой троллейбус уже идёт!", "У меня встреча, созвонимся позже!", "Спешу, пока!", "Надо бежать, позвоню!"]
+    },
+    "pl": {
+      "greet": ["Cześć! Jak się masz?", "Dzień dobry! Co słychać?", "O, cześć! Dawno się nie widzieliśmy!", "Dzień dobry, jak zdrowie?"],
+      "reply": ["Dobrze, dziękuję! A ty?", "W porządku, dzięki.", "Po staremu, nie narzekam.", "Wszystko dobrze!"],
+      "sunny": ["Jaka piękna pogoda dziś!", "Słońce! Chodźmy na spacer nad Wilię.", "Wreszcie ciepło!", "Idealny dzień na kawę na Starówce."],
+      "rain": ["Znowu pada, weź parasol.", "Okropna pogoda dziś.", "Znowu deszcz ze śniegiem.", "Leje jak z cebra."],
+      "bye": ["Cześć!", "Do widzenia!", "Na razie!", "Miłego dnia!"],
+      "busy": ["Przepraszam, mój trolejbus już jedzie!", "Mam spotkanie, pogadamy później!", "Spieszę się, cześć!", "Muszę lecieć, zadzwonię!"]
+    }
+  },
+  "transport": {
+    "bus": "autobusas",
+    "moto_taxi": "elektrinis paspirtukas",
+    "tricycle": "krovininis dviratis",
+    "taxi": "taksi",
+    "conductor": "kontrolierius",
+    "stage": "stotelė",
+    "trolleybus": "troleibusas",
+    "train": "traukinys",
+    "ride_hail": "Bolt"
+  },
+  "touts": ["Stotelė: Katedros aikštė. Kita stotelė: Žaliasis tiltas.", "Šviežios braškės, lietuviškos!", "A busker on Pilies gatvė playing the kanklės.", "Świeże ogórki, tanio!", "Karšti kibinai, ką tik iškepti!", "Riestainiai! Kaziuko mugės riestainiai!"],
+  "hawkers": [
+    ["Šviežios braškės!", "Fresh strawberries!"],
+    ["Karšti kibinai!", "Hot kibinai pastries!"],
+    ["Rūkytas sūris!", "Smoked cheese!"],
+    ["Lietuviška duona!", "Lithuanian rye bread!"],
+    ["Świeże ogórki!", "Fresh cucumbers! (Polish)"],
+    ["Мёд, свой мёд!", "Honey, our own honey! (Russian)"]
+  ],
+  "food": {
+    "street": ["kepta duona", "kibinai", "čeburėkai", "spurgos", "šaltibarščiai", "riestainiai", "blynai"],
+    "dishes": ["cepelinai", "šaltibarščiai", "kugelis", "vėdarai", "balandėliai", "koldūnai", "šakotis", "skruzdėlynas", "juoda duona"],
+    "drinks": ["gira", "kava", "alus", "kefyras", "trauktinė", "arbata", "midus"]
+  },
+  "places": {
+    "neighbourhoods": ["Senamiestis", "Užupis", "Naujamiestis", "Žvėrynas", "Šnipiškės", "Antakalnis", "Žirmūnai", "Fabijoniškės", "Pašilaičiai", "Pilaitė", "Paupys", "Naujininkai", "Lukiškės"],
+    "streets": ["Gedimino prospektas", "Pilies gatvė", "Didžioji gatvė", "Vokiečių gatvė", "Užupio gatvė", "Konstitucijos prospektas", "Vilniaus gatvė", "Pylimo gatvė", "Kalvarijų gatvė", "Totorių gatvė", "Stiklių gatvė"],
+    "landmarks": ["Katedros aikštė", "Gedimino pilies bokštas", "Aušros vartai", "Šv. Onos bažnyčia", "Užupio angelas", "Trys kryžiai", "Televizijos bokštas", "Halės turgus", "Bernardinų sodas", "Lukiškių aikštė", "Vilniaus universitetas", "Europos aikštė"]
+  },
+  "small_talk": ["Gedimino prospektas was closed again for some event.", "Užupis Republic Day is on the first of April, are you going?", "Kaziukas fair is this weekend, I need my riestainiai.", "Trolleybus 2 was packed this morning.", "The hot-air balloons are out over the Old Town again.", "Cepelinai for lunch? I'll need a nap after.", "Šaltibarščiai season, the pink soup is back.", "From the new towers in Šnipiškės you can see the whole Old Town.", "Bolt or the trolleybus? It's raining."],
+  "sources": ["https://en.wikipedia.org/wiki/Vilnius", "https://en.wikipedia.org/wiki/Lithuanian_cuisine", "https://en.wikipedia.org/wiki/Užupis", "https://osp.stat.gov.lt/"]
+}

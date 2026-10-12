@@ -1,0 +1,92 @@
+{
+  "street": { "en": 0.74, "es": 0.09, "yue": 0.07, "zh": 0.04, "tl": 0.03, "vi": 0.02, "ko": 0.01 },
+  "registers": {},
+  "names": {
+    "weights": {
+      "american": 0.42,
+      "chinese": 0.21,
+      "latino": 0.16,
+      "filipino": 0.05,
+      "african_american": 0.05,
+      "indian": 0.03,
+      "vietnamese": 0.02,
+      "korean": 0.02,
+      "iranian": 0.01
+    }
+  },
+  "phrases": {
+    "en": {
+      "hello": [["Hey, what's up?", "Hello"]],
+      "fine": [["Hella good", "Very good (Bay Area)"], ["Doing good", "Fine"]],
+      "bye": [["Later!", "See you later"]]
+    },
+    "yue": {
+      "bye": [["得閒飲茶！", "Let's have dim sum sometime! A friendly goodbye (dak haan jam caa)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hey! How's it going?", "Morning! Did the fog lift yet?", "What's up? Long time!", "Hey, good to see you!", "Oh hey, how have you been?"],
+      "reply": ["Hella good, thanks.", "Pretty good, Muni actually showed up.", "Doing good, just busy at work.", "All good, you?", "Can't complain, it's sunny for once."],
+      "sunny": ["Sun's out, everybody's in Dolores Park.", "Finally warm, I can take off my jacket.", "Gorgeous out, the bridge looks amazing today.", "It's actually hot in the Mission today.", "Clear day, you can see all the way to Mount Tam."],
+      "rain": ["Atmospheric river this week, stay dry.", "It's pouring, the hills are slippery.", "Rain and wind, so much for my bike commute.", "Karl the Fog is back with friends today.", "It's drizzling sideways off the ocean."],
+      "bye": ["Later!", "Take care, bring a jacket.", "See you around!", "Have a good one!", "Catch you later, let's get burritos."],
+      "busy": ["Gotta run, my BART is in two minutes.", "Can't stop, I'm late for standup in SoMa.", "Running to catch the N, talk later!", "I've got a pitch meeting, wish me luck.", "Heading to Caltrain, see you!"]
+    },
+    "es": {
+      "greet": ["¡Buenos días! ¿Cómo está?", "¿Qué onda? ¿Cómo andas?", "¡Hola! ¿Qué tal todo?", "¡Buenas! ¿Cómo le va?"],
+      "reply": ["Bien, gracias, ¿y usted?", "Aquí, trabajando.", "Todo bien.", "Echándole ganas."],
+      "sunny": ["¡Qué bonito día!", "Por fin salió el sol.", "Hoy hace calorcito en la Misión.", "Buen día para ir al parque."],
+      "rain": ["Está lloviendo fuerte.", "Hace mucho frío con esta neblina.", "Traiga su chamarra, hace frío.", "Cuidado, el piso está mojado."],
+      "bye": ["¡Nos vemos!", "Cuídese.", "Que le vaya bien.", "Hasta luego."],
+      "busy": ["Voy tarde al trabajo.", "Tengo que agarrar el BART, ¡bye!", "Ando con prisa, luego hablamos.", "Voy a recoger a los niños."]
+    },
+    "yue": {
+      "greet": ["早晨！食咗早餐未呀？", "你好呀，最近點呀？", "好耐冇見！", "早晨，今日好凍呀。"],
+      "reply": ["幾好，唔該。", "都OK，有啲忙。", "好好呀，你呢？", "麻麻地啦。"],
+      "sunny": ["今日天氣好好呀。", "難得出太陽！", "今日好熱呀。", "天氣咁好，去公園行下。"],
+      "rain": ["落雨喇，記得帶遮。", "落緊大雨呀。", "今日好大霧。", "又落雨，好凍呀。"],
+      "bye": ["拜拜！", "再見，慢慢行。", "遲啲見！", "得閒飲茶！"],
+      "busy": ["唔好意思，我趕時間。", "我要返工喇，拜拜！", "我趕巴士，遲啲傾。", "我好忙呀，下次再傾。"]
+    }
+  },
+  "transport": { "bus": "Muni bus", "metro": "Muni Metro", "train": "BART", "commuter_train": "Caltrain", "cable_car": "cable car", "ferry": "the ferry", "taxi": "cab", "rideshare": "Uber, Lyft or a Waymo", "bike": "Bay Wheels", "stage": "Muni stop" },
+  "touts": ["Alcatraz tickets, boat leaving soon!", "Fresh crab, cooked right here!", "Cable car, hold on tight, here we go!", "Next stop, Powell Street.", "Burritos, tacos, come on in!"],
+  "hawkers": [
+    ["Fresh Dungeness crab!", "A crab stand at Fisherman's Wharf"],
+    ["¡Tamales, tamales!", "A tamale seller in the Mission"],
+    ["Bacon-wrapped hot dogs!", "A cart outside a Giants game"],
+    ["Flowers, fresh flowers!", "A flower stand on a downtown corner"],
+    ["叉燒包！熱辣辣！", "Barbecue pork buns, piping hot! (A Chinatown bakery)"]
+  ],
+  "food": {
+    "street": ["a Mission burrito", "bacon-wrapped hot dogs", "tamales", "barbecue pork buns", "egg tarts", "sourdough bread"],
+    "dishes": ["dim sum", "clam chowder in a sourdough bowl", "Dungeness crab", "cioppino", "garlic noodles", "lumpia", "pho on Larkin Street", "Mission-style tacos"],
+    "drinks": ["Irish coffee", "pour-over coffee", "boba", "horchata", "milk tea"]
+  },
+  "places": {
+    "neighbourhoods": ["the Mission", "SoMa", "Chinatown", "North Beach", "Haight-Ashbury", "the Castro", "Nob Hill", "Russian Hill", "the Marina", "Pacific Heights", "the Outer Sunset", "the Richmond", "Bayview", "the Tenderloin", "Hayes Valley", "the Excelsior", "Japantown", "Dogpatch"],
+    "streets": ["Market Street", "Mission Street", "Valencia Street", "Grant Avenue", "Stockton Street", "Columbus Avenue", "Haight Street", "Castro Street", "Geary Boulevard", "Clement Street", "Irving Street", "Lombard Street", "Divisadero Street", "24th Street", "Van Ness Avenue", "the Embarcadero"],
+    "landmarks": ["the Golden Gate Bridge", "the Bay Bridge", "Alcatraz", "Coit Tower", "the Ferry Building", "Golden Gate Park", "Dolores Park", "Twin Peaks", "the Painted Ladies", "Oracle Park", "Chase Center", "Salesforce Tower", "Pier 39", "Sutro Tower", "Ocean Beach", "the Dragon Gate", "the Palace of Fine Arts"]
+  },
+  "small_talk": [
+    "It's sunny in the Mission and freezing in the Sunset, classic.",
+    "I saw three Waymos at one stop sign this morning.",
+    "BART was packed, I had to let two trains go.",
+    "Everyone at the cafe was pitching their startup.",
+    "Never wear shorts to the Golden Gate Bridge, trust me.",
+    "The fog rolled in at four o'clock right on schedule.",
+    "Best burrito in the Mission, go.",
+    "Rent here is wild, my studio costs more than my parents' house.",
+    "Got dim sum on Clement Street, way better than downtown.",
+    "Took the cable car once, never again, I'll walk up the hill."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/San_Francisco",
+    "https://en.wikipedia.org/wiki/Demographics_of_San_Francisco",
+    "https://www.sfmta.com",
+    "https://www.bart.gov",
+    "https://en.wikipedia.org/wiki/Chinatown,_San_Francisco",
+    "https://www.census.gov/quickfacts/"
+  ]
+}

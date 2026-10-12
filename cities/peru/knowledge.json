@@ -1,0 +1,738 @@
+{
+  "languages": [
+    {
+      "code": "es",
+      "name": "Spanish",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "qu",
+      "name": "Quechua",
+      "official": true,
+      "spoken": "some"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "some"
+    }
+  ],
+  "names": {
+    "order": "given family family",
+    "conventions": "Two surnames, father's first and mother's second (Fiorella Quispe Rojas), both used on the DNI and at school. Peruvians are fond of Italian-sounding first names (Piero, Renzo, Fiorella, Gianella, Brunella) and of compound names. Families from the Andes, who make up a large share of Lima, often carry Quechua or Aymara surnames: Quispe, Mamani, Huamán and Condori are among the most common in the country. Lima also has old Chinese-Peruvian (tusán) families with names like Wong and Chang, Japanese-Peruvian (Nikkei) families, many of Okinawan origin (Higa, Shimabukuro), and a large new Venezuelan community.",
+    "groups": {
+      "peruvian": {
+        "given": {
+          "m": [
+            "Luis",
+            "José",
+            "Carlos",
+            "Jorge",
+            "César",
+            "Miguel",
+            "Juan",
+            "Víctor",
+            "Raúl",
+            "Alberto",
+            "Manuel",
+            "Renzo",
+            "Piero",
+            "Gonzalo",
+            "Diego",
+            "Sebastián",
+            "Mateo",
+            "Thiago"
+          ],
+          "f": [
+            "María",
+            "Rosa",
+            "Ana",
+            "Carmen",
+            "Lucía",
+            "Milagros",
+            "Rocío",
+            "Karina",
+            "Fiorella",
+            "Valeria",
+            "Claudia",
+            "Pamela",
+            "Gianella",
+            "Brunella",
+            "Camila",
+            "Ximena",
+            "Luciana",
+            "Mía"
+          ]
+        },
+        "family": [
+          "Rodríguez",
+          "García",
+          "Sánchez",
+          "Flores",
+          "Rojas",
+          "Díaz",
+          "Torres",
+          "Chávez",
+          "Vásquez",
+          "Ramírez",
+          "Castillo",
+          "Mendoza",
+          "Gutiérrez",
+          "Espinoza",
+          "Vargas",
+          "Ramos",
+          "Cruz",
+          "Salazar",
+          "Paredes",
+          "Romero",
+          "Reyes",
+          "Herrera",
+          "Medina",
+          "Aguilar",
+          "Castro",
+          "Ruiz",
+          "Silva",
+          "Morales",
+          "Delgado",
+          "Palacios",
+          "Cáceres",
+          "Ríos",
+          "Zapata",
+          "Valdivia",
+          "Benavides"
+        ]
+      },
+      "andean": {
+        "given": {
+          "m": [
+            "Juan",
+            "José",
+            "Luis",
+            "Wilber",
+            "Edwin",
+            "Percy",
+            "Hugo",
+            "Rubén",
+            "Teodoro",
+            "Fredy",
+            "Yuri",
+            "Elmer",
+            "Alex"
+          ],
+          "f": [
+            "María",
+            "Rosa",
+            "Juana",
+            "Lidia",
+            "Nely",
+            "Flor",
+            "Marleny",
+            "Yolanda",
+            "Elena",
+            "Gladys",
+            "Maribel",
+            "Nilda",
+            "Sonia"
+          ]
+        },
+        "family": [
+          "Quispe",
+          "Mamani",
+          "Huamán",
+          "Condori",
+          "Chambi",
+          "Ticona",
+          "Choque",
+          "Huanca",
+          "Yupanqui",
+          "Apaza",
+          "Ccahuana",
+          "Sulca",
+          "Paucar",
+          "Taipe",
+          "Poma",
+          "Inga",
+          "Coaquira",
+          "Pari",
+          "Cusi",
+          "Layme"
+        ]
+      },
+      "chinese_peruvian": {
+        "given": {
+          "m": [
+            "Carlos",
+            "Luis",
+            "Jorge",
+            "Alfredo",
+            "Víctor",
+            "Eduardo",
+            "Fernando",
+            "Martín",
+            "Ricardo",
+            "Javier",
+            "Miguel",
+            "Roberto"
+          ],
+          "f": [
+            "Rosa",
+            "Ana",
+            "Patricia",
+            "Carmen",
+            "Mónica",
+            "Lucía",
+            "Cecilia",
+            "Liliana",
+            "Susana",
+            "Erika",
+            "Jenny",
+            "Yolanda"
+          ]
+        },
+        "family": [
+          "Wong",
+          "Chang",
+          "Chong",
+          "Lau",
+          "Chu",
+          "León",
+          "Chiang",
+          "Siu",
+          "Ly",
+          "Fung",
+          "Lam",
+          "Tam",
+          "Kong",
+          "Chiong",
+          "Yong",
+          "Chen"
+        ]
+      },
+      "japanese_peruvian": {
+        "given": {
+          "m": [
+            "Kenji",
+            "Hiroshi",
+            "Takeshi",
+            "Jorge",
+            "Carlos",
+            "Luis",
+            "Alberto",
+            "Víctor",
+            "Eduardo",
+            "Óscar",
+            "Javier",
+            "Ricardo"
+          ],
+          "f": [
+            "Yumi",
+            "Akemi",
+            "Emi",
+            "Naomi",
+            "Sachi",
+            "Ana",
+            "Rosa",
+            "Patricia",
+            "Lucía",
+            "Mónica",
+            "Cecilia",
+            "Elena"
+          ]
+        },
+        "family": [
+          "Higa",
+          "Shimabukuro",
+          "Arakaki",
+          "Yamashiro",
+          "Nakamura",
+          "Kanashiro",
+          "Oshiro",
+          "Tamashiro",
+          "Uchima",
+          "Miyashiro",
+          "Tanaka",
+          "Yamamoto",
+          "Kiyan",
+          "Chinen",
+          "Teruya",
+          "Matsuda"
+        ]
+      },
+      "venezuelan": {
+        "given": {
+          "m": [
+            "José",
+            "Luis",
+            "Carlos",
+            "Jesús",
+            "Miguel",
+            "Alejandro",
+            "Jorge",
+            "Daniel",
+            "Andrés",
+            "Gabriel",
+            "Rafael",
+            "Héctor",
+            "Johan"
+          ],
+          "f": [
+            "María",
+            "Daniela",
+            "Andrea",
+            "Gabriela",
+            "Mariana",
+            "Valentina",
+            "Carolina",
+            "Andreína",
+            "Génesis",
+            "Oriana",
+            "Fabiola",
+            "Yuliana",
+            "Rosángela"
+          ]
+        },
+        "family": [
+          "González",
+          "Rodríguez",
+          "Pérez",
+          "Hernández",
+          "García",
+          "Martínez",
+          "López",
+          "Díaz",
+          "Rondón",
+          "Briceño",
+          "Contreras",
+          "Colmenares",
+          "Villalobos",
+          "Uzcátegui",
+          "Pacheco",
+          "Rivas",
+          "Medina",
+          "Marcano",
+          "Guevara",
+          "Sánchez"
+        ]
+      }
+    },
+    "weights": {
+      "peruvian": 0.6,
+      "andean": 0.3,
+      "venezuelan": 0.06,
+      "chinese_peruvian": 0.025,
+      "japanese_peruvian": 0.015
+    }
+  },
+  "honorifics": {
+    "elder_m": "Señor",
+    "elder_f": "Señora",
+    "peer_m": "Causa",
+    "peer_f": "Amiga",
+    "boss": "Jefe"
+  },
+  "phrases": {
+    "es": {
+      "hello": [
+        [
+          "¡Hola!",
+          "Hello!"
+        ],
+        [
+          "¿Qué tal?",
+          "How's it going?"
+        ],
+        [
+          "¡Habla!",
+          "Hey! What's up? (Lima)"
+        ]
+      ],
+      "morning": [
+        [
+          "Buenos días",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Buenas tardes",
+          "Good afternoon"
+        ],
+        [
+          "Buenas noches",
+          "Good evening, good night"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "¿Cómo estás?",
+          "How are you?"
+        ],
+        [
+          "¿Cómo está usted?",
+          "How are you? (polite)"
+        ],
+        [
+          "¿Todo bien?",
+          "All good?"
+        ]
+      ],
+      "fine": [
+        [
+          "Bien, gracias",
+          "Fine, thanks"
+        ],
+        [
+          "Todo bien",
+          "All good"
+        ],
+        [
+          "Ahí, tranquilo",
+          "Fine, taking it easy"
+        ]
+      ],
+      "thanks": [
+        [
+          "Gracias",
+          "Thank you"
+        ],
+        [
+          "Muchas gracias",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Chau",
+          "Bye"
+        ],
+        [
+          "Nos vemos",
+          "See you"
+        ],
+        [
+          "Cuídate",
+          "Take care"
+        ]
+      ],
+      "welcome": [
+        [
+          "Bienvenido",
+          "Welcome"
+        ],
+        [
+          "Pase, pase",
+          "Come in, come in"
+        ]
+      ],
+      "sorry": [
+        [
+          "Perdón",
+          "Sorry"
+        ],
+        [
+          "Disculpa",
+          "Sorry, excuse me"
+        ]
+      ],
+      "excuse": [
+        [
+          "Permiso",
+          "Excuse me, coming through"
+        ],
+        [
+          "Disculpe",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Sí",
+          "Yes"
+        ],
+        [
+          "Ya",
+          "Okay"
+        ],
+        [
+          "Claro",
+          "Of course"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ],
+        [
+          "No, gracias",
+          "No, thank you"
+        ]
+      ]
+    },
+    "qu": {
+      "hello": [
+        [
+          "Allillanchu?",
+          "Hello, are you well?"
+        ],
+        [
+          "Rimaykullayki",
+          "I greet you (respectful)"
+        ]
+      ],
+      "morning": [
+        [
+          "Allin p'unchay",
+          "Good day, good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Allin tuta",
+          "Good evening, good night"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Imaynallam kachkanki?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Allinllam",
+          "I'm well"
+        ],
+        [
+          "Allinllam, qamri?",
+          "I'm well, and you?"
+        ]
+      ],
+      "thanks": [
+        [
+          "Sulpayki",
+          "Thank you (Ayacucho)"
+        ],
+        [
+          "Añay",
+          "Thank you (Cusco)"
+        ]
+      ],
+      "bye": [
+        [
+          "Tupananchikkama",
+          "Until we meet again"
+        ]
+      ],
+      "welcome": [
+        [
+          "Allin hamusqayki",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Pampachaway",
+          "Forgive me"
+        ]
+      ],
+      "excuse": [
+        [
+          "Ama hina kaspa",
+          "Please"
+        ]
+      ],
+      "yes": [
+        [
+          "Arí",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Manam",
+          "No"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hey!",
+          "Hello"
+        ],
+        [
+          "Hi there!",
+          "Hello"
+        ],
+        [
+          "What's up?",
+          "Hi, how are things?"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning!",
+          "Good morning"
+        ],
+        [
+          "Mornin'!",
+          "Morning!"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ],
+        [
+          "Evening!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How's it going?",
+          "How are you?"
+        ],
+        [
+          "How are you doing?",
+          "How are you?"
+        ],
+        [
+          "How you doin'?",
+          "How are you? (casual)"
+        ]
+      ],
+      "fine": [
+        [
+          "Good, thanks!",
+          "Fine, thanks"
+        ],
+        [
+          "Not bad",
+          "Fine"
+        ],
+        [
+          "Can't complain",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks!",
+          "Thank you"
+        ],
+        [
+          "Thank you so much",
+          "Thank you very much"
+        ],
+        [
+          "Appreciate it",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "See you later!",
+          "Goodbye"
+        ],
+        [
+          "Take care!",
+          "Goodbye"
+        ],
+        [
+          "Have a good one!",
+          "Have a good day"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome!",
+          "Welcome"
+        ],
+        [
+          "Come on in!",
+          "Please come in"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry!",
+          "Sorry"
+        ],
+        [
+          "My bad",
+          "Sorry, my fault"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ],
+        [
+          "Pardon me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yeah",
+          "Yes"
+        ],
+        [
+          "Sure",
+          "Yes, of course"
+        ],
+        [
+          "Yep",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Nope",
+          "No"
+        ],
+        [
+          "No, thanks",
+          "No, thank you"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "PEN",
+    "symbol": "S/",
+    "words": [
+      [
+        "luca",
+        "a sol"
+      ],
+      [
+        "china",
+        "a 50 céntimo coin"
+      ],
+      [
+        "sencillo",
+        "small change"
+      ],
+      [
+        "plata",
+        "money"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Peruvian_Spanish",
+    "https://en.wikipedia.org/wiki/Southern_Quechua",
+    "https://en.wikipedia.org/wiki/Spanish_naming_customs",
+    "https://en.wikipedia.org/wiki/Chinese_Peruvians",
+    "https://en.wikipedia.org/wiki/Japanese_Peruvians",
+    "https://www.inei.gob.pe",
+    "https://www.gob.pe/reniec"
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "street": { "gsw": 0.62, "de": 0.13, "en": 0.2, "it": 0.05 },
+  "names": { "weights": { "swiss": 0.58, "german": 0.12, "italian": 0.08, "albanian": 0.07, "portuguese": 0.06, "bks": 0.05, "turkish": 0.04 } },
+  "phrases": {
+    "gsw": {
+      "hello": [["Grüezi mitenand", "Hello, everyone (polite)"], ["Hoi zäme", "Hi, all"]],
+      "fine": [["Alles guet", "All good"], ["Passt", "Fine"]],
+      "bye": [["Tschau zäme", "Bye, everyone"], ["En schöne Feierabe", "Enjoy your evening after work"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! Busy day?", "Hey, how are you?", "Hoi! Good weekend?", "Hello! Coming to the lake after work?", "Hi, haven't seen you since the Street Parade!"],
+      "reply": ["Good, thanks, you?", "All fine, just back from the mountains.", "Not bad, a bit tired.", "Pretty good, the tram was on time, as always.", "Great, I spent Sunday on the Uetliberg."],
+      "sunny": ["Lake weather! See you at the Badi.", "Föhn today, the Alps look close enough to touch.", "Everyone's floating down the Limmat today.", "Perfect day for a Feierabend beer by the lake.", "The whole city is at the Seebad."],
+      "rain": ["Raining again, grab an umbrella.", "Grey over the lake, good day for the Kunsthaus.", "It's pouring on Bahnhofstrasse.", "Fog on the lake again, typical autumn.", "Wet one today, the Badis will be empty."],
+      "bye": ["Tschau!", "See you later!", "Have a good one!", "Take care!", "Enjoy your Feierabend!"],
+      "busy": ["Sorry, I need to catch the tram!", "Running late for a meeting.", "Can't stop, my S-Bahn is in two minutes.", "In a rush, see you!", "Got a call, talk later!"]
+    },
+    "gsw": {
+      "greet": ["Grüezi mitenand!", "Hoi! Wie gaht's?", "Sali zäme!", "Hoi, lang nüm gseh!", "Grüezi, wie gaht's Ihne?"],
+      "reply": ["Guet, merci, und dir?", "Es gaht, vill z'tue.", "Super, merci vilmal!", "Nöd schlecht, bitz müed.", "Alles guet, danke."],
+      "sunny": ["Hüt isch es mega schön!", "Bi däm Wätter gömmer go schwümme.", "Am See hät's hüt vill Lüüt.", "Perfekt für es Feierabe-Bier am See.", "Hüt gsehsch d'Alpe vom Uetliberg."],
+      "rain": ["Es schiffet scho wieder.", "Nimm en Schirm mit, es rägnet.", "Hüt isch es gruusig dusse.", "So es Hudelwätter hüt.", "Bi däm Wätter blib ich dihei."],
+      "bye": ["Uf Widerluege!", "Tschau zäme!", "Ade, bis bald!", "En schöne Abig no!"],
+      "busy": ["Sorry, ich muess s'Tram verwütsche!", "Ich ha kei Ziit, bis spöter!", "Ich bin scho z'spaat, tschau!", "Ich muess anes Meeting, ade!"]
+    },
+    "de": {
+      "greet": ["Guten Morgen! Wie geht's?", "Hallo, alles gut?", "Hi, lange nicht gesehen!", "Hallo! Schönes Wochenende gehabt?", "Guten Tag, wie geht es Ihnen?"],
+      "reply": ["Gut, danke! Und dir?", "Alles gut, viel zu tun.", "Ganz okay, bisschen müde.", "Super, war am Wochenende in den Bergen.", "Danke, sehr gut."],
+      "sunny": ["Endlich Sonne!", "Heute ist der See bestimmt voll.", "Bei Föhn sieht man heute die Alpen.", "Perfektes Wetter zum Schwimmen in der Limmat.", "So ein schöner Tag!"],
+      "rain": ["Schon wieder Regen.", "Nimm lieber einen Schirm mit.", "Nebel über dem See, typisch Herbst.", "Es regnet schon den ganzen Tag.", "Bei dem Wetter bleib ich drinnen."],
+      "bye": ["Tschüss!", "Bis später!", "Schönen Feierabend!", "Schönen Tag noch!", "Auf Wiedersehen!"],
+      "busy": ["Sorry, ich muss los, mein Tram kommt!", "Keine Zeit, ich bin spät dran.", "Ich hab gleich ein Meeting, bis später!", "Ich bin in Eile, wir hören uns!", "Muss weiter, tschüss!"]
+    },
+    "it": {
+      "greet": ["Ciao! Come stai?", "Buongiorno! Tutto bene?", "Ciao, quanto tempo!", "Ehi, come va?"],
+      "reply": ["Bene, grazie, e tu?", "Tutto a posto, tanto lavoro.", "Non c'è male, un po' stanco.", "Benissimo, grazie!"],
+      "sunny": ["Che bella giornata oggi!", "Con questo sole andiamo al lago.", "Oggi si vedono le Alpi!", "Tempo perfetto per un aperitivo al lago."],
+      "rain": ["Piove di nuovo.", "Prendi l'ombrello, piove forte.", "Che tempo grigio oggi.", "Con questa pioggia resto a casa."],
+      "bye": ["Ciao, ci vediamo!", "A presto!", "Buona serata!", "Arrivederci!"],
+      "busy": ["Scusa, devo prendere il tram!", "Sono in ritardo, ci sentiamo!", "Non ho tempo, ho una riunione!", "Devo scappare, ciao!"]
+    }
+  },
+  "transport": {
+    "bus": "Bus",
+    "moto_taxi": "E-Trottinett",
+    "tricycle": "Cargo-Velo",
+    "taxi": "Taxi",
+    "conductor": "Kontrolleur",
+    "stage": "Haltestelle",
+    "tram": "Tram",
+    "train": "S-Bahn",
+    "ferry": "Zürichsee-Schiff",
+    "funicular": "Polybahn",
+    "bike_share": "Züri Velo",
+    "ride_hail": "Uber"
+  },
+  "touts": [
+    "Nächster Halt: Paradeplatz.",
+    "Achtung am Gleis 7, ein Zug fährt durch.",
+    "Billettkontrolle, Ihre Billette bitte.",
+    "Surprise, s'Strassemagazin, merci vilmal!",
+    "Grüezi mitenand, es chliises Lied für Sie, merci für jede Batze.",
+    "Frischi Chriesi, probiered Sie!"
+  ],
+  "hawkers": [
+    ["Heissi Marroni!", "Hot chestnuts!"],
+    ["Frischi Chriesi, s'Kilo für füf Franke!", "Fresh cherries, five francs a kilo!"],
+    ["Surprise, s'Strassemagazin!", "Surprise, the street magazine!"],
+    ["Probiered Sie de Bergchäs!", "Try the mountain cheese!"],
+    ["Bratwurst und Bürli!", "Bratwurst and a crusty roll!"]
+  ],
+  "food": {
+    "street": ["Kalbsbratwurst mit Bürli", "Heissi Marroni", "Raclette at the market", "Döner", "Gipfeli", "Schoggi"],
+    "dishes": ["Zürcher Geschnetzeltes mit Rösti", "Fondue", "Raclette", "Älplermagronen", "Birchermüesli", "Cordon bleu"],
+    "drinks": ["Rivella", "Kafi Crème", "Ovomaltine", "Süessmost", "Panaché", "Glühwein"]
+  },
+  "places": {
+    "neighbourhoods": ["Altstadt", "Niederdorf", "Kreis 4", "Zürich-West", "Wiedikon", "Seefeld", "Oerlikon", "Enge", "Wipkingen", "Hottingen", "Aussersihl", "Altstetten"],
+    "streets": ["Bahnhofstrasse", "Langstrasse", "Limmatquai", "Niederdorfstrasse", "Badenerstrasse", "Seefeldstrasse", "Rämistrasse", "Hardstrasse", "Josefstrasse", "Universitätstrasse"],
+    "landmarks": ["Grossmünster", "Fraumünster", "Hauptbahnhof", "Lindenhof", "Uetliberg", "Prime Tower", "Zürichsee", "Bellevue", "Opernhaus", "ETH Zürich", "Kunsthaus", "Paradeplatz"]
+  },
+  "small_talk": [
+    "The Limmat was full of people floating down to the Letten.",
+    "The tram to ETH was packed with students again.",
+    "Seebad Enge after work?",
+    "Sechseläuten is next week, let's see how fast the Böögg burns.",
+    "Six francs for a coffee, Zurich prices again.",
+    "Föhn today, the Alps look close enough to touch.",
+    "Street Parade weekend, the whole lake shore is packed.",
+    "Bratwurst from the Sternen Grill at Bellevue?",
+    "My Halbtax has already paid for itself this year."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Zurich",
+    "https://en.wikipedia.org/wiki/Z%C3%BCrich_German",
+    "https://www.stadt-zuerich.ch/",
+    "https://www.zvv.ch/"
+  ]
+}

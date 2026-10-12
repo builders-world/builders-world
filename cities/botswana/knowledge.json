@@ -1,0 +1,72 @@
+{
+  "languages": [
+    { "code": "tn", "name": "Setswana", "official": false, "spoken": "widely" },
+    { "code": "en", "name": "English", "official": true, "spoken": "widely" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Most Batswana carry a Setswana name with a meaning, often a whole sentence or a thanks: Kagiso (peace), Lesedi (light), Onalenna (He is with us), Kealeboga (I am grateful), Oratile (He loves us). Many of these names are given to boys and girls alike. Alongside it people often have an English or Christian first name (Grace, Godfrey), and either may be the one they go by. Surnames come from the father's line and are mostly Setswana words or the name of a forebear (Molefe, Modise, Kgosidintsi). People are greeted with Rra (sir) and Mma (madam), and a mother is often called Mma plus her first child's name. Ikalanga is the other big home language, mostly in the north east around Francistown; its names are not yet listed here.",
+    "groups": {
+      "tswana": {
+        "given": {
+          "m": ["Kagiso", "Thabo", "Tumelo", "Kabelo", "Tshepo", "Kgosi", "Oarabile", "Kitso", "Tebogo", "Katlego", "Goitseone", "Tshiamo", "Mpho", "Kealeboga", "Onkarabile", "Lesego"],
+          "f": ["Lorato", "Masego", "Boitumelo", "Kelebogile", "Bonolo", "Keabetswe", "Lesedi", "Onalenna", "Neo", "Gaone", "Amogelang", "Naledi", "Refilwe", "Dineo", "Oratile", "Tlotlo"]
+        },
+        "family": ["Molefe", "Mosweu", "Kgosidintsi", "Moeti", "Sebina", "Tshekiso", "Mogapi", "Kebonang", "Moatlhodi", "Setlhare", "Gaolathe", "Molosiwa", "Modise", "Mothibi", "Mokgosi", "Pheto", "Seleka"],
+        "also": {
+          "m": ["Godfrey", "Bernard", "Moses", "Duncan", "Kelvin", "Oscar", "Lesley", "Edwin", "Patrick", "Joseph"],
+          "f": ["Grace", "Patience", "Mercy", "Lillian", "Tracy", "Precious", "Joyce", "Gladys", "Bridget", "Faith"]
+        }
+      }
+    },
+    "weights": { "tswana": 1.0 }
+  },
+  "honorifics": { "elder_m": "Rra", "elder_f": "Mma", "peer_m": "Tsala", "peer_f": "Tsala", "boss": "Rra" },
+  "phrases": {
+    "tn": {
+      "hello": [["Dumela!", "Hello!"], ["Dumela rra!", "Hello, sir!"], ["Dumela mma!", "Hello, madam!"], ["Dumelang!", "Hello, everyone!"]],
+      "morning": [["O tsogile jang?", "Good morning (How did you wake up?)"], ["Le tsogile jang?", "Good morning, all of you"]],
+      "evening": [["O tlhotse jang?", "Good evening (How has your day been?)"], ["Robala sentle", "Good night, sleep well"]],
+      "how_are_you": [["O kae?", "How are you?"], ["Le kae?", "How are you all?"], ["O tsogile jang?", "How are you this morning?"]],
+      "fine": [["Ke teng", "I'm fine"], ["Ke tsogile sentle", "I woke up well"], ["Re teng", "We're fine"]],
+      "thanks": [["Ke a leboga", "Thank you"], ["Ke a leboga rra", "Thank you, sir"], ["Ke a leboga mma", "Thank you, madam"]],
+      "bye": [["Sala sentle", "Stay well (said by the one leaving)"], ["Tsamaya sentle", "Go well (said by the one staying)"], ["Re tla bonana", "We'll see each other"]],
+      "welcome": [["O amogetswe", "Welcome (to one person)"], ["Le amogetswe", "Welcome (to several)"]],
+      "sorry": [["Maitshwarelo", "Sorry"], ["Ke kopa tshwarelo", "I'm sorry, please forgive me"]],
+      "excuse": [["Intshwarele", "Excuse me"]],
+      "yes": [["Ee", "Yes"], ["Ee rra", "Yes, sir"], ["Ee mma", "Yes, madam"]],
+      "no": [["Nnyaa", "No"]]
+    },
+    "en": {
+      "hello": [["Hello!", "Hello!"], ["Hi!", "Hi!"]],
+      "morning": [["Good morning", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["Fine, thanks", "Fine, thanks"], ["I'm well", "I'm well"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Goodbye", "Goodbye"], ["See you", "See you"]],
+      "welcome": [["Welcome", "Welcome"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "BWP",
+    "symbol": "P",
+    "words": [
+      ["pula", "the currency; the word also means rain, and is a cheer and a blessing"],
+      ["thebe", "a hundredth of a pula"],
+      ["sekete", "a thousand (pula)"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Tswana_language",
+    "https://en.wikipedia.org/wiki/Languages_of_Botswana",
+    "https://en.wikipedia.org/wiki/Tswana_people",
+    "https://en.wikipedia.org/wiki/Kalanga_language",
+    "https://en.wikipedia.org/wiki/Botswana_pula",
+    "https://www.omniglot.com/language/phrases/tswana.php"
+  ]
+}

@@ -1,0 +1,632 @@
+{
+  "languages": [
+    {
+      "code": "da",
+      "name": "Danish",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "widely"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Given name then family name, often with a middle name. Most Danes carry a -sen surname (Nielsen, Jensen, Hansen) frozen from old patronymics, so many add or switch to a more distinctive name such as Møller, Holm or Lund. First names come from an official list of approved names. Everyone is on first-name terms, bosses and elders included, and 'du' is used with almost everybody. Danes with Turkish, Arab, Kurdish, Pakistani, Polish or Somali roots usually keep family names from their parents' language; Polish women's surnames end in -ska where men's end in -ski.",
+    "groups": {
+      "danish": {
+        "given": {
+          "m": [
+            "Mads",
+            "Rasmus",
+            "Mikkel",
+            "Frederik",
+            "Christian",
+            "Martin",
+            "Jesper",
+            "Anders",
+            "Søren",
+            "Thomas",
+            "Kasper",
+            "Jonas",
+            "Lars",
+            "Peter",
+            "Morten",
+            "Emil",
+            "Mathias",
+            "Henrik"
+          ],
+          "f": [
+            "Anne",
+            "Mette",
+            "Camilla",
+            "Louise",
+            "Sofie",
+            "Ida",
+            "Maria",
+            "Line",
+            "Signe",
+            "Julie",
+            "Emma",
+            "Sara",
+            "Kirsten",
+            "Hanne",
+            "Pernille",
+            "Trine",
+            "Cecilie",
+            "Freja"
+          ]
+        },
+        "family": [
+          "Nielsen",
+          "Jensen",
+          "Hansen",
+          "Pedersen",
+          "Andersen",
+          "Christensen",
+          "Larsen",
+          "Sørensen",
+          "Rasmussen",
+          "Jørgensen",
+          "Petersen",
+          "Madsen",
+          "Kristensen",
+          "Olsen",
+          "Thomsen",
+          "Poulsen",
+          "Møller",
+          "Mortensen"
+        ]
+      },
+      "middle_eastern": {
+        "given": {
+          "m": [
+            "Ahmad",
+            "Mohammad",
+            "Ali",
+            "Omar",
+            "Hassan",
+            "Hussein",
+            "Khaled",
+            "Yousef",
+            "Karim",
+            "Bilal",
+            "Rami",
+            "Sami",
+            "Mustafa",
+            "Ibrahim",
+            "Reza",
+            "Amir"
+          ],
+          "f": [
+            "Fatima",
+            "Sara",
+            "Mariam",
+            "Aya",
+            "Nour",
+            "Layla",
+            "Rania",
+            "Hiba",
+            "Yasmin",
+            "Amira",
+            "Zainab",
+            "Dina",
+            "Shirin",
+            "Roza",
+            "Zahra"
+          ]
+        },
+        "family": [
+          "Hassan",
+          "Ali",
+          "Ahmad",
+          "Mohammad",
+          "Hussein",
+          "Abdullah",
+          "Ibrahim",
+          "Khalil",
+          "Saleh",
+          "Mahmoud",
+          "Haddad",
+          "Osman",
+          "Yousef",
+          "Karimi",
+          "Ahmadi",
+          "Hosseini"
+        ]
+      },
+      "turkish": {
+        "given": {
+          "m": [
+            "Mehmet",
+            "Mustafa",
+            "Ahmet",
+            "Ali",
+            "Hüseyin",
+            "Hasan",
+            "Murat",
+            "Emre",
+            "Burak",
+            "Serkan",
+            "Kemal",
+            "Ömer",
+            "Yusuf",
+            "Volkan",
+            "Kadir"
+          ],
+          "f": [
+            "Ayşe",
+            "Fatma",
+            "Emine",
+            "Zeynep",
+            "Elif",
+            "Merve",
+            "Esra",
+            "Derya",
+            "Özlem",
+            "Gül",
+            "Hatice",
+            "Selin",
+            "Büşra",
+            "Sevgi"
+          ]
+        },
+        "family": [
+          "Yılmaz",
+          "Kaya",
+          "Demir",
+          "Şahin",
+          "Çelik",
+          "Yıldız",
+          "Yıldırım",
+          "Öztürk",
+          "Aydın",
+          "Özdemir",
+          "Arslan",
+          "Doğan",
+          "Kılıç",
+          "Aslan",
+          "Polat",
+          "Koç"
+        ]
+      },
+      "polish": {
+        "given": {
+          "m": [
+            "Piotr",
+            "Krzysztof",
+            "Tomasz",
+            "Paweł",
+            "Michał",
+            "Marcin",
+            "Kamil",
+            "Jakub",
+            "Łukasz",
+            "Mateusz",
+            "Adam",
+            "Marek",
+            "Grzegorz",
+            "Bartosz"
+          ],
+          "f": [
+            "Anna",
+            "Katarzyna",
+            "Magdalena",
+            "Agnieszka",
+            "Joanna",
+            "Monika",
+            "Aleksandra",
+            "Natalia",
+            "Karolina",
+            "Ewa",
+            "Justyna",
+            "Paulina",
+            "Marta",
+            "Dorota"
+          ]
+        },
+        "family": [
+          "Nowak",
+          "Kowalski",
+          "Wiśniewski",
+          "Wójcik",
+          "Kowalczyk",
+          "Kamiński",
+          "Lewandowski",
+          "Zieliński",
+          "Szymański",
+          "Woźniak",
+          "Dąbrowski",
+          "Kozłowski",
+          "Mazur",
+          "Jankowski"
+        ],
+        "family_f": [
+          "Nowak",
+          "Kowalska",
+          "Wiśniewska",
+          "Wójcik",
+          "Kowalczyk",
+          "Kamińska",
+          "Lewandowska",
+          "Zielińska",
+          "Szymańska",
+          "Woźniak",
+          "Dąbrowska",
+          "Kozłowska",
+          "Mazur",
+          "Jankowska"
+        ]
+      },
+      "pakistani": {
+        "given": {
+          "m": [
+            "Muhammad",
+            "Ali",
+            "Usman",
+            "Bilal",
+            "Imran",
+            "Asif",
+            "Faisal",
+            "Kamran",
+            "Tariq",
+            "Zeeshan",
+            "Adnan",
+            "Hamza",
+            "Shahid",
+            "Waqas"
+          ],
+          "f": [
+            "Ayesha",
+            "Fatima",
+            "Sana",
+            "Hina",
+            "Saima",
+            "Nadia",
+            "Rabia",
+            "Sadia",
+            "Amna",
+            "Mehwish",
+            "Zainab",
+            "Iqra",
+            "Shazia",
+            "Maryam"
+          ]
+        },
+        "family": [
+          "Khan",
+          "Ahmed",
+          "Hussain",
+          "Malik",
+          "Butt",
+          "Chaudhry",
+          "Raja",
+          "Mirza",
+          "Qureshi",
+          "Sheikh",
+          "Iqbal",
+          "Shah",
+          "Javed",
+          "Akhtar"
+        ]
+      },
+      "somali": {
+        "given": {
+          "m": [
+            "Abdi",
+            "Mohamed",
+            "Ahmed",
+            "Abdirahman",
+            "Abdullahi",
+            "Hassan",
+            "Ismail",
+            "Yusuf",
+            "Omar",
+            "Ali",
+            "Mahad",
+            "Liban",
+            "Farah",
+            "Hamza"
+          ],
+          "f": [
+            "Hodan",
+            "Amina",
+            "Fadumo",
+            "Hawa",
+            "Sahra",
+            "Ayan",
+            "Ifrah",
+            "Hibo",
+            "Nimco",
+            "Asha",
+            "Khadra",
+            "Sagal",
+            "Ubah",
+            "Filsan"
+          ]
+        },
+        "family": [
+          "Mohamed",
+          "Ahmed",
+          "Hassan",
+          "Abdi",
+          "Ali",
+          "Omar",
+          "Farah",
+          "Warsame",
+          "Jama",
+          "Osman",
+          "Hussein",
+          "Ismail",
+          "Nur",
+          "Aden",
+          "Yusuf"
+        ]
+      }
+    },
+    "weights": {
+      "danish": 0.8,
+      "middle_eastern": 0.06,
+      "turkish": 0.04,
+      "polish": 0.04,
+      "pakistani": 0.03,
+      "somali": 0.03
+    }
+  },
+  "honorifics": {
+    "elder_m": "hr.",
+    "elder_f": "fru",
+    "peer_m": "makker",
+    "peer_f": "søde",
+    "boss": "chef",
+    "titles": {
+      "with": "none"
+    }
+  },
+  "phrases": {
+    "da": {
+      "hello": [
+        [
+          "Hej",
+          "Hi"
+        ],
+        [
+          "Hej hej",
+          "Hi there"
+        ],
+        [
+          "Goddag",
+          "Good day (formal)"
+        ]
+      ],
+      "morning": [
+        [
+          "Godmorgen",
+          "Good morning"
+        ],
+        [
+          "Morn",
+          "Morning (casual)"
+        ]
+      ],
+      "evening": [
+        [
+          "Godaften",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Hvordan går det?",
+          "How's it going?"
+        ],
+        [
+          "Hvad så?",
+          "What's up?"
+        ]
+      ],
+      "fine": [
+        [
+          "Det går fint",
+          "It's going fine"
+        ],
+        [
+          "Godt, tak",
+          "Good, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Tak",
+          "Thanks"
+        ],
+        [
+          "Mange tak",
+          "Many thanks"
+        ],
+        [
+          "Tak for sidst",
+          "Thanks for last time"
+        ]
+      ],
+      "bye": [
+        [
+          "Hej hej",
+          "Bye"
+        ],
+        [
+          "Vi ses",
+          "See you"
+        ],
+        [
+          "Farvel",
+          "Goodbye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Velkommen",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Undskyld",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Undskyld mig",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Ja",
+          "Yes"
+        ],
+        [
+          "Jo",
+          "Yes (answering a negative)"
+        ]
+      ],
+      "no": [
+        [
+          "Nej",
+          "No"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hi",
+          "Hi"
+        ],
+        [
+          "Hello",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Morning!",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you?",
+          "How are you?"
+        ],
+        [
+          "How's it going?",
+          "How's it going?"
+        ]
+      ],
+      "fine": [
+        [
+          "Fine, thanks",
+          "Fine, thanks"
+        ],
+        [
+          "All good",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks",
+          "Thanks"
+        ],
+        [
+          "Thank you",
+          "Thank you"
+        ]
+      ],
+      "bye": [
+        [
+          "Bye",
+          "Bye"
+        ],
+        [
+          "See you",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ],
+        [
+          "Yeah",
+          "Yeah"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "DKK",
+    "symbol": "kr.",
+    "words": [
+      [
+        "en hund",
+        "a hundred kroner, in slang"
+      ],
+      [
+        "en halvtredser",
+        "a fifty-krone note"
+      ],
+      [
+        "øre",
+        "a hundredth of a krone, now only in prices"
+      ],
+      [
+        "MobilePay",
+        "the phone app everyone uses to pay friends back"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Danish_language",
+    "https://en.wikipedia.org/wiki/Demographics_of_Denmark",
+    "https://www.dst.dk/en",
+    "https://en.wikipedia.org/wiki/List_of_most_common_surnames_in_Europe",
+    "https://en.wikipedia.org/wiki/List_of_most_popular_given_names"
+  ]
+}

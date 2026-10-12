@@ -1,0 +1,360 @@
+{
+  "street": {
+    "es": 0.55,
+    "paisa": 0.43,
+    "en": 0.02
+  },
+  "registers": {
+    "paisa": {
+      "name": "Paisa",
+      "about": "Medellín's warm, sing-song Spanish: vos instead of tú, pues at the end of everything, parce, ¡ave María!, hágale, bacano, melo, and plenty of mijo and mija."
+    }
+  },
+  "names": {
+    "weights": {
+      "paisa": 0.68,
+      "andino": 0.12,
+      "venezuelan": 0.1,
+      "pacifico": 0.1
+    }
+  },
+  "phrases": {
+    "paisa": {
+      "hello": [
+        [
+          "¿Qué más pues, parce?",
+          "What's up then, mate?"
+        ],
+        [
+          "¡Quiubo pues!",
+          "Hey there!"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "¿Cómo vas, mijo?",
+          "How's it going, my friend?"
+        ]
+      ],
+      "fine": [
+        [
+          "Bien, bien, ¿y vos?",
+          "Good, good, and you?"
+        ],
+        [
+          "Bacano",
+          "Cool"
+        ],
+        [
+          "Melo",
+          "Great (paisa slang)"
+        ]
+      ],
+      "yes": [
+        [
+          "Hágale pues",
+          "Go for it, sure"
+        ],
+        [
+          "De una",
+          "Sure, right away"
+        ],
+        [
+          "Listo pues",
+          "Okay then"
+        ]
+      ],
+      "excuse": [
+        [
+          "Ay, qué pena con usted",
+          "Oh, sorry to bother you"
+        ]
+      ],
+      "bye": [
+        [
+          "Nos pillamos",
+          "See you around"
+        ],
+        [
+          "Chao pues",
+          "Bye then"
+        ]
+      ]
+    }
+  },
+  "chat": {
+    "es": {
+      "greet": [
+        "¡Buenos días! ¿Cómo está?",
+        "¡Hola! ¿Cómo le ha ido?",
+        "Buenas tardes, ¿cómo amaneció?",
+        "¡Qué alegría verlo! ¿Cómo está la familia?",
+        "¡Hola! ¿Qué más?"
+      ],
+      "reply": [
+        "Muy bien, gracias, ¿y usted?",
+        "Bien, gracias a Dios.",
+        "Ahí vamos, trabajando.",
+        "Todo bien, gracias por preguntar.",
+        "Muy bien, con mucho trabajo."
+      ],
+      "sunny": [
+        "¡Qué día tan bonito, la eterna primavera!",
+        "Hace calorcito, tómese un jugo.",
+        "Buen día para subir a Santa Elena.",
+        "Qué sol tan rico, ideal para el parque.",
+        "Hoy está haciendo calor en el centro."
+      ],
+      "rain": [
+        "Se vino el aguacero de la tarde.",
+        "Lleve sombrilla, que va a llover.",
+        "Con esta lluvia la Regional se pone imposible.",
+        "Cayó un aguacero tremendo.",
+        "Ese aguacero me cogió en la calle."
+      ],
+      "bye": [
+        "Chao, que le vaya bien.",
+        "Nos vemos, cuídese mucho.",
+        "Saludos a la familia.",
+        "Que Dios lo acompañe.",
+        "Hasta luego, que esté muy bien."
+      ],
+      "busy": [
+        "Qué pena, voy tarde para el trabajo.",
+        "Me toca coger el metro, nos vemos.",
+        "Voy para una reunión en El Poblado.",
+        "Voy de afán, hablamos ahorita.",
+        "Tengo que recoger a los niños."
+      ]
+    },
+    "paisa": {
+      "greet": [
+        "¿Qué más pues, parce?",
+        "¡Quiubo pues, mijo! ¿Cómo vas?",
+        "¡Eh, ave María, tanto tiempo!",
+        "¿Bien o qué, parcero?"
+      ],
+      "reply": [
+        "Bien, bien, ¿y vos?",
+        "Todo bacano, parce.",
+        "Ahí, camellando pues.",
+        "Melo, parce."
+      ],
+      "sunny": [
+        "¡Qué calor tan berraco, pues!",
+        "Día bacano pa' ir a Guatapé.",
+        "Eh, qué solazo, parce.",
+        "Hágale, vamos por un salpicón."
+      ],
+      "rain": [
+        "Se largó el aguacero, pues.",
+        "Uy, parce, qué palo de agua.",
+        "Con esta lluvia no hay quién salga.",
+        "Ave María, se inundó la calle."
+      ],
+      "bye": [
+        "Nos pillamos, parce.",
+        "Chao pues, cuidate.",
+        "Listo pues, hablamos.",
+        "Hágale, nos vemos."
+      ],
+      "busy": [
+        "Voy de afán, parce.",
+        "Me toca coger el metro, chao pues.",
+        "Estoy camellando, después hablamos.",
+        "Qué pena, voy tarde, pues."
+      ]
+    },
+    "en": {
+      "greet": [
+        "Hi! How's it going?",
+        "Morning! Arepa for breakfast?",
+        "Hey, good to see you!",
+        "Hola! How are you?",
+        "Hey there, how was Guatapé?"
+      ],
+      "reply": [
+        "Good, thanks! You?",
+        "Great, the weather here is perfect.",
+        "Not bad, working from a café in Laureles.",
+        "All good, gracias!",
+        "Doing well, just took the Metrocable up."
+      ],
+      "sunny": [
+        "Another perfect day in the city of eternal spring.",
+        "Sunny and warm, let's go to Parque Arví.",
+        "Gorgeous out, the valley looks green.",
+        "Nice day for a walk on La 70.",
+        "Warm and bright, perfect for a fresh juice."
+      ],
+      "rain": [
+        "Afternoon storm, right on time.",
+        "Bring an umbrella, it pours at four.",
+        "Rain and traffic on Las Palmas, I'll be late.",
+        "Big storm, the whole valley went grey.",
+        "Short heavy rain, it'll be sunny again soon."
+      ],
+      "bye": [
+        "See you later!",
+        "Take care!",
+        "Chao!",
+        "Have a good one!",
+        "Catch you later."
+      ],
+      "busy": [
+        "Gotta run, I have a meeting at Ruta N.",
+        "Late, the metro was packed.",
+        "Catching a taxi, talk later!",
+        "Running, my Uber is here.",
+        "Can't stop, see you!"
+      ]
+    }
+  },
+  "transport": {
+    "metro": "Metro de Medellín",
+    "cable_car": "Metrocable",
+    "tram": "tranvía",
+    "brt": "Metroplús",
+    "bus": "bus",
+    "taxi": "taxi",
+    "rideshare": "Uber, DiDi or inDrive",
+    "bike": "EnCicla",
+    "card": "tarjeta Cívica",
+    "stage": "paradero"
+  },
+  "touts": [
+    "Próxima estación: Parque Berrío.",
+    "¡A la orden, mi amor, a la orden!",
+    "¡Salpicón, salpicón bien frío!",
+    "¡Empanadas, empanaditas!",
+    "¡Tour de la Comuna 13, saliendo ya!"
+  ],
+  "hawkers": [
+    [
+      "¡Salpicón bien frío!",
+      "Cold fruit salad drink!"
+    ],
+    [
+      "¡A la orden, mi amor!",
+      "At your service, dear! (a market stall)"
+    ],
+    [
+      "¡Empanaditas calienticas!",
+      "Hot little empanadas!"
+    ],
+    [
+      "¡Mango biche con sal y limón!",
+      "Green mango with salt and lime!"
+    ],
+    [
+      "¡Arepa de chócolo con quesito!",
+      "Sweet corn arepa with cheese!"
+    ]
+  ],
+  "food": {
+    "street": [
+      "arepa con quesito",
+      "arepa de chócolo",
+      "empanadas",
+      "chorizo con arepa",
+      "buñuelos",
+      "pandequeso",
+      "mango biche",
+      "salpicón",
+      "obleas"
+    ],
+    "dishes": [
+      "bandeja paisa",
+      "frijoles con garra",
+      "sancocho",
+      "mondongo",
+      "chicharrón",
+      "mazamorra con panela",
+      "calentado"
+    ],
+    "drinks": [
+      "tinto",
+      "aguapanela con limón",
+      "mazamorra",
+      "salpicón",
+      "Postobón",
+      "aguardiente antioqueño"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "El Poblado",
+      "Laureles",
+      "Estadio",
+      "Provenza",
+      "Manila",
+      "Belén",
+      "Envigado",
+      "Sabaneta",
+      "Centro",
+      "Comuna 13",
+      "Buenos Aires",
+      "Robledo",
+      "Castilla",
+      "Aranjuez",
+      "Manrique",
+      "Boston",
+      "Prado",
+      "La América",
+      "Floresta",
+      "Santa Elena"
+    ],
+    "streets": [
+      "Avenida El Poblado",
+      "La 70",
+      "Avenida Las Palmas",
+      "Carrera Junín",
+      "Avenida Oriental",
+      "la Regional",
+      "Calle 10",
+      "Avenida 33",
+      "Avenida Nutibara",
+      "La 80",
+      "Avenida Bolivariana",
+      "Paseo Carabobo",
+      "Avenida Ayacucho",
+      "Avenida La Playa"
+    ],
+    "landmarks": [
+      "Plaza Botero",
+      "Pueblito Paisa",
+      "Parque Arví",
+      "Parque Explora",
+      "Jardín Botánico",
+      "Parque de los Deseos",
+      "Parque Lleras",
+      "Estadio Atanasio Girardot",
+      "Museo de Antioquia",
+      "Edificio Coltejer",
+      "las escaleras eléctricas de la Comuna 13",
+      "Parque de los Pies Descalzos",
+      "Plaza Minorista",
+      "Universidad de Antioquia",
+      "Ruta N"
+    ]
+  },
+  "small_talk": [
+    "Twenty-four degrees again today, the city of eternal spring.",
+    "The Feria de las Flores is next week, the silleteros parade is beautiful.",
+    "I took the Metrocable just for the view of the valley.",
+    "Nacional or Medellín? Ask carefully.",
+    "Arepa with every meal, that's the rule at my mother's house.",
+    "La 70 on a Friday night is packed.",
+    "Nobody eats or drinks in the metro, it's the pride of the city.",
+    "The Christmas lights along the river are worth the crowds.",
+    "Half the startups in the city are working out of Ruta N.",
+    "Guatapé this weekend? We can climb the Piedra del Peñol."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Medell%C3%ADn",
+    "https://en.wikipedia.org/wiki/Paisa_Region",
+    "https://en.wikipedia.org/wiki/Colombian_Spanish",
+    "https://www.metrodemedellin.gov.co",
+    "https://www.dane.gov.co"
+  ]
+}

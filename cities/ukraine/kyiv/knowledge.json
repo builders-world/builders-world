@@ -1,0 +1,89 @@
+{
+  "street": { "uk": 0.9, "en": 0.1 },
+  "names": { "weights": { "ukrainian": 0.985, "crimean_tatar": 0.015 } },
+  "phrases": {
+    "uk": {
+      "hello": [["Привіт!", "Hi!"], ["Здоров!", "Hey! (to a mate)"]],
+      "fine": [["Та нормально", "Yeah, fine"], ["Все супер", "All great"]],
+      "fare": [["Передайте за проїзд, будь ласка", "Please pass my fare forward (in a marshrutka)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! Coffee from the van by the metro?", "Hey, how's it going?", "Hi! Long time no see.", "Good to see you. Good weekend?", "Hello! Did you get through the traffic on the bridge?"],
+      "reply": ["Not bad, thanks. Busy week.", "All good, you?", "Pretty good, just tired.", "Fine, thanks for asking!", "Great, I finally found a flat on Podil."],
+      "sunny": ["Gorgeous out. Walk along the Dnipro after work?", "Perfect weather for Trukhaniv Island.", "Sun's out, Andriivskyi Descent will be busy.", "Lovely day, let's sit on a terrace.", "Finally some sun. Lunch in Shevchenko Park?"],
+      "rain": ["Pouring again, grab an umbrella.", "Rain all day, apparently.", "Typical, I left my umbrella at the office.", "Khreshchatyk is one big puddle.", "Rain again. Good day for borshch."],
+      "bye": ["See you!", "Take care!", "Catch you tomorrow.", "Have a good one!", "Bye, say hi to everyone."],
+      "busy": ["Sorry, running for the metro!", "Can't stop, meeting in five.", "Late for a call, talk later!", "Got to dash, my Uklon is here.", "Busy day, catch you after work?"]
+    },
+    "uk": {
+      "greet": ["Привіт! Як справи?", "Добрий день! Як ся маєте?", "Доброго ранку! Каву будеш?", "Здоров! Давно не бачились!", "Привіт, що нового?"],
+      "reply": ["Все добре, дякую. А в тебе?", "Потроху, багато роботи.", "Чудово, дякую!", "Та нормально, як завжди."],
+      "sunny": ["Яка погода! Ходімо на набережну.", "Сонце! Може, на Труханів острів?", "Гарний день, щоб пройтися Андріївським узвозом.", "Тепло, нарешті! Посидимо на терасі?"],
+      "rain": ["Знову дощ, візьми парасольку.", "Ллє як з відра!", "Такий дощ, на Хрещатику калюжі.", "Погода сьогодні не дуже, сиджу вдома з чаєм."],
+      "bye": ["Бувай!", "До побачення!", "На все добре!", "До зустрічі!", "Гарного дня!"],
+      "busy": ["Вибач, біжу на метро!", "Не можу зараз, у мене дзвінок.", "Запізнююсь, поговоримо пізніше!", "Поспішаю, маршрутка вже їде!"]
+    }
+  },
+  "transport": {
+    "bus": "автобус (avtobus)",
+    "moto_taxi": "самокат (e-scooter)",
+    "tricycle": "вантажний велосипед (cargo bike)",
+    "taxi": "таксі (taksi)",
+    "conductor": "контролер (kontroler)",
+    "stage": "зупинка (zupynka)",
+    "marshrutka": "маршрутка (marshrutka)",
+    "metro": "метро (metro)",
+    "tram": "трамвай (tramvai)",
+    "trolleybus": "тролейбус (troleibus)",
+    "funicular": "фунікулер (funikuler)",
+    "train": "міська електричка (city train)",
+    "ride_hail": "Uklon"
+  },
+  "touts": [
+    "Обережно, двері зачиняються! Наступна станція: Хрещатик.",
+    "На Троєщину! Сідаємо, відправляємось!",
+    "Передайте за проїзд, будь ласка!",
+    "Наступна зупинка: Контрактова площа.",
+    "(a bandura player busks on Andriivskyi Descent)",
+    "Кава з собою, підходьте!"
+  ],
+  "hawkers": [
+    ["Кава з собою!", "Coffee to go!"],
+    ["Свіжа полуниця!", "Fresh strawberries!"],
+    ["Пиріжки гарячі!", "Hot pies!"],
+    ["Квас, холодний квас!", "Kvass, cold kvass!"],
+    ["Кукурудза варена!", "Boiled corn!"],
+    ["Квіти, тюльпани!", "Flowers, tulips!"]
+  ],
+  "food": {
+    "street": ["шаурма (shaurma)", "пиріжки (pyrizhky)", "чебуреки (chebureky)", "кукурудза (boiled corn)", "кава з собою (coffee from a van)", "деруни (potato pancakes)"],
+    "dishes": ["борщ з пампушками (borshch with garlic buns)", "вареники (varenyky)", "голубці (holubtsi)", "сирники (syrnyky)", "котлета по-київськи (chicken Kyiv)", "банош (banosh)", "холодець (kholodets)", "київський торт (Kyiv cake)"],
+    "drinks": ["кава (coffee)", "чай (tea)", "узвар (uzvar, dried fruit drink)", "квас (kvass)", "горілка (horilka)", "медовуха (mead)"]
+  },
+  "places": {
+    "neighbourhoods": ["Поділ (Podil)", "Печерськ (Pechersk)", "Оболонь (Obolon)", "Лук'янівка (Lukianivka)", "Липки (Lypky)", "Троєщина (Troieshchyna)", "Позняки (Pozniaky)", "Осокорки (Osokorky)", "Святошин (Sviatoshyn)", "Голосіїв (Holosiiv)", "Дарниця (Darnytsia)", "Русанівка (Rusanivka)"],
+    "streets": ["Хрещатик (Khreshchatyk)", "Андріївський узвіз (Andriivskyi Descent)", "Велика Васильківська (Velyka Vasylkivska)", "Ярославів Вал (Yaroslaviv Val)", "Рейтарська (Reitarska)", "бульвар Тараса Шевченка (Shevchenko Boulevard)", "Контрактова площа (Kontraktova Square)", "Саксаганського (Saksahanskoho)", "Сагайдачного (Sahaidachnoho)"],
+    "landmarks": ["Майдан Незалежності (Independence Square)", "Києво-Печерська лавра (Kyiv Pechersk Lavra)", "Софійський собор (St Sophia's)", "Золоті ворота (Golden Gate)", "Батьківщина-мати (Motherland Monument)", "Пішохідний міст (Pedestrian Bridge)", "Фунікулер (Funicular)", "Труханів острів (Trukhaniv Island)", "Мистецький арсенал (Mystetskyi Arsenal)", "ВДНГ (VDNH)", "Пейзажна алея (Peizazhna Alley)", "Національна опера (National Opera)", "станція метро Арсенальна (Arsenalna metro station)"]
+  },
+  "small_talk": [
+    "The escalator at Arsenalna takes forever, it's one of the deepest stations in the world.",
+    "Coffee from the little van by the metro beats any café.",
+    "Podil on a Friday night, every bar is full.",
+    "Let's walk Peizazhna Alley, the kids love the sculptures.",
+    "Saturday market on Kontraktova?",
+    "I took the funicular up to Mykhailivska just for the view.",
+    "The traffic on the Paton Bridge was awful again.",
+    "Hydropark beach is packed when it's this hot.",
+    "My gran still says nobody makes Kyiv cake like they used to.",
+    "VDNH has an ice rink again this winter."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Kyiv",
+    "https://en.wikipedia.org/wiki/Kyiv_Metro",
+    "https://en.wikipedia.org/wiki/Kyiv_Funicular",
+    "https://en.wikipedia.org/wiki/Kyiv_cake",
+    "https://en.wikipedia.org/wiki/Ukrainian_cuisine"
+  ]
+}

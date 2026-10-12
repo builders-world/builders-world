@@ -1,0 +1,1972 @@
+{
+  "languages": [
+    {
+      "code": "en",
+      "name": "English",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "es",
+      "name": "Spanish",
+      "official": false,
+      "spoken": "widely"
+    },
+    {
+      "code": "zh",
+      "name": "Mandarin Chinese",
+      "official": false,
+      "spoken": "some"
+    },
+    {
+      "code": "yue",
+      "name": "Cantonese",
+      "official": false,
+      "spoken": "some"
+    },
+    {
+      "code": "tl",
+      "name": "Tagalog",
+      "official": false,
+      "spoken": "some"
+    },
+    {
+      "code": "vi",
+      "name": "Vietnamese",
+      "official": false,
+      "spoken": "some"
+    },
+    {
+      "code": "ko",
+      "name": "Korean",
+      "official": false,
+      "spoken": "some"
+    },
+    {
+      "code": "hi",
+      "name": "Hindi",
+      "official": false,
+      "spoken": "some"
+    },
+    {
+      "code": "ht",
+      "name": "Haitian Creole",
+      "official": false,
+      "spoken": "some"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Given name first, then the family name, and most people have a middle name too. Family names come from everywhere: English, Irish, German, Italian, Polish and Jewish names among white Americans; mostly English family names among Black Americans, who often carry modern or distinctive first names. Latinos in the US usually go by the father's surname alone (Maria Hernandez), though some keep both. Chinese, Korean, Vietnamese and Filipino Americans very often have an English first name, with the heritage name kept as a middle name or used at home (Kevin Nguyen, Grace Kim). Vietnamese and Korean names are written in Western order here, given name first.",
+    "groups": {
+      "american": {
+        "given": {
+          "m": [
+            "James",
+            "Michael",
+            "John",
+            "David",
+            "William",
+            "Matthew",
+            "Ryan",
+            "Tyler",
+            "Jacob",
+            "Ethan",
+            "Liam",
+            "Noah",
+            "Benjamin",
+            "Daniel",
+            "Andrew",
+            "Christopher",
+            "Connor",
+            "Luke"
+          ],
+          "f": [
+            "Emily",
+            "Sarah",
+            "Jessica",
+            "Ashley",
+            "Megan",
+            "Olivia",
+            "Emma",
+            "Ava",
+            "Madison",
+            "Hannah",
+            "Abigail",
+            "Lauren",
+            "Rachel",
+            "Katie",
+            "Charlotte",
+            "Grace",
+            "Molly",
+            "Claire"
+          ]
+        },
+        "family": [
+          "Smith",
+          "Johnson",
+          "Miller",
+          "Davis",
+          "Wilson",
+          "Anderson",
+          "Taylor",
+          "Moore",
+          "Martin",
+          "Thompson",
+          "Clark",
+          "Lewis",
+          "Walker",
+          "Hall",
+          "Allen",
+          "Young",
+          "King",
+          "Wright",
+          "Baker",
+          "Murphy",
+          "O'Brien",
+          "Sullivan",
+          "Kelly",
+          "Russo",
+          "Romano",
+          "Esposito",
+          "Mueller",
+          "Schmidt",
+          "Nelson",
+          "Olson",
+          "Peterson",
+          "Cohen",
+          "Goldberg",
+          "Friedman",
+          "Kowalski",
+          "Novak"
+        ]
+      },
+      "african_american": {
+        "given": {
+          "m": [
+            "Marcus",
+            "Jamal",
+            "Andre",
+            "Malik",
+            "Darius",
+            "Terrence",
+            "Jordan",
+            "Isaiah",
+            "Elijah",
+            "Cameron",
+            "Xavier",
+            "Brandon",
+            "Jalen",
+            "Devin",
+            "Corey",
+            "Trevon"
+          ],
+          "f": [
+            "Aaliyah",
+            "Imani",
+            "Jasmine",
+            "Kiara",
+            "Destiny",
+            "Tiana",
+            "Brianna",
+            "Jada",
+            "Nia",
+            "Maya",
+            "Kennedy",
+            "Taylor",
+            "Ashley",
+            "Danielle",
+            "Monique",
+            "Jordyn"
+          ]
+        },
+        "family": [
+          "Williams",
+          "Johnson",
+          "Jackson",
+          "Brown",
+          "Jones",
+          "Davis",
+          "Harris",
+          "Robinson",
+          "Washington",
+          "Jefferson",
+          "Thomas",
+          "Moore",
+          "Walker",
+          "Coleman",
+          "Banks",
+          "Freeman",
+          "Mitchell",
+          "Grant",
+          "Carter",
+          "Bell",
+          "Simmons",
+          "Bryant"
+        ]
+      },
+      "latino": {
+        "given": {
+          "m": [
+            "José",
+            "Luis",
+            "Carlos",
+            "Juan",
+            "Jesús",
+            "Miguel",
+            "Ángel",
+            "Daniel",
+            "Alejandro",
+            "Jorge",
+            "Mateo",
+            "Diego",
+            "Santiago",
+            "Adrián",
+            "Eduardo",
+            "Javier"
+          ],
+          "f": [
+            "María",
+            "Guadalupe",
+            "Ana",
+            "Sofía",
+            "Valeria",
+            "Camila",
+            "Ximena",
+            "Daniela",
+            "Gabriela",
+            "Isabella",
+            "Alejandra",
+            "Yesenia",
+            "Fernanda",
+            "Lucía",
+            "Andrea",
+            "Marisol"
+          ]
+        },
+        "family": [
+          "García",
+          "Hernández",
+          "Martínez",
+          "López",
+          "González",
+          "Rodríguez",
+          "Pérez",
+          "Sánchez",
+          "Ramírez",
+          "Flores",
+          "Torres",
+          "Rivera",
+          "Gómez",
+          "Díaz",
+          "Reyes",
+          "Morales",
+          "Cruz",
+          "Ortiz",
+          "Gutiérrez",
+          "Chávez",
+          "Castillo",
+          "Mendoza"
+        ],
+        "also": {
+          "m": [
+            "Kevin",
+            "Brian",
+            "Anthony",
+            "Christopher",
+            "Jonathan",
+            "Steven"
+          ],
+          "f": [
+            "Jennifer",
+            "Stephanie",
+            "Jessica",
+            "Vanessa",
+            "Ashley",
+            "Nicole"
+          ]
+        }
+      },
+      "chinese": {
+        "given": {
+          "m": [
+            "Wei",
+            "Jun",
+            "Hao",
+            "Ming",
+            "Jian",
+            "Tao",
+            "Lei",
+            "Yang",
+            "Bo",
+            "Zhiwei",
+            "Haoran",
+            "Yifan",
+            "Zihao",
+            "Kwok",
+            "Wing"
+          ],
+          "f": [
+            "Mei",
+            "Li",
+            "Xiu",
+            "Ying",
+            "Lan",
+            "Jing",
+            "Yan",
+            "Hui",
+            "Xin",
+            "Yuting",
+            "Ziyi",
+            "Xiaoling",
+            "Fang",
+            "Qing",
+            "Siu"
+          ]
+        },
+        "family": [
+          "Chan",
+          "Wong",
+          "Lee",
+          "Leung",
+          "Lam",
+          "Cheung",
+          "Ng",
+          "Ho",
+          "Lau",
+          "Tam",
+          "Fong",
+          "Yee",
+          "Louie",
+          "Chen",
+          "Wang",
+          "Zhang",
+          "Liu",
+          "Li",
+          "Huang",
+          "Lin",
+          "Wu",
+          "Zhou"
+        ],
+        "also": {
+          "m": [
+            "Kevin",
+            "Eric",
+            "Jason",
+            "Andy",
+            "Vincent",
+            "Raymond",
+            "Calvin",
+            "Derek"
+          ],
+          "f": [
+            "Jenny",
+            "Amy",
+            "Grace",
+            "Michelle",
+            "Vivian",
+            "Cindy",
+            "Tiffany",
+            "Joyce"
+          ]
+        }
+      },
+      "indian": {
+        "given": {
+          "m": [
+            "Arjun",
+            "Rahul",
+            "Rohan",
+            "Vikram",
+            "Aditya",
+            "Karthik",
+            "Sanjay",
+            "Rajesh",
+            "Anil",
+            "Siddharth",
+            "Nikhil",
+            "Varun",
+            "Aarav",
+            "Vivek",
+            "Pranav"
+          ],
+          "f": [
+            "Priya",
+            "Ananya",
+            "Kavya",
+            "Divya",
+            "Neha",
+            "Pooja",
+            "Shreya",
+            "Aishwarya",
+            "Deepa",
+            "Lakshmi",
+            "Anjali",
+            "Meera",
+            "Riya",
+            "Sneha",
+            "Aditi"
+          ]
+        },
+        "family": [
+          "Patel",
+          "Shah",
+          "Sharma",
+          "Gupta",
+          "Reddy",
+          "Iyer",
+          "Rao",
+          "Kumar",
+          "Singh",
+          "Mehta",
+          "Desai",
+          "Nair",
+          "Krishnan",
+          "Joshi",
+          "Agarwal",
+          "Banerjee",
+          "Menon",
+          "Pillai"
+        ]
+      },
+      "filipino": {
+        "given": {
+          "m": [
+            "Jose",
+            "Juan",
+            "Mark",
+            "John Paul",
+            "Carlo",
+            "Miguel",
+            "Paolo",
+            "Rafael",
+            "Jericho",
+            "Angelo",
+            "Christian",
+            "Ramon",
+            "Emmanuel",
+            "Joshua"
+          ],
+          "f": [
+            "Maria",
+            "Angelica",
+            "Kristine",
+            "Joy",
+            "Jasmine",
+            "Princess",
+            "Rowena",
+            "Grace",
+            "Mylene",
+            "Rosario",
+            "Camille",
+            "Andrea",
+            "Bea",
+            "Nicole"
+          ]
+        },
+        "family": [
+          "Santos",
+          "Reyes",
+          "Cruz",
+          "Bautista",
+          "Garcia",
+          "Mendoza",
+          "Del Rosario",
+          "Ramos",
+          "Aquino",
+          "Villanueva",
+          "Castillo",
+          "Dela Cruz",
+          "Fernandez",
+          "Navarro",
+          "Tolentino",
+          "Manalo",
+          "Domingo",
+          "Pascual"
+        ]
+      },
+      "vietnamese": {
+        "given": {
+          "m": [
+            "Minh",
+            "Tuan",
+            "Hung",
+            "Dung",
+            "Long",
+            "Huy",
+            "Khoa",
+            "Bao",
+            "Nam",
+            "Phuc",
+            "Quang",
+            "Thanh",
+            "Trung",
+            "Vinh"
+          ],
+          "f": [
+            "Linh",
+            "Lan",
+            "Huong",
+            "Mai",
+            "Thao",
+            "Trang",
+            "Ngoc",
+            "Hoa",
+            "Vy",
+            "Anh",
+            "Thuy",
+            "Hanh",
+            "Nhi",
+            "Phuong"
+          ]
+        },
+        "family": [
+          "Nguyen",
+          "Tran",
+          "Le",
+          "Pham",
+          "Huynh",
+          "Phan",
+          "Vo",
+          "Vu",
+          "Dang",
+          "Bui",
+          "Do",
+          "Ho",
+          "Ngo",
+          "Duong",
+          "Ly",
+          "Truong"
+        ],
+        "also": {
+          "m": [
+            "Kevin",
+            "Tony",
+            "Peter",
+            "Jimmy",
+            "Danny",
+            "Tommy"
+          ],
+          "f": [
+            "Tina",
+            "Kim",
+            "Linda",
+            "Jenny",
+            "Vivian",
+            "Lily"
+          ]
+        }
+      },
+      "korean": {
+        "given": {
+          "m": [
+            "Min-jun",
+            "Ji-hoon",
+            "Seo-jun",
+            "Hyun-woo",
+            "Sung-min",
+            "Dong-hyun",
+            "Jae-won",
+            "Joon-ho",
+            "Tae-hoon",
+            "Sang-woo",
+            "Young-jin",
+            "Do-yoon"
+          ],
+          "f": [
+            "Ji-yeon",
+            "Seo-yeon",
+            "Min-ji",
+            "Su-bin",
+            "Ha-eun",
+            "Ye-jin",
+            "Eun-ji",
+            "Hye-jin",
+            "Yoon-ah",
+            "Ji-woo",
+            "Da-eun",
+            "Na-yeon"
+          ]
+        },
+        "family": [
+          "Kim",
+          "Lee",
+          "Park",
+          "Choi",
+          "Jung",
+          "Kang",
+          "Cho",
+          "Yoon",
+          "Jang",
+          "Lim",
+          "Han",
+          "Shin",
+          "Oh",
+          "Seo",
+          "Kwon",
+          "Hwang"
+        ],
+        "also": {
+          "m": [
+            "Daniel",
+            "David",
+            "John",
+            "Paul",
+            "Andrew",
+            "Joseph"
+          ],
+          "f": [
+            "Grace",
+            "Esther",
+            "Sarah",
+            "Christine",
+            "Jennifer",
+            "Julie"
+          ]
+        }
+      },
+      "west_indian": {
+        "given": {
+          "m": [
+            "Andre",
+            "Kemar",
+            "Dwayne",
+            "Shane",
+            "Rohan",
+            "Marlon",
+            "Devon",
+            "Damion",
+            "Kevon",
+            "Ricardo",
+            "Omari",
+            "Jermaine",
+            "Tevin"
+          ],
+          "f": [
+            "Kimberley",
+            "Tanisha",
+            "Shanique",
+            "Sasha",
+            "Abigail",
+            "Monique",
+            "Nadine",
+            "Shantelle",
+            "Kadian",
+            "Tamara",
+            "Simone",
+            "Latoya",
+            "Renee"
+          ]
+        },
+        "family": [
+          "Brown",
+          "Campbell",
+          "Williams",
+          "Thompson",
+          "Clarke",
+          "Grant",
+          "McKenzie",
+          "Reid",
+          "Bailey",
+          "Henry",
+          "Francis",
+          "Morgan",
+          "Gordon",
+          "Lewis",
+          "Richards",
+          "Spencer"
+        ]
+      },
+      "haitian": {
+        "given": {
+          "m": [
+            "Jean",
+            "Pierre",
+            "Joseph",
+            "Wilson",
+            "Frantz",
+            "Jacques",
+            "Emmanuel",
+            "Ricardo",
+            "Kervens",
+            "Stevenson",
+            "Jonas",
+            "Wilner",
+            "Fritz"
+          ],
+          "f": [
+            "Marie",
+            "Rose",
+            "Nadège",
+            "Fabiola",
+            "Mirlande",
+            "Guerline",
+            "Widline",
+            "Esther",
+            "Nathalie",
+            "Sandra",
+            "Roseline",
+            "Lovely",
+            "Daphnée"
+          ]
+        },
+        "family": [
+          "Pierre",
+          "Joseph",
+          "Jean-Baptiste",
+          "Louis",
+          "Charles",
+          "Saint-Louis",
+          "Augustin",
+          "Dorvil",
+          "Étienne",
+          "François",
+          "Désir",
+          "Michel",
+          "Paul",
+          "Alexis",
+          "Célestin"
+        ]
+      },
+      "ethiopian": {
+        "given": {
+          "m": [
+            "Abebe",
+            "Dawit",
+            "Yonas",
+            "Tewodros",
+            "Samuel",
+            "Henok",
+            "Bereket",
+            "Biniam",
+            "Daniel",
+            "Natnael",
+            "Yared",
+            "Kidus",
+            "Robel"
+          ],
+          "f": [
+            "Selam",
+            "Hana",
+            "Meron",
+            "Bethlehem",
+            "Tigist",
+            "Hiwot",
+            "Mahlet",
+            "Saba",
+            "Eden",
+            "Liya",
+            "Rahel",
+            "Meseret",
+            "Blen"
+          ]
+        },
+        "family": [
+          "Tesfaye",
+          "Bekele",
+          "Girma",
+          "Alemu",
+          "Tadesse",
+          "Mekonnen",
+          "Haile",
+          "Abebe",
+          "Getachew",
+          "Desta",
+          "Kebede",
+          "Wolde",
+          "Gebre",
+          "Assefa",
+          "Negash",
+          "Tefera"
+        ]
+      },
+      "armenian": {
+        "given": {
+          "m": [
+            "Aram",
+            "Armen",
+            "Hayk",
+            "Tigran",
+            "Narek",
+            "Davit",
+            "Gor",
+            "Arman",
+            "Vahe",
+            "Ashot",
+            "Sarkis",
+            "Raffi"
+          ],
+          "f": [
+            "Ani",
+            "Anahit",
+            "Lilit",
+            "Nare",
+            "Mariam",
+            "Arpi",
+            "Lusine",
+            "Nairi",
+            "Tatev",
+            "Armine",
+            "Talin",
+            "Gayane"
+          ]
+        },
+        "family": [
+          "Petrosyan",
+          "Hakobyan",
+          "Sargsyan",
+          "Grigoryan",
+          "Harutyunyan",
+          "Mkrtchyan",
+          "Avetisyan",
+          "Karapetyan",
+          "Kazarian",
+          "Manukyan",
+          "Khachatryan",
+          "Babayan",
+          "Martirosyan",
+          "Hovhannisyan",
+          "Petrosian",
+          "Kazanjian"
+        ]
+      },
+      "iranian": {
+        "given": {
+          "m": [
+            "Ali",
+            "Reza",
+            "Amir",
+            "Mohammad",
+            "Arash",
+            "Babak",
+            "Kian",
+            "Dariush",
+            "Farhad",
+            "Kaveh",
+            "Navid",
+            "Omid"
+          ],
+          "f": [
+            "Sara",
+            "Maryam",
+            "Shirin",
+            "Leila",
+            "Nazanin",
+            "Roya",
+            "Parisa",
+            "Yasmin",
+            "Mina",
+            "Neda",
+            "Azadeh",
+            "Tara"
+          ]
+        },
+        "family": [
+          "Hosseini",
+          "Ahmadi",
+          "Mohammadi",
+          "Rezaei",
+          "Moradi",
+          "Karimi",
+          "Rahimi",
+          "Jafari",
+          "Sadeghi",
+          "Tehrani",
+          "Shirazi",
+          "Kazemi",
+          "Hashemi",
+          "Nazari",
+          "Farahani",
+          "Rostami"
+        ]
+      }
+    },
+    "weights": {
+      "american": 0.5,
+      "african_american": 0.13,
+      "latino": 0.2,
+      "chinese": 0.03,
+      "indian": 0.03,
+      "filipino": 0.02,
+      "vietnamese": 0.015,
+      "korean": 0.015,
+      "west_indian": 0.015,
+      "haitian": 0.01,
+      "ethiopian": 0.005,
+      "armenian": 0.005,
+      "iranian": 0.005
+    }
+  },
+  "honorifics": {
+    "elder_m": "Sir",
+    "elder_f": "Ma'am",
+    "peer_m": "Man",
+    "peer_f": "Girl",
+    "boss": "Boss",
+    "titles": {
+      "elder_m": "Mr",
+      "elder_f": "Mrs",
+      "with": "family"
+    }
+  },
+  "phrases": {
+    "en": {
+      "hello": [
+        [
+          "Hey!",
+          "Hello"
+        ],
+        [
+          "Hi there!",
+          "Hello"
+        ],
+        [
+          "What's up?",
+          "Hi, how are things?"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning!",
+          "Good morning"
+        ],
+        [
+          "Mornin'!",
+          "Morning!"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ],
+        [
+          "Evening!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How's it going?",
+          "How are you?"
+        ],
+        [
+          "How are you doing?",
+          "How are you?"
+        ],
+        [
+          "How you doin'?",
+          "How are you? (casual)"
+        ]
+      ],
+      "fine": [
+        [
+          "Good, thanks!",
+          "Fine, thanks"
+        ],
+        [
+          "Not bad",
+          "Fine"
+        ],
+        [
+          "Can't complain",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks!",
+          "Thank you"
+        ],
+        [
+          "Thank you so much",
+          "Thank you very much"
+        ],
+        [
+          "Appreciate it",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "See you later!",
+          "Goodbye"
+        ],
+        [
+          "Take care!",
+          "Goodbye"
+        ],
+        [
+          "Have a good one!",
+          "Have a good day"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome!",
+          "Welcome"
+        ],
+        [
+          "Come on in!",
+          "Please come in"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry!",
+          "Sorry"
+        ],
+        [
+          "My bad",
+          "Sorry, my fault"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ],
+        [
+          "Pardon me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yeah",
+          "Yes"
+        ],
+        [
+          "Sure",
+          "Yes, of course"
+        ],
+        [
+          "Yep",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Nope",
+          "No"
+        ],
+        [
+          "No, thanks",
+          "No, thank you"
+        ]
+      ]
+    },
+    "es": {
+      "hello": [
+        [
+          "¡Hola!",
+          "Hello!"
+        ],
+        [
+          "¿Qué tal?",
+          "How's it going?"
+        ],
+        [
+          "¿Qué onda?",
+          "What's up? (Mexican)"
+        ]
+      ],
+      "morning": [
+        [
+          "Buenos días",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Buenas tardes",
+          "Good afternoon"
+        ],
+        [
+          "Buenas noches",
+          "Good evening, good night"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "¿Cómo estás?",
+          "How are you?"
+        ],
+        [
+          "¿Cómo está usted?",
+          "How are you? (polite)"
+        ]
+      ],
+      "fine": [
+        [
+          "Bien, gracias",
+          "Fine, thanks"
+        ],
+        [
+          "Todo bien",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Gracias",
+          "Thank you"
+        ],
+        [
+          "Muchas gracias",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Adiós",
+          "Goodbye"
+        ],
+        [
+          "Nos vemos",
+          "See you"
+        ],
+        [
+          "Cuídate",
+          "Take care"
+        ]
+      ],
+      "welcome": [
+        [
+          "Bienvenido",
+          "Welcome"
+        ],
+        [
+          "Pásale",
+          "Come on in (Mexican)"
+        ]
+      ],
+      "sorry": [
+        [
+          "Perdón",
+          "Sorry"
+        ],
+        [
+          "Lo siento",
+          "I'm sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Disculpe",
+          "Excuse me"
+        ],
+        [
+          "Con permiso",
+          "Excuse me, coming through"
+        ]
+      ],
+      "yes": [
+        [
+          "Sí",
+          "Yes"
+        ],
+        [
+          "Claro",
+          "Of course"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    },
+    "zh": {
+      "hello": [
+        [
+          "你好",
+          "Hello (nǐ hǎo)"
+        ]
+      ],
+      "morning": [
+        [
+          "早上好",
+          "Good morning (zǎoshang hǎo)"
+        ],
+        [
+          "早",
+          "Morning (zǎo)"
+        ]
+      ],
+      "evening": [
+        [
+          "晚上好",
+          "Good evening (wǎnshang hǎo)"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "你好吗？",
+          "How are you? (nǐ hǎo ma)"
+        ],
+        [
+          "最近怎么样？",
+          "How have you been? (zuìjìn zěnmeyàng)"
+        ]
+      ],
+      "fine": [
+        [
+          "挺好的",
+          "Pretty good (tǐng hǎo de)"
+        ],
+        [
+          "还行",
+          "Not bad (hái xíng)"
+        ]
+      ],
+      "thanks": [
+        [
+          "谢谢",
+          "Thank you (xièxie)"
+        ]
+      ],
+      "bye": [
+        [
+          "再见",
+          "Goodbye (zàijiàn)"
+        ],
+        [
+          "拜拜",
+          "Bye-bye (bàibai)"
+        ]
+      ],
+      "welcome": [
+        [
+          "欢迎",
+          "Welcome (huānyíng)"
+        ]
+      ],
+      "sorry": [
+        [
+          "对不起",
+          "Sorry (duìbuqǐ)"
+        ],
+        [
+          "不好意思",
+          "Sorry, excuse me (bù hǎoyìsi)"
+        ]
+      ],
+      "excuse": [
+        [
+          "请问",
+          "Excuse me, may I ask (qǐngwèn)"
+        ]
+      ],
+      "yes": [
+        [
+          "是",
+          "Yes (shì)"
+        ],
+        [
+          "对",
+          "Right (duì)"
+        ]
+      ],
+      "no": [
+        [
+          "不是",
+          "No (bú shì)"
+        ],
+        [
+          "没有",
+          "No, don't have any (méiyǒu)"
+        ]
+      ]
+    },
+    "yue": {
+      "hello": [
+        [
+          "你好",
+          "Hello (nei hou)"
+        ],
+        [
+          "哈囉",
+          "Hello (haa lo)"
+        ]
+      ],
+      "morning": [
+        [
+          "早晨",
+          "Good morning (zou san)"
+        ]
+      ],
+      "evening": [
+        [
+          "晚安",
+          "Good night (maan on)"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "你好嗎？",
+          "How are you? (nei hou maa)"
+        ],
+        [
+          "食咗飯未呀？",
+          "Have you eaten yet? A friendly hello (sik zo faan mei aa)"
+        ]
+      ],
+      "fine": [
+        [
+          "幾好",
+          "Pretty good (gei hou)"
+        ],
+        [
+          "都OK",
+          "It's okay (dou OK)"
+        ]
+      ],
+      "thanks": [
+        [
+          "唔該",
+          "Thanks, for a service or favour (m goi)"
+        ],
+        [
+          "多謝",
+          "Thank you, for a gift (do ze)"
+        ]
+      ],
+      "bye": [
+        [
+          "拜拜",
+          "Bye-bye (baai baai)"
+        ],
+        [
+          "再見",
+          "Goodbye (zoi gin)"
+        ]
+      ],
+      "welcome": [
+        [
+          "歡迎",
+          "Welcome (fun jing)"
+        ]
+      ],
+      "sorry": [
+        [
+          "對唔住",
+          "Sorry (deoi m zyu)"
+        ],
+        [
+          "唔好意思",
+          "Sorry, excuse me (m hou ji si)"
+        ]
+      ],
+      "excuse": [
+        [
+          "唔該",
+          "Excuse me (m goi)"
+        ],
+        [
+          "唔該借借",
+          "Excuse me, let me through (m goi ze ze)"
+        ]
+      ],
+      "yes": [
+        [
+          "係",
+          "Yes (hai)"
+        ],
+        [
+          "啱",
+          "Right (ngaam)"
+        ]
+      ],
+      "no": [
+        [
+          "唔係",
+          "No (m hai)"
+        ],
+        [
+          "冇",
+          "Don't have any (mou)"
+        ]
+      ]
+    },
+    "tl": {
+      "hello": [
+        [
+          "Kumusta!",
+          "Hello, how are you"
+        ],
+        [
+          "Uy!",
+          "Hey!"
+        ]
+      ],
+      "morning": [
+        [
+          "Magandang umaga po",
+          "Good morning (polite)"
+        ]
+      ],
+      "evening": [
+        [
+          "Magandang gabi po",
+          "Good evening (polite)"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Kumusta ka?",
+          "How are you?"
+        ],
+        [
+          "Kumusta po kayo?",
+          "How are you? (polite)"
+        ]
+      ],
+      "fine": [
+        [
+          "Mabuti naman",
+          "I'm fine"
+        ],
+        [
+          "Okay lang",
+          "Just okay"
+        ]
+      ],
+      "thanks": [
+        [
+          "Salamat",
+          "Thanks"
+        ],
+        [
+          "Salamat po",
+          "Thank you (polite)"
+        ]
+      ],
+      "bye": [
+        [
+          "Paalam",
+          "Goodbye"
+        ],
+        [
+          "Ingat!",
+          "Take care!"
+        ]
+      ],
+      "welcome": [
+        [
+          "Maligayang pagdating",
+          "Welcome"
+        ],
+        [
+          "Tuloy po kayo",
+          "Please come in"
+        ]
+      ],
+      "sorry": [
+        [
+          "Pasensya na",
+          "Sorry"
+        ],
+        [
+          "Sorry po",
+          "Sorry (polite)"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me po",
+          "Excuse me (polite)"
+        ],
+        [
+          "Makikiraan po",
+          "Excuse me, coming through"
+        ]
+      ],
+      "yes": [
+        [
+          "Oo",
+          "Yes"
+        ],
+        [
+          "Opo",
+          "Yes (polite)"
+        ]
+      ],
+      "no": [
+        [
+          "Hindi",
+          "No"
+        ],
+        [
+          "Hindi po",
+          "No (polite)"
+        ]
+      ]
+    },
+    "vi": {
+      "hello": [
+        [
+          "Xin chào",
+          "Hello"
+        ],
+        [
+          "Chào anh",
+          "Hello (to a man about your age or older)"
+        ],
+        [
+          "Chào chị",
+          "Hello (to a woman about your age or older)"
+        ]
+      ],
+      "morning": [
+        [
+          "Chào buổi sáng",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Chào buổi tối",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Khỏe không?",
+          "How are you?"
+        ],
+        [
+          "Dạo này sao rồi?",
+          "How have you been?"
+        ]
+      ],
+      "fine": [
+        [
+          "Khỏe, cảm ơn",
+          "Fine, thanks"
+        ],
+        [
+          "Bình thường",
+          "So-so"
+        ]
+      ],
+      "thanks": [
+        [
+          "Cảm ơn",
+          "Thank you"
+        ],
+        [
+          "Cám ơn nhiều nha",
+          "Thanks a lot (southern)"
+        ]
+      ],
+      "bye": [
+        [
+          "Tạm biệt",
+          "Goodbye"
+        ],
+        [
+          "Bye nha",
+          "Bye!"
+        ]
+      ],
+      "welcome": [
+        [
+          "Chào mừng",
+          "Welcome"
+        ],
+        [
+          "Mời vô",
+          "Please come in (southern)"
+        ]
+      ],
+      "sorry": [
+        [
+          "Xin lỗi",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Xin lỗi, cho hỏi",
+          "Excuse me, may I ask"
+        ]
+      ],
+      "yes": [
+        [
+          "Dạ",
+          "Yes (polite)"
+        ],
+        [
+          "Ừ",
+          "Yeah (casual)"
+        ]
+      ],
+      "no": [
+        [
+          "Không",
+          "No"
+        ],
+        [
+          "Dạ không",
+          "No (polite)"
+        ]
+      ]
+    },
+    "ko": {
+      "hello": [
+        [
+          "안녕하세요",
+          "Hello (annyeonghaseyo)"
+        ]
+      ],
+      "morning": [
+        [
+          "좋은 아침이에요",
+          "Good morning (joeun achimieyo)"
+        ]
+      ],
+      "evening": [
+        [
+          "안녕하세요",
+          "Good evening; the same hello all day (annyeonghaseyo)"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "잘 지내셨어요?",
+          "Have you been well? (jal jinaesyeosseoyo)"
+        ],
+        [
+          "밥 먹었어?",
+          "Eaten yet? A casual hello (bap meogeosseo)"
+        ]
+      ],
+      "fine": [
+        [
+          "잘 지내요",
+          "I'm doing well (jal jinaeyo)"
+        ],
+        [
+          "괜찮아요",
+          "I'm okay (gwaenchanayo)"
+        ]
+      ],
+      "thanks": [
+        [
+          "감사합니다",
+          "Thank you (gamsahamnida)"
+        ],
+        [
+          "고마워요",
+          "Thanks (gomawoyo)"
+        ]
+      ],
+      "bye": [
+        [
+          "안녕히 가세요",
+          "Goodbye, to someone leaving (annyeonghi gaseyo)"
+        ],
+        [
+          "안녕히 계세요",
+          "Goodbye, to someone staying (annyeonghi gyeseyo)"
+        ]
+      ],
+      "welcome": [
+        [
+          "어서 오세요",
+          "Welcome, come in (eoseo oseyo)"
+        ]
+      ],
+      "sorry": [
+        [
+          "죄송합니다",
+          "I'm sorry (joesonghamnida)"
+        ],
+        [
+          "미안해요",
+          "Sorry (mianhaeyo)"
+        ]
+      ],
+      "excuse": [
+        [
+          "저기요",
+          "Excuse me (jeogiyo)"
+        ],
+        [
+          "실례합니다",
+          "Excuse me (sillyehamnida)"
+        ]
+      ],
+      "yes": [
+        [
+          "네",
+          "Yes (ne)"
+        ]
+      ],
+      "no": [
+        [
+          "아니요",
+          "No (aniyo)"
+        ]
+      ]
+    },
+    "hi": {
+      "hello": [
+        [
+          "नमस्ते",
+          "Hello (namaste)"
+        ]
+      ],
+      "morning": [
+        [
+          "सुप्रभात",
+          "Good morning (suprabhāt), formal"
+        ],
+        [
+          "गुड मॉर्निंग",
+          "Good morning, said in English as most people do"
+        ]
+      ],
+      "evening": [
+        [
+          "शुभ संध्या",
+          "Good evening (shubh sandhyā), formal"
+        ],
+        [
+          "नमस्ते",
+          "Hello, at any hour (namaste)"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "आप कैसे हैं?",
+          "How are you? (āp kaise hain)"
+        ],
+        [
+          "क्या हाल है?",
+          "How's it going? (kyā hāl hai)"
+        ]
+      ],
+      "fine": [
+        [
+          "मैं ठीक हूँ",
+          "I'm fine (main ṭhīk hūn)"
+        ],
+        [
+          "बढ़िया",
+          "Great (baṛhiyā)"
+        ]
+      ],
+      "thanks": [
+        [
+          "धन्यवाद",
+          "Thank you (dhanyavād)"
+        ],
+        [
+          "शुक्रिया",
+          "Thanks (shukriyā)"
+        ]
+      ],
+      "bye": [
+        [
+          "फिर मिलेंगे",
+          "See you again (phir milenge)"
+        ],
+        [
+          "चलो, बाय",
+          "Okay, bye (chalo, bye)"
+        ]
+      ],
+      "welcome": [
+        [
+          "स्वागत है",
+          "Welcome (swāgat hai)"
+        ]
+      ],
+      "sorry": [
+        [
+          "माफ़ कीजिए",
+          "Sorry, excuse me (māf kījiye)"
+        ],
+        [
+          "सॉरी",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "सुनिए",
+          "Excuse me (suniye)"
+        ]
+      ],
+      "yes": [
+        [
+          "हाँ",
+          "Yes (hān)"
+        ],
+        [
+          "जी हाँ",
+          "Yes (polite, jī hān)"
+        ]
+      ],
+      "no": [
+        [
+          "नहीं",
+          "No (nahīn)"
+        ],
+        [
+          "जी नहीं",
+          "No (polite, jī nahīn)"
+        ]
+      ]
+    },
+    "ht": {
+      "hello": [
+        [
+          "Bonjou",
+          "Hello, good morning"
+        ],
+        [
+          "Sak pase?",
+          "What's up?"
+        ]
+      ],
+      "morning": [
+        [
+          "Bonjou",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Bonswa",
+          "Good afternoon, good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Kijan ou ye?",
+          "How are you?"
+        ],
+        [
+          "Sak pase?",
+          "What's happening?"
+        ]
+      ],
+      "fine": [
+        [
+          "M byen, mèsi",
+          "I'm well, thanks"
+        ],
+        [
+          "N ap boule",
+          "We're rolling, all good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Mèsi",
+          "Thanks"
+        ],
+        [
+          "Mèsi anpil",
+          "Thanks a lot"
+        ]
+      ],
+      "bye": [
+        [
+          "Orevwa",
+          "Goodbye"
+        ],
+        [
+          "N a wè pita",
+          "See you later"
+        ]
+      ],
+      "welcome": [
+        [
+          "Byenveni",
+          "Welcome"
+        ],
+        [
+          "Antre non",
+          "Come on in"
+        ]
+      ],
+      "sorry": [
+        [
+          "Eskize m",
+          "Sorry"
+        ],
+        [
+          "Padon",
+          "Pardon"
+        ]
+      ],
+      "excuse": [
+        [
+          "Eskize m",
+          "Excuse me"
+        ],
+        [
+          "Souple",
+          "Please"
+        ]
+      ],
+      "yes": [
+        [
+          "Wi",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Non",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "USD",
+    "symbol": "$",
+    "words": [
+      [
+        "buck",
+        "a dollar"
+      ],
+      [
+        "grand",
+        "a thousand dollars"
+      ],
+      [
+        "a quarter",
+        "a 25 cent coin"
+      ],
+      [
+        "a dime",
+        "a 10 cent coin"
+      ],
+      [
+        "a nickel",
+        "a 5 cent coin"
+      ],
+      [
+        "twenty",
+        "a twenty dollar bill"
+      ]
+    ]
+  },
+  "sources": [
+    "https://www.census.gov/quickfacts/",
+    "https://www.ssa.gov/oact/babynames/",
+    "https://en.wikipedia.org/wiki/List_of_most_common_surnames_in_North_America",
+    "https://en.wikipedia.org/wiki/Languages_of_the_United_States",
+    "https://en.wikipedia.org/wiki/Spanish_naming_customs",
+    "https://en.wikipedia.org/wiki/Vietnamese_name",
+    "https://en.wikipedia.org/wiki/Korean_name",
+    "https://en.wikipedia.org/wiki/Haitian_Creole"
+  ]
+}

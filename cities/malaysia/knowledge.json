@@ -1,0 +1,149 @@
+{
+  "languages": [
+    { "code": "ms", "name": "Malay (Bahasa Melayu)", "official": true, "spoken": "widely, the national language" },
+    { "code": "en", "name": "English", "official": false, "spoken": "widely in cities, business and tech" },
+    { "code": "zh", "name": "Mandarin", "official": false, "spoken": "among Chinese Malaysians, taught in Chinese schools" },
+    { "code": "yue", "name": "Cantonese", "official": false, "spoken": "the everyday Chinese language of Kuala Lumpur and Ipoh" },
+    { "code": "ta", "name": "Tamil", "official": false, "spoken": "among Indian Malaysians, in Brickfields and Klang" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Malay names have no family name: a given name, then bin (son of) or binti (daughter of) and the father's name, as in Ahmad Faiz bin Ismail or Nur Aisyah binti Abdullah. People shorten it to the given name (Faiz) or given name plus father's name (Faiz Ismail). Many men's names start with Muhammad or Mohd. Chinese Malaysians put the family name first and spell it in their family's dialect, Cantonese, Hokkien or Hakka (Wong, Tan, Lim, Chin), and many add an English name in front (Jason Wong Wei Liang). Indian Malaysians, mostly Tamil, carry their father's name after their own, sometimes written a/l (anak lelaki, son of) or a/p (anak perempuan, daughter of). The peoples of Sabah and Sarawak have their own naming customs not yet covered here.",
+    "groups": {
+      "malay": {
+        "given": {
+          "m": ["Muhammad", "Ahmad", "Amirul", "Hafiz", "Faiz", "Aiman", "Syafiq", "Haziq", "Izzat", "Firdaus", "Zulkifli", "Azman", "Hakimi", "Danish", "Khairul"],
+          "f": ["Nur", "Siti", "Nurul", "Aisyah", "Farah", "Syahirah", "Nabilah", "Aina", "Amira", "Izzati", "Hidayah", "Zulaikha", "Najwa", "Sofea", "Aqilah"]
+        },
+        "family": ["Abdullah", "Ahmad", "Ismail", "Ibrahim", "Hassan", "Yusof", "Othman", "Abdul Rahman", "Razak", "Hamzah", "Kamarudin", "Mohamad", "Zakaria", "Rosli", "Mahmud"]
+      },
+      "chinese": {
+        "order": "family given",
+        "given": {
+          "m": ["Wei Liang", "Chee Keong", "Kok Leong", "Kah Wai", "Jun Wei", "Wai Kit", "Boon Hock", "Chun Kit", "Zhi Hao", "Kar Lok", "Yew Meng", "Jia Jun", "Wei Hong", "Chee Wai"],
+          "f": ["Mei Ling", "Siew Ling", "Hui Min", "Pei Yee", "Li Ying", "Xin Yi", "Wai Yee", "Kar Mun", "Yen Ling", "Shu Ting", "Mun Yee", "Jia Yi", "Siew Mei", "Pei Wen"]
+        },
+        "family": ["Tan", "Lim", "Lee", "Wong", "Ng", "Chan", "Ong", "Teh", "Yap", "Leong", "Chong", "Loh", "Liew", "Chin", "Low", "Foo", "Lau", "Cheah", "Khoo", "Goh"],
+        "also": { "m": ["Jason", "Kelvin", "Alvin", "Daniel", "Eric", "Ryan", "Brandon", "Kenny"], "f": ["Michelle", "Cheryl", "Rachel", "Jessie", "Joanne", "Vivian", "Winnie", "Carmen"] }
+      },
+      "indian": {
+        "given": {
+          "m": ["Saravanan", "Kumar", "Ravi", "Ganesh", "Prakash", "Suresh", "Vignesh", "Thinesh", "Kalaiselvan", "Arvind", "Dinesh", "Murugan", "Kavin", "Logesh"],
+          "f": ["Kavitha", "Letchumi", "Malar", "Priya", "Revathi", "Shanti", "Thivya", "Kalaivani", "Sangeetha", "Yamuna", "Devi", "Nisha", "Vanitha", "Kogila"]
+        },
+        "family": ["Subramaniam", "Muniandy", "Ramasamy", "Krishnan", "Arumugam", "Raju", "Perumal", "Maniam", "Govindasamy", "Nadarajan", "Rajendran", "Selvaraju", "Kandasamy", "Velu"]
+      }
+    },
+    "weights": { "malay": 0.58, "chinese": 0.32, "indian": 0.1 }
+  },
+  "honorifics": {
+    "elder_m": "Pakcik",
+    "elder_f": "Makcik",
+    "peer_m": "Bro",
+    "peer_f": "Sis",
+    "boss": "Boss",
+    "older_brother": "Abang",
+    "older_sister": "Kakak",
+    "younger": "Adik",
+    "mr": "Encik",
+    "mrs": "Puan",
+    "chinese_elder_m": "Uncle",
+    "chinese_elder_f": "Auntie",
+    "chinese_boss": "Tauke",
+    "tamil_older_brother": "Anna",
+    "tamil_older_sister": "Akka"
+  },
+  "phrases": {
+    "ms": {
+      "hello": [["Assalamualaikum", "Peace be upon you, the Muslim greeting"], ["Hai", "Hi"], ["Helo", "Hello"]],
+      "morning": [["Selamat pagi", "Good morning"]],
+      "evening": [["Selamat petang", "Good afternoon, early evening"], ["Selamat malam", "Good night"]],
+      "how_are_you": [["Apa khabar?", "How are you?"], ["Sihat?", "Keeping well?"], ["Dah makan?", "Eaten yet?"]],
+      "fine": [["Khabar baik", "I'm well"], ["Baik", "Fine"], ["Sihat, alhamdulillah", "Well, thank God"]],
+      "thanks": [["Terima kasih", "Thank you"], ["Terima kasih banyak", "Thanks a lot"]],
+      "bye": [["Jumpa lagi", "See you again"], ["Selamat tinggal", "Goodbye, said by the one leaving"], ["Selamat jalan", "Safe travels, said to the one leaving"]],
+      "welcome": [["Selamat datang", "Welcome"], ["Sama-sama", "You're welcome"]],
+      "sorry": [["Maaf", "Sorry"], ["Minta maaf", "I apologise"]],
+      "excuse": [["Tumpang lalu", "Excuse me, coming through"], ["Maaf, encik", "Excuse me, sir"]],
+      "yes": [["Ya", "Yes"], ["Boleh", "Can, OK"]],
+      "no": [["Tidak", "No"], ["Tak", "No, casual"], ["Tak boleh", "Cannot"], ["Tak nak", "Don't want"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"], ["Hi", "Hi"]],
+      "morning": [["Morning!", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["Good, thanks", "Good, thanks"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Bye bye", "Bye"]],
+      "welcome": [["Welcome", "Welcome"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    },
+    "zh": {
+      "hello": [["Nǐ hǎo", "Hello (你好)"]],
+      "morning": [["Zǎo ān", "Good morning (早安)"]],
+      "evening": [["Wǎn ān", "Good night (晚安)"]],
+      "how_are_you": [["Nǐ hǎo ma?", "How are you? (你好吗?)"], ["Chī bǎo le méi?", "Have you eaten? (吃饱了没?)"]],
+      "fine": [["Hái hǎo", "Not bad (还好)"]],
+      "thanks": [["Xièxie", "Thank you (谢谢)"]],
+      "bye": [["Bàibai", "Bye bye (拜拜)"], ["Zàijiàn", "Goodbye (再见)"]],
+      "welcome": [["Huānyíng", "Welcome (欢迎)"]],
+      "sorry": [["Bù hǎoyìsi", "Sorry, excuse me (不好意思)"]],
+      "excuse": [["Qǐngwèn", "Excuse me, may I ask (请问)"]],
+      "yes": [["Hǎo", "OK (好)"], ["Shì", "Yes (是)"]],
+      "no": [["Bù", "No (不)"], ["Bú yào", "Don't want (不要)"]]
+    },
+    "yue": {
+      "hello": [["Lei hou", "Hello (你好)"]],
+      "morning": [["Zou san", "Good morning (早晨)"]],
+      "evening": [["Maan on", "Good night (晚安)"]],
+      "how_are_you": [["Lei hou ma?", "How are you? (你好嗎?)"], ["Sik zo faan mei a?", "Have you eaten yet? (食咗飯未呀?)"]],
+      "fine": [["Gei hou", "Pretty good (幾好)"], ["Ma ma dei", "So-so (麻麻地)"]],
+      "thanks": [["M goi", "Thanks, for a service (唔該)"], ["Do ze", "Thank you, for a gift (多謝)"]],
+      "bye": [["Baai baai", "Bye bye (拜拜)"]],
+      "welcome": [["Fun jing", "Welcome (歡迎)"]],
+      "sorry": [["M hou ji si", "Sorry, excuse me (唔好意思)"]],
+      "excuse": [["M goi, ze ze", "Excuse me, coming through (唔該,借借)"]],
+      "yes": [["Hai", "Yes (係)"], ["Hou a", "OK (好呀)"]],
+      "no": [["M hai", "No, it isn't (唔係)"], ["M sai", "No need (唔使)"], ["Mou", "Don't have (冇)"]]
+    },
+    "ta": {
+      "hello": [["Vanakkam", "Hello (வணக்கம்)"]],
+      "morning": [["Kaalai vanakkam", "Good morning (காலை வணக்கம்)"]],
+      "evening": [["Maalai vanakkam", "Good evening (மாலை வணக்கம்)"]],
+      "how_are_you": [["Eppadi irukkeenga?", "How are you? (எப்படி இருக்கீங்க?)"], ["Saapteengala?", "Have you eaten? (சாப்டீங்களா?)"]],
+      "fine": [["Nallaa irukken", "I'm fine (நல்லா இருக்கேன்)"]],
+      "thanks": [["Nandri", "Thank you (நன்றி)"]],
+      "bye": [["Poitu varen", "Bye, literally I'll go and come back (போயிட்டு வரேன்)"]],
+      "welcome": [["Vaanga", "Come in, welcome (வாங்க)"]],
+      "sorry": [["Mannichidunga", "Sorry, forgive me (மன்னிச்சிடுங்க)"]],
+      "excuse": [["Konjam vazhi vidunga", "Please let me through (கொஞ்சம் வழி விடுங்க)"]],
+      "yes": [["Aamaa", "Yes (ஆமா)"], ["Sari", "OK (சரி)"]],
+      "no": [["Illa", "No (இல்ல)"], ["Vendaam", "Don't want (வேண்டாம்)"]]
+    }
+  },
+  "money": {
+    "currency": "MYR",
+    "symbol": "RM",
+    "words": [
+      ["ringgit", "the Malaysian dollar"],
+      ["sen", "a hundredth of a ringgit"],
+      ["seringgit", "one ringgit"],
+      ["duit", "money"],
+      ["Touch 'n Go", "the card and e-wallet for tolls, trains and stalls"],
+      ["duit raya", "Hari Raya money packets"],
+      ["ang pau", "Chinese New Year red packet (紅包)"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Demographics_of_Malaysia",
+    "https://en.wikipedia.org/wiki/Malay_names",
+    "https://en.wikipedia.org/wiki/Malaysian_Chinese",
+    "https://en.wikipedia.org/wiki/Malaysian_Indians",
+    "https://en.wikipedia.org/wiki/Languages_of_Malaysia",
+    "https://www.dosm.gov.my/"
+  ]
+}

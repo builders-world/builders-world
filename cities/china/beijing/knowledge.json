@@ -1,0 +1,91 @@
+{
+  "street": { "zh": 0.9, "en": 0.1 },
+  "registers": {},
+  "names": { "weights": { "north": 0.75, "jiangnan": 0.13, "south": 0.12 } },
+  "phrases": {
+    "zh": {
+      "hello": [["Nín hǎo", "Hello, polite; Beijingers use Nín a lot (您好)"], ["Chī le ma nín?", "Have you eaten? (吃了吗您?)"]],
+      "fine": [["Hái chéng", "Not bad, Beijing style (还成)"], ["Bèir bàng", "Really great (倍儿棒)"]],
+      "yes": [["Dé le", "Right, OK, done (得嘞)"], ["Méi wèntí", "No problem (没问题)"]],
+      "excuse": [["Láojià", "Excuse me, Beijing style (劳驾)"]],
+      "friend": [["Gēmenr", "Mate, buddy (哥们儿)"], ["Zánmen", "Us, we together (咱们)"]],
+      "no_worries": [["Méi shìr", "No worries (没事儿)"]],
+      "stroll": [["Liùwānr", "Going out for a stroll (遛弯儿)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! Have you eaten?", "Hi there, how's your day going?", "Hello! Long time no see.", "Hey, off to work already?", "Good morning! Cold one today, isn't it?"],
+      "reply": ["Not bad, thanks!", "All good, same as always.", "Pretty busy, but fine.", "Great, thanks for asking.", "Fine, just tired from the commute."],
+      "sunny": ["Look at that blue sky today!", "Beautiful day, perfect for a walk round Houhai.", "Hot one today, stay in the shade.", "Autumn in Beijing is the best, isn't it?", "Clear skies, you can see the Western Hills."],
+      "rain": ["It's pouring, did you bring an umbrella?", "Summer storm again, the roads will be jammed.", "Wait it out here, it'll pass soon.", "Rain at last, the air will be fresh tomorrow.", "Careful, the underpasses flood fast."],
+      "bye": ["See you around!", "Take care on the way!", "Bye, talk soon!", "See you tomorrow!", "Go slowly, take care!"],
+      "busy": ["Sorry, I've got to catch the subway!", "Running late for a meeting, talk later!", "Busy day, let's grab dinner another time.", "Can't stop, my Didi is here!", "Deadline today, catch you later!"]
+    },
+    "zh": {
+      "greet": ["Chī le ma nín?", "Zǎo a! Jīntiān zěnmeyàng?", "Gēmenr, hǎo jiǔ bú jiàn!", "Dàye, zǎo! Liùwānr qù a?", "Hēi, máng shénme ne?"],
+      "reply": ["Chī le, nín ne?", "Hái chéng, lǎo yàngzi.", "Tǐng hǎo de, xièxie!", "Méi shìr, dōu tǐng hǎo.", "Bú cuò, bèir bàng!"],
+      "sunny": ["Jīntiān tiān zhēn lán a!", "Tiānr bú cuò, chūqù zǒuzou.", "Zhè tiānr, rè sǐ le!", "Tàiyáng zhēn dú, dài bǎ sǎn ba.", "Qiūtiān de Běijīng zuì shūfu le."],
+      "rain": ["Xià yǔ le, dài sǎn le ma?", "Zhè yǔ xià de, lù dōu dǔ sǐ le.", "Yòu guā fēng yòu xià yǔ, zǎo diǎnr huí jiā.", "Bàoyǔ lái le, xiān zài zhèr duǒ yíhuìr."],
+      "bye": ["Dé le, gǎitiān jiàn!", "Màn zǒu a!", "Zàijiàn, huítóu liáo!", "Bàibai, lùshang màn diǎnr.", "Zǒu le a, míngr jiàn!"],
+      "busy": ["Bù hǎoyìsi, gǎn shíjiān ne!", "Wǒ děi gǎn dìtiě, huítóu liáo!", "Máng sǐ le, gǎitiān chī fàn!", "Děng huìr kāi huì, xiān zǒu le.", "Kuài chídào le, zhuǎntóu gěi nǐ dǎ diànhuà."]
+    }
+  },
+  "transport": {
+    "bus": "gōngjiāo (公交)",
+    "metro": "dìtiě (地铁)",
+    "taxi": "chūzūchē (出租车), or dǎ dī (打的)",
+    "ride_hail": "Dīdī (滴滴)",
+    "bike": "gòngxiǎng dānchē (共享单车, shared bike)",
+    "e_bike": "diàndòngchē (电动车)",
+    "tricycle": "sānlúnchē (三轮车, hutong tricycle)",
+    "train": "gāotiě (高铁, high-speed rail)",
+    "stage": "zhàn (站, stop)"
+  },
+  "touts": [
+    "Dǎ chē ma? Dǎ chē?",
+    "Hútòng yóu, zuò sānlúnr, lái ma?",
+    "Shàng chē jiù zǒu, Běijīng Xī Zhàn!",
+    "Kǎoyā, lǐbian yǒu zuòr, jìnlái kànkan!",
+    "Chángchéng yí rì yóu, míngtiān zǎoshang chūfā!",
+    "Shuàigē, lái kànkan, piányi mài!"
+  ],
+  "hawkers": [
+    ["Táng húlu, bīngtáng húlu!", "Candied hawthorns on a stick (糖葫芦)"],
+    ["Kǎo hóngshǔ, rèhū de!", "Roast sweet potatoes, piping hot (烤红薯)"],
+    ["Jiānbing guǒzi, lái yí tào?", "Jianbing pancake, want one? (煎饼果子)"],
+    ["Yángròu chuànr, wǔ kuài sān chuàn!", "Lamb skewers, three for five yuan (羊肉串儿)"],
+    ["Bīng zhènr de Běibīngyáng!", "Ice-cold Beibingyang orange soda (北冰洋)"],
+    ["Shuǐ, kuàngquánshuǐ!", "Water, mineral water! (矿泉水)"],
+    ["Mǎi diǎnr shuǐguǒ ba, gāng dào de!", "Buy some fruit, just came in! (水果)"]
+  ],
+  "food": {
+    "street": ["jiānbing guǒzi (煎饼果子)", "táng húlu (糖葫芦)", "yángròu chuànr (羊肉串儿)", "kǎo hóngshǔ (烤红薯)", "ròujiāmó (肉夹馍)", "bāozi (包子)", "lǘ dǎ gǔn (驴打滚)", "jiāo quānr (焦圈儿)"],
+    "dishes": ["Běijīng kǎoyā (北京烤鸭, Peking duck)", "zhájiàngmiàn (炸酱面)", "shuàn yángròu (涮羊肉, lamb hotpot)", "lǔzhǔ huǒshāo (卤煮火烧)", "jiǎozi (饺子)", "bàodǔ (爆肚)", "chǎogān (炒肝)"],
+    "drinks": ["dòuzhīr (豆汁儿)", "Běibīngyáng (北冰洋 orange soda)", "suānméitāng (酸梅汤)", "Yànjīng píjiǔ (燕京啤酒)", "èrguōtóu (二锅头)", "huāchá (花茶, jasmine tea)", "nǎichá (奶茶)"]
+  },
+  "places": {
+    "neighbourhoods": ["Chaoyang", "Haidian", "Zhongguancun", "Wangjing", "Sanlitun", "Guomao", "Wudaokou", "Houhai", "Dongcheng", "Xicheng", "Shuangjing", "Xi'erqi", "Yizhuang"],
+    "streets": ["Chang'an Avenue", "Wangfujing Street", "Nanluoguxiang", "Gulou East Street", "Guijie (Ghost Street)", "Qianmen Street", "Zhongguancun Street", "Second Ring Road", "Third Ring Road"],
+    "landmarks": ["Forbidden City", "Temple of Heaven", "Summer Palace", "Bird's Nest", "Drum and Bell Towers", "Jingshan Park", "Beihai Park", "Lama Temple", "Great Wall at Mutianyu", "798 Art District"]
+  },
+  "small_talk": [
+    "The Third Ring Road was solid this morning.",
+    "Line 10 at rush hour, I could barely breathe.",
+    "Have you been to the new jianbing stall by the subway exit?",
+    "Wudaokou is full of students again, term must have started.",
+    "My uncle still goes for his walk round Houhai every evening.",
+    "The heating comes on on the fifteenth of November, I can't wait.",
+    "Spring wind is picking up, the catkins are everywhere.",
+    "Everyone in Zhongguancun is talking about the same new app.",
+    "We queued an hour for duck last weekend, worth it."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Beijing",
+    "https://en.wikipedia.org/wiki/Beijing_dialect",
+    "https://en.wikipedia.org/wiki/Beijing_cuisine",
+    "https://en.wikipedia.org/wiki/Hutong",
+    "https://en.wikipedia.org/wiki/Zhongguancun",
+    "https://en.wikipedia.org/wiki/Jianbing"
+  ]
+}

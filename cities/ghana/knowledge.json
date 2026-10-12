@@ -1,0 +1,89 @@
+{
+  "languages": [
+    { "code": "en", "name": "English", "official": true, "spoken": "widely, the official language, at work and school" },
+    { "code": "tw", "name": "Twi (Akan)", "official": false, "spoken": "the most widely spoken language, across the country" },
+    { "code": "gaa", "name": "Ga", "official": false, "spoken": "the people of Accra and Tema" },
+    { "code": "ee", "name": "Ewe", "official": false, "spoken": "the Volta Region and in every city" },
+    { "code": "gpe", "name": "Ghanaian Pidgin", "official": false, "spoken": "young people and students, especially men, in Accra" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Most Ghanaians carry an English or Christian first name (Emmanuel, Abigail) or a Muslim one (Ibrahim, Fatima), a day name and a family name. Akan day names say which day you were born: Kwasi and Akosua on Sunday, Kwadwo and Adwoa on Monday, Kwabena and Abena on Tuesday, Kwaku and Akua on Wednesday, Yaw and Yaa on Thursday, Kofi and Afua on Friday, Kwame and Ama on Saturday (Fante spellings differ: Esi, Ekua, Ekow, Kweku, Efua). Ga names mark birth order and twins, and Ga royals and elders are addressed as Nii (men) and Naa (women). Ewe day names are close to the Akan ones (Kofi, Kodzo, Kwaku, Yawo, Afi, Ama). Family names are often the father's or chosen from the family's line.",
+    "groups": {
+      "akan": {
+        "given": { "m": ["Kwame", "Kofi", "Kwaku", "Yaw", "Kwabena", "Kwadwo", "Kwasi", "Ekow", "Kweku", "Kojo", "Nana", "Kwesi"], "f": ["Ama", "Afua", "Akua", "Yaa", "Abena", "Adwoa", "Akosua", "Esi", "Efua", "Ekua", "Adjoa", "Araba"] },
+        "family": ["Mensah", "Owusu", "Boateng", "Asante", "Osei", "Agyeman", "Appiah", "Amoah", "Ofori", "Ansah", "Antwi", "Darko", "Opoku", "Sarpong", "Frimpong", "Amponsah"],
+        "also": { "m": ["Emmanuel", "Daniel", "Samuel", "Michael", "Isaac", "Prince", "Richard", "Eric", "Kelvin", "Nathaniel"], "f": ["Abigail", "Priscilla", "Gifty", "Comfort", "Grace", "Linda", "Patience", "Mavis", "Vida", "Nana Ama"] }
+      },
+      "ga": {
+        "given": { "m": ["Nii", "Tetteh", "Ayitey", "Kotey", "Nortey", "Quarshie", "Lantey", "Okai", "Odartey", "Adjei"], "f": ["Naa", "Dede", "Korkor", "Adukwei", "Ayeley", "Akweley", "Momo", "Lamiley", "Shormeh", "Kai"] },
+        "family": ["Tetteh", "Lamptey", "Quaye", "Okine", "Ankrah", "Ayitey", "Nortey", "Kotei", "Addo", "Allotey", "Quartey", "Armah", "Lartey", "Odoi"],
+        "also": { "m": ["Emmanuel", "Joseph", "Daniel", "Samuel"], "f": ["Gifty", "Esther", "Comfort", "Joyce"] }
+      },
+      "ewe": {
+        "given": { "m": ["Kofi", "Kodzo", "Kwaku", "Yawo", "Kwami", "Komla", "Edem", "Selorm", "Senyo", "Elikem"], "f": ["Afi", "Ama", "Akosua", "Dzifa", "Enyonam", "Esinam", "Mawusi", "Sena", "Delali", "Xorlali"] },
+        "family": ["Agbeko", "Amegashie", "Dzokoto", "Ahiable", "Kpodo", "Agbodeka", "Tsikata", "Adzraku", "Gbedemah", "Dogbe", "Fiadjoe", "Klutse"],
+        "also": { "m": ["Emmanuel", "Prosper", "Godwin", "Courage"], "f": ["Gifty", "Mercy", "Faith", "Bernice"] }
+      },
+      "northern": {
+        "given": { "m": ["Ibrahim", "Alhassan", "Fuseini", "Issah", "Zakaria", "Abdul-Rahman", "Mahama", "Yakubu", "Mohammed", "Sulemana"], "f": ["Fatima", "Amina", "Hawa", "Salamatu", "Rahinatu", "Mariama", "Fati", "Zenabu", "Ayishetu", "Memuna"] },
+        "family": ["Mahama", "Alhassan", "Fuseini", "Issah", "Zakaria", "Yakubu", "Iddrisu", "Abubakari", "Sulemana", "Abdulai", "Seidu", "Tahiru"],
+        "also": {}
+      }
+    },
+    "weights": { "akan": 0.5, "ga": 0.2, "ewe": 0.18, "northern": 0.12 }
+  },
+  "honorifics": { "elder_m": "Papa", "elder_f": "Auntie", "peer_m": "Chale", "peer_f": "Sister", "boss": "Boss", "chief_m": "Nana", "ga_m": "Nii", "ga_f": "Naa", "young": "Chale", "customer": "Massa" },
+  "phrases": {
+    "en": {
+      "hello": [["Hello!", "Hello"], ["Hi there!", "Hi"]],
+      "morning": [["Good morning!", "Good morning"]],
+      "evening": [["Good evening!", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["I'm fine, thank you.", "I'm fine"]],
+      "thanks": [["Thank you.", "Thank you"]],
+      "bye": [["Bye, see you!", "Goodbye"]],
+      "welcome": [["You're welcome.", "You're welcome"]],
+      "sorry": [["Sorry.", "Sorry"]],
+      "excuse": [["Please, excuse me.", "Excuse me"]],
+      "yes": [["Yes.", "Yes"]],
+      "no": [["No.", "No"]]
+    },
+    "tw": {
+      "hello": [["Ɛte sɛn?", "How is it?"], ["Akwaaba", "Welcome"]],
+      "morning": [["Maakye", "Good morning"]],
+      "evening": [["Maadwo", "Good evening"]],
+      "afternoon": [["Maaha", "Good afternoon"]],
+      "how_are_you": [["Wo ho te sɛn?", "How are you?"]],
+      "fine": [["Me ho yɛ", "I'm fine"], ["Ɛyɛ", "It's fine"]],
+      "thanks": [["Medaase", "Thank you"]],
+      "bye": [["Yɛbɛhyia bio", "We'll meet again"]],
+      "welcome": [["Akwaaba", "Welcome"]],
+      "sorry": [["Kafra", "Sorry"]],
+      "excuse": [["Mepa wo kyɛw", "Please"]],
+      "yes": [["Aane", "Yes"]],
+      "no": [["Daabi", "No"]]
+    },
+    "gaa": {
+      "hello": [["Ojekoo", "Hello, well done"]],
+      "thanks": [["Oyiwaladonn", "Thank you"]],
+      "welcome": [["Mɛni", "Welcome (come in)"]]
+    },
+    "gpe": {
+      "hello": [["Chale, how far?", "Mate, how's it going?"], ["Charley, wassup?", "What's up?"]],
+      "how_are_you": [["How you dey?", "How are you?"]],
+      "fine": [["I dey kraa.", "I'm good"], ["We dey.", "We're fine"]],
+      "thanks": [["Thank you, chale.", "Thanks, mate"]],
+      "bye": [["I dey go.", "I'm off"], ["Later, chale.", "Later, mate"]],
+      "surprise": [["Ei!", "Wow!"], ["Herh!", "Hey! (surprise)"], ["Saa?", "Really?"]]
+    }
+  },
+  "money": { "currency": "GHS", "symbol": "GH₵", "words": [["cedi", "the cedi"], ["pesewa", "a hundredth of a cedi"], ["ghana", "a cedi, in slang"], ["Ghana cedis", "cedis"]] },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Akan_names",
+    "https://en.wikipedia.org/wiki/Languages_of_Ghana",
+    "https://en.wikipedia.org/wiki/Ga_language",
+    "https://en.wikipedia.org/wiki/Ghanaian_Pidgin_English",
+    "https://en.wikipedia.org/wiki/Ewe_people"
+  ]
+}

@@ -1,0 +1,371 @@
+{
+  "street": {
+    "fr": 0.58,
+    "en": 0.28,
+    "ar": 0.05,
+    "ht": 0.03,
+    "es": 0.03,
+    "zh": 0.02,
+    "yue": 0.01
+  },
+  "registers": {},
+  "names": {
+    "weights": {
+      "french": 0.5,
+      "anglo": 0.12,
+      "arab": 0.08,
+      "haitian": 0.06,
+      "italian": 0.05,
+      "chinese": 0.04,
+      "latino": 0.04,
+      "filipino": 0.02,
+      "indian": 0.02,
+      "portuguese": 0.015,
+      "caribbean": 0.015,
+      "iranian": 0.01,
+      "punjabi": 0.01,
+      "korean": 0.005
+    }
+  },
+  "phrases": {
+    "fr": {
+      "hello": [
+        [
+          "Allô!",
+          "Hi!"
+        ],
+        [
+          "Bonjour-Hi!",
+          "The bilingual hello heard in Montreal shops"
+        ]
+      ],
+      "fine": [
+        [
+          "Tiguidou",
+          "All good, perfect"
+        ],
+        [
+          "Pas pire",
+          "Not bad"
+        ],
+        [
+          "Correct",
+          "Okay, fine"
+        ]
+      ],
+      "bye": [
+        [
+          "À tantôt!",
+          "See you later today"
+        ],
+        [
+          "Lâche pas!",
+          "Keep it up, don't give up"
+        ]
+      ],
+      "yes": [
+        [
+          "Ben oui",
+          "Well, yes"
+        ]
+      ]
+    },
+    "es": {
+      "hello": [
+        [
+          "¡Hola!",
+          "Hello!"
+        ],
+        [
+          "¿Qué tal?",
+          "How's it going?"
+        ]
+      ],
+      "thanks": [
+        [
+          "Gracias",
+          "Thank you"
+        ]
+      ],
+      "bye": [
+        [
+          "Nos vemos",
+          "See you"
+        ]
+      ]
+    }
+  },
+  "chat": {
+    "fr": {
+      "greet": [
+        "Allô! Ça va bien?",
+        "Bon matin! Comment ça va?",
+        "Salut! Ça fait longtemps!",
+        "Hey, allô toi! Quoi de neuf?",
+        "Bonjour! Belle journée, hein?"
+      ],
+      "reply": [
+        "Ça va bien, merci! Toi?",
+        "Pas pire, pas pire.",
+        "Correct, un peu fatigué.",
+        "Ben oui, ça va super bien!",
+        "Tiguidou, merci!"
+      ],
+      "sunny": [
+        "Il fait vraiment beau aujourd'hui!",
+        "Belle journée pour aller au parc La Fontaine.",
+        "C'est la saison des terrasses!",
+        "Il fait chaud, on monte sur le mont Royal?",
+        "Enfin du soleil, ça fait du bien!"
+      ],
+      "rain": [
+        "Il pleut à boire debout!",
+        "Apporte ton parapluie, ça va tomber.",
+        "Encore de la pluie, c'est plate.",
+        "Il fait frette pis il pleut.",
+        "Pluie verglaçante ce soir, fais attention."
+      ],
+      "bye": [
+        "Bonne journée!",
+        "Bye, à la prochaine!",
+        "À tantôt!",
+        "Salut, bonne soirée!",
+        "Lâche pas!"
+      ],
+      "busy": [
+        "Je suis pressé, je prends le métro!",
+        "Désolé, je suis en retard pour ma job.",
+        "Faut que j'y aille, mon bus arrive.",
+        "Je cours, on se texte!",
+        "Le pont est bloqué, je vais être en retard."
+      ]
+    },
+    "en": {
+      "greet": [
+        "Bonjour-Hi! How's it going?",
+        "Hey! How are you?",
+        "Morning! Did you survive the snow?",
+        "Oh hey, long time!",
+        "Hi there, ça va?"
+      ],
+      "reply": [
+        "Good, thanks! You?",
+        "Not bad, the metro was on time.",
+        "Doing well, just busy.",
+        "Pretty good, can't complain.",
+        "All good, merci!"
+      ],
+      "sunny": [
+        "Terrace season is finally here!",
+        "Gorgeous day, I'm heading up the mountain.",
+        "Everybody's on a patio today.",
+        "It's actually hot, I can't believe it.",
+        "Perfect day to bike the canal."
+      ],
+      "rain": [
+        "It's pouring, of course I left my umbrella.",
+        "Freezing rain tonight, watch the sidewalks.",
+        "Rain and construction, Montreal classic.",
+        "The slush is up to my ankles.",
+        "Gray and wet, perfect day for a café."
+      ],
+      "bye": [
+        "Bye, have a good one!",
+        "See you later!",
+        "Take care, bonne journée!",
+        "Catch you later.",
+        "Later, stay warm!"
+      ],
+      "busy": [
+        "Gotta run, catching the orange line.",
+        "Late for class at McGill, talk later!",
+        "The Champlain is backed up, I'll be late.",
+        "I've got a meeting in the Old Port, see you!",
+        "Running to the dep before it closes."
+      ]
+    },
+    "ht": {
+      "greet": [
+        "Sak pase?",
+        "Bonjou! Kijan ou ye?",
+        "Bonswa, kòman ou ye?",
+        "Alo! Sa k ap fèt?"
+      ],
+      "reply": [
+        "N ap boule!",
+        "M byen, mèsi. E ou menm?",
+        "Pa pi mal.",
+        "N ap kenbe."
+      ],
+      "sunny": [
+        "Bèl tan jodi a!",
+        "Solèy la cho jodi a.",
+        "Fè cho anpil jodi a.",
+        "Se yon bèl jounen."
+      ],
+      "rain": [
+        "Lapli ap tonbe.",
+        "Pran parapli ou.",
+        "Fè frèt anpil jodi a.",
+        "Lapli sa a pa vle kanpe."
+      ],
+      "bye": [
+        "N a wè pita!",
+        "Orevwa!",
+        "Pase bon jounen!",
+        "Pran swen ou."
+      ],
+      "busy": [
+        "M prese, m pral travay.",
+        "M an reta, n a pale pita.",
+        "M pral pran metwo a.",
+        "Eskize m, m pa gen tan kounye a."
+      ]
+    }
+  },
+  "transport": {
+    "bus": "autobus de la STM",
+    "metro": "le métro",
+    "light_rail": "le REM",
+    "train": "train exo",
+    "taxi": "taxi",
+    "rideshare": "Uber",
+    "bike": "BIXI",
+    "stage": "arrêt d'autobus"
+  },
+  "touts": [
+    "Prochaine station: Berri-UQAM.",
+    "Goûtez, goûtez! Les fraises du Québec!",
+    "Blé d'Inde frais, deux pour cinq piasses!",
+    "Bagels chauds, sortis du four!",
+    "Calèche dans le Vieux, ça vous tente?"
+  ],
+  "hawkers": [
+    [
+      "Les fraises du Québec, goûtez!",
+      "Taste the Quebec strawberries! (Jean-Talon Market)"
+    ],
+    [
+      "Blé d'Inde frais!",
+      "Fresh corn on the cob!"
+    ],
+    [
+      "Bagels chauds!",
+      "Hot bagels! (a Mile End bakery)"
+    ],
+    [
+      "Sirop d'érable, directement de la cabane!",
+      "Maple syrup, straight from the sugar shack!"
+    ],
+    [
+      "Hot-dogs steamés!",
+      "Steamed hot dogs!"
+    ]
+  ],
+  "food": {
+    "street": [
+      "poutine",
+      "steamés",
+      "Montreal bagels",
+      "shish taouk",
+      "maple taffy on snow",
+      "pastéis de nata on the Plateau"
+    ],
+    "dishes": [
+      "smoked meat sandwich",
+      "tourtière",
+      "pâté chinois",
+      "griot",
+      "Portuguese chicken",
+      "pouding chômeur",
+      "fèves au lard at a cabane à sucre",
+      "pho in Côte-des-Neiges"
+    ],
+    "drinks": [
+      "un café allongé",
+      "une bière de microbrasserie",
+      "spruce beer",
+      "a Cott soda",
+      "a cortado on the Plateau"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "le Plateau-Mont-Royal",
+      "le Mile End",
+      "le Vieux-Montréal",
+      "le Centre-ville",
+      "le Quartier latin",
+      "le Village",
+      "Rosemont",
+      "la Petite-Patrie",
+      "Hochelaga-Maisonneuve",
+      "Verdun",
+      "Saint-Henri",
+      "Griffintown",
+      "Côte-des-Neiges",
+      "Notre-Dame-de-Grâce",
+      "Villeray",
+      "Parc-Extension",
+      "Montréal-Nord",
+      "Saint-Michel",
+      "Outremont",
+      "la Petite Italie",
+      "le Quartier chinois"
+    ],
+    "streets": [
+      "rue Sainte-Catherine",
+      "boulevard Saint-Laurent",
+      "rue Saint-Denis",
+      "avenue du Mont-Royal",
+      "rue Sherbrooke",
+      "avenue du Parc",
+      "rue Saint-Paul",
+      "rue Crescent",
+      "rue Wellington",
+      "rue Notre-Dame",
+      "rue Jean-Talon",
+      "chemin de la Côte-des-Neiges",
+      "rue Ontario",
+      "boulevard René-Lévesque"
+    ],
+    "landmarks": [
+      "le mont Royal",
+      "la croix du mont Royal",
+      "l'Oratoire Saint-Joseph",
+      "la basilique Notre-Dame",
+      "le Vieux-Port",
+      "le marché Jean-Talon",
+      "le marché Atwater",
+      "le Stade olympique",
+      "le Centre Bell",
+      "le parc La Fontaine",
+      "la Biosphère",
+      "Habitat 67",
+      "la Place des Arts",
+      "l'Université McGill",
+      "le Jardin botanique",
+      "le canal de Lachine"
+    ]
+  },
+  "small_talk": [
+    "There are orange cones on every street, construction season never ends.",
+    "Moving day is July first, the whole city is carrying couches.",
+    "Fairmount or St-Viateur? Choose wisely.",
+    "Habs game tonight, the metro is going to be packed.",
+    "The snow plows were out all night, I had to move my car.",
+    "Tam-tams on the mountain on Sunday, you coming?",
+    "I'll grab milk at the dep on the way home.",
+    "The Jazz Fest closes half of downtown but it's worth it.",
+    "Minus thirty with the windchill, the underground city is saving my life.",
+    "The REM finally opened at my station, game changer."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Montreal",
+    "https://en.wikipedia.org/wiki/Quebec_French",
+    "https://vitrinelinguistique.oqlf.gouv.qc.ca",
+    "https://www.stm.info",
+    "https://rem.info",
+    "https://en.wikipedia.org/wiki/Haitians_in_Montreal"
+  ]
+}

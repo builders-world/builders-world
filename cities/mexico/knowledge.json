@@ -1,0 +1,521 @@
+{
+  "languages": [
+    {
+      "code": "es",
+      "name": "Spanish",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "some"
+    }
+  ],
+  "names": {
+    "order": "given family family",
+    "conventions": "Everyone carries two family names: the father's first surname, then the mother's first surname (Ana Sofía Hernández López). In daily life people use the first surname, and women keep their own names after marriage. Compound given names are very common (José Luis, Juan Pablo, María José, Ana Sofía), and some families give names of Nahuatl or Maya origin (Xóchitl, Citlali, Itzel, Cuauhtémoc). Hernández, García and Martínez are the most common surnames in the country; in Jalisco you also meet many Íñiguez, Orozco, Navarro and Villaseñor.",
+    "groups": {
+      "mexican": {
+        "given": {
+          "m": [
+            "José",
+            "Juan",
+            "Luis",
+            "Carlos",
+            "Miguel",
+            "Jesús",
+            "Alejandro",
+            "Francisco",
+            "Jorge",
+            "Fernando",
+            "Ricardo",
+            "Eduardo",
+            "Santiago",
+            "Mateo",
+            "Diego",
+            "Emiliano",
+            "Leonardo",
+            "Sebastián",
+            "Rodrigo",
+            "Iker",
+            "José Luis",
+            "Juan Pablo",
+            "Cuauhtémoc"
+          ],
+          "f": [
+            "María",
+            "Guadalupe",
+            "Ana",
+            "Sofía",
+            "Valentina",
+            "Regina",
+            "Ximena",
+            "Camila",
+            "Fernanda",
+            "Daniela",
+            "Andrea",
+            "Mariana",
+            "Itzel",
+            "Citlali",
+            "Renata",
+            "Paola",
+            "Alejandra",
+            "Gabriela",
+            "Verónica",
+            "Xóchitl",
+            "María José",
+            "Ana Sofía",
+            "María Fernanda"
+          ]
+        },
+        "family": [
+          "Hernández",
+          "García",
+          "Martínez",
+          "López",
+          "González",
+          "Pérez",
+          "Rodríguez",
+          "Sánchez",
+          "Ramírez",
+          "Cruz",
+          "Flores",
+          "Gómez",
+          "Morales",
+          "Vázquez",
+          "Reyes",
+          "Jiménez",
+          "Torres",
+          "Díaz",
+          "Gutiérrez",
+          "Ruiz",
+          "Mendoza",
+          "Aguilar",
+          "Ortiz",
+          "Moreno",
+          "Castillo",
+          "Romero",
+          "Álvarez",
+          "Méndez",
+          "Chávez",
+          "Rivera",
+          "Juárez",
+          "Ramos",
+          "Domínguez",
+          "Herrera",
+          "Medina",
+          "Castro",
+          "Vargas",
+          "Guzmán",
+          "Velázquez",
+          "Rojas",
+          "Íñiguez",
+          "Orozco",
+          "Navarro",
+          "Ibarra",
+          "Ochoa",
+          "Villaseñor",
+          "Covarrubias",
+          "Zúñiga"
+        ]
+      },
+      "american": {
+        "given": {
+          "m": [
+            "James",
+            "Michael",
+            "John",
+            "David",
+            "Matthew",
+            "Ryan",
+            "Daniel",
+            "Andrew",
+            "Chris",
+            "Kevin",
+            "Brian",
+            "Tyler"
+          ],
+          "f": [
+            "Emily",
+            "Sarah",
+            "Jessica",
+            "Ashley",
+            "Megan",
+            "Lauren",
+            "Rachel",
+            "Katie",
+            "Amanda",
+            "Jennifer",
+            "Hannah",
+            "Emma"
+          ]
+        },
+        "family": [
+          "Smith",
+          "Johnson",
+          "Miller",
+          "Davis",
+          "Wilson",
+          "Anderson",
+          "Taylor",
+          "Moore",
+          "Clark",
+          "Walker",
+          "Baker",
+          "Murphy",
+          "Nelson",
+          "Cohen"
+        ]
+      }
+    },
+    "weights": {
+      "mexican": 0.985,
+      "american": 0.015
+    }
+  },
+  "honorifics": {
+    "elder_m": "Don",
+    "elder_f": "Doña",
+    "peer_m": "Carnal",
+    "peer_f": "Amiga",
+    "boss": "Jefe"
+  },
+  "phrases": {
+    "es": {
+      "hello": [
+        [
+          "¡Hola!",
+          "Hello!"
+        ],
+        [
+          "¿Qué onda?",
+          "What's up?"
+        ],
+        [
+          "¿Qué tal?",
+          "How's it going?"
+        ]
+      ],
+      "morning": [
+        [
+          "Buenos días",
+          "Good morning"
+        ],
+        [
+          "Buen día",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Buenas tardes",
+          "Good afternoon"
+        ],
+        [
+          "Buenas noches",
+          "Good evening, good night"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "¿Cómo estás?",
+          "How are you?"
+        ],
+        [
+          "¿Cómo le va?",
+          "How are you? (polite)"
+        ],
+        [
+          "¿Qué tal todo?",
+          "How's everything?"
+        ]
+      ],
+      "fine": [
+        [
+          "Bien, gracias",
+          "Fine, thanks"
+        ],
+        [
+          "Todo bien",
+          "All good"
+        ],
+        [
+          "Aquí nomás",
+          "Just getting by"
+        ]
+      ],
+      "thanks": [
+        [
+          "Gracias",
+          "Thank you"
+        ],
+        [
+          "Muchas gracias",
+          "Thank you very much"
+        ],
+        [
+          "Mil gracias",
+          "A thousand thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "Adiós",
+          "Goodbye, also a quick hello in passing"
+        ],
+        [
+          "Nos vemos",
+          "See you"
+        ],
+        [
+          "Cuídate",
+          "Take care"
+        ],
+        [
+          "Que le vaya bien",
+          "Hope it goes well for you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Bienvenido",
+          "Welcome"
+        ],
+        [
+          "Pásele",
+          "Come on in (from shopkeepers)"
+        ]
+      ],
+      "sorry": [
+        [
+          "Perdón",
+          "Sorry"
+        ],
+        [
+          "Una disculpa",
+          "My apologies"
+        ]
+      ],
+      "excuse": [
+        [
+          "Con permiso",
+          "Excuse me, coming through"
+        ],
+        [
+          "Disculpe",
+          "Excuse me"
+        ],
+        [
+          "¿Mande?",
+          "Pardon? What did you say?"
+        ]
+      ],
+      "yes": [
+        [
+          "Sí",
+          "Yes"
+        ],
+        [
+          "Ándale",
+          "Yes, that's it"
+        ],
+        [
+          "Órale",
+          "Okay, right on"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ],
+        [
+          "No, gracias",
+          "No, thank you"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hey!",
+          "Hello"
+        ],
+        [
+          "Hi there!",
+          "Hello"
+        ],
+        [
+          "What's up?",
+          "Hi, how are things?"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning!",
+          "Good morning"
+        ],
+        [
+          "Mornin'!",
+          "Morning!"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ],
+        [
+          "Evening!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How's it going?",
+          "How are you?"
+        ],
+        [
+          "How are you doing?",
+          "How are you?"
+        ],
+        [
+          "How you doin'?",
+          "How are you? (casual)"
+        ]
+      ],
+      "fine": [
+        [
+          "Good, thanks!",
+          "Fine, thanks"
+        ],
+        [
+          "Not bad",
+          "Fine"
+        ],
+        [
+          "Can't complain",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks!",
+          "Thank you"
+        ],
+        [
+          "Thank you so much",
+          "Thank you very much"
+        ],
+        [
+          "Appreciate it",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "See you later!",
+          "Goodbye"
+        ],
+        [
+          "Take care!",
+          "Goodbye"
+        ],
+        [
+          "Have a good one!",
+          "Have a good day"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome!",
+          "Welcome"
+        ],
+        [
+          "Come on in!",
+          "Please come in"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry!",
+          "Sorry"
+        ],
+        [
+          "My bad",
+          "Sorry, my fault"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ],
+        [
+          "Pardon me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yeah",
+          "Yes"
+        ],
+        [
+          "Sure",
+          "Yes, of course"
+        ],
+        [
+          "Yep",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Nope",
+          "No"
+        ],
+        [
+          "No, thanks",
+          "No, thank you"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "MXN",
+    "symbol": "$",
+    "words": [
+      [
+        "varo",
+        "a peso, in slang"
+      ],
+      [
+        "lana",
+        "money"
+      ],
+      [
+        "feria",
+        "small change, or money in general"
+      ],
+      [
+        "un billete de a quinientos",
+        "a 500 peso note"
+      ],
+      [
+        "cambio",
+        "change, as in coins back"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Mexican_Spanish",
+    "https://en.wikipedia.org/wiki/Spanish_naming_customs",
+    "https://www.inegi.org.mx",
+    "https://www.asale.org/damer/",
+    "https://forebears.io/mexico/surnames",
+    "https://www.rae.es"
+  ]
+}

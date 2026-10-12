@@ -1,0 +1,73 @@
+{
+  "street": { "sv": 0.84, "en": 0.16 },
+  "names": {
+    "weights": { "swedish": 0.7, "finnish": 0.05, "middle_eastern": 0.13, "somali": 0.04, "polish": 0.04, "balkan": 0.04 }
+  },
+  "phrases": {
+    "sv": {
+      "hello": [
+        ["Tja!", "Hi!"],
+        ["Tjena!", "Hi!"]
+      ],
+      "how_are_you": [
+        ["Läget?", "What's up?"]
+      ],
+      "fika": [
+        ["Ska vi ta en fika?", "Shall we grab a coffee and a bun?"]
+      ]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Tjena! How's it going?", "Morning! Had your coffee yet?", "Hej! Long time!", "Hi, all good?", "Hey! Fika later?"],
+      "reply": ["Good, thanks! You?", "It's lugnt, all fine.", "Fine, a bit busy at work.", "All good, tack!", "Pretty good, can't complain."],
+      "sunny": ["What weather! Let's have fika outside.", "Everyone's at Rålis today.", "Perfect day for a swim at Långholmen.", "Sun's out, summer's here!", "Let's take the boat out to the archipelago."],
+      "rain": ["Raining again, typical.", "Bring an umbrella, it's pouring.", "Slush again, ugh.", "Grey and wet, a cosy café day.", "The wind on Västerbron is brutal today."],
+      "bye": ["Hej då!", "Hej hej!", "See you!", "Ha det bra!", "Take care!"],
+      "busy": ["Sorry, need to catch the tunnelbana!", "Got a meeting, talk later!", "Have to run, hej!", "Picking up from förskolan, talk later!", "Busy week, fika next week?"]
+    },
+    "sv": {
+      "greet": ["Tjena! Läget?", "Hej hej! Hur är det?", "God morgon! Fått i dig kaffe?", "Hejsan! Länge sen!", "Tja! Allt bra?"],
+      "reply": ["Bra, tack! Och du?", "Det är lugnt.", "Jo, det rullar på.", "Bara bra, lite mycket på jobbet bara."],
+      "sunny": ["Vilket väder! Ska vi ta en fika ute?", "Alla sitter på Rålis idag.", "Perfekt dag att bada vid Långholmen.", "Äntligen sol, nu är det sommar!"],
+      "rain": ["Det regnar igen, typiskt.", "Ta med paraply, det öser ner.", "Snöslask igen, usch.", "Grått och blött idag."],
+      "bye": ["Hej då!", "Hej hej!", "Vi ses!", "Ha det bra!", "Ses i helgen!"],
+      "busy": ["Förlåt, måste hinna med tunnelbanan!", "Har ett möte, vi hörs sen!", "Jag måste springa, hej!", "Ska hämta på förskolan, vi hörs!"]
+    }
+  },
+  "transport": {
+    "bus": "buss",
+    "moto_taxi": "elsparkcykel",
+    "tricycle": "lådcykel",
+    "taxi": "taxi",
+    "conductor": "biljettkontrollant",
+    "stage": "hållplats",
+    "metro": "tunnelbana (T-bana)",
+    "tram": "spårvagn",
+    "train": "pendeltåg",
+    "ferry": "pendelbåt",
+    "bike_share": "hyrcykel",
+    "ride_hail": "Uber, Bolt"
+  },
+  "touts": ["Nästa: T-Centralen.", "Tänk på avståndet mellan vagn och plattform.", "Situation Sthlm! Vill du köpa ett nummer?", "Tre avokado för tjugo! Tre för tjugo!", "A busker at Slussen playing guitar in the underpass.", "Svenska jordgubbar, kom och smaka!"],
+  "hawkers": [
+    ["Situation Sthlm, köp en tidning!", "Situation Sthlm street paper, buy a copy!"],
+    ["Svenska jordgubbar!", "Swedish strawberries!"],
+    ["Tre avokado för tjugo!", "Three avocados for twenty!"],
+    ["Varm korv!", "Hot sausage!"],
+    ["Nygräddade kanelbullar!", "Freshly baked cinnamon buns!"],
+    ["Färska räkor!", "Fresh prawns!"]
+  ],
+  "food": {
+    "street": ["korv med bröd", "halv special", "tunnbrödsrulle", "kanelbulle", "kardemummabulle", "falafel", "strömming"],
+    "dishes": ["köttbullar med lingon", "toast skagen", "pyttipanna", "inlagd sill", "Janssons frestelse", "ärtsoppa med pannkakor", "räksmörgås", "semla", "prinsesstårta"],
+    "drinks": ["kaffe", "julmust", "lättöl", "cider", "Pommac", "glögg", "snaps"]
+  },
+  "places": {
+    "neighbourhoods": ["Södermalm", "Östermalm", "Vasastan", "Kungsholmen", "Norrmalm", "Gamla stan", "Djurgården", "Hammarby sjöstad", "Hornstull", "SoFo", "Liljeholmen", "Kista", "Bromma"],
+    "streets": ["Drottninggatan", "Götgatan", "Kungsgatan", "Sveavägen", "Strandvägen", "Hornsgatan", "Birger Jarlsgatan", "Västerlånggatan", "Folkungagatan", "Odengatan"],
+    "landmarks": ["Stadshuset", "Kungliga slottet", "Vasamuseet", "Skansen", "Fotografiska", "Gröna Lund", "Avicii Arena (Globen)", "Sergels torg", "Slussen", "Monteliusvägen", "Kaknästornet", "Östermalms saluhall", "Stortorget"]
+  },
+  "small_talk": ["Slussen is still a building site, how many years has it been now?", "The green line was delayed again.", "Fika at three? I'll bring kanelbullar.", "Kanelbullens dag is on the fourth of October, don't forget.", "Any midsommar plans? We're heading out to the archipelago.", "Did I Swish you for dinner already?", "Pea soup and pancakes, it must be Thursday.", "The Djurgården ferry was packed with tourists.", "Monteliusvägen at sunset is still the best view in town.", "It's dark at three now, I'm living on vitamin D."],
+  "sources": ["https://en.wikipedia.org/wiki/Stockholm", "https://sl.se/", "https://en.wikipedia.org/wiki/Swedish_cuisine", "https://www.scb.se/en/"]
+}

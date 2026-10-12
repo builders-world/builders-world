@@ -1,0 +1,161 @@
+{
+  "street": { "en": 0.68, "sco": 0.32 },
+  "names": {
+    "weights": {
+      "scottish": 0.6,
+      "english": 0.14,
+      "irish": 0.03,
+      "welsh": 0.01,
+      "indian": 0.03,
+      "pakistani": 0.03,
+      "bangladeshi": 0.005,
+      "caribbean": 0.005,
+      "west_african": 0.02,
+      "east_european": 0.07,
+      "somali": 0.005,
+      "chinese": 0.035,
+      "arab": 0.02
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "Morning! How are you doing?",
+        "Hiya, how's things?",
+        "Hello there, you alright?",
+        "Oh hi! Haven't seen you since the Festival.",
+        "Morning! Nippy one today."
+      ],
+      "reply": [
+        "Not bad at all, thanks. Yourself?",
+        "Fine thanks, just keeping busy.",
+        "Good, ta. Can't complain.",
+        "All good, thanks. Bit tired.",
+        "Doing fine, thanks for asking."
+      ],
+      "sunny": [
+        "Gorgeous day. The Meadows will be packed.",
+        "Sun's out! Arthur's Seat after work?",
+        "Lovely and clear, you can see right over to Fife.",
+        "Make the most of it, it'll be gone by teatime.",
+        "Finally a warm one. Portobello beach later?"
+      ],
+      "rain": [
+        "Absolutely pouring, and the wind's sideways too.",
+        "Horrible out. The haar's come in as well.",
+        "Rain and wind on the Bridges, classic.",
+        "Typical Edinburgh, four seasons in one day.",
+        "Bring a proper jacket, an umbrella won't survive Princes Street."
+      ],
+      "bye": [
+        "See you later!",
+        "Take care now.",
+        "Cheers, have a good one.",
+        "Lovely to see you. Mind how you go.",
+        "Right, see you soon."
+      ],
+      "busy": [
+        "Sorry, can't stop, my tram's coming.",
+        "Running late, the crowds on the Royal Mile are a nightmare.",
+        "Got a lecture at ten, catch you later?",
+        "Can't stop, I've a meeting in Quartermile.",
+        "Sorry, rushing for my train at Waverley."
+      ]
+    },
+    "sco": {
+      "greet": [
+        "Aye aye! How's it gaun?",
+        "Awright? How ye daein?",
+        "Hiya, pal! How's things?",
+        "Mornin! How's yersel?"
+      ],
+      "reply": [
+        "No bad, ken. Yersel?",
+        "Aye, braw, thanks.",
+        "Cannae complain.",
+        "Aye, fine. Just oot for the messages."
+      ],
+      "sunny": [
+        "Braw day the day, eh?",
+        "Taps aff weather, nearly!",
+        "Sun's oot! Mind yer suncream.",
+        "Bonnie day for a walk up Arthur's Seat."
+      ],
+      "rain": [
+        "Pure dreich the day.",
+        "It's chuckin it doon.",
+        "The haar's rolled in aff the Forth.",
+        "I'm drookit. Absolutely drookit."
+      ],
+      "bye": [
+        "See ye efter!",
+        "Cheerio the noo!",
+        "Mind how ye go.",
+        "Haste ye back!"
+      ],
+      "busy": [
+        "Cannae stop, I'm late!",
+        "I'm awfy busy the day, catch ye later.",
+        "Got tae run, the tram's here.",
+        "Away tae get the messages, see ye."
+      ]
+    }
+  },
+  "transport": {
+    "bus": "Lothian bus",
+    "moto_taxi": "e-bike",
+    "tricycle": "pedicab",
+    "taxi": "black cab",
+    "conductor": "ticket inspector",
+    "stage": "bus stop",
+    "tram": "tram",
+    "train": "train",
+    "ride_hail": "Uber"
+  },
+  "touts": [
+    "Free walking tour, starting by the Mercat Cross!",
+    "Come and see my show, it's free and it's funny!",
+    "Ghost tours tonight, down into the vaults!",
+    "This tram is for Newhaven.",
+    "The next stop is Princes Street.",
+    "A piper on the Royal Mile playing Scotland the Brave for the tourists.",
+    "Big Issue! Cheers, pal."
+  ],
+  "hawkers": [
+    ["Free show at half past, just round the corner!", "A Fringe performer handing out flyers"],
+    ["Ghost tour tonight, come down the vaults!", "Selling ghost tour tickets"],
+    ["Big Issue! Cheers, pal.", "Buy the Big Issue street magazine"],
+    ["Scottish strawberries, lovely and fresh!", "Strawberries at the farmers' market"],
+    ["Hot pork rolls with crackling!", "Hog roast rolls at the Christmas market"]
+  ],
+  "food": {
+    "street": ["chips with salt and sauce", "haggis roll", "Scotch pie", "macaroni pie", "rolls and square sausage", "Tunnock's teacake"],
+    "dishes": ["haggis, neeps and tatties", "Cullen skink", "stovies", "cranachan", "full Scottish breakfast", "porridge"],
+    "drinks": ["Irn-Bru", "a dram", "a pint of Tennent's", "a cup of tea", "whisky", "Belhaven Best"]
+  },
+  "places": {
+    "neighbourhoods": ["Leith", "Old Town", "New Town", "Stockbridge", "Marchmont", "Bruntsfield", "Morningside", "Portobello", "Gorgie", "Tollcross", "Newington", "Dalry", "Canonmills"],
+    "streets": ["the Royal Mile", "Princes Street", "George Street", "Leith Walk", "Rose Street", "Grassmarket", "Cowgate", "Lothian Road", "Easter Road", "North Bridge", "Victoria Street"],
+    "landmarks": ["Edinburgh Castle", "Arthur's Seat", "Calton Hill", "Holyrood Palace", "the Meadows", "Scott Monument", "Waverley Station", "National Museum of Scotland", "Dean Village", "Portobello Beach", "CodeBase"]
+  },
+  "small_talk": [
+    "The Festival's on, so don't even try getting up the Royal Mile.",
+    "Salt and sauce on your chips? Obviously.",
+    "The haar's sitting over Leith again.",
+    "The tram goes all the way to Newhaven now.",
+    "Saw a tourist trying to climb Arthur's Seat in flip-flops.",
+    "Rents in Marchmont have gone daft.",
+    "The wind on the Bridges nearly took my hat off.",
+    "Half the startups in town are at CodeBase.",
+    "Going to the Hogmanay street party this year?",
+    "Hibs or Hearts?"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Edinburgh",
+    "https://en.wikipedia.org/wiki/Scots_language",
+    "https://www.scotslanguage.com/",
+    "https://dsl.ac.uk/",
+    "https://www.lothianbuses.com/",
+    "https://edinburghtrams.com/"
+  ]
+}

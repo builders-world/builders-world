@@ -1,0 +1,103 @@
+{
+  "street": { "tr": 0.88, "ku": 0.04, "en": 0.08 },
+  "names": { "weights": { "turkish": 0.8, "kurdish": 0.15, "arab": 0.04, "armenian": 0.01 } },
+  "phrases": {
+    "tr": {
+      "hello": [["Selam abi!", "Hi, mate!"], ["Kolay gelsin!", "May it go easy! (said to anyone at work)"]],
+      "fine": [["Valla iyiyim", "Honestly, I'm good"], ["Eh, işte", "Oh, you know"]],
+      "bye": [["Hadi eyvallah!", "Right, cheers!"], ["Kendine iyi bak", "Look after yourself"]],
+      "meal": [["Afiyet olsun!", "Enjoy your meal!"], ["Elinize sağlık!", "Bless your hands (thanks for the food)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! Çay before the stand-up?", "Hey, how's it going?", "Hi! Long time no see.", "Good to see you. Good weekend?", "Hello! Did you come over on the ferry?"],
+      "reply": ["Not bad, thanks. Busy week.", "All good, you?", "Pretty good, just tired.", "Fine, thanks for asking!", "Great, I finally moved to Kadıköy."],
+      "sunny": ["Gorgeous out. The Bosphorus is sparkling.", "Perfect weather for the Moda seafront.", "Sun's out, let's take the long ferry home.", "Lovely day, breakfast outside at the weekend?", "Finally some sun. Simit and çay on the ferry deck."],
+      "rain": ["Pouring again, grab an umbrella.", "Rain all day, apparently.", "Two drops of rain and the whole city is in traffic.", "It's wet out there, take the Marmaray.", "The lodos is blowing, the ferries might stop."],
+      "bye": ["See you!", "Take care!", "Catch you tomorrow.", "Have a good one!", "Bye, say hi to everyone."],
+      "busy": ["Sorry, I'll miss my ferry!", "Can't stop, meeting in five.", "Late for a call, talk later!", "Got to dash, the metrobüs is here.", "Busy day, catch you after work?"]
+    },
+    "tr": {
+      "greet": ["Merhaba! Nasılsın?", "Selam abi, ne var ne yok?", "Günaydın! Çay içer misin?", "Kolay gelsin!", "Ooo, hoş geldin! Nerelerdesin?"],
+      "reply": ["İyiyim, sağ ol. Sen nasılsın?", "İdare eder, iş güç işte.", "Çok iyiyim, teşekkürler!", "Valla iyiyim, koşturmaca."],
+      "sunny": ["Hava bugün harika!", "Güneş açtı, Moda sahiline gidelim mi?", "Böyle havada vapurda çay içilir.", "Ne güzel hava, Boğaz pırıl pırıl."],
+      "rain": ["Yine yağmur başladı, şemsiyeni al.", "Bardaktan boşanırcasına yağıyor!", "Yağmur yağınca trafik kilitlendi.", "Hava çok kötü, eve gidip çay demleyeceğim."],
+      "bye": ["Görüşürüz!", "Hadi eyvallah!", "Kendine iyi bak!", "Hoşça kal!", "İyi günler!"],
+      "busy": ["Kusura bakma, vapuru kaçıracağım!", "Şimdi olmaz, toplantım var.", "Geç kaldım, sonra konuşalım!", "Acelem var, akşam ararım!"]
+    },
+    "ku": {
+      "greet": ["Silav! Tu çawa yî?", "Rojbaş heval, tu baş î?", "Êvarbaş! Çawa yî?", "Merheba! Çi heye, çi tune?"],
+      "reply": ["Baş im, spas. Tu çawa yî?", "Ez baş im, gelek spas!", "Baş e, kar zêde ye.", "Spas, her tişt baş e."],
+      "sunny": ["Îro hewa pir xweş e!", "Roj derketiye, em herin derve?", "Çi rojeke xweş e!", "Hewa germ e, em li ber deryayê rûnin."],
+      "rain": ["Baran dibare, sîwana xwe bigire.", "Îro hewa xirab e.", "Ji sibê ve baran dibare.", "Baran pir xurt e!"],
+      "bye": ["Bi xatirê te!", "Oxir be!", "Em ê hev bibînin!", "Roja te xweş be!"],
+      "busy": ["Bibore, ez dereng ketim!", "Niha nikarim, karê min heye.", "Ez bi lez im, paşê em biaxivin!", "Divê ez herim, vapur tê!"]
+    }
+  },
+  "transport": {
+    "bus": "otobüs",
+    "moto_taxi": "elektrikli scooter",
+    "tricycle": "kargo bisikleti",
+    "taxi": "taksi",
+    "conductor": "muavin (on intercity buses; in town you tap your İstanbulkart)",
+    "stage": "durak",
+    "dolmus": "dolmuş",
+    "minibus": "minibüs",
+    "metrobus": "metrobüs",
+    "ferry": "vapur",
+    "metro": "metro",
+    "tram": "tramvay",
+    "funicular": "Tünel",
+    "train": "Marmaray",
+    "bike_share": "İsbike",
+    "ride_hail": "BiTaksi",
+    "card": "İstanbulkart"
+  },
+  "touts": [
+    "Kadıköy, Kadıköy, Kadıköy!",
+    "Taksim, Taksim! Son iki kişi, hareket ediyoruz!",
+    "Mecidiyeköy, Şişli, Taksim! Binen var mı?",
+    "Değerli yolcularımız, vapurumuz birazdan Karaköy iskelesine yanaşacaktır.",
+    "(a busker plays the bağlama on İstiklal Caddesi)",
+    "Çay, çay, taze çay! (on the ferry)"
+  ],
+  "hawkers": [
+    ["Simiiit! Taze simit!", "Simit! Fresh simit!"],
+    ["Midye var, midye!", "Stuffed mussels!"],
+    ["Su, soğuk su, buz gibi!", "Water, ice-cold water!"],
+    ["Kestane kebap, sıcak sıcak!", "Roasted chestnuts, piping hot!"],
+    ["Mısır, haşlama mısır!", "Corn, boiled corn!"],
+    ["Salep, sıcak salep!", "Salep, hot!"],
+    ["Çay, çay, taze çay!", "Tea, fresh tea!"]
+  ],
+  "food": {
+    "street": ["simit", "balık ekmek", "kumpir", "midye dolma", "kokoreç", "ıslak hamburger", "kestane kebap", "döner", "tantuni"],
+    "dishes": ["İskender kebap", "mantı", "karnıyarık", "mercimek çorbası", "menemen", "lahmacun", "pide", "köfte", "serpme kahvaltı", "künefe", "baklava"],
+    "drinks": ["çay", "Türk kahvesi", "ayran", "salep", "boza", "şalgam", "rakı"]
+  },
+  "places": {
+    "neighbourhoods": ["Kadıköy", "Moda", "Beşiktaş", "Karaköy", "Cihangir", "Nişantaşı", "Üsküdar", "Balat", "Kuzguncuk", "Ortaköy", "Bebek", "Levent", "Maslak", "Ataşehir", "Bakırköy", "Fatih"],
+    "streets": ["İstiklal Caddesi", "Bağdat Caddesi", "Moda Caddesi", "Bahariye Caddesi", "Abdi İpekçi Caddesi", "Büyükdere Caddesi", "Divan Yolu", "Serdar-ı Ekrem Sokağı", "Barbaros Bulvarı"],
+    "landmarks": ["Galata Kulesi", "Galata Köprüsü", "Ayasofya", "Süleymaniye", "Topkapı Sarayı", "Kapalıçarşı", "Mısır Çarşısı", "Kız Kulesi", "Taksim Meydanı", "Dolmabahçe Sarayı", "Rumeli Hisarı", "Haydarpaşa Garı", "Kadıköy Boğa Heykeli", "Yerebatan Sarnıcı", "Emirgan Korusu"]
+  },
+  "small_talk": [
+    "Meet you at the bull in Kadıköy?",
+    "The ferry beats the bridge traffic every time.",
+    "I bought a simit and fed half of it to the seagulls on the vapur.",
+    "Bağdat Caddesi is packed on a Sunday.",
+    "Have you got enough on your İstanbulkart?",
+    "The metrobüs was jammed again this morning.",
+    "The lodos is blowing, the ferries might be cancelled.",
+    "Let's get kumpir in Ortaköy.",
+    "The Marmaray is a lifesaver for getting to the Asian side.",
+    "Breakfast in Kuzguncuk on Sunday?"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Istanbul",
+    "https://en.wikipedia.org/wiki/Istanbulkart",
+    "https://en.wikipedia.org/wiki/Simit",
+    "https://www.iett.istanbul/",
+    "https://www.sehirhatlari.istanbul/"
+  ]
+}
