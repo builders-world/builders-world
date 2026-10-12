@@ -5,5 +5,7 @@
 *                     @obileonardo
 /services/backend/    @Yczar
 /.github/workflows/backend.yml  @Yczar
-# Each city will get its own line here once its data moves to cities/<city>/ (the next step), for example:
-# /cities/nairobi/    @nairobi-maintainer
+# Countries and cities (cities/README.md). Give a city its own maintainers with a line like:
+# /cities/kenya/nairobi/    @nairobi-maintainer
+# /cities/kenya/            @kenya-maintainer      (the whole country)
+/cities/              @obileonardo

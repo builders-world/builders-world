@@ -26,10 +26,11 @@ were brought in from their own repositories, which are now read-only archives).
 |---|---|---|
 | [`apps/game`](apps/game) | The game (three.js + Vite). Deploys to Vercel. Was `builders-world/yaba-scene`. | `.github/workflows/game.yml`: tests, build, browser tests |
 | [`services/backend`](services/backend) | The Rust gateway: GitHub sign-in, presence, street bins, the Efforts count. Deploys to Railway. Was `builders-world/open-world-backend`. Its own rules are in [its CLAUDE.md](services/backend/CLAUDE.md). | `.github/workflows/backend.yml`: fmt, clippy, tests, sqlx |
+| [`cities`](cities) | Every country and city, one folder each (`cities/<country>/<city>/`): 84 countries and 135 tech cities, six of them live. The game reads them for the world map. | the game's tests check every file |
 | `docs/`, `assets/` | The product, the world bible, design and collaboration docs, art. | |
 
 Each check runs only when its folder changes. [CODEOWNERS](.github/CODEOWNERS) says who reviews what: the backend needs
-Ayotomide. Each city is next to get its own folder (`cities/<city>/`) and its own maintainers.
+Ayotomide. Each city can have its own maintainers too ([cities/README.md](cities/README.md)).
 
 The PRD's original plan put a flat site first (Phase 1) and the 3D world second. In practice the 3D world came first, and the release plan is still to be agreed (see Decisions in the tracker).
 
@@ -59,6 +60,7 @@ Repository: [builders-world/builders-world](https://github.com/builders-world/bu
 | --- | --- |
 | `apps/` | The game (`apps/game`); later the flat website and the admin |
 | `services/` | The backend (`services/backend`: gateway and jobs) |
+| `cities/` | One folder per country, one per city inside it |
 | `packages/` | Shared contracts, domain rules, UI, and platform integrations |
 | `database/` | Versioned migrations, synthetic seeds, and access policies |
 | `assets/` | Original art sources, references, and intentional export assets |
