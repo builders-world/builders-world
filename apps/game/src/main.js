@@ -331,7 +331,8 @@ async function main() {
     setEstateNames(CITY_INFO[place.city]?.estates); // estates named after this city's streets, not Yaba's
     // where the city is baked as an open world (cities/<country>/<city>/city.json "open"), the district stands inside it
     // (src/city/openworld.js): you can walk out of it into the whole city. ?open=0 keeps the district on its own
-    world = buildWorld(manifest, via, name, kit, { open: !!LIVE[place.city]?.open && q.get('open') !== '0', drive: CITY_INFO[place.city]?.drive || 'right' });
+    const O = LIVE[place.city]?.open, inOpen = !!O && place.lat > O.south && place.lat < O.north && place.lon > O.west && place.lon < O.east; // (a town of the region outside the city's box stays a district on its own)
+    world = buildWorld(manifest, via, name, kit, { open: inOpen && q.get('open') !== '0', drive: CITY_INFO[place.city]?.drive || 'right' });
     world.place = { name: place.name, city: place.city, lat: place.lat, lon: place.lon };
     sky = world.env.wet ? blueHourSky() : buildSky(name);
     scene.add(sky, world.scene);

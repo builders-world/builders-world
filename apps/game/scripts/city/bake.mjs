@@ -73,7 +73,7 @@ function pointIndex(cell = 8) {
 }
 
 // ---------- 1. read the map ----------
-const els = [], land = [], water = [], rivers = [], pois = [], farWater = [];
+const els = [], land = [], water = [], rivers = [], pois = [], farWater = [], coast = [], SEA = 2500;
 const LAND = { park: 'park', garden: 'park', recreation_ground: 'park', village_green: 'grass', grass: 'grass', meadow: 'grass', golf_course: 'golf',
   pitch: 'pitch', stadium: 'pitch', track: 'pitch', playground: 'park', cemetery: 'cemetery', grave_yard: 'cemetery', forest: 'wood', wood: 'wood',
   nature_reserve: 'wood', scrub: 'scrub', parking: 'paved', commercial: 'commercial', retail: 'commercial', industrial: 'industrial', railway: 'industrial',
@@ -93,6 +93,8 @@ for await (let line of rl) {
   const rings = g.type === 'Polygon' ? [g.coordinates[0]] : g.type === 'MultiPolygon' ? g.coordinates.map((p) => p[0]) : g.type === 'LineString' ? [g.coordinates] : [];
   for (const ring of rings) {
     const pz = ring.map(([lon, lat]) => proj(lon, lat)); const b = bbox(pz);
+    // the coast (land on its left as it runs): kept further out, to be closed into the sea below
+    if (t.natural === 'coastline' && g.type === 'LineString') { if (!(b.x1 < x0 - SEA || b.x0 > x1 + SEA || b.z1 < z0 - SEA || b.z0 > z1 + SEA)) coast.push(pz); continue; }
     if (b.x1 < x0 - 80 || b.x0 > x1 + 80 || b.z1 < z0 - 80 || b.z0 > z1 + 80) continue;
     const isArea = g.type !== 'LineString';
     // a named place drawn as its building (many banks, cafés and gyms are): a place at its middle, and the building too
@@ -111,6 +113,54 @@ for await (let line of rl) {
     // (a shop or office drawn as an area, without a building tag: its name still marks the place)
     if (isArea && t.name && poiKind(t) && !t.building) { const [cx, cz] = centroid(pz); pois.push({ x: r1(cx), z: r1(cz), k: poiKind(t), n: t.name }); }
   }
+}
+// ---------- the sea: OpenStreetMap draws no ocean, only the coastline, land to its left. Join the coast's pieces, cut
+// them to a rectangle a little past the box, and close each one round the rectangle on its water side ----------
+{
+  const key = ([x, z]) => `${x.toFixed(1)},${z.toFixed(1)}`, byStart = new Map();
+  coast.forEach((c) => byStart.set(key(c[0]), c));
+  const used = new Set(), chains = [];
+  coast.forEach((c) => {
+    if (used.has(c)) return; used.add(c);
+    let ch = c.slice();
+    for (let n = byStart.get(key(ch[ch.length - 1])); n && !used.has(n); n = byStart.get(key(ch[ch.length - 1]))) { used.add(n); ch = ch.concat(n.slice(1)); }
+    // and backwards, from whatever ends where this starts
+    for (let found = true; found;) { found = false; for (const o of coast) if (!used.has(o) && key(o[o.length - 1]) === key(ch[0])) { used.add(o); ch = o.concat(ch.slice(1)); found = true; break; } }
+    chains.push(ch);
+  });
+  const X0 = x0 - SEA, X1 = x1 + SEA, Z0 = z0 - SEA, Z1 = z1 + SEA, P = 2 * (X1 - X0) + 2 * (Z1 - Z0);
+  const inR = ([x, z]) => x >= X0 && x <= X1 && z >= Z0 && z <= Z1;
+  // where a segment crosses the rectangle's edge
+  const cross = (a, b) => { let t0 = 0, t1 = 1; const dx = b[0] - a[0], dz = b[1] - a[1]; for (const [p, q] of [[-dx, a[0] - X0], [dx, X1 - a[0]], [-dz, a[1] - Z0], [dz, Z1 - a[1]]]) { if (p === 0) { if (q < 0) return null; continue; } const r = q / p; if (p < 0) t0 = Math.max(t0, r); else t1 = Math.min(t1, r); } return t0 <= t1 ? [t0, t1] : null; };
+  const at = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+  // distance round the rectangle's edge, clockwise in the picture from its top-left corner
+  const per = ([x, z]) => (Math.abs(z - Z0) < 0.5 ? x - X0 : Math.abs(x - X1) < 0.5 ? (X1 - X0) + (z - Z0) : Math.abs(z - Z1) < 0.5 ? (X1 - X0) + (Z1 - Z0) + (X1 - x) : 2 * (X1 - X0) + (Z1 - Z0) + (Z1 - z));
+  const corners = [[0, [X0, Z0]], [X1 - X0, [X1, Z0]], [X1 - X0 + Z1 - Z0, [X1, Z1]], [2 * (X1 - X0) + Z1 - Z0, [X0, Z1]]];
+  const walk = (from, to, dir) => { const out = []; const d = (t) => (((dir > 0 ? t - from : from - t) % P) + P) % P, span = d(to); corners.map(([t, c]) => [d(t), c]).filter(([u]) => u > 0 && u < span).sort((a, b) => a[0] - b[0]).forEach(([, c]) => out.push(c)); return out; };
+  const inside = (pt, poly) => { let c = false; for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) { const [xi, zi] = poly[i], [xj, zj] = poly[j]; if ((zi > pt[1]) !== (zj > pt[1]) && pt[0] < ((xj - xi) * (pt[1] - zi)) / (zj - zi) + xi) c = !c; } return c; };
+  let seas = 0;
+  chains.forEach((ch) => {
+    // the pieces of the coast inside the rectangle, each from one edge to another
+    const pieces = []; let cur = null;
+    for (let i = 0; i < ch.length - 1; i++) {
+      const a = ch[i], b = ch[i + 1], c = cross(a, b); if (!c) { cur = null; continue; }
+      const p0 = at(a, b, c[0]), p1 = at(a, b, c[1]);
+      if (!cur) { cur = { pts: [p0], open: c[0] > 0 || !inR(a) }; pieces.push(cur); }
+      cur.pts.push(p1);
+      if (c[1] < 1) { cur.close = true; cur = null; }
+    }
+    pieces.filter((q) => q.open && q.close && q.pts.length >= 2).forEach(({ pts }) => {
+      // the water is on the right of the way the coast runs (land on its left; z is south, so the right is (-dz, dx))
+      const m = Math.floor(pts.length / 2), a = pts[Math.max(0, m - 1)], b = pts[m], L = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1;
+      const wet = [(a[0] + b[0]) / 2 - ((b[1] - a[1]) / L) * 3, (a[1] + b[1]) / 2 + ((b[0] - a[0]) / L) * 3];
+      const s0 = per(pts[0]), s1 = per(pts[pts.length - 1]);
+      const sea = [1, -1].map((dir) => pts.concat(walk(s1, s0, dir))).find((poly) => inside(wet, poly));
+      if (!sea) return;
+      water.push({ p: simplify(sea, 0.6) }); seas++;
+      const q = simplify(sea, 12); farWater.push(q.flatMap(([x, z]) => [Math.round(x), Math.round(z)]));
+    });
+  });
+  if (coast.length) log(`the sea: ${coast.length} pieces of coast in ${chains.length} runs, ${seas} stretches of sea`);
 }
 log(`read ${nIn} features: ${els.length} ways and stations, ${land.length} land areas, ${water.length} water, ${rivers.length} rivers, ${pois.length} places`);
 
