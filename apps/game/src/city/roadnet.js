@@ -246,7 +246,7 @@ const shift = (pts, nrm, o) => pts.map((p, i) => [p[0] + nrm[i][0] * o, p[1] + n
  * paint, island, paver, paverEdge. `side(a, b, y0, y1)` draws a vertical concrete face (a deck's edge) and
  * `pillar(x, z, y, w, ry)` a pillar under a deck. opts: { drive: 'left'|'right', detail: 0..2, keepSeg, keepJunction }.
  */
-export function drawNetwork(net, tri, { drive = 'right', detail = 0, keepSeg = () => true, keepJunction = () => true, triangulate, side = null, pillar = null } = {}) {
+export function drawNetwork(net, tri, { drive = 'right', detail = 0, keepSeg = () => true, keepJunction = () => true, triangulate, side = null, pillar = null, under = null } = {}) {
   const T = (L) => (a, b, c) => tri(L, a, b, c);
   net.segs.forEach((s) => {
     if (!keepSeg(s)) return;
@@ -266,6 +266,8 @@ export function drawNetwork(net, tri, { drive = 'right', detail = 0, keepSeg = (
         side(L[i], L[i + 1], ev[i] - 1.1, ev[i + 1] - 1.1, ev[i] + 0.9, ev[i + 1] + 0.9, 1);
         side(R[i], R[i + 1], ev[i] - 1.1, ev[i + 1] - 1.1, ev[i] + 0.9, ev[i + 1] + 0.9, -1);
       }
+      // the deck's underside, a metre under the road, facing down (seen from the street beneath it)
+      if (under) strip((a, b, c) => under(a, b, c), pts, nrm, oR, oL, Y.road - 1.1, ev);
       if (pillar && s.bridge) { let acc = (s.phase || 0) % 28; for (let i = 0; i < pts.length - 1; i++) { const a = pts[i], b = pts[i + 1], Lg = Math.hypot(b[0] - a[0], b[1] - a[1]); for (let d = 28 - acc; d < Lg; d += 28) { const u = d / Lg; pillar(a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u, ev[i] + (ev[i + 1] - ev[i]) * u - 1.1, Math.min(2.4, w * 0.5), Math.atan2(b[0] - a[0], b[1] - a[1])); } acc = (acc + Lg) % 28; } }
     }
     if (detail >= 2) return;

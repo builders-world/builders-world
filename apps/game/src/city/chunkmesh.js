@@ -206,7 +206,10 @@ export function meshChunk(d, meta, { lod = 0, hole = null, ci = 0, cj = 0, size 
     v.forEach((q) => { S.p.push(...q); S.n.push(nx, 0, nz); S.c.push(...concrete); });
   };
   const pillar = (x, z, y, w, ry) => { if (y > 0.5) box(S, x, -0.3, z, w, y + 0.3, 1.1, ry, concrete); if (y > 0.5) colliders.push({ t: 'box', cx: x, cz: z, hx: w / 2 + 0.05, hz: 0.6, ry }); };
-  drawNetwork(net, (L, a, b, c) => tri(G, a, b, c, ROADC[L]), { drive: meta.drive || 'right', detail: lod, triangulate, side, pillar });
+  // a deck's underside: wound to face the ground below, a lighter concrete (only the light bouncing off the street reaches it)
+  const soffit = concrete.map((c) => Math.min(1, c * 1.6));
+  const under = (a, b, c) => { const ny = (b[2] - a[2]) * (c[0] - a[0]) - (b[0] - a[0]) * (c[2] - a[2]); if (ny > 0) { const t = b; b = c; c = t; } S.p.push(...a, ...b, ...c); S.n.push(0, -1, 0, 0, -1, 0, 0, -1, 0); S.c.push(...soffit, ...soffit, ...soffit); };
+  drawNetwork(net, (L, a, b, c) => tri(G, a, b, c, ROADC[L]), { drive: meta.drive || 'right', detail: lod, triangulate, side, pillar, under });
 
   // buildings (the district keeps its own, inside its circle)
   const blds = [];
