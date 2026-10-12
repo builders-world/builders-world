@@ -69,7 +69,13 @@ export async function open(opts = {}) {
   const report = { base, device: opts.device || 'desktop', viewport: page.viewportSize(), started: new Date().toISOString(), errors: [], failed: [], steps: [], shots: [], checks: [] };
   page.on('pageerror', (e) => report.errors.push(String(e.message || e)));
   page.on('console', (m) => { if (m.type() === 'error') report.errors.push(m.text()); });
-  page.on('response', (r) => { if (r.status() >= 400) report.failed.push(`${r.status()} ${r.request().method()} ${r.url().replace(base, '')}`); });
+  page.on('response', (r) => {
+    const u = r.url().replace(base, ''), type = r.headers()['content-type'] || '';
+    if (r.status() >= 400) report.failed.push(`${r.status()} ${r.request().method()} ${u}`);
+    // a server that answers every unknown path with the page (vite preview, SPA fallbacks) hides a 404 as a 200: a .json
+    // that comes back as HTML is a missing file
+    else if (/\.json(\?|$)/.test(u) && /text\/html/.test(type)) report.failed.push(`html-for-json ${r.request().method()} ${u}`);
+  });
   page.on('requestfailed', (r) => report.failed.push(`failed ${r.method()} ${r.url().replace(base, '')} (${r.failure()?.errorText})`));
   const cdp = await context.newCDPSession(page);
   const out = resolve(opts.out || join(tmpdir(), 'bw-verify', new Date().toISOString().replace(/[:.]/g, '-')));
@@ -112,7 +118,9 @@ export async function open(opts = {}) {
     },
     async close() {
       report.ended = new Date().toISOString();
-      report.ok = !report.errors.length && report.checks.every((c) => c.ok) && report.steps.every((s) => !s.error);
+      // the API is expected to be unreachable while the game runs offline (the default); anything else that failed is a fault
+      report.failedCounted = report.failed.filter((f) => !(/ \/api\//.test(f) && /offline=1/.test(report.url || '')));
+      report.ok = !report.errors.length && !report.failedCounted.length && report.checks.every((c) => c.ok) && report.steps.every((s) => !s.error);
       await bw.sheet().catch((e) => { report.sheetError = String(e.message || e); });
       writeFileSync(join(out, 'report.json'), JSON.stringify(report, null, 2));
       await browser.close(); server?.stop();
@@ -209,7 +217,7 @@ function summarise(file) {
   r.steps.filter((s) => s.error || s.value !== undefined).forEach((s) => lines.push(`  ${s.error ? 'ERROR' : 'value'} ${JSON.stringify(s).slice(0, 220)}`));
   r.checks.forEach((c) => lines.push(`  ${c.ok ? 'ok  ' : 'FAIL'} ${c.name}${c.ok ? '' : ` (got ${JSON.stringify(c.value)})`}`));
   if (r.errors.length) lines.push(`  console errors (${r.errors.length}):`, ...r.errors.slice(0, 8).map((e) => `    ${e.slice(0, 200)}`));
-  const failed = r.failed.filter((f) => !/\/api\//.test(f) || !/offline=1/.test(r.url));
+  const failed = r.failedCounted || r.failed;
   if (failed.length) lines.push(`  failed requests (${failed.length}):`, ...failed.slice(0, 8).map((f) => `    ${f.slice(0, 200)}`));
   lines.push(`  screenshots: ${r.shots.length}, sheet: ${r.sheet || 'none'}`, file);
   console.log(lines.join('\n'));
