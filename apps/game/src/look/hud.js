@@ -351,9 +351,11 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
 
   // the open city round the district (city/openworld.js): its parks, water, streets and buildings, from the chunks
   // loaded near you, in the city's frame shifted into the scene's
+  const CITY_POI = { atm: '#2a9d94', food: '#e46f4f', cafe: '#a87950', fuel: '#e46f4f', bus: '#f2b33d', shop: '#7d5aa6', gym: '#326952' };
+  const cityPoiKind = (k) => (/^(restaurant|fast_food|food_court|bar|pub)$/.test(k) ? 'food' : k === 'cafe' ? 'cafe' : /^(bank|atm|bureau_de_change)$/.test(k) ? 'atm' : k === 'fuel' ? 'fuel' : /^(bus_station|bus_stop)$/.test(k) ? 'bus' : /^(gym|fitness_centre|sports_centre)$/.test(k) ? 'gym' : k.startsWith('shop:') || k === 'marketplace' ? 'shop' : null);
   function drawCity(player, k) {
-    const o = openWorld.offset, reach = 150, lands = [], waters = [], roads = [], blds = [];
-    openWorld.mapNear(player.x, player.z, reach, (m, col) => { lands.push(...m.land); waters.push(...m.water); roads.push(...m.roads); col.forEach((c) => c.t === 'poly' && blds.push(c.pts)); });
+    const o = openWorld.offset, reach = 150, lands = [], waters = [], roads = [], blds = [], pois = [];
+    openWorld.mapNear(player.x, player.z, reach, (m, col, ix, ps) => { lands.push(...m.land); waters.push(...m.water); roads.push(...m.roads); col.forEach((c) => c.t === 'poly' && blds.push(c.pts)); pois.push(...ps); });
     if (!roads.length && !blds.length) return;
     map.save(); map.translate(-o.x * k, -o.z * k);
     const flat = (p, close) => { map.beginPath(); for (let i = 0; i < p.length; i += 2) (i ? map.lineTo(p[i] * k, p[i + 1] * k) : map.moveTo(p[i] * k, p[i + 1] * k)); if (close) map.closePath(); };
@@ -365,6 +367,8 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     });
     map.fillStyle = '#e8b493';
     blds.forEach((pts) => { map.beginPath(); pts.forEach(([x, z], i) => (i ? map.lineTo(x * k, z * k) : map.moveTo(x * k, z * k))); map.closePath(); map.fill(); });
+    // the city's places, in the district's colours: food, cafés, banks, fuel, the bus, shops, gyms
+    pois.forEach((q) => { const c = CITY_POI[cityPoiKind(q.k)]; if (!c) return; map.fillStyle = '#fff'; map.beginPath(); map.arc(q.x * k, q.z * k, 6, 0, 7); map.fill(); map.fillStyle = c; map.beginPath(); map.arc(q.x * k, q.z * k, 4.2, 0, 7); map.fill(); });
     map.restore();
   }
 

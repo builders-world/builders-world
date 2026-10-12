@@ -185,7 +185,7 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
       if (!c.map || c.lod > 1) return;
       const mx = (c.i + 0.5) * S, mz = (c.j + 0.5) * S;
       if (Math.abs(mx - cx) > r + S / 2 || Math.abs(mz - cz) > r + S / 2) return;
-      fn(c.map, c.col, index);
+      fn(c.map, c.col, index, c.pois || []);
     });
   };
   /** The name of the street nearest (x, z) in the scene's frame, within reach metres, or null. */
