@@ -4,13 +4,15 @@
 // the list (archery, hiking, climbing, mountain biking, paragliding, wingsuit, bungee, the beach, a range, a photo
 // safari in Kenya) is shown as coming, so the app says what the city will have.
 import { createSkydive } from './skydive.js';
+import { createArchery } from './archery.js';
 import { nameFor } from '../knowledge.js';
 import { walletEngine, effortsMark, fmt } from '../wallet.js';
 import { sfx } from '../audio.js';
 import { C, FONT } from '../uikit.js';
 
-const FEE = { tandem: 1500, solo: 800 };
-const SOON = ['Archery', 'Hiking', 'Climbing', 'Mountain biking', 'Paragliding', 'Bungee'];
+const FEE = { tandem: 1500, solo: 800, arch18: 400, arch30: 500 };
+const SOON = ['Hiking', 'Climbing', 'Mountain biking', 'Paragliding', 'Bungee'];
+const COACH_LOOK = { body: 'f', skin: '#6b4226', hair: 'braids', top: 'tee', topColor: '#2a9d94', bottom: 'trousers', bottomColor: '#2b2f36', shoes: 'sneakers', shoeColor: '#f4f1ea', acc: [] };
 const LOOK = { body: 'm', skin: '#4a2e1c', hair: 'low', top: 'jacket', topColor: '#d9583f', bottom: 'trousers', bottomColor: '#2b2f36', shoes: 'sneakers', shoeColor: '#1d2028', acc: [] };
 const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch { /* private window */ } } };
 
@@ -52,6 +54,18 @@ export function createRecreation(o) {
   const pickTarget = () => { const r = rects.find((q) => clear(q.x, q.z)) || rects[0]; if (r) Object.assign(target, { x: r.x, z: r.z, name: 'the park' }); };
   pickTarget();
   const tandems = () => +(store.get('bw:skydive:tandems') || 0);
+  const lessons = () => +(store.get('bw:archery:lessons') || 0);
+  const cw = nameFor('archery-coach', 'f');
+  const coach = { name: cw?.full || 'Coach Ada', first: cw?.first || 'Ada', look: COACH_LOOK };
+  // the archery range: a lane across a park with room for the distance, clear of trees and posts at chest height
+  function rangeFor(dist) {
+    for (const r of rects) for (let k = 0; k < 8; k++) {
+      const a = (r.ang || 0) + (k * Math.PI) / 4, f = { x: Math.sin(a), z: Math.cos(a) }, line = { x: r.x - f.x * (dist / 2 + 1), z: r.z - f.z * (dist / 2 + 1) };
+      let ok = true; for (let t = -2; t <= dist + 4 && ok; t += 1) for (const side of [-1.2, 0, 1.2]) if (o.world.solidAt?.(line.x + f.x * t - f.z * side, 1.3, line.z + f.z * t + f.x * side)) { ok = false; break; }
+      if (ok && (!o.world.reachable || o.world.reachable(line.x, line.z))) return { line, dir: f };
+    }
+    return null;
+  }
 
   function open() {
     sfx('tap');
@@ -63,6 +77,10 @@ export function createRecreation(o) {
         <button class="go" data-k="tandem" ${can ? '' : 'disabled'}>${effortsMark(12)}${fmt(FEE.tandem)}</button></div>
       <div class="act"><div class="t"><b>Solo jump</b><small>${solo ? `Your own canopy. ${guide.first} watches from the ground; the automatic opener is the last resort.` : 'After your first tandem.'}</small></div>
         <button class="go" data-k="solo" ${can && solo ? '' : 'disabled'}>${effortsMark(12)}${fmt(FEE.solo)}</button></div>
+      <div class="act"><div class="t"><b>Archery lesson</b><small>${coach.name} sets up a range in the park: 18 m, a 40 cm face, twelve arrows.</small></div>
+        <button class="go" data-k="arch18">${effortsMark(12)}${fmt(FEE.arch18)}</button></div>
+      <div class="act"><div class="t"><b>Archery, 30 m</b><small>${lessons() ? 'The 80 cm face, twelve arrows, scored.' : 'After your first lesson.'}</small></div>
+        <button class="go" data-k="arch30" ${lessons() ? '' : 'disabled'}>${effortsMark(12)}${fmt(FEE.arch30)}</button></div>
       <div class="soon">${SOON.map((s) => `<span>${s}: coming</span>`).join('')}</div></div>`;
     panel.querySelector('.x').onclick = close;
     panel.onclick = (e) => { if (e.target === panel) close(); };
@@ -73,6 +91,7 @@ export function createRecreation(o) {
 
   function book(kind) {
     if (jump) return;
+    if (kind.startsWith('arch')) { shoot(kind); return; }
     if (o.canStart && !o.canStart()) { toast('Step outside onto the street first.', 2200); return; }
     pickTarget(); // again now: the open city round the district has loaded since the street was built
     const fee = FEE[kind];
@@ -90,6 +109,24 @@ export function createRecreation(o) {
         toast(`${r.solo ? 'Solo' : 'Tandem'}: ${r.points} points. Pulled at ${(r.pullAlt || 0).toLocaleString()} m${r.autoPull ? ' (not by you)' : ''}, ${r.freefall} s of freefall, ${r.peak} km/h at the fastest, ${r.distance} m from the target.`, 6000);
       } });
     toast(`${guide.name} meets you at the plane. Listen to the briefing on the climb.`, 3000);
+  }
+
+  function shoot(kind) {
+    if (o.canStart && !o.canStart()) { toast('Step outside onto the street first.', 2200); return; }
+    const dist = kind === 'arch30' ? 30 : 18, lane = rangeFor(dist);
+    if (!lane) { toast(`${coach.first} cannot find ${dist} m of clear grass in the parks here.`, 2600); return; }
+    if (!walletEngine().spend(FEE[kind], `Archery, ${dist} m`)) { toast('Not enough Efforts for the range. Push some commits and come back.', 2600); return; }
+    close();
+    jump = createArchery({ scene: o.scene, world: o.world, line: lane.line, dir: lane.dir, dist, coach, look: o.avatar?.userData.look, toast,
+      onEnd: (r) => {
+        jump = null; o.standAt?.(lane.line.x, lane.line.z);
+        if (!r || r.aborted) { walletEngine().earn?.(FEE[kind], 'Archery refunded'); toast(`${coach.first} packs the range away. Fee refunded.`, 2400); return; }
+        if (!r.arrows) return;
+        if (dist === 18) store.set('bw:archery:lessons', String(lessons() + 1));
+        dispatchEvent(new CustomEvent('bw:me', { detail: { played: 0.25, skill: 'fitness', n: 1 } }));
+        toast(`Archery, ${dist} m: ${r.score} of ${r.max}, ${r.tens} tens (${r.xs} X), ${r.misses} ${r.misses === 1 ? 'miss' : 'misses'}. Ends: ${r.ends.join(' and ')}.`, 6000);
+      } });
+    toast(`${coach.name} has the range set up. Listen to the lesson first.`, 2600);
   }
 
   addEventListener('bw:outdoors', open);
