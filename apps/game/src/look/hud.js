@@ -374,7 +374,7 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
   // whole city's map instead (citymap.js), which the big map has loaded or soon will
   let whole = null;
   function drawWhole(o, k) {
-    if (whole === null) { whole = false; loadCityMap(openWorld.mapUrl).then((M) => { whole = M || false; }); }
+    if (whole === null) { if (!openWorld.ready) return; whole = false; loadCityMap(openWorld.mapUrl).then((M) => { whole = M || false; }); }
     if (!whole) return;
     map.save(); map.scale(k, k); map.translate(-o.x, -o.z); map.lineCap = 'round'; map.lineJoin = 'round';
     whole.land.forEach((P, kind) => { const c = CITY_LAND[kind]; if (c) { map.fillStyle = c; map.fill(P); } });

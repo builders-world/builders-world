@@ -161,12 +161,14 @@ Open the printed address for the onboarding, or add `?world=1` to go straight in
   - `citytraffic.js` and `citypeople.js` are the life on the streets;
   - `clouds.js` and `facade.js` are the clouds and the window shader.
 
-  `public/city/<city>/` holds a city baked into chunks, 16 to a file (`t_<a>_<b>.json`), plus `index.json` and `map.json` for the big map and the ride app. To add a city, give its `cities/<country>/<city>/city.json` an `"open"` box, then:
+  The baked cities live in the project's Vercel Blob store, not in git: each city is its chunks, 16 to a file (`t_<a>_<b>.json`), plus `index.json` and `map.json` for the big map and the ride app. The game reads them from the store, and Vercel's CDN caches them close to the player. To add or rebake a city, give its `cities/<country>/<city>/city.json` an `"open"` box, then:
 
       scripts/city/prepare.sh <country>/<city> <country>-latest.osm.pbf <GHS-BUILT-H tile>.tif
-      node scripts/city/bake.mjs <country>/<city>
+      node scripts/city/bake.mjs <country>/<city>            # into public/city/<city>/ (git-ignored)
+      VITE_CITY_BASE=/city/ npm run dev                      # try it from the local files
+      node --env-file=.env.local scripts/city/upload.mjs <city>   # put it live
 
-  `prepare.sh` cuts the map data and building heights to the box (where to download them is at the top of the file); `bake.mjs` does the rest.
+  `prepare.sh` cuts the map data and building heights to the box (where to download them is at the top of the file); `bake.mjs` does the rest. `upload.mjs` needs `BLOB_READ_WRITE_TOKEN` in `.env.local` (`vercel env pull`); never commit it. A city goes live within a minute of its upload.
 - Shared rules for every city, its own look per city: anything systemic (traffic, zoning, physics, UI) applies to every city, while architecture and flavour are set per city in `src/look/cityinfo.js` and `areas.js`.
 
 How the world is built, and why, is written down in the **world bible** (`docs/design/world-bible.md` in [builders-world/builders-world](https://github.com/builders-world/builders-world)). Read it before changing anything. Every request and where it stands is in `docs/collaboration/tracker.md` in the same repository.

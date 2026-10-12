@@ -15,6 +15,7 @@ import { facadeMaterial, facadeUniforms } from './facade.js';
 // buildings, trees, lamps and medians are solid. The district you arrived in keeps its own streets, estates and life
 // inside its circle; the city carries on from its edge.
 
+export const CITY_STORE = 'https://frkdksniuqhzw3jl.public.blob.vercel-storage.com/city/';
 const HOLE = 1.24, BUILD_HOLE = 1.15; // the district's circle (its own ground ends here: world.js, open mode)
 
 function lampGeometry() {
@@ -37,7 +38,12 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
   off.x = (world.center.lon - city.lon) * kx; off.z = -(world.center.lat - city.lat) * 110574;
   group.position.set(-off.x, 0, -off.z);
   const R = world.radius, hole = [off.x, off.z, R * HOLE];
-  const base = `${import.meta.env?.BASE_URL ?? './'}city/${city.slug}/`;
+  // where the city's files are: the project's Vercel Blob store (scripts/city/upload.mjs), or VITE_CITY_BASE=/city/ for
+  // a city just baked into public/city/. index.json names the version its tiles and map were uploaded under, so those
+  // can be cached for good
+  const home = `${import.meta.env?.VITE_CITY_BASE || CITY_STORE}${city.slug}/`;
+  let base = home;
+  let loaded; const whenLoaded = new Promise((res) => { loaded = res; });
   // how far each detail reaches on the ground (lod 0, 1, 2); lod 3 beyond, out to the haze. The higher you climb, the
   // further each reaches (update). Phones get less of everything
   const T = { low: [150, 380, 900], medium: [210, 520, 1300], high: [270, 650, 1700], ultra: [330, 800, 2200] }[quality] || [270, 650, 1700];
@@ -79,14 +85,18 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
   const workers = Array.from({ length: Math.min(3, Math.max(1, (navigator.hardwareConcurrency || 4) - 2)) }, () => new Worker(new URL('./chunkworker.js', import.meta.url), { type: 'module' }));
   const busy = new Set(), queue = [], ready = [];
   workers.forEach((w) => { w.onmessage = ({ data }) => { busy.delete(w); if (!data.error) ready.push(data); else console.warn('city chunk', data.key, data.error); pump(); }; });
+  // each tile has its worker, so a tile is fetched once, not once by every worker that wants a piece of it
+  const owner = (c) => { if (!index.tile) return null; const a = Math.floor(c.i / index.tile), b = Math.floor(c.j / index.tile), n = workers.length; return workers[(((a * 73 + b * 31) % n) + n) % n]; };
   function pump() {
-    while (queue.length && busy.size < workers.length) {
-      const job = queue.shift(), c = chunks.get(job.key); if (!c || c.want !== job.lod) { if (c) c.busy = false; continue; }
-      const w = workers.find((x) => !busy.has(x)); busy.add(w);
+    for (let q = 0; q < queue.length && busy.size < workers.length;) {
+      const job = queue[q], c = chunks.get(job.key); if (!c || c.want !== job.lod) { if (c) c.busy = false; queue.splice(q, 1); continue; }
+      const w = owner(c) || workers.find((x) => !busy.has(x));
+      if (busy.has(w)) { q++; continue; }
+      queue.splice(q, 1); busy.add(w);
       w.postMessage({ id: ++jobId, key: job.key, url: `${base}${index.tile ? `t_${Math.floor(c.i / index.tile)}_${Math.floor(c.j / index.tile)}` : job.key}.json`, tile: index.tile || 0, meta: { classes: index.classes, ends: index.ends, drive: index.drive }, lod: job.lod, hole, ci: c.i, cj: c.j, size: index.chunk });
     }
   }
-  fetch(`${base}index.json`).then((r) => (r.ok ? r.json() : null)).then((ix) => { if (!ix) { api.active = false; return; } index = ix; farWater(ix.far?.water); api.ready = true; }).catch(() => { api.active = false; });
+  fetch(`${home}index.json`, { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : null)).then((ix) => { if (!ix) { api.active = false; return; } index = ix; if (ix.v) base = `${home}${ix.v}/`; loaded(ix); farWater(ix.far?.water); api.ready = true; }).catch(() => { api.active = false; });
 
   // ---------- collisions: every collider of the loaded chunks, in a 32 m grid ----------
   const CELL = 32, grid = new Map(), gk = (i, j) => i * 73856093 + j;
@@ -187,7 +197,7 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
   api.mapVersion = 0; // goes up whenever a chunk's map arrives or leaves (the city's traffic rebuilds its streets)
   /** Every loaded chunk's map (the streets near you), with its key: fn(map, key). */
   api.eachMap = (fn) => chunks.forEach((c, k) => { if (c.map && c.lod <= 1) fn(c.map, k); });
-  api.offset = off; api.mapUrl = `${base}map.json`; // the whole city, for the big map (scripts/city/overview.mjs)
+  api.offset = off; Object.defineProperty(api, 'mapUrl', { get: () => `${base}map.json` }); api.loaded = whenLoaded; // (resolves once index.json is in, so mapUrl is the uploaded one) // the whole city, for the big map (scripts/city/overview.mjs)
   /**
    * The minimap's view of the city round (x, z) in the scene's frame, out to r metres: each loaded chunk's streets (class
    * name, street name, flat points), land and water, and its buildings' footprints; all in the city's frame, so the

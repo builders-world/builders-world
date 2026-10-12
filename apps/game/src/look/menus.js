@@ -644,7 +644,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   // cview is in the city's frame; the scene's is shifted by openWorld.offset
   let cityMap = null, cityPick = null;
   const cview = { s: 0.4, x: 0, z: 0 };
-  if (openWorld?.mapUrl) loadCityMap(openWorld.mapUrl).then((m) => { cityMap = m; });
+  openWorld?.loaded?.then(() => loadCityMap(openWorld.mapUrl)).then((m) => { cityMap = m; });
   const CITY_MAX = 1.6, cityMin = () => (cityMap ? Math.min(0.4, 0.92 * Math.min(cw / MK / (cityMap.box.x1 - cityMap.box.x0), ch / MK / (cityMap.box.z1 - cityMap.box.z0))) : 0.1);
   const clampCity = () => { cview.s = Math.max(cityMin(), Math.min(CITY_MAX, cview.s)); if (!cityMap) return; const b = cityMap.box; cview.x = Math.max(b.x0, Math.min(b.x1, cview.x)); cview.z = Math.max(b.z0, Math.min(b.z1, cview.z)); };
   const cityFromPx = (px, py) => [(px - 450) / cview.s + cview.x, (py - 450) / cview.s + cview.z];
