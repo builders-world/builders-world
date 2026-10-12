@@ -154,13 +154,14 @@ In production, Vercel forwards `/api` to the gateway (`vercel.json`). The gatewa
 
 ## Deploying
 
-The live site is the `main` branch on Vercel. The game reads `cities/` from the top of the repository, so Vercel builds
-from the repository root with its Root Directory set to `apps/game` (Project Settings, Build and Deployment). Deploy from
-the root:
+The live site is the `main` branch on Vercel, connected to this repository (12 October 2026): every merge to `main`
+goes live by itself, and every pull request gets a preview link. Vercel builds with its Root Directory set to
+`apps/game` and may read outside it, for `cities/`. It skips the build when a change touches neither `apps/game` nor
+`cities` (`ignoreCommand` in `vercel.json`). The game reaches the gateway through `/api` on its own address (the
+rewrites in `vercel.json`), so no build variable is needed.
 
-    vercel deploy --prod --build-env VITE_API_URL=https://<gateway domain>
-
-The root `.vercelignore` uploads only `apps/game` and `cities`.
+A manual deploy, if ever needed, goes from the repository root (`vercel deploy --prod`); the root `.vercelignore`
+uploads only `apps/game` and `cities`.
 
 `railway.json` and `server.mjs` also serve the build on Railway.
 

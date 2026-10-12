@@ -1,7 +1,14 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- . ../../cities",
   "rewrites": [
-    { "source": "/api/auth/oauth/github/callback", "destination": "https://gateway-production-6518.up.railway.app/api/auth/github/callback" },
-    { "source": "/api/:path*", "destination": "https://gateway-production-6518.up.railway.app/api/:path*" }
+    {
+      "source": "/api/auth/oauth/github/callback",
+      "destination": "https://gateway-production-6518.up.railway.app/api/auth/github/callback"
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "https://gateway-production-6518.up.railway.app/api/:path*"
+    }
   ]
 }
