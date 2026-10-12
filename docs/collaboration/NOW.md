@@ -42,6 +42,7 @@ whole city streamed round the player, with traffic, people, places to go into an
 | PR | What | Status | Who |
 |---|---|---|---|
 | #6 `chore/codex-visual-qa` | How Codex reviews, tests and finishes alongside Claude | Docs only; Vercel's preview failed to read git (not the code). Waiting for Elvis | Codex |
+| #10 `fix/codex-phone-hud` | Prevent touch toast and movement-stick overlap | Open; build and 46 tests pass; Elvis asked Claude to merge after review | Codex |
 
 ## In progress (branches not yet in a pull request)
 

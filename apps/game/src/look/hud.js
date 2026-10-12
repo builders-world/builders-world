@@ -106,6 +106,7 @@ body.bw-inside.bw-airport #lk-map { display: block; } /* the airport has its own
   #lk-map { width: 132px; height: 96px; top: 68px; }
   #lk-keys { display: none; }
   #lk-board { right: 16px; top: 70px; }
+  #lk-toast { top: 160px; left: 12px; transform: none; width: calc(100vw - 24px); box-sizing: border-box; padding: 8px 12px; border-radius: 14px; font-size: 12px; line-height: 1.25; }
 }
 @media (prefers-reduced-motion: reduce) { #lk-prompt, #lk-keys, #lk-toast { transition: none; } }
 `;

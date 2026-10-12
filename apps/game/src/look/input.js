@@ -40,7 +40,7 @@ const CSS = `
 #lk-touch { position: fixed; inset: 0; pointer-events: none; z-index: 16; display: none; }
 body.bw-touch #lk-touch { display: block; }
 body.nohud #lk-touch, body.bw-cine #lk-touch { display: none; }
-#lk-stick { position: absolute; left: 22px; bottom: 74px; width: 132px; height: 132px; border-radius: 50%; background: rgba(247,239,220,.55);
+#lk-stick { position: absolute; left: 22px; bottom: 96px; width: 132px; height: 132px; border-radius: 50%; background: rgba(247,239,220,.55);
   box-shadow: inset 0 0 0 3px rgba(59,42,32,.18); pointer-events: auto; touch-action: none; }
 #lk-stick i { position: absolute; left: 50%; top: 50%; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; background: ${C.paper};
   box-shadow: 0 4px 0 rgba(59,42,32,.25); transition: transform .08s; }
