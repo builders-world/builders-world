@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { PlanarReflection, weather } from './surfaces.js';
 import { rain, lampCones, LampLights, skyline } from './atmosphere.js';
+import { createCityGrid } from './citygrid.js';
 import { buildProps } from './props.js';
 import { createHud } from './hud.js';
 import { createGear } from './gear.js';
@@ -111,7 +112,10 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   // the expanded kit: shops, stalls, landmarks, poles and wires, gutters, tanks, danfos
   const dressing = world.kit ? dressDistrict(world, group, { kit: world.kit, lowQuality: quality === 'low', reduced, spawn: world.spawn }) : null;
   if (dressing) { props.interact.push(...dressing.interact); props.lamps.push(...dressing.lamps); }
-  const sky2 = off.has('skyline') ? null : skyline(world);
+  // the rest of the city round the district, where the city has been baked (citygrid.js); it replaces the painted skyline
+  const cityGrid = off.has('grid') ? null : createCityGrid({ world, quality });
+  if (cityGrid?.active) group.add(cityGrid.group);
+  const sky2 = off.has('skyline') || cityGrid?.active ? null : skyline(world);
   if (sky2) group.add(sky2);
 
   let reflection = null, rainMesh = null, cones = null, lights = null;
@@ -499,9 +503,12 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       const high = smooth(25, 90, camera.position.y);
       scene.fog.far = R * (1.9 + 1.1 * day - 1.3 * thick) * (1 + 2.2 * high);
       scene.fog.near = scene.fog.near * (1 + 4 * high);
+      // over a whole city (citygrid.js) the aerial view climbs far higher, and sees the city run on into the haze
+      const alt = cityGrid?.active ? Math.max(0, camera.position.y - 90) : 0;
+      if (alt) { scene.fog.far *= 1 + alt / 260; scene.fog.near *= 1 + alt / 200; }
       // the horizon (quality.js): the haze is total there and nothing beyond it is drawn (stream.js). Where it
       // pulls the fog in, the haze also starts later, so the street up to halfway out is clearer than before
-      const hz = gfx.horizon * (1 + 2.2 * high);
+      const hz = gfx.horizon * (1 + 2.2 * high) * (1 + alt / 260);
       if (streaming() && scene.fog.far > hz) { scene.fog.far = hz; scene.fog.near = Math.max(scene.fog.near, hz * 0.45); }
       // the mist sits close: at its thickest you see about 70 m, less in the aerial view's long sightlines
       scene.fog.far += (R * 0.32 * (1 + 1.6 * high) - scene.fog.far) * mist;
@@ -525,6 +532,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     }
 
     sky2?.userData.update?.(dt, day, Math.max(lamps, 1 - day), mist, scene.fog?.color);
+    cityGrid?.setNight(Math.max(lamps, 1 - day));
     // street
     shared.uLamps.value = lamps;
     shared.uDay.value = day; // daylight fades lamp pools and the monument sweep
@@ -685,6 +693,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   let lastPlayer = null;
   function update(dt, t, player, yaw, arrival) {
     lastPlayer = player;
+    cityGrid?.update(camera, dt);
     emotes?.update(dt);
     // the rain starting is news to everyone out in it
     const wet = (live?.rain ?? 0) > 0.25; if (wet && !wasWet) emotes?.event('rain', player.x, player.z, 35, { max: 8, chance: 0.7 }); wasWet = wet;
@@ -1133,6 +1142,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   // fewer draw calls: the static scenery's meshes that share a material, merged (batch.js); nothing on screen changes
   // (?batch=0 turns it off, to compare)
   if (new URLSearchParams(location.search).get('batch') !== '0') try { const r = batchScenery(group, ['landmarks', 'place-fronts', 'shop-signs', 'food-trucks', 'edge-signs', 'civic', 'parkland', 'recreation', 'parks', 'shopfronts']); world.batched = r; } catch (err) { console.warn('batching skipped', err); }
-  return { feed, get food() { return food; }, get greenrey() { return greenrey; }, update, renderReflection, setSize, setGraphics, sport: () => sports?.pose() || null, get sports() { return sports; }, get graphics() { return gfx; }, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get cycling() { return cycling; }, get officials() { return officials; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || !!homeAct || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, renderPortraits, get profile() { return profile; }, get critters() { return critters; }, get railway() { return railway; }, streamStats, smallStats, setStreaming, get tallRoom() { return (interiors?.room?.H || 0) > 12; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { feed, get food() { return food; }, get greenrey() { return greenrey; }, update, renderReflection, setSize, setGraphics, sport: () => sports?.pose() || null, get sports() { return sports; }, get graphics() { return gfx; }, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get cycling() { return cycling; }, get officials() { return officials; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || !!homeAct || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, cityGrid, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, renderPortraits, get profile() { return profile; }, get critters() { return critters; }, get railway() { return railway; }, streamStats, smallStats, setStreaming, get tallRoom() { return (interiors?.room?.H || 0) > 12; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

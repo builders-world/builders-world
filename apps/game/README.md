@@ -132,6 +132,7 @@ Open the printed address for the onboarding, or add `?world=1` to go straight in
   - `menus.js` (phone, map, bag, wallet, settings), `hud.js`, `weather.js` and `sun.js`;
   - `quality.js`, `stream.js` and `batch.js` (performance).
 - `src/onboarding/` is the arrivals journey.
+- `src/look/citygrid.js` draws the rest of the city round the district: every building, road, park and river of the city, baked into 500 m tiles by `scripts/grid/bake.py` (`public/grid/<city>/`) and streamed round the camera. Nairobi has one so far.
 - The countries and cities come from `cities/` at the top of the repository, through the `@cities` alias (`src/look/citydirectory.js`). `tests/cities.test.js` checks every file there.
 - `public/data/` holds the baked city areas. `scripts/fetch-osm.mjs` bakes a new one.
 - Shared rules for every city, its own look per city: anything systemic (traffic, zoning, physics, UI) applies to every city, while architecture and flavour are set per city in `src/look/cityinfo.js` and `areas.js`.
@@ -183,6 +184,7 @@ The [tracker](https://github.com/builders-world/builders-world/blob/main/docs/co
 ## Credits and data
 
 - Map data © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors, under the ODbL.
+- The city grids (the whole city round your district) come from [Overture Maps](https://overturemaps.org/) (OpenStreetMap, Google Open Buildings and Microsoft building footprints; ODbL), with building heights partly from the [Global Human Settlement Layer](https://human-settlement.emergency.copernicus.eu/) GHS-BUILT-H 2018, European Commission JRC (CC BY 4.0).
 - Weather from [Open-Meteo](https://open-meteo.com/). The free API is for non-commercial use; a public launch needs their paid plan or another provider.
 - Country boundaries from [Natural Earth](https://www.naturalearthdata.com/) (public domain), via `world-atlas`.
 - Radio streams found through [Radio Browser](https://www.radio-browser.info/). Chess rules by [chess.js](https://github.com/jhlywa/chess.js).

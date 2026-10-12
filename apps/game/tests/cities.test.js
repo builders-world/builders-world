@@ -48,3 +48,20 @@ test('no stray files: only country.json, city folders and a README.md', () => {
     else assert.ok(['country.json', 'README.md'].includes(f), `${k}/${f}: unexpected file`);
   }
 });
+
+test('a city with a "grid" box has its grid baked (scripts/grid/bake.py), every tile present', () => {
+  for (const { k, c, rec } of cities.filter(({ rec }) => rec.grid)) {
+    const g = rec.grid;
+    assert.ok(g.south < g.north && g.west < g.east, `${k}/${c}: grid is {south, west, north, east}`);
+    assert.ok(rec.lat > g.south && rec.lat < g.north && rec.lon > g.west && rec.lon < g.east, `${k}/${c}: the city's centre is inside its grid`);
+    const dir = new URL(`../public/grid/${c}/`, import.meta.url);
+    assert.ok(existsSync(new URL('index.json', dir)), `${k}/${c}: run python3 scripts/grid/bake.py ${k}/${c}`);
+    const ix = JSON.parse(readFileSync(new URL('index.json', dir), 'utf8'));
+    assert.ok(ix.tiles.length > 0 && ix.sources);
+    for (const [i, j] of ix.tiles) {
+      const f = new URL(`${i}_${j}.json`, dir);
+      assert.ok(existsSync(f), `${k}/${c}: tile ${i}_${j} is missing`);
+      assert.ok(statSync(f).size < 400000, `${k}/${c}: tile ${i}_${j} is too big to stream`);
+    }
+  }
+});

@@ -310,7 +310,8 @@ async function main() {
   const look = new THREE.Vector3();
   let snap = true;
   const holds = { rotL: false, rotR: false };
-  const limits = () => (cam.aerial ? [60, world.radius * 2.2] : [3.5, 40]);
+  // over a city with its grid (citygrid.js) the aerial view climbs until the whole city is below you
+  const limits = () => (cam.aerial ? [60, street?.cityGrid?.active ? 2600 : world.radius * 2.2] : [3.5, 40]);
 
   // ---- world (re)build: same layout, different light ----
   function build(name) {
@@ -336,6 +337,7 @@ async function main() {
     chrome.setWorld(world, via, { ...place, name: cityLabel(place.city), city: areaName(areaOf(place.city, place.name)) || place.name });
     street?.dispose();
     if (q.get('look') !== '0') street = createLook({ renderer, scene, camera, world, reduced, quality, sky, bloom, weatherFeed, avatar: body });
+    camera.far = street?.cityGrid?.active ? 16000 : 4000; camera.updateProjectionMatrix(); // the city grid reaches the horizon
     lookRef = street; worldRef = world;
   }
 
@@ -974,7 +976,11 @@ async function main() {
     street?.update(dt, t, player, cam.yaw, shared.uArrival.value);
     street?.renderReflection();
     // vivid by day, calmer under the lamps at night; and toward grey near the edge of the area, as the world thins out
-    { const rr = cam.aerial ? 0 : Math.hypot(player.x, player.z), u = Math.min(1, Math.max(0, (rr - world.radius * 0.85) / (world.radius * 0.19))); grade.uniforms.uSat.value = (0.94 + 0.18 * shared.uDay.value) * (1 - 0.72 * u * u * (3 - 2 * u)); }
+    // (not where the city carries on past it: citygrid.js)
+    { const rr = cam.aerial || street?.cityGrid?.active ? 0 : Math.hypot(player.x, player.z), u = Math.min(1, Math.max(0, (rr - world.radius * 0.85) / (world.radius * 0.19))); grade.uniforms.uSat.value = (0.94 + 0.18 * shared.uDay.value) * (1 - 0.72 * u * u * (3 - 2 * u)); }
+    // the sky travels with the camera, and reaches as far as it sees: from the aerial view over a whole city you climb
+    // well past where its dome used to end (citygrid.js)
+    if (sky) { sky.position.copy(camera.position); sky.scale.setScalar(Math.max(1, (camera.far * 0.9) / 900)); sky.renderOrder = -10; sky.traverse((o) => { o.renderOrder = -10; }); }
     if (q.get('post') === '0') renderer.render(scene, camera); else composer.render();
     street?.renderPortraits?.(dt);
     if (q.get('govern') !== '0') govern();
