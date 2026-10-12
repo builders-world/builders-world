@@ -120,6 +120,17 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   const openWorld = world.open ? createOpenWorld({ world, quality, reduced }) : null;
   const clouds = openWorld?.active ? createClouds() : null;
   const cityTraffic = openWorld?.active && !off.has('citytraffic') ? createCityTraffic({ openWorld, quality, drive: cityInfo().drive, reduced }) : null;
+  // the open city's cafes, restaurants, banks, gyms and co-working spaces: walk up to one and go in (the district's
+  // own rooms, under the place's real name)
+  const CITY_ROOM = { cafe: 'cafe', restaurant: 'cafe', fast_food: 'cafe', food_court: 'cafe', bank: 'bank', gym: 'gym', fitness_centre: 'gym', coworking_space: 'hub' };
+  let cityDoors = [], cityDoorsIn = 0;
+  function cityPlaces(player, dt) {
+    if (!openWorld?.active || (cityDoorsIn -= dt) > 0) return; cityDoorsIn = 0.5;
+    if (cityDoors.length) { const drop = new Set(cityDoors); for (let i = props.interact.length - 1; i >= 0; i--) if (drop.has(props.interact[i])) props.interact.splice(i, 1); }
+    cityDoors = Math.hypot(player.x, player.z) < world.radius - 10 ? [] : openWorld.placesNear(player.x, player.z, 40)
+      .filter((q) => CITY_ROOM[q.k]).map((q, i) => ({ id: `cityplace:${i}`, label: `Enter ${q.n}`, x: q.x, z: q.z, r: 3.2, key: CITY_ROOM[q.k], name: q.n }));
+    props.interact.push(...cityDoors);
+  }
   const cityPeople = openWorld?.active && !off.has('citypeople') ? createCityPeople({ openWorld, quality, reduced, seeDist: TIERS[quality]?.people ?? 60 }) : null;
   if (clouds) scene.add(clouds.group);
   if (openWorld?.active) {
@@ -301,6 +312,12 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
         if (r?.sit) { pendingMove = { ...r.sit, mode: 'sit' }; return true; } // the seat bar says what you can do now
         if (r?.act) { startAct(r.act); return true; }
         return !!r;
+      }
+      if (active?.id?.startsWith('cityplace:')) { // a place out in the open city: its kind's room, under its own name
+        const key = active.key, door = { x: active.x, z: active.z, yaw: Math.atan2(active.x - player.x, active.z - player.z) + Math.PI }, was = PLACES[key].name;
+        doorOut = door; PLACES[key].name = active.name;
+        interiors.enter(key).then((p) => { PLACES[key].name = was; setInside(active.name); pendingMove = { ...p, mode: 'inside' }; });
+        return true;
       }
       if (active?.id?.startsWith('enter:')) {
         const key = active.id.slice(6), door = { x: active.x, z: active.z, yaw: Math.atan2(active.x - player.x, active.z - player.z) + Math.PI };
@@ -714,6 +731,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     openWorld?.update(camera, dt, scene.fog?.far ?? 1500);
     cityTraffic?.update(camera, dt);
     cityPeople?.update(camera, dt, player);
+    cityPlaces(player, dt);
     emotes?.update(dt);
     // the rain starting is news to everyone out in it
     const wet = (live?.rain ?? 0) > 0.25; if (wet && !wasWet) emotes?.event('rain', player.x, player.z, 35, { max: 8, chance: 0.7 }); wasWet = wet;

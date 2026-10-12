@@ -135,7 +135,8 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
     if (c.group) { group.remove(c.group); disposeGroup(c.group); }
     c.group = g; c.lod = res.lod; group.add(g); g.updateMatrixWorld(true);
     dropCol(c); if (res.lod < 2) addCol(c, o.colliders);
-    c.buildings = o.buildings; c.pois = o.pois; c.map = o.map || null; api.mapVersion++;
+    // (the district has its own places: the city's inside its circle are left to it)
+    c.buildings = o.buildings; c.pois = (o.pois || []).filter((q) => Math.hypot(q.x - hole[0], q.z - hole[1]) > R * BUILD_HOLE); c.map = o.map || null; api.mapVersion++;
   }
   const disposeGroup = (g) => g.traverse((m) => { if (m.isMesh && m.geometry !== lampGeo && m.geometry !== bulbGeo && !m.name.startsWith('city_trees')) m.geometry?.dispose(); });
 
@@ -187,6 +188,19 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
       if (Math.abs(mx - cx) > r + S / 2 || Math.abs(mz - cz) > r + S / 2) return;
       fn(c.map, c.col, index, c.pois || []);
     });
+  };
+  /**
+   * The city's named places within r metres of (x, z) in the scene's frame, each with its door: the place's point
+   * pushed out of its building onto the pavement in front (resolve), so you can walk up to it. [{ k, n, x, z }]
+   */
+  api.placesNear = (x, z, r) => {
+    const out = [], cx = x + off.x, cz = z + off.z;
+    chunks.forEach((c) => (c.lod <= 1 ? c.pois || [] : []).forEach((q) => {
+      if (!q.n || Math.abs(q.x - cx) > r || Math.abs(q.z - cz) > r) return;
+      const p = { x: q.x - off.x, z: q.z - off.z }; api.resolve(p, 1.4);
+      out.push({ k: q.k, n: q.n, x: p.x, z: p.z });
+    }));
+    return out;
   };
   /** The name of the street nearest (x, z) in the scene's frame, within reach metres, or null. */
   api.streetAt = (x, z, reach = 18) => {
