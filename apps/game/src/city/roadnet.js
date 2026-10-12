@@ -148,7 +148,7 @@ export function junctionShape(nx0, nz0, ends) {
  * Shape every junction: how far each segment stops short (seg.trimA, seg.trimB), and the junction's asphalt, its
  * pavement corners and its kerbs. Roundabout islands too.
  */
-export function shapeJunctions(net) {
+export function shapeJunctions(net, { elevate = true } = {}) {
   const { nodes, segs } = net;
   segs.forEach((s) => { s.trimA = 0; s.trimB = 0; s.L = len(s.pts); });
   const junctions = [];
@@ -205,11 +205,11 @@ export function shapeJunctions(net) {
   // elevation: a bridge (or the expressway's viaduct) is a deck 6.5 m up, 6 m more per level; a node it touches is up
   // there too, and an ordinary road meeting it ramps up to it over as much as 90 m
   const deckH = (layer) => 6.5 + (Math.max(1, layer) - 1) * 6;
-  nodes.forEach((n) => { n.elev = Math.max(0, ...n.ends.map((e) => (e.seg.bridge ? deckH(e.seg.layer) : 0))); });
+  nodes.forEach((n) => { n.elev = elevate ? Math.max(0, ...n.ends.map((e) => (e.seg.bridge ? deckH(e.seg.layer) : 0))) : 0; });
   const ease = (t) => t * t * (3 - 2 * t);
   segs.forEach((s) => {
     const pts = s.draw, L = len(pts), cum = [0]; for (let i = 1; i < pts.length; i++) cum.push(cum[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
-    if (s.bridge) { s.elev = pts.map(() => deckH(s.layer)); return; }
+    if (s.bridge && elevate) { s.elev = pts.map(() => deckH(s.layer)); return; }
     const ea = s.a.elev, eb = s.b.elev; if (!ea && !eb) return;
     const R = Math.min(90, Math.max(20, (L + s.trimA + s.trimB) * 0.9));
     s.elev = cum.map((d) => Math.max(ea * (1 - ease(Math.min(1, (d + s.trimA) / R))), eb * (1 - ease(Math.min(1, (L - d + s.trimB) / R)))));
@@ -323,5 +323,24 @@ export function drawNetwork(net, tri, { drive = 'right', detail = 0, keepSeg = (
     if (!keepJunction(isl)) return;
     triangulate(isl.pts).forEach(([a, b, c]) => tri('island', [a[0], Y.island, a[1]], [b[0], Y.island, b[1]], [c[0], Y.island, c[1]]));
     if (detail < 2) line(T('kerb'), [...isl.pts, isl.pts[0]], 0.25, Y.kerb);
+  });
+}
+
+/**
+ * Give every road its profile as the districts' `r.fit` (world.js, traffic.js, the lamps, the estates): its line every
+ * 3 m with normals, and the profile's carriageway and pavements, the same all the way along (a roundabout's ring has
+ * its pavement on the outside only).
+ */
+export function fitProfiles(roads, net) {
+  const ring = new Map(); net.segs.forEach((s) => { if (s.ring && !ring.has(s.road)) ring.set(s.road, s); });
+  roads.forEach((r) => {
+    r.wClass = r.w;
+    if (!isDriveable(r.cls) || r.pts.length < 2) { r.fit = null; return; }
+    const P = profileOf(r), out = [r.pts[0]];
+    for (let i = 1; i < r.pts.length; i++) { const a = r.pts[i - 1], b = r.pts[i], n = Math.max(1, Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) / 3)); for (let k = 1; k <= n; k++) out.push([a[0] + ((b[0] - a[0]) * k) / n, a[1] + ((b[1] - a[1]) * k) / n]); }
+    const nrm = out.map((p, i) => { const a = out[Math.max(0, i - 1)], b = out[Math.min(out.length - 1, i + 1)], tx = b[0] - a[0], tz = b[1] - a[1], l = Math.hypot(tx, tz) || 1; return [-tz / l, tx / l, tx / l, tz / l]; });
+    const rs = ring.get(r), pl = rs ? rs.paveL : P.pave, pr = rs ? rs.paveR : P.pave;
+    r.fit = { pts: out, nrm, half: out.map(() => P.half), paveL: out.map(() => pl), paveR: out.map(() => pr), profile: P };
+    r.w = 2 * P.half;
   });
 }
