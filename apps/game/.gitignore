@@ -10,5 +10,3 @@ artifacts/motion/
 # downloaded map data for the city bakes (scripts/city/)
 .cache/
 
-# baked cities live in the Vercel Blob store (scripts/city/upload.mjs); bake locally, run with VITE_CITY_BASE=/city/
-public/city/

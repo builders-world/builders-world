@@ -15,7 +15,6 @@ import { facadeMaterial, facadeUniforms } from './facade.js';
 // buildings, trees, lamps and medians are solid. The district you arrived in keeps its own streets, estates and life
 // inside its circle; the city carries on from its edge.
 
-export const CITY_STORE = 'https://frkdksniuqhzw3jl.public.blob.vercel-storage.com/city/';
 const HOLE = 1.24, BUILD_HOLE = 1.15; // the district's circle (its own ground ends here: world.js, open mode)
 
 function lampGeometry() {
@@ -38,10 +37,9 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
   off.x = (world.center.lon - city.lon) * kx; off.z = -(world.center.lat - city.lat) * 110574;
   group.position.set(-off.x, 0, -off.z);
   const R = world.radius, hole = [off.x, off.z, R * HOLE];
-  // where the city's files are: the project's Vercel Blob store (scripts/city/upload.mjs), or VITE_CITY_BASE=/city/ for
-  // a city just baked into public/city/. index.json names the version its tiles and map were uploaded under, so those
-  // can be cached for good
-  const home = `${import.meta.env?.VITE_CITY_BASE || CITY_STORE}${city.slug}/`;
+  // where the city's files are: public/city/ in the deployment, or elsewhere through VITE_CITY_BASE (an object store
+  // filled by scripts/city/upload.mjs). An uploaded index.json names the version its tiles and map went up under ("v")
+  const home = `${import.meta.env?.VITE_CITY_BASE || `${import.meta.env?.BASE_URL ?? './'}city/`}${city.slug}/`;
   let base = home;
   let loaded; const whenLoaded = new Promise((res) => { loaded = res; });
   // how far each detail reaches on the ground (lod 0, 1, 2); lod 3 beyond, out to the haze. The higher you climb, the

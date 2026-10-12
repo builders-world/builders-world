@@ -1,5 +1,7 @@
-// Upload a baked city (public/city/<slug>/, bake.mjs) to the Vercel Blob store the game reads in production
-// (VITE_CITY_BASE). The tiles and map.json go under a folder named for their content, cached for a year; index.json,
+// Not used today: the cities ship with the deployment (public/city/). Kept for when there are too many for that.
+//
+// Upload a baked city (public/city/<slug>/, bake.mjs) to a Vercel Blob store, for the game to read through
+// VITE_CITY_BASE. The tiles and map.json go under a folder named for their content, cached for a year; index.json,
 // which names that folder ("v"), goes last and is cached for a minute, so a rebake goes live within a minute and
 // nobody ever gets a new index with old tiles. Needs BLOB_READ_WRITE_TOKEN (vercel env pull, never committed).
 //
