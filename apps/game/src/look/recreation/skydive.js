@@ -12,6 +12,7 @@ import * as THREE from 'three';
 import { person, gameKeys, sportsUI } from '../sports/common.js';
 import { sfx } from '../audio.js';
 import { C, FONT } from '../uikit.js';
+import { briefCard, recMode } from './brief.js';
 
 const EXIT = 3000, PULL = 1500, AAD = 750, G = 9.81;
 const STEPS = [
@@ -30,10 +31,7 @@ export function createSkydive(o) {
   const group = new THREE.Group(); group.name = 'skydive'; scene.add(group);
   const keys = gameKeys(['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright', ' ', 'f', 'c', 'escape', 'enter']);
   const ui = sportsUI();
-  // while you jump, the street's own touch controls, your badge and the key hints make way for the jump's buttons
-  const css = document.createElement('style');
-  css.textContent = 'body.bw-sky #lk-touch, body.bw-sky #lk-me, body.bw-sky #lk-prompt { display: none !important; } @media (pointer: coarse) { body.bw-sky #lk-skeys { display: none !important; } }';
-  document.head.appendChild(css); document.body.classList.add('bw-sky');
+  recMode(true); // the street's touch controls make way for the jump's (brief.js)
   const M = (c, r = 0.85) => new THREE.MeshStandardMaterial({ color: c, roughness: r });
 
   // ---------- the wind: a steady breeze from one side, for the whole jump ----------
@@ -104,29 +102,8 @@ export function createSkydive(o) {
     plane.userData.prop.rotation.z += 1.8;
   }
 
-  // ---------- the briefing card ----------
-  const card = document.createElement('div');
-  card.id = 'bw-brief';
-  card.innerHTML = `<style>
-    #bw-brief { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 40; width: min(460px, calc(100vw - 32px)); padding: 16px 18px; border-radius: 20px;
-      background: ${C.paper}; color: ${C.ink}; font: 600 14px/1.45 ${FONT}; box-shadow: 0 5px 0 rgba(59,42,32,.2), 0 18px 40px rgba(10,14,30,.3); }
-    #bw-brief h4 { margin: 0 0 2px; font: 800 18px/1.2 ${FONT}; } #bw-brief .who { color: ${C.teal}; font-weight: 800; font-size: 12px; margin-bottom: 6px; }
-    #bw-brief .dots { display: flex; gap: 5px; margin: 10px 0 0; } #bw-brief .dots i { width: 8px; height: 8px; border-radius: 50%; background: #e3d4b4; } #bw-brief .dots i.on { background: ${C.coral}; }
-    #bw-brief .row { display: flex; gap: 8px; margin-top: 12px; } #bw-brief button { flex: 1; border: 0; border-radius: 999px; padding: 10px; font: 800 14px/1 ${FONT}; cursor: pointer; background: #efe2c4; color: ${C.ink}; }
-    #bw-brief button.go { background: ${C.amber}; box-shadow: 0 3px 0 #c98f1f; }
-  </style><div class="who"></div><h4></h4><div class="b"></div><div class="dots"></div><div class="row"><button class="back">Back</button><button class="go">Next</button></div>`;
-  document.body.appendChild(card);
-  const renderCard = () => {
-    const st = STEPS[S.step];
-    card.querySelector('.who').textContent = `${o.guide.name}, your instructor · ${o.solo ? 'solo jump' : 'tandem'} · climbing to ${EXIT.toLocaleString()} m`;
-    card.querySelector('h4').textContent = `${S.step + 1}. ${st.t}`; card.querySelector('.b').textContent = st.b;
-    card.querySelector('.dots').innerHTML = STEPS.map((_, i) => `<i class="${i <= S.step ? 'on' : ''}"></i>`).join('');
-    card.querySelector('.back').style.visibility = S.step ? 'visible' : 'hidden';
-    card.querySelector('.go').textContent = S.step === STEPS.length - 1 ? 'Ready: to the door' : 'Next';
-  };
-  card.querySelector('.back').onclick = () => { S.step = Math.max(0, S.step - 1); renderCard(); sfx('tap'); };
-  card.querySelector('.go').onclick = () => { if (S.step < STEPS.length - 1) { S.step++; renderCard(); sfx('tap'); } else toDoor(); };
-  renderCard();
+  // ---------- the briefing on the climb (brief.js) ----------
+  const card = briefCard({ id: 'bw-brief', who: `${o.guide.name}, your instructor · ${o.solo ? 'solo jump' : 'tandem'} · climbing to ${EXIT.toLocaleString()} m`, steps: STEPS, last: 'Ready: to the door', onDone: () => toDoor() });
 
   // ---------- on a phone: the buttons ----------
   const touch = matchMedia('(pointer: coarse)').matches;
@@ -203,7 +180,7 @@ export function createSkydive(o) {
     const tk = keys.take(); if (tk.includes(' ')) pressSpace();
     if (tk.includes('c')) S.view = (S.view + 1) % 3;
     if (tk.includes('escape')) { if (S.phase === 'brief' || S.phase === 'door') { finish({ aborted: true }); return; } }
-    if (tk.includes('enter') && S.phase === 'brief') card.querySelector('.go').click();
+    if (tk.includes('enter') && S.phase === 'brief') card.next();
     if (tk.includes('f') && (S.phase === 'canopy')) { S.ff = S.ff === 1 ? 4 : 1; toast(S.ff > 1 ? 'Canopy ride sped up (F again for real time).' : 'Real time.', 1600); }
     const step = dt * (S.phase === 'canopy' && S.pos.y - groundAt(S.pos.x, S.pos.z, S.pos.y) > 120 ? S.ff : 1);
     S.t += step;
@@ -285,7 +262,7 @@ export function createSkydive(o) {
   let ended = false;
   function finish(result) {
     if (ended) return; ended = true;
-    keys.on = false; ui.show(false); ui.meter(null); card.remove(); pad.remove?.(); document.body.classList.remove('bw-sky'); css.remove();
+    keys.on = false; ui.show(false); ui.meter(null); card.remove(); pad.remove?.(); recMode(false);
     you.dispose?.(); inst?.dispose?.();
     group.removeFromParent();
     o.onEnd?.(result, { x: S.phase === 'landed' ? S.pos.x : T.x, z: S.phase === 'landed' ? S.pos.z : T.z });
