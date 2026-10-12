@@ -1,0 +1,10 @@
+{
+  "about": "The phone layout: the HUD pieces do not overlap; run with --device phone (and --quality low).",
+  "device": "phone",
+  "game": { "city": "Lagos", "area": "Yaba", "quality": "low" },
+  "steps": [
+    { "shot": "phone-street" },
+    { "expect": "(() => { const ids = ['#lk-obj', '#lk-map', '#lk-eff', '#lk-stick', '#lk-me .ph']; const r = ids.map((s) => document.querySelector(s)?.getBoundingClientRect()).filter((b) => b && b.width); for (let i = 0; i < r.length; i++) for (let j = i + 1; j < r.length; j++) { const a = r[i], b = r[j]; if (a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom) return false; } return true; })()", "name": "objective, minimap, Efforts, stick and badge do not overlap" },
+    { "fps": 3000 }
+  ]
+}
