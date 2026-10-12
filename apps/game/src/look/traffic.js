@@ -41,6 +41,15 @@ const MIX = ['saloon', 'saloon', 'hatch', 'suv', 'pickup', 'taxi', 'taxi', 'danf
 const ROUTES = ['YABA - OSHODI', 'CMS - OBALENDE', 'OJUELEGBA', 'IKEJA ALONG', 'MILE 12', 'AJAH', 'UNILAG GATE', 'TBS - CMS'];
 const geoCache = {};
 
+/** A design's merged parts (body to paint, glass, dark parts) and its size and paints, for instanced traffic (city/citytraffic.js). */
+export function vehicleParts(kind) {
+  const D = DESIGNS[kind]; if (!D?.body) return null;
+  geoCache[kind] = geoCache[kind] || { body: mergeGeometries(D.body()), glass: mergeGeometries(D.glass()), dark: mergeGeometries(D.dark(D.len)) };
+  const own = cityInfo().traffic?.paint?.[kind];
+  return { D, ...geoCache[kind], paints: own || (D.paint != null ? [D.paint] : PAINT) };
+}
+export const trafficMix = () => cityInfo().traffic?.mix || MIX;
+
 export function vehicle(kind, i) {
   if (kind === 'cycle') { // a bike and its rider, pedalling (the rider is posed each frame)
     const g = new THREE.Group(), bike = bikeModel([0x2a9d94, 0xe46f4f, 0x3a4f7a][i % 3]); g.add(bike);

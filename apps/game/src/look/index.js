@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import { PlanarReflection, weather } from './surfaces.js';
 import { rain, lampCones, LampLights, skyline } from './atmosphere.js';
 import { createOpenWorld } from '../city/openworld.js';
+import { createCityTraffic } from '../city/citytraffic.js';
+import { createCityPeople } from '../city/citypeople.js';
 import { createClouds } from '../city/clouds.js';
 import { buildProps } from './props.js';
 import { createHud } from './hud.js';
@@ -117,6 +119,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   // Its buildings, trees, lamps and pillars stop you as the district's do; it replaces the painted skyline
   const openWorld = world.open ? createOpenWorld({ world, quality, reduced }) : null;
   const clouds = openWorld?.active ? createClouds() : null;
+  const cityTraffic = openWorld?.active && !off.has('citytraffic') ? createCityTraffic({ openWorld, quality, drive: cityInfo().drive, reduced }) : null;
+  const cityPeople = openWorld?.active && !off.has('citypeople') ? createCityPeople({ openWorld, quality, reduced, seeDist: TIERS[quality]?.people ?? 60 }) : null;
   if (clouds) scene.add(clouds.group);
   if (openWorld?.active) {
     group.add(openWorld.group);
@@ -707,6 +711,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   function update(dt, t, player, yaw, arrival) {
     lastPlayer = player;
     openWorld?.update(camera, dt, scene.fog?.far ?? 1500);
+    cityTraffic?.update(camera, dt);
+    cityPeople?.update(camera, dt, player);
     emotes?.update(dt);
     // the rain starting is news to everyone out in it
     const wet = (live?.rain ?? 0) > 0.25; if (wet && !wasWet) emotes?.event('rain', player.x, player.z, 35, { max: 8, chance: 0.7 }); wasWet = wet;
@@ -1155,6 +1161,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   // fewer draw calls: the static scenery's meshes that share a material, merged (batch.js); nothing on screen changes
   // (?batch=0 turns it off, to compare)
   if (new URLSearchParams(location.search).get('batch') !== '0') try { const r = batchScenery(group, ['landmarks', 'place-fronts', 'shop-signs', 'food-trucks', 'edge-signs', 'civic', 'parkland', 'recreation', 'parks', 'shopfronts']); world.batched = r; } catch (err) { console.warn('batching skipped', err); }
-  return { feed, get food() { return food; }, get greenrey() { return greenrey; }, update, renderReflection, setSize, setGraphics, sport: () => sports?.pose() || null, get sports() { return sports; }, get graphics() { return gfx; }, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get cycling() { return cycling; }, get officials() { return officials; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || !!homeAct || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, openWorld, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, renderPortraits, get profile() { return profile; }, get critters() { return critters; }, get railway() { return railway; }, streamStats, smallStats, setStreaming, get tallRoom() { return (interiors?.room?.H || 0) > 12; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { feed, get food() { return food; }, get greenrey() { return greenrey; }, update, renderReflection, setSize, setGraphics, sport: () => sports?.pose() || null, get sports() { return sports; }, get graphics() { return gfx; }, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get cycling() { return cycling; }, get officials() { return officials; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || !!homeAct || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, openWorld, cityTraffic, cityPeople, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, renderPortraits, get profile() { return profile; }, get critters() { return critters; }, get railway() { return railway; }, streamStats, smallStats, setStreaming, get tallRoom() { return (interiors?.room?.H || 0) > 12; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

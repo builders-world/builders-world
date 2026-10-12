@@ -135,7 +135,7 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
     if (c.group) { group.remove(c.group); disposeGroup(c.group); }
     c.group = g; c.lod = res.lod; group.add(g); g.updateMatrixWorld(true);
     dropCol(c); if (res.lod < 2) addCol(c, o.colliders);
-    c.buildings = o.buildings; c.pois = o.pois; c.map = o.map || null;
+    c.buildings = o.buildings; c.pois = o.pois; c.map = o.map || null; api.mapVersion++;
   }
   const disposeGroup = (g) => g.traverse((m) => { if (m.isMesh && m.geometry !== lampGeo && m.geometry !== bulbGeo && !m.name.startsWith('city_trees')) m.geometry?.dispose(); });
 
@@ -160,7 +160,7 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
       let c = chunks.get(k); if (!c) { c = { i: w.i, j: w.j, lod: -1, want: -1, group: null, col: [], busy: false }; chunks.set(k, c); }
       if (c.want !== w.lod) { c.want = w.lod; if (c.lod !== w.lod) { c.busy = true; queue.push({ key: k, lod: w.lod, d: w.d }); } }
     });
-    chunks.forEach((c, k) => { if (!want.has(k) && !c.busy) { if (c.group) { group.remove(c.group); disposeGroup(c.group); } dropCol(c); chunks.delete(k); } });
+    chunks.forEach((c, k) => { if (!want.has(k) && !c.busy) { if (c.group) { group.remove(c.group); disposeGroup(c.group); } dropCol(c); chunks.delete(k); if (c.map) api.mapVersion++; } });
     queue.sort((a, b) => (a.lod - b.lod) * 400 + (a.d - b.d));
     pump();
   };
@@ -168,6 +168,10 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
     night = n; facadeUniforms.uNight.value = n;
     group.traverse((o) => { if (o.userData.bulbs) o.visible = n > 0.05; });
   };
+  api.classes = () => index?.classes || null;
+  api.mapVersion = 0; // goes up whenever a chunk's map arrives or leaves (the city's traffic rebuilds its streets)
+  /** Every loaded chunk's map (the streets near you), with its key: fn(map, key). */
+  api.eachMap = (fn) => chunks.forEach((c, k) => { if (c.map && c.lod <= 1) fn(c.map, k); });
   api.offset = off; api.mapUrl = `${base}map.json`; // the whole city, for the big map (scripts/city/overview.mjs)
   /**
    * The minimap's view of the city round (x, z) in the scene's frame, out to r metres: each loaded chunk's streets (class
