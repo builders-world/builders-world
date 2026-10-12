@@ -45,6 +45,6 @@ test('the live cities are exactly the cities the game can load', () => {
 test('no stray files: only country.json, city folders and a README.md', () => {
   for (const k of countries) for (const f of readdirSync(new URL(`${k}/`, ROOT))) {
     if (statSync(new URL(`${k}/${f}`, ROOT)).isDirectory()) assert.ok(existsSync(new URL(`${k}/${f}/city.json`, ROOT)), `${k}/${f}: a city folder needs city.json`);
-    else assert.ok(['country.json', 'README.md'].includes(f), `${k}/${f}: unexpected file`);
+    else assert.ok(['country.json', 'knowledge.json', 'README.md'].includes(f), `${k}/${f}: unexpected file`);
   }
 });

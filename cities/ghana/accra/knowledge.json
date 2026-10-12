@@ -1,0 +1,300 @@
+{
+  "street": {
+    "en": 0.42,
+    "tw": 0.3,
+    "gpe": 0.2,
+    "gaa": 0.08
+  },
+  "names": {
+    "weights": {
+      "akan": 0.44,
+      "ga": 0.3,
+      "ewe": 0.16,
+      "northern": 0.1
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "Good morning! How's Osu today?",
+        "Hello! Busy day?",
+        "Hi! How was the drive from Madina?",
+        "Good afternoon, all well?",
+        "Hey, long time!"
+      ],
+      "reply": [
+        "I'm good, thanks!",
+        "By God's grace, fine.",
+        "All good, just busy.",
+        "Doing well. And you?",
+        "We're there, thank you."
+      ],
+      "sunny": [
+        "Bright Accra day.",
+        "Hot one today, drink water.",
+        "Lovely sea breeze in Osu.",
+        "Clear skies, perfect for Labadi.",
+        "Sunny and warm today."
+      ],
+      "rain": [
+        "It's raining heavily.",
+        "Kaneshie will flood now.",
+        "Wait it out, it'll pass.",
+        "Rainy season is here.",
+        "Proper Accra downpour."
+      ],
+      "bye": [
+        "Take care!",
+        "See you later.",
+        "Have a good one.",
+        "Safe journey.",
+        "Talk soon."
+      ],
+      "busy": [
+        "Late for a meeting at Airport City!",
+        "Got to catch a trotro, see you!",
+        "Deadline today, I'll call you.",
+        "Heading to East Legon, later!",
+        "On my way to work, bye!"
+      ]
+    },
+    "tw": {
+      "greet": [
+        "Maakye!",
+        "Ɛte sɛn?",
+        "Wo ho te sɛn?",
+        "Maaha!",
+        "Akwaaba!"
+      ],
+      "reply": [
+        "Me ho yɛ.",
+        "Ɛyɛ, medaase.",
+        "Onyame adom, me ho yɛ.",
+        "Ɛyɛ paa."
+      ],
+      "sunny": [
+        "Ɛyɛ hyew nnɛ!"
+      ],
+      "rain": [
+        "Nsuo retɔ!",
+        "Nsuo no tɔ dodo."
+      ],
+      "bye": [
+        "Yɛbɛhyia bio!",
+        "Nante yie.",
+        "Medaase."
+      ],
+      "busy": [
+        "Merekɔ ntɛm.",
+        "Merekɔ adwuma.",
+        "Adwuma dɔɔso nnɛ."
+      ]
+    },
+    "gpe": {
+      "greet": [
+        "Chale, how far?",
+        "Charley, wassup?",
+        "How you dey?",
+        "Bossu, how be?",
+        "Chale, how?"
+      ],
+      "reply": [
+        "I dey kraa.",
+        "We dey, chale.",
+        "Everything dey cool.",
+        "I dey hustle small."
+      ],
+      "sunny": [
+        "Chale, sun dey hot paa!",
+        "Weather nice today.",
+        "Herh, the heat!",
+        "Today sun no dey play."
+      ],
+      "rain": [
+        "Rain dey come down, chale!",
+        "Ei, rain plenty!",
+        "Make we wait first.",
+        "Road go flood now."
+      ],
+      "bye": [
+        "I dey go, chale.",
+        "Later!",
+        "Make we see.",
+        "Go well."
+      ],
+      "busy": [
+        "Chale, I dey rush.",
+        "I dey come, hold on.",
+        "Work plenty today.",
+        "Make I catch trotro first!"
+      ]
+    },
+    "gaa": {
+      "greet": [
+        "Ojekoo!"
+      ],
+      "reply": [
+        "Ojekoo, oyiwaladonn."
+      ],
+      "bye": [
+        "Oyiwaladonn!"
+      ]
+    }
+  },
+  "transport": {
+    "bus": "trotro",
+    "big_bus": "Aayalolo bus",
+    "moto_taxi": "okada",
+    "tricycle": "pragya (motor tricycle)",
+    "taxi": "taxi (a 'dropping' when it's yours alone)",
+    "ride_hail": "Uber, Bolt or Yango",
+    "conductor": "mate",
+    "driver": "driver",
+    "stage": "station"
+  },
+  "touts": [
+    "Circle! Circle!",
+    "Kaneshie! Kaneshie!",
+    "Madina! Madina, enter!",
+    "Accra! Accra! Tema Station!",
+    "Lapaz! Achimota!",
+    "Kasoa! Kasoa, one more!",
+    "37! 37! Korle Bu!",
+    "East Legon, Shiashie!"
+  ],
+  "hawkers": [
+    [
+      "Pure water! Ice water!",
+      "Sachet water!"
+    ],
+    [
+      "Kelewele!",
+      "Spicy fried plantain!"
+    ],
+    [
+      "Bofrot!",
+      "Ghanaian doughnuts!"
+    ],
+    [
+      "Plantain chips!",
+      "Plantain crisps!"
+    ],
+    [
+      "Koko and koose!",
+      "Millet porridge and bean fritters!"
+    ],
+    [
+      "Credit! MTN credit!",
+      "Phone credit!"
+    ],
+    [
+      "Waakye!",
+      "Rice and beans!"
+    ]
+  ],
+  "food": {
+    "street": [
+      "kelewele",
+      "waakye",
+      "bofrot",
+      "koose",
+      "khebab",
+      "roasted plantain and groundnuts",
+      "fried yam with shito",
+      "pinkaso",
+      "Ga kenkey with fried fish",
+      "spring rolls"
+    ],
+    "dishes": [
+      "jollof rice",
+      "banku and tilapia",
+      "fufu and light soup",
+      "kenkey and fish with shito",
+      "red-red",
+      "kontomire stew",
+      "fried rice",
+      "omo tuo (rice balls) and groundnut soup",
+      "ampesi",
+      "tuo zaafi"
+    ],
+    "drinks": [
+      "sobolo",
+      "asaana",
+      "brukina",
+      "palm wine",
+      "Malta Guinness",
+      "Club beer",
+      "Alvaro"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "Osu",
+      "Labone",
+      "Cantonments",
+      "Airport Residential",
+      "East Legon",
+      "Adabraka",
+      "Jamestown",
+      "Labadi",
+      "Madina",
+      "Kaneshie",
+      "Dansoman",
+      "Spintex",
+      "Teshie",
+      "Nungua",
+      "Achimota",
+      "Dzorwulu",
+      "Ridge",
+      "Tesano"
+    ],
+    "streets": [
+      "Oxford Street",
+      "Ring Road",
+      "Independence Avenue",
+      "Liberation Road",
+      "Spintex Road",
+      "Kwame Nkrumah Avenue",
+      "Labadi Road",
+      "Boundary Road",
+      "the George W. Bush Highway (N1)",
+      "Castle Road",
+      "Cantonments Road",
+      "Lagos Avenue"
+    ],
+    "landmarks": [
+      "Independence Square (Black Star Square)",
+      "Kwame Nkrumah Memorial Park",
+      "Makola Market",
+      "Kotoka International Airport",
+      "Jamestown Lighthouse",
+      "Labadi Beach",
+      "the Accra Mall",
+      "Kwame Nkrumah Circle",
+      "the National Theatre",
+      "the University of Ghana, Legon",
+      "Osu Castle",
+      "Marina Mall"
+    ]
+  },
+  "small_talk": [
+    "Traffic at Circle was terrible this morning.",
+    "Let's get waakye from the woman near the station.",
+    "Labadi beach on Sunday?",
+    "There's a tech meetup in Airport City on Thursday.",
+    "Dumsor again last night.",
+    "The trotro mate gave me change in coins, chale.",
+    "Oxford Street is busy every night.",
+    "Kenkey and shito is the best lunch, don't argue.",
+    "Makola market is packed before Christmas.",
+    "Black Stars play on Saturday, where are we watching?"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Accra",
+    "https://en.wikipedia.org/wiki/Tro_tro",
+    "https://en.wikipedia.org/wiki/Ghanaian_cuisine",
+    "https://en.wikipedia.org/wiki/Ga_language",
+    "https://en.wikipedia.org/wiki/Twi"
+  ],
+  "needs_native_review": "Twi and Ga lines are kept to everyday phrases we are sure of; where Ga has no line the game speaks English or Twi. Native speakers, please check spellings and add lines."
+}

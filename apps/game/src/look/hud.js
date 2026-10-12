@@ -1,3 +1,4 @@
+import { nameFor } from './knowledge.js';
 import { passesEngine } from './passes.js';
 import { paintAirport } from './airportmap.js';
 import * as THREE from 'three';
@@ -111,12 +112,9 @@ body.bw-inside.bw-airport #lk-map { display: block; } /* the airport has its own
 const PIN = '<svg viewBox="0 0 24 24"><path fill="#e46f4f" d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.8" fill="#fff"/></svg>';
 const SPEAKER = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6"/></svg>';
 
-const NEARBY = [
-  ['Kemi', 'Designing a park nook', '#7fd3b0', true],
-  ['Tunde', 'Fixing the stairway', '#9cb3ff', true],
-  ['Nara', 'Adding more plants', '#f6a8a0', false],
-  ['Ada', 'Sketching wall art', '#f7e27a', false],
-];
+// the builders nearby, named as people are in this city (look/knowledge.js)
+const NEARBY_AT = [['board-a', 'f', 'Designing a park nook', '#7fd3b0', true], ['board-b', 'm', 'Fixing the stairway', '#9cb3ff', true], ['near-c', 'f', 'Adding more plants', '#f6a8a0', false], ['near-d', 'm', 'Sketching wall art', '#f7e27a', false]];
+const nearby = () => NEARBY_AT.map(([seed, sex, s, c, t]) => [nameFor(seed, sex)?.first || ['Kemi', 'Tunde', 'Nara', 'Ada'][NEARBY_AT.findIndex((q) => q[0] === seed)], s, c, t]);
 const NOTES = [
   ['#f7e27a', 'Code and chops at the hub, Friday 7pm. Bring a laptop.'],
   ['#a8e0d0', 'Fixed the waste bin by the danfo stop.'],
@@ -218,7 +216,7 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
       <h2>${world.place?.name ?? 'Yaba'} Builders</h2>
       <div class="sub">Ideas, people and places. Sample residents for this preview.</div>
       <h3>Builders nearby</h3>
-      ${NEARBY.map(([n, s, c, talking]) => `<div class="who"><div class="av" style="background:${c}">${n[0]}</div>
+      ${nearby().map(([n, s, c, talking]) => `<div class="who"><div class="av" style="background:${c}">${n[0]}</div>
         <div><div class="n">${n}</div><div class="s">${s}</div></div>${talking ? SPEAKER : ''}</div>`).join('')}
       <h3>Notes</h3>
       ${notes.map(([c, t]) => `<div class="note" style="background:${c}">${t}</div>`).join('')}

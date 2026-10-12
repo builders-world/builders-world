@@ -1,0 +1,287 @@
+{
+  "street": {
+    "en": 0.45,
+    "pcm": 0.25,
+    "ha": 0.3
+  },
+  "names": {
+    "weights": {
+      "hausa": 0.3,
+      "yoruba": 0.2,
+      "igbo": 0.2,
+      "gbagyi": 0.1,
+      "edo": 0.06,
+      "ibibio": 0.05,
+      "ijaw": 0.05,
+      "ikwerre": 0.04
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "Good morning! How's the ministry treating you?",
+        "Hello! Busy day in Wuse?",
+        "Hi! How was the drive in?",
+        "Good afternoon, all well?",
+        "Hey, long time!"
+      ],
+      "reply": [
+        "Fine, thank God.",
+        "All good, just meetings.",
+        "We're doing well.",
+        "Great, thanks. And you?",
+        "Not bad at all."
+      ],
+      "sunny": [
+        "Dry and bright today.",
+        "The harmattan haze has cleared.",
+        "Hot afternoon, stay in the shade.",
+        "Clear skies over Aso Rock.",
+        "Good day for Jabi Lake."
+      ],
+      "rain": [
+        "Rain is coming down hard.",
+        "The roads will be slow now.",
+        "Wait for it to stop.",
+        "Rainy season is here.",
+        "Proper Abuja storm."
+      ],
+      "bye": [
+        "Take care!",
+        "See you later.",
+        "Have a good one.",
+        "Safe drive.",
+        "Talk soon."
+      ],
+      "busy": [
+        "I have a meeting at the ministry.",
+        "Late for work, see you!",
+        "Heading to Maitama, later!",
+        "Deadline today, I'll call.",
+        "Got to catch a cab, bye!"
+      ]
+    },
+    "pcm": {
+      "greet": [
+        "How far?",
+        "How you dey?",
+        "My guy, how body?",
+        "Wetin dey?"
+      ],
+      "reply": [
+        "I dey o!",
+        "We dey.",
+        "No wahala.",
+        "Body dey inside cloth."
+      ],
+      "sunny": [
+        "Sun dey hot today.",
+        "Weather fine o.",
+        "This heat ehn!",
+        "Sun no gree."
+      ],
+      "rain": [
+        "Rain don start o!",
+        "Make we wait make rain stop.",
+        "This rain go heavy.",
+        "Rain no dey joke."
+      ],
+      "bye": [
+        "I dey go.",
+        "Later.",
+        "Waka well.",
+        "Make we see."
+      ],
+      "busy": [
+        "I dey rush.",
+        "Abeg I dey come.",
+        "Work plenty today.",
+        "Make I catch cab."
+      ]
+    },
+    "ha": {
+      "greet": [
+        "Sannu!",
+        "Ina kwana?",
+        "Ina gajiya?",
+        "Yaya aiki?",
+        "Barka da yamma!"
+      ],
+      "reply": [
+        "Lafiya lau.",
+        "Ba gajiya.",
+        "Alhamdulillah.",
+        "Lafiya, na gode."
+      ],
+      "sunny": [
+        "Rana tana zafi yau.",
+        "Yau rana ta fito sosai.",
+        "Akwai zafi yau.",
+        "Yanayi yana da kyau."
+      ],
+      "rain": [
+        "Ana ruwa sosai!",
+        "Ruwan sama ya fara.",
+        "Mu jira ruwa ya tsaya.",
+        "Ruwan yau ya yi yawa."
+      ],
+      "bye": [
+        "Sai anjima!",
+        "Sai gobe.",
+        "A sauka lafiya.",
+        "Mun gode."
+      ],
+      "busy": [
+        "Ina sauri.",
+        "Na makara, sai anjima!",
+        "Aiki ya yi yawa yau.",
+        "Zan tafi ofis."
+      ]
+    }
+  },
+  "transport": {
+    "bus": "bus",
+    "big_bus": "the green buses (and the Abuja light rail)",
+    "moto_taxi": "okada (banned in the city centre)",
+    "tricycle": "keke (kept off the main city)",
+    "taxi": "green and white taxi",
+    "shared_taxi": "kabu-kabu",
+    "ride_hail": "Bolt",
+    "conductor": "conductor",
+    "driver": "driver",
+    "stage": "park"
+  },
+  "touts": [
+    "Berger! Berger! Wuse!",
+    "Area One, Garki!",
+    "Kubwa, Kubwa, Zuba!",
+    "Nyanya, Mararaba, one more!",
+    "Lugbe, airport road!",
+    "Gwarinpa! Life Camp!"
+  ],
+  "hawkers": [
+    [
+      "Ruwa! Pure water!",
+      "Water!"
+    ],
+    [
+      "Masa! Masa!",
+      "Rice cakes!"
+    ],
+    [
+      "Suya! Fresh suya!",
+      "Grilled spiced beef!"
+    ],
+    [
+      "Kilishi!",
+      "Dried spiced beef!"
+    ],
+    [
+      "Fura da nono!",
+      "Millet balls in yoghurt!"
+    ],
+    [
+      "Recharge card!",
+      "Phone credit!"
+    ]
+  ],
+  "food": {
+    "street": [
+      "suya",
+      "kilishi",
+      "masa",
+      "kosai",
+      "roasted corn",
+      "fura da nono",
+      "boli",
+      "shawarma",
+      "dan wake",
+      "puff-puff"
+    ],
+    "dishes": [
+      "tuwo shinkafa and miyan kuka",
+      "jollof rice",
+      "pounded yam and egusi",
+      "pepper soup",
+      "fried rice",
+      "miyan taushe",
+      "amala",
+      "nkwobi",
+      "fish from Jabi lakeside grills",
+      "moi moi"
+    ],
+    "drinks": [
+      "kunu",
+      "zobo",
+      "fura da nono",
+      "malt",
+      "Chapman",
+      "tea with milk"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "Wuse",
+      "Wuse 2",
+      "Garki",
+      "Maitama",
+      "Asokoro",
+      "Central Business District",
+      "Jabi",
+      "Utako",
+      "Gwarinpa",
+      "Kubwa",
+      "Lugbe",
+      "Nyanya",
+      "Lokogoma",
+      "Life Camp",
+      "Katampe",
+      "Jahi"
+    ],
+    "streets": [
+      "Ahmadu Bello Way",
+      "Shehu Shagari Way",
+      "Aminu Kano Crescent",
+      "Adetokunbo Ademola Crescent",
+      "Constitution Avenue",
+      "Independence Avenue",
+      "Herbert Macaulay Way",
+      "Ademola Adetokunbo Crescent",
+      "Airport Road",
+      "Murtala Muhammed Expressway"
+    ],
+    "landmarks": [
+      "Aso Rock",
+      "the National Mosque",
+      "the National Christian Centre",
+      "Millennium Park",
+      "Jabi Lake",
+      "Jabi Lake Mall",
+      "Ceddi Plaza",
+      "Wuse Market",
+      "Zuma Rock",
+      "the Three Arms Zone",
+      "Magic Land",
+      "Banex Plaza"
+    ]
+  },
+  "small_talk": [
+    "Banex Plaza is where you fix any phone in Abuja.",
+    "Traffic from Nyanya was terrible this morning.",
+    "Let's walk round Jabi Lake after work.",
+    "There's a tech meetup in Wuse 2 on Friday.",
+    "Harmattan is coming, get your lip balm ready.",
+    "The light rail to the airport is so smooth.",
+    "Suya at Kubwa is worth the drive.",
+    "Millennium Park is perfect on a Sunday.",
+    "Did you see Aso Rock in the morning light?",
+    "Rent in Maitama is out of this world."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Abuja",
+    "https://en.wikipedia.org/wiki/Hausa_language",
+    "https://en.wikipedia.org/wiki/Gbagyi_people",
+    "https://en.wikipedia.org/wiki/Abuja_Light_Rail"
+  ],
+  "needs_native_review": "Hausa and Pidgin lines: please check."
+}

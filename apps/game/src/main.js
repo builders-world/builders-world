@@ -26,6 +26,9 @@ import { weather as wx } from './look/surfaces.js';
 import { pushOutDynamic } from './look/physics.js';
 import { setEstateNames } from './estates.js';
 import { CITY_INFO } from './look/cityinfo.js';
+import { nameFor } from './look/knowledge.js';
+import { loadKnowledge } from './look/knowledgeload.js';
+import { localiseBuilders } from './builders.js';
 import { areaOf, areaName, cityLabel, regionOf } from './look/areas.js';
 
 const q = new URLSearchParams(location.search);
@@ -215,6 +218,9 @@ async function main() {
   const { manifest, via } = resident
     ? { manifest: await (await fetch('./data/sample.json')).json(), via: 'sample' }
     : await loadManifest(place);
+  // the city's knowledge (cities/<country>/<city>/knowledge.json): names, languages, greetings; before anyone is built
+  await loadKnowledge(place.city).catch(() => null);
+  localiseBuilders(place.city, nameFor);
 
   // the Yaba asset kit (GLBs from the parent repo); the street falls back to code-built props without it
   let kit = null;
