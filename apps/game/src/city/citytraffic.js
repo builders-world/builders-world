@@ -4,6 +4,7 @@
 // vehicles: drawn instanced, a few draw calls for all of them, driving on the city's side of the road, lane by lane,
 // keeping their distance, up and over the expressway's ramps, and through each junction on a curve to the next street.
 import * as THREE from 'three';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { vehicleParts, trafficMix } from '../look/traffic.js';
 import { roadSpeed } from '../look/roadclass.js';
 import { profileOf, Y } from './roadnet.js';
@@ -21,19 +22,30 @@ export function createCityTraffic({ openWorld, quality = 'high', drive = 'right'
   const mix = trafficMix().filter((k) => vehicleParts(k));
   const cars = Array.from({ length: N }, (_, i) => ({ kind: mix[i % mix.length], i, live: false }));
   const glass = new THREE.MeshStandardMaterial({ color: 0x24323b, roughness: 0.15, metalness: 0.4 }), dark = new THREE.MeshStandardMaterial({ color: 0x161618, roughness: 0.8 });
-  const sets = new Map();
+  const sets = new Map(), lightMat = new THREE.MeshBasicMaterial({ vertexColors: true, toneMapped: false });
+  function lightsFor(D, kind) {
+    const y = kind === 'brt' ? 0.9 : 0.72, g = [];
+    [-1, 1].forEach((sd) => [[D.len / 2 + 0.03, [2.4, 2.2, 1.7]], [-D.len / 2 - 0.03, [1.6, 0.12, 0.08]]].forEach(([z, c]) => {
+      const b = new THREE.BoxGeometry(0.3, 0.15, 0.04).translate(sd * (D.w / 2 - 0.25), y, z), n = b.getAttribute('position').count, col = new Float32Array(n * 3);
+      for (let i = 0; i < n; i++) col.set(c, i * 3); b.setAttribute('color', new THREE.BufferAttribute(col, 3)); g.push(b);
+    }));
+    return mergeGeometries(g);
+  }
   [...new Set(cars.map((c) => c.kind))].forEach((kind) => {
     const P = vehicleParts(kind), list = cars.filter((c) => c.kind === kind), n = list.length;
     const body = new THREE.InstancedMesh(P.body, new THREE.MeshStandardMaterial({ roughness: 0.45, metalness: 0.25 }), n);
     const gl = new THREE.InstancedMesh(P.glass, glass, n), dk = new THREE.InstancedMesh(P.dark, dark, n);
+    // head and tail lights, on after dark: white at the front, red at the back, bright enough to bloom
+    const lt = new THREE.InstancedMesh(lightsFor(P.D, kind), lightMat, n); lt.visible = false;
     const col = new THREE.Color();
     list.forEach((c, j) => { c.slot = j; c.D = P.D; body.setColorAt(j, col.setHex(P.paints[(c.i * 7 + j) % P.paints.length])); });
     [body, gl, dk].forEach((m) => { m.frustumCulled = false; m.count = n; m.castShadow = quality !== 'low'; group.add(m); });
-    sets.set(kind, { body, gl, dk, n });
+    lt.frustumCulled = false; group.add(lt);
+    sets.set(kind, { body, gl, dk, lt, n });
   });
   const hidden = new THREE.Matrix4().makeScale(0, 0, 0);
   cars.forEach((c) => place(c, hidden));
-  function place(c, m) { const S = sets.get(c.kind); S.body.setMatrixAt(c.slot, m); S.gl.setMatrixAt(c.slot, m); S.dk.setMatrixAt(c.slot, m); }
+  function place(c, m) { const S = sets.get(c.kind); S.body.setMatrixAt(c.slot, m); S.gl.setMatrixAt(c.slot, m); S.dk.setMatrixAt(c.slot, m); S.lt.setMatrixAt(c.slot, m); }
 
   // ---------- the streets near you, from the loaded chunks ----------
   let streets = [], entries = new Map(), version = -1, classes = null;
@@ -164,7 +176,7 @@ export function createCityTraffic({ openWorld, quality = 'high', drive = 'right'
       draw(c, tmp, slope(c));
     });
     first = false;
-    sets.forEach((S) => { S.body.instanceMatrix.needsUpdate = true; S.gl.instanceMatrix.needsUpdate = true; S.dk.instanceMatrix.needsUpdate = true; });
+    sets.forEach((S) => { S.body.instanceMatrix.needsUpdate = true; S.gl.instanceMatrix.needsUpdate = true; S.dk.instanceMatrix.needsUpdate = true; if (S.lt.visible) S.lt.instanceMatrix.needsUpdate = true; });
   }
   function startTurn(c, A, B, to, uturn) {
     const L = Math.hypot(B[0] - A[0], B[2] - A[2]), h = uturn ? 4 : L / 3;
@@ -179,5 +191,7 @@ export function createCityTraffic({ openWorld, quality = 'high', drive = 'right'
   const near = (r) => cars.filter((c) => { if (!c.live || c.turn) return false; at(c.S, c.d, c.dir, c.lane, tmp); return Math.hypot(tmp[0] - camC.x, tmp[2] - camC.z) < r; }).length;
   /** For the tests: the live car nearest you, in the scene's frame, with its heading and street. */
   const nearest = () => { let best = null, bd = Infinity; cars.forEach((c) => { if (!c.live || c.turn) return; at(c.S, c.d, c.dir, c.lane, tmp); const d = Math.hypot(tmp[0] - camC.x, tmp[2] - camC.z); if (d < bd) { bd = d; best = { x: tmp[0] - openWorld.offset.x, z: tmp[2] - openWorld.offset.z, tx: tmp[3], tz: tmp[4], cls: c.S.cls, oneway: c.S.oneway, lane: c.lane, kind: c.kind }; } }); return best; };
-  return { group, update, nearest, stats: () => ({ cars: cars.filter((c) => c.live).length, turning: cars.filter((c) => c.turn).length, near100: near(100), near200: near(200), streets: streets.length }), dispose: () => { group.removeFromParent(); sets.forEach((S) => [S.body, S.gl, S.dk].forEach((m) => m.dispose())); } };
+  /** Dusk to dawn: the lights on. */
+  const setNight = (n) => sets.forEach((S) => { const on = n > 0.35; if (on && !S.lt.visible) S.lt.instanceMatrix.needsUpdate = true; S.lt.visible = on; });
+  return { group, update, nearest, setNight, stats: () => ({ cars: cars.filter((c) => c.live).length, turning: cars.filter((c) => c.turn).length, near100: near(100), near200: near(200), streets: streets.length }), dispose: () => { group.removeFromParent(); sets.forEach((S) => [S.body, S.gl, S.dk, S.lt].forEach((m) => m.dispose())); } };
 }

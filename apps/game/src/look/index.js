@@ -550,6 +550,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
 
     sky2?.userData.update?.(dt, day, Math.max(lamps, 1 - day), mist, scene.fog?.color);
     openWorld?.setNight(Math.max(lamps, 1 - day));
+    cityTraffic?.setNight(Math.max(lamps, 1 - day));
     // street
     shared.uLamps.value = lamps;
     shared.uDay.value = day; // daylight fades lamp pools and the monument sweep
