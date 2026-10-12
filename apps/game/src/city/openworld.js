@@ -39,7 +39,9 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
   const R = world.radius, hole = [off.x, off.z, R * HOLE];
   // where the city's files are: public/city/ in the deployment, or elsewhere through VITE_CITY_BASE (an object store
   // filled by scripts/city/upload.mjs). An uploaded index.json names the version its tiles and map went up under ("v")
-  const home = `${import.meta.env?.VITE_CITY_BASE || `${import.meta.env?.BASE_URL ?? './'}city/`}${city.slug}/`;
+  // absolute: the workers fetch the tiles, and a worker resolves a relative address against its own (built, that is
+  // /assets/), not the page's, so './city/...' became '/assets/city/...' and every tile 404'd in production
+  const home = new URL(`${import.meta.env?.VITE_CITY_BASE || `${import.meta.env?.BASE_URL ?? './'}city/`}${city.slug}/`, document.baseURI).href;
   let base = home;
   let loaded; const whenLoaded = new Promise((res) => { loaded = res; });
   // how far each detail reaches on the ground (lod 0, 1, 2); lod 3 beyond, out to the haze. The higher you climb, the
