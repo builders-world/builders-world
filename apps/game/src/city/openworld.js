@@ -201,15 +201,22 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
    * name, street name, flat points), land and water, and its buildings' footprints; all in the city's frame, so the
    * caller shifts by api.offset. The district's own streets are the world's, so chunks inside it are left out.
    */
+  // (returns how many of the city's chunks in reach it had the map of, and how many there are: the minimap fills the
+  // rest from the whole city's map when they differ, high up where the far chunks are built without theirs)
+  let baked = null;
   api.mapNear = (x, z, r, fn) => {
-    if (!index) return;
+    if (!index) return { got: 0, want: 0 };
+    baked ??= new Set(index.chunks.map(([i, j]) => `${i}_${j}`));
     const cx = x + off.x, cz = z + off.z, S = index.chunk;
+    let got = 0, want = 0;
+    for (let i = Math.floor((cx - r) / S); i <= Math.floor((cx + r) / S); i++) for (let j = Math.floor((cz - r) / S); j <= Math.floor((cz + r) / S); j++) if (baked.has(`${i}_${j}`)) want++;
     chunks.forEach((c) => {
       if (!c.map || c.lod > 1) return;
       const mx = (c.i + 0.5) * S, mz = (c.j + 0.5) * S;
       if (Math.abs(mx - cx) > r + S / 2 || Math.abs(mz - cz) > r + S / 2) return;
-      fn(c.map, c.col, index, c.pois || []);
+      got++; fn(c.map, c.col, index, c.pois || []);
     });
+    return { got, want };
   };
   /**
    * The city's named places within r metres of (x, z) in the scene's frame, each with its door: the place's point

@@ -353,8 +353,10 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
   const cityPoiKind = (k) => (/^(restaurant|fast_food|food_court|bar|pub)$/.test(k) ? 'food' : k === 'cafe' ? 'cafe' : /^(bank|atm|bureau_de_change)$/.test(k) ? 'atm' : k === 'fuel' ? 'fuel' : /^(bus_station|bus_stop)$/.test(k) ? 'bus' : /^(gym|fitness_centre|sports_centre)$/.test(k) ? 'gym' : k.startsWith('shop:') || k === 'marketplace' ? 'shop' : null);
   function drawCity(player, k) {
     const o = openWorld.offset, reach = 150, lands = [], waters = [], roads = [], blds = [], pois = [];
-    openWorld.mapNear(player.x, player.z, reach, (m, col, ix, ps) => { lands.push(...m.land); waters.push(...m.water); roads.push(...m.roads); col.forEach((c) => c.t === 'poly' && blds.push(c.pts)); pois.push(...ps); });
-    if (!roads.length && !blds.length) { drawWhole(o, k); return; }
+    const n = openWorld.mapNear(player.x, player.z, reach, (m, col, ix, ps) => { lands.push(...m.land); waters.push(...m.water); roads.push(...m.roads); col.forEach((c) => c.t === 'poly' && blds.push(c.pts)); pois.push(...ps); });
+    // some of the ground in reach has no map of its own just now (high up): the whole city's under it
+    if (!n || n.got < n.want) drawWhole(o, k);
+    if (!roads.length && !blds.length) return;
     map.save(); map.translate(-o.x * k, -o.z * k);
     const flat = (p, close) => { map.beginPath(); for (let i = 0; i < p.length; i += 2) (i ? map.lineTo(p[i] * k, p[i + 1] * k) : map.moveTo(p[i] * k, p[i + 1] * k)); if (close) map.closePath(); };
     lands.forEach(([kind, p]) => { const c = CITY_LAND[kind]; if (!c) return; map.fillStyle = c; flat(p, true); map.fill(); });
