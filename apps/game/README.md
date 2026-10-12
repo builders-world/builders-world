@@ -29,6 +29,12 @@ Built with three.js and Vite. There are no game engines, downloads or plug-ins: 
   | Nairobi | Kilimani, City Centre, Westlands |
   | Accra | Osu, Accra Central, Airport City |
 
+- **Nairobi is an open world.** Each area is built in full. Around it, the whole of central Nairobi (about 9 by 7 km) stretches to the horizon on its real street grid: every building from OpenStreetMap at its real height, the parks, the river, and the expressway on its viaduct. You can walk out of the area and keep going, or look over all of it from the aerial view. Nearby streets have:
+  - traffic, keeping left in lanes, with lights after dark;
+  - people on the pavements;
+  - cafés, restaurants, banks and gyms you can go into, under their real names.
+
+  Only the streets near you are built, in 200 m pieces streamed in the background. Their detail scales with distance and with your device. Clay clouds drift overhead from the aerial view. The minimap follows you anywhere in the city, and the big map zooms out from the area to the whole city.
 - **Planned estates** with gates, closes and numbered houses (1A, 2B...), garages and gardens. The serving-window shops along the main streets each have their attendant at the counter, with illustrated signs showing what they sell.
 - **Real landmarks** in place, and the city's skyline on the horizon. These include Ikeja City Mall, Ibom Tropicana, the National Stadium, Lagos Port Complex and hospitals.
 - **A road hierarchy.**
@@ -111,6 +117,8 @@ Open the printed address for the onboarding, or add `?world=1` to go straight in
 | `?hud=0` | Hide the interface |
 | `?greenrey=0`, `?stream=0`, `?batch=0` | Turn off the ground layer, distance streaming or mesh batching, to compare |
 | `?start=home` | Start inside your home (the tests start on the street) |
+| `?open=0` | Nairobi without the open city round the area |
+| `?no=citytraffic,citypeople` | The open city without its traffic or people, to compare |
 
 ## Checks
 
@@ -134,6 +142,13 @@ Open the printed address for the onboarding, or add `?world=1` to go straight in
 - `src/onboarding/` is the arrivals journey.
 - The countries and cities come from `cities/` at the top of the repository, through the `@cities` alias (`src/look/citydirectory.js`). `tests/cities.test.js` checks every file there.
 - `public/data/` holds the baked city areas. `scripts/fetch-osm.mjs` bakes a new one.
+- `src/city/` is the open world:
+  - `roadnet.js` is the road network (after Cities: Skylines);
+  - `openworld.js` streams the chunks, which `chunkworker.js` meshes in a worker (with `chunkmesh.js`);
+  - `citytraffic.js` and `citypeople.js` are the life on the streets;
+  - `clouds.js` and `facade.js` are the clouds and the window shader.
+
+  `public/city/<city>/` holds a city baked into chunks, plus `map.json` for the big map. `scripts/city/bake.mjs` bakes one from an OpenStreetMap extract (the steps are at the top of the file).
 - Shared rules for every city, its own look per city: anything systemic (traffic, zoning, physics, UI) applies to every city, while architecture and flavour are set per city in `src/look/cityinfo.js` and `areas.js`.
 
 How the world is built, and why, is written down in the **world bible** (`docs/design/world-bible.md` in [builders-world/builders-world](https://github.com/builders-world/builders-world)). Read it before changing anything. Every request and where it stands is in `docs/collaboration/tracker.md` in the same repository.
