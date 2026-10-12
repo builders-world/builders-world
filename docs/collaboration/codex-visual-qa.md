@@ -80,4 +80,6 @@ Fix blockers and crashes first, then broken interactions or severe visual regres
 
 ## Current checkpoint
 
+Documentation review: [PR #6](https://github.com/builders-world/builders-world/pull/6). The setup branch incorporates main at `c4c2366`, preserving Claude's latest road-network and open-world updates.
+
 Setup only. No game code, model or image has changed. No browser test, performance measurement or new asset approval has been completed in this task. First deliverable after this setup: an evidence-backed baseline report from an explicitly recorded revision, with a short ranked fix list.
