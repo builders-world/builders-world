@@ -3,6 +3,7 @@ import { paintAirport } from './airportmap.js';
 import * as THREE from 'three';
 import { areaOf, areaName, cityLabel } from './areas.js';
 import { createMenus } from './menus.js';
+import { CITY_LAND, CITY_W } from './citymap.js';
 import { createNav, nearestOn, pathLength, pointAlong } from './nav.js';
 import { createTrail } from './trail.js';
 import { audioEngine, sfx } from './audio.js';
@@ -123,7 +124,7 @@ const NOTES = [
   ['#f6a8a0', 'Who wants to fix the stairway lights with me?'],
 ];
 
-export function createHud({ world, props, camera, reduced, onInteract, weatherFeed, onEquip, onUse, onRide, isExtraOpen, closeExtra, getPrompt, onChat }) {
+export function createHud({ world, props, camera, reduced, onInteract, weatherFeed, onEquip, onUse, onRide, isExtraOpen, closeExtra, getPrompt, onChat, openWorld }) {
   loadFont();
   const style = document.createElement('style');
   style.textContent = CSS;
@@ -305,6 +306,7 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     map.translate(-player.x * k, -player.z * k);
     if (land) { map.imageSmoothingEnabled = true; map.drawImage(land.canvas, -land.E * k, -land.E * k, land.E * 2 * k, land.E * 2 * k); }
     map.lineCap = 'round'; map.lineJoin = 'round';
+    if (openWorld) drawCity(player, k);
     world.roads.forEach((r) => {
       if (['footway', 'path', 'cycleway', 'pedestrian'].includes(r.cls)) return;
       map.beginPath(); r.pts.forEach(([x, z], i) => (i ? map.lineTo(x * k, z * k) : map.moveTo(x * k, z * k)));
@@ -347,8 +349,28 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     map.fillStyle = '#f7efdc'; map.font = `800 17px ${FONT}`; map.textAlign = 'center'; map.textBaseline = 'middle'; map.fillText('N', nx, ny + 1);
   }
 
+  // the open city round the district (city/openworld.js): its parks, water, streets and buildings, from the chunks
+  // loaded near you, in the city's frame shifted into the scene's
+  function drawCity(player, k) {
+    const o = openWorld.offset, reach = 150, lands = [], waters = [], roads = [], blds = [];
+    openWorld.mapNear(player.x, player.z, reach, (m, col) => { lands.push(...m.land); waters.push(...m.water); roads.push(...m.roads); col.forEach((c) => c.t === 'poly' && blds.push(c.pts)); });
+    if (!roads.length && !blds.length) return;
+    map.save(); map.translate(-o.x * k, -o.z * k);
+    const flat = (p, close) => { map.beginPath(); for (let i = 0; i < p.length; i += 2) (i ? map.lineTo(p[i] * k, p[i + 1] * k) : map.moveTo(p[i] * k, p[i + 1] * k)); if (close) map.closePath(); };
+    lands.forEach(([kind, p]) => { const c = CITY_LAND[kind]; if (!c) return; map.fillStyle = c; flat(p, true); map.fill(); });
+    map.fillStyle = K.sea; waters.forEach((p) => { flat(p, true); map.fill(); });
+    [['#c4a46c', 5], ['#f0deb0', 0]].forEach(([col, extra]) => {
+      map.strokeStyle = col;
+      roads.forEach(([c, , p]) => { map.lineWidth = Math.max(4, (CITY_W[c] ?? 6) * k * 0.9) + extra; flat(p); map.stroke(); });
+    });
+    map.fillStyle = '#e8b493';
+    blds.forEach((pts) => { map.beginPath(); pts.forEach(([x, z], i) => (i ? map.lineTo(x * k, z * k) : map.moveTo(x * k, z * k))); map.closePath(); map.fill(); });
+    map.restore();
+  }
+
   // nearest named road within a short walk, like a callout on a competitive map
   function streetName(p) {
+    if (openWorld && Math.hypot(p.x, p.z) > world.radius) return openWorld.streetAt(p.x, p.z) || null;
     let best = 18, name = null;
     world.roads.forEach((r) => {
       if (!r.name) return;
@@ -431,7 +453,7 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
   // ---------- phone, map, bag and the controls guide ----------
   props.openBoard = openBoard;
   const menus = createMenus({
-    world, props, weatherFeed, toast, onEquip,
+    world, props, weatherFeed, toast, onEquip, openWorld,
     getPlayer: () => lastPlayer,
     getPath: () => path,
     onRide: () => onRide?.(lastPlayer),

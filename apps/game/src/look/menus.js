@@ -10,6 +10,7 @@ import { audioEngine, sfx } from './audio.js';
 import { walletEngine, effortsMark, fmt } from './wallet.js';
 import { passesEngine } from './passes.js';
 import { roadClass, ROAD_KINDS } from './roadclass.js';
+import { loadCityMap, drawCityMap, streetNear } from './citymap.js';
 import { drawWorldMap, worldView, zoomWorld, panWorld, cityCard, CITY_PINS } from './countrymap.js';
 import { paintAirport, fitView, airportStops } from './airportmap.js';
 import { AIRPORTS } from './travelrules.js';
@@ -388,7 +389,7 @@ const store = {
 };
 
 const placeName = (world) => areaName(areaOf(world.place?.city || 'Lagos', world.place?.name)) || (world.place?.name ?? 'Yaba');
-export function createMenus({ world, props, weatherFeed, getPlayer, getPath, snapToStreet, onRoute, onEquip, onPhoto, onRide, toast }) {
+export function createMenus({ world, props, weatherFeed, getPlayer, getPath, snapToStreet, onRoute, onEquip, onPhoto, onRide, toast, openWorld }) {
   const style = document.createElement('style');
   style.textContent = CSS + WALLET_CSS;
   document.head.appendChild(style);
@@ -639,6 +640,14 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   const base = (x, z) => [(x / MAPR) * 360 + 450, (z / MAPR) * 360 + 450];
   const toPx = (x, z) => { const [bx, by] = base(x, z); return [(bx - view.cx) * view.z + 450, (by - view.cy) * view.z + 450]; };
   const fromPx = (px, py) => { const bx = (px - 450) / view.z + view.cx, by = (py - 450) / view.z + view.cy; return [((bx - 450) / 360) * MAPR, ((by - 450) / 360) * MAPR]; };
+  // the open city (city/openworld.js), between the district and the world: the whole city from its map.json, pannable.
+  // cview is in the city's frame; the scene's is shifted by openWorld.offset
+  let cityMap = null, cityPick = null;
+  const cview = { s: 0.4, x: 0, z: 0 };
+  if (openWorld?.mapUrl) loadCityMap(openWorld.mapUrl).then((m) => { cityMap = m; });
+  const CITY_MAX = 1.6, cityMin = () => (cityMap ? Math.min(0.4, 0.92 * Math.min(cw / MK / (cityMap.box.x1 - cityMap.box.x0), ch / MK / (cityMap.box.z1 - cityMap.box.z0))) : 0.1);
+  const clampCity = () => { cview.s = Math.max(cityMin(), Math.min(CITY_MAX, cview.s)); if (!cityMap) return; const b = cityMap.box; cview.x = Math.max(b.x0, Math.min(b.x1, cview.x)); cview.z = Math.max(b.z0, Math.min(b.z1, cview.z)); };
+  const cityFromPx = (px, py) => [(px - 450) / cview.s + cview.x, (py - 450) / cview.s + cview.z];
   const clampView = () => { view.z = Math.max(1, Math.min(6, view.z)); const lim = 450 - 450 / view.z; view.cx = Math.max(450 - lim, Math.min(450 + lim, view.cx)); view.cy = Math.max(450 - lim, Math.min(450 + lim, view.cy)); };
   // addresses and zones, worked out once: every garden gets a number on its nearest named street, and
   // gardens on the same street make an estate; services make commercial strips; the pond is a park
@@ -697,6 +706,11 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
   }
   function drawBigMap() {
     if (AIR_MODES.includes(mapMode)) { drawAirport(); return; }
+    if (mapMode === 'city' && cityMap) {
+      const o = openWorld.offset, me = getPlayer() || { x: 0, z: 0 };
+      drawCityMap(mapCanvas.getContext('2d'), cityMap, cview, { MK, OX, OY, cw, ch, leaf: C.leaf, ink: C.ink, paper: C.paper, font: FONT, me: { x: me.x + o.x, z: me.z + o.z }, pick: cityPick, district: { x: o.x, z: o.z, r: world.radius, name: placeName(world) } });
+      return;
+    }
     if (mapMode !== 'district') { drawCountry(); return; }
     const g = mapCanvas.getContext('2d');
     // a rectangle of map (the UI brief: not a circle), and land right to the edges of the window whatever its shape
@@ -875,21 +889,28 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
       const air = props.airport?.()?.mapData;
       hint.style.display = m === 'district' ? 'none' : 'block';
       // the world's how-to steps aside after a few seconds, so it does not sit on the map
-      clearTimeout(hint._t); if (m === 'world') hint._t = setTimeout(() => { if (mapMode === 'world') hint.style.display = 'none'; }, 6000);
-      hint.innerHTML = m === 'hall' ? `<b>${air?.name || 'The airport'} · ${air?.code || ''}</b><small>The terminal, every step of the way · zoom out for the apron and the planes</small>` : m === 'terminal' ? `<b>${air?.name || 'The airport'} · ${air?.code || ''}</b><small>The terminal and the apron, live · zoom out for the whole airfield, in for the hall</small>` : m === 'airfield' ? `<b>${air?.name || 'The airport'}</b><small>The airfield: the runway, the taxiway, the planes · zoom in for the terminal</small>` : m === 'world' ? `<b>The world</b><small>Drag to look around · scroll or pinch to zoom · tap a city to travel · ⤢ goes back to ${placeName(world)}</small>` : '';
+      clearTimeout(hint._t); if (m === 'world' || m === 'city') hint._t = setTimeout(() => { if (mapMode === m) hint.style.display = 'none'; }, 6000);
+      hint.innerHTML = m === 'hall' ? `<b>${air?.name || 'The airport'} · ${air?.code || ''}</b><small>The terminal, every step of the way · zoom out for the apron and the planes</small>` : m === 'terminal' ? `<b>${air?.name || 'The airport'} · ${air?.code || ''}</b><small>The terminal and the apron, live · zoom out for the whole airfield, in for the hall</small>` : m === 'airfield' ? `<b>${air?.name || 'The airport'}</b><small>The airfield: the runway, the taxiway, the planes · zoom in for the terminal</small>` : m === 'city' ? `<b>${cityLabel(world.place?.city ?? 'Lagos')}</b><small>The whole city · drag to look around · scroll or pinch to zoom · tap a street to go there · zoom out for the world</small>` : m === 'world' ? `<b>The world</b><small>Drag to look around · scroll or pinch to zoom · tap a city to travel · ⤢ goes back to ${placeName(world)}</small>` : '';
       drawBigMap();
     };
     let wheelLevel = 0;
     // out past the whole district: the world, opening on your country; zoomed right in on your own city, back to the street
     const country = CITY_PINS[world.place?.city || 'Lagos']?.country || 'Nigeria';
-    const stepOut = () => { wview = worldView(country, cw, ch, mapDpr()); setMode('world'); };
+    const toWorld = () => { wview = worldView(country, cw, ch, mapDpr()); setMode('world'); };
+    // out of the district: the whole city when it is an open one, else straight to the world
+    const stepOut = () => { if (mapMode === 'district' && cityMap) { const me = getPlayer() || { x: 0, z: 0 }, o = openWorld.offset; cview.x = me.x + o.x; cview.z = me.z + o.z; cview.s = 0.45; clampCity(); cityPick = null; setMode('city'); } else toWorld(); };
+    const cityZoom = (f, px = 450, py = 450) => {
+      if (f > 1 && cview.s >= CITY_MAX - 1e-3) { stepIn(); return; }
+      if (f < 1 && cview.s <= cityMin() + 1e-3) { if ((wheelLevel += 1) >= 3) { wheelLevel = 0; toWorld(); } return; }
+      wheelLevel = 0; const [x, z] = cityFromPx(px, py); cview.s *= f; clampCity(); cview.x = x - (px - 450) / cview.s; cview.z = z - (py - 450) / cview.s; clampCity(); bubble.style.display = 'none'; drawBigMap();
+    };
     const stepIn = () => { view.z = 1; view.cx = view.cy = 450; setMode('district'); };
     const worldZoom = (f, px, py) => {
       const sx = px * MK + OX, sy = py * MK + OY, here = countryPins.find((q) => q.name === (world.place?.city || 'Lagos'));
       if (f > 1 && wlim && wview.z >= wlim.maxZoom - 0.01 && here && Math.hypot(here.x - sx, here.y - sy) < Math.min(cw, ch) * 0.35) { stepIn(); return; }
       wview = zoomWorld(wview, f, sx, sy, cw, ch, mapDpr()); bubble.style.display = 'none'; drawBigMap();
     };
-    const zoomAt = (f, px = 450, py = 450) => { if (AIR_MODES.includes(mapMode)) { const i = AIR_MODES.indexOf(mapMode), j = Math.max(0, Math.min(2, i + (f < 1 ? 1 : -1))); if (j !== i) setMode(AIR_MODES[j]); return; } if (mapMode === 'world') { worldZoom(f, px, py); return; } if (f < 1 && view.z <= 1.001) { if ((wheelLevel += 1) >= 3) { wheelLevel = 0; stepOut(); } return; } wheelLevel = 0; const bx = (px - 450) / view.z + view.cx, by = (py - 450) / view.z + view.cy; view.z *= f; clampView(); view.cx = bx - (px - 450) / view.z; view.cy = by - (py - 450) / view.z; clampView(); bubble.style.display = 'none'; drawBigMap(); };
+    const zoomAt = (f, px = 450, py = 450) => { if (mapMode === 'city') { cityZoom(f, px, py); return; } if (AIR_MODES.includes(mapMode)) { const i = AIR_MODES.indexOf(mapMode), j = Math.max(0, Math.min(2, i + (f < 1 ? 1 : -1))); if (j !== i) setMode(AIR_MODES[j]); return; } if (mapMode === 'world') { worldZoom(f, px, py); return; } if (f < 1 && view.z <= 1.001) { if ((wheelLevel += 1) >= 3) { wheelLevel = 0; stepOut(); } return; } wheelLevel = 0; const bx = (px - 450) / view.z + view.cx, by = (py - 450) / view.z + view.cy; view.z *= f; clampView(); view.cx = bx - (px - 450) / view.z; view.cy = by - (py - 450) / view.z; clampView(); bubble.style.display = 'none'; drawBigMap(); };
     zbox.querySelectorAll('button').forEach((b) => { b.onclick = () => { const z = +b.dataset.z; if (z === 0) { view.z = 1; view.cx = view.cy = 450; bubble.style.display = 'none'; if (AIR_MODES.includes(mapMode)) setMode('hall'); else if (mapMode !== 'district') setMode('district'); else drawBigMap(); } else if (z < 0 && view.z <= 1.001 && mapMode === 'district') stepOut(); else if (AIR_MODES.includes(mapMode)) zoomAt(z > 0 ? 1.6 : 1 / 1.6); else zoomAt(z > 0 ? 1.6 : 1 / 1.6); }; });
     const toCanvas = (e) => { const r = mapCanvas.getBoundingClientRect(); return [(((e.clientX - r.left) / r.width) * cw - OX) / MK, (((e.clientY - r.top) / r.height) * ch - OY) / MK]; };
     mapCanvas.onwheel = (e) => { e.preventDefault(); const [px, py] = toCanvas(e); zoomAt(Math.exp(-e.deltaY * 0.0022), px, py); };
@@ -902,6 +923,12 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
         if (ptrs.size === 2) { const [a, b] = [...ptrs.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]); if (pinch0) worldZoom(d / pinch0, (a[0] + b[0]) / 2, (a[1] + b[1]) / 2); pinch0 = d; panMoved = 99; return; }
         const dx = cur[0] - prev[0], dy = cur[1] - prev[1]; panMoved += Math.abs(dx) + Math.abs(dy);
         if (panMoved > 6) { wview = panWorld(wview, dx * MK, dy * MK, ch); bubble.style.display = 'none'; drawBigMap(); }
+        return;
+      }
+      if (mapMode === 'city') {
+        if (ptrs.size === 2) { const [a, b] = [...ptrs.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]); if (pinch0) cityZoom(d / pinch0, (a[0] + b[0]) / 2, (a[1] + b[1]) / 2); pinch0 = d; panMoved = 99; return; }
+        const dx = cur[0] - prev[0], dy = cur[1] - prev[1]; panMoved += Math.abs(dx) + Math.abs(dy);
+        if (panMoved > 6) { cview.x -= dx / cview.s; cview.z -= dy / cview.s; clampCity(); bubble.style.display = 'none'; drawBigMap(); }
         return;
       }
       if (mapMode !== 'district') return;
@@ -937,6 +964,19 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
       const r = mapCanvas.getBoundingClientRect();
       if (panMoved > 6) return; // that was a drag, not a tap
       if (AIR_MODES.includes(mapMode)) return; // the airport map is to look at: the planes, the gates, where you are
+      if (mapMode === 'city') {
+        // a tap on the city: the street there, how far it is, and a quick way to it
+        const [px, py] = toCanvas(ev), [x, z] = cityFromPx(px, py), hit = streetNear(cityMap, x, z, 26 / cview.s);
+        if (!hit) { cityPick = null; bubble.style.display = 'none'; drawBigMap(); return; }
+        cityPick = hit; drawBigMap();
+        const o = openWorld.offset, me = getPlayer(), sx = hit.side.x - o.x, sz = hit.side.z - o.z, d = Math.hypot(sx - me.x, sz - me.z), m = mapEl.querySelector('.mid').getBoundingClientRect();
+        const far = d >= 1000 ? `${(d / 1000).toFixed(1)} km away` : d < 8 ? 'You are here' : `${Math.round(d)} m away · about ${Math.max(1, Math.round(d / 80))} min on foot`;
+        bubble.innerHTML = `<b>${String(hit.name).replace(/[<>&]/g, '')}</b><small>${far}</small>${d >= 8 ? '<button class="qt">Quick travel</button>' : ''}`;
+        const [bx, by] = [(hit.x - cview.x) * cview.s + 450, (hit.z - cview.z) * cview.s + 450];
+        bubble.style.display = 'block'; bubble.style.left = `${r.left - m.left + ((bx * MK + OX) / cw) * r.width}px`; bubble.style.top = `${r.top - m.top + ((by * MK + OY) / ch) * r.height}px`;
+        const qt = bubble.querySelector('.qt'); if (qt) qt.onclick = (e2) => { e2.stopPropagation(); close(); dispatchEvent(new CustomEvent('bw:jumpto', { detail: { x: sx, z: sz, name: hit.name, quick: true } })); };
+        return;
+      }
       if (mapMode !== 'district') {
         const cx = ((ev.clientX - r.left) / r.width) * cw, cy = ((ev.clientY - r.top) / r.height) * ch, hit = [...countryPins].reverse().find((q) => Math.hypot(q.x - cx, q.y - cy) < q.r);
         if (!hit) { countryPick = null; bubble.style.display = 'none'; drawBigMap(); return; }

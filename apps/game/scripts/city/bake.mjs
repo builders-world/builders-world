@@ -22,6 +22,7 @@ import { createInterface } from 'node:readline';
 import { parseOverpass } from '../../src/osm.js';
 import { joinStreetEnds, isFootway } from '../../src/look/streets.js';
 import { buildNetwork, shapeJunctions, isDriveable } from '../../src/city/roadnet.js';
+import { overview } from './overview.mjs';
 
 const GAME = new URL('../../', import.meta.url), REPO = new URL('../../../../', import.meta.url);
 const key = process.argv[2] || 'kenya/nairobi';
@@ -269,3 +270,4 @@ const meta = { version: 2, city: city.name, key, center: C0, chunk: CH, drive: c
   sources: 'Map data © OpenStreetMap contributors (ODbL); building heights partly GHS-BUILT-H 2018, European Commission JRC (CC BY 4.0)' };
 writeFileSync(new URL('index.json', out), JSON.stringify(meta)); bytes += JSON.stringify(meta).length;
 log(`${index.length} chunks, ${(bytes / 1e6).toFixed(1)} MB -> public/city/${slug}/`);
+{ const o = overview(out); log(`map.json: ${o.roads} streets, ${(o.bytes / 1e3).toFixed(0)} kB`); } // the whole city for the big map

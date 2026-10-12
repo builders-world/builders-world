@@ -335,7 +335,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       else if (interiors?.seated || benchSeat || homeAct) standUp();
     },
     getPrompt: (player) => (benchSeat || interiors?.seated || homeAct ? null : interiors?.active ? interiors.prompt(player.x, player.z) : undefined), // seated: the seat bar takes over
-    world, props, camera, reduced, weatherFeed: night ? weatherFeed : null,
+    world, props, camera, reduced, weatherFeed: night ? weatherFeed : null, openWorld: openWorld?.active ? openWorld : null,
     onEquip: (id, on) => { gear?.set(id, on); mobility?.equip(id, on); },
     onInteract: (what) => {
       if (what !== 'place-bench' || !props.area) return;
@@ -1031,7 +1031,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       try { localStorage.setItem(LAST, JSON.stringify({ district, ...(street || {}), inside, at: Date.now() })); } catch { /* */ }
     }, 5000);
   }
-  addEventListener('bw:jumpto', (e) => { const d = e.detail || {}; if (interiors?.active) { hud.toast('Go outside first, then jump.', 2200); return; } const q = world.nearestReachable(d.x + 1.6, d.z + 1.6) || { x: d.x, z: d.z }; if (d.quick) { dispatchEvent(new CustomEvent('bw:swoopto', { detail: { x: q.x, z: q.z, name: d.name || 'your marker' } })); sfx('arrive'); return; } pendingMove = { mode: 'stand', x: q.x, z: q.z }; hud.toast(d.quick ? `Quick travel: you are at ${d.name || 'your marker'}.` : `You are with ${d.name || 'them'}.`, 2200); if (d.quick) sfx('arrive'); });
+  addEventListener('bw:jumpto', (e) => { const d = e.detail || {}; if (interiors?.active) { hud.toast('Go outside first, then jump.', 2200); return; } const q = (openWorld?.active && Math.hypot(d.x, d.z) > world.radius ? null : world.nearestReachable(d.x + 1.6, d.z + 1.6)) || { x: d.x, z: d.z }; /* out in the open city the street itself */ if (d.quick) { dispatchEvent(new CustomEvent('bw:swoopto', { detail: { x: q.x, z: q.z, name: d.name || 'your marker' } })); sfx('arrive'); return; } pendingMove = { mode: 'stand', x: q.x, z: q.z }; hud.toast(d.quick ? `Quick travel: you are at ${d.name || 'your marker'}.` : `You are with ${d.name || 'them'}.`, 2200); if (d.quick) sfx('arrive'); });
   // a teleport for the player (into or out of a place, sitting, standing), taken once
   // getting up, from a bench or a desk: at a desk the laptop closes and goes in your bag first
   let leaving = false;

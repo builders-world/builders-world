@@ -135,8 +135,7 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
     if (c.group) { group.remove(c.group); disposeGroup(c.group); }
     c.group = g; c.lod = res.lod; group.add(g); g.updateMatrixWorld(true);
     dropCol(c); if (res.lod < 2) addCol(c, o.colliders);
-    c.pois = o.pois;
-    c.buildings = o.buildings; c.pois = o.pois;
+    c.buildings = o.buildings; c.pois = o.pois; c.map = o.map || null;
   }
   const disposeGroup = (g) => g.traverse((m) => { if (m.isMesh && m.geometry !== lampGeo && m.geometry !== bulbGeo && !m.name.startsWith('city_trees')) m.geometry?.dispose(); });
 
@@ -169,7 +168,38 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
     night = n; facadeUniforms.uNight.value = n;
     group.traverse((o) => { if (o.userData.bulbs) o.visible = n > 0.05; });
   };
-  api.offset = off;
+  api.offset = off; api.mapUrl = `${base}map.json`; // the whole city, for the big map (scripts/city/overview.mjs)
+  /**
+   * The minimap's view of the city round (x, z) in the scene's frame, out to r metres: each loaded chunk's streets (class
+   * name, street name, flat points), land and water, and its buildings' footprints; all in the city's frame, so the
+   * caller shifts by api.offset. The district's own streets are the world's, so chunks inside it are left out.
+   */
+  api.mapNear = (x, z, r, fn) => {
+    if (!index) return;
+    const cx = x + off.x, cz = z + off.z, S = index.chunk;
+    chunks.forEach((c) => {
+      if (!c.map || c.lod > 1) return;
+      const mx = (c.i + 0.5) * S, mz = (c.j + 0.5) * S;
+      if (Math.abs(mx - cx) > r + S / 2 || Math.abs(mz - cz) > r + S / 2) return;
+      fn(c.map, c.col, index);
+    });
+  };
+  /** The name of the street nearest (x, z) in the scene's frame, within reach metres, or null. */
+  api.streetAt = (x, z, reach = 18) => {
+    if (!index) return null;
+    const cx = x + off.x, cz = z + off.z, c = chunks.get(`${Math.floor(cx / index.chunk)}_${Math.floor(cz / index.chunk)}`);
+    let best = reach, name = null;
+    (c?.map?.roads || []).forEach(([, n, p]) => {
+      if (n < 0) return;
+      for (let i = 0; i + 3 < p.length; i += 2) {
+        const ax = p[i], az = p[i + 1], dx = p[i + 2] - ax, dz = p[i + 3] - az;
+        const t = Math.max(0, Math.min(1, ((cx - ax) * dx + (cz - az) * dz) / (dx * dx + dz * dz || 1)));
+        const d = Math.hypot(cx - ax - dx * t, cz - az - dz * t);
+        if (d < best) { best = d; name = index.names[n]; }
+      }
+    });
+    return name;
+  };
   api.stats = () => { let tris = 0, byLod = [0, 0, 0, 0]; chunks.forEach((c) => { if (c.lod >= 0) byLod[c.lod]++; c.group?.traverse((m) => { if (m.isMesh && m.geometry?.attributes.position) tris += (m.geometry.attributes.position.count / 3) * (m.isInstancedMesh ? m.count : 1); }); }); return { chunks: chunks.size, byLod, queued: queue.length, busy: busy.size, tris: Math.round(tris) }; };
   api.dispose = () => { workers.forEach((w) => w.terminate()); chunks.forEach((c) => c.group && disposeGroup(c.group)); };
   void groundHole; void reduced;
