@@ -1,0 +1,111 @@
+{
+  "languages": [
+    { "code": "en", "name": "English", "official": true, "spoken": "widely" },
+    { "code": "sn", "name": "Shona", "official": true, "spoken": "widely" },
+    { "code": "nd", "name": "Ndebele", "official": true, "spoken": "regionally" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Most people carry an English first name and a name in their own language, and either can be the one friends use. Shona names are full sentences with a meaning, often thanks or hope addressed to God: Tatenda (we are thankful), Tinashe (God is with us), Kudakwashe (God's will), Rutendo (faith). Many are unisex. English names are often virtues or wishes: Blessing, Patience, Precious, Lovemore, Learnmore, Givemore. The family name comes from the father; every family also has a totem (mutupo in Shona, isibongo in Ndebele) such as Moyo (heart), Shumba (lion), Ncube or Dube (zebra), used as a polite way to address someone. Ndebele names follow the Nguni pattern (Sibusiso, Nomsa) and many Harare families of Malawian or Zambian heritage carry Chewa surnames like Banda, Phiri and Tembo.",
+    "groups": {
+      "shona": {
+        "given": {
+          "m": ["Tendai", "Tatenda", "Tafadzwa", "Tinashe", "Kudakwashe", "Farai", "Tawanda", "Takudzwa", "Simbarashe", "Munyaradzi", "Tonderai", "Tapiwa", "Ngonidzashe", "Panashe", "Tanaka", "Kudzai", "Tinotenda", "Anesu"],
+          "f": ["Rutendo", "Chiedza", "Nyasha", "Rumbidzai", "Vimbai", "Ruvimbo", "Tsitsi", "Nyarai", "Chipo", "Fadzai", "Rudo", "Tariro", "Ropafadzo", "Shamiso", "Tatenda", "Tafadzwa", "Kudzai", "Tanaka"]
+        },
+        "family": ["Moyo", "Gumbo", "Shumba", "Zhou", "Mapfumo", "Makoni", "Musoni", "Chikomo", "Mlambo", "Marufu", "Mutasa", "Chari", "Nyamande", "Chigumba", "Chitiyo", "Mudzingwa", "Mhike", "Madziva", "Mazarura", "Chinyama"],
+        "also": {
+          "m": ["Blessing", "Brighton", "Lovemore", "Prosper", "Learnmore", "Givemore", "Takesure", "Godknows", "Trust", "Tichaona", "Kelvin", "Tonderai"],
+          "f": ["Patience", "Precious", "Memory", "Charity", "Grace", "Loveness", "Privilege", "Fortunate", "Sharon", "Melody", "Gamuchirai", "Faith"]
+        }
+      },
+      "ndebele": {
+        "given": {
+          "m": ["Sipho", "Themba", "Mthokozisi", "Sibusiso", "Nkosana", "Bongani", "Sifiso", "Mandla", "Thulani", "Khumbulani", "Ntando", "Sizwe", "Lungisani", "Mduduzi"],
+          "f": ["Thandiwe", "Sithembile", "Nomsa", "Nokuthula", "Sibongile", "Nobuhle", "Thandeka", "Zanele", "Lindiwe", "Nomalanga", "Sinikiwe", "Busisiwe", "Nqobile", "Sikhanyisiwe"]
+        },
+        "family": ["Ncube", "Moyo", "Sibanda", "Dube", "Ndlovu", "Mpofu", "Nyathi", "Khumalo", "Mlilo", "Tshuma", "Mathe", "Masuku", "Siziba", "Mguni", "Mahlangu", "Gumede"],
+        "also": {
+          "m": ["Blessing", "Nkululeko", "Prince", "Godfrey", "Never", "Bekezela"],
+          "f": ["Patience", "Precious", "Sukoluhle", "Grace", "Siphiwe", "Ntombizodwa"]
+        }
+      },
+      "chewa": {
+        "given": {
+          "m": ["Chikondi", "Kondwani", "Madalitso", "Limbani", "Yamikani", "Mphatso", "Dalitso", "Chimwemwe", "Kumbukani", "Thokozani", "Chisomo", "Tiyamike"],
+          "f": ["Tamanda", "Thandiwe", "Chimwemwe", "Tiyamike", "Chisomo", "Chikondi", "Mphatso", "Tadala", "Takondwa", "Pemphero", "Thokozani", "Chifundo"]
+        },
+        "family": ["Banda", "Phiri", "Tembo", "Mwale", "Zulu", "Lungu", "Daka", "Mbewe", "Sakala", "Ngoma", "Chirwa", "Njobvu"],
+        "also": {
+          "m": ["Joseph", "Peter", "John", "Gift", "Lucky", "Moses"],
+          "f": ["Esther", "Agnes", "Mary", "Ruth", "Ellen", "Mercy"]
+        }
+      }
+    },
+    "weights": { "shona": 0.78, "ndebele": 0.15, "chewa": 0.07 }
+  },
+  "honorifics": { "elder_m": "Sekuru", "elder_f": "Gogo", "peer_m": "Shamwari", "peer_f": "Sisi", "boss": "Boss" },
+  "phrases": {
+    "en": {
+      "hello": [["Hi, how are you?", "Hello"], ["Hello, how are you keeping?", "Hello, how are you doing?"]],
+      "morning": [["Good morning, how did you sleep?", "Good morning"]],
+      "evening": [["Good evening, how was your day?", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"], ["How's the family?", "How is your family?"]],
+      "fine": [["I'm fine, and you?", "I'm fine, and you?"], ["We're here", "I'm fine, getting by"]],
+      "thanks": [["Thank you", "Thank you"], ["Thanks very much", "Thanks a lot"]],
+      "bye": [["Go well", "Goodbye, to someone leaving"], ["Stay well", "Goodbye, to someone staying"]],
+      "welcome": [["You're welcome", "Welcome"], ["Come in, come in", "Come in"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    },
+    "sn": {
+      "hello": [["Mhoroi!", "Hello (respectful or to several people)"], ["Mhoro!", "Hi (to one friend)"], ["Makadii?", "How are you? (respectful)"]],
+      "morning": [["Mangwanani!", "Good morning"], ["Mamuka sei?", "How did you wake up?"]],
+      "evening": [["Manheru!", "Good evening"], ["Maswera sei?", "How did you spend the day?"]],
+      "how_are_you": [["Makadii?", "How are you? (respectful)"], ["Wakadii?", "How are you? (to a friend)"], ["Uri sei?", "How are you? (casual)"]],
+      "fine": [["Ndiripo, makadiiwo?", "I'm fine, and how are you?"], ["Tiripo", "We are fine"], ["Ndamuka, kana mamukawo", "I woke up well, if you did too"]],
+      "thanks": [["Ndatenda", "Thank you"], ["Maita basa", "Thank you for your help"], ["Mazvita", "Thank you (respectful)"]],
+      "bye": [["Chisarai zvakanaka", "Stay well (said by the one leaving)"], ["Fambai zvakanaka", "Go well (said to the one leaving)"], ["Tichaonana", "We will see each other"]],
+      "welcome": [["Mauya", "Welcome, you have come"], ["Pindai", "Come in"]],
+      "sorry": [["Ndine urombo", "I'm sorry"]],
+      "excuse": [["Pamusoroi", "Excuse me"]],
+      "yes": [["Hongu", "Yes"], ["Ehe", "Yes, yeah"]],
+      "no": [["Kwete", "No"], ["Aiwa", "No"]]
+    },
+    "nd": {
+      "hello": [["Salibonani!", "Hello (we see you)"], ["Sawubona!", "Hello (to one person)"]],
+      "morning": [["Livuke njani?", "Good morning, how did you wake up?"]],
+      "evening": [["Litshonile!", "Good evening"]],
+      "how_are_you": [["Linjani?", "How are you? (respectful or plural)"], ["Unjani?", "How are you? (to one friend)"]],
+      "fine": [["Sikhona", "We are fine"], ["Ngikhona, linjani lina?", "I'm fine, and how are you?"]],
+      "thanks": [["Ngiyabonga", "Thank you"], ["Siyabonga", "We thank you"]],
+      "bye": [["Lisale kuhle", "Stay well (said by the one leaving)"], ["Lihambe kuhle", "Go well (said to the one leaving)"]],
+      "welcome": [["Ngenani", "Come in"], ["Siyalamukela", "We welcome you"]],
+      "sorry": [["Uxolo", "Sorry"], ["Ngiyaxolisa", "I apologise"]],
+      "excuse": [["Uxolo", "Excuse me"]],
+      "yes": [["Yebo", "Yes"]],
+      "no": [["Hatshi", "No"], ["Ayi", "No"]]
+    }
+  },
+  "money": {
+    "currency": "ZWG",
+    "symbol": "ZiG",
+    "words": [
+      ["ZiG", "Zimbabwe Gold, the local currency since 2024"],
+      ["US", "US dollars, which many shops and kombis quote prices in"],
+      ["bond", "the old bond notes, a word some still use for local money"],
+      ["mari", "money, in Shona"],
+      ["change", "small change; when coins run short, shops may give sweets or airtime instead"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Zimbabwe",
+    "https://en.wikipedia.org/wiki/Shona_language",
+    "https://en.wikipedia.org/wiki/Northern_Ndebele_language",
+    "https://en.wikipedia.org/wiki/Shona_people",
+    "https://en.wikipedia.org/wiki/Northern_Ndebele_people",
+    "https://en.wikipedia.org/wiki/Zimbabwe_Gold"
+  ]
+}

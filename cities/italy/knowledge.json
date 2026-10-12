@@ -1,0 +1,819 @@
+{
+  "languages": [
+    {
+      "code": "it",
+      "name": "Italian",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "in tech circles"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "One given name, sometimes two, then one family name inherited from the father; since 2022 a child can also carry the mother's. Women keep their own family name when they marry. Family names are often regional: Esposito is Neapolitan, Brambilla and Colombo are Lombard, Rossi is everywhere. At work and on forms the family name often comes first (Rossi Marco). Milan has the country's largest immigrant communities: Egyptian, Filipino, Chinese (mostly from Zhejiang, often using an Italian name day to day), Peruvian, Romanian, Albanian, Moroccan and Sri Lankan.",
+    "groups": {
+      "italian": {
+        "given": {
+          "m": [
+            "Marco",
+            "Andrea",
+            "Luca",
+            "Alessandro",
+            "Francesco",
+            "Matteo",
+            "Lorenzo",
+            "Davide",
+            "Simone",
+            "Federico",
+            "Giuseppe",
+            "Stefano",
+            "Riccardo",
+            "Giovanni",
+            "Paolo",
+            "Roberto",
+            "Fabio",
+            "Tommaso"
+          ],
+          "f": [
+            "Giulia",
+            "Francesca",
+            "Chiara",
+            "Sara",
+            "Martina",
+            "Valentina",
+            "Alessia",
+            "Elena",
+            "Federica",
+            "Silvia",
+            "Laura",
+            "Elisa",
+            "Paola",
+            "Giorgia",
+            "Alice",
+            "Anna",
+            "Serena",
+            "Beatrice"
+          ]
+        },
+        "family": [
+          "Rossi",
+          "Russo",
+          "Ferrari",
+          "Esposito",
+          "Bianchi",
+          "Romano",
+          "Colombo",
+          "Ricci",
+          "Marino",
+          "Greco",
+          "Bruno",
+          "Gallo",
+          "Conti",
+          "De Luca",
+          "Mancini",
+          "Costa",
+          "Giordano",
+          "Rizzo",
+          "Lombardi",
+          "Brambilla"
+        ]
+      },
+      "romanian": {
+        "given": {
+          "m": [
+            "Andrei",
+            "Alexandru",
+            "Ionuț",
+            "Mihai",
+            "Florin",
+            "Adrian",
+            "Cristian",
+            "Gabriel",
+            "Bogdan",
+            "Marius",
+            "Vlad",
+            "Daniel",
+            "Răzvan",
+            "Ciprian"
+          ],
+          "f": [
+            "Andreea",
+            "Elena",
+            "Ioana",
+            "Maria",
+            "Alina",
+            "Mihaela",
+            "Cristina",
+            "Gabriela",
+            "Roxana",
+            "Larisa",
+            "Diana",
+            "Simona",
+            "Bianca",
+            "Raluca"
+          ]
+        },
+        "family": [
+          "Popescu",
+          "Ionescu",
+          "Popa",
+          "Dumitru",
+          "Stan",
+          "Stoica",
+          "Gheorghe",
+          "Rusu",
+          "Munteanu",
+          "Constantin",
+          "Matei",
+          "Marin",
+          "Ciobanu",
+          "Lungu",
+          "Dobre"
+        ]
+      },
+      "albanian": {
+        "given": {
+          "m": [
+            "Arben",
+            "Besnik",
+            "Ermal",
+            "Gentian",
+            "Kledi",
+            "Klodian",
+            "Endrit",
+            "Ardit",
+            "Erion",
+            "Dritan",
+            "Fatjon",
+            "Elton",
+            "Altin",
+            "Florian",
+            "Marsel"
+          ],
+          "f": [
+            "Elona",
+            "Blerina",
+            "Anisa",
+            "Jonida",
+            "Klea",
+            "Ilda",
+            "Ermira",
+            "Arta",
+            "Denisa",
+            "Fjona",
+            "Mirela",
+            "Brunilda",
+            "Eralda",
+            "Xhensila",
+            "Dorina"
+          ]
+        },
+        "family": [
+          "Hoxha",
+          "Shehu",
+          "Dervishi",
+          "Leka",
+          "Gjoka",
+          "Kola",
+          "Basha",
+          "Meta",
+          "Prifti",
+          "Çela",
+          "Hysa",
+          "Duka",
+          "Marku",
+          "Lika",
+          "Muça",
+          "Doda"
+        ]
+      },
+      "moroccan": {
+        "given": {
+          "m": [
+            "Mohamed",
+            "Ahmed",
+            "Youssef",
+            "Karim",
+            "Hassan",
+            "Rachid",
+            "Said",
+            "Omar",
+            "Hamza",
+            "Mehdi",
+            "Bilal",
+            "Adil",
+            "Anas",
+            "Ayoub",
+            "Driss"
+          ],
+          "f": [
+            "Fatima",
+            "Khadija",
+            "Nadia",
+            "Samira",
+            "Amina",
+            "Salma",
+            "Hanane",
+            "Imane",
+            "Laila",
+            "Sara",
+            "Yasmina",
+            "Zineb",
+            "Meryem",
+            "Houda",
+            "Naima"
+          ]
+        },
+        "family": [
+          "El Amrani",
+          "Benali",
+          "El Idrissi",
+          "Bennani",
+          "Alaoui",
+          "Tahiri",
+          "Ouali",
+          "El Khattabi",
+          "Chakir",
+          "Bouzid",
+          "Lahlou",
+          "Ziani",
+          "Haddad",
+          "El Fassi",
+          "Belhaj"
+        ]
+      },
+      "egyptian": {
+        "given": {
+          "m": [
+            "Mohamed",
+            "Ahmed",
+            "Mahmoud",
+            "Mostafa",
+            "Karim",
+            "Amr",
+            "Tarek",
+            "Hossam",
+            "Sherif",
+            "Hany",
+            "Waleed",
+            "Khaled",
+            "Ayman",
+            "Ramy"
+          ],
+          "f": [
+            "Mona",
+            "Nour",
+            "Yasmin",
+            "Heba",
+            "Dina",
+            "Rania",
+            "Mariam",
+            "Aya",
+            "Salma",
+            "Nesma",
+            "Shaimaa",
+            "Reem",
+            "Hend",
+            "Amira",
+            "Ghada"
+          ]
+        },
+        "family": [
+          "Hassan",
+          "Mahmoud",
+          "Ibrahim",
+          "Abdelrahman",
+          "El Sayed",
+          "Mostafa",
+          "Farouk",
+          "Soliman",
+          "Mansour",
+          "Fawzy",
+          "Ragab",
+          "Hamdy",
+          "Shehata",
+          "Zaki",
+          "Gamal",
+          "Saad"
+        ],
+        "also": {
+          "m": [
+            "Mina",
+            "Bishoy",
+            "Peter"
+          ],
+          "f": [
+            "Marina",
+            "Nancy",
+            "Christine"
+          ]
+        }
+      },
+      "chinese": {
+        "given": {
+          "m": [
+            "Wei",
+            "Jun",
+            "Hao",
+            "Jian",
+            "Ming",
+            "Lei",
+            "Tao",
+            "Bin",
+            "Qiang",
+            "Yong",
+            "Feng",
+            "Hui",
+            "Peng",
+            "Long"
+          ],
+          "f": [
+            "Li",
+            "Mei",
+            "Xiaoyan",
+            "Yan",
+            "Jing",
+            "Ying",
+            "Lin",
+            "Fang",
+            "Hong",
+            "Xia",
+            "Lili",
+            "Yue",
+            "Na",
+            "Qing"
+          ]
+        },
+        "family": [
+          "Hu",
+          "Chen",
+          "Zhou",
+          "Wang",
+          "Zhang",
+          "Lin",
+          "Ye",
+          "Xu",
+          "Jin",
+          "Huang",
+          "Zheng",
+          "Wu",
+          "Pan",
+          "Zhu",
+          "Li"
+        ],
+        "also": {
+          "m": [
+            "Marco",
+            "Luca",
+            "Andrea",
+            "Matteo"
+          ],
+          "f": [
+            "Giulia",
+            "Sara",
+            "Anna",
+            "Sofia"
+          ]
+        }
+      },
+      "filipino": {
+        "given": {
+          "m": [
+            "Mark",
+            "John Paul",
+            "Jerome",
+            "Jayson",
+            "Christian",
+            "Rommel",
+            "Arnel",
+            "Joel",
+            "Ronald",
+            "Michael",
+            "Rodel",
+            "Reynaldo",
+            "Noel",
+            "Jericho",
+            "Allan"
+          ],
+          "f": [
+            "Maricel",
+            "Jocelyn",
+            "Rowena",
+            "Lorna",
+            "Marites",
+            "Kristine",
+            "Angelica",
+            "Joy",
+            "Rhea",
+            "Jennifer",
+            "Princess",
+            "Liza",
+            "Grace",
+            "Analyn"
+          ]
+        },
+        "family": [
+          "Santos",
+          "Reyes",
+          "Cruz",
+          "Bautista",
+          "Garcia",
+          "Mendoza",
+          "Dela Cruz",
+          "Villanueva",
+          "Ramos",
+          "Aquino",
+          "Castillo",
+          "Fernandez",
+          "Flores",
+          "Gonzales",
+          "Navarro",
+          "Torres"
+        ]
+      },
+      "peruvian": {
+        "given": {
+          "m": [
+            "Luis",
+            "Jorge",
+            "Carlos",
+            "Juan",
+            "José",
+            "Miguel Ángel",
+            "Jhonatan",
+            "Wilmer",
+            "Percy",
+            "Edwin",
+            "César",
+            "Renzo",
+            "Kevin",
+            "Christian"
+          ],
+          "f": [
+            "Rosa",
+            "Milagros",
+            "Maribel",
+            "Lucía",
+            "Gladys",
+            "Carmen",
+            "Fiorella",
+            "Yesenia",
+            "Lizbeth",
+            "Pamela",
+            "Karina",
+            "Sandra",
+            "Roxana",
+            "Rocío",
+            "Mónica"
+          ]
+        },
+        "family": [
+          "Quispe",
+          "Flores",
+          "Mamani",
+          "Rojas",
+          "Huamán",
+          "Chávez",
+          "Vásquez",
+          "Ramos",
+          "Gutiérrez",
+          "Torres",
+          "Mendoza",
+          "Castillo",
+          "Sánchez",
+          "Díaz",
+          "Ríos"
+        ]
+      },
+      "sri_lankan": {
+        "given": {
+          "m": [
+            "Nuwan",
+            "Chaminda",
+            "Kasun",
+            "Dinesh",
+            "Lahiru",
+            "Pradeep",
+            "Ruwan",
+            "Sampath",
+            "Tharindu",
+            "Chamara",
+            "Asanka",
+            "Sanjeewa",
+            "Nalaka",
+            "Dilshan",
+            "Isuru"
+          ],
+          "f": [
+            "Dilini",
+            "Nadeesha",
+            "Chathurika",
+            "Sanduni",
+            "Ishani",
+            "Nirosha",
+            "Kumari",
+            "Anusha",
+            "Malini",
+            "Thilini",
+            "Dinusha",
+            "Sachini",
+            "Gayani",
+            "Hasini",
+            "Nilmini"
+          ]
+        },
+        "family": [
+          "Perera",
+          "Fernando",
+          "De Silva",
+          "Jayasinghe",
+          "Wickramasinghe",
+          "Bandara",
+          "Herath",
+          "Dissanayake",
+          "Gunawardena",
+          "Rathnayake",
+          "Senanayake",
+          "Wijesinghe",
+          "Kumara",
+          "Peiris",
+          "Mendis"
+        ]
+      }
+    },
+    "weights": {
+      "italian": 0.88,
+      "romanian": 0.03,
+      "albanian": 0.02,
+      "moroccan": 0.02,
+      "chinese": 0.015,
+      "egyptian": 0.01,
+      "filipino": 0.01,
+      "peruvian": 0.01,
+      "sri_lankan": 0.005
+    }
+  },
+  "honorifics": {
+    "elder_m": "signore",
+    "elder_f": "signora",
+    "peer_m": "caro",
+    "peer_f": "cara",
+    "boss": "capo",
+    "titles": {
+      "elder_m": "Signor",
+      "elder_f": "Signora",
+      "with": "family"
+    }
+  },
+  "phrases": {
+    "it": {
+      "hello": [
+        [
+          "Ciao",
+          "Hi"
+        ],
+        [
+          "Salve",
+          "Hello (polite)"
+        ]
+      ],
+      "morning": [
+        [
+          "Buongiorno",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Buonasera",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Come stai?",
+          "How are you?"
+        ],
+        [
+          "Come va?",
+          "How's it going?"
+        ],
+        [
+          "Come sta?",
+          "How are you? (polite)"
+        ]
+      ],
+      "fine": [
+        [
+          "Bene, grazie",
+          "Fine, thanks"
+        ],
+        [
+          "Tutto bene",
+          "All good"
+        ],
+        [
+          "Tutto a posto",
+          "All fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Grazie",
+          "Thank you"
+        ],
+        [
+          "Grazie mille",
+          "Thanks a lot"
+        ]
+      ],
+      "bye": [
+        [
+          "Ciao",
+          "Bye"
+        ],
+        [
+          "Arrivederci",
+          "Goodbye (polite)"
+        ],
+        [
+          "A dopo",
+          "See you later"
+        ]
+      ],
+      "welcome": [
+        [
+          "Benvenuto",
+          "Welcome (to a man)"
+        ],
+        [
+          "Benvenuta",
+          "Welcome (to a woman)"
+        ]
+      ],
+      "sorry": [
+        [
+          "Scusa",
+          "Sorry (informal)"
+        ],
+        [
+          "Mi dispiace",
+          "I'm sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Scusi",
+          "Excuse me (polite)"
+        ],
+        [
+          "Permesso",
+          "Excuse me, may I pass?"
+        ]
+      ],
+      "yes": [
+        [
+          "Sì",
+          "Yes"
+        ],
+        [
+          "Certo",
+          "Sure"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hi",
+          "Hi"
+        ],
+        [
+          "Hello",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Morning!",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Evening!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How's it going?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Good, thanks",
+          "Fine, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks",
+          "Thank you"
+        ],
+        [
+          "Cheers",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "Bye",
+          "Goodbye"
+        ],
+        [
+          "See you",
+          "See you later"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ],
+        [
+          "Sure",
+          "Sure"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "EUR",
+    "symbol": "€",
+    "words": [
+      [
+        "soldi",
+        "money"
+      ],
+      [
+        "grana",
+        "money, in slang"
+      ],
+      [
+        "un deca",
+        "ten euros, in northern slang"
+      ],
+      [
+        "un cento",
+        "a hundred euros"
+      ],
+      [
+        "spiccioli",
+        "small change"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Italian_name",
+    "https://en.wikipedia.org/wiki/Languages_of_Italy",
+    "https://en.wikipedia.org/wiki/Immigration_to_Italy",
+    "https://www.istat.it/"
+  ]
+}

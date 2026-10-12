@@ -1,0 +1,88 @@
+{
+  "street": { "fr": 0.88, "en": 0.12 },
+  "names": { "weights": { "french": 0.68, "maghrebi": 0.16, "west_african": 0.05, "portuguese": 0.05, "caribbean": 0.02, "asian_french": 0.04 } },
+  "phrases": {
+    "fr": {
+      "hello": [["Salut les gones !", "Hi, kids! (Lyonnais gone, a child or a Lyon local)"]],
+      "drink": [["On se prend un pot ?", "Shall we share a pot? (46 cl bottle of Beaujolais or Côtes du Rhône)"]],
+      "food": [["On se fait un mâchon ?", "Shall we have a mâchon? (hearty morning meal of charcuterie and wine)"], ["On va dans un bouchon ?", "Shall we go to a bouchon? (traditional Lyon restaurant)"]],
+      "mess": [["Quel cuchon !", "What a heap! (Lyonnais for a pile or a mess)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hi! Are you going to the meetup at H7?", "Morning! Did you take the funicular up today?", "Hey, welcome to Lyon!", "Hello! Coffee by the Saône?", "Hi! First time at the Part-Dieu offices?"],
+      "reply": ["All good, thanks, I ate far too much at the bouchon last night.", "Great, Lyon's growing on me.", "Fine thanks, just back from the Halles Paul Bocuse.", "Pretty good, how about you?", "Not bad, a bit full from lunch!"],
+      "sunny": ["Sun's out, the quais du Rhône will be packed.", "Perfect day for a run in the Parc de la Tête d'Or.", "Lovely, you can see the Alps from Fourvière today.", "Terrace weather on the Presqu'île.", "Warm day, let's grab a drink on a péniche."],
+      "rain": ["Grey and wet, a day for the traboules.", "Raining again, so much for the terrace.", "Fog on the Saône this morning, very moody.", "Wet day, perfect for a gratin in a bouchon.", "Pouring, I'm taking the metro, not the Vélo'v."],
+      "bye": ["See you later!", "Bye, enjoy the evening!", "Take care, see you at the next meetup!", "Ciao, see you tomorrow!", "Bye! Bon appétit tonight."],
+      "busy": ["Sorry, train to Paris in twenty minutes!", "Got a call with the team, catch you later!", "Running to Part-Dieu, talk soon!", "Late for a client in Confluence, see you!", "Busy day, coffee tomorrow?"]
+    },
+    "fr": {
+      "greet": ["Bonjour ! Vous allez bien ?", "Salut ! Ça fait plaisir de te voir !", "Coucou ! Alors, ça va ?", "Bonjour Madame, belle journée !", "Salut ! On se fait un pot ce soir ?"],
+      "reply": ["Ça va bien, merci, et vous ?", "Très bien, merci !", "Ça va, ça va, tranquille.", "Pas mal du tout, et toi ?", "Super, j'ai bien mangé à midi !"],
+      "sunny": ["Quel beau temps, on se pose sur les quais ?", "Il fait beau, on voit les Alpes depuis Fourvière !", "Grand soleil, le parc de la Tête d'Or va être plein.", "Il fait chaud, on se fait une terrasse ?", "Beau temps, ça donne envie d'une glace."],
+      "rain": ["Il pleut encore, quel temps !", "Il fait gris, on va manger dans un bouchon ?", "Brouillard sur la Saône ce matin.", "Prends ton parapluie, ça tombe !", "Il pleut des cordes, je prends le métro."],
+      "bye": ["Au revoir, bonne journée !", "Allez, à plus !", "Bonne soirée !", "À tantôt !", "Salut, à demain !"],
+      "busy": ["Désolé, je file à la Part-Dieu !", "Je suis en retard, à plus tard !", "J'ai une réunion, on se voit après !", "Pas le temps, je t'appelle ce soir !", "Je cours, mon TGV part dans dix minutes !"]
+    }
+  },
+  "transport": {
+    "bus": "bus TCL",
+    "moto_taxi": "trottinette",
+    "tricycle": "vélo-taxi",
+    "taxi": "taxi",
+    "conductor": "contrôleur",
+    "stage": "arrêt",
+    "metro": "métro",
+    "tram": "tram",
+    "train": "TER",
+    "funicular": "la ficelle",
+    "bike_share": "Vélo'v",
+    "ride_hail": "VTC"
+  },
+  "touts": [
+    "Prochain arrêt : Bellecour. Correspondance ligne D.",
+    "Terminus, tout le monde descend.",
+    "Bonjour, contrôle TCL, vos titres de transport, s'il vous plaît.",
+    "Allez, les belles cerises, goûtez, goûtez !",
+    "Un petit air d'accordéon pour vous, merci de votre générosité !",
+    "Le TGV à destination de Paris Gare de Lyon partira voie H."
+  ],
+  "hawkers": [
+    ["Les bugnes, les bonnes bugnes !", "Bugnes, lovely bugnes! (fried pastry, carnival time)"],
+    ["Saucisson de Lyon, goûtez !", "Lyon sausage, have a taste!"],
+    ["Pralines roses, tartes aux pralines !", "Pink pralines, praline tarts!"],
+    ["Deux kilos de pêches, trois euros !", "Two kilos of peaches, three euros!"],
+    ["Marrons chauds !", "Hot chestnuts!"],
+    ["Le Petit Bulletin, gratuit !", "Le Petit Bulletin, free listings paper!"]
+  ],
+  "food": {
+    "street": ["French tacos", "brioche aux pralines", "bugnes", "kebab de la Guillotière", "sandwich saucisson-beurre", "coussin de Lyon"],
+    "dishes": ["quenelle de brochet sauce Nantua", "saucisson brioché", "andouillette", "salade lyonnaise", "tablier de sapeur", "cervelle de canut", "gratin dauphinois", "tarte aux pralines", "poulet de Bresse"],
+    "drinks": ["un pot de Beaujolais", "Côtes du Rhône", "un café", "Mâcon blanc", "une limonade", "Suze", "Chartreuse"]
+  },
+  "places": {
+    "neighbourhoods": ["Vieux Lyon", "Croix-Rousse", "Presqu'île", "Part-Dieu", "Confluence", "Guillotière", "Brotteaux", "Fourvière", "Monplaisir", "Villeurbanne", "Gerland", "Pentes de la Croix-Rousse"],
+    "streets": ["Rue de la République", "Rue Victor Hugo", "Rue Saint-Jean", "Rue Mercière", "Cours Lafayette", "Quai Saint-Antoine", "Montée de la Grande Côte", "Cours Gambetta", "Rue Garibaldi", "Rue de la Charité"],
+    "landmarks": ["Basilique Notre-Dame de Fourvière", "Place Bellecour", "Parc de la Tête d'Or", "Halles Paul Bocuse", "Musée des Confluences", "Théâtres romains de Fourvière", "Tour Incity", "Gare de la Part-Dieu", "Place des Terreaux", "H7", "Mur des Canuts", "Traboules du Vieux Lyon"]
+  },
+  "small_talk": [
+    "The ficelle up to Fourvière was packed with tourists again.",
+    "Fête des Lumières is coming, the Presqu'île will be impossible.",
+    "Best quenelle I've had was in a little bouchon in the Vieux Lyon.",
+    "I take a shortcut through the traboules every morning.",
+    "Part-Dieu station is still a building site.",
+    "Paris is two hours away by TGV, people forget that.",
+    "The Croix-Rousse market on a Sunday is the best in town.",
+    "That climb up the Montée de la Grande Côte nearly finished me.",
+    "My neighbour brought back bugnes, carnival must be coming."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Lyon",
+    "https://en.wikipedia.org/wiki/Bouchon",
+    "https://en.wikipedia.org/wiki/Traboule",
+    "https://www.tcl.fr/",
+    "https://velov.grandlyon.com/"
+  ]
+}

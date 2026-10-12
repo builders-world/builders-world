@@ -1,0 +1,1086 @@
+{
+  "languages": [
+    {
+      "code": "gsw",
+      "name": "Swiss German (Schweizerdeutsch)",
+      "official": false,
+      "spoken": "widely"
+    },
+    {
+      "code": "de",
+      "name": "German (Swiss Standard German)",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "fr",
+      "name": "French",
+      "official": true,
+      "spoken": "regionally"
+    },
+    {
+      "code": "it",
+      "name": "Italian",
+      "official": true,
+      "spoken": "regionally"
+    },
+    {
+      "code": "rm",
+      "name": "Romansh",
+      "official": true,
+      "spoken": "regionally"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "commonly"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "One or two given names and a family name; since 2013 couples may keep their own names or share one. Swiss family names are tied to a place of origin (Heimatort) and often come from trades or farms (Müller, Meier, Keller, Brunner). Romansh names like Seraina, Ladina or Gian come from Graubünden and are popular across the country. Zurich has large Italian, German, Portuguese, Kosovo Albanian, Balkan and Turkish communities, who keep their own names.",
+    "groups": {
+      "swiss": {
+        "given": {
+          "m": [
+            "Daniel",
+            "Thomas",
+            "Martin",
+            "Peter",
+            "Andreas",
+            "Marco",
+            "Lukas",
+            "Simon",
+            "David",
+            "Stefan",
+            "Reto",
+            "Urs",
+            "Beat",
+            "Adrian",
+            "Fabian",
+            "Patrick",
+            "Christoph",
+            "Gian"
+          ],
+          "f": [
+            "Sandra",
+            "Nicole",
+            "Andrea",
+            "Barbara",
+            "Daniela",
+            "Laura",
+            "Sarah",
+            "Anna",
+            "Lea",
+            "Julia",
+            "Corinne",
+            "Monika",
+            "Ursula",
+            "Nadine",
+            "Seraina",
+            "Ladina",
+            "Céline",
+            "Fabienne"
+          ]
+        },
+        "family": [
+          "Müller",
+          "Meier",
+          "Schmid",
+          "Keller",
+          "Weber",
+          "Huber",
+          "Schneider",
+          "Meyer",
+          "Steiner",
+          "Fischer",
+          "Gerber",
+          "Brunner",
+          "Baumann",
+          "Frei",
+          "Zimmermann",
+          "Moser",
+          "Widmer",
+          "Wyss",
+          "Graf",
+          "Bühler"
+        ]
+      },
+      "german": {
+        "given": {
+          "m": [
+            "Thomas",
+            "Michael",
+            "Andreas",
+            "Stefan",
+            "Christian",
+            "Markus",
+            "Tobias",
+            "Jan",
+            "Florian",
+            "Sebastian",
+            "Alexander",
+            "Felix",
+            "Jonas",
+            "Niklas",
+            "Maximilian",
+            "Philipp"
+          ],
+          "f": [
+            "Julia",
+            "Anna",
+            "Sarah",
+            "Laura",
+            "Lisa",
+            "Katharina",
+            "Nicole",
+            "Stefanie",
+            "Christina",
+            "Lena",
+            "Hannah",
+            "Sophie",
+            "Marie",
+            "Johanna",
+            "Sabine",
+            "Anja"
+          ]
+        },
+        "family": [
+          "Müller",
+          "Schmidt",
+          "Schneider",
+          "Fischer",
+          "Weber",
+          "Wagner",
+          "Becker",
+          "Schulz",
+          "Hoffmann",
+          "Schäfer",
+          "Koch",
+          "Richter",
+          "Klein",
+          "Wolf",
+          "Schröder",
+          "Neumann"
+        ]
+      },
+      "italian": {
+        "given": {
+          "m": [
+            "Marco",
+            "Luca",
+            "Giuseppe",
+            "Antonio",
+            "Francesco",
+            "Alessandro",
+            "Andrea",
+            "Matteo",
+            "Davide",
+            "Stefano",
+            "Salvatore",
+            "Giovanni",
+            "Simone",
+            "Paolo"
+          ],
+          "f": [
+            "Giulia",
+            "Francesca",
+            "Chiara",
+            "Sara",
+            "Valentina",
+            "Federica",
+            "Martina",
+            "Elena",
+            "Alessia",
+            "Maria",
+            "Silvia",
+            "Laura",
+            "Roberta",
+            "Paola"
+          ]
+        },
+        "family": [
+          "Rossi",
+          "Russo",
+          "Ferrari",
+          "Esposito",
+          "Bianchi",
+          "Romano",
+          "Colombo",
+          "Ricci",
+          "Marino",
+          "Greco",
+          "Bruno",
+          "Gallo",
+          "Conti",
+          "De Luca",
+          "Costa"
+        ]
+      },
+      "portuguese": {
+        "given": {
+          "m": [
+            "João",
+            "José",
+            "Pedro",
+            "Miguel",
+            "Rui",
+            "Nuno",
+            "Tiago",
+            "Ricardo",
+            "Paulo",
+            "Bruno",
+            "Diogo",
+            "Carlos",
+            "André",
+            "Hugo"
+          ],
+          "f": [
+            "Ana",
+            "Maria",
+            "Sofia",
+            "Inês",
+            "Joana",
+            "Catarina",
+            "Marta",
+            "Sara",
+            "Rita",
+            "Beatriz",
+            "Cátia",
+            "Patrícia",
+            "Daniela",
+            "Mariana"
+          ]
+        },
+        "family": [
+          "Silva",
+          "Santos",
+          "Ferreira",
+          "Pereira",
+          "Oliveira",
+          "Costa",
+          "Rodrigues",
+          "Martins",
+          "Sousa",
+          "Fernandes",
+          "Gonçalves",
+          "Gomes",
+          "Lopes",
+          "Marques",
+          "Ribeiro"
+        ]
+      },
+      "albanian": {
+        "given": {
+          "m": [
+            "Arben",
+            "Besnik",
+            "Driton",
+            "Fatmir",
+            "Agon",
+            "Arian",
+            "Blerim",
+            "Valon",
+            "Burim",
+            "Ilir",
+            "Leutrim",
+            "Ardian",
+            "Bekim",
+            "Liridon",
+            "Labinot"
+          ],
+          "f": [
+            "Arta",
+            "Blerta",
+            "Drita",
+            "Elira",
+            "Fjolla",
+            "Lirije",
+            "Mimoza",
+            "Teuta",
+            "Valbona",
+            "Vjosa",
+            "Albana",
+            "Edona",
+            "Dafina",
+            "Shqipe"
+          ]
+        },
+        "family": [
+          "Krasniqi",
+          "Gashi",
+          "Berisha",
+          "Morina",
+          "Hoxha",
+          "Shala",
+          "Bytyqi",
+          "Kryeziu",
+          "Hajdari",
+          "Rexhepi",
+          "Ahmeti",
+          "Sadiku",
+          "Zeqiri",
+          "Hasani",
+          "Mustafa"
+        ]
+      },
+      "bks": {
+        "given": {
+          "m": [
+            "Ivan",
+            "Marko",
+            "Luka",
+            "Josip",
+            "Ante",
+            "Tomislav",
+            "Dario",
+            "Nikola",
+            "Stefan",
+            "Milan",
+            "Dragan",
+            "Goran",
+            "Adnan",
+            "Emir"
+          ],
+          "f": [
+            "Ana",
+            "Ivana",
+            "Marija",
+            "Petra",
+            "Maja",
+            "Jelena",
+            "Katarina",
+            "Mirela",
+            "Snježana",
+            "Tamara",
+            "Sanja",
+            "Lejla",
+            "Amra",
+            "Jasmina"
+          ]
+        },
+        "family": [
+          "Horvat",
+          "Kovačević",
+          "Babić",
+          "Marić",
+          "Jurić",
+          "Novak",
+          "Knežević",
+          "Petrović",
+          "Jovanović",
+          "Nikolić",
+          "Hodžić",
+          "Begić",
+          "Delić",
+          "Kovač",
+          "Perić"
+        ]
+      },
+      "turkish": {
+        "given": {
+          "m": [
+            "Mehmet",
+            "Mustafa",
+            "Ahmet",
+            "Ali",
+            "Hüseyin",
+            "Hasan",
+            "İbrahim",
+            "Murat",
+            "Emre",
+            "Burak",
+            "Can",
+            "Deniz",
+            "Serkan",
+            "Cem"
+          ],
+          "f": [
+            "Ayşe",
+            "Fatma",
+            "Emine",
+            "Elif",
+            "Zeynep",
+            "Merve",
+            "Esra",
+            "Derya",
+            "Aylin",
+            "Melike",
+            "Selin",
+            "Büşra",
+            "Gül",
+            "Dilara"
+          ]
+        },
+        "family": [
+          "Yılmaz",
+          "Kaya",
+          "Demir",
+          "Şahin",
+          "Çelik",
+          "Yıldız",
+          "Yıldırım",
+          "Öztürk",
+          "Aydın",
+          "Özdemir",
+          "Arslan",
+          "Doğan",
+          "Kılıç",
+          "Aslan"
+        ]
+      }
+    },
+    "weights": {
+      "swiss": 0.68,
+      "italian": 0.07,
+      "german": 0.07,
+      "portuguese": 0.06,
+      "albanian": 0.06,
+      "bks": 0.04,
+      "turkish": 0.02
+    }
+  },
+  "honorifics": {
+    "elder_m": "Herr",
+    "elder_f": "Frau",
+    "peer_m": "Kolleg",
+    "peer_f": "Kollegin",
+    "boss": "Chef",
+    "titles": {
+      "elder_m": "Herr",
+      "elder_f": "Frau",
+      "with": "family"
+    }
+  },
+  "phrases": {
+    "gsw": {
+      "hello": [
+        [
+          "Grüezi",
+          "Hello (polite)"
+        ],
+        [
+          "Hoi",
+          "Hi"
+        ],
+        [
+          "Sali",
+          "Hi"
+        ]
+      ],
+      "morning": [
+        [
+          "Guete Morge",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Guete Abig",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Wie gaht's?",
+          "How are you?"
+        ],
+        [
+          "Wie gaht's Ihne?",
+          "How are you? (polite)"
+        ]
+      ],
+      "fine": [
+        [
+          "Guet, merci",
+          "Good, thanks"
+        ],
+        [
+          "Es gaht",
+          "It's okay"
+        ]
+      ],
+      "thanks": [
+        [
+          "Merci",
+          "Thanks"
+        ],
+        [
+          "Merci vilmal",
+          "Thanks a lot"
+        ],
+        [
+          "Danke vilmal",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Uf Widerluege",
+          "Goodbye (polite)"
+        ],
+        [
+          "Ade",
+          "Bye"
+        ],
+        [
+          "Tschau zäme",
+          "Bye, everyone"
+        ]
+      ],
+      "welcome": [
+        [
+          "Willkomme",
+          "Welcome"
+        ],
+        [
+          "Herzlich willkomme",
+          "A warm welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Exgüsi",
+          "Sorry"
+        ],
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Exgüsi",
+          "Excuse me"
+        ],
+        [
+          "Entschuldigung",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Ja",
+          "Yes"
+        ],
+        [
+          "Jo",
+          "Yeah"
+        ]
+      ],
+      "no": [
+        [
+          "Nei",
+          "No"
+        ]
+      ]
+    },
+    "de": {
+      "hello": [
+        [
+          "Guten Tag",
+          "Good day"
+        ],
+        [
+          "Hallo",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Guten Morgen",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Guten Abend",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Wie geht es Ihnen?",
+          "How are you? (formal)"
+        ],
+        [
+          "Wie geht's?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Gut, danke",
+          "Fine, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Danke",
+          "Thanks"
+        ],
+        [
+          "Vielen Dank",
+          "Many thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "Auf Wiedersehen",
+          "Goodbye"
+        ],
+        [
+          "Tschüss",
+          "Bye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Willkommen",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Entschuldigung",
+          "Sorry"
+        ],
+        [
+          "Tut mir leid",
+          "I'm sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Entschuldigen Sie",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Ja",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Nein",
+          "No"
+        ]
+      ]
+    },
+    "fr": {
+      "hello": [
+        [
+          "Bonjour",
+          "Hello"
+        ],
+        [
+          "Salut",
+          "Hi"
+        ]
+      ],
+      "morning": [
+        [
+          "Bonjour",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Bonsoir",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Comment ça va?",
+          "How are you?"
+        ],
+        [
+          "Ça va?",
+          "All right?"
+        ]
+      ],
+      "fine": [
+        [
+          "Ça va bien, merci",
+          "Fine, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Merci",
+          "Thanks"
+        ],
+        [
+          "Merci beaucoup",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Au revoir",
+          "Goodbye"
+        ],
+        [
+          "Salut",
+          "Bye"
+        ],
+        [
+          "À plus",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Bienvenue",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Pardon",
+          "Sorry"
+        ],
+        [
+          "Désolé",
+          "I'm sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excusez-moi",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Oui",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Non",
+          "No"
+        ]
+      ]
+    },
+    "it": {
+      "hello": [
+        [
+          "Ciao",
+          "Hi"
+        ],
+        [
+          "Buongiorno",
+          "Good day"
+        ]
+      ],
+      "morning": [
+        [
+          "Buongiorno",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Buonasera",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Come stai?",
+          "How are you?"
+        ],
+        [
+          "Come va?",
+          "How's it going?"
+        ]
+      ],
+      "fine": [
+        [
+          "Bene, grazie",
+          "Fine, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Grazie",
+          "Thanks"
+        ],
+        [
+          "Grazie mille",
+          "Thanks a lot"
+        ]
+      ],
+      "bye": [
+        [
+          "Ciao",
+          "Bye"
+        ],
+        [
+          "Arrivederci",
+          "Goodbye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Benvenuto",
+          "Welcome (to a man)"
+        ],
+        [
+          "Benvenuta",
+          "Welcome (to a woman)"
+        ]
+      ],
+      "sorry": [
+        [
+          "Scusa",
+          "Sorry"
+        ],
+        [
+          "Mi dispiace",
+          "I'm sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Scusi",
+          "Excuse me (polite)"
+        ],
+        [
+          "Permesso",
+          "Excuse me, may I pass"
+        ]
+      ],
+      "yes": [
+        [
+          "Sì",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    },
+    "rm": {
+      "hello": [
+        [
+          "Allegra!",
+          "Hello"
+        ],
+        [
+          "Bun di",
+          "Good day"
+        ]
+      ],
+      "morning": [
+        [
+          "Bun di",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Buna saira",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Co vai?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Bain, grazia",
+          "Fine, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Grazia",
+          "Thank you"
+        ],
+        [
+          "Grazia fitg",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "A revair",
+          "Goodbye"
+        ],
+        [
+          "Adia",
+          "Bye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Bainvegni",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Perstgisai",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Perstgisai",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Gea",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Na",
+          "No"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hi",
+          "Hi"
+        ],
+        [
+          "Hello",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you?",
+          "How are you?"
+        ],
+        [
+          "How's it going?",
+          "How's it going?"
+        ]
+      ],
+      "fine": [
+        [
+          "Fine, thanks",
+          "Fine, thanks"
+        ],
+        [
+          "All good",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks",
+          "Thanks"
+        ],
+        [
+          "Thank you",
+          "Thank you"
+        ]
+      ],
+      "bye": [
+        [
+          "Bye",
+          "Bye"
+        ],
+        [
+          "See you",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "CHF",
+    "symbol": "Fr.",
+    "words": [
+      [
+        "Stutz",
+        "a franc (slang)"
+      ],
+      [
+        "Füfliber",
+        "a five-franc coin"
+      ],
+      [
+        "Rappe",
+        "a centime, a hundredth of a franc"
+      ],
+      [
+        "Batzen",
+        "money, a coin (old word, still used)"
+      ],
+      [
+        "Hunderter",
+        "a hundred-franc note"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Swiss_German",
+    "https://en.wikipedia.org/wiki/Languages_of_Switzerland",
+    "https://en.wikipedia.org/wiki/Romansh_language",
+    "https://www.bfs.admin.ch/"
+  ]
+}

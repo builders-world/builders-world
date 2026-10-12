@@ -1,0 +1,803 @@
+{
+  "languages": [
+    {
+      "code": "no",
+      "name": "Norwegian",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "se",
+      "name": "Northern Sámi",
+      "official": true,
+      "spoken": "regionally"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "widely"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Given name then family name, often with a middle name. Many surnames are old -sen patronymics (Hansen, Johansen) and many others are farm names (Berg, Haugen, Bakken, Dahl). People talk in their own dialect and write Bokmål or Nynorsk. First names and 'du' are used with everyone, including bosses. Sámi names come from the north, with surnames like Sara, Eira or Hætta. Norwegians with Pakistani, Somali, Polish or Middle Eastern roots usually keep family names from their parents' language; Polish women's surnames end in -ska.",
+    "groups": {
+      "norwegian": {
+        "given": {
+          "m": [
+            "Ole",
+            "Lars",
+            "Jon",
+            "Anders",
+            "Kristian",
+            "Magnus",
+            "Even",
+            "Sindre",
+            "Henrik",
+            "Martin",
+            "Jonas",
+            "Håkon",
+            "Erik",
+            "Thomas",
+            "Andreas",
+            "Eirik",
+            "Sondre",
+            "Torbjørn"
+          ],
+          "f": [
+            "Ingrid",
+            "Kari",
+            "Marit",
+            "Hanne",
+            "Silje",
+            "Ida",
+            "Ingvild",
+            "Nora",
+            "Thea",
+            "Ragnhild",
+            "Kristine",
+            "Marte",
+            "Hilde",
+            "Tone",
+            "Camilla",
+            "Guro",
+            "Synnøve"
+          ]
+        },
+        "family": [
+          "Hansen",
+          "Johansen",
+          "Olsen",
+          "Larsen",
+          "Andersen",
+          "Pedersen",
+          "Nilsen",
+          "Kristiansen",
+          "Jensen",
+          "Karlsen",
+          "Johnsen",
+          "Pettersen",
+          "Eriksen",
+          "Berg",
+          "Haugen",
+          "Hagen",
+          "Bakken",
+          "Dahl"
+        ]
+      },
+      "sami": {
+        "given": {
+          "m": [
+            "Mikkel",
+            "Aslak",
+            "Nils",
+            "Johan",
+            "Ánte",
+            "Isak",
+            "Per",
+            "Ole",
+            "Niillas",
+            "Máhtte",
+            "Jovsset",
+            "Piera",
+            "Hans",
+            "Anders"
+          ],
+          "f": [
+            "Elle",
+            "Máret",
+            "Ánne",
+            "Sara",
+            "Inga",
+            "Risten",
+            "Berit",
+            "Kristine",
+            "Ellen",
+            "Siri",
+            "Marja",
+            "Sunná",
+            "Ingá",
+            "Karen"
+          ]
+        },
+        "family": [
+          "Sara",
+          "Eira",
+          "Hætta",
+          "Gaup",
+          "Buljo",
+          "Utsi",
+          "Somby",
+          "Turi",
+          "Balto",
+          "Oskal",
+          "Bongo",
+          "Kemi",
+          "Siri",
+          "Anti"
+        ]
+      },
+      "swedish": {
+        "given": {
+          "m": [
+            "Erik",
+            "Lars",
+            "Anders",
+            "Johan",
+            "Karl",
+            "Per",
+            "Mikael",
+            "Fredrik",
+            "Oscar",
+            "Viktor",
+            "Gustav",
+            "Axel",
+            "Daniel",
+            "Magnus",
+            "Björn",
+            "Simon",
+            "Jonas"
+          ],
+          "f": [
+            "Anna",
+            "Eva",
+            "Maria",
+            "Karin",
+            "Sara",
+            "Emma",
+            "Elin",
+            "Johanna",
+            "Linnéa",
+            "Frida",
+            "Ebba",
+            "Malin",
+            "Sofia",
+            "Lisa",
+            "Kristina",
+            "Ingrid",
+            "Matilda"
+          ]
+        },
+        "family": [
+          "Andersson",
+          "Johansson",
+          "Karlsson",
+          "Nilsson",
+          "Eriksson",
+          "Larsson",
+          "Olsson",
+          "Persson",
+          "Svensson",
+          "Gustafsson",
+          "Pettersson",
+          "Jonsson",
+          "Jansson",
+          "Hansson",
+          "Bengtsson",
+          "Lindberg",
+          "Lindström",
+          "Lundgren"
+        ]
+      },
+      "polish": {
+        "given": {
+          "m": [
+            "Piotr",
+            "Krzysztof",
+            "Tomasz",
+            "Paweł",
+            "Michał",
+            "Marcin",
+            "Kamil",
+            "Jakub",
+            "Łukasz",
+            "Mateusz",
+            "Adam",
+            "Marek",
+            "Grzegorz",
+            "Bartosz"
+          ],
+          "f": [
+            "Anna",
+            "Katarzyna",
+            "Magdalena",
+            "Agnieszka",
+            "Joanna",
+            "Monika",
+            "Aleksandra",
+            "Natalia",
+            "Karolina",
+            "Ewa",
+            "Justyna",
+            "Paulina",
+            "Marta",
+            "Dorota"
+          ]
+        },
+        "family": [
+          "Nowak",
+          "Kowalski",
+          "Wiśniewski",
+          "Wójcik",
+          "Kowalczyk",
+          "Kamiński",
+          "Lewandowski",
+          "Zieliński",
+          "Szymański",
+          "Woźniak",
+          "Dąbrowski",
+          "Kozłowski",
+          "Mazur",
+          "Jankowski"
+        ],
+        "family_f": [
+          "Nowak",
+          "Kowalska",
+          "Wiśniewska",
+          "Wójcik",
+          "Kowalczyk",
+          "Kamińska",
+          "Lewandowska",
+          "Zielińska",
+          "Szymańska",
+          "Woźniak",
+          "Dąbrowska",
+          "Kozłowska",
+          "Mazur",
+          "Jankowska"
+        ]
+      },
+      "pakistani": {
+        "given": {
+          "m": [
+            "Muhammad",
+            "Ali",
+            "Usman",
+            "Bilal",
+            "Imran",
+            "Asif",
+            "Faisal",
+            "Kamran",
+            "Tariq",
+            "Zeeshan",
+            "Adnan",
+            "Hamza",
+            "Shahid",
+            "Waqas"
+          ],
+          "f": [
+            "Ayesha",
+            "Fatima",
+            "Sana",
+            "Hina",
+            "Saima",
+            "Nadia",
+            "Rabia",
+            "Sadia",
+            "Amna",
+            "Mehwish",
+            "Zainab",
+            "Iqra",
+            "Shazia",
+            "Maryam"
+          ]
+        },
+        "family": [
+          "Khan",
+          "Ahmed",
+          "Hussain",
+          "Malik",
+          "Butt",
+          "Chaudhry",
+          "Raja",
+          "Mirza",
+          "Qureshi",
+          "Sheikh",
+          "Iqbal",
+          "Shah",
+          "Javed",
+          "Akhtar"
+        ]
+      },
+      "somali": {
+        "given": {
+          "m": [
+            "Abdi",
+            "Mohamed",
+            "Ahmed",
+            "Abdirahman",
+            "Abdullahi",
+            "Hassan",
+            "Ismail",
+            "Yusuf",
+            "Omar",
+            "Ali",
+            "Mahad",
+            "Liban",
+            "Farah",
+            "Hamza"
+          ],
+          "f": [
+            "Hodan",
+            "Amina",
+            "Fadumo",
+            "Hawa",
+            "Sahra",
+            "Ayan",
+            "Ifrah",
+            "Hibo",
+            "Nimco",
+            "Asha",
+            "Khadra",
+            "Sagal",
+            "Ubah",
+            "Filsan"
+          ]
+        },
+        "family": [
+          "Mohamed",
+          "Ahmed",
+          "Hassan",
+          "Abdi",
+          "Ali",
+          "Omar",
+          "Farah",
+          "Warsame",
+          "Jama",
+          "Osman",
+          "Hussein",
+          "Ismail",
+          "Nur",
+          "Aden",
+          "Yusuf"
+        ]
+      },
+      "middle_eastern": {
+        "given": {
+          "m": [
+            "Ahmad",
+            "Mohammad",
+            "Ali",
+            "Omar",
+            "Hassan",
+            "Hussein",
+            "Khaled",
+            "Yousef",
+            "Karim",
+            "Bilal",
+            "Rami",
+            "Sami",
+            "Mustafa",
+            "Ibrahim",
+            "Reza",
+            "Amir"
+          ],
+          "f": [
+            "Fatima",
+            "Sara",
+            "Mariam",
+            "Aya",
+            "Nour",
+            "Layla",
+            "Rania",
+            "Hiba",
+            "Yasmin",
+            "Amira",
+            "Zainab",
+            "Dina",
+            "Shirin",
+            "Roza",
+            "Zahra"
+          ]
+        },
+        "family": [
+          "Hassan",
+          "Ali",
+          "Ahmad",
+          "Mohammad",
+          "Hussein",
+          "Abdullah",
+          "Ibrahim",
+          "Khalil",
+          "Saleh",
+          "Mahmoud",
+          "Haddad",
+          "Osman",
+          "Yousef",
+          "Karimi",
+          "Ahmadi",
+          "Hosseini"
+        ]
+      }
+    },
+    "weights": {
+      "norwegian": 0.81,
+      "sami": 0.01,
+      "swedish": 0.03,
+      "polish": 0.04,
+      "pakistani": 0.03,
+      "somali": 0.04,
+      "middle_eastern": 0.04
+    }
+  },
+  "honorifics": {
+    "elder_m": "herr",
+    "elder_f": "fru",
+    "peer_m": "kompis",
+    "peer_f": "vennen",
+    "boss": "sjef",
+    "titles": {
+      "with": "none"
+    }
+  },
+  "phrases": {
+    "no": {
+      "hello": [
+        [
+          "Hei",
+          "Hi"
+        ],
+        [
+          "Hallo",
+          "Hello"
+        ],
+        [
+          "Heisann",
+          "Hi there"
+        ]
+      ],
+      "morning": [
+        [
+          "God morgen",
+          "Good morning"
+        ],
+        [
+          "Morn",
+          "Morning (casual)"
+        ]
+      ],
+      "evening": [
+        [
+          "God kveld",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Hvordan går det?",
+          "How's it going?"
+        ],
+        [
+          "Står til?",
+          "How are things?"
+        ],
+        [
+          "Går det bra?",
+          "All good?"
+        ]
+      ],
+      "fine": [
+        [
+          "Bare bra, takk",
+          "Just fine, thanks"
+        ],
+        [
+          "Det går fint",
+          "It's going fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Takk",
+          "Thanks"
+        ],
+        [
+          "Tusen takk",
+          "Thanks a lot"
+        ],
+        [
+          "Takk for sist",
+          "Thanks for last time"
+        ]
+      ],
+      "bye": [
+        [
+          "Ha det",
+          "Bye"
+        ],
+        [
+          "Ha det bra",
+          "Take care"
+        ],
+        [
+          "Snakkes",
+          "Talk soon"
+        ]
+      ],
+      "welcome": [
+        [
+          "Velkommen",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Unnskyld",
+          "Sorry"
+        ],
+        [
+          "Beklager",
+          "I'm sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Unnskyld meg",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Ja",
+          "Yes"
+        ],
+        [
+          "Jo",
+          "Yes (answering a negative)"
+        ]
+      ],
+      "no": [
+        [
+          "Nei",
+          "No"
+        ]
+      ]
+    },
+    "se": {
+      "hello": [
+        [
+          "Bures!",
+          "Hello!"
+        ],
+        [
+          "Buorre beaivi",
+          "Good day"
+        ]
+      ],
+      "morning": [
+        [
+          "Buorre iđit",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Buorre eahket",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Mii gullo?",
+          "How are things? (what's heard?)"
+        ],
+        [
+          "Mo manná?",
+          "How's it going?"
+        ]
+      ],
+      "fine": [
+        [
+          "Buriid",
+          "Fine, good things"
+        ],
+        [
+          "Dušše buriid",
+          "Only good things"
+        ]
+      ],
+      "thanks": [
+        [
+          "Giitu",
+          "Thanks"
+        ],
+        [
+          "Giitu ollu",
+          "Thanks a lot"
+        ]
+      ],
+      "bye": [
+        [
+          "Báze dearvan",
+          "Goodbye (said by the one leaving)"
+        ],
+        [
+          "Mana dearvan",
+          "Goodbye (said to the one leaving)"
+        ],
+        [
+          "Oaidnaleapmái",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Bures boahtin",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Ándagassii",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Ándagassii",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Juo",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Ii",
+          "No"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hi",
+          "Hi"
+        ],
+        [
+          "Hello",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Morning!",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you?",
+          "How are you?"
+        ],
+        [
+          "How's it going?",
+          "How's it going?"
+        ]
+      ],
+      "fine": [
+        [
+          "Fine, thanks",
+          "Fine, thanks"
+        ],
+        [
+          "All good",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks",
+          "Thanks"
+        ],
+        [
+          "Thank you",
+          "Thank you"
+        ]
+      ],
+      "bye": [
+        [
+          "Bye",
+          "Bye"
+        ],
+        [
+          "See you",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ],
+        [
+          "Yeah",
+          "Yeah"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "NOK",
+    "symbol": "kr",
+    "words": [
+      [
+        "en hundrelapp",
+        "a hundred-krone note"
+      ],
+      [
+        "en tusenlapp",
+        "a thousand-krone note"
+      ],
+      [
+        "Vipps",
+        "the phone app for paying people; 'kan du vippse meg?' means 'can you pay me back?'"
+      ],
+      [
+        "gryn",
+        "money, in slang"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Norwegian_language",
+    "https://en.wikipedia.org/wiki/Sámi_languages",
+    "https://www.ssb.no/en",
+    "https://en.wikipedia.org/wiki/List_of_most_common_surnames_in_Europe",
+    "https://en.wikipedia.org/wiki/List_of_most_popular_given_names"
+  ]
+}

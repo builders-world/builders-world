@@ -1,0 +1,96 @@
+{
+  "street": { "en": 0.6, "es": 0.24, "zh": 0.04, "yue": 0.03, "ht": 0.03, "ko": 0.02, "hi": 0.02, "tl": 0.01, "vi": 0.01 },
+  "registers": {},
+  "names": {
+    "weights": {
+      "american": 0.34,
+      "latino": 0.29,
+      "african_american": 0.12,
+      "chinese": 0.085,
+      "west_indian": 0.05,
+      "indian": 0.03,
+      "haitian": 0.02,
+      "korean": 0.02,
+      "filipino": 0.01,
+      "vietnamese": 0.005
+    }
+  },
+  "phrases": {
+    "en": {
+      "hello": [["Yo, what's good?", "Hey, how are you?"], ["How you doin'?", "Hello, how are you?"]],
+      "fine": [["I'm good, I'm good", "I'm fine"], ["Can't complain", "All right"]],
+      "yes": [["Deadass", "Seriously, for real"]],
+      "bye": [["Aight, later", "Okay, see you later"]]
+    },
+    "es": {
+      "hello": [["¿Qué lo que?", "What's up? (Dominican)"], ["¡Wepa!", "Hey! (Puerto Rican cheer)"]],
+      "fine": [["Tranquilo, mi pana", "All good, my friend"]],
+      "bye": [["Dale, nos vemos", "Okay, see you"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Yo, what's good?", "Hey! How you doin'?", "Morning! You get your coffee yet?", "Ayy, long time no see!", "Hey, how's it going?"],
+      "reply": ["I'm good, I'm good. You?", "Can't complain, the train actually came on time.", "Mad busy, but good.", "Doing alright, just got off the L.", "All good, just grabbed a bacon egg and cheese."],
+      "sunny": ["Gorgeous out, everybody's in the park.", "It's mad hot, the subway platform is an oven.", "Perfect day for the Brooklyn Bridge.", "Sun's out, Central Park is going to be packed.", "Nice day, let's grab a slice and sit outside."],
+      "rain": ["It's pouring and I don't have an umbrella, of course.", "Rain means every cab is taken.", "The subway's flooded at my stop again.", "Watch out for the puddles at the curb, they're deeper than they look.", "Five dollar umbrella guy is on every corner now."],
+      "bye": ["Aight, later!", "Take care, stay safe.", "Catch you later!", "See you around the block.", "Later, text me."],
+      "busy": ["Can't talk, I gotta catch the 6.", "Running late, the A was delayed again.", "I'm on my way to work, call you later.", "Gotta run, I'm double parked.", "Late for a meeting in Midtown, talk soon!"]
+    },
+    "es": {
+      "greet": ["¿Qué lo que, mi pana?", "¡Buenos días! ¿Cómo está?", "¡Wepa! ¿Cómo andas?", "¡Hola, mi amor! ¿Qué tal?"],
+      "reply": ["Tranquilo, aquí en la lucha.", "Bien, gracias a Dios.", "Todo bien, ¿y tú?", "Ahí, trabajando."],
+      "sunny": ["¡Qué calor hace hoy!", "Lindo día para ir a la playa.", "Hoy el sol está fuerte.", "Por fin salió el sol."],
+      "rain": ["Está lloviendo duro.", "Ese aguacero me cogió sin paraguas.", "El tren va atrasado por la lluvia.", "Ten cuidado, que está resbaloso."],
+      "bye": ["Dale, nos vemos.", "Cuídate mucho.", "Saludos a tu mamá.", "Hasta luego."],
+      "busy": ["Voy tarde pal trabajo.", "Tengo que coger el tren, ¡nos vemos!", "Ando apurado, te llamo luego.", "Voy a buscar a los nenes."]
+    },
+    "zh": {
+      "greet": ["早！吃了吗？", "你好，最近怎么样？", "好久不见！", "早上好！"],
+      "reply": ["挺好的，谢谢。", "还行，就是忙。", "不错，你呢？", "老样子。"],
+      "sunny": ["今天天气真好。", "太阳好大啊。", "今天好热。", "天气不错，出去走走。"],
+      "rain": ["下雨了，带伞了吗？", "雨下得好大。", "地铁又晚点了。", "今天好冷，还下雨。"],
+      "bye": ["再见！", "拜拜，慢走。", "回头见！", "改天聊。"],
+      "busy": ["我赶地铁，先走了。", "我要迟到了，回头聊。", "不好意思，我赶时间。", "我去上班了，再见。"]
+    }
+  },
+  "transport": { "bus": "MTA bus", "metro": "the subway", "train": "LIRR or Metro-North", "ferry": "NYC Ferry or the Staten Island Ferry", "taxi": "yellow cab", "rideshare": "Uber or Lyft", "bike": "Citi Bike", "stage": "bus stop" },
+  "touts": ["Stand clear of the closing doors, please.", "Showtime! Showtime!", "Comedy show tonight, tickets right here!", "Statue of Liberty tickets, boat leaving now!", "Umbrella, five dollars! Umbrella!"],
+  "hawkers": [
+    ["Umbrella, umbrella, five dollars!", "A street seller the moment it rains"],
+    ["Water, one dollar!", "A water seller near a tourist spot"],
+    ["Hot pretzels, hot dogs!", "A food cart in Midtown"],
+    ["¡Churros, churros!", "A churro seller on the subway platform"],
+    ["Mango on a stick, with chile!", "A fruit seller in summer"],
+    ["Chicken over rice, white sauce, hot sauce!", "A halal cart"]
+  ],
+  "food": {
+    "street": ["a slice of pizza", "bacon egg and cheese on a roll", "halal cart chicken over rice", "hot dogs with onions", "pretzels", "churros", "mango with chile", "dumplings in Chinatown"],
+    "dishes": ["bagel with a schmear", "pastrami on rye", "chopped cheese", "Jamaican beef patty", "jerk chicken in Flatbush", "mofongo", "dim sum", "momos in Jackson Heights", "cheesecake"],
+    "drinks": ["bodega coffee", "an egg cream", "a Snapple", "morir soñando", "bubble tea", "malta"]
+  },
+  "places": {
+    "neighbourhoods": ["Harlem", "Washington Heights", "the Upper West Side", "the Upper East Side", "Midtown", "Chelsea", "Greenwich Village", "the Lower East Side", "Chinatown", "Williamsburg", "Bushwick", "Bed-Stuy", "Crown Heights", "Flatbush", "Park Slope", "Astoria", "Flushing", "Jackson Heights", "the South Bronx", "Fordham", "St. George"],
+    "streets": ["Broadway", "Fifth Avenue", "Lexington Avenue", "125th Street", "Canal Street", "Delancey Street", "Houston Street", "Bedford Avenue", "Flatbush Avenue", "Atlantic Avenue", "Roosevelt Avenue", "Main Street", "the Grand Concourse", "the FDR", "the BQE"],
+    "landmarks": ["Times Square", "Central Park", "the Empire State Building", "the Brooklyn Bridge", "the Statue of Liberty", "Grand Central Terminal", "Penn Station", "the High Line", "Yankee Stadium", "Madison Square Garden", "the Apollo Theater", "Coney Island", "Prospect Park", "the Unisphere", "One World Trade Center", "Rockefeller Center"]
+  },
+  "small_talk": [
+    "The L train is down this weekend, I'm taking the shuttle.",
+    "My bodega guy already knows my order.",
+    "I've been on line at this bagel place for twenty minutes.",
+    "Rent went up again, I might move to Queens.",
+    "There was a Showtime crew on the A, I almost got kicked.",
+    "Alternate side parking is the worst invention ever.",
+    "The bodega cat was sleeping on the bread again.",
+    "Yankees or Mets? Choose carefully.",
+    "Took the ferry to Staten Island just to see the Statue for free.",
+    "It's mad crowded in Times Square, nobody who lives here goes there."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/New_York_City",
+    "https://en.wikipedia.org/wiki/Demographics_of_New_York_City",
+    "https://www.mta.info",
+    "https://en.wikipedia.org/wiki/New_York_City_English",
+    "https://www.census.gov/quickfacts/"
+  ]
+}

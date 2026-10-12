@@ -1,0 +1,78 @@
+{
+  "languages": [
+    { "code": "aeb", "name": "Tunisian Arabic (Tounsi, Derja)", "official": false, "spoken": "widely" },
+    { "code": "ar", "name": "Modern Standard Arabic", "official": true, "spoken": "in school, news and offices" },
+    { "code": "fr", "name": "French", "official": false, "spoken": "widely, mixed into everyday Tounsi" },
+    { "code": "en", "name": "English", "official": false, "spoken": "among young people and in tech" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "A Muslim first name and a family name from the father. Many family names start with Ben (son of), like Ben Salah or Ben Amor, or name a place or tribe a family came from: Jlassi, Gharbi (from the west), Sfaxi (from Sfax), Hammami. First names mix classic ones (Mohamed, Fatma) with modern favourites like Skander, Eya, Yasmine and Wiem, written the French way. Young people often go by a short form: Hamma for Mohamed, Fatma for Fatima.",
+    "groups": {
+      "tunisian": {
+        "given": {
+          "m": ["Mohamed", "Ahmed", "Ali", "Mehdi", "Amine", "Yassine", "Skander", "Aymen", "Bilel", "Hamza", "Oussama", "Wassim", "Karim", "Sami", "Slim", "Hatem", "Anis", "Fares"],
+          "f": ["Amira", "Ines", "Mariem", "Sarra", "Yasmine", "Rania", "Nour", "Eya", "Asma", "Salma", "Wiem", "Khaoula", "Hela", "Sonia", "Olfa", "Rim", "Leila", "Emna"]
+        },
+        "family": ["Ben Salah", "Ben Ahmed", "Ben Amor", "Ben Youssef", "Gharbi", "Hammami", "Mejri", "Jlassi", "Dridi", "Ayari", "Riahi", "Mansouri", "Saidi", "Belhadj", "Khemiri", "Sassi", "Zouari", "Hamdi", "Sfaxi", "Chaabane"]
+      }
+    },
+    "weights": { "tunisian": 1 }
+  },
+  "honorifics": { "elder_m": "Ammi", "elder_f": "Khalti", "peer_m": "Sahbi", "peer_f": "Okhti", "boss": "Chef" },
+  "phrases": {
+    "aeb": {
+      "hello": [["Aslema", "Hello"], ["Ahla", "Hi"], ["Salam alikoum", "Peace be upon you"]],
+      "morning": [["Sbeh el khir", "Good morning"]],
+      "evening": [["Mse el khir", "Good evening"]],
+      "how_are_you": [["Labes?", "All good?"], ["Chniya ahwelek?", "How are you doing?"]],
+      "fine": [["Labes, hamdoulah", "Fine, thank God"], ["Behi", "Good"]],
+      "thanks": [["Yaychek", "Thank you (literally, may you live)"], ["Barcha mersi", "Thanks a lot"]],
+      "bye": [["Bslema", "Goodbye"], ["Nchoufek", "See you"]],
+      "welcome": [["Marhbe", "Welcome"], ["Marhbe bik", "Welcome to you"]],
+      "sorry": [["Samahni", "Sorry, forgive me"]],
+      "excuse": [["Samahni", "Excuse me"]],
+      "yes": [["Ey", "Yes"]],
+      "no": [["Le", "No"]]
+    },
+    "fr": {
+      "hello": [["Salut", "Hi"], ["Bonjour", "Hello"]],
+      "morning": [["Bonjour", "Good morning"]],
+      "evening": [["Bonsoir", "Good evening"]],
+      "how_are_you": [["Ça va?", "How's it going?"]],
+      "fine": [["Ça va, hamdoulah", "Fine, thank God"]],
+      "thanks": [["Merci", "Thank you"]],
+      "bye": [["À plus", "See you"], ["Au revoir", "Goodbye"]],
+      "welcome": [["Bienvenue", "Welcome"]],
+      "sorry": [["Pardon", "Sorry"]],
+      "excuse": [["Excusez-moi", "Excuse me"]],
+      "yes": [["Oui", "Yes"]],
+      "no": [["Non", "No"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["Fine, thanks", "Fine, thanks"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Goodbye", "Goodbye"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "TND",
+    "symbol": "DT",
+    "words": [
+      ["flous", "money"],
+      ["millime", "a thousandth of a dinar"],
+      ["alf", "a thousand millimes, which is one dinar"],
+      ["achra alef", "ten thousand millimes, which is ten dinars"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Tunisia",
+    "https://en.wikipedia.org/wiki/Tunisian_Arabic",
+    "https://en.wikipedia.org/wiki/Tunisian_dinar",
+    "https://en.wikipedia.org/wiki/Tunisians"
+  ]
+}

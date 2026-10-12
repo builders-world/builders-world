@@ -1,0 +1,335 @@
+{
+  "street": {
+    "en": 0.81,
+    "zh": 0.06,
+    "ar": 0.04,
+    "yue": 0.03,
+    "vi": 0.03,
+    "el": 0.01,
+    "it": 0.01,
+    "pa": 0.01
+  },
+  "registers": {},
+  "names": {
+    "weights": {
+      "anglo_celtic": 0.55,
+      "chinese": 0.12,
+      "indian": 0.06,
+      "lebanese": 0.05,
+      "vietnamese": 0.04,
+      "filipino": 0.04,
+      "italian": 0.04,
+      "greek": 0.03,
+      "punjabi": 0.02
+    }
+  },
+  "phrases": {
+    "en": {
+      "hello": [
+        [
+          "G'day, mate!",
+          "Hello, friend!"
+        ],
+        [
+          "How ya going?",
+          "Hi, how are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Yeah, not bad",
+          "Fine"
+        ],
+        [
+          "Flat out, but good",
+          "Very busy, but fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Cheers, mate",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "No worries, see ya",
+          "You're welcome, goodbye"
+        ]
+      ]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "G'day! How ya going?",
+        "Morning! Grabbed a coffee yet?",
+        "Hey mate, how's things?",
+        "Oh hey, long time no see!",
+        "Hiya, how was the weekend?"
+      ],
+      "reply": [
+        "Yeah, good thanks, you?",
+        "Not bad, can't complain.",
+        "Pretty good, flat out at work though.",
+        "All good, mate.",
+        "Good, just got off the ferry."
+      ],
+      "sunny": [
+        "Stunning day, Bondi'll be packed.",
+        "Perfect arvo for a swim at Bronte.",
+        "Scorcher today, slip, slop, slap!",
+        "Beautiful out, the Harbour looks unreal.",
+        "Sun's out, let's grab a beer in the beer garden."
+      ],
+      "rain": [
+        "It's absolutely bucketing down.",
+        "Southerly buster's coming through, it's about to cool off.",
+        "Rain again, the M4 will be a car park.",
+        "Bring a brolly, it's chucking it down.",
+        "Wet and windy, the ferries might be cancelled."
+      ],
+      "bye": [
+        "See ya!",
+        "Catch ya later!",
+        "No worries, have a good one.",
+        "Cheers, see you round.",
+        "Take it easy, mate."
+      ],
+      "busy": [
+        "Gotta run, I'll miss my train at Central.",
+        "Flat out today, catch you later.",
+        "Running late, traffic on the Harbour Bridge.",
+        "I've got a meeting in Barangaroo, chat soon.",
+        "Off to footy training, see ya!"
+      ]
+    },
+    "zh": {
+      "greet": [
+        "早！吃了吗？",
+        "你好，最近怎么样？",
+        "好久不见！",
+        "早上好！"
+      ],
+      "reply": [
+        "挺好的，谢谢。",
+        "还行，就是忙。",
+        "不错，你呢？",
+        "老样子。"
+      ],
+      "sunny": [
+        "今天天气真好。",
+        "太阳好大啊。",
+        "今天好热。",
+        "天气不错，出去走走。"
+      ],
+      "rain": [
+        "下雨了，带伞了吗？",
+        "雨下得好大。",
+        "今天风好大，还下雨。",
+        "下雨天，路上好堵。"
+      ],
+      "bye": [
+        "再见！",
+        "拜拜，慢走。",
+        "回头见！",
+        "改天聊。"
+      ],
+      "busy": [
+        "我赶火车，先走了。",
+        "我要迟到了，回头聊。",
+        "不好意思，我赶时间。",
+        "我去上班了，再见。"
+      ]
+    },
+    "ar": {
+      "greet": [
+        "مرحبا! كيفك؟",
+        "صباح الخير، شو الأخبار؟",
+        "أهلين! زمان ما شفناك!",
+        "هلا! كيفك اليوم؟"
+      ],
+      "reply": [
+        "منيح، الحمد لله. وإنت؟",
+        "كلو تمام، شكراً.",
+        "ماشي الحال.",
+        "منيح، بس عندي شغل كتير."
+      ],
+      "sunny": [
+        "شو حلو الطقس اليوم!",
+        "الشمس قوية، لازم نروح عالبحر.",
+        "نهار حلو للمشوار.",
+        "شوب كتير اليوم."
+      ],
+      "rain": [
+        "عم تشتي كتير.",
+        "خود شمسية، رح تشتي.",
+        "الطقس برد اليوم.",
+        "مع هالشتي، السير رح يكون عجقة."
+      ],
+      "bye": [
+        "يلا باي!",
+        "مع السلامة.",
+        "منشوفك بعدين.",
+        "انتبه على حالك."
+      ],
+      "busy": [
+        "آسف، متأخر عالشغل.",
+        "لازم الحق الترين، باي!",
+        "عندي اجتماع، بحكيك بعدين.",
+        "مستعجل شوي، منحكي بعدين."
+      ]
+    }
+  },
+  "transport": {
+    "bus": "bus",
+    "train": "train",
+    "metro": "Sydney Metro",
+    "tram": "light rail",
+    "ferry": "ferry",
+    "taxi": "taxi",
+    "rideshare": "Uber",
+    "card": "Opal card",
+    "stage": "bus stop"
+  },
+  "touts": [
+    "The next station is Town Hall.",
+    "Ferry to Manly, now boarding at Wharf 3!",
+    "Sausage sizzle here, grab one!",
+    "Hot pies, get your pies!",
+    "Fresh prawns, straight off the boat!"
+  ],
+  "hawkers": [
+    [
+      "Sausage sizzle here, grab one!",
+      "A charity barbecue outside the hardware store"
+    ],
+    [
+      "Hot pies! Get your pies!",
+      "A seller at the footy"
+    ],
+    [
+      "Fresh prawns, straight off the boat!",
+      "A stall at the Sydney Fish Market"
+    ],
+    [
+      "Mangoes, tray of mangoes!",
+      "A fruit stall in summer"
+    ],
+    [
+      "Gözleme, fresh off the grill!",
+      "A Turkish flatbread stall at a weekend market"
+    ]
+  ],
+  "food": {
+    "street": [
+      "meat pie with sauce",
+      "sausage sizzle",
+      "pie and peas at Harry's",
+      "bánh mì in Cabramatta",
+      "halal snack pack",
+      "gözleme",
+      "fish and chips at the beach",
+      "hot chips with chicken salt"
+    ],
+    "dishes": [
+      "chicken parmi",
+      "smashed avo on toast",
+      "yum cha in Haymarket",
+      "pho in Cabramatta",
+      "manoush in Lakemba",
+      "pavlova",
+      "lamingtons",
+      "Vegemite on toast",
+      "barramundi"
+    ],
+    "drinks": [
+      "flat white",
+      "long black",
+      "a schooner",
+      "iced coffee",
+      "lemon, lime and bitters"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "the CBD",
+      "The Rocks",
+      "Surry Hills",
+      "Newtown",
+      "Bondi",
+      "Manly",
+      "Paddington",
+      "Darlinghurst",
+      "Glebe",
+      "Marrickville",
+      "Parramatta",
+      "Chatswood",
+      "Cabramatta",
+      "Bankstown",
+      "Lakemba",
+      "Redfern",
+      "Coogee",
+      "Balmain",
+      "Mosman",
+      "Pyrmont",
+      "Haymarket",
+      "Hurstville"
+    ],
+    "streets": [
+      "George Street",
+      "Pitt Street",
+      "Oxford Street",
+      "King Street",
+      "Parramatta Road",
+      "Victoria Road",
+      "Military Road",
+      "Campbell Parade",
+      "Crown Street",
+      "Elizabeth Street",
+      "Macquarie Street",
+      "Anzac Parade",
+      "the M4",
+      "the M5"
+    ],
+    "landmarks": [
+      "the Sydney Opera House",
+      "the Sydney Harbour Bridge",
+      "Circular Quay",
+      "Bondi Beach",
+      "the Bondi to Coogee walk",
+      "the Royal Botanic Garden",
+      "Taronga Zoo",
+      "Darling Harbour",
+      "Barangaroo",
+      "Luna Park",
+      "the Manly Corso",
+      "the Sydney Cricket Ground",
+      "the Sydney Fish Market",
+      "the Queen Victoria Building",
+      "Hyde Park",
+      "Central Station",
+      "Paddy's Markets",
+      "Mrs Macquarie's Chair"
+    ]
+  },
+  "small_talk": [
+    "The M5 was a car park this morning.",
+    "Did you watch the State of Origin last night?",
+    "Don't forget to tap off your Opal card.",
+    "Rent in Sydney is cooked, mate.",
+    "A southerly buster came through and it dropped ten degrees in ten minutes.",
+    "Vivid's on, the whole Harbour is lit up.",
+    "Took the ferry to Manly just for the view.",
+    "Best bánh mì in the city is out in Cabramatta, no question.",
+    "New Year's fireworks over the Bridge, people camp out from the morning.",
+    "Grab me a snag from the sausage sizzle on your way out."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Sydney",
+    "https://transportnsw.info",
+    "https://www.abs.gov.au/census",
+    "https://en.wikipedia.org/wiki/Australian_English_vocabulary",
+    "https://en.wikipedia.org/wiki/Demographics_of_Sydney"
+  ]
+}

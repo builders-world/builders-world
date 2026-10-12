@@ -1,0 +1,360 @@
+{
+  "street": {
+    "es": 0.62,
+    "porteno": 0.36,
+    "en": 0.02
+  },
+  "registers": {
+    "porteno": {
+      "name": "Porteño",
+      "about": "Buenos Aires street Spanish: vos instead of tú, the 'sh' sound for ll and y, and lunfardo words like laburo, pibe, bondi, birra, fiaca and posta."
+    }
+  },
+  "names": {
+    "weights": {
+      "spanish": 0.5,
+      "italian": 0.3,
+      "european": 0.07,
+      "paraguayan": 0.07,
+      "bolivian": 0.06
+    }
+  },
+  "phrases": {
+    "porteno": {
+      "hello": [
+        [
+          "¿Qué hacés, che?",
+          "Hey, what's up?"
+        ],
+        [
+          "¿Todo tranqui?",
+          "All calm? All good?"
+        ]
+      ],
+      "fine": [
+        [
+          "Joya",
+          "Great, perfect"
+        ],
+        [
+          "De diez",
+          "Excellent, ten out of ten"
+        ],
+        [
+          "Re bien",
+          "Really good"
+        ]
+      ],
+      "yes": [
+        [
+          "Dale",
+          "Okay, go on"
+        ],
+        [
+          "De una",
+          "Absolutely, right away"
+        ],
+        [
+          "Posta",
+          "For real"
+        ]
+      ],
+      "thanks": [
+        [
+          "Gracias, genio",
+          "Thanks, you're a star"
+        ]
+      ],
+      "bye": [
+        [
+          "Nos vemos, che",
+          "See you, mate"
+        ],
+        [
+          "Abrazo",
+          "A hug, see you"
+        ]
+      ]
+    }
+  },
+  "chat": {
+    "es": {
+      "greet": [
+        "¡Buen día! ¿Cómo le va?",
+        "¡Hola! ¿Cómo andás?",
+        "Buenas tardes, ¿cómo está?",
+        "¡Qué alegría verte! ¿Cómo estás?",
+        "¡Hola! ¿Todo bien por casa?"
+      ],
+      "reply": [
+        "Muy bien, gracias, ¿y usted?",
+        "Bien, por suerte, ¿y vos?",
+        "Todo bien, con mucho trabajo.",
+        "Bárbaro, gracias.",
+        "Bien, acá andamos."
+      ],
+      "sunny": [
+        "Qué lindo día, ideal para los bosques de Palermo.",
+        "Hace un calor bárbaro.",
+        "Día perfecto para unos mates en la plaza.",
+        "Qué solcito lindo, dan ganas de salir.",
+        "Hoy hay que ir a la Costanera."
+      ],
+      "rain": [
+        "Se largó a llover.",
+        "Llevá paraguas, que viene la tormenta.",
+        "Con esta lluvia se inunda la avenida.",
+        "Qué humedad, no se puede respirar.",
+        "Día de lluvia, día de tortas fritas."
+      ],
+      "bye": [
+        "Chau, ¡que andes bien!",
+        "Nos vemos, cuidate.",
+        "Hasta luego, saludos a tu familia.",
+        "¡Buen fin de semana!",
+        "Chau, un beso."
+      ],
+      "busy": [
+        "Perdoname, llego tarde al trabajo.",
+        "Me tengo que tomar el subte, ¡chau!",
+        "Tengo una reunión, después te llamo.",
+        "Estoy a las corridas, hablamos.",
+        "Voy a buscar a los chicos al colegio."
+      ]
+    },
+    "porteno": {
+      "greet": [
+        "¿Qué hacés, che? ¿Todo bien?",
+        "¡Eh, qué hacés, tanto tiempo!",
+        "¿Todo tranqui?",
+        "¡Hola, maestro! ¿Cómo va?"
+      ],
+      "reply": [
+        "Joya, ¿vos?",
+        "Re bien, tranqui.",
+        "Acá, laburando.",
+        "De diez, che."
+      ],
+      "sunny": [
+        "Re lindo el día, vamos a tomar unos mates.",
+        "Qué calor, che, una birra fría.",
+        "Día de diez para ir a Palermo.",
+        "Hace un calor tremendo, posta."
+      ],
+      "rain": [
+        "Se largó, che, ¡qué lío!",
+        "Con esta lluvia no pasa ni un bondi.",
+        "Hoy da para quedarse con fiaca en casa.",
+        "Uh, la humedad está insoportable."
+      ],
+      "bye": [
+        "Nos vemos, che.",
+        "Chau, chau.",
+        "Dale, después hablamos.",
+        "Abrazo, cuidate."
+      ],
+      "busy": [
+        "Che, llego tarde al laburo.",
+        "Me voy, se me va el bondi.",
+        "Estoy a mil, después te escribo.",
+        "No llego, posta, hablamos."
+      ]
+    },
+    "en": {
+      "greet": [
+        "Hi! How's it going?",
+        "Morning! Had your medialunas yet?",
+        "Hey, good to see you!",
+        "Hola! How are you?",
+        "Hey there, how was the asado?"
+      ],
+      "reply": [
+        "Good, thanks! You?",
+        "Great, I'm full of steak.",
+        "Not bad, just learning to drink mate.",
+        "All good, gracias!",
+        "Doing well, dinner was at midnight so I'm tired."
+      ],
+      "sunny": [
+        "Beautiful day, Palermo's parks will be full.",
+        "Hot and sunny, perfect for the Costanera.",
+        "Gorgeous out, let's sit in a plaza.",
+        "Sunny Sunday, the San Telmo fair will be packed.",
+        "Lovely spring day, the jacarandas are out."
+      ],
+      "rain": [
+        "It's pouring, the streets are flooding.",
+        "Bring an umbrella, a storm is coming.",
+        "Rainy day, perfect for a café on Corrientes.",
+        "The humidity is unreal today.",
+        "Rain again, the colectivos are all full."
+      ],
+      "bye": [
+        "See you later!",
+        "Take care!",
+        "Chau!",
+        "Have a good one!",
+        "Catch you later."
+      ],
+      "busy": [
+        "Gotta run, I have a meeting in Microcentro.",
+        "Late, the subte was packed.",
+        "Catching a colectivo, talk later!",
+        "Running, my Uber is here.",
+        "Can't stop, see you!"
+      ]
+    }
+  },
+  "transport": {
+    "bus": "colectivo",
+    "bus_slang": "bondi",
+    "metro": "subte",
+    "train": "tren",
+    "taxi": "taxi",
+    "rideshare": "Uber, Cabify or DiDi",
+    "bike": "Ecobici",
+    "card": "SUBE",
+    "stage": "parada del colectivo"
+  },
+  "touts": [
+    "Próxima estación: Plaza de Mayo.",
+    "Señores pasajeros, disculpen la molestia, les vengo a ofrecer...",
+    "¡Show de tango esta noche, pasen, pasen!",
+    "¡Choripán, choripán!",
+    "¡Garrapiñadas calentitas!"
+  ],
+  "hawkers": [
+    [
+      "¡Garrapiñadas, calentitas!",
+      "Candied peanuts, warm!"
+    ],
+    [
+      "Señores pasajeros, disculpen la molestia...",
+      "Ladies and gentlemen, sorry to bother you... (a vendor on the train)"
+    ],
+    [
+      "¡Choripán, choripán!",
+      "Chorizo sandwiches! (outside a stadium)"
+    ],
+    [
+      "¡Medialunas calentitas!",
+      "Croissants, still warm!"
+    ],
+    [
+      "¡Pochoclo, pochoclo!",
+      "Popcorn!"
+    ]
+  ],
+  "food": {
+    "street": [
+      "choripán",
+      "bondiola sandwich",
+      "garrapiñadas",
+      "empanadas",
+      "medialunas",
+      "pizza al corte",
+      "panchos",
+      "churros",
+      "sándwich de miga"
+    ],
+    "dishes": [
+      "asado",
+      "milanesa napolitana",
+      "bife de chorizo",
+      "pizza de muzzarella",
+      "fainá",
+      "provoleta",
+      "locro",
+      "ñoquis del 29",
+      "alfajores",
+      "helado de dulce de leche"
+    ],
+    "drinks": [
+      "mate",
+      "Fernet con Coca",
+      "café con leche",
+      "cortado",
+      "submarino",
+      "Malbec",
+      "Quilmes"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "Palermo",
+      "Recoleta",
+      "San Telmo",
+      "La Boca",
+      "Belgrano",
+      "Caballito",
+      "Almagro",
+      "Villa Crespo",
+      "Colegiales",
+      "Chacarita",
+      "Puerto Madero",
+      "Retiro",
+      "Once",
+      "Boedo",
+      "Barracas",
+      "Núñez",
+      "Flores",
+      "Microcentro",
+      "Monserrat",
+      "Mataderos",
+      "Villa Urquiza"
+    ],
+    "streets": [
+      "Avenida 9 de Julio",
+      "Avenida Corrientes",
+      "Avenida de Mayo",
+      "Calle Florida",
+      "Avenida Santa Fe",
+      "Avenida Rivadavia",
+      "Avenida del Libertador",
+      "Avenida Córdoba",
+      "Calle Defensa",
+      "Avenida Cabildo",
+      "Avenida Callao",
+      "Avenida General Paz"
+    ],
+    "landmarks": [
+      "el Obelisco",
+      "Plaza de Mayo",
+      "Casa Rosada",
+      "Teatro Colón",
+      "Cementerio de la Recoleta",
+      "Caminito",
+      "La Bombonera",
+      "el Monumental",
+      "Puente de la Mujer",
+      "Floralis Genérica",
+      "Café Tortoni",
+      "Palacio Barolo",
+      "el Rosedal",
+      "MALBA",
+      "la Feria de San Telmo",
+      "la Reserva Ecológica Costanera Sur",
+      "El Ateneo Grand Splendid"
+    ]
+  },
+  "small_talk": [
+    "Boca or River? You have to pick one here.",
+    "We had dinner at ten thirty, that's early for us.",
+    "Ñoquis on the twenty-ninth, it's tradition.",
+    "The 152 took forever this morning.",
+    "Sunday asado at my uncle's, you're invited.",
+    "Rainy day? Then it's tortas fritas and mate.",
+    "The San Telmo fair on Sunday has everything, go early.",
+    "The General Paz was a parking lot at six.",
+    "Did you try the new heladería on Corrientes? The dulce de leche is unreal.",
+    "Pass the mate to the right, that's the rule."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Buenos_Aires",
+    "https://en.wikipedia.org/wiki/Rioplatense_Spanish",
+    "https://en.wikipedia.org/wiki/Lunfardo",
+    "https://buenosaires.gob.ar/subte",
+    "https://www.argentina.gob.ar/sube",
+    "https://www.estadisticaciudad.gob.ar"
+  ]
+}

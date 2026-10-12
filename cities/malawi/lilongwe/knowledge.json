@@ -1,0 +1,82 @@
+{
+  "street": { "ny": 0.7, "en": 0.3 },
+  "registers": {},
+  "names": { "weights": { "chewa": 0.68, "tumbuka": 0.17, "yao": 0.15 } },
+  "phrases": {
+    "ny": {
+      "hello": [["Zikuyenda bwanji?", "How's it going?"], ["Moni abale!", "Hello, friends!"]],
+      "fine": [["Zikuyenda bwino", "It's going well"], ["Palibe vuto", "No problem"]],
+      "bye": [["Chabwino, tionana!", "OK, see you!"], ["Tionana mawa", "See you tomorrow"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Good morning! How are you this morning?", "Hello! How is home?", "Good afternoon, how is the day treating you?", "Hi! Long time, how have you been?", "Good evening, how was work?"],
+      "reply": ["I'm fine, and you?", "We are fine, thank you.", "Not bad, just pushing on.", "I'm well, thanks for asking.", "All is well, by God's grace."],
+      "sunny": ["It's very hot today!", "Beautiful day, the lake would be lovely.", "The sun is strong, sit in the shade.", "Mango season weather, I love it.", "Too hot to walk to Old Town."],
+      "rain": ["The rains are here at last!", "Take an umbrella, it's coming down.", "Good rain for the maize this year.", "The roads in Area 25 will be muddy.", "Let's wait for it to stop."],
+      "bye": ["Go well!", "Stay well!", "See you tomorrow.", "Take care, greet everyone at home.", "Safe journey!"],
+      "busy": ["Sorry, I'm rushing for a minibus.", "I'm late for work, let's talk later.", "Let me run, the bank queue is long.", "I'll call you, I have a meeting.", "Running to the market, see you!"]
+    },
+    "ny": {
+      "greet": ["Moni! Muli bwanji?", "Mwadzuka bwanji, abambo?", "Mwaswera bwanji, amayi?", "Moni achimwene, zikuyenda bwanji?", "Mwaswera bwanji, abale?"],
+      "reply": ["Ndili bwino, kaya inu?", "Ndadzuka bwino, zikomo.", "Ndaswera bwino, kaya inu?", "Tili bwino, zikomo kwambiri.", "Zikuyenda bwino, palibe vuto."],
+      "sunny": ["Kukutentha kwambiri lero!", "Lero kuli dzuwa labwino.", "Tiyeni tikhale pamthunzi, kukutentha.", "Ndikufuna madzi ozizira."],
+      "rain": ["Mvula yabwera!", "Mvula ikugwa kwambiri lero.", "Tengani ambulera, mvula ikubwera.", "Tidikire kuti mvula ithe.", "Mvula iyi ndi yabwino ku chimanga."],
+      "bye": ["Tsalani bwino!", "Pitani bwino!", "Tionana mawa.", "Chabwino, tionana!"],
+      "busy": ["Pepani, ndikufulumira.", "Ndachedwa ku ntchito, tionana!", "Minibus yanga ikunyamuka, tsalani bwino!", "Ndili ndi ntchito yambiri lero.", "Ndikuyimbirani foni pambuyo pake."]
+    }
+  },
+  "transport": { "bus": "minibus", "moto_taxi": "kabaza", "tricycle": "", "taxi": "taxi", "conductor": "conductor", "stage": "depot" },
+  "touts": [
+    "Area 25! Area 25!",
+    "Kanengo, Kanengo! Tikunyamuka!",
+    "Old Town, Old Town!",
+    "Area 47! Munthu mmodzi!",
+    "Kawale, Kawale!",
+    "Chinsapo, Chinsapo!",
+    "Blantyre direct! Tikunyamuka!",
+    "Area 49, Area 49! Lowani!"
+  ],
+  "hawkers": [
+    ["Madzi ozizira!", "Cold water!"],
+    ["Mandasi, mandasi!", "Fried dough buns!"],
+    ["Mazira owiritsa!", "Boiled eggs!"],
+    ["Chimanga chowotcha!", "Roasted maize!"],
+    ["Airtime! Airtel, TNM!", "Airtime for Airtel and TNM!"],
+    ["Mango, zotsika mtengo!", "Mangoes, cheap!"],
+    ["Chiponde, chiponde!", "Peanut butter!"],
+    ["Thobwa, thobwa!", "Thobwa, the sweet maize drink!"]
+  ],
+  "food": {
+    "street": ["mandasi", "chipsi (chips with salt and chilli)", "roasted maize", "boiled eggs", "kanyenya (fried meat and fish pieces)", "zitumbuwa (banana fritters)", "mbatata (boiled sweet potato)"],
+    "dishes": ["nsima", "chambo with nsima", "usipa (small lake fish)", "nkhuku ya kumudzi (village chicken)", "mkhwani (pumpkin leaves)", "therere (okra)", "kondowole (cassava nsima)", "nyama ya mbuzi (goat meat)"],
+    "drinks": ["thobwa", "Sobo orange squash", "tea", "Fanta pineapple", "Carlsberg green", "Kuche Kuche", "Chibuku"]
+  },
+  "places": {
+    "neighbourhoods": ["Area 3", "Area 10", "Area 18", "Area 25", "Area 43", "Area 47", "Area 49", "Old Town", "City Centre", "Kawale", "Chinsapo", "Mchesi", "Area 36", "Chilinde", "Kanengo"],
+    "streets": ["Kamuzu Procession Road", "Kenyatta Road", "Presidential Way", "Paul Kagame Road", "Chilambula Road", "Mchinji Road", "Glyn Jones Road", "Independence Drive", "Mandala Road"],
+    "landmarks": ["Lilongwe Wildlife Centre", "Lilongwe Market", "Bingu National Stadium", "Gateway Mall", "Old Town Mall", "Crossroads", "Bingu International Conference Centre", "Kamuzu International Airport", "Lilongwe minibus depot", "Lilongwe River"]
+  },
+  "small_talk": [
+    "The minibus from Area 25 took ages to fill this morning.",
+    "ESCOM cut the power again last night.",
+    "Let's go to Old Town for chips.",
+    "Lilongwe Market is packed today.",
+    "Have you tried the new place in Area 47?",
+    "The rains should start any day now.",
+    "Mangoes are everywhere this time of year.",
+    "The Flames are playing at Bingu Stadium on Saturday.",
+    "I'm going to the lake this weekend, Salima or Senga Bay.",
+    "Kabaza riders were everywhere on Kenyatta Road today."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Lilongwe",
+    "https://en.wikipedia.org/wiki/Chewa_language",
+    "https://en.wikipedia.org/wiki/Tumbuka_language",
+    "https://en.wikipedia.org/wiki/Nsima",
+    "https://en.wikipedia.org/wiki/Chambo",
+    "https://en.wikipedia.org/wiki/Bingu_National_Stadium",
+    "https://en.wikipedia.org/wiki/Malawi_national_football_team"
+  ]
+}

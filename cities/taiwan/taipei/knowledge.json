@@ -1,0 +1,100 @@
+{
+  "street": { "zh": 0.75, "nan": 0.18, "en": 0.07 },
+  "registers": {},
+  "names": { "weights": { "taiwanese": 1 } },
+  "phrases": {
+    "zh": {
+      "fine": [["Hái hǎo la", "Not bad, la (還好啦)"]],
+      "yes": [["Hǎo ō", "OK! Friendly and soft (好喔)"], ["Duì a", "Yeah, right (對啊)"]],
+      "cheer": [["Jiāyóu!", "You can do it! (加油)"]],
+      "no_worries": [["Méi guānxi", "No worries (沒關係)"]]
+    },
+    "nan": {
+      "come_look": [["Lâi khuànn--māi", "Come and have a look (來看覓)"]],
+      "hot_food": [["Sio-sio ê!", "Nice and hot! (燒燒的)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! Grabbed breakfast yet?", "Hi! How's your week going?", "Hey, long time no see!", "Hello! Off to the office?", "Morning, the MRT was so crowded today."],
+      "reply": ["Good, thanks!", "Not bad, just busy at work.", "All fine, how about you?", "Great, I had a dan bing for breakfast.", "Tired, but OK."],
+      "sunny": ["Great day to hike Elephant Mountain.", "So hot, I need a bubble tea.", "Sunny at last, let's go to the riverside.", "Perfect weather for a ride on YouBike.", "Clear enough to see Taipei 101 from the hills."],
+      "rain": ["Raining again, Taipei classic.", "Afternoon thunderstorm, wait it out at 7-Eleven.", "Typhoon day tomorrow, maybe no work!", "Bring an umbrella, it's plum rain season.", "So humid, my clothes won't dry."],
+      "bye": ["Bye bye!", "See you later!", "Take care!", "See you tomorrow!", "Have a good night!"],
+      "busy": ["Sorry, I'm running for the MRT!", "Got a meeting in Neihu, talk later.", "Busy week, let's eat hot pot after.", "Can't stop, my scooter's on a red line!", "Running late, catch you later!"]
+    },
+    "zh": {
+      "greet": ["Zǎo ān! Chī zǎocān le méi?", "Hāi, zuìjìn hǎo ma?", "Hǎo jiǔ bú jiàn!", "Āyí zǎo!", "Zǎo, jīntiān yào shàngbān ō?"],
+      "reply": ["Hái hǎo la, xièxie!", "Bú cuò a, nǐ ne?", "Hěn máng, dàn hái hǎo.", "Chī bǎo le, xièxie!"],
+      "sunny": ["Jīntiān hǎo rè ō!", "Tiānqì hǎo hǎo, qù pá Xiàngshān ba.", "Rè sǐ le, lái bēi zhēnzhū nǎichá.", "Hǎo tiānqì, qí YouBike qù hébīn."],
+      "rain": ["Yòu xià yǔ le, Táiběi jiù shì zhèyàng.", "Xīběiyǔ lái le, xiān duǒ yí xià.", "Táifēng yào lái le, míngtiān kěnéng fàng táifēng jià!", "Jìde dài sǎn ō."],
+      "bye": ["Bàibai!", "Zàijiàn, màn zǒu!", "Míngtiān jiàn ō!", "Xià cì jiàn!"],
+      "busy": ["Bù hǎoyìsi, wǒ gǎn jiéyùn!", "Mǎshàng yào kāi huì, děng yí xià liáo.", "Zhè zhōu hǎo máng, gǎitiān chī huǒguō.", "Kuài chídào le, xiān zǒu le!"]
+    },
+    "nan": {
+      "greet": ["Gâu-tsá! Tsia̍h-pá buē?", "Lí hó! Kin-á-ji̍t án-tsuánn?", "A-peh, gâu-tsá!", "Kú-bô-kìnn! Lí hó--bô?"],
+      "reply": ["Tsia̍h-pá ah, to-siā!", "Iáu bē-bái, lí leh?", "Hó, hó, lóng hó.", "Bē-bái, kám-siā!"],
+      "sunny": ["Kin-á-ji̍t tsin jua̍h!", "Ji̍t-thâu tsin tuā.", "Jua̍h kah beh sí.", "Hó thinn, tsin sóng."],
+      "rain": ["Koh leh lo̍h-hōo ah.", "Ē-kì-tit tsah hōo-suànn.", "Hong-thai beh lâi ah.", "Hōo tsin tuā, sè-jī--ooh."],
+      "bye": ["Tsài-kiàn!", "Bîn-á-tsài kìnn!", "Sè-jī--ooh!", "Ū-îng koh lâi tsē!"],
+      "busy": ["Pháinn-sè, guá teh kuánn sî-kan.", "Guá beh khì tsò khang-khuè.", "Tán--leh koh kóng.", "Tsin bô-îng, āu-pái koh kóng."]
+    }
+  },
+  "transport": {
+    "metro": "jiéyùn (捷運, MRT)",
+    "bus": "gōngchē (公車)",
+    "taxi": "jìchéngchē (計程車), or xiǎohuáng (小黃, little yellow)",
+    "ride_hail": "Uber, or 55688 Taiwan Taxi",
+    "bike": "YouBike",
+    "scooter": "jīchē (機車)",
+    "train": "Táitiě and Gāotiě (台鐵 and 高鐵, rail and high-speed rail)",
+    "cable_car": "Māokōng lǎnchē (貓空纜車, Maokong Gondola)",
+    "stage": "gōngchē zhàn (公車站, bus stop)"
+  },
+  "touts": [
+    "Lái lái lái, kàn yí xià, mǎi yī sòng yī!",
+    "Shuàigē, měinǚ, lái chī kàn kàn!",
+    "Jìchéngchē? Táoyuán jīchǎng!",
+    "Lâi khuànn--māi, tsin suí ê!",
+    "Shì chī, shì chī, bù hǎo chī bú yào mǎi!",
+    "Jiǔfèn yí rì yóu, míngtiān zǎoshàng chūfā!"
+  ],
+  "hawkers": [
+    ["Jīpái, gāng zhà hǎo de!", "Fried chicken cutlet, just fried (雞排)"],
+    ["Hújiāo bǐng, sio-sio ê!", "Pepper buns, nice and hot (胡椒餅)"],
+    ["Chòu dòufu, xiāng a!", "Stinky tofu, smell that! (臭豆腐)"],
+    ["Dàcháng bāo xiǎocháng!", "Sausage in a sticky rice sausage (大腸包小腸)"],
+    ["Ō-á-tsian, lâi tsia̍h!", "Oyster omelette, come and eat (蚵仔煎)"],
+    ["Zhēnzhū nǎichá, bàn táng shǎo bīng?", "Bubble tea, half sugar, less ice? (珍珠奶茶)"],
+    ["Cōngzhuā bǐng, jiā dàn!", "Flaky scallion pancake with egg (蔥抓餅)"]
+  ],
+  "food": {
+    "street": ["jīpái (雞排)", "hújiāo bǐng (胡椒餅)", "chòu dòufu (臭豆腐)", "ō-á-tsian (蚵仔煎, oyster omelette)", "guàbāo (刈包)", "dàcháng bāo xiǎocháng (大腸包小腸)", "yánsū jī (鹽酥雞)", "cōngzhuā bǐng (蔥抓餅)", "ô-á mī-suànn (蚵仔麵線, oyster vermicelli)"],
+    "dishes": ["lǔròu fàn (滷肉飯)", "niúròu miàn (牛肉麵)", "sānbēi jī (三杯雞)", "xiǎolóngbāo (小籠包)", "dànbǐng (蛋餅)", "fàntuán (飯糰)", "huǒguō (火鍋)"],
+    "drinks": ["zhēnzhū nǎichá (珍珠奶茶)", "dòujiāng (豆漿)", "dōngguā chá (冬瓜茶)", "mùguā niúnǎi (木瓜牛奶)", "gāoshān chá (高山茶)", "Táiwān píjiǔ (台灣啤酒)"]
+  },
+  "places": {
+    "neighbourhoods": ["Xinyi", "Da'an", "Zhongshan", "Ximending", "Wanhua", "Shilin", "Beitou", "Neihu", "Nangang", "Songshan", "Dadaocheng", "Tianmu", "Gongguan"],
+    "streets": ["Zhongxiao East Road", "Ren'ai Road", "Dunhua South Road", "Yongkang Street", "Dihua Street", "Roosevelt Road", "Nanjing East Road", "Zhongshan North Road", "Xinsheng South Road"],
+    "landmarks": ["Taipei 101", "Longshan Temple", "National Palace Museum", "Elephant Mountain", "Shilin Night Market", "Raohe Night Market", "Ningxia Night Market", "Huashan 1914 Creative Park", "Taipei Main Station", "Maokong Gondola", "Dadaocheng Wharf", "Yangmingshan"]
+  },
+  "small_talk": [
+    "The 7-Eleven on every corner saves my life.",
+    "Raohe was packed last night, the pepper bun queue was huge.",
+    "My scooter got towed again near Zhongxiao Fuxing.",
+    "Neihu traffic at six is a nightmare.",
+    "Garbage truck is playing its song, I have to run down.",
+    "Did your receipt win the lottery this month?",
+    "Typhoon day off is the best kind of holiday.",
+    "Went to Beitou for the hot springs at the weekend.",
+    "That new hot pot place on Yongkang Street is worth the wait."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Taipei",
+    "https://en.wikipedia.org/wiki/Taipei_Metro",
+    "https://en.wikipedia.org/wiki/Taiwanese_cuisine",
+    "https://en.wikipedia.org/wiki/Shilin_Night_Market",
+    "https://en.wikipedia.org/wiki/Taiwanese_Hokkien",
+    "https://en.wikipedia.org/wiki/YouBike"
+  ]
+}

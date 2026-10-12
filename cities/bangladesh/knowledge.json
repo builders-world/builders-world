@@ -1,0 +1,81 @@
+{
+  "languages": [
+    { "code": "bn", "name": "Bengali (Bangla)", "official": true, "spoken": "widely" },
+    { "code": "en", "name": "English", "official": false, "spoken": "in offices, universities, tech and among the well-off" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Most Bangladeshis are Muslim and carry Arabic or Persian origin names with a Bengali flavour, often after a Md. (Mohammad) prefix for men, as in Md. Tanvir Hossain. The last name is a family or title name (Rahman, Hossain, Chowdhury, Talukder) but many families do not share one: a son may take part of his father's name instead. Women often carry Akter, Khatun or Begum as their last name, or take the husband's name after marriage. Hindu families use Bengali names with family names like Das, Saha, Ghosh or Roy. Almost everyone also has a daak naam, a short pet name used by family and friends (Rony, Mitu, Shanto), which is what you hear on the street.",
+    "groups": {
+      "bengali_muslim": {
+        "given": {
+          "m": ["Tanvir", "Rakib", "Sabbir", "Imran", "Fahim", "Nayeem", "Shakil", "Sohel", "Rafiq", "Jahid", "Mehedi", "Arif", "Hasan", "Mahmud", "Rashed", "Asif"],
+          "f": ["Nusrat", "Farzana", "Sadia", "Tahmina", "Shirin", "Rumana", "Nasrin", "Sumaiya", "Tasnim", "Nadia", "Afsana", "Sharmin", "Mahmuda", "Jannatul"]
+        },
+        "family": ["Rahman", "Hossain", "Islam", "Ahmed", "Khan", "Chowdhury", "Uddin", "Alam", "Mia", "Sarkar", "Talukder", "Haque", "Kabir", "Siddique", "Bhuiyan", "Molla"],
+        "also": { "m": ["Rony", "Shanto", "Babu", "Tutul", "Rana", "Shuvo"], "f": ["Mitu", "Shumi", "Munni", "Lina", "Tumpa", "Mim"] }
+      },
+      "bengali_hindu": {
+        "given": {
+          "m": ["Arup", "Sumon", "Prosenjit", "Dipankar", "Subrata", "Tapas", "Anup", "Biplob", "Sujan", "Partha", "Ratan", "Gautam", "Amit", "Pranab"],
+          "f": ["Priya", "Rupa", "Shampa", "Tania", "Lipika", "Moumita", "Sumana", "Puja", "Ananya", "Dipa", "Rina", "Sharmila", "Mousumi"]
+        },
+        "family": ["Das", "Saha", "Dey", "Ghosh", "Roy", "Sen", "Paul", "Biswas", "Chakraborty", "Bhattacharjee", "Datta", "Mondal", "Basak", "Majumder"],
+        "also": { "m": ["Bappi", "Tuhin", "Shuvo", "Pintu"], "f": ["Mithu", "Tuli", "Rumki", "Shonali"] }
+      }
+    },
+    "weights": { "bengali_muslim": 0.9, "bengali_hindu": 0.1 }
+  },
+  "honorifics": {
+    "elder_m": "Chacha",
+    "elder_f": "Khala",
+    "peer_m": "Bhai",
+    "peer_f": "Apu",
+    "boss": "Sir",
+    "older_brother_hindu": "Dada",
+    "older_sister_hindu": "Didi",
+    "driver": "Mama",
+    "teacher": "Ostad"
+  },
+  "phrases": {
+    "bn": {
+      "hello": [["Assalamu alaikum", "Peace be upon you, the everyday greeting (আসসালামু আলাইকুম)"], ["Nomoshkar", "Hello, among Hindu families (নমস্কার)"], ["Ki khobor?", "What's the news? (কী খবর?)"]],
+      "morning": [["Shuprobhat", "Good morning, formal (সুপ্রভাত)"], ["Assalamu alaikum, shokal shokal kothay?", "Morning! Where are you off to so early?"]],
+      "evening": [["Shubho shondhya", "Good evening, formal (শুভ সন্ধ্যা)"], ["Assalamu alaikum", "The same greeting serves all day"]],
+      "how_are_you": [["Kemon achhen?", "How are you? polite (কেমন আছেন?)"], ["Kemon acho?", "How are you? friendly (কেমন আছো?)"], ["Ki obostha?", "How's it going?"]],
+      "fine": [["Bhalo achhi", "I am fine (ভালো আছি)"], ["Alhamdulillah, bhalo", "Fine, thank God"], ["Ei to cholche", "Getting by"]],
+      "thanks": [["Dhonnobad", "Thank you (ধন্যবাদ)"], ["Thank you", "Thank you, as most people say it"]],
+      "bye": [["Abar dekha hobe", "See you again (আবার দেখা হবে)"], ["Allah Hafez", "Goodbye, God keep you (আল্লাহ হাফেজ)"], ["Ashi tahole", "I'll be off then (literally: I'll come)"]],
+      "welcome": [["Shagotom", "Welcome (স্বাগতম)"], ["Ashen, boshen", "Come in, have a seat"]],
+      "sorry": [["Dukkhito", "Sorry (দুঃখিত)"], ["Sorry", "Sorry, as most people say it"]],
+      "excuse": [["Maf korben", "Excuse me, pardon me (মাফ করবেন)"], ["Shunchhen?", "Excuse me, are you listening? (শুনছেন?)"]],
+      "yes": [["Ji", "Yes, polite (জি)"], ["Haan", "Yes (হ্যাঁ)"]],
+      "no": [["Na", "No (না)"], ["Ji na", "No, polite"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"], ["Salaam", "Hello, the short greeting"]],
+      "morning": [["Good morning", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"], ["All good?", "All good?"]],
+      "fine": [["Fine, alhamdulillah", "Fine, thank God"], ["Fine fine", "Fine"]],
+      "thanks": [["Thank you", "Thank you"], ["Thanks a lot", "Thanks a lot"]],
+      "bye": [["See you", "See you"], ["Allah Hafez", "Goodbye"]],
+      "welcome": [["Welcome", "Welcome"], ["Please come, sit", "Come in and sit down"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"], ["Ji", "Yes, polite"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "BDT",
+    "symbol": "Tk",
+    "words": [["taka", "the currency"], ["poisha", "a hundredth of a taka"], ["hajar", "a thousand"], ["lakh", "a hundred thousand"], ["koti", "ten million (crore)"], ["bhangti", "small change"], ["bhara", "fare"]]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Bengali_name",
+    "https://en.wikipedia.org/wiki/Bengali_language",
+    "https://en.wikipedia.org/wiki/Languages_of_Bangladesh",
+    "https://en.wikipedia.org/wiki/Bangladeshi_taka"
+  ]
+}

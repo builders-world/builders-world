@@ -1,4 +1,4 @@
-import { nameFor, honorific, touts, hawkers } from './knowledge.js';
+import { nameFor, titled, touts, hawkers } from './knowledge.js';
 import * as THREE from 'three';
 import { playEmote } from './expressions.js';
 import { createAvatarModel } from '../onboarding/avatar.js';
@@ -205,7 +205,7 @@ export function createStreetLife({ world, scene, props, traffic, chat, toast, ge
   for (let k = 0; k < WALKERS && spots.length > 1; k++) {
     const w = person(lookFor(`walker-${k}`, { fem: k % 2 === 1, elder: k % 5 === 4, tier: k % 3 }), `walker-${k}`);
     // named as people are in this city; an elder with the respect people show them here (Mama, Mzee, Baba, Auntie)
-    { const n = nameFor(`walker-${k}`, k % 2 === 1 ? 'f' : 'm'), elder = k % 5 === 4; w.name = n ? (elder ? `${honorific(k % 2 ? 'elder_f' : 'elder_m', '')} ${n.first}`.trim() : n.first) : ['Uche', 'Bimpe', 'Femi', 'Ngozi', 'Baba Tunde', 'Lola', 'Seyi', 'Chioma', 'Obinna', 'Mama Kemi'][k]; }
+    { const n = nameFor(`walker-${k}`, k % 2 === 1 ? 'f' : 'm'), elder = k % 5 === 4; w.name = n ? (elder ? titled(k % 2 ? 'elder_f' : 'elder_m', n) : n.first) : ['Uche', 'Bimpe', 'Femi', 'Ngozi', 'Baba Tunde', 'Lola', 'Seyi', 'Chioma', 'Obinna', 'Mama Kemi'][k]; }
     const s0 = spots[(k * 7) % spots.length]; const q0 = world.nearestReachable?.(s0.x + (k % 3) - 1, s0.z) || s0;
     w.obj.position.set(q0.x, 0, q0.z); group.add(w.obj);
     walkers.push({ ...w, path: null, at: 0, wait: k * 0.7, pace: 1.1 + (k % 4) * 0.12 - (k % 5 === 4 ? 0.3 : 0) });

@@ -64,6 +64,17 @@ Write plainly. No em dashes. Phrases in their usual spelling, with an English gl
 - `names.groups`: one entry per community whose names you meet in this country's cities. `given.m` and `given.f`:
   at least 12 each where you can. `family`: at least 12. `also`: the English, French, Portuguese, Christian or Muslim
   first names people there commonly carry with their own (optional).
+- `family_f` (optional): what women carry where it differs from men. Where the surname changes form (Kowalski and
+  Kowalska, Novák and Nováková, Akhmetov and Akhmetova), list the women's forms in the same order as `family`. Where
+  women's second names are their own (Javanese Lestari, Wulandari), list them; the order then does not matter.
+- `names.order`: `"given family"`, `"family given"` (China, Japan, Korea, Vietnam) or `"given family family"` where people
+  carry two family names (Mexico, Colombia: Juan García López).
+- `order` on a group (optional): a group whose names run differently from its country's, such as `"family given"` for
+  Chinese names in Singapore and Malaysia.
+- `honorifics`: what people call an elder, a peer or a boss. A title that starts with a hyphen (`"-san"`) goes after
+  the family name (Tanaka-san); every other one goes before the first name (Mzee Otieno). Where those words are said to
+  someone but not put on a name ("Yes, sir"), add `titles`: `{ "elder_m": "Herr", "elder_f": "Frau", "with": "family" }`
+  for Herr Müller, `"with": "first"` for Don Manuel, or `{ "with": "none" }` where people use no title at all.
 - `names.weights`: roughly how the country's urban population divides between the groups (they sum to about 1).
 - `phrases`: one block per language in `languages` that people use day to day. Each entry is `[phrase, English]`.
 
@@ -103,6 +114,8 @@ Write plainly. No em dashes. Phrases in their usual spelling, with an English gl
   Well-off people lean to English, hustlers to the street register (the game does the leaning).
 - `chat`: lines per register, for each kind: `greet`, `reply`, `sunny`, `rain`, `bye`, `busy` (at least 5 each in
   English, at least 4 each in the street register). Natural, warm, local; nothing offensive or political.
+- `transport`: what people call each kind of ride. An empty string means the city has no such thing (the game then
+  uses its own word). Cities can add keys of their own (tram, ferry, jeepney, marshrutka).
 - `touts` and `hawkers`: what you hear at the bus stop and from people selling on the street (hawkers with a gloss).
 - `places`: real neighbourhoods, streets and landmarks people mention. `small_talk`: everyday remarks in English
   that only make sense in this city.

@@ -1,0 +1,632 @@
+{
+  "languages": [
+    {
+      "code": "et",
+      "name": "Estonian",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "ru",
+      "name": "Russian",
+      "official": false,
+      "spoken": "commonly"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "widely"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Given name then family name. Many Estonian surnames are short nature or trade words given in the 1800s: Tamm (oak), Saar (island), Sepp (smith), Kukk (rooster). Estonian surnames are not gendered. Russian-speaking Estonians, about a quarter of the country and over a third of Tallinn, carry Russian names in Estonian spelling (Jelena, Mihhail, Vassiljev); women's surnames end in -ova or -eva, and patronymics are not used in everyday Estonian settings. Ukrainians arrived in large numbers from 2022. People use first names freely, and the formal 'teie' with strangers and elders.",
+    "groups": {
+      "estonian": {
+        "given": {
+          "m": [
+            "Andres",
+            "Tõnu",
+            "Margus",
+            "Rein",
+            "Priit",
+            "Kristjan",
+            "Märt",
+            "Siim",
+            "Rasmus",
+            "Martin",
+            "Mihkel",
+            "Kaspar",
+            "Taavi",
+            "Indrek",
+            "Jaan",
+            "Tanel",
+            "Raul",
+            "Karl"
+          ],
+          "f": [
+            "Kadri",
+            "Kristiina",
+            "Maarja",
+            "Liis",
+            "Triin",
+            "Kati",
+            "Helen",
+            "Merle",
+            "Pille",
+            "Piret",
+            "Kerli",
+            "Grete",
+            "Laura",
+            "Anu",
+            "Kertu",
+            "Mari",
+            "Tiina"
+          ]
+        },
+        "family": [
+          "Tamm",
+          "Saar",
+          "Sepp",
+          "Mägi",
+          "Kask",
+          "Kukk",
+          "Rebane",
+          "Ilves",
+          "Pärn",
+          "Koppel",
+          "Lepik",
+          "Oja",
+          "Kuusk",
+          "Raudsepp",
+          "Vaher",
+          "Põder",
+          "Kõiv",
+          "Luik"
+        ]
+      },
+      "russian": {
+        "given": {
+          "m": [
+            "Aleksandr",
+            "Sergei",
+            "Dmitri",
+            "Andrei",
+            "Vladimir",
+            "Nikolai",
+            "Maksim",
+            "Ivan",
+            "Artjom",
+            "Denis",
+            "Igor",
+            "Roman",
+            "Pavel",
+            "Aleksei",
+            "Vadim"
+          ],
+          "f": [
+            "Jelena",
+            "Olga",
+            "Natalja",
+            "Irina",
+            "Svetlana",
+            "Tatjana",
+            "Anna",
+            "Julia",
+            "Jekaterina",
+            "Anastassia",
+            "Marina",
+            "Ksenia",
+            "Darja",
+            "Viktoria",
+            "Ljudmila"
+          ]
+        },
+        "family": [
+          "Ivanov",
+          "Smirnov",
+          "Kuznetsov",
+          "Popov",
+          "Vassiljev",
+          "Petrov",
+          "Sokolov",
+          "Mihhailov",
+          "Fjodorov",
+          "Morozov",
+          "Volkov",
+          "Jakovlev",
+          "Pavlov",
+          "Semjonov",
+          "Kozlov"
+        ],
+        "family_f": [
+          "Ivanova",
+          "Smirnova",
+          "Kuznetsova",
+          "Popova",
+          "Vassiljeva",
+          "Petrova",
+          "Sokolova",
+          "Mihhailova",
+          "Fjodorova",
+          "Morozova",
+          "Volkova",
+          "Jakovleva",
+          "Pavlova",
+          "Semjonova",
+          "Kozlova"
+        ]
+      },
+      "ukrainian": {
+        "given": {
+          "m": [
+            "Oleksandr",
+            "Andrii",
+            "Serhii",
+            "Volodymyr",
+            "Dmytro",
+            "Oleh",
+            "Yurii",
+            "Mykola",
+            "Vitalii",
+            "Taras",
+            "Bohdan",
+            "Maksym",
+            "Ihor",
+            "Roman"
+          ],
+          "f": [
+            "Olena",
+            "Oksana",
+            "Nataliia",
+            "Iryna",
+            "Tetiana",
+            "Yuliia",
+            "Kateryna",
+            "Anastasiia",
+            "Svitlana",
+            "Halyna",
+            "Viktoriia",
+            "Mariia",
+            "Khrystyna",
+            "Sofiia"
+          ]
+        },
+        "family": [
+          "Shevchenko",
+          "Kovalenko",
+          "Bondarenko",
+          "Tkachenko",
+          "Kravchenko",
+          "Boiko",
+          "Melnyk",
+          "Oliinyk",
+          "Koval",
+          "Shevchuk",
+          "Polishchuk",
+          "Lysenko",
+          "Marchenko",
+          "Moroz",
+          "Savchenko"
+        ]
+      },
+      "finnish": {
+        "given": {
+          "m": [
+            "Mikko",
+            "Juha",
+            "Timo",
+            "Matti",
+            "Antti",
+            "Jari",
+            "Ville",
+            "Janne",
+            "Tuomas",
+            "Jussi",
+            "Lauri",
+            "Eetu",
+            "Joonas",
+            "Aleksi",
+            "Teemu",
+            "Petri",
+            "Sami"
+          ],
+          "f": [
+            "Anna",
+            "Laura",
+            "Johanna",
+            "Maria",
+            "Katja",
+            "Tiina",
+            "Sanna",
+            "Emma",
+            "Aino",
+            "Elina",
+            "Henna",
+            "Riikka",
+            "Noora",
+            "Jenni",
+            "Hanna",
+            "Satu"
+          ]
+        },
+        "family": [
+          "Korhonen",
+          "Virtanen",
+          "Mäkinen",
+          "Nieminen",
+          "Mäkelä",
+          "Hämäläinen",
+          "Laine",
+          "Heikkinen",
+          "Koskinen",
+          "Järvinen",
+          "Lehtonen",
+          "Lehtinen",
+          "Saarinen",
+          "Salminen",
+          "Heinonen",
+          "Niemi"
+        ]
+      }
+    },
+    "weights": {
+      "estonian": 0.68,
+      "russian": 0.26,
+      "ukrainian": 0.04,
+      "finnish": 0.02
+    }
+  },
+  "honorifics": {
+    "elder_m": "härra",
+    "elder_f": "proua",
+    "peer_m": "vend",
+    "peer_f": "sõbranna",
+    "boss": "šeff",
+    "titles": {
+      "with": "none"
+    }
+  },
+  "phrases": {
+    "et": {
+      "hello": [
+        [
+          "Tere",
+          "Hello"
+        ],
+        [
+          "Tervist",
+          "Hello (lit. health)"
+        ],
+        [
+          "Tšau",
+          "Hi"
+        ]
+      ],
+      "morning": [
+        [
+          "Tere hommikust",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Tere õhtust",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Kuidas läheb?",
+          "How's it going?"
+        ],
+        [
+          "Kuidas sul läheb?",
+          "How are you doing?"
+        ]
+      ],
+      "fine": [
+        [
+          "Hästi",
+          "Well, fine"
+        ],
+        [
+          "Normaalselt",
+          "Okay"
+        ]
+      ],
+      "thanks": [
+        [
+          "Aitäh",
+          "Thanks"
+        ],
+        [
+          "Tänan",
+          "Thank you"
+        ],
+        [
+          "Suur aitäh",
+          "Thanks a lot"
+        ]
+      ],
+      "bye": [
+        [
+          "Head aega",
+          "Goodbye"
+        ],
+        [
+          "Nägemist",
+          "See you"
+        ],
+        [
+          "Tšau",
+          "Bye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Tere tulemast",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Vabandust",
+          "Sorry"
+        ],
+        [
+          "Vabandan",
+          "I apologise"
+        ]
+      ],
+      "excuse": [
+        [
+          "Vabandage",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Jah",
+          "Yes"
+        ],
+        [
+          "Jaa",
+          "Yeah"
+        ]
+      ],
+      "no": [
+        [
+          "Ei",
+          "No"
+        ]
+      ]
+    },
+    "ru": {
+      "hello": [
+        [
+          "Привет",
+          "Hi"
+        ],
+        [
+          "Здравствуйте",
+          "Hello (polite)"
+        ]
+      ],
+      "morning": [
+        [
+          "Доброе утро",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Добрый вечер",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Как дела?",
+          "How are things?"
+        ],
+        [
+          "Как ты?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Хорошо",
+          "Good"
+        ],
+        [
+          "Нормально",
+          "Okay, fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Спасибо",
+          "Thank you"
+        ],
+        [
+          "Большое спасибо",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Пока",
+          "Bye"
+        ],
+        [
+          "До свидания",
+          "Goodbye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Добро пожаловать",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Извини",
+          "Sorry"
+        ],
+        [
+          "Простите",
+          "Sorry (polite)"
+        ]
+      ],
+      "excuse": [
+        [
+          "Извините",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Да",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Нет",
+          "No"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hi",
+          "Hi"
+        ],
+        [
+          "Hello",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Morning!",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you?",
+          "How are you?"
+        ],
+        [
+          "How's it going?",
+          "How's it going?"
+        ]
+      ],
+      "fine": [
+        [
+          "Fine, thanks",
+          "Fine, thanks"
+        ],
+        [
+          "All good",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks",
+          "Thanks"
+        ],
+        [
+          "Thank you",
+          "Thank you"
+        ]
+      ],
+      "bye": [
+        [
+          "Bye",
+          "Bye"
+        ],
+        [
+          "See you",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ],
+        [
+          "Yeah",
+          "Yeah"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "EUR",
+    "symbol": "€",
+    "words": [
+      [
+        "sent",
+        "a cent"
+      ],
+      [
+        "sendid",
+        "small change"
+      ],
+      [
+        "tonn",
+        "a thousand euros, colloquially"
+      ],
+      [
+        "raha",
+        "money"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Estonian_language",
+    "https://en.wikipedia.org/wiki/Russians_in_Estonia",
+    "https://www.stat.ee/en",
+    "https://en.wikipedia.org/wiki/Demographics_of_Estonia",
+    "https://en.wikipedia.org/wiki/List_of_most_common_surnames_in_Europe"
+  ]
+}

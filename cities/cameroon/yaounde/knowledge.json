@@ -1,0 +1,99 @@
+{
+  "street": { "fr": 0.6, "camfranglais": 0.25, "wes": 0.08, "en": 0.07 },
+  "registers": {
+    "camfranglais": {
+      "name": "Camfranglais",
+      "about": "The young city's mix of French, English, Pidgin and Cameroonian languages: on dit quoi, je go, mon mola, le do, la nga."
+    }
+  },
+  "names": { "weights": { "beti": 0.45, "bamileke": 0.27, "grassfields": 0.1, "northern": 0.1, "sawa": 0.04, "southwest": 0.04 } },
+  "phrases": {
+    "camfranglais": {
+      "hello": [["On dit quoi?", "What's up?"], ["Ça dit quoi?", "What's the word?"], ["Mon mola, c'est comment?", "My buddy, how is it?"]],
+      "fine": [["On est là", "We're here, fine"], ["Je gère", "I'm managing"], ["Tout est calé", "All sorted"]],
+      "bye": [["Je go", "I'm going"], ["On se call", "We'll call each other"], ["On est ensemble", "We're together (see you)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Good morning! How was the night?", "Hello, how is the family?", "Good evening, how was the office?", "Ah, long time! You're well?", "Hi, how are the studies going?"],
+      "reply": ["I'm fine, thank you.", "We're here, managing.", "All good, and you?", "Doing fine, thanks for asking.", "The family is well, thank God."],
+      "sunny": ["Nice and fresh on the hills this morning.", "Good day to go up Mont Fébé.", "The sun is out, finally.", "Lovely weather for a walk around the lake.", "It's warm, but not like Douala."],
+      "rain": ["Here comes the rain again.", "Carry an umbrella, the sky is grey over Mvan.", "Poste Centrale will be jammed with this rain.", "Wait a bit, it will ease off.", "The hills turn into rivers when it rains."],
+      "bye": ["See you later!", "Go well!", "See you tomorrow.", "Greet the family for me.", "Take care on the road."],
+      "busy": ["Sorry, I'm late for the ministry.", "I have a lecture at Ngoa-Ekellé.", "Let me run, I need a taxi to Mvan.", "I'll call you this evening.", "Busy day, we'll talk later."]
+    },
+    "camfranglais": {
+      "greet": ["On dit quoi mon mola?", "Ça dit quoi?", "Mon frère, c'est comment?", "Le mbom, tu es où depuis?"],
+      "reply": ["On est là, tranquille.", "Je suis là, je gère.", "Ça va un peu, on se bat.", "Tout est calé."],
+      "sunny": ["Le soleil est là aujourd'hui!", "Il fait beau, on va au lac?", "Le soleil-là ne blague pas.", "Il fait bon sur les collines."],
+      "rain": ["La pluie-là ne blague pas!", "Il pleut, je ne go plus nulle part.", "Avec cette pluie, les taxis sont rares.", "La pluie va me mouiller, je n'ai pas de parapluie."],
+      "bye": ["Je go, on se call.", "On est ensemble!", "À plus, mon mola.", "Je vais back demain."],
+      "busy": ["Je suis en retard, le taxi m'attend.", "Je go au taf, on se call.", "Je n'ai pas le temps, je suis pressé.", "J'ai cours à Ngoa, je go!"]
+    },
+    "fr": {
+      "greet": ["Bonjour, bien dormi?", "Bonsoir! La famille va bien?", "Bonjour maman, ça va?", "Ah, ça fait longtemps!", "Bonne arrivée!"],
+      "reply": ["Ça va, merci.", "On est là, Dieu merci.", "Ça va bien, et vous?", "Ça va un peu."],
+      "sunny": ["Il fait beau aujourd'hui!", "Belle journée pour monter au mont Fébé.", "Le soleil est enfin sorti.", "Il fait doux ce matin."],
+      "rain": ["Il pleut encore!", "Prends ton parapluie.", "Avec cette pluie, la Poste Centrale sera bloquée.", "Attends que la pluie passe."],
+      "bye": ["Bonne journée!", "À demain.", "Bonne soirée!", "Salue la famille."],
+      "busy": ["Je suis en retard, on se parle.", "J'ai une réunion au ministère.", "Il y a des embouteillages, je dois partir.", "Je t'appelle ce soir."]
+    },
+    "wes": {
+      "greet": ["How na?", "How you dey, my broda?", "Morning-o! How for house?", "Massa, how na?"],
+      "reply": ["I dey fine, tank you.", "We dey, small small.", "We dey try.", "Everything dey fine."],
+      "sunny": ["Sun don come out today!", "Hot dey small today.", "Na fine day for waka.", "Sun di shine fine fine."],
+      "rain": ["Rain di come!", "Rain don start, make we hide.", "Dis rain no di joke.", "Rain don fall all night."],
+      "bye": ["Make we see after.", "I go see you tomorrow.", "Waka fine!", "Stay fine-o!"],
+      "busy": ["I di hurry, make we talk after.", "I don late for work.", "Taxi di wait me, I go call you.", "Work plenty today, I no get time."]
+    }
+  },
+  "transport": { "bus": "bus", "moto_taxi": "moto-taxi", "tricycle": "", "taxi": "taxi", "shared_taxi": "opep", "conductor": "chargeur", "stage": "carrefour" },
+  "touts": [
+    "Mvan! Mvan!",
+    "Mokolo! Mokolo!",
+    "Poste Centrale!",
+    "Biyem-Assi!",
+    "Essos! Mimboman!",
+    "Nkolbisson!",
+    "Mvog-Mbi! Mvog-Ada!",
+    "Douala! Douala! On part!"
+  ],
+  "hawkers": [
+    ["Soya! Soya chaud!", "Hot grilled beef skewers!"],
+    ["Beignets haricots!", "Doughnuts and beans!"],
+    ["Bobolo! Bâton de manioc!", "Cassava sticks!"],
+    ["Plantain braisé, safou!", "Roasted plantain with plum!"],
+    ["Maïs braisé!", "Roasted corn!"],
+    ["Eau fraîche!", "Cold water!"],
+    ["Arachides!", "Peanuts!"],
+    ["Crédit! Crédit!", "Phone credit!"]
+  ],
+  "food": {
+    "street": ["soya", "beignets-haricots-bouillie (BHB)", "bobolo with grilled fish", "plantain braisé with safou", "maïs braisé", "poisson braisé at Mvog-Ada"],
+    "dishes": ["okok", "sanga", "ndolè", "kpem", "eru", "poulet DG", "mbongo tchobi"],
+    "drinks": ["33 Export", "Castel", "Guinness", "folléré (hibiscus juice)", "matango (palm wine)", "Top pamplemousse"]
+  },
+  "places": {
+    "neighbourhoods": ["Bastos", "Mvan", "Mokolo", "Biyem-Assi", "Essos", "Mvog-Mbi", "Mvog-Ada", "Ngoa-Ekellé", "Obili", "Mimboman", "Nkolbisson", "Elig-Essono", "Omnisport", "Emana", "Nlongkak", "Tsinga", "Melen", "Ekounou", "Odza", "Simbock"],
+    "streets": ["Boulevard du 20 Mai", "Avenue Kennedy", "Avenue Foch", "Avenue Ahmadou Ahidjo", "Rue Mgr Vogt", "Boulevard de la Réunification", "Avenue Charles Atangana"],
+    "landmarks": ["Monument de la Réunification", "Mont Fébé", "Basilique Marie-Reine-des-Apôtres de Mvolyé", "Marché Mokolo", "Marché Central", "Poste Centrale", "Lac municipal", "Stade Omnisports", "Musée national du Cameroun", "Palais des Congrès", "Université de Yaoundé I", "Carrefour Warda"]
+  },
+  "small_talk": [
+    "The taxi to Mvan took forever, I said my destination ten times.",
+    "Mokolo market is crowded today.",
+    "Bobolo and soya on the way home?",
+    "These seven hills, my legs are tired.",
+    "Rainy season traffic at Poste Centrale is crazy.",
+    "The view from Mont Fébé in the evening is something.",
+    "Fish at Mvog-Ada tonight?",
+    "Students everywhere in Ngoa-Ekellé, exams must be soon."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Yaound%C3%A9",
+    "https://en.wikipedia.org/wiki/Camfranglais",
+    "https://en.wikipedia.org/wiki/Ewondo_language",
+    "https://en.wikipedia.org/wiki/Cameroonian_cuisine",
+    "https://en.wikipedia.org/wiki/Reunification_Monument"
+  ]
+}

@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync, existsSync, statSync } from 'node:fs';
-import { setKnowledge, nameFor, registerFor, line, phrase } from '../src/look/knowledge.js';
+import { setKnowledge, nameFor, registerFor, line, phrase, titled } from '../src/look/knowledge.js';
 
 const ROOT = new URL('../../../cities/', import.meta.url);
 const read = (p) => JSON.parse(readFileSync(new URL(p, ROOT), 'utf8'));
@@ -64,4 +64,29 @@ test('Lagos: Pidgin and Yoruba on the street; the well-off lean to English', () 
   const poor = Array.from({ length: 300 }, (_, i) => registerFor(2, `r${i}`)).filter((r) => r === 'en').length;
   assert.ok(rich > poor, 'tier 0 speaks more English than tier 2');
   assert.ok(Array.from({ length: 200 }, (_, i) => registerFor(1, `m${i}`)).includes('pcm'));
+});
+
+test('names follow each place\'s own rules: family name first, women\'s forms, titles after the name', () => {
+  const groupOf = (c, g) => read(`${c}/knowledge.json`).names.groups[g];
+  if (has('japan/knowledge.json')) {
+    setKnowledge(read('japan/knowledge.json'), {}, 'Tokyo');
+    const n = nameFor('jp', 'm'); assert.ok(n.full.startsWith(n.family), `Japanese names put the family first: ${n.full}`);
+    assert.equal(titled('elder_m', n), `${n.family}-san`);
+  }
+  if (has('singapore/knowledge.json')) {
+    setKnowledge(read('singapore/knowledge.json'), { names: { weights: { chinese: 1 } } }, 'Singapore');
+    const n = nameFor('sg', 'f'); assert.ok(n.full.startsWith(n.family), `Chinese Singaporean names put the family first: ${n.full}`);
+  }
+  if (has('kazakhstan/knowledge.json')) {
+    setKnowledge(read('kazakhstan/knowledge.json'), { names: { weights: { kazakh: 1 } } }, 'Almaty');
+    const f = groupOf('kazakhstan', 'kazakh').family_f;
+    for (let i = 0; i < 20; i++) assert.ok(f.includes(nameFor(`kz${i}`, 'f').family), 'Kazakh women carry the women\'s form of the family name');
+  }
+  if (has('mexico/knowledge.json')) {
+    setKnowledge(read('mexico/knowledge.json'), read('mexico/mexico-city/knowledge.json'), 'Mexico City');
+    const n = nameFor('mx', 'f'); assert.equal(n.full.split(' ').length >= 3, true, `Mexicans carry two family names: ${n.full}`); assert.notEqual(n.family, n.second);
+  }
+  if (has('germany/knowledge.json')) { setKnowledge(read('germany/knowledge.json'), {}, 'Berlin'); const n = nameFor('de', 'm'); assert.equal(titled('elder_m', n), `Herr ${n.family}`); }
+  setKnowledge(read('kenya/knowledge.json'), read('kenya/nairobi/knowledge.json'), 'Nairobi');
+  const n = nameFor('ke', 'm'); assert.equal(titled('elder_m', n), `Mzee ${n.first}`);
 });

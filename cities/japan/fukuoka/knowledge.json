@@ -1,0 +1,104 @@
+{
+  "street": { "ja": 0.6, "hakata": 0.34, "en": 0.06 },
+  "registers": {
+    "hakata": {
+      "name": "Hakata-ben",
+      "about": "Fukuoka's own Japanese: bari for very, yoka for good, -to? on questions, -ken for because and -tai or -bai to finish a sentence with feeling."
+    }
+  },
+  "names": { "weights": { "kyushu": 0.7, "japanese": 0.3 } },
+  "phrases": {
+    "hakata": {
+      "hello": [["Genki shiyō to?", "You doing well? (元気しようと?)"]],
+      "fine": [["Yoka yoka", "All good (よかよか)"], ["Bari genki tai", "Really well (ばり元気たい)"]],
+      "very": [["Bari", "Very (ばり)"], ["Bari umaka!", "Really tasty! (ばりうまか)"]],
+      "what_doing": [["Nan shiyō to?", "What are you up to? (何しようと?)"]],
+      "where_going": [["Doko iku to?", "Where are you off to? (どこ行くと?)"]],
+      "because": [["Ame ya ken", "Because it's raining (雨やけん)"]],
+      "tough": [["Kitsuka", "It's tough, tiring (きつか)"]],
+      "like": [["Suitō yo", "I like you, the famous Hakata line (好いとうよ)"]],
+      "more_noodles": [["Kaedama!", "Another serving of noodles, please! (替え玉)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! Off to Tenjin?", "Hi! Good to see you.", "Hello! Did you eat at the yatai last night?", "Hey, how's your week going?", "Evening! Heading out to Nakasu?"],
+      "reply": ["Doing well, thanks!", "Good, a bit full after ramen.", "Not bad, and you?", "All good, thanks for asking.", "Fine, just busy at work."],
+      "sunny": ["Lovely day for a walk round Ohori Park.", "Great day for the beach at Momochi.", "Clear skies, perfect for the ferry to Nokonoshima.", "Hot one today, stay cool.", "Beautiful weather, the yatai will be busy tonight."],
+      "rain": ["Rainy season again, bring an umbrella.", "Typhoon coming, the ferries might stop.", "It's pouring, the yatai won't open tonight.", "Yellow dust and rain today, wear a mask.", "Heavy rain, take the subway instead of the bus."],
+      "bye": ["See you tomorrow!", "Take care!", "Bye, have a good night!", "Catch you later!", "See you at the yatai!"],
+      "busy": ["Sorry, I have a flight to catch.", "Running late for a meeting in Tenjin.", "Can't stop, my bus is here.", "In a rush, talk later!", "Sorry, my shift starts soon."]
+    },
+    "ja": {
+      "greet": ["Ohayō gozaimasu!", "Konnichiwa!", "Ā, dōmo!", "Otsukaresama desu.", "Hisashiburi! Genki?"],
+      "reply": ["Genki desu, arigatō.", "Mā mā desu ne.", "Okagesama de.", "Un, genki yo!", "Chotto tsukareta kedo, daijōbu."],
+      "sunny": ["Ii tenki desu ne.", "Kyō wa atsui desu ne.", "Ōhori Kōen o sanpo shitai ne.", "Umi ni ikitai tenki da ne."],
+      "rain": ["Yoku furimasu ne.", "Kasa motte kita?", "Taifū ga kuru rashii yo.", "Tsuyu da kara shikata nai ne."],
+      "bye": ["Ja, mata ashita.", "Otsukaresama deshita!", "Ki o tsukete ne.", "Mata ne!"],
+      "busy": ["Sumimasen, isoide imasu.", "Gomen, chikatetsu ni okureru!", "Kaigi ga aru node, shitsurei shimasu.", "Ima chotto isogashii, mata ato de!"]
+    },
+    "hakata": {
+      "greet": ["Genki shiyō to?", "Ā, hisashiburi! Doko iku to?", "Nan shiyō to?", "Ohayō! Kyō mo ganbarō ne."],
+      "reply": ["Yoka yoka, genki tai.", "Bari genki bai!", "Un, genki shiyō yo.", "Chotto kitsuka kedo, daijōbu."],
+      "sunny": ["Kyō wa bari atsuka ne.", "Yoka tenki ya ne.", "Konna hi wa umi ni ikitaka ne.", "Bari ii tenki tai!"],
+      "rain": ["Ame ya ken, kasa motte ikiyo.", "Bari furiyō ne.", "Tsuyu wa kitsuka ne.", "Taifū kuru rashika yo."],
+      "bye": ["Ja, mata ne!", "Ki tsukete kaeri yo.", "Mata ashita ne.", "Otsukare! Mata ne."],
+      "busy": ["Gomen, isogiyō ken, mata ato de!", "Densha ni okureru ken, iku ne!", "Ima bari isogashika ken, gomen ne.", "Shigoto ni okureru ken, mata ne!"]
+    }
+  },
+  "transport": {
+    "metro": "chikatetsu (Kuko, Hakozaki and Nanakuma lines)",
+    "bus": "Nishitetsu basu",
+    "train": "densha (JR and Nishitetsu)",
+    "taxi": "takushī",
+    "ride_hail": "GO taxi app",
+    "stage": "eki (station), basutei (bus stop)",
+    "boat": "ferry to Nokonoshima and Shikanoshima",
+    "card": "Hayakaken, nimoca or SUGOCA"
+  },
+  "touts": [
+    "Tsugi wa Tenjin, Tenjin desu.",
+    "Mamonaku, Hakata, Hakata desu.",
+    "Irasshai! Dōzo, aitemasu yo!",
+    "Ramen, ikaga desu ka? Seki aitemasu!",
+    "Irasshaimase! Mentaiko, shishoku dōzo!",
+    "Nokonoshima-yuki, mamonaku shuppan shimasu."
+  ],
+  "hawkers": [
+    ["Irasshai! Ramen, bari umaka yo!", "Come in! The ramen is really tasty!"],
+    ["Mentaiko, shishoku dōzo!", "Spicy cod roe, try a sample!"],
+    ["Yakitori, yakitate desu!", "Yakitori, fresh off the grill!"],
+    ["Oden, atsui yo!", "Oden, nice and hot!"],
+    ["Ishi-yaki imo, yaki imo!", "Stone-baked sweet potatoes!"],
+    ["Hitokuchi gyōza, dōzo!", "Bite-sized gyoza, come and try!"]
+  ],
+  "food": {
+    "street": ["yatai ramen", "yakitori", "oden", "hitokuchi gyoza", "mentaiko onigiri", "yaki ramen", "umegae mochi"],
+    "dishes": ["Hakata tonkotsu ramen", "Nagahama ramen", "motsunabe", "mizutaki", "mentaiko", "goma saba", "Hakata udon"],
+    "drinks": ["shochu", "beer", "highball", "Yame green tea", "oolong tea", "canned coffee"]
+  },
+  "places": {
+    "neighbourhoods": ["Tenjin", "Hakata", "Nakasu", "Daimyo", "Yakuin", "Ohori", "Momochi", "Gion", "Nagahama", "Ohashi", "Akasaka", "Imaizumi"],
+    "streets": ["Meiji-dori", "Watanabe-dori", "Taihaku-dori", "Showa-dori", "Kokutai-doro", "Hakata Ekimae-dori"],
+    "landmarks": ["Fukuoka Tower", "Canal City Hakata", "Ohori Park", "Fukuoka Castle ruins", "Kushida Shrine", "Nakasu yatai", "Mizuho PayPay Dome", "Hakata Station", "ACROS Fukuoka", "Fukuoka Growth Next"]
+  },
+  "small_talk": [
+    "The yatai along the river in Nakasu were packed last night.",
+    "The Hawks won again, Tenjin was buzzing.",
+    "The airport is so close, you're on the subway in five minutes.",
+    "Yamakasa is coming up, early mornings for everyone in Hakata.",
+    "I always order kaedama, one bowl of noodles is never enough.",
+    "The yellow dust is bad today, wear a mask.",
+    "We took the ferry to Nokonoshima for the flowers.",
+    "Another startup event at Fukuoka Growth Next in Daimyo tonight.",
+    "Typhoon season again, check the ferry times."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Fukuoka",
+    "https://en.wikipedia.org/wiki/Hakata_dialect",
+    "https://en.wikipedia.org/wiki/Yatai_(food_cart)",
+    "https://en.wikipedia.org/wiki/Fukuoka_City_Subway",
+    "https://en.wikipedia.org/wiki/Hakata_Gion_Yamakasa",
+    "https://en.wikipedia.org/wiki/Tonkotsu_ramen"
+  ]
+}

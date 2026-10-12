@@ -1,0 +1,96 @@
+{
+  "languages": [
+    { "code": "fr", "name": "French", "official": true, "spoken": "widely" },
+    { "code": "dyu", "name": "Dioula", "official": false, "spoken": "widely, the market language" },
+    { "code": "bci", "name": "Baoulé", "official": false, "spoken": "commonly" },
+    { "code": "bev", "name": "Bété", "official": false, "spoken": "in Bété families" },
+    { "code": "en", "name": "English", "official": false, "spoken": "a little, in business" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "A French Christian or a Muslim first name, a family name from the father, and often a traditional name too. Baoulé and Agni children get a day name for the day they were born (Kouassi or Akissi on Sunday, Kouadio or Adjoua on Monday, Konan or Amenan on Tuesday, Kouakou or Ahou on Wednesday, Yao or Aya on Thursday, Koffi or Affoué on Friday, Kouamé or Amoin on Saturday), and many family names are a father's day name. Dioula and Malinke families of the north are mostly Muslim, with names like Ouattara, Koné and Bamba. On forms and at school the family name comes first: 'Kouassi Yao Serge'.",
+    "groups": {
+      "akan": {
+        "given": {
+          "m": ["Kouassi", "Kouadio", "Konan", "Kouakou", "Yao", "Koffi", "Kouamé", "N'Guessan", "N'Dri", "Brou", "Kanga", "Kra", "Yoboué", "N'Goran"],
+          "f": ["Akissi", "Adjoua", "Amenan", "Ahou", "Aya", "Affoué", "Amoin", "Akoua", "Ahoussi", "Adjo", "Akouba", "Affiba"]
+        },
+        "family": ["Kouassi", "Konan", "Kouadio", "Yao", "Koffi", "Kouamé", "N'Guessan", "Kouakou", "N'Dri", "Brou", "Kanga", "Kra", "Yapo", "Achi", "N'Cho", "Assi"],
+        "also": { "m": ["Serge", "Jean-Claude", "Hervé", "Patrick", "Franck", "Didier", "Arnaud", "Christian"], "f": ["Christelle", "Marie-Paule", "Nadège", "Sandrine", "Estelle", "Prisca", "Larissa", "Murielle"] }
+      },
+      "north": {
+        "given": {
+          "m": ["Moussa", "Mamadou", "Ibrahim", "Souleymane", "Lassina", "Siaka", "Drissa", "Bakary", "Adama", "Karim", "Ousmane", "Seydou", "Abdoulaye", "Yacouba", "Sékou", "Issouf"],
+          "f": ["Fatoumata", "Aminata", "Mariam", "Awa", "Salimata", "Kadiatou", "Assetou", "Djénéba", "Rokia", "Fanta", "Bintou", "Korotoum", "Mamou", "Ramata"]
+        },
+        "family": ["Koné", "Traoré", "Ouattara", "Coulibaly", "Diabaté", "Bamba", "Touré", "Fofana", "Cissé", "Diomandé", "Sylla", "Kamagaté", "Doumbia", "Dosso", "Konaté", "Bakayoko", "Soro", "Silué", "Yéo", "Tuo"]
+      },
+      "kru": {
+        "given": {
+          "m": ["Didier", "Serge", "Hervé", "Arsène", "Guy-Roland", "Wilfried", "Jean-Marie", "Christophe", "Firmin", "Fabrice", "Aristide", "Landry"],
+          "f": ["Christine", "Estelle", "Nathalie", "Josiane", "Bernadette", "Edwige", "Odile", "Gisèle", "Clarisse", "Mireille", "Solange", "Pélagie"]
+        },
+        "family": ["Zadi", "Gnahoré", "Kipré", "Séri", "Lago", "Djédjé", "Tapé", "Dago", "Zokou", "Gnaoré", "Dakoury", "Gueu"]
+      }
+    },
+    "weights": { "akan": 0.45, "north": 0.4, "kru": 0.15 }
+  },
+  "honorifics": { "elder_m": "Tonton", "elder_f": "Tantie", "peer_m": "Mon frère", "peer_f": "Ma sœur", "boss": "Patron" },
+  "phrases": {
+    "fr": {
+      "hello": [["Bonjour", "Hello"], ["C'est comment?", "How is it? (hi)"]],
+      "morning": [["Bonjour, bien dormi?", "Good morning, sleep well?"]],
+      "evening": [["Bonsoir", "Good evening"]],
+      "how_are_you": [["Ça va?", "How's it going?"], ["La famille va bien?", "Is the family well?"]],
+      "fine": [["Ça va un peu", "Getting by, fine"], ["Ça va, Dieu merci", "Fine, thank God"]],
+      "thanks": [["Merci", "Thank you"], ["Merci beaucoup", "Thanks a lot"]],
+      "bye": [["Au revoir", "Goodbye"], ["Je viens", "I'm off (and will be back)"]],
+      "welcome": [["Bonne arrivée", "Welcome, glad you arrived"], ["Akwaba", "Welcome (from Baoulé, used by everyone)"]],
+      "sorry": [["Pardon", "Sorry, please"], ["Yako", "So sorry (sympathy)"]],
+      "excuse": [["Pardon", "Excuse me"], ["Excusez-moi", "Excuse me"]],
+      "yes": [["Oui", "Yes"], ["C'est ça même", "That's exactly it"]],
+      "no": [["Non", "No"], ["Ah non", "Oh no"]]
+    },
+    "dyu": {
+      "hello": [["I ni ce", "Hello"]],
+      "morning": [["I ni sɔgɔma", "Good morning"]],
+      "evening": [["I ni wula", "Good evening"]],
+      "how_are_you": [["I ka kɛnɛ wa?", "Are you well?"]],
+      "fine": [["Tɔɔrɔ tɛ", "No trouble"]],
+      "thanks": [["I ni ce", "Thank you"]],
+      "bye": [["K'an bɛn", "See you"]],
+      "yes": [["Ɔwɔ", "Yes"]],
+      "no": [["Ayi", "No"]]
+    },
+    "bci": {
+      "welcome": [["Akwaba", "Welcome"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["Fine, thanks", "Fine, thanks"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Goodbye", "Goodbye"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "XOF",
+    "symbol": "FCFA",
+    "words": [
+      ["wari", "money (from Dioula, used in Nouchi)"],
+      ["l'argent", "money"],
+      ["mille", "a thousand francs"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Ivory_Coast",
+    "https://en.wikipedia.org/wiki/Nouchi",
+    "https://en.wikipedia.org/wiki/Dyula_language",
+    "https://en.wikipedia.org/wiki/Baoul%C3%A9_language",
+    "https://en.wikipedia.org/wiki/Akan_names",
+    "https://en.wikipedia.org/wiki/Baoul%C3%A9_people",
+    "https://en.wikipedia.org/wiki/B%C3%A9t%C3%A9_people"
+  ]
+}

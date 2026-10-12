@@ -1,0 +1,108 @@
+{
+  "street": { "en": 0.35, "xh": 0.3, "af": 0.13, "kaaps": 0.22 },
+  "registers": {
+    "kaaps": {
+      "name": "Kaaps",
+      "about": "The Afrikaans of the Cape Flats and the Bo-Kaap, mixed with English and full of its own words (awe, mos, kwaai, lekker). Spoken with pride by many coloured Capetonians at home, in the taxis and at the shops."
+    }
+  },
+  "names": {
+    "weights": {
+      "xhosa": 0.38,
+      "coloured": 0.33,
+      "cape_muslim": 0.06,
+      "afrikaans": 0.06,
+      "english_sa": 0.11,
+      "zulu": 0.02,
+      "sotho": 0.02,
+      "indian": 0.02
+    }
+  },
+  "phrases": {
+    "kaaps": {
+      "hello": [["Awe!", "Hey!"], ["Hoesit?", "Howzit?"], ["Ek sê!", "Hey, I say!"]],
+      "how_are_you": [["Hoe lyk it?", "How's it looking? (How are you?)"], ["Hoe gaan it?", "How's it going?"]],
+      "fine": [["Is reg", "It's fine"], ["Kwaai", "Cool, great"], ["Lekker", "Nice, good"]],
+      "thanks": [["Shot!", "Thanks!"], ["Dankie, my bru", "Thanks, my brother"]],
+      "bye": [["Awe, later!", "Bye, later!"], ["Gaan mooi", "Go well"]],
+      "friend": [["my bru", "my brother, mate"], ["my broe", "my brother"], ["my laaitie", "my youngster"]],
+      "elder": [["aunty", "an older woman, said with respect"], ["uncle", "an older man, said with respect"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Howzit! How's it going?", "Morning! Windy one today, hey?", "Hey, long time, how's things?", "Molo! You good?", "Hi aunty, how are you keeping?"],
+      "reply": ["I'm good, thanks, and you?", "Lekker, just holding on in this wind!", "All good, can't complain.", "Fine thanks, just busy.", "Shot, I'm well!"],
+      "sunny": ["Not a cloud on the mountain today.", "Perfect day for Clifton or Muizenberg.", "The sun's out, let's go for a walk on the Prom.", "What a day, you can see all the way to Robben Island.", "Hot one today, the beaches will be full."],
+      "rain": ["The winter rain is here for real now.", "The mountain's disappeared behind the clouds.", "It's pouring, the taxi rank will be chaos.", "Rain and wind together, my umbrella is finished.", "At least the dams are filling up."],
+      "bye": ["Cheers, go well!", "Shot, see you later!", "Later, hey, enjoy!", "Go well, greet the family!", "Sharp, catch you now now."],
+      "busy": ["Sorry, I'm late, the N2 was backed up to the airport!", "Can't stop, I need to catch the MyCiTi!", "I'll call you just now, I'm at work.", "Running for the train, later!", "Eish, I'm rushing, let's chat later."]
+    },
+    "xh": {
+      "greet": ["Molo! Unjani?", "Molweni, kunjani?", "Molo sisi, uvuke njani?", "Molo bhuti, kunjani?", "Molo tata, unjani namhlanje?"],
+      "reply": ["Ndiphilile, enkosi. Wena unjani?", "Sikhona, enkosi.", "Ndiyaphila, enkosi kakhulu.", "Ndisaphila, enkosi."],
+      "sunny": ["Kushushu namhlanje!", "Ilanga liyatshisa.", "Imini intle namhlanje.", "Kumnandi phandle namhlanje."],
+      "rain": ["Liyana!", "Imvula iyeza, khawuleza!", "Kuyabanda, kwaye liyana.", "Imvula ininzi namhlanje."],
+      "bye": ["Sala kakuhle!", "Hamba kakuhle!", "Sobonana!", "Sobonana ngomso!"],
+      "busy": ["Uxolo, ndingxamile!", "Ndisemsebenzini, siza kuthetha.", "Ndingxamile, sobonana kamva!", "Ndiza kukufonela kamva."]
+    },
+    "af": {
+      "greet": ["Goeiemôre! Hoe gaan dit?", "Hallo, hoe gaan dit met jou?", "Môre, tannie!", "Goeiemiddag, oom!", "Haai, lekker om jou te sien!"],
+      "reply": ["Goed dankie, en jy?", "Baie goed, dankie!", "Nie te sleg nie, dankie.", "Alles reg, dankie."],
+      "sunny": ["Dis 'n pragtige dag vandag!", "Die son skyn lekker.", "Dis warm vandag, nè?", "Lekker weer vir 'n braai!"],
+      "rain": ["Dit reën weer.", "Vat jou sambreel, dit gaan reën.", "Dit reën dat dit sous!", "Dis nat en koud vandag."],
+      "bye": ["Totsiens!", "Lekker bly!", "Sien jou later!", "Mooi loop!"],
+      "busy": ["Ek is laat, ek moet hardloop!", "Jammer, ek is haastig.", "Ek moet gaan werk, sien jou later.", "Ek bel jou later, ek is besig."]
+    },
+    "kaaps": {
+      "greet": ["Awe, my bru!", "Hoesit, my broe?", "Awe, hoe lyk it?", "Hello aunty, hoe gaan it?", "Ek sê, hoe gaan it met djou?"],
+      "reply": ["Is reg, my bru.", "Ek's okay, en djy?", "Dit gaan lekker, dankie.", "Allie's kwaai!"],
+      "sunny": ["Dis 'n lekker dag vandag!", "Die son brand, my bru!", "Kom os gaan strand toe.", "Is 'n kwaai dag vir 'n braai."],
+      "rain": ["Die reën sak nou neer!", "Dit giet, my bru!", "Ai, dis koud en nat vandag.", "Die berg het sy kombers aan, die reën kom."],
+      "bye": ["Awe, later!", "Shot, my bru!", "Gaan mooi!", "Sharp, ek sien djou later!"],
+      "busy": ["Ek's laat vir werk, my bru!", "Ek moet nou hol, later!", "Sorry, ek's in 'n hurry.", "Ek moet die taxi vang, sharp!"]
+    }
+  },
+  "transport": { "bus": "taxi", "moto_taxi": "", "tricycle": "", "taxi": "metered taxi", "conductor": "gaatjie", "stage": "rank" },
+  "touts": ["Kaap! Kaap! Kaap!", "Wynberg, Wynberg!", "Claremont! Claremont!", "Bellville, Bellville!", "Mitchells Plain!", "Town, town!", "Kom, kom, plek vir een!"],
+  "hawkers": [
+    ["Cold drinks! Cold water!", "Cold drinks and water!"],
+    ["Airtime, data!", "Phone airtime and data!"],
+    ["Koeksisters! Fresh koeksisters!", "Fresh spiced Cape doughnuts!"],
+    ["Samoosas, R5!", "Samoosas, five rand!"],
+    ["Mielies, hot mielies!", "Hot roasted corn!"],
+    ["Snoek! Vars snoek!", "Snoek! Fresh snoek!"],
+    ["Big Issue, help a brother out!", "The Big Issue street magazine for sale!"]
+  ],
+  "food": {
+    "street": ["gatsby", "salomie", "samoosas", "koeksisters", "vetkoek", "boerewors roll", "fish and chips"],
+    "dishes": ["bobotie", "tomato bredie", "breyani", "denningvleis", "snoek and sweet potato", "umngqusho (samp and beans)", "malva pudding"],
+    "drinks": ["rooibos tea", "falooda", "ginger beer", "mageu", "umqombothi"]
+  },
+  "places": {
+    "neighbourhoods": ["Bo-Kaap", "Woodstock", "Observatory", "Sea Point", "Gugulethu", "Langa", "Khayelitsha", "Mitchells Plain", "Athlone", "Claremont", "Muizenberg", "Bellville", "Green Point", "Salt River"],
+    "streets": ["Long Street", "Bree Street", "Adderley Street", "Main Road", "Kloof Street", "Voortrekker Road", "Klipfontein Road", "Lansdowne Road", "Wale Street", "Sir Lowry Road"],
+    "landmarks": ["Table Mountain", "Lion's Head", "V&A Waterfront", "Signal Hill", "Robben Island", "Kirstenbosch", "Cape Town Stadium", "Grand Parade", "Company's Garden", "Muizenberg beach huts", "Sea Point Promenade"]
+  },
+  "small_talk": [
+    "The southeaster is pumping today, hold on to your hat.",
+    "Table Mountain has its tablecloth on this morning.",
+    "The N2 was backed up all the way to the airport.",
+    "Gatsby for lunch? I could eat a whole one.",
+    "Want to go to Muizenberg on Sunday?",
+    "The Bellville rank was full this morning, I stood for ages.",
+    "Winter rain is here, the mountain's covered in cloud.",
+    "The wind blew my washing right off the line.",
+    "Let's walk up Lion's Head for the sunset."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Cape_Town",
+    "https://en.wikipedia.org/wiki/Kaaps",
+    "https://en.wikipedia.org/wiki/Xhosa_language",
+    "https://en.wikipedia.org/wiki/Afrikaans",
+    "https://en.wikipedia.org/wiki/Cape_Malays",
+    "https://en.wikipedia.org/wiki/Gatsby_(sandwich)",
+    "https://en.wikipedia.org/wiki/Bo-Kaap",
+    "https://en.wikipedia.org/wiki/MyCiTi"
+  ]
+}

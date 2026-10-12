@@ -1,0 +1,108 @@
+{
+  "street": { "en": 0.3, "ny": 0.25, "town_nyanja": 0.32, "bem": 0.13 },
+  "registers": {
+    "town_nyanja": {
+      "name": "Town Nyanja",
+      "about": "Lusaka's own Nyanja, the city's common tongue: Nyanja grammar with plenty of English and Bemba mixed in, heard in buses, markets and among the young."
+    }
+  },
+  "names": { "weights": { "bemba": 0.36, "nyanja_chewa": 0.36, "tonga": 0.17, "lozi": 0.11 } },
+  "phrases": {
+    "town_nyanja": {
+      "hello": [["Bwanji bo?", "Hi, how's it?"], ["Shani shani?", "How are things?"]],
+      "how_are_you": [["Uli bwanji iwe?", "How are you?"], ["Vili bwanji?", "How are things going?"]],
+      "fine": [["Ndili fine", "I'm fine"], ["Tili bwino bo", "We're good"]],
+      "thanks": [["Zikomo bo", "Thanks"], ["Natotela", "Thanks (Bemba, used by everyone)"]],
+      "bye": [["Tizaonana!", "See you!"], ["Chabwino, tizaonana mailo", "OK, see you tomorrow"]],
+      "yes": [["Ee", "Yeah"], ["Sure", "Sure"]],
+      "no": [["Iyayi", "No"], ["Awe", "No (Bemba)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! How are you today?", "Hello! How's the family?", "Hi! Long time, how have you been?", "Afternoon! How's work?", "Good evening, how was your day?"],
+      "reply": ["I'm fine, and you?", "We're just fine, thank you.", "Not bad, just pushing.", "All good, God is good.", "Fine, the day is going well."],
+      "sunny": ["It's so hot today, October heat!", "Lovely sunshine today.", "Find some shade, the sun is strong.", "Good day for a cold Mosi.", "Too hot to walk to Cairo Road."],
+      "rain": ["The rains have come at last!", "Carry an umbrella, the clouds are heavy.", "The roads will be flooded after this.", "This rain is good for the maize.", "Let's wait for it to pass."],
+      "bye": ["See you later!", "Go well!", "Take care, regards at home.", "See you tomorrow.", "Safe journey!"],
+      "busy": ["Sorry, I'm rushing for a bus.", "I'm late for work, let's talk later.", "Let me run, there's a long queue at the bank.", "I'll call you, I have a meeting.", "Running to town, see you!"]
+    },
+    "ny": {
+      "greet": ["Muli bwanji?", "Mwauka bwanji bambo?", "Mwaswela bwanji amai?", "Bwanji, muli bwino?", "Muli bwanji lelo?"],
+      "reply": ["Ndili bwino, kaya inu?", "Tili bwino, zikomo.", "Ndauka bwino, zikomo.", "Ndili bwino kwambili."],
+      "sunny": ["Kuli kutentha kwambili lelo.", "Dzuwa lili bwino lelo.", "Kuli kutentha, tiyeni tikhale pa mthunzi.", "Nifuna madzi ozizila."],
+      "rain": ["Mvula yabwela!", "Mvula ili kunaya kwambili.", "Tengani ambulela, mvula ibwela.", "Tidikile kuti mvula ithe."],
+      "bye": ["Tizaonana!", "Pitani bwino!", "Salani bwino!", "Tizaonana mailo."],
+      "busy": ["Pepani, ndili busy lelo.", "Ndachedwa ku nchito, tizaonana!", "Ndikufulumila, tizalankhula.", "Bus yanga ili kuyenda, salani bwino!"]
+    },
+    "town_nyanja": {
+      "greet": ["Bwanji bo bro? Ka long time!", "Shani shani, muli bwanji?", "Eh mudala, bwanji?", "Bwanji iwe, uli bwino?"],
+      "reply": ["Ndili fine, iwe?", "Tili bwino bo, palibe vuto.", "Ah bwino bwino, ku nchito chabe.", "Ndili sharp, zikomo."],
+      "sunny": ["Kuli kutentha lelo, bo!", "Dzuwa lili bwino lelo, tiyeni ku town.", "Kutentha ka October aka, ah!", "Nifuna chakumwa chozizila, kuli kutentha."],
+      "rain": ["Mvula yabwela, bo!", "Mvula ili kunaya, ma bus azala.", "Tenga ambulela, mvula ibwela.", "Ndazizila na mvula iyi."],
+      "bye": ["Tizaonana bo!", "Ndiyenda, sharp!", "Chabwino, tizaonana mailo.", "Pitani bwino bo."],
+      "busy": ["Ndili busy bo, nizakuitana.", "Bus yanga ili kuyenda, tizaonana!", "Ndachedwa ku nchito, pepani!", "Ndili ku town, tizalankhula pambuyo."]
+    },
+    "bem": {
+      "greet": ["Mwashibukeni mukwai!", "Muli shani mukwai?", "Mwapoleni, muli shani?", "Mwabombeni mukwai!"],
+      "reply": ["Ndi bwino, nga imwe?", "Tuli bwino mukwai, natotela.", "Eya mukwai, ndi bwino sana.", "Bwino bwino, natotela."],
+      "sunny": ["Kwaba ukukaba lelo!", "Akasuba kali bwino lelo.", "Ndefwaya amenshi ayatalala.", "Akasuba kalekaba sana."],
+      "rain": ["Imfula yaisa!", "Imfula ileloka sana lelo.", "Sendeni umbrella, imfula ileisa.", "Imfula ileisa, twende bwangu."],
+      "bye": ["Shalenipo mukwai!", "Endeni bwino!", "Tukamonana mailo.", "Shalapo bwino."],
+      "busy": ["Nachelwa ku ncito, natotela!", "Ndeya ku ncito, shalenipo!", "Ndi busy lelo mukwai, tukamonana.", "Bus yandi ileya, endeni bwino!"]
+    }
+  },
+  "transport": { "bus": "bus", "moto_taxi": "", "tricycle": "", "taxi": "taxi", "conductor": "conductor", "stage": "bus station" },
+  "touts": [
+    "Chilenje, Chilenje! Bus ilikuyenda!",
+    "Matero, Matero! One more!",
+    "Kabwata, Kabwata!",
+    "Chelston, Chelston! Lowani!",
+    "Kalingalinga, Kalingalinga!",
+    "Manda Hill, Manda Hill!",
+    "Town, town! City Market!",
+    "Mtendere, Mtendere! Munthu umodzi!"
+  ],
+  "hawkers": [
+    ["Talk time! Airtel, MTN, Zamtel!", "Airtime for every network!"],
+    ["Madzi ozizila!", "Cold water!"],
+    ["Chikanda, chikanda!", "Chikanda, the groundnut and orchid tuber cake!"],
+    ["Ifinkubala!", "Mopane worms!"],
+    ["Kapenta, kapenta!", "Dried kapenta fish!"],
+    ["Mazila, mazila!", "Boiled eggs!"],
+    ["Chimanga!", "Roasted maize cobs!"],
+    ["Munkoyo, munkoyo!", "Munkoyo, the sweet maize drink!"]
+  ],
+  "food": {
+    "street": ["chikanda", "roasted maize", "boiled eggs with chilli", "vitumbuwa (fritters)", "samosas", "ifinkubala (mopane worms)", "sausage and chips"],
+    "dishes": ["nshima", "ifisashi (greens in groundnut sauce)", "kalembula (sweet potato leaves)", "chibwabwa (pumpkin leaves)", "village chicken", "kapenta with tomato and onion", "bream from the lake", "beans and nshima"],
+    "drinks": ["munkoyo", "chibwantu", "Super Maheu", "Mosi", "tea", "Coca-Cola"]
+  },
+  "places": {
+    "neighbourhoods": ["Kabulonga", "Woodlands", "Rhodes Park", "Kabwata", "Chilenje", "Matero", "Kalingalinga", "Chelston", "Mtendere", "Northmead", "Olympia", "Roma", "Ibex Hill", "Chawama", "Kamwala", "Libala"],
+    "streets": ["Cairo Road", "Great East Road", "Independence Avenue", "Church Road", "Addis Ababa Drive", "Leopards Hill Road", "Kafue Road", "Great North Road", "Los Angeles Boulevard", "Lumumba Road", "Freedom Way", "Chachacha Road"],
+    "landmarks": ["Manda Hill", "East Park Mall", "Levy Junction", "Arcades Sunday market", "Kabwata Cultural Village", "Lusaka National Museum", "National Heroes Stadium", "Soweto Market", "City Market", "Intercity Bus Terminus", "Munda Wanga", "Freedom Statue"]
+  },
+  "small_talk": [
+    "Cairo Road was jammed again this morning.",
+    "Load shedding took our power for hours yesterday.",
+    "The Sunday market at Arcades had beautiful chitenge this week.",
+    "Let's grab nshima at Soweto Market.",
+    "The bus from Chilenje took forever to fill.",
+    "The jacarandas on Independence Avenue are out again.",
+    "The rains should start in November, hopefully.",
+    "Did you watch Chipolopolo on Saturday?",
+    "Traffic at Kabulonga roundabout was slow today.",
+    "Manda Hill is packed, it must be month end."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Lusaka",
+    "https://en.wikipedia.org/wiki/Chewa_language",
+    "https://en.wikipedia.org/wiki/Bemba_language",
+    "https://en.wikipedia.org/wiki/Cairo_Road",
+    "https://en.wikipedia.org/wiki/Nshima",
+    "https://en.wikipedia.org/wiki/Chikanda",
+    "https://en.wikipedia.org/wiki/Munkoyo",
+    "https://en.wikipedia.org/wiki/Zambia_national_football_team"
+  ]
+}

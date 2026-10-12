@@ -1,0 +1,541 @@
+{
+  "languages": [
+    {
+      "code": "pt",
+      "name": "Portuguese",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "some"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Most Angolans carry Portuguese first names (João, Domingos, Esperança, Domingas) or modern ones that are very Angolan (Adilson, Edvaldo, Délcio, Yolanda, Jandira), and often two surnames. Surnames are Portuguese (dos Santos, da Silva, Neto, Gonçalves), surnames that come from a forebear's first name (Domingos, Sebastião, Francisco, Pascoal), or African surnames from the family's community: Kimbundu ones around Luanda and Malanje, Umbundu ones from the central highlands (Huambo, Bié, Benguela), and Kikongo ones from the north (Uíge, Zaire). African first names are given too, often with meaning: Nzola (love) and Kiesse (joy) in Kikongo, Tchissola (love) in Umbundu, Nzinga after the seventeenth century queen. Older people are called Kota or Mais-velho as a mark of respect.",
+    "groups": {
+      "ambundu": {
+        "given": {
+          "m": [
+            "João",
+            "Manuel",
+            "António",
+            "Domingos",
+            "Francisco",
+            "Paulo",
+            "Pedro",
+            "Mateus",
+            "Agostinho",
+            "Sebastião",
+            "Bento",
+            "Gaspar",
+            "Miguel",
+            "Kiluanji"
+          ],
+          "f": [
+            "Maria",
+            "Ana",
+            "Teresa",
+            "Isabel",
+            "Esperança",
+            "Luzia",
+            "Joana",
+            "Rosa",
+            "Domingas",
+            "Fernanda",
+            "Madalena",
+            "Albertina",
+            "Josefa",
+            "Nzinga"
+          ]
+        },
+        "family": [
+          "dos Santos",
+          "da Silva",
+          "Neto",
+          "Domingos",
+          "Sebastião",
+          "Francisco",
+          "Gaspar",
+          "Bento",
+          "Mateus",
+          "Pascoal",
+          "Lourenço",
+          "Miguel",
+          "Dala",
+          "Quissanga",
+          "Calesso",
+          "Ngonga"
+        ],
+        "also": {
+          "m": [
+            "Adilson",
+            "Edson",
+            "Nelson",
+            "Hélder",
+            "Osvaldo",
+            "Edvaldo",
+            "Euclides",
+            "Délcio",
+            "Kelson",
+            "Wilson",
+            "Mauro",
+            "Ivandro",
+            "Ednilson",
+            "Yuri",
+            "Gelson",
+            "Dário"
+          ],
+          "f": [
+            "Yolanda",
+            "Edna",
+            "Nádia",
+            "Telma",
+            "Neusa",
+            "Djamila",
+            "Jandira",
+            "Marisa",
+            "Sandra",
+            "Elsa",
+            "Suzana",
+            "Cátia",
+            "Celma",
+            "Vanusa"
+          ]
+        }
+      },
+      "ovimbundu": {
+        "given": {
+          "m": [
+            "José",
+            "Manuel",
+            "Abel",
+            "Samuel",
+            "Daniel",
+            "Isaías",
+            "Jeremias",
+            "Lucas",
+            "Ernesto",
+            "Alberto",
+            "Fernando",
+            "Armindo",
+            "Celestino",
+            "Moisés"
+          ],
+          "f": [
+            "Rosa",
+            "Marta",
+            "Rute",
+            "Ester",
+            "Lídia",
+            "Helena",
+            "Celeste",
+            "Graça",
+            "Felismina",
+            "Rebeca",
+            "Judite",
+            "Ermelinda",
+            "Tchissola"
+          ]
+        },
+        "family": [
+          "Kassoma",
+          "Sapalo",
+          "Chipenda",
+          "Chikoti",
+          "Sakaita",
+          "Kalunga",
+          "Epalanga",
+          "Cassinda",
+          "Jamba",
+          "Chilombo",
+          "Fernandes",
+          "Gonçalves",
+          "Lucas",
+          "Samuel"
+        ],
+        "also": {
+          "m": [
+            "Adilson",
+            "Edson",
+            "Nelson",
+            "Hélder",
+            "Osvaldo",
+            "Edvaldo",
+            "Euclides",
+            "Délcio",
+            "Kelson",
+            "Wilson",
+            "Mauro",
+            "Ivandro",
+            "Ednilson",
+            "Yuri",
+            "Gelson",
+            "Dário"
+          ],
+          "f": [
+            "Yolanda",
+            "Edna",
+            "Nádia",
+            "Telma",
+            "Neusa",
+            "Djamila",
+            "Jandira",
+            "Marisa",
+            "Sandra",
+            "Elsa",
+            "Suzana",
+            "Cátia",
+            "Celma",
+            "Vanusa"
+          ]
+        }
+      },
+      "bakongo": {
+        "given": {
+          "m": [
+            "Pedro",
+            "Álvaro",
+            "Garcia",
+            "André",
+            "Afonso",
+            "Simão",
+            "Daniel",
+            "Nsimba",
+            "Nzuzi",
+            "Lutete",
+            "Nlandu",
+            "Mpanzu",
+            "Makiadi"
+          ],
+          "f": [
+            "Kiesse",
+            "Nzola",
+            "Nsimba",
+            "Nzuzi",
+            "Nkenge",
+            "Luzolo",
+            "Makiese",
+            "Matondo",
+            "Beatriz",
+            "Ana",
+            "Maria",
+            "Teresa"
+          ]
+        },
+        "family": [
+          "Nsimba",
+          "Nlandu",
+          "Lutete",
+          "Kiala",
+          "Mbala",
+          "Mavungu",
+          "Luvumbo",
+          "Buatu",
+          "Kialonda",
+          "Matondo",
+          "Diangana",
+          "Nzau",
+          "Mpanzu",
+          "Garcia"
+        ],
+        "also": {
+          "m": [
+            "Adilson",
+            "Edson",
+            "Nelson",
+            "Hélder",
+            "Osvaldo",
+            "Edvaldo",
+            "Euclides",
+            "Délcio",
+            "Kelson",
+            "Wilson",
+            "Mauro",
+            "Ivandro",
+            "Ednilson",
+            "Yuri",
+            "Gelson",
+            "Dário"
+          ],
+          "f": [
+            "Yolanda",
+            "Edna",
+            "Nádia",
+            "Telma",
+            "Neusa",
+            "Djamila",
+            "Jandira",
+            "Marisa",
+            "Sandra",
+            "Elsa",
+            "Suzana",
+            "Cátia",
+            "Celma",
+            "Vanusa"
+          ]
+        }
+      }
+    },
+    "weights": {
+      "ambundu": 0.37,
+      "ovimbundu": 0.38,
+      "bakongo": 0.25
+    }
+  },
+  "honorifics": {
+    "elder_m": "Kota",
+    "elder_f": "Mamã",
+    "peer_m": "Mano",
+    "peer_f": "Mana",
+    "boss": "Chefe"
+  },
+  "phrases": {
+    "pt": {
+      "hello": [
+        [
+          "Olá!",
+          "Hello"
+        ],
+        [
+          "Olá, tudo bem?",
+          "Hello, all good?"
+        ]
+      ],
+      "morning": [
+        [
+          "Bom dia!",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Boa tarde!",
+          "Good afternoon"
+        ],
+        [
+          "Boa noite!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Como estás?",
+          "How are you?"
+        ],
+        [
+          "Como está?",
+          "How are you? (polite)"
+        ],
+        [
+          "Tudo bem?",
+          "All good?"
+        ]
+      ],
+      "fine": [
+        [
+          "Estou bem, obrigado",
+          "I'm fine, thanks"
+        ],
+        [
+          "Tudo bem",
+          "All good"
+        ],
+        [
+          "Estou fixe",
+          "I'm good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Obrigado",
+          "Thank you (said by a man)"
+        ],
+        [
+          "Obrigada",
+          "Thank you (said by a woman)"
+        ],
+        [
+          "Muito obrigado",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Tchau!",
+          "Bye"
+        ],
+        [
+          "Até logo",
+          "See you later"
+        ],
+        [
+          "Até amanhã",
+          "See you tomorrow"
+        ]
+      ],
+      "welcome": [
+        [
+          "Bem-vindo",
+          "Welcome"
+        ],
+        [
+          "Seja bem-vindo",
+          "You are welcome here"
+        ]
+      ],
+      "sorry": [
+        [
+          "Desculpa",
+          "Sorry"
+        ],
+        [
+          "Peço desculpa",
+          "I apologise"
+        ]
+      ],
+      "excuse": [
+        [
+          "Com licença",
+          "Excuse me"
+        ],
+        [
+          "Desculpe, mais-velho",
+          "Excuse me, elder"
+        ]
+      ],
+      "yes": [
+        [
+          "Sim",
+          "Yes"
+        ],
+        [
+          "Ya",
+          "Yeah"
+        ]
+      ],
+      "no": [
+        [
+          "Não",
+          "No"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hello!",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning!",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "I'm fine, thanks",
+          "I'm fine, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thank you",
+          "Thank you"
+        ]
+      ],
+      "bye": [
+        [
+          "Goodbye",
+          "Goodbye"
+        ],
+        [
+          "See you",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "AOA",
+    "symbol": "Kz",
+    "words": [
+      [
+        "kumbu",
+        "money, in slang"
+      ],
+      [
+        "kwanzas",
+        "the currency"
+      ],
+      [
+        "mil",
+        "a thousand kwanzas"
+      ],
+      [
+        "kilapi",
+        "on credit, to be paid later"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Angola",
+    "https://en.wikipedia.org/wiki/Languages_of_Angola",
+    "https://en.wikipedia.org/wiki/Angolan_Portuguese",
+    "https://en.wikipedia.org/wiki/Umbundu_language",
+    "https://en.wikipedia.org/wiki/Kimbundu_language",
+    "https://en.wikipedia.org/wiki/Kongo_language",
+    "https://en.wikipedia.org/wiki/Ovimbundu",
+    "https://en.wikipedia.org/wiki/Bakongo",
+    "https://en.wikipedia.org/wiki/Angolan_kwanza",
+    "https://umbundu.mofeko.com/greetings.html",
+    "https://kikongo.mofeko.com/greetings.html"
+  ]
+}

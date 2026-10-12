@@ -1,0 +1,148 @@
+{
+  "languages": [
+    { "code": "ur", "name": "Urdu", "official": true, "spoken": "widely, the shared language of every city" },
+    { "code": "en", "name": "English", "official": true, "spoken": "in offices, universities, tech and among the well-off" },
+    { "code": "pa", "name": "Punjabi", "official": false, "spoken": "widely in Punjab, first language of Lahore" },
+    { "code": "ps", "name": "Pashto", "official": false, "spoken": "in Khyber Pakhtunkhwa and by Pashtun communities in Karachi" },
+    { "code": "sd", "name": "Sindhi", "official": false, "spoken": "in Sindh, official in the province" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Most Pakistanis are Muslim and carry Arabic, Persian or Turkic origin first names, often compound for men (Muhammad Usman, Ghulam Abbas). The last name is usually a family, clan or caste name (Butt, Malik, Chaudhry in Punjab; Siddiqui, Qureshi, Rizvi among Urdu speakers in Karachi; Khan, Yousafzai, Afridi among Pashtuns; Soomro, Memon, Jatoi in Sindh; Baloch, Rind, Bugti in Balochistan). Some people simply use their father's name, or a second given name, as a last name. Women often keep their father's family name or take the husband's after marriage. Friends shorten names (Mani, Bilu, Saadi) and add ji or bhai out of respect.",
+    "groups": {
+      "punjabi": {
+        "given": {
+          "m": ["Usman", "Bilal", "Hamza", "Ali", "Ahmed", "Zeeshan", "Waqas", "Faisal", "Imran", "Asad", "Umar", "Saad", "Shahzad", "Kamran", "Nouman"],
+          "f": ["Ayesha", "Fatima", "Sana", "Hira", "Mehwish", "Rabia", "Amna", "Iqra", "Maryam", "Zainab", "Saima", "Nimra", "Sidra", "Aqsa"]
+        },
+        "family": ["Butt", "Malik", "Chaudhry", "Cheema", "Bajwa", "Gondal", "Awan", "Rana", "Sheikh", "Mughal", "Warraich", "Gill", "Bhatti", "Dar", "Arain"]
+      },
+      "urdu_speaking": {
+        "given": {
+          "m": ["Ahsan", "Fahad", "Danish", "Owais", "Rehan", "Kashif", "Adnan", "Taha", "Farhan", "Shoaib", "Arsalan", "Haris", "Junaid", "Saif"],
+          "f": ["Hina", "Rida", "Saba", "Mahnoor", "Areeba", "Nida", "Sadaf", "Uzma", "Bushra", "Anum", "Mariam", "Kiran", "Sumbul"]
+        },
+        "family": ["Siddiqui", "Qureshi", "Ansari", "Rizvi", "Zaidi", "Hashmi", "Naqvi", "Usmani", "Farooqui", "Jafri", "Abbasi", "Hasan", "Ahmed", "Khan"]
+      },
+      "pashtun": {
+        "given": {
+          "m": ["Zahir", "Wali", "Naveed", "Asfandyar", "Ihsan", "Sher", "Ajmal", "Ismail", "Noor", "Tariq", "Jamal", "Aimal", "Rahim", "Shahid"],
+          "f": ["Palwasha", "Zarghona", "Shabana", "Gulalai", "Nazia", "Laila", "Spogmay", "Zarmina", "Shazia", "Roshana", "Mehreen", "Wagma", "Gul Bano"]
+        },
+        "family": ["Khan", "Yousafzai", "Afridi", "Khattak", "Durrani", "Mohmand", "Shinwari", "Orakzai", "Marwat", "Bangash", "Wazir", "Kakar", "Tareen", "Achakzai"]
+      },
+      "sindhi": {
+        "given": {
+          "m": ["Ghulam", "Nadeem", "Sajjad", "Shahid", "Altaf", "Javed", "Ayaz", "Sarfraz", "Mumtaz", "Zulfiqar", "Imtiaz", "Aijaz", "Riaz", "Manzoor"],
+          "f": ["Marvi", "Sassui", "Shazia", "Naheed", "Rukhsana", "Parveen", "Nasreen", "Sughra", "Farzana", "Nusrat", "Zubaida", "Fehmida", "Sanam"]
+        },
+        "family": ["Soomro", "Memon", "Abro", "Jatoi", "Junejo", "Laghari", "Chandio", "Mangi", "Talpur", "Mahar", "Kalhoro", "Shaikh", "Dahri", "Brohi"]
+      },
+      "baloch": {
+        "given": {
+          "m": ["Hammal", "Nasir", "Shahbaz", "Dostain", "Jalal", "Baran", "Kareem", "Gohram", "Chakar", "Sohrab", "Rasool", "Bahram"],
+          "f": ["Hani", "Banuk", "Mahnaz", "Gulnaz", "Sammi", "Shahnaz", "Zarina", "Mahgul", "Saira", "Nazia", "Pari", "Gul Bibi"]
+        },
+        "family": ["Baloch", "Bugti", "Marri", "Mengal", "Rind", "Raisani", "Jamali", "Lashari", "Magsi", "Zehri", "Bizenjo", "Gichki", "Notezai", "Mazari"]
+      }
+    },
+    "weights": { "punjabi": 0.5, "urdu_speaking": 0.15, "pashtun": 0.18, "sindhi": 0.12, "baloch": 0.05 }
+  },
+  "honorifics": {
+    "elder_m": "Chacha ji",
+    "elder_f": "Khala ji",
+    "peer_m": "Bhai",
+    "peer_f": "Baji",
+    "boss": "Sir",
+    "elder_m_city": "Uncle",
+    "elder_f_city": "Aunty",
+    "driver": "Ustad",
+    "shopkeeper": "Seth",
+    "friend": "Yaar"
+  },
+  "phrases": {
+    "ur": {
+      "hello": [["Assalam-o-alaikum", "Peace be upon you, the everyday greeting (السلام علیکم)"], ["Adaab", "A polite greeting, heard among Urdu speakers (آداب)"], ["Salaam", "Hi"]],
+      "morning": [["Subah bakhair", "Good morning (صبح بخیر)"]],
+      "evening": [["Shaam bakhair", "Good evening (شام بخیر)"]],
+      "how_are_you": [["Aap kaise hain?", "How are you? polite (آپ کیسے ہیں؟)"], ["Kya haal hai?", "How's it going?"], ["Sab khairiyat?", "All well?"]],
+      "fine": [["Theek hoon", "I'm fine"], ["Allah ka shukar hai", "Thank God, all good"], ["Bilkul theek", "Perfectly fine"]],
+      "thanks": [["Shukriya", "Thank you (شکریہ)"], ["Meharbani", "Kind of you (مہربانی)"], ["Bohat shukriya", "Thank you very much"]],
+      "bye": [["Allah Hafiz", "Goodbye, God keep you (اللہ حافظ)"], ["Khuda Hafiz", "Goodbye (خدا حافظ)"], ["Phir milenge", "See you again"]],
+      "welcome": [["Khush aamdeed", "Welcome (خوش آمدید)"], ["Aaiye, tashreef rakhiye", "Come in, please sit"]],
+      "sorry": [["Maaf kijiye", "Sorry, forgive me (معاف کیجیے)"], ["Sorry yaar", "Sorry, mate"]],
+      "excuse": [["Suniye", "Excuse me, listen please (سنیے)"], ["Zara baat suniye", "Excuse me a moment"]],
+      "yes": [["Ji", "Yes, polite (جی)"], ["Haan", "Yes"], ["Ji haan", "Yes indeed"]],
+      "no": [["Nahin", "No (نہیں)"], ["Ji nahin", "No, polite"]]
+    },
+    "en": {
+      "hello": [["Hello ji", "Hello, politely"], ["Salaam", "Hi"]],
+      "morning": [["Good morning", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"], ["All good?", "All good?"]],
+      "fine": [["Fine, thank God", "Fine"], ["All good yaar", "All good, mate"]],
+      "thanks": [["Thank you", "Thank you"], ["Thanks ji", "Thanks, politely"]],
+      "bye": [["Okay, Allah Hafiz", "Okay, goodbye"], ["See you", "See you"]],
+      "welcome": [["Welcome, welcome", "Welcome"], ["Please come in", "Please come in"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"], ["Ji", "Yes, polite"]],
+      "no": [["No", "No"], ["No ji", "No, politely"]]
+    },
+    "pa": {
+      "hello": [["Salaam ji", "Hello, politely"], ["Ki haal ae?", "How's it going? (کی حال اے؟)"]],
+      "morning": [["Salaam ji, savere savere?", "Morning! Out early? (Punjabi uses salaam all day)"]],
+      "evening": [["Salaam ji", "Hello, the same greeting serves in the evening"]],
+      "how_are_you": [["Ki haal ae?", "How are you?"], ["Tusi theek o?", "Are you well?"], ["Ki haal chaal ae?", "How are things?"]],
+      "fine": [["Changa", "Fine"], ["Changa bhala", "Fine and well"], ["Wadiya", "Great"]],
+      "thanks": [["Shukriya ji", "Thank you"], ["Meharbani", "Kind of you"]],
+      "bye": [["Rab rakha", "Goodbye, God keep you"], ["Fer milde aan", "See you again"]],
+      "welcome": [["Jee aayan nu", "Welcome"]],
+      "sorry": [["Maaf karna", "Sorry, forgive me"]],
+      "excuse": [["Bhai ji, gal suno", "Excuse me, brother, listen"]],
+      "yes": [["Haanji", "Yes, polite"], ["Aho", "Yes"]],
+      "no": [["Nahin ji", "No, polite"], ["Na", "No"]]
+    },
+    "ps": {
+      "hello": [["Salaam alaikum", "Peace be upon you"], ["Starey mashey", "May you not be tired, a warm greeting (ستړي مه شې)"]],
+      "morning": [["Sahar de pa kheyr", "Good morning (سهار دې پخير)"]],
+      "evening": [["Makham de pa kheyr", "Good evening (ماښام دې پخير)"]],
+      "how_are_you": [["Sanga ye?", "How are you? (څنګه یې؟)"], ["Kha ye?", "Are you well?"]],
+      "fine": [["Za kha yam", "I am fine (زه ښه یم)"], ["Kha yam, manana", "Fine, thanks"]],
+      "thanks": [["Manana", "Thank you (مننه)"], ["Dera manana", "Thank you very much"]],
+      "bye": [["Pa makha de kha", "Goodbye, safe journey (په مخه دې ښه)"], ["Da Khuday pa amaan", "Go with God's protection"]],
+      "welcome": [["Har kala raasha", "Welcome, come any time (هر کله راشه)"]],
+      "sorry": [["Bakhana ghwaram", "Sorry, forgive me (بخښنه غواړم)"]],
+      "excuse": [["Bakhana ghwaram", "Excuse me"]],
+      "yes": [["Ho", "Yes (هو)"]],
+      "no": [["Na", "No (نه)"]]
+    },
+    "sd": {
+      "hello": [["Salaam saeen", "Hello, respectfully (saeen is the Sindhi word of respect)"]],
+      "morning": [["Salaam saeen", "Hello, the same greeting serves in the morning"]],
+      "evening": [["Salaam saeen", "Hello, the same greeting serves in the evening"]],
+      "how_are_you": [["Kehro haal aa?", "How are you? (ڪهڙو حال آ؟)"]],
+      "fine": [["Theek aahiyan", "I am fine"], ["Changa bhala", "Fine and well"]],
+      "thanks": [["Mehrbani", "Thank you, kind of you (مهرباني)"]],
+      "bye": [["Khuda hafiz", "Goodbye"]],
+      "welcome": [["Bhali kare aaya", "Welcome (ڀلي ڪري آيا)"]],
+      "sorry": [["Maaf kajo", "Sorry, forgive me"]],
+      "excuse": [["Saeen, maaf kajo", "Excuse me, sir"]],
+      "yes": [["Ha", "Yes"], ["Ji saeen", "Yes, respectfully"]],
+      "no": [["Na", "No"]]
+    }
+  },
+  "money": {
+    "currency": "PKR",
+    "symbol": "Rs",
+    "words": [["rupay", "rupees"], ["paisay", "money in general"], ["hazaar", "a thousand"], ["lakh", "a hundred thousand"], ["crore", "ten million"], ["khula", "small change"], ["kiraya", "fare"]]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Pakistan",
+    "https://en.wikipedia.org/wiki/Urdu",
+    "https://en.wikipedia.org/wiki/Punjabi_language",
+    "https://en.wikipedia.org/wiki/Pashto",
+    "https://en.wikipedia.org/wiki/Sindhi_language",
+    "https://en.wikipedia.org/wiki/Pakistani_rupee"
+  ]
+}

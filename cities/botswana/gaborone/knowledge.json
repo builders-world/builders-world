@@ -1,0 +1,72 @@
+{
+  "street": { "tn": 0.6, "en": 0.4 },
+  "registers": {},
+  "names": { "weights": { "tswana": 1.0 } },
+  "phrases": {},
+  "chat": {
+    "en": {
+      "greet": ["Morning! How are you?", "Hello! How was the weekend?", "Hi, how's the family?", "Good afternoon! Keeping well?", "Hey, long time! How have you been?"],
+      "reply": ["I'm fine, thank you. And you?", "All good, thanks!", "Very well, thank you.", "Fine, just tired, it's month end.", "Good, the family is well, thanks."],
+      "sunny": ["It's so hot today, find some shade.", "Another scorcher in Gabs.", "Clear skies again, not a cloud anywhere.", "Good day for a braai later.", "This heat, even the dogs are lying in the shade."],
+      "rain": ["Pula! Finally some rain.", "The dam will be happy with this rain.", "It's pouring, the Western Bypass will be a mess.", "Smell that? Rain is coming.", "The rain is a blessing, the farmers needed it."],
+      "bye": ["Go well!", "Stay well, see you tomorrow!", "Have a good one!", "Greet the family for me.", "See you at the weekend!"],
+      "busy": ["Sorry, I'm in a hurry!", "Running late for work, talk later!", "I have to catch a combi, bye!", "Busy day at the office, I'll call you.", "Going to the village this weekend, let's catch up after."]
+    },
+    "tn": {
+      "greet": ["Dumela rra!", "Dumela mma, o tsogile jang?", "Dumelang! Le kae?", "O tlhotse jang, tsala?", "Dumela, o kae?"],
+      "reply": ["Ke teng, wena o kae?", "Ke tsogile sentle, ke a leboga.", "Ke teng rra, ke a leboga.", "Re teng, ga go na mathata."],
+      "sunny": ["Go mogote thata gompieno!", "Letsatsi le a fisa.", "Ke letsatsi le lentle gompieno.", "A re batleng moriti, go mogote."],
+      "rain": ["Pula! Pula e a na!", "Re lebogela pula.", "Pula e na thata gompieno.", "Ditsela di tletse metsi."],
+      "bye": ["Sala sentle!", "Tsamaya sentle!", "Re tla bonana!", "Go siame, sala sentle.", "Robala sentle!"],
+      "busy": ["Intshwarele, ke a itlhaganela!", "Ke diegile, re tla bua!", "Ke na le tiro, re tla bonana kamoso.", "Ke tshwanetse go tsamaya jaanong."]
+    }
+  },
+  "transport": { "bus": "combi", "moto_taxi": "", "tricycle": "", "taxi": "taxi", "conductor": "conductor", "stage": "rank" },
+  "touts": [
+    "Tlokweng! Tlokweng!",
+    "Broadhurst, Broadhurst!",
+    "Block 8! Block 8!",
+    "Mogoditshane! Mogoditshane!",
+    "Game City, Game City!",
+    "Station! Station!",
+    "Special? Special, rra?"
+  ],
+  "hawkers": [
+    ["Magwinya!", "Fat cakes!"],
+    ["Diphaphata!", "Flat griddle breads!"],
+    ["Phane!", "Mopane worms!"],
+    ["Metsi a a tsididi!", "Cold water!"],
+    ["Airtime, airtime!", "Phone airtime!"],
+    ["Mealies! Mealies!", "Roasted maize cobs!"],
+    ["Seswaa le bogobe!", "Seswaa and pap!"]
+  ],
+  "food": {
+    "street": ["magwinya", "diphaphata", "phane", "roasted mealies", "chips and russian"],
+    "dishes": ["seswaa", "bogobe", "morogo", "mogodu", "dikgobe", "serobe", "bogobe jwa lerotse"],
+    "drinks": ["St Louis lager", "Chibuku", "ginger beer", "mageu", "rooibos tea"]
+  },
+  "places": {
+    "neighbourhoods": ["Broadhurst", "Block 8", "Phakalane", "Gaborone West", "Tlokweng", "The Village", "Extension 9", "Mogoditshane", "Bontleng", "White City", "CBD"],
+    "streets": ["Nelson Mandela Drive", "Khama Crescent", "Kaunda Road", "Molepolole Road", "Tlokweng Road", "Western Bypass", "Nyerere Drive"],
+    "landmarks": ["Three Dikgosi Monument", "Main Mall", "Game City", "Kgale Hill", "Gaborone Dam", "National Stadium", "Riverwalk", "Airport Junction", "University of Botswana", "National Museum"]
+  },
+  "small_talk": [
+    "Kgale Hill early tomorrow, before it gets too hot?",
+    "The combi took forever on the Western Bypass.",
+    "Riverwalk on Friday after work?",
+    "Pula! Maybe the dam will finally fill up.",
+    "The seswaa at that wedding was something else.",
+    "Payday weekend, Game City is going to be packed.",
+    "Got stuck behind cattle on the road back from the village.",
+    "Going to the cattle post this weekend, no network out there.",
+    "Main Mall at lunch, the fat cake lady was already sold out."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Gaborone",
+    "https://en.wikipedia.org/wiki/Tswana_language",
+    "https://en.wikipedia.org/wiki/Cuisine_of_Botswana",
+    "https://en.wikipedia.org/wiki/Seswaa",
+    "https://en.wikipedia.org/wiki/Three_Dikgosi_Monument",
+    "https://www.omniglot.com/language/phrases/tswana.php"
+  ]
+}

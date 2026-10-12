@@ -1,0 +1,940 @@
+{
+  "languages": [
+    {
+      "code": "cs",
+      "name": "Czech",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "commonly"
+    },
+    {
+      "code": "sk",
+      "name": "Slovak",
+      "official": false,
+      "spoken": "commonly"
+    },
+    {
+      "code": "uk",
+      "name": "Ukrainian",
+      "official": false,
+      "spoken": "some"
+    },
+    {
+      "code": "vi",
+      "name": "Vietnamese",
+      "official": false,
+      "spoken": "some"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Given name then family name. Czech surnames change for women: most add -ová (Novák, Nováková; Dvořák, Dvořáková) and adjective names switch -ý to -á (Novotný, Novotná; Černý, Černá); the lists give the male form. Since 2022 a woman may choose to drop the -ová. Name days (svátek) are still in every calendar and people get flowers on theirs. Short forms are everywhere: Honza for Jan, Pepa for Josef, Kuba for Jakub, Verča for Veronika, Káťa for Kateřina, Míša for Michal or Michaela. Slovak names follow the same pattern. Vietnamese Czechs put the family name first in Vietnamese (Nguyễn Thị Lan) and many also go by a Czech name in shops and at school. Ukrainians and Russians use their passport spelling; their -ov or -skyi names usually become -ova or -ska for women.",
+    "groups": {
+      "czech": {
+        "given": {
+          "m": [
+            "Jan",
+            "Petr",
+            "Jakub",
+            "Tomáš",
+            "Martin",
+            "Lukáš",
+            "Jiří",
+            "Pavel",
+            "Ondřej",
+            "David",
+            "Michal",
+            "Vojtěch",
+            "Filip",
+            "Josef",
+            "Adam",
+            "Matěj"
+          ],
+          "f": [
+            "Tereza",
+            "Lucie",
+            "Jana",
+            "Kateřina",
+            "Eva",
+            "Hana",
+            "Veronika",
+            "Petra",
+            "Anna",
+            "Barbora",
+            "Markéta",
+            "Michaela",
+            "Klára",
+            "Lenka",
+            "Eliška",
+            "Kristýna"
+          ]
+        },
+        "family": [
+          "Novák",
+          "Svoboda",
+          "Novotný",
+          "Dvořák",
+          "Černý",
+          "Procházka",
+          "Kučera",
+          "Veselý",
+          "Horák",
+          "Němec",
+          "Marek",
+          "Pokorný",
+          "Pospíšil",
+          "Hájek",
+          "Král",
+          "Jelínek",
+          "Růžička",
+          "Beneš"
+        ],
+        "family_f": [
+          "Nováková",
+          "Svobodová",
+          "Novotná",
+          "Dvořáková",
+          "Černá",
+          "Procházková",
+          "Kučerová",
+          "Veselá",
+          "Horáková",
+          "Němcová",
+          "Marková",
+          "Pokorná",
+          "Pospíšilová",
+          "Hájková",
+          "Králová",
+          "Jelínková",
+          "Růžičková",
+          "Benešová"
+        ]
+      },
+      "slovak": {
+        "given": {
+          "m": [
+            "Peter",
+            "Martin",
+            "Michal",
+            "Ján",
+            "Tomáš",
+            "Marek",
+            "Jozef",
+            "Lukáš",
+            "Juraj",
+            "Matej",
+            "Andrej",
+            "Miroslav",
+            "Štefan",
+            "Patrik"
+          ],
+          "f": [
+            "Mária",
+            "Zuzana",
+            "Katarína",
+            "Lucia",
+            "Jana",
+            "Martina",
+            "Petra",
+            "Monika",
+            "Simona",
+            "Veronika",
+            "Dominika",
+            "Barbora",
+            "Natália",
+            "Andrea"
+          ]
+        },
+        "family": [
+          "Horváth",
+          "Kováč",
+          "Varga",
+          "Tóth",
+          "Baláž",
+          "Molnár",
+          "Lukáč",
+          "Kollár",
+          "Oravec",
+          "Polák",
+          "Hudák",
+          "Gajdoš",
+          "Šimko",
+          "Kováčik",
+          "Bartoš"
+        ],
+        "family_f": [
+          "Horváthová",
+          "Kováčová",
+          "Vargová",
+          "Tóthová",
+          "Balážová",
+          "Molnárová",
+          "Lukáčová",
+          "Kollárová",
+          "Oravcová",
+          "Poláková",
+          "Hudáková",
+          "Gajdošová",
+          "Šimková",
+          "Kováčiková",
+          "Bartošová"
+        ]
+      },
+      "ukrainian": {
+        "given": {
+          "m": [
+            "Oleksandr",
+            "Andrii",
+            "Dmytro",
+            "Serhii",
+            "Mykola",
+            "Volodymyr",
+            "Ivan",
+            "Yurii",
+            "Vitalii",
+            "Bohdan",
+            "Taras",
+            "Maksym",
+            "Oleh",
+            "Roman",
+            "Vasyl"
+          ],
+          "f": [
+            "Olena",
+            "Nataliia",
+            "Tetiana",
+            "Iryna",
+            "Svitlana",
+            "Oksana",
+            "Yuliia",
+            "Hanna",
+            "Kateryna",
+            "Mariia",
+            "Anastasiia",
+            "Viktoriia",
+            "Olha",
+            "Daria"
+          ]
+        },
+        "family": [
+          "Kovalenko",
+          "Shevchenko",
+          "Bondarenko",
+          "Tkachenko",
+          "Kovalchuk",
+          "Kravets",
+          "Oliinyk",
+          "Melnyk",
+          "Boiko",
+          "Moroz",
+          "Lysenko",
+          "Marchenko",
+          "Hrytsak",
+          "Savchenko",
+          "Petrenko"
+        ]
+      },
+      "vietnamese": {
+        "given": {
+          "m": [
+            "Minh",
+            "Tuấn",
+            "Hùng",
+            "Dũng",
+            "Hải",
+            "Long",
+            "Nam",
+            "Quang",
+            "Đức",
+            "Thắng",
+            "Sơn",
+            "Hiếu",
+            "Khánh",
+            "Phong"
+          ],
+          "f": [
+            "Lan",
+            "Hương",
+            "Linh",
+            "Mai",
+            "Trang",
+            "Hà",
+            "Ngọc",
+            "Thảo",
+            "Hoa",
+            "Thu",
+            "Phương",
+            "Anh",
+            "Nhung",
+            "Hằng"
+          ]
+        },
+        "family": [
+          "Nguyễn",
+          "Trần",
+          "Lê",
+          "Phạm",
+          "Hoàng",
+          "Phan",
+          "Vũ",
+          "Võ",
+          "Đặng",
+          "Bùi",
+          "Đỗ",
+          "Hồ",
+          "Ngô",
+          "Dương"
+        ],
+        "also": {
+          "m": [
+            "David",
+            "Tomáš",
+            "Martin",
+            "Petr"
+          ],
+          "f": [
+            "Lenka",
+            "Linda",
+            "Eva",
+            "Tereza"
+          ]
+        }
+      },
+      "russian": {
+        "given": {
+          "m": [
+            "Aleksandr",
+            "Dmitrii",
+            "Sergei",
+            "Andrei",
+            "Aleksei",
+            "Maksim",
+            "Ivan",
+            "Mikhail",
+            "Pavel",
+            "Nikolai",
+            "Igor",
+            "Artem",
+            "Denis",
+            "Vladimir"
+          ],
+          "f": [
+            "Anna",
+            "Elena",
+            "Olga",
+            "Natalia",
+            "Tatiana",
+            "Irina",
+            "Ekaterina",
+            "Maria",
+            "Anastasia",
+            "Yulia",
+            "Daria",
+            "Svetlana",
+            "Ksenia",
+            "Viktoria"
+          ]
+        },
+        "family": [
+          "Ivanov",
+          "Smirnov",
+          "Kuznetsov",
+          "Popov",
+          "Vasiliev",
+          "Petrov",
+          "Sokolov",
+          "Mikhailov",
+          "Novikov",
+          "Fedorov",
+          "Morozov",
+          "Volkov",
+          "Alekseev",
+          "Lebedev",
+          "Semenov"
+        ],
+        "family_f": [
+          "Ivanova",
+          "Smirnova",
+          "Kuznetsova",
+          "Popova",
+          "Vasilieva",
+          "Petrova",
+          "Sokolova",
+          "Mikhailova",
+          "Novikova",
+          "Fedorova",
+          "Morozova",
+          "Volkova",
+          "Alekseeva",
+          "Lebedeva",
+          "Semenova"
+        ]
+      }
+    },
+    "weights": {
+      "czech": 0.88,
+      "slovak": 0.04,
+      "ukrainian": 0.05,
+      "vietnamese": 0.015,
+      "russian": 0.015
+    }
+  },
+  "honorifics": {
+    "elder_m": "pane",
+    "elder_f": "paní",
+    "peer_m": "kámo",
+    "peer_f": "holka",
+    "boss": "šéfe",
+    "titles": {
+      "elder_m": "Pan",
+      "elder_f": "Paní",
+      "with": "family"
+    }
+  },
+  "phrases": {
+    "cs": {
+      "hello": [
+        [
+          "Ahoj!",
+          "Hi!"
+        ],
+        [
+          "Dobrý den",
+          "Good day (polite)"
+        ],
+        [
+          "Čau!",
+          "Hey!"
+        ]
+      ],
+      "morning": [
+        [
+          "Dobré ráno",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Dobrý večer",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Jak se máš?",
+          "How are you?"
+        ],
+        [
+          "Jak se máte?",
+          "How are you? (polite)"
+        ],
+        [
+          "Jak to jde?",
+          "How's it going?"
+        ]
+      ],
+      "fine": [
+        [
+          "Dobře, díky",
+          "Fine, thanks"
+        ],
+        [
+          "Ujde to",
+          "Not bad"
+        ],
+        [
+          "V pohodě",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Děkuji",
+          "Thank you"
+        ],
+        [
+          "Díky",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "Na shledanou",
+          "Goodbye"
+        ],
+        [
+          "Čau!",
+          "Bye!"
+        ],
+        [
+          "Měj se!",
+          "Take care!"
+        ]
+      ],
+      "welcome": [
+        [
+          "Vítejte",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Promiň",
+          "Sorry (informal)"
+        ],
+        [
+          "Promiňte",
+          "Sorry (polite)"
+        ]
+      ],
+      "excuse": [
+        [
+          "Promiňte",
+          "Excuse me"
+        ],
+        [
+          "S dovolením",
+          "Excuse me, may I get past"
+        ]
+      ],
+      "yes": [
+        [
+          "Ano",
+          "Yes"
+        ],
+        [
+          "Jo",
+          "Yeah"
+        ]
+      ],
+      "no": [
+        [
+          "Ne",
+          "No"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hi!",
+          "Hi!"
+        ],
+        [
+          "Hello",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Fine, thanks",
+          "Fine, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "See you",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    },
+    "sk": {
+      "hello": [
+        [
+          "Ahoj!",
+          "Hi!"
+        ],
+        [
+          "Dobrý deň",
+          "Good day"
+        ],
+        [
+          "Čau!",
+          "Hey!"
+        ]
+      ],
+      "morning": [
+        [
+          "Dobré ráno",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Dobrý večer",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Ako sa máš?",
+          "How are you?"
+        ],
+        [
+          "Ako sa máte?",
+          "How are you? (polite)"
+        ]
+      ],
+      "fine": [
+        [
+          "Dobre, ďakujem",
+          "Fine, thanks"
+        ],
+        [
+          "V pohode",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Ďakujem",
+          "Thank you"
+        ],
+        [
+          "Vďaka",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "Dovidenia",
+          "Goodbye"
+        ],
+        [
+          "Čau!",
+          "Bye!"
+        ],
+        [
+          "Maj sa!",
+          "Take care!"
+        ]
+      ],
+      "welcome": [
+        [
+          "Vitajte",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Prepáč",
+          "Sorry (informal)"
+        ],
+        [
+          "Prepáčte",
+          "Sorry (polite)"
+        ]
+      ],
+      "excuse": [
+        [
+          "Prepáčte",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Áno",
+          "Yes"
+        ],
+        [
+          "Hej",
+          "Yeah"
+        ]
+      ],
+      "no": [
+        [
+          "Nie",
+          "No"
+        ]
+      ]
+    },
+    "uk": {
+      "hello": [
+        [
+          "Привіт!",
+          "Hi!"
+        ],
+        [
+          "Добрий день",
+          "Good day"
+        ]
+      ],
+      "morning": [
+        [
+          "Доброго ранку",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Добрий вечір",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Як справи?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Добре, дякую",
+          "Good, thanks"
+        ],
+        [
+          "Нормально",
+          "Fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Дякую",
+          "Thank you"
+        ]
+      ],
+      "bye": [
+        [
+          "До побачення",
+          "Goodbye"
+        ],
+        [
+          "Бувай!",
+          "Bye!"
+        ]
+      ],
+      "welcome": [
+        [
+          "Ласкаво просимо",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Вибачте",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Перепрошую",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Так",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Ні",
+          "No"
+        ]
+      ]
+    },
+    "vi": {
+      "hello": [
+        [
+          "Xin chào",
+          "Hello"
+        ],
+        [
+          "Chào anh",
+          "Hello (to a man)"
+        ],
+        [
+          "Chào chị",
+          "Hello (to a woman)"
+        ]
+      ],
+      "morning": [
+        [
+          "Chào buổi sáng",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Chào buổi tối",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Anh có khỏe không?",
+          "How are you? (to a man)"
+        ],
+        [
+          "Dạo này thế nào?",
+          "How have you been?"
+        ]
+      ],
+      "fine": [
+        [
+          "Tôi khỏe, cảm ơn",
+          "I'm fine, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Cảm ơn",
+          "Thank you"
+        ],
+        [
+          "Cảm ơn nhiều",
+          "Thanks a lot"
+        ]
+      ],
+      "bye": [
+        [
+          "Tạm biệt",
+          "Goodbye"
+        ],
+        [
+          "Hẹn gặp lại",
+          "See you again"
+        ]
+      ],
+      "welcome": [
+        [
+          "Chào mừng",
+          "Welcome"
+        ],
+        [
+          "Mời vào",
+          "Please come in"
+        ]
+      ],
+      "sorry": [
+        [
+          "Xin lỗi",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Xin lỗi",
+          "Excuse me"
+        ],
+        [
+          "Cho tôi hỏi",
+          "May I ask"
+        ]
+      ],
+      "yes": [
+        [
+          "Vâng",
+          "Yes (polite)"
+        ],
+        [
+          "Có",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Không",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "CZK",
+    "symbol": "Kč",
+    "words": [
+      [
+        "koruna",
+        "the crown, the currency"
+      ],
+      [
+        "kačka",
+        "a crown, slang"
+      ],
+      [
+        "kilo",
+        "a hundred crowns, slang"
+      ],
+      [
+        "litr",
+        "a thousand crowns, slang"
+      ],
+      [
+        "pětikačka",
+        "a five-crown coin"
+      ],
+      [
+        "stovka",
+        "a hundred-crown note"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Czech_name",
+    "https://en.wikipedia.org/wiki/Languages_of_the_Czech_Republic",
+    "https://en.wikipedia.org/wiki/Vietnamese_people_in_the_Czech_Republic",
+    "https://en.wikipedia.org/wiki/Czech_koruna",
+    "https://www.czso.cz/"
+  ]
+}

@@ -1,0 +1,177 @@
+{
+  "languages": [
+    { "code": "ar", "name": "Arabic (Emirati Gulf Arabic on the street)", "official": true, "spoken": "among Emiratis and Arab residents; signs and government" },
+    { "code": "en", "name": "English", "official": false, "spoken": "widely, the shared language of a city where most people come from abroad" },
+    { "code": "hi", "name": "Hindi-Urdu (Hindustani)", "official": false, "spoken": "widely among Indian, Pakistani and many other workers; a street lingua franca" },
+    { "code": "ml", "name": "Malayalam", "official": false, "spoken": "widely among the large Kerala community, in cafeterias, groceries and offices" },
+    { "code": "fil", "name": "Filipino (Tagalog)", "official": false, "spoken": "among the Filipino community, in malls, hotels, hospitals and cafes" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Emiratis carry a long chain: their own name, bin (son of) or bint (daughter of) their father's name, sometimes the grandfather's, then the family or tribal name with Al, as in Khalid bin Saeed Al Mansoori or Mariam bint Rashid Al Ketbi. In daily life people use the first name and the family name, and women keep their own family name after marriage. Most people in the UAE are from abroad and keep their home conventions: Keralites often use a house name, a caste name such as Nair or Menon, or the father's name; North Indians use family names like Sharma or Patel; Pakistanis and Bangladeshis often use a clan name or a second name such as Khan, Hossain or Rahman; Filipinos have Spanish family names and English or double first names like John Paul or Mary Grace. People are addressed by first name, often with a title like Chetta, Bhai or Kabayan.",
+    "groups": {
+      "emirati": {
+        "given": {
+          "m": ["Mohammed", "Ahmed", "Khalid", "Saeed", "Rashid", "Hamdan", "Sultan", "Abdulla", "Saif", "Hamad", "Majid", "Omar", "Obaid", "Juma", "Mansoor", "Ali", "Humaid", "Salem"],
+          "f": ["Fatima", "Mariam", "Aisha", "Shamma", "Hessa", "Mahra", "Moza", "Latifa", "Noora", "Alya", "Shaikha", "Amna", "Maitha", "Reem", "Hind", "Meera"]
+        },
+        "family": ["Al Mansoori", "Al Mazrouei", "Al Ketbi", "Al Shamsi", "Al Dhaheri", "Al Suwaidi", "Al Falasi", "Al Muhairi", "Al Hammadi", "Al Nuaimi", "Al Marzooqi", "Al Hosani", "Al Zaabi", "Al Blooshi", "Al Kaabi", "Al Romaithi", "Al Qubaisi", "Al Ali"]
+      },
+      "indian": {
+        "given": {
+          "m": ["Rahul", "Amit", "Rohit", "Vikas", "Sanjay", "Deepak", "Ravi", "Manish", "Ajay", "Sunil", "Pankaj", "Vivek", "Arjun", "Nikhil", "Gaurav", "Hitesh", "Karan", "Imran"],
+          "f": ["Priya", "Pooja", "Neha", "Ritu", "Sunita", "Kavita", "Shweta", "Swati", "Nisha", "Sneha", "Megha", "Komal", "Preeti", "Aarti", "Heena", "Riya"]
+        },
+        "family": ["Sharma", "Verma", "Gupta", "Singh", "Patel", "Shah", "Mehta", "Agarwal", "Joshi", "Kumar", "Yadav", "Mishra", "Pandey", "Desai", "Lalwani", "Advani", "D'Souza", "Shaikh"]
+      },
+      "malayali": {
+        "given": {
+          "m": ["Anoop", "Arun", "Vishnu", "Sreejith", "Rajesh", "Manoj", "Shaji", "Shameer", "Riyas", "Faisal", "Jijo", "Bibin", "Jithin", "Akhil", "Nithin", "Ajith", "Muhammed", "Sanju"],
+          "f": ["Anjali", "Divya", "Remya", "Lakshmi", "Aswathy", "Sreeja", "Neethu", "Jisha", "Shilpa", "Fathima", "Shabna", "Reshma", "Ancy", "Jincy", "Athira", "Sumayya"]
+        },
+        "family": ["Nair", "Menon", "Pillai", "Kurup", "Panicker", "Nambiar", "Varghese", "Kurian", "Mathew", "Thomas", "Joseph", "Abraham", "Rahman", "Basheer", "Ashraf", "Kutty"]
+      },
+      "pakistani": {
+        "given": {
+          "m": ["Muhammad", "Ahmed", "Ali", "Usman", "Bilal", "Imran", "Asif", "Faisal", "Hamza", "Hassan", "Zubair", "Kamran", "Waqas", "Adnan", "Shahid", "Tariq", "Irfan", "Naveed"],
+          "f": ["Ayesha", "Fatima", "Sana", "Hina", "Amna", "Mahnoor", "Sadia", "Maryam", "Iqra", "Rabia", "Saima", "Nadia", "Zainab", "Kiran", "Sidra", "Anum"]
+        },
+        "family": ["Khan", "Ahmed", "Malik", "Butt", "Qureshi", "Sheikh", "Chaudhry", "Iqbal", "Hussain", "Raza", "Siddiqui", "Mirza", "Awan", "Akhtar", "Shah", "Abbasi", "Khattak", "Afridi"]
+      },
+      "bangladeshi": {
+        "given": {
+          "m": ["Mohammad", "Rahim", "Karim", "Rafiq", "Jamal", "Shahin", "Sohel", "Rubel", "Mamun", "Sumon", "Hasan", "Habib", "Arif", "Shakil", "Jahangir", "Masud"],
+          "f": ["Nasrin", "Fatema", "Ruma", "Shirin", "Taslima", "Sharmin", "Nusrat", "Sultana", "Rehana", "Parvin", "Shapla", "Mitu", "Tania", "Ayesha"]
+        },
+        "family": ["Hossain", "Rahman", "Islam", "Ahmed", "Uddin", "Miah", "Alam", "Chowdhury", "Khan", "Sarker", "Haque", "Ali", "Molla", "Sheikh", "Bhuiyan", "Talukder"]
+      },
+      "filipino": {
+        "given": {
+          "m": ["John Paul", "Mark", "Jerome", "Christian", "Joel", "Rommel", "Ronald", "Jayson", "Michael", "Carlo", "Paolo", "Raymond", "Marvin", "Arnel", "Ramon", "Joseph"],
+          "f": ["Maricel", "Jocelyn", "Rowena", "Kristine", "Mary Grace", "Joy", "Lovely", "Princess", "Angelica", "Rhea", "Cherry", "Mylene", "Jennifer", "Liza", "Analyn", "Jasmine"]
+        },
+        "family": ["Santos", "Reyes", "Cruz", "Bautista", "Garcia", "Mendoza", "Torres", "Dela Cruz", "Ramos", "Villanueva", "Gonzales", "Fernandez", "Castillo", "Rivera", "Flores", "Navarro", "Del Rosario"]
+      },
+      "egyptian": {
+        "given": {
+          "m": ["Mohamed", "Ahmed", "Mahmoud", "Mostafa", "Amr", "Karim", "Tarek", "Hossam", "Sherif", "Hany", "Ayman", "Waleed", "Ramy", "Youssef", "Mina", "Islam"],
+          "f": ["Mai", "Nour", "Yasmin", "Heba", "Dina", "Rania", "Shaimaa", "Aya", "Mariam", "Salma", "Esraa", "Doaa", "Marwa", "Nada", "Menna", "Hagar"]
+        },
+        "family": ["Hassan", "Ibrahim", "Abdel Aziz", "Mahmoud", "El Sayed", "Abdel Rahman", "Fathy", "Gamal", "Soliman", "Mostafa", "Farouk", "Kamal", "Shawky", "Saad", "Hegazy", "Naguib"]
+      },
+      "levantine": {
+        "given": {
+          "m": ["Omar", "Khaled", "Rami", "Fadi", "Ziad", "Tarek", "Karim", "Samer", "Wael", "Majd", "Hadi", "Yazan", "Elie", "Georges", "Ahmad", "Firas"],
+          "f": ["Lina", "Rania", "Dana", "Hala", "Rasha", "Nour", "Yara", "Lara", "Maya", "Rita", "Tala", "Dima", "Farah", "Rawan", "Lama", "Joelle"]
+        },
+        "family": ["Haddad", "Khoury", "Nassar", "Saab", "Haddadin", "Khalil", "Darwish", "Hamdan", "Sabbagh", "Najjar", "Abboud", "Mansour", "Karam", "Halabi", "Masri", "Awad"]
+      },
+      "western": {
+        "given": {
+          "m": ["James", "Daniel", "Thomas", "Oliver", "Ben", "Matthew", "Luke", "Ryan", "Chris", "Tom", "Andrew", "David", "Sam", "Jack"],
+          "f": ["Emma", "Sarah", "Charlotte", "Hannah", "Sophie", "Laura", "Katie", "Lucy", "Rebecca", "Claire", "Amy", "Jessica", "Hollie", "Grace"]
+        },
+        "family": ["Smith", "Jones", "Taylor", "Brown", "Wilson", "Evans", "Walker", "Wright", "Robinson", "Thompson", "Hughes", "Clarke", "Murphy", "Kelly", "O'Brien"]
+      }
+    },
+    "weights": { "emirati": 0.11, "indian": 0.2, "malayali": 0.16, "pakistani": 0.15, "bangladeshi": 0.07, "filipino": 0.08, "egyptian": 0.08, "levantine": 0.09, "western": 0.06 }
+  },
+  "honorifics": {
+    "elder_m": "Ammi",
+    "elder_f": "Khalti",
+    "peer_m": "Habibi",
+    "peer_f": "Ukhti",
+    "boss": "Boss",
+    "brother_hi": "Bhai",
+    "elder_brother_ml": "Chetta",
+    "elder_sister_ml": "Chechi",
+    "fellow_filipino": "Kabayan",
+    "customer": "Sir"
+  },
+  "phrases": {
+    "ar": {
+      "hello": [["Marhaba", "Hello (مرحبا)"], ["Hala", "Hi, warm and Gulf (هلا)"], ["Assalamu alaikum", "Peace be upon you, the everyday greeting (السلام عليكم)"], ["Hala wallah", "Hey, so good to see you"]],
+      "morning": [["Sabah el khair", "Good morning (صباح الخير)"], ["Sabah el noor", "Good morning, the reply (صباح النور)"]],
+      "evening": [["Masa el khair", "Good evening (مساء الخير)"], ["Masa el noor", "Good evening, the reply"]],
+      "how_are_you": [["Shlonik?", "How are you? to a man (شلونك)"], ["Shlonich?", "How are you? to a woman"], ["Shakhbarak?", "What's your news? (شخبارك)"], ["Kaif al hal?", "How are things?"]],
+      "fine": [["Zain, alhamdulillah", "Good, thank God (زين الحمد لله)"], ["Bekhair", "Fine (بخير)"], ["Tamam", "All good"]],
+      "thanks": [["Shukran", "Thank you (شكرا)"], ["Mashkoor", "Thanks, Gulf style (مشكور)"], ["Ya'teek al 'afya", "Thanks, may God give you health, to someone working"]],
+      "bye": [["Ma'a salama", "Goodbye (مع السلامة)"], ["Fi aman Allah", "Go in God's safety (في أمان الله)"], ["Nshoofik ba'dain", "See you later"]],
+      "welcome": [["Ahlan wa sahlan", "Welcome (أهلا وسهلا)"], ["Hayak Allah", "Welcome, God greet you (حياك الله)"], ["Tfaddal", "Please, come in, go ahead (تفضل)"]],
+      "sorry": [["Asif", "Sorry (آسف)"], ["Mit'assif", "I'm sorry"]],
+      "excuse": [["Law samaht", "Excuse me, if you please (لو سمحت)"], ["Min fadlak", "Please (to a man)"]],
+      "yes": [["Na'am", "Yes (نعم)"], ["Ee", "Yeah, Emirati (إي)"], ["Aiwa", "Yes"]],
+      "no": [["La", "No (لا)"], ["La, mashkoor", "No, thanks"]]
+    },
+    "en": {
+      "hello": [["Hi", "Hi"], ["Hello, my friend", "Hello, my friend"], ["Hi habibi", "Hi, dear (Arabic word everyone uses)"]],
+      "morning": [["Good morning", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"], ["All good?", "All good?"]],
+      "fine": [["All good, thanks", "All good, thanks"], ["Fine, alhamdulillah", "Fine, thank God"]],
+      "thanks": [["Thank you", "Thank you"], ["Thanks, boss", "Thanks, boss"]],
+      "bye": [["Bye, take care", "Bye, take care"], ["Yalla, bye", "Okay then, bye"]],
+      "welcome": [["Welcome", "Welcome"], ["Welcome, sir, welcome madam", "Shop welcome"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"], ["Yes, sure", "Yes, sure"]],
+      "no": [["No", "No"], ["No, thank you", "No, thank you"]]
+    },
+    "hi": {
+      "hello": [["Namaste", "Hello, Hindu greeting (नमस्ते)"], ["Assalamu alaikum", "Hello, Muslim greeting"], ["Kya haal hai?", "What's up?"]],
+      "morning": [["Good morning", "Good morning, people use the English"], ["Subah bakhair", "Good morning, Urdu"]],
+      "evening": [["Good evening", "Good evening, people use the English"], ["Shaam bakhair", "Good evening, Urdu"]],
+      "how_are_you": [["Kaise ho?", "How are you?"], ["Aap kaise hain?", "How are you? polite"]],
+      "fine": [["Theek hoon", "I'm fine"], ["Badhiya", "Great"], ["Sab theek", "All fine"]],
+      "thanks": [["Shukriya", "Thank you"], ["Dhanyavaad", "Thank you, Hindi formal"]],
+      "bye": [["Phir milenge", "See you again"], ["Khuda hafiz", "Goodbye, Urdu"], ["Chalo, bye", "Okay, bye"]],
+      "welcome": [["Aaiye, aaiye", "Come in, come in"], ["Swagat hai", "Welcome"]],
+      "sorry": [["Maaf kijiye", "Sorry, polite"], ["Sorry yaar", "Sorry, mate"]],
+      "excuse": [["Suniye", "Excuse me, listen"], ["Bhai sahab, zara", "Excuse me, brother"]],
+      "yes": [["Haan", "Yes"], ["Ji haan", "Yes, polite"]],
+      "no": [["Nahin", "No"], ["Ji nahin", "No, polite"]]
+    },
+    "ml": {
+      "hello": [["Namaskaram", "Hello (നമസ്കാരം)"], ["Enthokke undu visesham?", "What's new?"]],
+      "morning": [["Good morning", "Good morning, people use the English"], ["Suprabhatham", "Good morning, formal"]],
+      "evening": [["Good evening", "Good evening, people use the English"], ["Shubha sandhya", "Good evening, formal"]],
+      "how_are_you": [["Sukhamano?", "Are you well? (സുഖമാണോ)"], ["Bhakshanam kazhicho?", "Have you eaten?"]],
+      "fine": [["Sukham", "Well, fine"], ["Kuzhappamilla", "No problem, all right"]],
+      "thanks": [["Nanni", "Thank you (നന്ദി)"], ["Valare nanni", "Thank you very much"]],
+      "bye": [["Pinne kaanam", "See you later"], ["Poyittu varaam", "I'll go and come back, the Malayali goodbye"]],
+      "welcome": [["Swagatham", "Welcome (സ്വാഗതം)"], ["Varoo, varoo", "Come, come in"]],
+      "sorry": [["Kshamikkanam", "Please forgive me"], ["Sorry", "Sorry, people use the English"]],
+      "excuse": [["Onnu maaroo", "Could you move a little"], ["Chetta, onnu nokkiye", "Brother, look here a moment"]],
+      "yes": [["Athe", "Yes (അതെ)"], ["Shari", "Okay"]],
+      "no": [["Illa", "No, there isn't (ഇല്ല)"], ["Alla", "No, not that"]]
+    },
+    "fil": {
+      "hello": [["Kumusta?", "Hello, how are you?"], ["Uy, kabayan!", "Hey, fellow Filipino!"]],
+      "morning": [["Magandang umaga", "Good morning"], ["Magandang umaga po", "Good morning, polite"]],
+      "evening": [["Magandang gabi", "Good evening"], ["Magandang hapon", "Good afternoon"]],
+      "how_are_you": [["Kumusta ka?", "How are you?"], ["Musta na?", "How's it going?"]],
+      "fine": [["Mabuti naman", "I'm fine"], ["Okay lang", "Just okay"], ["Ayos lang", "All right"]],
+      "thanks": [["Salamat", "Thanks"], ["Salamat po", "Thank you, polite"], ["Maraming salamat", "Thank you very much"]],
+      "bye": [["Ingat!", "Take care!"], ["Sige, una na ako", "Okay, I'll go ahead"], ["Paalam", "Goodbye"]],
+      "welcome": [["Maligayang pagdating", "Welcome"], ["Pasok po kayo", "Please come in"]],
+      "sorry": [["Pasensya na", "Sorry, my apologies"], ["Sorry po", "Sorry, polite"]],
+      "excuse": [["Makikiraan po", "Excuse me, coming through"], ["Excuse me po", "Excuse me, polite"]],
+      "yes": [["Oo", "Yes"], ["Opo", "Yes, polite"]],
+      "no": [["Hindi", "No"], ["Hindi po", "No, polite"]]
+    }
+  },
+  "money": {
+    "currency": "AED",
+    "symbol": "Dhs",
+    "words": [["dirham", "the currency, written AED or Dhs"], ["fils", "a hundredth of a dirham"], ["khamsa dirham", "five dirhams"], ["miya", "a hundred, as in miya dirham"]]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Gulf_Arabic",
+    "https://en.wikipedia.org/wiki/Emirati_Arabic",
+    "https://en.wikipedia.org/wiki/Demographics_of_the_United_Arab_Emirates",
+    "https://en.wikipedia.org/wiki/Arabic_name",
+    "https://en.wikipedia.org/wiki/Malayali_diaspora",
+    "https://en.wikipedia.org/wiki/Filipino_name",
+    "https://en.wikipedia.org/wiki/United_Arab_Emirates_dirham"
+  ]
+}

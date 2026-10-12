@@ -39,9 +39,18 @@ export function nameFor(seed, sex = unit(`${seed}:sex`) < 0.5 ? 'm' : 'f') {
   const own = G.given?.[sex] || [], also = G.also?.[sex] || [];
   const useAlso = also.length && unit(`${seed}:also`) < 0.45;
   const first = useAlso ? pickBy(unit(`${seed}:first`), also) : pickBy(unit(`${seed}:first`), own.length ? own : also);
-  let family = pickBy(unit(`${seed}:family`), G.family?.length ? G.family : own);
-  if (family === first) family = pickBy(unit(`${seed}:family2`), G.family || own);
-  const order = N.order || 'given family';
+  // family_f: what women carry where it differs from men (Akhmetova for Akhmetov; Javanese second names like Lestari)
+  const fam = sex === 'f' && G.family_f?.length ? G.family_f : G.family;
+  let family = pickBy(unit(`${seed}:family`), fam?.length ? fam : own);
+  if (family === first) family = pickBy(unit(`${seed}:family2`), fam || own);
+  // a group can put the family name first though its country does not (Chinese names in Singapore and Malaysia)
+  const order = G.order || N.order || 'given family';
+  // two family names where people carry both (the father's, then the mother's: Mexico, Colombia, Chile, Peru, Brazil)
+  if (order === 'given family family') {
+    let second = pickBy(unit(`${seed}:family-2`), G.family?.length ? G.family : own);
+    if (second === family) second = pickBy(unit(`${seed}:family-3`), G.family || own);
+    if (second !== family) return { first, family, second, sex, group, full: `${first} ${family} ${second}` };
+  }
   return { first, family, sex, group, full: order.startsWith('family') ? `${family} ${first}` : `${first} ${family}` };
 }
 
@@ -70,8 +79,26 @@ export function phrase(key, reg = 'en', u = Math.random()) {
   return list?.length ? pickBy(u, list) : null;
 }
 /** What people here call a kind of transport ('bus', 'moto_taxi', 'tricycle', 'conductor' ...). */
-export const word = (k, fallback = null) => K.city.transport?.[k] ?? fallback;
+export const word = (k, fallback = null) => K.city.transport?.[k] || fallback; // '' where a city has no such thing
 export const honorific = (k, fallback = null) => K.country.honorifics?.[k] ?? fallback;
+/**
+ * A name with a title, the way it is said here: "Mzee Otieno", "Mama Wanjiku", or, where the title is a suffix
+ * ('-san'), after the family name: "Tanaka-san".
+ * @param k     an honorific key (elder_m, elder_f, boss ...)
+ * @param n     a name from nameFor
+ * @param fallback  the title to use when the country has none
+ */
+export function titled(k, n, fallback = '') {
+  // where the words people say to an elder are not put on a name ("Yes, sir"), the country gives its titles apart:
+  // { elder_m: 'Herr', elder_f: 'Frau', with: 'family' } for Herr Müller, or { with: 'none' } where none is used
+  const T = K.country.honorifics?.titles, wth = T?.with || 'first';
+  if (n && wth === 'none') return n.first;
+  const t = (T ? T[k] : honorific(k, fallback)) ?? fallback ?? '';
+  if (!n) return t;
+  if (t.startsWith('-')) return `${n.family}${t}`;
+  const out = `${t} ${wth === 'family' ? n.family : n.first}`.trim();
+  return out.charAt(0).toUpperCase() + out.slice(1);
+}
 export const touts = () => K.city.touts || [];
 export const hawkers = () => K.city.hawkers || [];
 export const food = () => K.city.food || {};

@@ -1,0 +1,130 @@
+{
+  "languages": [
+    { "code": "wo", "name": "Wolof", "official": false, "spoken": "widely" },
+    { "code": "fr", "name": "French", "official": true, "spoken": "widely" },
+    { "code": "ff", "name": "Pulaar", "official": false, "spoken": "commonly" },
+    { "code": "srr", "name": "Serer", "official": false, "spoken": "in Serer families" },
+    { "code": "en", "name": "English", "official": false, "spoken": "in business and tech" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Most Senegalese carry a Muslim first name (Mamadou, Cheikh, Fatou, Aminata) and a family name (sant) from the father's line, which also tells people where a family comes from: Diop, Ndiaye, Fall and Gueye are Wolof; Faye, Sarr and Diouf are Serer; Diallo, Ba and Sow are Pulaar; Diatta and Sagna are Diola. Serer and Diola families include many Catholics with French saints' names. Women keep their own family name after marriage. Ndèye and Mame are often joined to a first name (Ndèye Fatou, Mame Diarra), and men named after a respected elder are often called by a nickname such as Pape, Mbaye or Modou.",
+    "groups": {
+      "wolof": {
+        "given": {
+          "m": ["Mamadou", "Moussa", "Ibrahima", "Cheikh", "Abdoulaye", "Modou", "Ousmane", "Babacar", "Pape", "Alioune", "Serigne", "Lamine", "Malick", "Assane", "Ndiaga", "Mbaye"],
+          "f": ["Fatou", "Aminata", "Awa", "Khady", "Mariama", "Ndèye", "Coumba", "Astou", "Sokhna", "Adama", "Rokhaya", "Bineta", "Aïssatou", "Dieynaba", "Yacine", "Mame Diarra"]
+        },
+        "family": ["Diop", "Ndiaye", "Fall", "Gueye", "Mbaye", "Seck", "Niang", "Diagne", "Mbengue", "Samb", "Ndoye", "Wade", "Dieng", "Lô", "Mboup", "Thiam"],
+        "also": { "m": ["Moustapha", "Omar", "Idrissa"], "f": ["Marième", "Ndèye Fatou", "Seynabou"] }
+      },
+      "serer": {
+        "given": {
+          "m": ["Ngor", "Waly", "Diégane", "Mbagnick", "Ibrahima", "Ousmane", "Mamadou", "Moussa", "Pathé", "Abdou", "Samba", "Saliou"],
+          "f": ["Ngoné", "Coumba", "Dibor", "Yandé", "Fatou", "Khady", "Awa", "Ndèye", "Maïmouna", "Sokhna", "Seynabou", "Aïda"]
+        },
+        "family": ["Faye", "Sarr", "Diouf", "Ndour", "Sène", "Dione", "Ngom", "Thiaw", "Diome", "Tine", "Gning", "Loum", "Bakhoum", "Diène"],
+        "also": { "m": ["Joseph", "Paul", "Pierre", "Jean", "Augustin", "Antoine"], "f": ["Marie", "Thérèse", "Bernadette", "Jeanne", "Odile", "Hélène"] }
+      },
+      "pulaar": {
+        "given": {
+          "m": ["Mamadou", "Amadou", "Oumar", "Abdoulaye", "Alpha", "Thierno", "Samba", "Demba", "Hamady", "Boubacar", "Souleymane", "Saïdou", "Abou", "Ousmane"],
+          "f": ["Aïssatou", "Mariama", "Kadiatou", "Fatimata", "Coumba", "Hawa", "Dieynaba", "Oumou", "Ramata", "Penda", "Néné", "Houleye"]
+        },
+        "family": ["Diallo", "Ba", "Sow", "Barry", "Kane", "Sy", "Tall", "Ly", "Wane", "Dia", "Diaw", "Baldé", "Kâ", "Sall", "Anne"]
+      },
+      "diola": {
+        "given": {
+          "m": ["Lamine", "Ansoumana", "Bakary", "Malang", "Ibrahima", "Ousmane", "Abdou", "Moussa", "Sidy", "Kéba", "Seydou", "Arfang"],
+          "f": ["Fatou", "Mariama", "Aminata", "Binta", "Awa", "Ndèye", "Mbalia", "Sali", "Khady", "Adama", "Ramatoulaye", "Nafi"]
+        },
+        "family": ["Diatta", "Sagna", "Badji", "Sambou", "Diédhiou", "Coly", "Manga", "Goudiaby", "Bassène", "Diémé", "Tendeng", "Djiba", "Diabang"],
+        "also": { "m": ["Jean", "Pierre", "Augustin", "Emmanuel", "Jean-Baptiste"], "f": ["Marie", "Agnès", "Antoinette", "Pauline", "Christine"] }
+      },
+      "mandinka": {
+        "given": {
+          "m": ["Lamine", "Bakary", "Sékou", "Mamadou", "Malang", "Fodé", "Ansoumana", "Kéba", "Ousmane", "Seydou", "Sidy", "Boubacar"],
+          "f": ["Fatoumata", "Mariama", "Djénéba", "Kadiatou", "Binta", "Sira", "Fanta", "Oumou", "Awa", "Aminata", "Assa", "Mariatou"]
+        },
+        "family": ["Mané", "Sané", "Camara", "Touré", "Dramé", "Fofana", "Konaté", "Keïta", "Sonko", "Sidibé", "Dabo", "Diakité", "Cissé", "Kanté"]
+      }
+    },
+    "weights": { "wolof": 0.45, "pulaar": 0.25, "serer": 0.15, "diola": 0.08, "mandinka": 0.07 }
+  },
+  "honorifics": { "elder_m": "Pa", "elder_f": "Yaay", "peer_m": "Goorgui", "peer_f": "Soxna si", "boss": "Patron" },
+  "phrases": {
+    "wo": {
+      "hello": [["Salaam aleekum", "Peace be upon you (the everyday greeting)"], ["Maalekum salaam", "And peace be upon you (the reply)"]],
+      "morning": [["Jàmm nga fanaane?", "Did you spend the night in peace? (good morning)"], ["Naka suba si?", "How is the morning?"]],
+      "evening": [["Jàmm nga yendoo?", "Did you spend the day in peace? (good evening)"], ["Naka ngoon si?", "How is the evening?"]],
+      "how_are_you": [["Na nga def?", "How are you?"], ["Naka waa kër ga?", "How is the family?"]],
+      "fine": [["Maa ngi fi rekk", "I'm here, just fine"], ["Jàmm rekk", "Peace only"]],
+      "thanks": [["Jërëjëf", "Thank you"]],
+      "bye": [["Ba beneen yoon", "Until next time"], ["Ba suba", "See you tomorrow"], ["Ba ci kanam", "See you later"]],
+      "welcome": [["Dalal ak jàmm", "Welcome, be at peace here"]],
+      "sorry": [["Baal ma", "Forgive me, sorry"]],
+      "excuse": [["Baal ma", "Excuse me"]],
+      "yes": [["Waaw", "Yes"]],
+      "no": [["Déedéet", "No"]]
+    },
+    "fr": {
+      "hello": [["Bonjour", "Hello"], ["Salut", "Hi"]],
+      "morning": [["Bonjour, bien dormi?", "Good morning, sleep well?"]],
+      "evening": [["Bonsoir", "Good evening"]],
+      "how_are_you": [["Ça va?", "How's it going?"], ["Et la famille?", "And the family?"]],
+      "fine": [["Ça va, alhamdoulilah", "Fine, thank God"], ["Ça va bien", "I'm well"]],
+      "thanks": [["Merci", "Thank you"], ["Merci beaucoup", "Thanks a lot"]],
+      "bye": [["Au revoir", "Goodbye"], ["À tout à l'heure", "See you later"]],
+      "welcome": [["Bienvenue", "Welcome"]],
+      "sorry": [["Pardon", "Sorry"], ["Désolé", "Sorry"]],
+      "excuse": [["Excusez-moi", "Excuse me"]],
+      "yes": [["Oui", "Yes"]],
+      "no": [["Non", "No"]]
+    },
+    "ff": {
+      "morning": [["Jam waali?", "Did you spend the night in peace? (good morning)"]],
+      "how_are_you": [["No mbaddaa?", "How are you?"]],
+      "fine": [["Jam tan", "Peace only, fine"]],
+      "thanks": [["A jaaraama", "Thank you"]],
+      "bye": [["Haa jango", "See you tomorrow"]],
+      "sorry": [["Yaafo", "Sorry, forgive me"]],
+      "yes": [["Eey", "Yes"]],
+      "no": [["Alaa", "No"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"]],
+      "morning": [["Good morning", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["Fine, thanks", "Fine, thanks"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Goodbye", "Goodbye"]],
+      "welcome": [["Welcome", "Welcome"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "XOF",
+    "symbol": "FCFA",
+    "words": [
+      ["xaalis", "money"],
+      ["dërëm", "five francs; prices in Wolof are counted in dërëm"],
+      ["téeméer", "a hundred dërëm, which is 500 francs"],
+      ["junni", "a thousand dërëm, which is 5,000 francs"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Senegal",
+    "https://en.wikipedia.org/wiki/Wolof_language",
+    "https://en.wikipedia.org/wiki/Wolof_people",
+    "https://en.wikipedia.org/wiki/Serer_people",
+    "https://en.wikipedia.org/wiki/Fula_people",
+    "https://en.wikipedia.org/wiki/Jola_people",
+    "https://en.wikipedia.org/wiki/Pulaar_language",
+    "https://en.wikivoyage.org/wiki/Wolof_phrasebook",
+    "https://en.wikipedia.org/wiki/West_African_CFA_franc"
+  ]
+}

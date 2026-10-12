@@ -1,0 +1,95 @@
+{
+  "street": { "pl": 0.82, "uk": 0.1, "en": 0.08 },
+  "names": { "weights": { "polish": 0.84, "ukrainian": 0.11, "belarusian": 0.03, "vietnamese": 0.02 } },
+  "phrases": {
+    "pl": {
+      "hello": [["Siema!", "Hey!"], ["Cześć!", "Hi!"], ["Hej!", "Hey!"]],
+      "fine": [["Spoko", "Cool"], ["Git", "Fine, all good (slang)"], ["Po staremu", "Same as ever"]],
+      "outside": [["na dworze", "outside (Warsaw says 'na dworze', Kraków 'na polu')"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! Coffee before the stand-up?", "Hey, how's it going?", "Hi! Long time no see.", "Good to see you. How was the weekend?", "Hello! Did the tram behave this morning?"],
+      "reply": ["Not bad, thanks. Busy week.", "All good, you?", "Pretty good, just tired.", "Fine, thanks for asking!", "Great, actually. I finally found a flat in Mokotów."],
+      "sunny": ["Gorgeous out. Everyone will be down on the bulwary tonight.", "Perfect weather for a walk in Łazienki.", "Sun's out, Plac Zbawiciela will be packed.", "Lovely day, let's sit outside for lunch.", "Finally some sun. I'm cycling home along the Vistula."],
+      "rain": ["Pouring again, grab an umbrella.", "Rain all day, apparently.", "Typical, I left my umbrella at the office.", "It's wet out there, the trams will be rammed.", "Rain again. Good day for żurek and tea."],
+      "bye": ["See you!", "Take care!", "Catch you tomorrow.", "Have a good one!", "Bye, say hi to everyone."],
+      "busy": ["Sorry, running for the metro!", "Can't stop, meeting in five.", "Late for a call, talk later!", "Got to dash, my tram's here.", "Busy day, catch you after work?"]
+    },
+    "pl": {
+      "greet": ["Cześć! Co słychać?", "Siema, jak leci?", "Dzień dobry! Jak się pani miewa?", "Hej! Dawno cię nie widziałem.", "Dzień dobry, wszystko w porządku?"],
+      "reply": ["Dobrze, dzięki. A u ciebie?", "Spoko, po staremu.", "Nie narzekam!", "W porządku, tylko trochę zmęczony."],
+      "sunny": ["Ale piękna pogoda!", "Słońce, w końcu! Idziemy wieczorem na bulwary?", "Super dzień na spacer po Łazienkach.", "Ciepło dziś, aż się chce wyjść na dwór."],
+      "rain": ["Ale leje!", "Znowu pada, weź parasol.", "Pogoda pod psem.", "Leje od rana, tramwaje pełne."],
+      "bye": ["Na razie!", "Do zobaczenia!", "Trzymaj się!", "Do widzenia, miłego dnia!", "Cześć, pa!"],
+      "busy": ["Sorry, lecę na metro!", "Nie mogę gadać, spieszę się.", "Jestem spóźniony, pogadamy później!", "Mam spotkanie za pięć minut, pa!"]
+    },
+    "uk": {
+      "greet": ["Привіт! Як справи?", "Добрий день! Як ви?", "Привіт, давно не бачились!", "Доброго ранку! Все добре?"],
+      "reply": ["Добре, дякую. А ти?", "Все нормально, працюю.", "Потроху, дякую!", "Чудово, дякую, що спитала."],
+      "sunny": ["Яка гарна погода сьогодні!", "Сонечко! Ходімо гуляти до Вісли.", "Тепло, нарешті!", "Чудовий день, щоб посидіти в Лазенках."],
+      "rain": ["Знову дощ, візьми парасольку.", "Ллє з самого ранку.", "Такий дощ, трамваї переповнені.", "Погода сьогодні не дуже."],
+      "bye": ["Бувай!", "До побачення!", "На все добре!", "До зустрічі!"],
+      "busy": ["Вибач, біжу на метро!", "Не можу говорити, запізнююсь.", "У мене зараз зустріч, поговоримо пізніше!", "Поспішаю на роботу, бувай!"]
+    }
+  },
+  "transport": {
+    "bus": "autobus",
+    "moto_taxi": "hulajnoga elektryczna",
+    "tricycle": "riksza",
+    "taxi": "taksówka",
+    "conductor": "kanar",
+    "stage": "przystanek",
+    "tram": "tramwaj",
+    "metro": "metro",
+    "train": "SKM",
+    "bike_share": "Veturilo",
+    "ride_hail": "Bolt"
+  },
+  "touts": [
+    "Stacja Świętokrzyska. Przesiadka do linii M2.",
+    "Proszę odsunąć się od krawędzi peronu.",
+    "Następny przystanek: Plac Zbawiciela.",
+    "Bilety do kontroli, proszę.",
+    "(a busker plays Chopin on an electric piano on Krakowskie Przedmieście)",
+    "Tulipany, tanio, pani kochana!"
+  ],
+  "hawkers": [
+    ["Pączki, świeże pączki!", "Doughnuts, fresh doughnuts!"],
+    ["Kwiaty, kwiatki, tanio!", "Flowers, cheap!"],
+    ["Truskawki polskie, słodziutkie!", "Polish strawberries, nice and sweet!"],
+    ["Kukurydza gotowana!", "Boiled corn!"],
+    ["Zapiekanki, zapraszam!", "Zapiekanki, come and get them!"],
+    ["Bób, świeży bób!", "Broad beans, fresh!"]
+  ],
+  "food": {
+    "street": ["zapiekanka", "pączek", "kebab", "kiełbasa z grilla", "gofry", "lody", "frytki belgijskie"],
+    "dishes": ["pierogi", "żurek", "kotlet schabowy", "bigos", "rosół", "flaki po warszawsku", "barszcz z uszkami", "gołąbki", "zupa pomidorowa"],
+    "drinks": ["kawa", "herbata z cytryną", "kompot", "piwo", "oranżada", "kefir", "wódka"]
+  },
+  "places": {
+    "neighbourhoods": ["Śródmieście", "Mokotów", "Praga-Północ", "Praga-Południe", "Wola", "Żoliborz", "Ochota", "Ursynów", "Saska Kępa", "Powiśle", "Bielany", "Wilanów"],
+    "streets": ["Nowy Świat", "Krakowskie Przedmieście", "Marszałkowska", "Aleje Jerozolimskie", "Ząbkowska", "Puławska", "Chmielna", "Prosta", "Plac Zbawiciela", "Rondo Daszyńskiego"],
+    "landmarks": ["Pałac Kultury i Nauki", "Stare Miasto", "Łazienki Królewskie", "Zamek Królewski", "Most Świętokrzyski", "Centrum Nauki Kopernik", "Bulwary Wiślane", "Hala Koszyki", "Stadion Narodowy", "Varso Tower", "Muzeum Powstania Warszawskiego"]
+  },
+  "small_talk": [
+    "Wola is all glass towers now, I barely recognise Rondo Daszyńskiego.",
+    "Traffic on Aleje Jerozolimskie was terrible this morning.",
+    "Are you going to the bulwary tonight? Everyone will be by the river.",
+    "The M2 out to Bródno has made my commute so much easier.",
+    "I queued twenty minutes for pączki on Tłusty Czwartek.",
+    "Hala Koszyki was packed again at lunch.",
+    "The metro is way quicker than driving down Puławska.",
+    "Praga has the best bars now, honestly.",
+    "Varso Tower makes the Palace of Culture look small.",
+    "Every Veturilo bike was gone by Plac Zbawiciela."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Warsaw",
+    "https://en.wikipedia.org/wiki/Warsaw_Metro",
+    "https://en.wikipedia.org/wiki/Districts_of_Warsaw",
+    "https://www.ztm.waw.pl/",
+    "https://en.wikipedia.org/wiki/Polish_cuisine"
+  ]
+}

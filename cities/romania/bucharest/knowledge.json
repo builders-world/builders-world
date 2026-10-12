@@ -1,0 +1,88 @@
+{
+  "street": { "ro": 0.9, "en": 0.1 },
+  "names": { "weights": { "romanian": 0.98, "hungarian": 0.02 } },
+  "phrases": {
+    "ro": {
+      "hello": [["Salutare!", "Hiya!"], ["Ce faci, frate?", "What's up, bro?"]],
+      "fine": [["Bine, mersi", "Fine, thanks"], ["Merge", "Getting on"]],
+      "cool": [["Mișto!", "Cool!"], ["Nașpa", "Rubbish (slang)"]],
+      "bye": [["Te pup, pa!", "Kisses, bye! (between friends)"], ["Ne vedem!", "See you!"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! Coffee before the stand-up?", "Hey, how's it going?", "Hi! Long time no see.", "Good to see you. Good weekend?", "Hello! How was the traffic from Pipera?"],
+      "reply": ["Not bad, thanks. Busy week.", "All good, you?", "Pretty good, just tired.", "Fine, thanks for asking!", "Great, I finally moved closer to the office."],
+      "sunny": ["Gorgeous out. Herăstrău after work?", "Perfect weather for a terrace in Floreasca.", "Sun's out, the Old Town will be packed tonight.", "Lovely day, let's eat outside.", "Finally some sun. I'm walking home through Cișmigiu."],
+      "rain": ["Pouring again, grab an umbrella.", "Rain all day, apparently.", "One drop of rain and the whole city is gridlocked.", "It's wet out there, take the metro.", "Rain again. Good day for a bowl of ciorbă."],
+      "bye": ["See you!", "Take care!", "Catch you tomorrow.", "Have a good one!", "Bye, say hi to everyone."],
+      "busy": ["Sorry, running for the metro!", "Can't stop, meeting in five.", "Late for a call, talk later!", "Got to dash, my Bolt is here.", "Busy day, catch you after work?"]
+    },
+    "ro": {
+      "greet": ["Salut! Ce faci?", "Bună dimineața! Ai ajuns cu bine?", "Salutare, frate! Ce mai zici?", "Bună! Nu te-am mai văzut de mult.", "Bună ziua, ce mai faceți?"],
+      "reply": ["Bine, mersi. Tu?", "Merge, multă treabă.", "Foarte bine, mulțumesc!", "Uite, ne descurcăm."],
+      "sunny": ["Ce zi frumoasă!", "E soare, mergem în Herăstrău?", "Cald de tot azi, hai la o terasă.", "Vreme superbă, păcat să stăm în birou."],
+      "rain": ["Plouă iar, ia-ți umbrela.", "Toarnă cu găleata!", "A plouat toată ziua și traficul e blocat.", "Vreme urâtă azi."],
+      "bye": ["Pa, pe curând!", "La revedere!", "Ne vedem!", "Te pup, pa!", "O zi bună!"],
+      "busy": ["Scuze, fug la metrou!", "Nu pot acum, am o ședință.", "Am întârziat, vorbim mai târziu!", "Mă grăbesc, te sun eu!"]
+    }
+  },
+  "transport": {
+    "bus": "autobuz",
+    "moto_taxi": "trotinetă electrică",
+    "tricycle": "bicicletă cargo",
+    "taxi": "taxi",
+    "conductor": "controlor",
+    "stage": "stație",
+    "tram": "tramvai",
+    "trolleybus": "troleibuz",
+    "metro": "metrou",
+    "train": "tren",
+    "ride_hail": "Bolt"
+  },
+  "touts": [
+    "Următoarea stație: Piața Unirii.",
+    "Atenție, se închid ușile!",
+    "Taxi, taxi? Unde mergeți?",
+    "Happy hour în Centrul Vechi, două beri la preț de una!",
+    "(a busker plays the accordion in the Universitate underpass)",
+    "Controlul biletelor, vă rog!"
+  ],
+  "hawkers": [
+    ["Covrigi calzi!", "Warm pretzels!"],
+    ["Gogoși, gogoși calde!", "Doughnuts, warm!"],
+    ["Porumb fiert!", "Boiled corn!"],
+    ["Mărțișoare, mărțișoare!", "Mărțișor charms for the first of March!"],
+    ["Flori, flori frumoase!", "Flowers, lovely flowers!"],
+    ["Pepeni dulci de Dăbuleni!", "Sweet watermelons from Dăbuleni!"]
+  ],
+  "food": {
+    "street": ["covrigi", "shaorma", "mici", "gogoși", "plăcintă", "pateu", "porumb fiert"],
+    "dishes": ["sarmale cu mămăligă", "ciorbă de burtă", "ciorbă de perișoare", "papanași", "mici cu muștar", "mămăligă cu brânză și smântână", "salată de vinete", "zacuscă", "cozonac"],
+    "drinks": ["bere", "țuică", "palincă", "vin", "cafea", "limonadă", "socată", "bragă"]
+  },
+  "places": {
+    "neighbourhoods": ["Centrul Vechi", "Floreasca", "Dorobanți", "Cotroceni", "Pipera", "Băneasa", "Drumul Taberei", "Titan", "Militari", "Berceni", "Tineretului", "Aviației", "Primăverii"],
+    "streets": ["Calea Victoriei", "Bulevardul Magheru", "Strada Lipscani", "Bulevardul Unirii", "Șoseaua Kiseleff", "Bulevardul Aviatorilor", "Calea Floreasca", "Strada Franceză", "Bulevardul Dimitrie Pompeiu"],
+    "landmarks": ["Palatul Parlamentului", "Arcul de Triumf", "Ateneul Român", "Parcul Regele Mihai I (Herăstrău)", "Parcul Cișmigiu", "Piața Unirii", "Piața Universității", "Carul cu Bere", "Muzeul Satului", "Grădina Botanică", "Palatul CEC", "Gara de Nord"]
+  },
+  "small_talk": [
+    "Pipera traffic was a nightmare again, I should have taken the metro.",
+    "Herăstrău, sorry, Parcul Regele Mihai I, is perfect for a run.",
+    "The M5 line made my commute from Drumul Taberei so much easier.",
+    "Shaorma at two in the morning after the Old Town, classic.",
+    "The Floreasca terraces are packed tonight.",
+    "Mărțișor season, every metro station is full of stalls.",
+    "It's thirty-eight degrees and Magheru is melting.",
+    "Half the office is at the seaside for the long weekend.",
+    "My gran still tells me prices in millions.",
+    "The heating came on and now the flat is a sauna."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Bucharest",
+    "https://en.wikipedia.org/wiki/Bucharest_Metro",
+    "https://en.wikipedia.org/wiki/King_Michael_I_Park",
+    "https://www.metrorex.ro/",
+    "https://en.wikipedia.org/wiki/Romanian_cuisine"
+  ]
+}

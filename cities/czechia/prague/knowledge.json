@@ -1,0 +1,103 @@
+{
+  "street": { "cs": 0.74, "en": 0.12, "sk": 0.06, "uk": 0.08 },
+  "names": { "weights": { "czech": 0.8, "slovak": 0.06, "ukrainian": 0.08, "vietnamese": 0.03, "russian": 0.03 } },
+  "phrases": {
+    "cs": {
+      "hello": [["Čus!", "Hiya! (very casual)"], ["Nazdar!", "Hey there!"], ["Ahoj!", "Hi!"]],
+      "fine": [["V pohodě", "All good"], ["Dobrý", "Good"]],
+      "meet": [["Sejdeme se pod koněm", "Let's meet under the horse (the St Wenceslas statue)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! Coffee in Karlín before work?", "Hey, how's it going?", "Hi! Long time no see.", "Good to see you. Good weekend?", "Hello! Did you survive the 22 this morning?"],
+      "reply": ["Not bad, thanks. Busy week.", "All good, you?", "Pretty good, just tired.", "Fine, thanks for asking!", "Great, I finally found a flat in Vinohrady."],
+      "sunny": ["Gorgeous out. Letná beer garden later?", "Perfect weather for Náplavka.", "Sun's out, Riegrovy sady at sunset?", "Lovely day, let's eat outside.", "Finally some sun. I'm walking home along the Vltava."],
+      "rain": ["Pouring again, grab an umbrella.", "Rain all day, apparently.", "Typical, I left my umbrella at the office.", "It's wet out there, the trams will be rammed.", "Rain again. Good day for a bowl of kulajda."],
+      "bye": ["See you!", "Take care!", "Catch you tomorrow.", "Have a good one!", "Bye, see you under the horse at seven."],
+      "busy": ["Sorry, running for the metro!", "Can't stop, meeting in five.", "Late for a call, talk later!", "Got to dash, my tram's here.", "Busy day, catch you after work?"]
+    },
+    "cs": {
+      "greet": ["Ahoj, jak se máš?", "Čau! Dlouho jsme se neviděli.", "Dobrý den, jak se daří?", "Nazdar, co je novýho?", "Čus! Jak to jde?"],
+      "reply": ["Dobrý, díky. A ty?", "Ujde to, pořád v práci.", "V pohodě, nemůžu si stěžovat.", "Skvěle, díky za optání!"],
+      "sunny": ["Krásně je, nejdeme na Letnou?", "Takový počasí, sedneme si na Náplavku?", "Konečně sluníčko!", "Ideální den na Riegráče."],
+      "rain": ["Zase leje, vezmi si deštník.", "Prší od rána, tramvaje jsou narvaný.", "Hnusně venku, dneska zůstanu doma.", "Ten déšť nepřestane, co?"],
+      "bye": ["Čau, měj se!", "Na shledanou!", "Tak zatím!", "Ahoj, uvidíme se!"],
+      "busy": ["Promiň, letím na tramvaj!", "Nemám čas, mám poradu.", "Jdu pozdě, zavolám ti!", "Musím běžet, ujede mi metro!"]
+    },
+    "sk": {
+      "greet": ["Ahoj, ako sa máš?", "Čau! Dlho som ťa nevidel.", "Dobrý deň, ako sa máte?", "Ahoj, čo nové?"],
+      "reply": ["Dobre, ďakujem. A ty?", "Ide to, veľa roboty.", "V pohode!", "Výborne, vďaka za opýtanie."],
+      "sunny": ["Aké krásne počasie!", "Konečne slniečko, ideme von?", "Super deň na prechádzku pri Vltave.", "Je teplo, poďme si niekde sadnúť vonku."],
+      "rain": ["Zase prší, zober si dáždnik.", "Leje od rána.", "Škaredé počasie dnes.", "Ten dážď neprestane, však?"],
+      "bye": ["Čau, maj sa!", "Dovidenia!", "Tak zatiaľ!", "Ahoj, uvidíme sa!"],
+      "busy": ["Prepáč, bežím na električku!", "Nemám čas, mám poradu.", "Meškám, zavolám ti!", "Musím ísť, ujde mi metro!"]
+    },
+    "uk": {
+      "greet": ["Привіт! Як справи?", "Добрий день! Як ви?", "Привіт, давно не бачились!", "Доброго ранку! Все добре?"],
+      "reply": ["Добре, дякую. А ти?", "Все нормально, працюю.", "Потроху, дякую!", "Чудово, дякую, що спитала."],
+      "sunny": ["Яка гарна погода сьогодні!", "Сонечко! Ходімо гуляти до Влтави.", "Тепло, нарешті!", "Чудовий день, щоб посидіти в парку."],
+      "rain": ["Знову дощ, візьми парасольку.", "Ллє з самого ранку.", "Такий дощ, трамваї переповнені.", "Погода сьогодні не дуже."],
+      "bye": ["Бувай!", "До побачення!", "На все добре!", "До зустрічі!"],
+      "busy": ["Вибач, біжу на метро!", "Не можу говорити, запізнююсь.", "У мене зараз зустріч, поговоримо пізніше!", "Поспішаю на роботу, бувай!"]
+    }
+  },
+  "transport": {
+    "bus": "autobus",
+    "moto_taxi": "koloběžka",
+    "tricycle": "nákladní kolo",
+    "taxi": "taxík",
+    "conductor": "revizor",
+    "stage": "zastávka",
+    "tram": "tramvaj",
+    "metro": "metro (áčko, béčko, céčko)",
+    "train": "esko",
+    "bike_share": "Rekola",
+    "ride_hail": "Liftago"
+  },
+  "touts": [
+    "Ukončete, prosím, výstup a nástup, dveře se zavírají.",
+    "Příští stanice: Můstek.",
+    "Příští zastávka: Národní divadlo.",
+    "Classical concert tonight, Mozart and Vivaldi, in the church, tickets here!",
+    "(a jazz band plays on Charles Bridge)",
+    "Jízdenky, prosím, přepravní kontrola."
+  ],
+  "hawkers": [
+    ["Trdelník, čerstvý trdelník!", "Chimney cake, fresh! (mostly for tourists)"],
+    ["Klobásy, párky, smažák!", "Sausages, hot dogs, fried cheese!"],
+    ["Svařák, horký svařák!", "Mulled wine, hot!"],
+    ["Jahody, čerstvé jahody!", "Strawberries, fresh!"],
+    ["Pečené kaštany!", "Roasted chestnuts!"],
+    ["Langoše, čerstvé langoše!", "Fried flatbread, fresh!"]
+  ],
+  "food": {
+    "street": ["smažený sýr v housce", "klobása s hořčicí", "párek v rohlíku", "langoš", "chlebíčky", "bramborák", "trdelník (mostly for tourists)"],
+    "dishes": ["svíčková na smetaně", "vepřo knedlo zelo", "guláš", "řízek s bramborovým salátem", "kulajda", "tatarák", "ovocné knedlíky", "nakládaný hermelín", "phở from Sapa"],
+    "drinks": ["pivo", "Kofola", "Becherovka", "svařák", "malinovka", "turek (Czech-style coffee)"]
+  },
+  "places": {
+    "neighbourhoods": ["Staré Město", "Malá Strana", "Vinohrady", "Žižkov", "Karlín", "Holešovice", "Smíchov", "Nusle", "Letná", "Dejvice", "Vršovice", "Libeň"],
+    "streets": ["Václavské náměstí", "Národní třída", "Na Příkopě", "Pařížská", "Vinohradská", "Karlova", "Nerudova", "Rašínovo nábřeží", "Korunní", "Křižíkova"],
+    "landmarks": ["Karlův most", "Pražský hrad", "Staroměstský orloj", "Tančící dům", "Žižkovský vysílač", "Petřín", "Vyšehrad", "Letenské sady", "Riegrovy sady", "Národní divadlo", "Obecní dům", "Náplavka"]
+  },
+  "small_talk": [
+    "The 22 is full of tourists heading up to the Castle again.",
+    "Meet you under the horse on Wenceslas Square?",
+    "The farmers' market on Náplavka is unreal on a Saturday.",
+    "Letná beer garden tonight? Best view in Prague.",
+    "Karlín is all offices and brunch places now.",
+    "The C line was packed this morning.",
+    "Riegráče at sunset, you can't beat it.",
+    "My lunch menu place does svíčková on Thursdays.",
+    "Sapa for phở this weekend?",
+    "The Lítačka app actually worked first time today."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Prague",
+    "https://en.wikipedia.org/wiki/Prague_Metro",
+    "https://en.wikipedia.org/wiki/Trams_in_Prague",
+    "https://pid.cz/",
+    "https://en.wikipedia.org/wiki/Czech_cuisine"
+  ]
+}

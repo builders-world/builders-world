@@ -1,0 +1,89 @@
+{
+  "street": { "ur": 0.8, "en": 0.2 },
+  "registers": {},
+  "names": { "weights": { "urdu_speaking": 0.44, "pashtun": 0.16, "punjabi": 0.16, "sindhi": 0.14, "baloch": 0.1 } },
+  "phrases": {
+    "ur": {
+      "hello": [["Abay, kya scene hai?", "Hey, what's happening? (Karachi street slang, between friends)"], ["Aur jani, kya haal?", "Hey dear, how are you?"]],
+      "great": [["Kya baat hai!", "Brilliant!"], ["Zabardast!", "Fantastic!"]],
+      "how_much": [["Kitne ka hai?", "How much is it?"], ["Kiraya kitna?", "What's the fare?"]],
+      "no_worries": [["Koi masla nahin", "No problem"], ["Tension na lo", "Don't worry"]],
+      "friend": [["Jani", "Dear friend (Karachi)"], ["Bhai ki jaan", "My dear brother"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Salaam! How are you?", "Hey yaar, how is it going?", "Morning! How was the traffic on Shahrah-e-Faisal?", "Hi, long time no see!", "Hello ji, all well at home?"],
+      "reply": ["All good, thank God. You?", "Fine yaar, just a long week.", "Doing well, thanks for asking!", "Good, good, can't complain.", "All set, what about you?"],
+      "sunny": ["It is scorching today, stay in the shade.", "Clear skies, perfect for Sea View this evening.", "Hot and humid, classic Karachi.", "The sea breeze is finally blowing.", "Great day for chai at a dhaba."],
+      "rain": ["Rain in Karachi, the whole city stops.", "Roads are flooded near Saddar, take another way.", "Pakoray and chai weather!", "Carry an umbrella, it is coming down hard.", "Proper monsoon rain, drive slowly."],
+      "bye": ["Okay, Allah Hafiz!", "See you soon, take care.", "Catch you later, yaar.", "Bye, say salaam to everyone.", "Okay then, stay well."],
+      "busy": ["Running late for office, talk later!", "Stuck at Teen Talwar, call you back.", "Got a meeting in Clifton, see you!", "Bit busy today, let us chat tomorrow.", "My Careem is here, have to go!"]
+    },
+    "ur": {
+      "greet": ["Assalam-o-alaikum! Kya haal hai?", "Aur bhai, kya scene hai?", "Salaam baji, kaisi hain?", "Kya haal chaal hai, jani?", "Aur sunao, sab khairiyat?"],
+      "reply": ["Allah ka shukar hai, aap sunao?", "Bas yaar, guzaara ho raha hai.", "Theek thaak, aap batao.", "Sab badhiya, shukriya!"],
+      "sunny": ["Aaj to bohat garmi hai yaar.", "Dhoop bohat tez hai, pani saath rakho.", "Shaam ko samandar ki hawa chalegi, phir mazay.", "Aaj mausam bara acha hai."],
+      "rain": ["Barish ho rahi hai, sarkon pe pani bhar jayega.", "Barish aayi hai, pakoray banao!", "Aaj barish mein traffic jam hoga.", "Chhatri le lo, barish tez hai."],
+      "bye": ["Chalo, Allah Hafiz!", "Phir milte hain.", "Khuda Hafiz, apna khayal rakhna.", "Chalo bhai, nikalta hoon."],
+      "busy": ["Yaar abhi jaldi mein hoon, baad mein baat karte hain.", "Office ke liye late ho gaya, chalta hoon!", "Bus nikal rahi hai, phir milte hain!", "Abhi kaam bohat hai, call karta hoon."]
+    }
+  },
+  "transport": {
+    "bus": "bus",
+    "minibus": "coach",
+    "brt": "Green Line",
+    "tricycle": "rickshaw",
+    "shared_tricycle": "chingchi",
+    "moto_taxi": "Bykea",
+    "ride_hail": "Careem",
+    "taxi": "taxi",
+    "conductor": "conductor",
+    "stage": "stop"
+  },
+  "touts": [
+    "Saddar, Saddar, Tower!",
+    "Nipa, Gulshan, Nipa!",
+    "Aa jao, aa jao, khali hai!",
+    "Orangi! Orangi! Banaras!",
+    "Numaish, Guru Mandir!",
+    "Sohrab Goth, Sohrab Goth!",
+    "Peechay ho jao bhai, jagah banao!",
+    "Ustad, chalo, chalo!"
+  ],
+  "hawkers": [
+    ["Garam garam bhutta!", "Hot roasted corn!"],
+    ["Chanay, garam chanay!", "Hot chickpeas!"],
+    ["Thanda thanda pani!", "Cold water!"],
+    ["Gola ganda!", "Shaved ice with syrup!"],
+    ["Bun kabab, garam!", "Hot bun kebab!"],
+    ["Gajray le lo!", "Flower garlands!"],
+    ["Paapar, paapar!", "Crispy papad!"]
+  ],
+  "food": {
+    "street": ["bun kabab", "gola ganda", "chaat", "dahi baray", "gol gappay", "bhutta", "samosa", "pakoray", "malai boti", "bihari kabab"],
+    "dishes": ["Sindhi biryani", "nihari", "haleem", "karahi", "paye", "qorma", "seekh kabab", "daal chawal"],
+    "drinks": ["doodh patti", "Irani chai", "lassi", "ganne ka ras", "falsa sharbat", "falooda", "kahwa"]
+  },
+  "places": {
+    "neighbourhoods": ["Clifton", "DHA", "Saddar", "Gulshan-e-Iqbal", "North Nazimabad", "PECHS", "Bahadurabad", "Gulistan-e-Jauhar", "Korangi", "Lyari", "Federal B Area", "Malir", "Nazimabad"],
+    "streets": ["Shahrah-e-Faisal", "Tariq Road", "I.I. Chundrigar Road", "M.A. Jinnah Road", "Burns Road", "Zamzama Boulevard", "Khayaban-e-Ittehad", "University Road", "Abdullah Haroon Road"],
+    "landmarks": ["Mazar-e-Quaid", "Clifton Beach (Sea View)", "Frere Hall", "Empress Market", "Do Darya", "Port Grand", "Mohatta Palace", "Merewether Tower", "Teen Talwar", "Dolmen Mall Clifton"]
+  },
+  "small_talk": [
+    "Sea View on a Sunday evening, the whole city is there.",
+    "Burns Road nihari for breakfast, nothing beats it.",
+    "Shahrah-e-Faisal was jammed all the way to Nursery.",
+    "One proper rain and half of Saddar floods.",
+    "The Green Line is quick, I was in Numaish in no time.",
+    "When the sea breeze stops, you know a heatwave is coming.",
+    "Dinner at Do Darya tonight? The view is worth it.",
+    "Tariq Road is packed before Eid, park far away."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Karachi",
+    "https://en.wikipedia.org/wiki/Karachi_Metrobus",
+    "https://en.wikipedia.org/wiki/Burns_Road",
+    "https://en.wikipedia.org/wiki/Pakistani_cuisine"
+  ]
+}

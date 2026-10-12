@@ -1,0 +1,369 @@
+{
+  "street": {
+    "pt": 0.6,
+    "manezinho": 0.3,
+    "es": 0.08,
+    "en": 0.02
+  },
+  "registers": {
+    "manezinho": {
+      "name": "Manezinho",
+      "about": "The island's own Portuguese, from its Azorean settlers: quick and sing-song, with tu and its full verbs (tu queres, tu vais) and cries like 'Ó-lhó-lhó!' and 'Tás tolo?'."
+    }
+  },
+  "names": {
+    "weights": {
+      "brazilian": 0.6,
+      "azorean": 0.2,
+      "german_brazilian": 0.1,
+      "italian_brazilian": 0.08,
+      "arab_brazilian": 0.01,
+      "japanese_brazilian": 0.01
+    }
+  },
+  "phrases": {
+    "manezinho": {
+      "hello": [
+        [
+          "Ó-lhó-lhó, olha quem chegou!",
+          "Well, well, look who's here!"
+        ],
+        [
+          "Oi, tudo bom contigo?",
+          "Hi, all good with you?"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Tás bem?",
+          "Are you well?"
+        ]
+      ],
+      "fine": [
+        [
+          "Tô bem, graças",
+          "I'm fine, thanks"
+        ]
+      ],
+      "no": [
+        [
+          "Tás tolo?",
+          "Are you mad? No way!"
+        ],
+        [
+          "Bem capaz!",
+          "No chance! Of course not!"
+        ]
+      ],
+      "yes": [
+        [
+          "Queres? Então vamos",
+          "You want to? Then let's go"
+        ]
+      ],
+      "bye": [
+        [
+          "Até mais, querido",
+          "See you later, dear"
+        ]
+      ]
+    }
+  },
+  "chat": {
+    "pt": {
+      "greet": [
+        "Bom dia! Tudo bem?",
+        "Oi! Como você está?",
+        "Boa tarde! Tudo certo?",
+        "Olá! Quanto tempo!",
+        "E aí, foi à praia?"
+      ],
+      "reply": [
+        "Tudo ótimo, e você?",
+        "Tudo bem, graças a Deus.",
+        "Bem, aproveitando o sol.",
+        "Tudo certo, trabalhando.",
+        "Tudo tranquilo, obrigado."
+      ],
+      "sunny": [
+        "Que dia lindo, a Joaquina vai lotar.",
+        "Sol e mar calmo, dia de Campeche.",
+        "Calorão! Bora pra Lagoa?",
+        "Céu limpo, dá pra ver a ponte de longe.",
+        "Dia perfeito pra um pôr do sol em Santo Antônio."
+      ],
+      "rain": [
+        "Chegou o vento sul, vai esfriar.",
+        "Chuva o dia todo, nada de praia.",
+        "Leva o guarda-chuva, o tempo virou.",
+        "Com essa chuva a SC-401 vai travar.",
+        "Temporal chegando do mar."
+      ],
+      "bye": [
+        "Tchau, até mais!",
+        "Até amanhã!",
+        "Boa praia!",
+        "Se cuida!",
+        "Manda um abraço pra família."
+      ],
+      "busy": [
+        "Desculpa, estou atrasado pro trabalho.",
+        "Preciso pegar o ônibus no TICEN, até mais!",
+        "Tenho reunião no Sapiens, depois falamos.",
+        "Estou correndo, a ponte está parada.",
+        "Vou buscar as crianças na escola."
+      ]
+    },
+    "manezinho": {
+      "greet": [
+        "Ó-lhó-lhó, olha quem chegou!",
+        "Oi, querido, tás bem?",
+        "Bom dia! Tu vais pra praia hoje?",
+        "Ó, tudo bom contigo?"
+      ],
+      "reply": [
+        "Tô bem, graças, e tu?",
+        "Tudo bom, tudo tranquilo.",
+        "Tô bem, só trabalhando.",
+        "Tudo certo, querida."
+      ],
+      "sunny": [
+        "Ó-lhó-lhó, que dia bonito!",
+        "Sol desses, tu vais ficar em casa? Tás tolo?",
+        "Mar calmo hoje, dá pra pescar.",
+        "Que calor, vou pra Lagoa."
+      ],
+      "rain": [
+        "Ó o vento sul chegando!",
+        "Choveu e esfriou, que frio!",
+        "Hoje não tem praia, bem capaz!",
+        "Tempo feio, a tainha vai aparecer."
+      ],
+      "bye": [
+        "Até mais, querido!",
+        "Tchau, vai com Deus.",
+        "Te cuida, hein!",
+        "Até amanhã, se Deus quiser."
+      ],
+      "busy": [
+        "Tô com pressa, depois a gente conversa.",
+        "Vou pegar o ônibus, tchau!",
+        "Tô atrasado, a ponte tá parada.",
+        "Queres falar? Depois, agora não dá."
+      ]
+    },
+    "es": {
+      "greet": [
+        "¡Hola! ¿Todo bien?",
+        "¡Buen día! ¿Cómo andás?",
+        "¿Qué tal la playa?",
+        "¡Hola, che! ¿Cómo va?"
+      ],
+      "reply": [
+        "Todo bien, ¿y vos?",
+        "Bárbaro, disfrutando el sol.",
+        "Bien, de vacaciones.",
+        "Muy bien, gracias."
+      ],
+      "sunny": [
+        "¡Qué día increíble!",
+        "Día de playa, vamos a Canasvieiras.",
+        "Hace un calor bárbaro.",
+        "El agua está divina hoy."
+      ],
+      "rain": [
+        "Llueve, hoy no hay playa.",
+        "Viene viento sur, se puso frío.",
+        "Llevá paraguas, se largó a llover.",
+        "Qué día feo, vamos al centro."
+      ],
+      "bye": [
+        "¡Chau, nos vemos!",
+        "¡Hasta mañana!",
+        "Cuidate.",
+        "¡Buena playa!"
+      ],
+      "busy": [
+        "Me voy, sale el micro.",
+        "Estoy apurado, después hablamos.",
+        "Tengo que devolver el auto.",
+        "Nos vamos al aeropuerto, chau."
+      ]
+    },
+    "en": {
+      "greet": [
+        "Hi! How's it going?",
+        "Morning! Been to the beach yet?",
+        "Hey, good to see you!",
+        "Oi! How are you?",
+        "Hey there, how was the surf?"
+      ],
+      "reply": [
+        "Good, thanks! You?",
+        "Great, just got back from Joaquina.",
+        "Not bad, working from a café by the Lagoa.",
+        "All good, obrigado!",
+        "Doing well, loving the island."
+      ],
+      "sunny": [
+        "Perfect beach day.",
+        "Sun and flat water, let's go to Campeche Island.",
+        "Hot one, the Lagoa will be busy.",
+        "Clear sky, you can see the whole bridge.",
+        "Gorgeous sunset coming tonight in Santo Antônio."
+      ],
+      "rain": [
+        "The southern wind is in, it's getting cold.",
+        "Rain all day, no beach.",
+        "Bring a jacket, the weather turned.",
+        "The SC-401 will be jammed with this rain.",
+        "Storm coming in off the sea."
+      ],
+      "bye": [
+        "See you later!",
+        "Take care!",
+        "Tchau!",
+        "Have a good one!",
+        "Catch you at the beach."
+      ],
+      "busy": [
+        "Gotta run, meeting at Sapiens Parque.",
+        "Late, the bridge traffic is terrible.",
+        "Catching the bus at TICEN, talk later!",
+        "Running, my Uber is here.",
+        "Can't stop, see you!"
+      ]
+    }
+  },
+  "transport": {
+    "bus": "ônibus",
+    "terminal": "terminal de integração (TICEN in the centre)",
+    "boat": "barco da Costa da Lagoa",
+    "taxi": "táxi",
+    "rideshare": "Uber or 99",
+    "stage": "ponto de ônibus"
+  },
+  "touts": [
+    "Passeio de barco pra Ilha do Campeche, saindo agora!",
+    "Sequência de camarão, entra aí!",
+    "Aluguel de cadeira e guarda-sol!",
+    "Barco pra Costa da Lagoa, embarque agora!",
+    "Ostra fresquinha do Ribeirão, prova!"
+  ],
+  "hawkers": [
+    [
+      "Olha o picolé!",
+      "Ice lollies! (a beach seller)"
+    ],
+    [
+      "Milho verde, quentinho!",
+      "Hot sweet corn!"
+    ],
+    [
+      "Camarão no espeto!",
+      "Shrimp on a skewer!"
+    ],
+    [
+      "Água de coco gelada!",
+      "Cold coconut water!"
+    ],
+    [
+      "Olha o queijo coalho na brasa!",
+      "Grilled cheese on a stick!"
+    ]
+  ],
+  "food": {
+    "street": [
+      "pastel de camarão",
+      "camarão no espeto",
+      "queijo coalho",
+      "milho verde",
+      "açaí",
+      "picolé"
+    ],
+    "dishes": [
+      "sequência de camarão",
+      "ostras gratinadas",
+      "ostras ao bafo",
+      "tainha escalada",
+      "pirão",
+      "caldo de peixe",
+      "moqueca"
+    ],
+    "drinks": [
+      "água de coco",
+      "caipirinha",
+      "cerveja artesanal",
+      "chimarrão",
+      "caldo de cana",
+      "suco de maracujá"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "Centro",
+      "Lagoa da Conceição",
+      "Santo Antônio de Lisboa",
+      "Ribeirão da Ilha",
+      "Campeche",
+      "Jurerê Internacional",
+      "Canasvieiras",
+      "Ingleses",
+      "Trindade",
+      "Coqueiros",
+      "Estreito",
+      "Itacorubi",
+      "Rio Tavares",
+      "Barra da Lagoa",
+      "Pântano do Sul",
+      "Córrego Grande",
+      "Sambaqui"
+    ],
+    "streets": [
+      "Avenida Beira-Mar Norte",
+      "Rua Felipe Schmidt",
+      "Avenida Hercílio Luz",
+      "Avenida das Rendeiras",
+      "Rua Conselheiro Mafra",
+      "Rua Bocaiúva",
+      "Rua Lauro Linhares",
+      "Rodovia SC-401",
+      "Rodovia SC-405",
+      "Avenida Pequeno Príncipe"
+    ],
+    "landmarks": [
+      "Ponte Hercílio Luz",
+      "Mercado Público",
+      "a Figueira da Praça XV",
+      "Praça XV de Novembro",
+      "Lagoa da Conceição",
+      "Praia da Joaquina",
+      "Praia Mole",
+      "Ilha do Campeche",
+      "Fortaleza de São José da Ponta Grossa",
+      "Catedral Metropolitana",
+      "UFSC",
+      "Sapiens Parque",
+      "Morro da Cruz",
+      "Lagoinha do Leste"
+    ]
+  },
+  "small_talk": [
+    "The southern wind came in and the temperature dropped ten degrees.",
+    "Tainha season started, the fishermen are watching the sea all day.",
+    "In summer the island fills up with Argentines, the beaches are packed.",
+    "The bridge was stopped for an hour, there's only one way off the island.",
+    "Get the oysters in Ribeirão da Ilha, they come straight from the farm.",
+    "There are forty-something beaches here, I still haven't been to all of them.",
+    "Half my friends work in tech now, they call it the Ilha do Silício.",
+    "The Hercílio Luz bridge lit up at night is the best view in the city.",
+    "Sandboarding on the Joaquina dunes this weekend, you in?",
+    "Take the boat to Costa da Lagoa, there's no road, only boats and a trail."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Florian%C3%B3polis",
+    "https://pt.wikipedia.org/wiki/Florian%C3%B3polis",
+    "https://pt.wikipedia.org/wiki/Manezinho",
+    "https://www.ibge.gov.br"
+  ]
+}

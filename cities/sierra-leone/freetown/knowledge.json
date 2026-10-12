@@ -1,0 +1,79 @@
+{
+  "street": { "kri": 0.8, "en": 0.2 },
+  "names": { "weights": { "temne": 0.5, "mende": 0.32, "krio": 0.18 } },
+  "phrases": {
+    "kri": {
+      "hello": [["Kushɛ-o!", "Hello there!"], ["Aw yu de, padi?", "How are you, friend?"]],
+      "fine": [["A de", "I'm here, fine"], ["Wi de manej", "We're managing"]],
+      "bye": [["A de go", "I'm going"], ["Wi go si bak", "We'll see again"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Good morning! How did you sleep?", "Hello, how is the family?", "Good evening, how was work?", "Ah, long time! You're well?", "Hello, how is the body today?"],
+      "reply": ["I'm fine, thank you.", "We're here, managing.", "Not bad, and you?", "All good, thanks for asking.", "The family is well, thank God."],
+      "sunny": ["Hot day, Lumley Beach will be full.", "Good day for a swim at River Number Two.", "The sun is strong, find some shade.", "Clear sky, you can see right across to Lungi.", "Too hot to walk up the hill, I'll take an okada."],
+      "rain": ["The rains don't joke in July.", "Carry an umbrella, it's pouring again.", "Kissy Road will be flooded after this.", "Wait a bit, it will ease off.", "Rain all night, I barely slept."],
+      "bye": ["See you later!", "Take care!", "See you tomorrow.", "Greet the family for me.", "Go well!"],
+      "busy": ["Sorry, I'm rushing to the office.", "Traffic at Congo Cross, I have to go.", "Let me run, the poda-poda is leaving.", "I'll call you this evening.", "Busy day, we'll talk later."]
+    },
+    "kri": {
+      "greet": ["Kushɛ-o! Aw di bɔdi?", "Mɔnin-o! Aw yu slip?", "Aw yu de, padi?", "Gud ivin-o! Aw di wok?", "Aw di famili?"],
+      "reply": ["A de, tɛnki.", "Di bɔdi fayn, tɛnki-o.", "Wi de, wi de manej.", "Nɔ bad, ɛn yu?", "A slip fayn, tɛnki."],
+      "sunny": ["San hot tide-o!", "Di san de bɔn bad bad wan.", "Na fayn de fɔ go bich.", "Dis hɛt tu mɔs!"],
+      "rain": ["Rɛn de kam!", "Di rɛn nɔ de stɔp tide.", "Tek yu ambrɛla, rɛn de kam.", "Di wata dɔn ful di rod."],
+      "bye": ["A de go, wi go si bak.", "Bay bay-o!", "Wi go tɔk tumara.", "Tek kia, ya."],
+      "busy": ["A de rɔsh, wi go tɔk.", "A de go wok, a lɛt bad.", "Di pɔda-pɔda de wet mi, a de go!", "A bizi tide, wi go tɔk afta."]
+    }
+  },
+  "transport": { "bus": "poda-poda", "moto_taxi": "okada", "tricycle": "keke", "taxi": "taxi", "shared_taxi": "taxi", "conductor": "apprentice", "stage": "car park" },
+  "touts": [
+    "Lumley! Lumley!",
+    "Kissy! Kissy Road!",
+    "Waterloo! Waterloo!",
+    "Congo Cross!",
+    "Eastern Police!",
+    "PZ! PZ!",
+    "Wellington! Wellington!",
+    "Wan pɔsin! Wan pɔsin lɛf!"
+  ],
+  "hawkers": [
+    ["Ice wata! Ice wata!", "Cold water!"],
+    ["Kanya! Kanya!", "Peanut and rice sweets!"],
+    ["Binch akara!", "Bean fritters!"],
+    ["Ginja bia!", "Ginger beer!"],
+    ["Fry fish! Fry fish!", "Fried fish!"],
+    ["Roast kɔn!", "Roasted corn!"],
+    ["Puff-puff!", "Doughnuts!"],
+    ["Top-up! Top-up!", "Phone credit!"]
+  ],
+  "food": {
+    "street": ["binch akara", "kanya", "fry fish", "roasted corn", "puff-puff", "roasted groundnuts", "fried plantain"],
+    "dishes": ["cassava leaves", "potato leaves", "groundnut soup", "jollof rice", "fufu and okra soup", "pepper soup", "binch and fry fish"],
+    "drinks": ["ginja bia", "poyo (palm wine)", "Star beer", "Malta Guinness", "omole (local gin)", "kola nut"]
+  },
+  "places": {
+    "neighbourhoods": ["Lumley", "Aberdeen", "Wilberforce", "Hill Station", "Kissy", "Wellington", "Congo Town", "Murray Town", "Brookfields", "Tengbeh Town", "Kroo Town", "Fourah Bay", "Goderich", "Juba", "Regent", "Calaba Town", "Signal Hill", "Mountain Cut", "Kingtom"],
+    "streets": ["Siaka Stevens Street", "Kissy Road", "Wilkinson Road", "Lumley Beach Road", "Bai Bureh Road", "Pademba Road", "Sanders Street", "Circular Road", "Main Motor Road", "Spur Road", "Wallace Johnson Street", "Lightfoot Boston Street"],
+    "landmarks": ["Lumley Beach", "the Cotton Tree site", "Big Market", "National Stadium", "Fourah Bay College", "Aberdeen Bridge", "St John's Maroon Church", "Tacugama Chimpanzee Sanctuary", "Congo Cross Bridge", "Lumley roundabout", "PZ junction", "Queen Elizabeth II Quay"]
+  },
+  "small_talk": [
+    "Kissy Road was jammed all the way from PZ.",
+    "Let's go to Lumley Beach for the sunset.",
+    "The rain in July does not joke.",
+    "The okada to Aberdeen was quick, but I held on tight.",
+    "The light went off again last night.",
+    "Ferry or sea coach to Lungi?",
+    "Big Market has the best gara cloth.",
+    "Cassava leaves and rice on Sunday, as always.",
+    "Leone Stars are playing at the stadium this weekend."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Freetown",
+    "https://en.wikipedia.org/wiki/Krio_language",
+    "https://en.wikipedia.org/wiki/Poda-poda",
+    "https://en.wikipedia.org/wiki/Cotton_Tree_(Sierra_Leone)",
+    "https://en.wikipedia.org/wiki/Sierra_Leonean_cuisine",
+    "https://en.wikivoyage.org/wiki/Freetown"
+  ]
+}

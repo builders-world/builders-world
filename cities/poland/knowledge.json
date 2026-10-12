@@ -1,0 +1,652 @@
+{
+  "languages": [
+    {
+      "code": "pl",
+      "name": "Polish",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "commonly"
+    },
+    {
+      "code": "uk",
+      "name": "Ukrainian",
+      "official": false,
+      "spoken": "commonly"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Given name then family name. Most Poles carry Catholic or old Slavic first names (Jan, Anna, Wojciech, Bogumiła) and many still mark their name day (imieniny). Surnames ending in -ski, -cki and -dzki change for women: Kowalski becomes Kowalska, Zieliński becomes Zielińska; the lists give the male form. Names like Nowak, Wójcik, Mazur and Krawczyk stay the same for women. Friends use short forms all the time: Kasia for Katarzyna, Gosia for Małgorzata, Tomek for Tomasz, Kuba for Jakub, Ola for Aleksandra. Ukrainians and Belarusians write their names in their passport's Latin spelling; Ukrainian names ending in -enko, -uk or -chuk are the same for women, while -skyi becomes -ska. Vietnamese Poles put the family name first at home (Nguyễn Văn Minh) and many also use a Polish first name at work.",
+    "groups": {
+      "polish": {
+        "given": {
+          "m": [
+            "Jakub",
+            "Kacper",
+            "Piotr",
+            "Krzysztof",
+            "Tomasz",
+            "Paweł",
+            "Michał",
+            "Marcin",
+            "Łukasz",
+            "Mateusz",
+            "Adam",
+            "Marek",
+            "Grzegorz",
+            "Bartosz",
+            "Kamil",
+            "Szymon",
+            "Wojciech",
+            "Jan"
+          ],
+          "f": [
+            "Anna",
+            "Katarzyna",
+            "Magdalena",
+            "Agnieszka",
+            "Małgorzata",
+            "Joanna",
+            "Monika",
+            "Karolina",
+            "Aleksandra",
+            "Natalia",
+            "Zuzanna",
+            "Julia",
+            "Paulina",
+            "Marta",
+            "Ewa",
+            "Dorota"
+          ]
+        },
+        "family": [
+          "Nowak",
+          "Kowalski",
+          "Wiśniewski",
+          "Wójcik",
+          "Kowalczyk",
+          "Kamiński",
+          "Lewandowski",
+          "Zieliński",
+          "Szymański",
+          "Woźniak",
+          "Dąbrowski",
+          "Kozłowski",
+          "Jankowski",
+          "Mazur",
+          "Kwiatkowski",
+          "Krawczyk",
+          "Piotrowski",
+          "Grabowski"
+        ],
+        "family_f": [
+          "Nowak",
+          "Kowalska",
+          "Wiśniewska",
+          "Wójcik",
+          "Kowalczyk",
+          "Kamińska",
+          "Lewandowska",
+          "Zielińska",
+          "Szymańska",
+          "Woźniak",
+          "Dąbrowska",
+          "Kozłowska",
+          "Jankowska",
+          "Mazur",
+          "Kwiatkowska",
+          "Krawczyk",
+          "Piotrowska",
+          "Grabowska"
+        ]
+      },
+      "ukrainian": {
+        "given": {
+          "m": [
+            "Oleksandr",
+            "Andrii",
+            "Dmytro",
+            "Serhii",
+            "Mykola",
+            "Volodymyr",
+            "Ivan",
+            "Yurii",
+            "Vitalii",
+            "Bohdan",
+            "Taras",
+            "Maksym",
+            "Oleh",
+            "Roman",
+            "Artem",
+            "Denys"
+          ],
+          "f": [
+            "Olena",
+            "Nataliia",
+            "Tetiana",
+            "Iryna",
+            "Svitlana",
+            "Oksana",
+            "Yuliia",
+            "Hanna",
+            "Kateryna",
+            "Mariia",
+            "Anastasiia",
+            "Viktoriia",
+            "Olha",
+            "Daria",
+            "Sofiia"
+          ]
+        },
+        "family": [
+          "Kovalenko",
+          "Shevchenko",
+          "Bondarenko",
+          "Tkachenko",
+          "Kovalchuk",
+          "Kravets",
+          "Oliinyk",
+          "Melnyk",
+          "Boiko",
+          "Moroz",
+          "Lysenko",
+          "Marchenko",
+          "Rudenko",
+          "Savchenko",
+          "Petrenko",
+          "Klymenko"
+        ]
+      },
+      "belarusian": {
+        "given": {
+          "m": [
+            "Aliaksandr",
+            "Siarhei",
+            "Andrei",
+            "Dzmitry",
+            "Pavel",
+            "Ihar",
+            "Uladzimir",
+            "Mikalai",
+            "Viktar",
+            "Yauheni",
+            "Kanstantsin",
+            "Maksim",
+            "Ivan",
+            "Raman"
+          ],
+          "f": [
+            "Volha",
+            "Hanna",
+            "Tatsiana",
+            "Natallia",
+            "Iryna",
+            "Yuliya",
+            "Katsiaryna",
+            "Sviatlana",
+            "Viktoryia",
+            "Alena",
+            "Maryia",
+            "Darya"
+          ]
+        },
+        "family": [
+          "Ivanou",
+          "Kavaliou",
+          "Kazlou",
+          "Marozau",
+          "Novik",
+          "Karpovich",
+          "Kuzmich",
+          "Hrynevich",
+          "Zhuk",
+          "Kavalenka",
+          "Sakalou",
+          "Pashkevich",
+          "Yakimovich",
+          "Savitski",
+          "Vasilevich"
+        ],
+        "family_f": [
+          "Ivanova",
+          "Kavaliova",
+          "Kazlova",
+          "Marozava",
+          "Novik",
+          "Karpovich",
+          "Kuzmich",
+          "Hrynevich",
+          "Zhuk",
+          "Kavalenka",
+          "Sakalova",
+          "Pashkevich",
+          "Yakimovich",
+          "Savitskaya",
+          "Vasilevich"
+        ]
+      },
+      "vietnamese": {
+        "given": {
+          "m": [
+            "Minh",
+            "Tuấn",
+            "Hùng",
+            "Dũng",
+            "Hải",
+            "Long",
+            "Nam",
+            "Quang",
+            "Đức",
+            "Thắng",
+            "Sơn",
+            "Hiếu",
+            "Khánh",
+            "Phong"
+          ],
+          "f": [
+            "Lan",
+            "Hương",
+            "Linh",
+            "Mai",
+            "Trang",
+            "Hà",
+            "Ngọc",
+            "Thảo",
+            "Hoa",
+            "Thu",
+            "Phương",
+            "Anh",
+            "Nhung",
+            "Hằng"
+          ]
+        },
+        "family": [
+          "Nguyễn",
+          "Trần",
+          "Lê",
+          "Phạm",
+          "Hoàng",
+          "Phan",
+          "Vũ",
+          "Võ",
+          "Đặng",
+          "Bùi",
+          "Đỗ",
+          "Hồ",
+          "Ngô",
+          "Dương"
+        ],
+        "also": {
+          "m": [
+            "Adam",
+            "Tomasz",
+            "Piotr",
+            "Marek"
+          ],
+          "f": [
+            "Anna",
+            "Kasia",
+            "Ewa",
+            "Monika"
+          ]
+        }
+      }
+    },
+    "weights": {
+      "polish": 0.88,
+      "ukrainian": 0.08,
+      "belarusian": 0.025,
+      "vietnamese": 0.015
+    }
+  },
+  "honorifics": {
+    "elder_m": "Pan",
+    "elder_f": "Pani",
+    "peer_m": "stary",
+    "peer_f": "kochana",
+    "boss": "szefie"
+  },
+  "phrases": {
+    "pl": {
+      "hello": [
+        [
+          "Cześć!",
+          "Hi!"
+        ],
+        [
+          "Dzień dobry",
+          "Good day (polite)"
+        ],
+        [
+          "Siema!",
+          "Hey! (casual)"
+        ]
+      ],
+      "morning": [
+        [
+          "Dzień dobry",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Dobry wieczór",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Jak się masz?",
+          "How are you?"
+        ],
+        [
+          "Co słychać?",
+          "What's new?"
+        ],
+        [
+          "Jak leci?",
+          "How's it going?"
+        ]
+      ],
+      "fine": [
+        [
+          "Dobrze, dzięki",
+          "Fine, thanks"
+        ],
+        [
+          "W porządku",
+          "All right"
+        ],
+        [
+          "Spoko",
+          "Cool, fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Dziękuję",
+          "Thank you"
+        ],
+        [
+          "Dzięki",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "Do widzenia",
+          "Goodbye"
+        ],
+        [
+          "Na razie!",
+          "See you!"
+        ],
+        [
+          "Cześć!",
+          "Bye!"
+        ]
+      ],
+      "welcome": [
+        [
+          "Witamy",
+          "Welcome"
+        ],
+        [
+          "Zapraszam",
+          "Please, come in"
+        ]
+      ],
+      "sorry": [
+        [
+          "Przepraszam",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Przepraszam",
+          "Excuse me"
+        ],
+        [
+          "Przepraszam, można?",
+          "Excuse me, may I get past?"
+        ]
+      ],
+      "yes": [
+        [
+          "Tak",
+          "Yes"
+        ],
+        [
+          "No, jasne",
+          "Yeah, sure"
+        ]
+      ],
+      "no": [
+        [
+          "Nie",
+          "No"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hi!",
+          "Hi!"
+        ],
+        [
+          "Hello",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Fine, thanks",
+          "Fine, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "See you",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    },
+    "uk": {
+      "hello": [
+        [
+          "Привіт!",
+          "Hi!"
+        ],
+        [
+          "Добрий день",
+          "Good day"
+        ]
+      ],
+      "morning": [
+        [
+          "Доброго ранку",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Добрий вечір",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Як справи?",
+          "How are you?"
+        ],
+        [
+          "Як ти?",
+          "How are you? (to a friend)"
+        ]
+      ],
+      "fine": [
+        [
+          "Добре, дякую",
+          "Good, thanks"
+        ],
+        [
+          "Нормально",
+          "Fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Дякую",
+          "Thank you"
+        ],
+        [
+          "Дуже дякую",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "До побачення",
+          "Goodbye"
+        ],
+        [
+          "Бувай!",
+          "Bye!"
+        ],
+        [
+          "На все добре!",
+          "All the best!"
+        ]
+      ],
+      "welcome": [
+        [
+          "Ласкаво просимо",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Вибачте",
+          "Sorry (polite)"
+        ],
+        [
+          "Вибач",
+          "Sorry (informal)"
+        ]
+      ],
+      "excuse": [
+        [
+          "Перепрошую",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Так",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Ні",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "PLN",
+    "symbol": "zł",
+    "words": [
+      [
+        "złoty",
+        "the currency; two złote, five złotych"
+      ],
+      [
+        "grosz",
+        "a hundredth of a złoty"
+      ],
+      [
+        "dycha",
+        "ten złoty, slang"
+      ],
+      [
+        "stówa",
+        "a hundred złoty, slang"
+      ],
+      [
+        "tysiak",
+        "a thousand złoty, slang"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Polish_name",
+    "https://en.wikipedia.org/wiki/Languages_of_Poland",
+    "https://en.wikipedia.org/wiki/Ukrainians_in_Poland",
+    "https://en.wikipedia.org/wiki/Belarusians_in_Poland",
+    "https://en.wikipedia.org/wiki/Vietnamese_people_in_Poland",
+    "https://stat.gov.pl/"
+  ]
+}

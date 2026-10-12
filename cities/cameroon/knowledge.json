@@ -1,0 +1,133 @@
+{
+  "languages": [
+    { "code": "fr", "name": "French", "official": true, "spoken": "widely" },
+    { "code": "en", "name": "English", "official": true, "spoken": "widely in the North-West and South-West, commonly elsewhere" },
+    { "code": "wes", "name": "Cameroonian Pidgin English", "official": false, "spoken": "widely, especially in Douala and the Anglophone regions" },
+    { "code": "ewo", "name": "Ewondo", "official": false, "spoken": "commonly in and around Yaoundé" },
+    { "code": "dua", "name": "Duala", "official": false, "spoken": "in Duala families and on the coast" },
+    { "code": "ff", "name": "Fulfulde", "official": false, "spoken": "widely in the north" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Most Cameroonians carry a French or English Christian first name (Serge, Christelle, Emmanuel, Blessing) or a Muslim one in the north, and a family name that is often a native name from the father or grandfather. On forms and in school lists the family name comes first, so people are often called 'Kamga Serge' or 'Mbarga Christelle'. The names tell where a family comes from: Fotso and Kamdem are Bamiléké, Mbarga and Atangana are Beti, Ekwalla and Ebongue are Duala, Che and Ngwa are from the North-West, Lyonga and Ayuk from the South-West. Many men add Junior or Fils when named after their father.",
+    "groups": {
+      "bamileke": {
+        "given": {
+          "m": ["Serge", "Hervé", "Arnaud", "Joël", "Christian", "Patrick", "Rodrigue", "Franck", "Boris", "Landry", "Ulrich", "Cédric", "Brice", "Guy", "Thierry", "Junior"],
+          "f": ["Christelle", "Carine", "Sandrine", "Murielle", "Laure", "Linda", "Vanessa", "Nadège", "Josiane", "Pélagie", "Estelle", "Larissa", "Mireille", "Flore", "Gisèle", "Brenda"]
+        },
+        "family": ["Fotso", "Kamga", "Kamdem", "Tchinda", "Ngassa", "Djoumessi", "Fokou", "Kengne", "Takam", "Simo", "Talla", "Tagne", "Wafo", "Tsafack", "Noubissi", "Nana"]
+      },
+      "beti": {
+        "given": {
+          "m": ["Jean", "Paul", "Joseph", "Christian", "Serge", "Martin", "Thierry", "Yannick", "Eric", "Olivier", "Fabrice", "Dieudonné", "Alain", "Roger", "Stéphane", "Blaise"],
+          "f": ["Marie", "Christine", "Marthe", "Pauline", "Odile", "Thérèse", "Rose", "Cécile", "Agnès", "Solange", "Nathalie", "Ange", "Claudine", "Viviane", "Chantal", "Brigitte"]
+        },
+        "family": ["Mbarga", "Atangana", "Essomba", "Owona", "Fouda", "Onana", "Ndzana", "Mballa", "Abena", "Manga", "Ateba", "Ebogo", "Mvondo", "Nkodo", "Essama", "Amougou", "Etoundi", "Ondoa", "Tsala", "Ngono"]
+      },
+      "sawa": {
+        "given": {
+          "m": ["Jean-Pierre", "Charles", "Alexandre", "Richard", "Henri", "Frédéric", "Michel", "Daniel", "Samuel", "Emmanuel", "Gilles", "Rodolphe"],
+          "f": ["Marie-Claire", "Hélène", "Annie", "Sylvie", "Monique", "Danielle", "Caroline", "Jacqueline", "Florence", "Sophie", "Muriel", "Patricia"]
+        },
+        "family": ["Ekwalla", "Ebongue", "Ngando", "Moukoko", "Kotto", "Epée", "Ekambi", "Din", "Eyoum", "Priso", "Ndoumbé", "Mouellé", "Elamé", "Ekane", "Essoka", "Dikoumé"]
+      },
+      "grassfields": {
+        "given": {
+          "m": ["Emmanuel", "Divine", "Collins", "Clinton", "Kingsley", "Valentine", "Godlove", "Ernest", "Ivo", "Fidelis", "Stephen", "Desmond", "Derick", "Wilfred", "Elvis", "Peter"],
+          "f": ["Blessing", "Mercy", "Gladys", "Precious", "Delphine", "Brenda", "Vanessa", "Prudence", "Glory", "Comfort", "Bih", "Lum", "Nadine", "Marie", "Eveline", "Sandrine"]
+        },
+        "family": ["Che", "Ngwa", "Ndi", "Neba", "Suh", "Achu", "Ambe", "Nfor", "Fru", "Ngu", "Nkwenti", "Tangwa", "Ndifor", "Ngum", "Awah", "Mbah"]
+      },
+      "southwest": {
+        "given": {
+          "m": ["Emmanuel", "Ernest", "Peter", "John", "Samuel", "Michael", "Divine", "Francis", "Victor", "Patrick", "Joseph", "Kenneth"],
+          "f": ["Mary", "Grace", "Mercy", "Joyce", "Esther", "Rose", "Mosima", "Patience", "Florence", "Beatrice", "Sophie", "Agnes"]
+        },
+        "family": ["Lyonga", "Ndive", "Ewange", "Mokake", "Efange", "Molua", "Ikome", "Mbua", "Nanje", "Mafany", "Ayuk", "Tambe", "Tanyi", "Agbor", "Enow", "Ashu", "Eyong", "Besong", "Arrey", "Ojong"]
+      },
+      "northern": {
+        "given": {
+          "m": ["Hamadou", "Aminou", "Moussa", "Oumarou", "Bouba", "Abdoulaye", "Ahmadou", "Alim", "Mohamadou", "Saïdou", "Issa", "Djibrilla", "Adamou", "Yaya"],
+          "f": ["Aïssatou", "Fadimatou", "Hawaou", "Maïramou", "Aminatou", "Djamila", "Asta", "Ramatou", "Hadidja", "Zeïnabou", "Salamatou", "Halimatou"]
+        },
+        "family": ["Hamadou", "Bello", "Oumarou", "Abdoulaye", "Moussa", "Adamou", "Bouba", "Ibrahim", "Mohamadou", "Aboubakar", "Issa", "Saïdou", "Yaya", "Daïrou"]
+      }
+    },
+    "weights": { "bamileke": 0.27, "beti": 0.22, "sawa": 0.07, "grassfields": 0.15, "southwest": 0.07, "northern": 0.22 }
+  },
+  "honorifics": { "elder_m": "Papa", "elder_f": "Mami", "peer_m": "Mon frère", "peer_f": "Ma sœur", "boss": "Patron" },
+  "phrases": {
+    "fr": {
+      "hello": [["Bonjour", "Hello"], ["On dit quoi?", "What's up?"]],
+      "morning": [["Bonjour, bien dormi?", "Good morning, sleep well?"]],
+      "evening": [["Bonsoir", "Good evening"]],
+      "how_are_you": [["Ça va?", "How's it going?"], ["C'est comment?", "How is it?"]],
+      "fine": [["Ça va un peu", "Getting by, fine"], ["On est là", "We're here, fine"]],
+      "thanks": [["Merci", "Thank you"], ["Merci beaucoup", "Thanks a lot"]],
+      "bye": [["Au revoir", "Goodbye"], ["On est ensemble", "We're together (see you)"]],
+      "welcome": [["Bienvenue", "Welcome"], ["Bonne arrivée", "Welcome, glad you arrived"]],
+      "sorry": [["Pardon", "Sorry, please"], ["Ashia", "So sorry (sympathy)"]],
+      "excuse": [["Excusez-moi", "Excuse me"], ["Pardon", "Excuse me"]],
+      "yes": [["Oui", "Yes"], ["C'est ça", "That's it"]],
+      "no": [["Non", "No"], ["Jamais", "Never"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"], ["Hi", "Hi"]],
+      "morning": [["Good morning", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"], ["How is the family?", "How is the family?"]],
+      "fine": [["I'm fine, thank you", "I'm fine, thank you"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Goodbye", "Goodbye"], ["See you", "See you"]],
+      "welcome": [["You're welcome", "Welcome"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    },
+    "wes": {
+      "hello": [["How na?", "How is it? (hi)"], ["Hello-o!", "Hello!"]],
+      "morning": [["Morning-o!", "Good morning!"]],
+      "evening": [["Evening-o!", "Good evening!"]],
+      "how_are_you": [["How you dey?", "How are you?"], ["How for house?", "How is the family?"]],
+      "fine": [["I dey fine", "I'm fine"], ["We dey", "We're here, fine"]],
+      "thanks": [["Tank you", "Thank you"], ["Tank you plenty", "Thanks a lot"]],
+      "bye": [["We go see", "See you"], ["Waka fine", "Go well"]],
+      "welcome": [["You don come!", "Welcome, you've arrived!"]],
+      "sorry": [["Sorry-o", "Sorry"], ["Ashia", "So sorry (sympathy)"]],
+      "excuse": [["A beg", "Please, excuse me"]],
+      "yes": [["Yes", "Yes"], ["Na so", "That's right"]],
+      "no": [["No", "No"], ["Na lie", "That's not true"]]
+    },
+    "ewo": {
+      "hello": [["Mbolo", "Hello"]],
+      "thanks": [["Akiba", "Thank you"]]
+    },
+    "dua": {
+      "thanks": [["Na som", "Thank you"]]
+    }
+  },
+  "money": {
+    "currency": "XAF",
+    "symbol": "FCFA",
+    "words": [
+      ["do", "money (Camfranglais, from 'dough')"],
+      ["kolo", "a thousand francs"],
+      ["bâton", "a million francs"],
+      ["moni", "money, in Pidgin"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Cameroon",
+    "https://en.wikipedia.org/wiki/Cameroonian_Pidgin_English",
+    "https://en.wikipedia.org/wiki/Camfranglais",
+    "https://en.wikipedia.org/wiki/Ewondo_language",
+    "https://en.wikipedia.org/wiki/Duala_language",
+    "https://en.wikipedia.org/wiki/Bamil%C3%A9k%C3%A9_people",
+    "https://en.wikipedia.org/wiki/Beti-Pahuin_peoples",
+    "https://en.wikipedia.org/wiki/Duala_people",
+    "https://en.wikipedia.org/wiki/Bakweri_people",
+    "https://en.wikipedia.org/wiki/Central_African_CFA_franc"
+  ]
+}

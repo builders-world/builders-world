@@ -1,0 +1,711 @@
+{
+  "languages": [
+    {
+      "code": "fr",
+      "name": "French",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "in tech circles"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "A first name (prénom), often two or three on paper with only the first used, and the family name (nom de famille) passed down from the father, or since 2005 from either parent or both joined. Compound first names like Jean-Baptiste or Marie-Claire are common among older people. Families of Maghrebi, West African, Portuguese and Antillean heritage are part of every big French city and carry their own names alongside French ones. People say their family name first on forms and at the doctor's: 'Martin, Julie'.",
+    "groups": {
+      "french": {
+        "given": {
+          "m": [
+            "Thomas",
+            "Nicolas",
+            "Julien",
+            "Maxime",
+            "Alexandre",
+            "Antoine",
+            "Guillaume",
+            "Romain",
+            "Clément",
+            "Hugo",
+            "Lucas",
+            "Mathieu",
+            "Pierre",
+            "Benoît",
+            "Quentin",
+            "Florian",
+            "Baptiste",
+            "Louis"
+          ],
+          "f": [
+            "Camille",
+            "Julie",
+            "Pauline",
+            "Marine",
+            "Laura",
+            "Manon",
+            "Sophie",
+            "Élodie",
+            "Claire",
+            "Léa",
+            "Chloé",
+            "Mathilde",
+            "Charlotte",
+            "Émilie",
+            "Céline",
+            "Aurélie",
+            "Juliette",
+            "Inès"
+          ]
+        },
+        "family": [
+          "Martin",
+          "Bernard",
+          "Dubois",
+          "Thomas",
+          "Robert",
+          "Richard",
+          "Petit",
+          "Durand",
+          "Leroy",
+          "Moreau",
+          "Simon",
+          "Laurent",
+          "Lefebvre",
+          "Michel",
+          "Garcia",
+          "David",
+          "Bertrand",
+          "Roux",
+          "Vincent",
+          "Fournier",
+          "Girard",
+          "Bonnet"
+        ],
+        "also": {
+          "m": [
+            "Jean",
+            "Philippe",
+            "Christophe",
+            "Stéphane",
+            "Sébastien",
+            "François"
+          ],
+          "f": [
+            "Isabelle",
+            "Nathalie",
+            "Sandrine",
+            "Valérie",
+            "Christine",
+            "Anne"
+          ]
+        }
+      },
+      "maghrebi": {
+        "given": {
+          "m": [
+            "Mohamed",
+            "Karim",
+            "Mehdi",
+            "Yassine",
+            "Rachid",
+            "Sofiane",
+            "Bilal",
+            "Nabil",
+            "Samir",
+            "Walid",
+            "Hakim",
+            "Amine",
+            "Ilyes",
+            "Riad",
+            "Adel",
+            "Farid"
+          ],
+          "f": [
+            "Sarah",
+            "Yasmine",
+            "Nadia",
+            "Samia",
+            "Leïla",
+            "Myriam",
+            "Amel",
+            "Inès",
+            "Nawel",
+            "Sonia",
+            "Kenza",
+            "Rania",
+            "Fatima",
+            "Malika",
+            "Soraya",
+            "Lina"
+          ]
+        },
+        "family": [
+          "Benali",
+          "Haddad",
+          "Bouaziz",
+          "Mansouri",
+          "Amrani",
+          "Belkacem",
+          "Boumediene",
+          "Saïdi",
+          "Chaouch",
+          "Benaïssa",
+          "Khelifi",
+          "Brahimi",
+          "Djebbar",
+          "El Idrissi",
+          "Ouali",
+          "Hamdi",
+          "Ziani",
+          "Rahmani"
+        ]
+      },
+      "west_african": {
+        "given": {
+          "m": [
+            "Mamadou",
+            "Moussa",
+            "Ibrahima",
+            "Abdoulaye",
+            "Ousmane",
+            "Souleymane",
+            "Cheikh",
+            "Seydou",
+            "Boubacar",
+            "Amadou",
+            "Issa",
+            "Lamine",
+            "Modibo",
+            "Bakary",
+            "Youssouf",
+            "Alassane"
+          ],
+          "f": [
+            "Aïssatou",
+            "Fatoumata",
+            "Mariama",
+            "Awa",
+            "Kadiatou",
+            "Aminata",
+            "Coumba",
+            "Ndeye",
+            "Oumou",
+            "Rokia",
+            "Bintou",
+            "Djeneba",
+            "Khady",
+            "Astou",
+            "Salimata",
+            "Hawa"
+          ]
+        },
+        "family": [
+          "Diallo",
+          "Traoré",
+          "Koné",
+          "Coulibaly",
+          "Diop",
+          "Ndiaye",
+          "Sow",
+          "Camara",
+          "Keïta",
+          "Cissé",
+          "Touré",
+          "Sylla",
+          "Fofana",
+          "Bamba",
+          "Ba",
+          "Sissoko",
+          "Konaté",
+          "Diarra"
+        ],
+        "also": {
+          "m": [
+            "Christian",
+            "Jean-Marc",
+            "Patrick",
+            "Serge"
+          ],
+          "f": [
+            "Grâce",
+            "Christelle",
+            "Marie",
+            "Prisca"
+          ]
+        }
+      },
+      "portuguese": {
+        "given": {
+          "m": [
+            "João",
+            "Rui",
+            "Paulo",
+            "Tiago",
+            "Nuno",
+            "Bruno",
+            "Ricardo",
+            "Fernando",
+            "Manuel",
+            "José",
+            "Carlos",
+            "Miguel",
+            "David",
+            "Hugo",
+            "Sérgio",
+            "Daniel"
+          ],
+          "f": [
+            "Ana",
+            "Maria",
+            "Sandra",
+            "Sónia",
+            "Carla",
+            "Cristina",
+            "Patrícia",
+            "Marta",
+            "Sílvia",
+            "Andreia",
+            "Diana",
+            "Joana",
+            "Vanessa",
+            "Inês",
+            "Catarina",
+            "Sofia"
+          ]
+        },
+        "family": [
+          "Da Silva",
+          "Dos Santos",
+          "Pereira",
+          "Ferreira",
+          "Rodrigues",
+          "Fernandes",
+          "Gonçalves",
+          "Lopes",
+          "Martins",
+          "Oliveira",
+          "Teixeira",
+          "Carvalho",
+          "Ribeiro",
+          "Moreira",
+          "Pinto",
+          "Sousa",
+          "Correia",
+          "Mendes"
+        ]
+      },
+      "caribbean": {
+        "given": {
+          "m": [
+            "Kévin",
+            "Steeve",
+            "Jérémy",
+            "Teddy",
+            "Dimitri",
+            "Johan",
+            "Mickaël",
+            "Ludovic",
+            "Fabrice",
+            "Thierry",
+            "Rudy",
+            "Joël",
+            "Wilfried",
+            "Lionel",
+            "Yannick",
+            "Marvin"
+          ],
+          "f": [
+            "Jessica",
+            "Mélissa",
+            "Laetitia",
+            "Nadège",
+            "Sabrina",
+            "Cindy",
+            "Murielle",
+            "Josiane",
+            "Sandy",
+            "Maëva",
+            "Gaëlle",
+            "Océane",
+            "Stéphanie",
+            "Ketty",
+            "Ludivine",
+            "Marie-Line"
+          ]
+        },
+        "family": [
+          "Jean-Baptiste",
+          "Rosier",
+          "Bellance",
+          "Lubin",
+          "Saint-Prix",
+          "Labeau",
+          "Marie-Sainte",
+          "Nicolas",
+          "Jean-Louis",
+          "Elisabeth",
+          "Céleste",
+          "Désir",
+          "Félicité",
+          "Hyacinthe",
+          "Sylvestre",
+          "Clotilde",
+          "Bourgeois",
+          "Joseph"
+        ]
+      },
+      "asian_french": {
+        "given": {
+          "m": [
+            "Kevin",
+            "Thomas",
+            "Minh",
+            "Long",
+            "Vincent",
+            "Hao",
+            "Wei",
+            "Julien",
+            "Tuan",
+            "Anthony",
+            "Sébastien",
+            "Alexandre",
+            "Duc",
+            "Michael",
+            "Jason",
+            "Lucas"
+          ],
+          "f": [
+            "Linh",
+            "Mai",
+            "Lan",
+            "Sophie",
+            "Christine",
+            "Julie",
+            "Mei",
+            "Ying",
+            "Laura",
+            "Hélène",
+            "Anh",
+            "Thu",
+            "Emma",
+            "Marie",
+            "Jenny",
+            "Chloé"
+          ]
+        },
+        "family": [
+          "Nguyen",
+          "Tran",
+          "Le",
+          "Pham",
+          "Chen",
+          "Wang",
+          "Lin",
+          "Zhang",
+          "Huang",
+          "Truong",
+          "Vo",
+          "Dang",
+          "Lam",
+          "Ly",
+          "Chau",
+          "Phan"
+        ]
+      }
+    },
+    "weights": {
+      "french": 0.68,
+      "maghrebi": 0.13,
+      "west_african": 0.07,
+      "portuguese": 0.05,
+      "caribbean": 0.04,
+      "asian_french": 0.03
+    }
+  },
+  "honorifics": {
+    "elder_m": "Monsieur",
+    "elder_f": "Madame",
+    "peer_m": "mon pote",
+    "peer_f": "ma belle",
+    "boss": "chef",
+    "titles": {
+      "elder_m": "Monsieur",
+      "elder_f": "Madame",
+      "with": "family"
+    }
+  },
+  "phrases": {
+    "fr": {
+      "hello": [
+        [
+          "Bonjour",
+          "Hello"
+        ],
+        [
+          "Salut !",
+          "Hi!"
+        ],
+        [
+          "Coucou !",
+          "Hiya! (friendly)"
+        ]
+      ],
+      "morning": [
+        [
+          "Bonjour",
+          "Good morning"
+        ],
+        [
+          "Bien dormi ?",
+          "Sleep well?"
+        ]
+      ],
+      "evening": [
+        [
+          "Bonsoir",
+          "Good evening"
+        ],
+        [
+          "Bonne soirée !",
+          "Have a good evening!"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Ça va ?",
+          "How's it going?"
+        ],
+        [
+          "Comment allez-vous ?",
+          "How are you? (polite)"
+        ],
+        [
+          "Tu vas bien ?",
+          "Are you well?"
+        ]
+      ],
+      "fine": [
+        [
+          "Ça va, et toi ?",
+          "Fine, and you?"
+        ],
+        [
+          "Très bien, merci",
+          "Very well, thanks"
+        ],
+        [
+          "Tranquille",
+          "All calm"
+        ]
+      ],
+      "thanks": [
+        [
+          "Merci",
+          "Thank you"
+        ],
+        [
+          "Merci beaucoup",
+          "Thanks a lot"
+        ],
+        [
+          "Merci bien",
+          "Many thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "Au revoir",
+          "Goodbye"
+        ],
+        [
+          "Salut !",
+          "Bye!"
+        ],
+        [
+          "À plus !",
+          "See you!"
+        ]
+      ],
+      "welcome": [
+        [
+          "Bienvenue",
+          "Welcome"
+        ],
+        [
+          "Entrez, entrez !",
+          "Come in, come in!"
+        ]
+      ],
+      "sorry": [
+        [
+          "Pardon",
+          "Sorry"
+        ],
+        [
+          "Désolé",
+          "Sorry (m)"
+        ],
+        [
+          "Désolée",
+          "Sorry (f)"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excusez-moi",
+          "Excuse me"
+        ],
+        [
+          "Pardon, je peux passer ?",
+          "Sorry, can I get by?"
+        ]
+      ],
+      "yes": [
+        [
+          "Oui",
+          "Yes"
+        ],
+        [
+          "Ouais",
+          "Yeah"
+        ],
+        [
+          "Carrément",
+          "Totally"
+        ]
+      ],
+      "no": [
+        [
+          "Non",
+          "No"
+        ],
+        [
+          "Non merci",
+          "No thanks"
+        ],
+        [
+          "Pas du tout",
+          "Not at all"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hi!",
+          "Hi!"
+        ],
+        [
+          "Hello",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "I'm good, thanks",
+          "I'm good, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks!",
+          "Thanks!"
+        ]
+      ],
+      "bye": [
+        [
+          "Bye, see you!",
+          "Bye, see you!"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome!",
+          "Welcome!"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry!",
+          "Sorry!"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "EUR",
+    "symbol": "€",
+    "words": [
+      [
+        "balles",
+        "euros, in slang (dix balles, ten euros)"
+      ],
+      [
+        "thune",
+        "money, cash"
+      ],
+      [
+        "fric",
+        "money"
+      ],
+      [
+        "blé",
+        "money (literally wheat)"
+      ],
+      [
+        "un billet",
+        "a note; also slang for a hundred euros"
+      ],
+      [
+        "la monnaie",
+        "change, coins"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/French_name",
+    "https://www.insee.fr/fr/statistiques/2540004",
+    "https://en.wikipedia.org/wiki/Verlan",
+    "https://en.wikipedia.org/wiki/Immigration_to_France",
+    "https://en.wikipedia.org/wiki/French_language"
+  ]
+}

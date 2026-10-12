@@ -1,0 +1,99 @@
+{
+  "street": { "pa": 0.45, "ur": 0.4, "en": 0.15 },
+  "registers": {},
+  "names": { "weights": { "punjabi": 0.85, "urdu_speaking": 0.07, "pashtun": 0.06, "sindhi": 0.01, "baloch": 0.01 } },
+  "phrases": {
+    "pa": {
+      "pride": [["Jinne Lahore nahin vekhya, o jammya hi nahin", "Whoever hasn't seen Lahore hasn't been born (the city's proverb)"]],
+      "great": [["Wadiya!", "Great!"], ["Kamaal ae!", "Amazing!"]],
+      "friend": [["Paa ji", "Brother, respectful"], ["Jigar", "Dear friend (literally: liver)"]],
+      "how_much": [["Kinne da ae?", "How much is it?"]],
+      "come_on": [["Chal oye!", "Come on!"], ["Aaja yaar", "Come on, mate"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Salaam! How are you?", "Hey yaar, all good?", "Good morning! Did you get stuck at Kalma Chowk?", "Hi, long time!", "Hello ji, how is everyone at home?"],
+      "reply": ["All good, thank God. You?", "Fine yaar, busy as always.", "Doing great, thanks!", "Good, good, can't complain.", "All fine, what about you?"],
+      "sunny": ["It is boiling today, stay indoors in the afternoon.", "Clear skies, perfect for Jilani Park.", "Lovely winter sun, chai on the roof?", "Hot enough to fry an egg on Mall Road.", "Great day, the smog is finally gone."],
+      "rain": ["Monsoon is here, Lakshmi Chowk will be flooded.", "Pakoray and chai, rain is here!", "Carry an umbrella, it is pouring.", "Rain at last, the heat broke.", "Canal Road will be slow in this rain."],
+      "bye": ["Okay, Allah Hafiz!", "See you soon, take care.", "Catch you later, yaar.", "Bye ji, say salaam at home.", "Okay then, stay well."],
+      "busy": ["Running late for office, talk later!", "Stuck on Canal Road, call you back.", "Got a meeting in Gulberg, see you!", "Bit busy today, let us chat tomorrow.", "My ride is here, have to go!"]
+    },
+    "pa": {
+      "greet": ["Salaam ji! Ki haal ae?", "Ki haal chaal ae, paa ji?", "O jigar, ki haal ne?", "Baji, ki haal ae?"],
+      "reply": ["Changa bhala, Rab da shukar ae.", "Wadiya, tusi sunao?", "Bas chal reya ae.", "Theek thaak, tusi das?"],
+      "sunny": ["Aj te bari garmi ae.", "Dhup bari tez ae, paani kol rakho.", "Aj mausam bara sohna ae.", "Garmi vich lassi peeni chahidi ae."],
+      "rain": ["Meeh pai reya ae, chhatri lai lao.", "Meeh pe gaya, pakoray banao!", "Meeh naal sadkan te paani khalo gaya.", "Saawan da meeh, mazaa aa gaya."],
+      "bye": ["Chalo ji, Rab rakha!", "Fer milde aan.", "Allah Hafiz ji.", "Changa fer, apna khayal rakhna."],
+      "busy": ["Jaldi vich aan, baad ch gal karde aan.", "Daftar toon late ho gaya, chalda aan!", "Wagon nikal chali ae, fer milde aan!", "Hune kamm bara ae, phone karanga."]
+    },
+    "ur": {
+      "greet": ["Assalam-o-alaikum! Kya haal hai?", "Aur sunao, sab khairiyat?", "Salaam baji, kaisi hain?", "Kya haal chaal hai, bhai?"],
+      "reply": ["Allah ka shukar hai, aap sunao?", "Bas guzaara ho raha hai.", "Theek thaak, aap batao.", "Sab badhiya, shukriya!"],
+      "sunny": ["Aaj to bohat garmi hai.", "Dhoop bohat tez hai, pani saath rakho.", "Aaj mausam bara acha hai.", "Sardi ki dhoop mein bethne ka maza hi aur hai."],
+      "rain": ["Barish ho rahi hai, chhatri le lo.", "Barish aayi hai, pakoray banao!", "Aaj barish mein traffic jam hoga.", "Shukar hai barish hui, garmi toot gayi."],
+      "bye": ["Chalo, Allah Hafiz!", "Phir milte hain.", "Khuda Hafiz, apna khayal rakhna.", "Chalo bhai, nikalta hoon."],
+      "busy": ["Abhi jaldi mein hoon, baad mein baat karte hain.", "Office ke liye late ho gaya, chalta hoon!", "Metro nikal rahi hai, phir milte hain!", "Abhi kaam bohat hai, call karta hoon."]
+    }
+  },
+  "transport": {
+    "bus": "Speedo bus",
+    "brt": "Metro Bus",
+    "metro": "Orange Line",
+    "minibus": "wagon",
+    "tricycle": "rickshaw",
+    "shared_tricycle": "chingchi",
+    "moto_taxi": "Bykea",
+    "ride_hail": "Careem",
+    "horse_cart": "tanga",
+    "conductor": "conductor",
+    "stage": "stop"
+  },
+  "touts": [
+    "Thokar, Thokar Niaz Baig!",
+    "Chungi Amar Sidhu, aa jao!",
+    "Shahdara! Shahdara!",
+    "Railway Station, Lari Adda!",
+    "Aao ji, jagah hai!",
+    "Kalma Chowk, Liberty, Gulberg!",
+    "Data Darbar, Bhati Gate!",
+    "Chal ustad, chal!"
+  ],
+  "hawkers": [
+    ["Garam garam chhalli!", "Hot roasted corn!"],
+    ["Ganderiyan, thandiyan ganderiyan!", "Chilled sugarcane pieces!"],
+    ["Thandi botal!", "Cold drinks!"],
+    ["Chanay, garam chanay!", "Hot chickpeas!"],
+    ["Kulfi falooda!", "Kulfi with falooda!"],
+    ["Pakoray garam!", "Hot pakoras!"],
+    ["Amrood, masala laga ke!", "Guava with spice!"]
+  ],
+  "food": {
+    "street": ["halwa puri", "chanay", "siri paye", "gol gappay", "dahi bhallay", "Lahori fish fry", "chargha", "katlama", "samosa", "seekh kabab"],
+    "dishes": ["karahi", "nihari", "saag with makai ki roti", "chicken tikka", "haleem", "paye", "biryani", "daal mash"],
+    "drinks": ["lassi", "doodh patti", "Kashmiri chai", "doodh soda", "ganne ka ras", "falooda", "sardai"]
+  },
+  "places": {
+    "neighbourhoods": ["Gulberg", "DHA", "Model Town", "Johar Town", "Bahria Town", "Walled City (Androon Shehr)", "Anarkali", "Iqbal Town", "Shadman", "Cantt", "Garden Town", "Faisal Town"],
+    "streets": ["Mall Road", "MM Alam Road", "Ferozepur Road", "Canal Road", "Jail Road", "Main Boulevard Gulberg", "Fort Road", "Multan Road"],
+    "landmarks": ["Badshahi Mosque", "Lahore Fort", "Minar-e-Pakistan", "Data Darbar", "Shalimar Gardens", "Wazir Khan Mosque", "Anarkali Bazaar", "Liberty Market", "Lahore Museum", "Gaddafi Stadium", "Jilani Park"]
+  },
+  "small_talk": [
+    "The smog was so thick this morning I could barely see the road.",
+    "Halwa puri on Sunday morning, who's coming?",
+    "The Orange Line got me to Anarkali in no time.",
+    "Canal Road was jammed all the way from Thokar.",
+    "Dinner on Fort Road with the Badshahi Mosque lit up?",
+    "Liberty Market is packed before Eid.",
+    "June heat in Lahore is something else.",
+    "Monsoon came early, Lakshmi Chowk is flooded again.",
+    "A match at Gaddafi Stadium and the whole of Gulberg is blocked."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Lahore",
+    "https://en.wikipedia.org/wiki/Orange_Line_(Lahore_Metro)",
+    "https://en.wikipedia.org/wiki/Lahore_Metrobus",
+    "https://en.wikipedia.org/wiki/Punjabi_cuisine"
+  ]
+}

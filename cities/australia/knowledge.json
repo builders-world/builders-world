@@ -1,0 +1,1546 @@
+{
+  "languages": [
+    {
+      "code": "en",
+      "name": "English",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "zh",
+      "name": "Mandarin Chinese",
+      "official": false,
+      "spoken": "some"
+    },
+    {
+      "code": "yue",
+      "name": "Cantonese",
+      "official": false,
+      "spoken": "some"
+    },
+    {
+      "code": "ar",
+      "name": "Arabic",
+      "official": false,
+      "spoken": "some"
+    },
+    {
+      "code": "vi",
+      "name": "Vietnamese",
+      "official": false,
+      "spoken": "some"
+    },
+    {
+      "code": "el",
+      "name": "Greek",
+      "official": false,
+      "spoken": "some"
+    },
+    {
+      "code": "it",
+      "name": "Italian",
+      "official": false,
+      "spoken": "some"
+    },
+    {
+      "code": "pa",
+      "name": "Punjabi",
+      "official": false,
+      "spoken": "some"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Given name, usually a middle name, then the family name. Most family names are English, Scottish and Irish, and first names get shortened fast (Lachlan to Lachie, Thomas to Tommo). Post-war migration brought large Italian and Greek communities, especially in Melbourne, then Lebanese families in south-west Sydney and Vietnamese families in Cabramatta, Footscray and Springvale; more recently many Chinese and Indian Australians. Second-generation Greek and Italian Australians often have an English everyday name (Con for Konstantinos, Nick, Tina). First Nations people mostly carry English names.",
+    "groups": {
+      "anglo_celtic": {
+        "given": {
+          "m": [
+            "Oliver",
+            "Noah",
+            "Jack",
+            "William",
+            "Leo",
+            "Henry",
+            "Thomas",
+            "Charlie",
+            "Lachlan",
+            "Harrison",
+            "Cooper",
+            "Mitchell",
+            "Josh",
+            "Liam",
+            "Ethan",
+            "Lucas",
+            "Hamish",
+            "Riley"
+          ],
+          "f": [
+            "Charlotte",
+            "Olivia",
+            "Isla",
+            "Amelia",
+            "Mia",
+            "Ava",
+            "Matilda",
+            "Grace",
+            "Chloe",
+            "Sophie",
+            "Emily",
+            "Ruby",
+            "Zoe",
+            "Jessica",
+            "Georgia",
+            "Sienna",
+            "Lily",
+            "Hannah"
+          ]
+        },
+        "family": [
+          "Smith",
+          "Jones",
+          "Williams",
+          "Brown",
+          "Wilson",
+          "Taylor",
+          "Johnson",
+          "White",
+          "Martin",
+          "Anderson",
+          "Thompson",
+          "Walker",
+          "Ryan",
+          "Kelly",
+          "O'Brien",
+          "Murphy",
+          "Campbell",
+          "Stewart",
+          "Robinson",
+          "Clarke",
+          "Mitchell",
+          "Harris",
+          "King",
+          "Wright",
+          "Morgan",
+          "Cooper",
+          "Hughes",
+          "Edwards"
+        ]
+      },
+      "italian": {
+        "given": {
+          "m": [
+            "Marco",
+            "Luca",
+            "Giuseppe",
+            "Antonio",
+            "Francesco",
+            "Matteo",
+            "Alessandro",
+            "Giovanni",
+            "Paolo",
+            "Vincenzo",
+            "Domenic",
+            "Roberto"
+          ],
+          "f": [
+            "Maria",
+            "Giulia",
+            "Francesca",
+            "Chiara",
+            "Alessandra",
+            "Elena",
+            "Sofia",
+            "Gabriella",
+            "Lucia",
+            "Teresa",
+            "Angela",
+            "Rosa"
+          ]
+        },
+        "family": [
+          "Rossi",
+          "Russo",
+          "Ferrari",
+          "Esposito",
+          "Bianchi",
+          "Romano",
+          "Colombo",
+          "Ricci",
+          "Marino",
+          "Greco",
+          "Bruno",
+          "Gallo",
+          "Conti",
+          "De Luca",
+          "Costa",
+          "Giordano",
+          "Mancini",
+          "Rizzo",
+          "Lombardi",
+          "Iacono"
+        ]
+      },
+      "greek": {
+        "given": {
+          "m": [
+            "Giorgos",
+            "Nikos",
+            "Dimitris",
+            "Konstantinos",
+            "Ioannis",
+            "Christos",
+            "Panagiotis",
+            "Kostas",
+            "Vasilis",
+            "Andreas",
+            "Stavros",
+            "Theo"
+          ],
+          "f": [
+            "Maria",
+            "Eleni",
+            "Katerina",
+            "Sophia",
+            "Georgia",
+            "Dimitra",
+            "Anastasia",
+            "Despina",
+            "Vasiliki",
+            "Christina",
+            "Angeliki",
+            "Athena"
+          ]
+        },
+        "family": [
+          "Papadopoulos",
+          "Georgiou",
+          "Nikolaou",
+          "Pappas",
+          "Dimitriou",
+          "Konstantinou",
+          "Vlahos",
+          "Karagiannis",
+          "Christodoulou",
+          "Ioannou",
+          "Alexiou",
+          "Kyriakou",
+          "Theodorou",
+          "Antoniou",
+          "Stavrou",
+          "Economou"
+        ],
+        "also": {
+          "m": [
+            "George",
+            "Nick",
+            "Peter",
+            "Chris",
+            "Jim",
+            "Steve",
+            "Con"
+          ],
+          "f": [
+            "Helen",
+            "Kathy",
+            "Tina",
+            "Stella",
+            "Mary",
+            "Voula"
+          ]
+        }
+      },
+      "lebanese": {
+        "given": {
+          "m": [
+            "Mohamed",
+            "Ahmad",
+            "Ali",
+            "Omar",
+            "Bilal",
+            "Khaled",
+            "Hassan",
+            "Joseph",
+            "Elias",
+            "Charbel",
+            "Georges",
+            "Fadi",
+            "Rami",
+            "Jad"
+          ],
+          "f": [
+            "Fatima",
+            "Zeinab",
+            "Mariam",
+            "Nour",
+            "Layla",
+            "Rania",
+            "Maya",
+            "Yasmin",
+            "Rita",
+            "Joelle",
+            "Christine",
+            "Lara",
+            "Hiba",
+            "Sara"
+          ]
+        },
+        "family": [
+          "Haddad",
+          "Khoury",
+          "Saad",
+          "Hamdan",
+          "Abboud",
+          "Mansour",
+          "Khalil",
+          "Daher",
+          "Saleh",
+          "Kassem",
+          "Ghanem",
+          "Nasser",
+          "Habib",
+          "Rahme",
+          "Azzi",
+          "Chidiac"
+        ]
+      },
+      "chinese": {
+        "given": {
+          "m": [
+            "Ka Ho",
+            "Chi Wai",
+            "Ho Yin",
+            "Wai Kit",
+            "Chun Kit",
+            "Hao",
+            "Wei",
+            "Jun",
+            "Zihao",
+            "Yifan",
+            "Haoran",
+            "Jian",
+            "Lei"
+          ],
+          "f": [
+            "Mei Ling",
+            "Wing Yan",
+            "Ka Yan",
+            "Hoi Yan",
+            "Wai Man",
+            "Xinyi",
+            "Yuting",
+            "Ziyi",
+            "Jing",
+            "Yan",
+            "Hui",
+            "Mei",
+            "Shu"
+          ]
+        },
+        "family": [
+          "Chan",
+          "Wong",
+          "Lee",
+          "Leung",
+          "Lam",
+          "Cheung",
+          "Ng",
+          "Ho",
+          "Lau",
+          "Tang",
+          "Chen",
+          "Wang",
+          "Zhang",
+          "Liu",
+          "Li",
+          "Huang",
+          "Lin",
+          "Wu",
+          "Zhou",
+          "Yang"
+        ],
+        "also": {
+          "m": [
+            "Kevin",
+            "Eric",
+            "Jason",
+            "Alex",
+            "Vincent",
+            "Raymond",
+            "Calvin",
+            "Ryan"
+          ],
+          "f": [
+            "Jenny",
+            "Amy",
+            "Grace",
+            "Michelle",
+            "Vivian",
+            "Cindy",
+            "Winnie",
+            "Crystal"
+          ]
+        }
+      },
+      "vietnamese": {
+        "given": {
+          "m": [
+            "Minh",
+            "Tuan",
+            "Hung",
+            "Dung",
+            "Long",
+            "Huy",
+            "Khoa",
+            "Bao",
+            "Nam",
+            "Phuc",
+            "Quang",
+            "Thanh",
+            "Trung",
+            "Vinh"
+          ],
+          "f": [
+            "Linh",
+            "Lan",
+            "Huong",
+            "Mai",
+            "Thao",
+            "Trang",
+            "Ngoc",
+            "Hoa",
+            "Vy",
+            "Anh",
+            "Thuy",
+            "Hanh",
+            "Nhi",
+            "Phuong"
+          ]
+        },
+        "family": [
+          "Nguyen",
+          "Tran",
+          "Le",
+          "Pham",
+          "Huynh",
+          "Phan",
+          "Vo",
+          "Vu",
+          "Dang",
+          "Bui",
+          "Do",
+          "Ho",
+          "Ngo",
+          "Duong",
+          "Ly",
+          "Truong"
+        ],
+        "also": {
+          "m": [
+            "Kevin",
+            "Tony",
+            "Peter",
+            "Jimmy",
+            "Danny",
+            "Tommy"
+          ],
+          "f": [
+            "Tina",
+            "Kim",
+            "Linda",
+            "Jenny",
+            "Vivian",
+            "Lily"
+          ]
+        }
+      },
+      "indian": {
+        "given": {
+          "m": [
+            "Arjun",
+            "Rahul",
+            "Rohan",
+            "Vikram",
+            "Aditya",
+            "Karthik",
+            "Sanjay",
+            "Rajesh",
+            "Anil",
+            "Siddharth",
+            "Nikhil",
+            "Varun",
+            "Aarav",
+            "Vivek"
+          ],
+          "f": [
+            "Priya",
+            "Ananya",
+            "Kavya",
+            "Divya",
+            "Neha",
+            "Pooja",
+            "Shreya",
+            "Aishwarya",
+            "Deepa",
+            "Lakshmi",
+            "Anjali",
+            "Meera",
+            "Riya",
+            "Sneha"
+          ]
+        },
+        "family": [
+          "Patel",
+          "Shah",
+          "Sharma",
+          "Gupta",
+          "Mehta",
+          "Desai",
+          "Joshi",
+          "Agarwal",
+          "Verma",
+          "Kapoor",
+          "Malhotra",
+          "Reddy",
+          "Iyer",
+          "Nair",
+          "Rao",
+          "Kumar",
+          "Trivedi",
+          "Bhatt"
+        ]
+      },
+      "punjabi": {
+        "given": {
+          "m": [
+            "Harpreet",
+            "Gurpreet",
+            "Jaspreet",
+            "Manpreet",
+            "Harjit",
+            "Gurdeep",
+            "Rajinder",
+            "Sukhwinder",
+            "Amandeep",
+            "Jaskaran",
+            "Arshdeep",
+            "Navdeep",
+            "Karanveer",
+            "Hardeep"
+          ],
+          "f": [
+            "Simran",
+            "Navneet",
+            "Jasleen",
+            "Gurleen",
+            "Manjit",
+            "Rupinder",
+            "Kiranjit",
+            "Harleen",
+            "Amrit",
+            "Sukhpreet",
+            "Prabhjot",
+            "Ravneet",
+            "Parminder",
+            "Jasmeet"
+          ]
+        },
+        "family": [
+          "Gill",
+          "Sandhu",
+          "Sidhu",
+          "Dhillon",
+          "Grewal",
+          "Brar",
+          "Bains",
+          "Johal",
+          "Toor",
+          "Sahota",
+          "Mann",
+          "Dhaliwal",
+          "Randhawa",
+          "Pannu",
+          "Atwal",
+          "Virk",
+          "Hundal",
+          "Kang"
+        ]
+      },
+      "filipino": {
+        "given": {
+          "m": [
+            "Jose",
+            "Juan",
+            "Mark",
+            "John Paul",
+            "Carlo",
+            "Miguel",
+            "Paolo",
+            "Rafael",
+            "Jericho",
+            "Angelo",
+            "Christian",
+            "Ramon",
+            "Emmanuel",
+            "Joshua"
+          ],
+          "f": [
+            "Maria",
+            "Angelica",
+            "Kristine",
+            "Joy",
+            "Jasmine",
+            "Princess",
+            "Rowena",
+            "Grace",
+            "Mylene",
+            "Rosario",
+            "Camille",
+            "Andrea",
+            "Bea",
+            "Nicole"
+          ]
+        },
+        "family": [
+          "Santos",
+          "Reyes",
+          "Cruz",
+          "Bautista",
+          "Garcia",
+          "Mendoza",
+          "Del Rosario",
+          "Ramos",
+          "Aquino",
+          "Villanueva",
+          "Castillo",
+          "Dela Cruz",
+          "Fernandez",
+          "Navarro",
+          "Tolentino",
+          "Manalo",
+          "Domingo",
+          "Pascual"
+        ]
+      }
+    },
+    "weights": {
+      "anglo_celtic": 0.62,
+      "chinese": 0.09,
+      "indian": 0.05,
+      "italian": 0.05,
+      "vietnamese": 0.04,
+      "greek": 0.03,
+      "lebanese": 0.03,
+      "filipino": 0.03,
+      "punjabi": 0.02
+    }
+  },
+  "honorifics": {
+    "elder_m": "Mate",
+    "elder_f": "Love",
+    "peer_m": "Mate",
+    "peer_f": "Mate",
+    "boss": "Boss",
+    "titles": {
+      "elder_m": "Mr",
+      "elder_f": "Mrs",
+      "with": "family"
+    }
+  },
+  "phrases": {
+    "en": {
+      "hello": [
+        [
+          "G'day!",
+          "Hello"
+        ],
+        [
+          "Hey, how ya going?",
+          "Hi, how are you?"
+        ],
+        [
+          "Hiya",
+          "Hi"
+        ]
+      ],
+      "morning": [
+        [
+          "Morning!",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Evening!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How ya going?",
+          "How are you?"
+        ],
+        [
+          "How's it going, mate?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Good thanks, you?",
+          "Fine, thanks, and you?"
+        ],
+        [
+          "Not bad",
+          "Fine"
+        ],
+        [
+          "Yeah, good",
+          "Fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks heaps",
+          "Thanks a lot"
+        ],
+        [
+          "Cheers",
+          "Thanks"
+        ],
+        [
+          "Ta",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "See ya!",
+          "Goodbye"
+        ],
+        [
+          "Catch ya later",
+          "See you later"
+        ],
+        [
+          "Have a good one",
+          "Have a good day"
+        ],
+        [
+          "Hooroo",
+          "Goodbye (old-fashioned)"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome!",
+          "Welcome"
+        ],
+        [
+          "Come on in",
+          "Please come in"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry, mate",
+          "Sorry"
+        ],
+        [
+          "My bad",
+          "Sorry, my fault"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ],
+        [
+          "Sorry, mate, just squeezing past",
+          "Excuse me, coming through"
+        ]
+      ],
+      "yes": [
+        [
+          "Yeah",
+          "Yes"
+        ],
+        [
+          "Too right",
+          "Absolutely"
+        ],
+        [
+          "Yeah, nah, yeah",
+          "Yes (after some thought)"
+        ]
+      ],
+      "no": [
+        [
+          "Nah",
+          "No"
+        ],
+        [
+          "Yeah, nah",
+          "No, said politely"
+        ]
+      ]
+    },
+    "zh": {
+      "hello": [
+        [
+          "你好",
+          "Hello (nǐ hǎo)"
+        ]
+      ],
+      "morning": [
+        [
+          "早上好",
+          "Good morning (zǎoshang hǎo)"
+        ],
+        [
+          "早",
+          "Morning (zǎo)"
+        ]
+      ],
+      "evening": [
+        [
+          "晚上好",
+          "Good evening (wǎnshang hǎo)"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "你好吗？",
+          "How are you? (nǐ hǎo ma)"
+        ],
+        [
+          "最近怎么样？",
+          "How have you been? (zuìjìn zěnmeyàng)"
+        ]
+      ],
+      "fine": [
+        [
+          "挺好的",
+          "Pretty good (tǐng hǎo de)"
+        ],
+        [
+          "还行",
+          "Not bad (hái xíng)"
+        ]
+      ],
+      "thanks": [
+        [
+          "谢谢",
+          "Thank you (xièxie)"
+        ]
+      ],
+      "bye": [
+        [
+          "再见",
+          "Goodbye (zàijiàn)"
+        ],
+        [
+          "拜拜",
+          "Bye-bye (bàibai)"
+        ]
+      ],
+      "welcome": [
+        [
+          "欢迎",
+          "Welcome (huānyíng)"
+        ]
+      ],
+      "sorry": [
+        [
+          "对不起",
+          "Sorry (duìbuqǐ)"
+        ],
+        [
+          "不好意思",
+          "Sorry, excuse me (bù hǎoyìsi)"
+        ]
+      ],
+      "excuse": [
+        [
+          "请问",
+          "Excuse me, may I ask (qǐngwèn)"
+        ]
+      ],
+      "yes": [
+        [
+          "是",
+          "Yes (shì)"
+        ],
+        [
+          "对",
+          "Right (duì)"
+        ]
+      ],
+      "no": [
+        [
+          "不是",
+          "No (bú shì)"
+        ],
+        [
+          "没有",
+          "No, don't have any (méiyǒu)"
+        ]
+      ]
+    },
+    "yue": {
+      "hello": [
+        [
+          "你好",
+          "Hello (nei hou)"
+        ],
+        [
+          "哈囉",
+          "Hello (haa lo)"
+        ]
+      ],
+      "morning": [
+        [
+          "早晨",
+          "Good morning (zou san)"
+        ]
+      ],
+      "evening": [
+        [
+          "晚安",
+          "Good night (maan on)"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "你好嗎？",
+          "How are you? (nei hou maa)"
+        ],
+        [
+          "食咗飯未呀？",
+          "Have you eaten yet? A friendly hello (sik zo faan mei aa)"
+        ]
+      ],
+      "fine": [
+        [
+          "幾好",
+          "Pretty good (gei hou)"
+        ],
+        [
+          "都OK",
+          "It's okay (dou OK)"
+        ]
+      ],
+      "thanks": [
+        [
+          "唔該",
+          "Thanks, for a service or favour (m goi)"
+        ],
+        [
+          "多謝",
+          "Thank you, for a gift (do ze)"
+        ]
+      ],
+      "bye": [
+        [
+          "拜拜",
+          "Bye-bye (baai baai)"
+        ],
+        [
+          "再見",
+          "Goodbye (zoi gin)"
+        ]
+      ],
+      "welcome": [
+        [
+          "歡迎",
+          "Welcome (fun jing)"
+        ]
+      ],
+      "sorry": [
+        [
+          "對唔住",
+          "Sorry (deoi m zyu)"
+        ],
+        [
+          "唔好意思",
+          "Sorry, excuse me (m hou ji si)"
+        ]
+      ],
+      "excuse": [
+        [
+          "唔該",
+          "Excuse me (m goi)"
+        ],
+        [
+          "唔該借借",
+          "Excuse me, let me through (m goi ze ze)"
+        ]
+      ],
+      "yes": [
+        [
+          "係",
+          "Yes (hai)"
+        ],
+        [
+          "啱",
+          "Right (ngaam)"
+        ]
+      ],
+      "no": [
+        [
+          "唔係",
+          "No (m hai)"
+        ],
+        [
+          "冇",
+          "Don't have any (mou)"
+        ]
+      ]
+    },
+    "ar": {
+      "hello": [
+        [
+          "مرحبا",
+          "Hello (marhaba)"
+        ],
+        [
+          "السلام عليكم",
+          "Peace be upon you, the everyday hello (as-salāmu ʿalaykum)"
+        ]
+      ],
+      "morning": [
+        [
+          "صباح الخير",
+          "Good morning (sabāḥ al-khayr)"
+        ]
+      ],
+      "evening": [
+        [
+          "مساء الخير",
+          "Good evening (masāʾ al-khayr)"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "كيفك؟",
+          "How are you? (kīfak), Levantine"
+        ],
+        [
+          "لاباس؟",
+          "All well? (labas), Moroccan and Algerian"
+        ]
+      ],
+      "fine": [
+        [
+          "الحمد لله",
+          "Fine, thank God (al-ḥamdu lillāh)"
+        ],
+        [
+          "منيح",
+          "Good (mnīḥ), Levantine"
+        ]
+      ],
+      "thanks": [
+        [
+          "شكرا",
+          "Thank you (shukran)"
+        ],
+        [
+          "ميرسي",
+          "Thanks (merci)"
+        ]
+      ],
+      "bye": [
+        [
+          "مع السلامة",
+          "Goodbye (maʿa s-salāma)"
+        ],
+        [
+          "يلا باي",
+          "Okay, bye (yalla bye)"
+        ]
+      ],
+      "welcome": [
+        [
+          "أهلا وسهلا",
+          "Welcome (ahlan wa sahlan)"
+        ]
+      ],
+      "sorry": [
+        [
+          "آسف",
+          "Sorry (āsif)"
+        ],
+        [
+          "عفوا",
+          "Pardon (ʿafwan)"
+        ]
+      ],
+      "excuse": [
+        [
+          "لو سمحت",
+          "Excuse me, please (law samaḥt)"
+        ]
+      ],
+      "yes": [
+        [
+          "نعم",
+          "Yes (naʿam)"
+        ],
+        [
+          "إيه",
+          "Yeah (eh), Levantine"
+        ]
+      ],
+      "no": [
+        [
+          "لا",
+          "No (lā)"
+        ]
+      ]
+    },
+    "vi": {
+      "hello": [
+        [
+          "Xin chào",
+          "Hello"
+        ],
+        [
+          "Chào anh",
+          "Hello (to a man about your age or older)"
+        ],
+        [
+          "Chào chị",
+          "Hello (to a woman about your age or older)"
+        ]
+      ],
+      "morning": [
+        [
+          "Chào buổi sáng",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Chào buổi tối",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Khỏe không?",
+          "How are you?"
+        ],
+        [
+          "Dạo này sao rồi?",
+          "How have you been?"
+        ]
+      ],
+      "fine": [
+        [
+          "Khỏe, cảm ơn",
+          "Fine, thanks"
+        ],
+        [
+          "Bình thường",
+          "So-so"
+        ]
+      ],
+      "thanks": [
+        [
+          "Cảm ơn",
+          "Thank you"
+        ],
+        [
+          "Cám ơn nhiều nha",
+          "Thanks a lot (southern)"
+        ]
+      ],
+      "bye": [
+        [
+          "Tạm biệt",
+          "Goodbye"
+        ],
+        [
+          "Bye nha",
+          "Bye!"
+        ]
+      ],
+      "welcome": [
+        [
+          "Chào mừng",
+          "Welcome"
+        ],
+        [
+          "Mời vô",
+          "Please come in (southern)"
+        ]
+      ],
+      "sorry": [
+        [
+          "Xin lỗi",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Xin lỗi, cho hỏi",
+          "Excuse me, may I ask"
+        ]
+      ],
+      "yes": [
+        [
+          "Dạ",
+          "Yes (polite)"
+        ],
+        [
+          "Ừ",
+          "Yeah (casual)"
+        ]
+      ],
+      "no": [
+        [
+          "Không",
+          "No"
+        ],
+        [
+          "Dạ không",
+          "No (polite)"
+        ]
+      ]
+    },
+    "el": {
+      "hello": [
+        [
+          "Γεια σου",
+          "Hello (yia sou)"
+        ],
+        [
+          "Γεια σας",
+          "Hello, polite or to several people (yia sas)"
+        ]
+      ],
+      "morning": [
+        [
+          "Καλημέρα",
+          "Good morning (kaliméra)"
+        ]
+      ],
+      "evening": [
+        [
+          "Καλησπέρα",
+          "Good evening (kalispéra)"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Τι κάνεις;",
+          "How are you? (ti kánis)"
+        ],
+        [
+          "Πώς είσαι;",
+          "How are you? (pos íse)"
+        ]
+      ],
+      "fine": [
+        [
+          "Καλά, ευχαριστώ",
+          "Fine, thanks (kalá, efcharistó)"
+        ],
+        [
+          "Μια χαρά",
+          "Great (mia chará)"
+        ]
+      ],
+      "thanks": [
+        [
+          "Ευχαριστώ",
+          "Thank you (efcharistó)"
+        ],
+        [
+          "Ευχαριστώ πολύ",
+          "Thank you very much (efcharistó polí)"
+        ]
+      ],
+      "bye": [
+        [
+          "Γεια σου",
+          "Bye (yia sou)"
+        ],
+        [
+          "Τα λέμε",
+          "See you (ta léme)"
+        ]
+      ],
+      "welcome": [
+        [
+          "Καλώς ήρθες",
+          "Welcome (kalós írthes)"
+        ]
+      ],
+      "sorry": [
+        [
+          "Συγγνώμη",
+          "Sorry (signómi)"
+        ]
+      ],
+      "excuse": [
+        [
+          "Με συγχωρείτε",
+          "Excuse me, polite (me sinchoríte)"
+        ]
+      ],
+      "yes": [
+        [
+          "Ναι",
+          "Yes (ne)"
+        ]
+      ],
+      "no": [
+        [
+          "Όχι",
+          "No (óchi)"
+        ]
+      ]
+    },
+    "it": {
+      "hello": [
+        [
+          "Ciao!",
+          "Hi!"
+        ],
+        [
+          "Buongiorno",
+          "Hello, good day"
+        ]
+      ],
+      "morning": [
+        [
+          "Buongiorno",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Buonasera",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Come stai?",
+          "How are you?"
+        ],
+        [
+          "Come va?",
+          "How's it going?"
+        ]
+      ],
+      "fine": [
+        [
+          "Bene, grazie",
+          "Fine, thanks"
+        ],
+        [
+          "Tutto bene",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Grazie",
+          "Thank you"
+        ],
+        [
+          "Grazie mille",
+          "Thanks a lot"
+        ]
+      ],
+      "bye": [
+        [
+          "Ciao!",
+          "Bye!"
+        ],
+        [
+          "Arrivederci",
+          "Goodbye"
+        ],
+        [
+          "A presto",
+          "See you soon"
+        ]
+      ],
+      "welcome": [
+        [
+          "Benvenuto",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Scusa",
+          "Sorry"
+        ],
+        [
+          "Mi dispiace",
+          "I'm sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Scusi",
+          "Excuse me (polite)"
+        ],
+        [
+          "Permesso",
+          "Excuse me, coming through"
+        ]
+      ],
+      "yes": [
+        [
+          "Sì",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    },
+    "pa": {
+      "hello": [
+        [
+          "ਸਤ ਸ੍ਰੀ ਅਕਾਲ",
+          "Hello, the Sikh greeting (sat srī akāl)"
+        ]
+      ],
+      "morning": [
+        [
+          "ਸਤ ਸ੍ਰੀ ਅਕਾਲ ਜੀ",
+          "Hello, respectfully, at any hour (sat srī akāl jī)"
+        ],
+        [
+          "ਗੁੱਡ ਮਾਰਨਿੰਗ",
+          "Good morning, said in English as most people do"
+        ]
+      ],
+      "evening": [
+        [
+          "ਸਤ ਸ੍ਰੀ ਅਕਾਲ",
+          "Hello, at any hour (sat srī akāl)"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "ਕੀ ਹਾਲ ਹੈ?",
+          "How are you? (kī hāl hai)"
+        ],
+        [
+          "ਤੁਸੀਂ ਕਿਵੇਂ ਹੋ?",
+          "How are you? (tusīṃ kiveṃ ho)"
+        ]
+      ],
+      "fine": [
+        [
+          "ਮੈਂ ਠੀਕ ਹਾਂ",
+          "I'm fine (maiṃ ṭhīk hāṃ)"
+        ],
+        [
+          "ਵਧੀਆ",
+          "Great (vadhīā)"
+        ]
+      ],
+      "thanks": [
+        [
+          "ਧੰਨਵਾਦ",
+          "Thank you (dhannvād)"
+        ],
+        [
+          "ਸ਼ੁਕਰੀਆ",
+          "Thanks (shukrīā)"
+        ]
+      ],
+      "bye": [
+        [
+          "ਫਿਰ ਮਿਲਾਂਗੇ",
+          "See you again (phir milāṅge)"
+        ],
+        [
+          "ਰੱਬ ਰਾਖਾ",
+          "Goodbye, God keep you (rabb rākhā)"
+        ]
+      ],
+      "welcome": [
+        [
+          "ਜੀ ਆਇਆਂ ਨੂੰ",
+          "Welcome (jī āiāṃ nūṃ)"
+        ]
+      ],
+      "sorry": [
+        [
+          "ਮਾਫ਼ ਕਰਨਾ",
+          "Sorry (māf karnā)"
+        ]
+      ],
+      "excuse": [
+        [
+          "ਸੁਣੋ ਜੀ",
+          "Excuse me (suṇo jī)"
+        ]
+      ],
+      "yes": [
+        [
+          "ਹਾਂ ਜੀ",
+          "Yes (hāṃ jī)"
+        ]
+      ],
+      "no": [
+        [
+          "ਨਹੀਂ ਜੀ",
+          "No (nahīṃ jī)"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "AUD",
+    "symbol": "$",
+    "words": [
+      [
+        "bucks",
+        "dollars"
+      ],
+      [
+        "lobster",
+        "a red twenty dollar note"
+      ],
+      [
+        "pineapple",
+        "a yellow fifty dollar note"
+      ],
+      [
+        "gold coin",
+        "a one or two dollar coin"
+      ],
+      [
+        "shrapnel",
+        "loose coins"
+      ],
+      [
+        "grand",
+        "a thousand dollars"
+      ]
+    ]
+  },
+  "sources": [
+    "https://www.abs.gov.au/census",
+    "https://en.wikipedia.org/wiki/Australian_English",
+    "https://en.wikipedia.org/wiki/Australian_English_vocabulary",
+    "https://en.wikipedia.org/wiki/Languages_of_Australia",
+    "https://en.wikipedia.org/wiki/Greek_Australians",
+    "https://en.wikipedia.org/wiki/Lebanese_Australians"
+  ]
+}

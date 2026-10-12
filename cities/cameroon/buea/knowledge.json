@@ -1,0 +1,85 @@
+{
+  "street": { "wes": 0.58, "en": 0.32, "fr": 0.1 },
+  "names": { "weights": { "southwest": 0.35, "grassfields": 0.45, "bamileke": 0.1, "beti": 0.03, "sawa": 0.03, "northern": 0.04 } },
+  "phrases": {
+    "wes": {
+      "hello": [["How na?", "How is it? (hi)"], ["Ma broda, how?", "My brother, how are you?"]],
+      "fine": [["I dey fine", "I'm fine"], ["We dey", "We're here, fine"]],
+      "bye": [["We go see", "See you"], ["Waka fine", "Go well"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Good morning! How was the night?", "Hello, how is the family?", "Good evening, how was school?", "Ah, long time! You're well?", "Hi, how is the startup going?"],
+      "reply": ["I'm fine, thank you.", "We're here, managing.", "All good, and you?", "Doing fine, thanks for asking.", "The family is well, thank God."],
+      "sunny": ["You can see the mountain clearly today.", "Fresh morning up here, then the sun comes.", "Good day to go down to the beach at Limbe.", "Finally some sun after all that mist.", "Nice weather for a walk in Molyko."],
+      "rain": ["The rain on the mountain does not stop.", "Carry an umbrella and a jacket, it's cold.", "The mist has covered the whole town.", "Wait a bit, it will ease off.", "Rain all night, the roads in Bonduma are mud."],
+      "bye": ["See you later!", "Go well!", "See you tomorrow.", "Greet the family for me.", "Take care on the road."],
+      "busy": ["Sorry, I'm late for lectures at UB.", "I have to catch a taxi to Mile 17.", "Let me run, I have a client call.", "I'll call you this evening.", "Busy day, we'll talk later."]
+    },
+    "wes": {
+      "greet": ["How na?", "How you dey, my broda?", "Morning-o! How for house?", "Massa, how na?", "Mami, how you dey?"],
+      "reply": ["I dey fine, tank you.", "We dey, small small.", "We dey try.", "Everything dey fine."],
+      "sunny": ["Sun don come out today!", "Mountain clear fine today.", "Na fine day for go Limbe beach.", "Sun dey but cold still dey."],
+      "rain": ["Rain di come!", "Rain don start, make we hide.", "Dis cold no di joke.", "Rain don fall all night."],
+      "bye": ["Make we see after.", "I go see you tomorrow.", "Waka fine!", "Stay fine-o!"],
+      "busy": ["I di hurry, make we talk after.", "I don late for school.", "Taxi di wait me for Mile 17, I go call you.", "Work plenty today, I no get time."]
+    },
+    "fr": {
+      "greet": ["Bonjour, ça va?", "Bonsoir! La famille va bien?", "On dit quoi?", "Ah, ça fait longtemps!"],
+      "reply": ["Ça va, merci.", "On est là.", "Ça va bien, et toi?", "Ça va un peu."],
+      "sunny": ["Il fait beau aujourd'hui!", "On voit bien la montagne.", "Le soleil est enfin là.", "Belle journée pour aller à Limbe."],
+      "rain": ["Il pleut encore!", "Il fait froid à Buea.", "Prends ta veste.", "Attends que la pluie passe."],
+      "bye": ["À demain.", "Bonne soirée!", "On est ensemble.", "Salue la famille."],
+      "busy": ["Je suis en retard, on se parle.", "J'ai cours à l'université.", "Le taxi m'attend, je go!", "Je t'appelle ce soir."]
+    }
+  },
+  "transport": { "bus": "agency bus", "moto_taxi": "bendskin", "tricycle": "", "taxi": "taxi", "shared_taxi": "taxi", "conductor": "loader", "stage": "motor park" },
+  "touts": [
+    "Mile 17! Mile 17!",
+    "Molyko! Molyko!",
+    "Muea! Muea!",
+    "Limbe! Limbe!",
+    "Great Soppo!",
+    "Check Point! Buea Town!",
+    "Douala! One place!",
+    "Kumba! Kumba!"
+  ],
+  "hawkers": [
+    ["Puff-puff and beans!", "Doughnuts and beans!"],
+    ["Corn and plum!", "Roasted corn with African pear!"],
+    ["Roast plantain! Roast fish!", "Roasted plantain and fish!"],
+    ["Soya! Hot soya!", "Grilled beef skewers!"],
+    ["Cold water! Ice water!", "Cold water!"],
+    ["Groundnut! Groundnut!", "Peanuts!"],
+    ["Credit! Credit!", "Phone credit!"]
+  ],
+  "food": {
+    "street": ["puff-puff and beans", "roasted corn and plum", "roast plantain and fish", "soya", "akara", "pepper soup"],
+    "dishes": ["kwacoco and mbanga soup", "eru and water fufu", "ekwang", "achu and yellow soup", "fufu corn and njama njama", "ndolè", "koki"],
+    "drinks": ["palm wine (mimbo)", "Guinness", "33 Export", "Castel", "folléré", "Top"]
+  },
+  "places": {
+    "neighbourhoods": ["Molyko", "Great Soppo", "Small Soppo", "Bonduma", "Bokwaongo", "Muea", "Mile 16 (Bolifamba)", "Mile 17", "Bomaka", "Buea Town", "Clerks' Quarters", "GRA", "Check Point", "Bova"],
+    "streets": ["Molyko road", "Buea Road", "Limbe-Buea road", "Soppo road", "Federal Quarters road"],
+    "landmarks": ["Mount Cameroon (Fako)", "University of Buea", "Mile 17 motor park", "Buea Town market", "Molyko Stadium", "Bismarck Fountain", "German colonial buildings in Buea Town", "Mountain Hotel"]
+  },
+  "small_talk": [
+    "You can see the top of the mountain today, that's rare.",
+    "Mile 17 was packed with people going to Douala.",
+    "Molyko is full of students again.",
+    "Kwacoco and mbanga soup at my aunt's on Sunday.",
+    "Are you running the Race of Hope this year?",
+    "The mist came down and I couldn't see the road.",
+    "Silicon Mountain meetup this weekend, are you coming?",
+    "Limbe beach for fish this weekend?"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Buea",
+    "https://en.wikipedia.org/wiki/Mount_Cameroon",
+    "https://en.wikipedia.org/wiki/University_of_Buea",
+    "https://en.wikipedia.org/wiki/Bakweri_people",
+    "https://en.wikipedia.org/wiki/Cameroonian_Pidgin_English",
+    "https://en.wikipedia.org/wiki/Cameroonian_cuisine"
+  ]
+}

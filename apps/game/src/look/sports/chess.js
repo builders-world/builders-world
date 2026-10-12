@@ -1,4 +1,4 @@
-import { nameFor, honorific } from '../knowledge.js';
+import { nameFor, titled } from '../knowledge.js';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { Chess } from 'chess.js';
@@ -23,8 +23,7 @@ export const CHALLENGERS = [
 ];
 // the regulars, named as people are in this city, with the respect people show their elders here (look/knowledge.js)
 export function challengers() {
-  const t = (k, f) => honorific(k, f), n = (s, sex) => nameFor(`chess-${s}`, sex)?.first;
-  return CHALLENGERS.map((c, i) => { const first = n(i, c.look?.body === 'f' ? 'f' : 'm'); if (!first) return c; return { ...c, name: i === 0 ? `${t('elder_m', 'Baba')} ${first}` : i === 1 ? `${t('elder_f', 'Aunty')} ${first}` : `Coach ${first}` }; });
+  return CHALLENGERS.map((c, i) => { const n = nameFor(`chess-${i}`, c.look?.body === 'f' ? 'f' : 'm'); if (!n) return c; return { ...c, name: i === 0 ? titled('elder_m', n, 'Baba') : i === 1 ? titled('elder_f', n, 'Aunty') : `Coach ${n.first}` }; });
 }
 
 const CSS = `

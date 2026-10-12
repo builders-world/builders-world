@@ -1,0 +1,112 @@
+{
+  "street": { "en": 0.35, "zu": 0.25, "st": 0.12, "tsotsitaal": 0.28 },
+  "registers": {
+    "tsotsitaal": {
+      "name": "Tsotsitaal (iScamtho)",
+      "about": "Johannesburg's township street talk, born in Sophiatown and Soweto: isiZulu or Sesotho grammar with Afrikaans and English words mixed in, always changing. Heard in the taxis, on the corners and at the shisa nyama."
+    }
+  },
+  "names": {
+    "weights": {
+      "zulu": 0.29,
+      "sotho": 0.12,
+      "tswana": 0.08,
+      "pedi": 0.1,
+      "xhosa": 0.08,
+      "tsonga": 0.08,
+      "venda": 0.03,
+      "afrikaans": 0.05,
+      "english_sa": 0.1,
+      "coloured": 0.03,
+      "indian": 0.04
+    }
+  },
+  "phrases": {
+    "tsotsitaal": {
+      "hello": [["Heita!", "Hi!"], ["Eita!", "Hey!"], ["Ola!", "Hi!"], ["Sho!", "Hey, cool"]],
+      "how_are_you": [["Ho reng?", "What's up?"], ["Unjani bra?", "How are you, bro?"], ["Kunjani ekasi?", "How's it going in the township?"]],
+      "fine": [["Sharp", "Good"], ["Ngi grand", "I'm fine"], ["Re teng", "We're fine"]],
+      "thanks": [["Sharp!", "Thanks!"], ["Shot!", "Thanks, nice one!"]],
+      "bye": [["Sharp sharp!", "Later!"], ["Ayt!", "Alright, bye!"]],
+      "friend": [["bra", "brother, mate"], ["ntwana", "buddy"], ["mjita", "guy, friend"], ["majita", "guys"]],
+      "place": [["ekasi", "in the township"], ["kasi", "the township, home turf"]],
+      "money": [["zaka", "money"], ["mali", "money"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Howzit! How's your day going?", "Morning! You good?", "Hey, long time! How's things?", "Sawubona, how are you doing?", "Howzit, bra, all good?"],
+      "reply": ["I'm good, thanks, and you?", "Lekker, can't complain!", "All good, just hustling, you know.", "Ja, fine thanks, just tired from the traffic.", "Sharp, sharp, I'm well!"],
+      "sunny": ["Beautiful Highveld morning, hey.", "It's hot today, the tar is melting.", "Perfect day for a braai, honestly.", "Not a cloud over Jozi today.", "Sun's out, the jacarandas look amazing."],
+      "rain": ["Eish, here comes the four o'clock storm.", "Look at those clouds, it's going to pour.", "Hail again! Get the car under cover.", "The robots will be out with this rain, watch out.", "That thunder was loud, hey."],
+      "bye": ["Cheers, go well!", "Sharp, see you later!", "Later, hey, safe travels.", "Shot, catch you now now.", "Go well, greet the family!"],
+      "busy": ["Sorry, I'm late, the M1 was a nightmare!", "Can't stop, my taxi is leaving!", "I'll call you just now, I'm in a meeting.", "Running to catch the Gautrain, later!", "Eish, I'm rushing, let's chat later."]
+    },
+    "zu": {
+      "greet": ["Sawubona! Unjani namhlanje?", "Sanibonani, kunjani?", "Heyi, sawubona mngane wami!", "Sawubona Mama, uvuke kanjani?", "Sawubona Baba, unjani?"],
+      "reply": ["Ngiyaphila, ngiyabonga. Wena unjani?", "Ngikhona, ngiyabonga!", "Sikhona, ngiyabonga.", "Ngisaphila, siyabonga.", "Kumnandi, ngiyabonga!"],
+      "sunny": ["Kuyashisa kakhulu namhlanje!", "Ilanga liyashisa namuhla.", "Isimo sezulu sihle namuhla.", "Kuhle kakhulu phandle namhlanje."],
+      "rain": ["Liyana!", "Imvula iyeza, shesha!", "Thatha isambulela, liyana.", "Liyaduma! Bheka amafu."],
+      "bye": ["Sala kahle!", "Hamba kahle!", "Sizobonana!", "Sizobonana kusasa!"],
+      "busy": ["Ngiyaxolisa, ngiyashesha!", "Ngisemsebenzini, sizokhuluma.", "Angikwazi ukuma, ngiyaphuthuma!", "Ngizokushayela ucingo kamuva."]
+    },
+    "st": {
+      "greet": ["Dumela! O kae?", "Dumelang, le kae?", "Dumela ntate, o tsohile jwang?", "Dumela mme, o phela jwang?"],
+      "reply": ["Ke teng, wena o kae?", "Ke phela hantle, ke a leboha.", "Re teng, ke a leboha.", "Ke tsohile hantle, ke a leboha."],
+      "sunny": ["Ho a chesa kajeno!", "Letsatsi le a chesa haholo.", "Ke letsatsi le letle kajeno.", "Ho monate kantle kajeno."],
+      "rain": ["Pula e a na!", "Pula e a tla, potlaka!", "Ho a bata, pula e a na.", "Pula e tla na hamorao."],
+      "bye": ["Sala hantle!", "Tsamaya hantle!", "Re tla bonana!", "Re tla bonana hosane!"],
+      "busy": ["Tshwarelo, ke a potlaka!", "Ke mosebetsing, re tla bua hamorao.", "Ke potlakile haholo kajeno.", "Ke tla o letsetsa hamorao."]
+    },
+    "tsotsitaal": {
+      "greet": ["Heita daar!", "Eita, majita!", "Sho, my bra! Ho reng?", "Ola ntwana, unjani?", "Heita, mjita, kunjani ekasi?"],
+      "reply": ["Sharp, ke sharp, wena?", "Ngi grand, bra.", "Re teng ntwana!", "Sho! Sisaphila ekasi."],
+      "sunny": ["Yoh, ilanga lishisa today, bra.", "Jo, kushisa namhlanje!", "Le a chesa la, ntwana.", "Weather is a vibe ekasi today."],
+      "rain": ["Yoh, pula e a na, bra!", "Imvula iyeza, ntwana, shesha.", "Storm yase-Jozi is coming, sharp.", "Eish, liyana, the taxi queue is long now."],
+      "bye": ["Sharp sharp!", "Ayt, later bra!", "Sho, sizobonana!", "Re tla bonana, ntwana!"],
+      "busy": ["Ayt bra, ngiyaphuthuma, later!", "Sho, ke a potlaka, ntwana.", "Eish, I'm in a rush, bra, sharp!", "Ngi busy manje, ngizokushayela."]
+    }
+  },
+  "transport": { "bus": "taxi", "moto_taxi": "", "tricycle": "", "taxi": "metered taxi", "conductor": "", "stage": "rank" },
+  "touts": ["Town, town! Bree!", "Bara, Bara! Soweto!", "Noord! Noord!", "Sandton, Sandton!", "Alex, Alex!", "Diepkloof, Diepkloof!", "Rosebank! Still one seat!"],
+  "hawkers": [
+    ["Airtime! Airtime, data!", "Phone airtime and data for sale!"],
+    ["Mielies! Hot mielies!", "Hot roasted corn!"],
+    ["Amanzi! Cold water, R10!", "Cold water, ten rand!"],
+    ["Amagwinya, fresh!", "Fresh vetkoek (fried dough)!"],
+    ["Ama-charger, ama-earphone!", "Phone chargers and earphones!"],
+    ["Bananas, R10 a bunch!", "Bananas, ten rand a bunch!"],
+    ["Kota! Kota with chips!", "Quarter loaf filled with chips and polony!"]
+  ],
+  "food": {
+    "street": ["kota", "vetkoek", "boerewors roll", "shisa nyama", "walkie talkies (chicken heads and feet)", "mielies", "chips with vinegar"],
+    "dishes": ["pap and vleis", "chakalaka", "mogodu", "morogo", "samp and beans", "chicken stew with pap", "beef stew"],
+    "drinks": ["mageu", "rooibos tea", "ginger beer", "cream soda", "umqombothi"]
+  },
+  "places": {
+    "neighbourhoods": ["Soweto", "Braamfontein", "Maboneng", "Sandton", "Rosebank", "Melville", "Alexandra", "Newtown", "Fordsburg", "Yeoville", "Midrand", "Randburg", "Diepkloof", "Orlando"],
+    "streets": ["Jan Smuts Avenue", "Louis Botha Avenue", "Commissioner Street", "Bree Street", "Vilakazi Street", "Oxford Road", "Rivonia Road", "Empire Road", "William Nicol Drive", "De Korte Street"],
+    "landmarks": ["Ponte City", "Hillbrow Tower", "Constitution Hill", "Nelson Mandela Bridge", "FNB Stadium", "Gold Reef City", "Zoo Lake", "Park Station", "Mary Fitzgerald Square", "Bree Street taxi rank"]
+  },
+  "small_talk": [
+    "The M1 was standing still from Grayston this morning.",
+    "Every afternoon at four, the storm comes like clockwork.",
+    "Are you watching the derby? Chiefs or Pirates?",
+    "I took the Gautrain to Sandton, so much easier.",
+    "The jacarandas are out, the whole city's gone purple.",
+    "Let's go to Vilakazi Street for a shisa nyama on Sunday.",
+    "Month-end, so the malls will be packed.",
+    "Joburg winter mornings are no joke, I'm wearing two jerseys.",
+    "The taxi went around Park Station three times looking for passengers."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Johannesburg",
+    "https://en.wikipedia.org/wiki/Tsotsitaal",
+    "https://en.wikipedia.org/wiki/Soweto",
+    "https://en.wikipedia.org/wiki/South_African_English",
+    "https://en.wikipedia.org/wiki/Zulu_language",
+    "https://en.wikipedia.org/wiki/Sotho_language",
+    "https://en.wikipedia.org/wiki/South_African_cuisine",
+    "https://en.wikipedia.org/wiki/Gautrain"
+  ]
+}

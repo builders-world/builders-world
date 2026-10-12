@@ -1,0 +1,286 @@
+{
+  "street": {
+    "en": 0.3,
+    "yo": 0.45,
+    "pcm": 0.25
+  },
+  "names": {
+    "weights": {
+      "yoruba": 0.85,
+      "igbo": 0.07,
+      "hausa": 0.04,
+      "edo": 0.02,
+      "ibibio": 0.01,
+      "ijaw": 0.01
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "Good morning! How's the day going?",
+        "Hey! Long time.",
+        "Hi! How's Bodija today?",
+        "Good afternoon, all well at home?",
+        "Hello! How was the traffic at Iwo Road?"
+      ],
+      "reply": [
+        "I'm fine, thanks!",
+        "We thank God.",
+        "Fine, just busy.",
+        "All good. And you?",
+        "Doing well, thanks for asking."
+      ],
+      "sunny": [
+        "The sun is out in full today.",
+        "Hot one today, drink water.",
+        "Bright Ibadan morning.",
+        "Clear day, you can see the whole city from Bower's Tower.",
+        "Lovely weather for Agodi Gardens."
+      ],
+      "rain": [
+        "It's pouring, stay dry.",
+        "Ring Road will be jammed after this rain.",
+        "Wait it out, it will ease off.",
+        "Rainy season is here for real.",
+        "Dugbe will be flooded now."
+      ],
+      "bye": [
+        "Take care!",
+        "Bye bye, see you!",
+        "Have a good day.",
+        "Talk later.",
+        "Safe trip home."
+      ],
+      "busy": [
+        "Running late for a meeting!",
+        "I need to catch a bus at Ojoo, see you!",
+        "Lecture at UI in ten minutes, bye!",
+        "On my way to Dugbe, later!",
+        "Deadline today, I'll call you."
+      ]
+    },
+    "yo": {
+      "greet": [
+        "E kaaro!",
+        "E kaasan!",
+        "E kaale!",
+        "Bawo ni?",
+        "E ku ise o!",
+        "Se dada ni?"
+      ],
+      "reply": [
+        "Mo wa daadaa.",
+        "A dupe o.",
+        "Ko buru.",
+        "Olorun seun.",
+        "Daadaa ni."
+      ],
+      "sunny": [
+        "Ooru po loni o.",
+        "Oorun ti yo daadaa.",
+        "Oorun mu gan loni.",
+        "Ooru yii ma po o!"
+      ],
+      "rain": [
+        "Ojo n ro o!",
+        "Ojo ti bere.",
+        "E je ka duro ki ojo da.",
+        "Ojo yii po gan."
+      ],
+      "bye": [
+        "O dabo!",
+        "O di igba.",
+        "Ma a ri e.",
+        "O daaro."
+      ],
+      "busy": [
+        "Mo n yara lo.",
+        "Mo ti pe, o di igba!",
+        "Ise po loni.",
+        "Mo n lo si Dugbe.",
+        "Mo n lo si oja."
+      ]
+    },
+    "pcm": {
+      "greet": [
+        "How far?",
+        "How you dey?",
+        "My guy! How body?",
+        "Wetin dey sup?",
+        "Bros, how far now?",
+        "Sister, how you dey?"
+      ],
+      "reply": [
+        "I dey o!",
+        "We dey kampe!",
+        "God dey!",
+        "No wahala at all.",
+        "E dey go, small small."
+      ],
+      "sunny": [
+        "Sun dey shine well well today.",
+        "This heat ehn!",
+        "Weather fine die today.",
+        "Hot no be here o!"
+      ],
+      "rain": [
+        "Rain don start o!",
+        "Make we wait make rain stop.",
+        "This rain no get joy.",
+        "Ring Road go hold now."
+      ],
+      "bye": [
+        "I dey go.",
+        "Make we see later.",
+        "Waka well o!",
+        "Later, my guy."
+      ],
+      "busy": [
+        "I dey run, abeg.",
+        "Make I catch this keke first!",
+        "I wan reach Bodija before market close.",
+        "Work don pile, I go call you."
+      ]
+    }
+  },
+  "transport": {
+    "bus": "bus",
+    "moto_taxi": "okada",
+    "tricycle": "keke",
+    "taxi": "taxi (shared along the route; a 'drop' when it's yours alone)",
+    "ride_hail": "Uber or Bolt",
+    "conductor": "conductor",
+    "driver": "driver",
+    "stage": "bus stop",
+    "park": "garage (motor park), like Iwo Road or Ojoo"
+  },
+  "touts": [
+    "Dugbe! Dugbe!",
+    "Iwo Road! Iwo Road!",
+    "Ojoo! Ojoo, wole!",
+    "Mokola! Mokola!",
+    "Challenge! Challenge!",
+    "Bodija! Sango!",
+    "UI! Agbowo!",
+    "Gate! Beere! Oja Oba!"
+  ],
+  "hawkers": [
+    ["Pure water! Pure water!", "Sachet water!"],
+    ["Kokoro! Kokoro!", "Crunchy corn snack sticks!"],
+    ["Boli and epa!", "Roast plantain and groundnuts!"],
+    ["Akara gbona!", "Hot bean fritters!"],
+    ["Guguru and epa!", "Popcorn and groundnuts!"],
+    ["Gala! Gala!", "Sausage rolls!"],
+    ["Recharge card! MTN, Airtel!", "Phone credit!"]
+  ],
+  "food": {
+    "street": [
+      "kokoro",
+      "boli and epa",
+      "akara",
+      "puff-puff",
+      "guguru and epa",
+      "dodo Ikire",
+      "suya",
+      "roasted corn",
+      "gala",
+      "moin moin"
+    ],
+    "dishes": [
+      "amala with gbegiri and ewedu (abula)",
+      "iyan (pounded yam) and efo riro",
+      "ofada rice and ayamase",
+      "eba and egusi",
+      "jollof rice",
+      "ewa agoyin and bread",
+      "ikokore",
+      "pepper soup",
+      "fried rice",
+      "beans and dodo"
+    ],
+    "drinks": [
+      "zobo",
+      "palm wine (emu)",
+      "ogi (pap)",
+      "kunu",
+      "malt",
+      "Chapman",
+      "Star"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "Bodija",
+      "Mokola",
+      "Dugbe",
+      "Agodi",
+      "Jericho",
+      "Iyaganku",
+      "Oluyole Estate",
+      "Ring Road",
+      "Challenge",
+      "Sango",
+      "Agbowo",
+      "Ojoo",
+      "Akobo",
+      "Samonda",
+      "Beere",
+      "Mapo",
+      "Oke-Ado",
+      "Molete",
+      "Apata",
+      "Eleyele"
+    ],
+    "streets": [
+      "Ring Road",
+      "Oyo Road",
+      "Iwo Road",
+      "Liberty Road",
+      "Queen Elizabeth Road",
+      "Oba Adebimpe Road",
+      "Lebanon Street",
+      "the Lagos-Ibadan Expressway"
+    ],
+    "landmarks": [
+      "Cocoa House",
+      "the University of Ibadan",
+      "Bower's Tower",
+      "Agodi Gardens",
+      "Mapo Hall",
+      "the University College Hospital (UCH)",
+      "Dugbe Market",
+      "Bodija Market",
+      "Oja Oba",
+      "Gbagi Market",
+      "Lekan Salami Stadium",
+      "Liberty Stadium",
+      "IITA",
+      "the Polytechnic, Ibadan",
+      "Trans-Wonderland",
+      "Premier Hotel on Mokola Hill"
+    ]
+  },
+  "small_talk": [
+    "Bodija market was packed this morning.",
+    "Amala at Bodija after work?",
+    "Shooting Stars play at Lekan Salami on Sunday, are you coming?",
+    "Dugbe traffic was heavy today.",
+    "Climbed up to Bower's Tower yesterday, you can see the whole city.",
+    "Cocoa House still stands tall over Dugbe.",
+    "Ibadan is too wide, everywhere is far.",
+    "Ring Road is a parking lot after the rain.",
+    "My cousin just got into UI.",
+    "From Mapo Hill, all those brown roofs are something to see."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Ibadan",
+    "https://en.wikipedia.org/wiki/Cocoa_House",
+    "https://en.wikipedia.org/wiki/University_of_Ibadan",
+    "https://en.wikipedia.org/wiki/Bower%27s_Tower",
+    "https://en.wikipedia.org/wiki/Yoruba_language",
+    "https://en.wikipedia.org/wiki/Yoruba_cuisine",
+    "https://en.wikipedia.org/wiki/Amala_(food)",
+    "https://en.wikipedia.org/wiki/Kokoro_(snack)"
+  ],
+  "needs_native_review": "Yoruba lines are written without tone marks, as most people text Yoruba. Ibadan speakers, please check 'Oorun mu gan loni', 'Ooru yii ma po o', 'Daadaa ni', 'O daaro' and the hawker call 'Akara gbona', and add Ibadan's own turns of phrase. Pidgin lines too, and the touts and street list (Oba Adebimpe Road, Lebanon Street)."
+}

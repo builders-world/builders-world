@@ -1,0 +1,856 @@
+{
+  "languages": [
+    {
+      "code": "pt",
+      "name": "Portuguese",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "some"
+    },
+    {
+      "code": "es",
+      "name": "Spanish",
+      "official": false,
+      "spoken": "some"
+    }
+  ],
+  "names": {
+    "order": "given family family",
+    "conventions": "Most Brazilians carry the mother's family name and then the father's (Ana Clara Oliveira Santos), and are usually known by the last one; married women often add the husband's surname. Compound first names are common (João Pedro, Maria Clara, Ana Paula), and recent favourites include Miguel, Arthur, Heitor, Helena and Alice. Everyday life runs on first names and nicknames, even at work. Immigrant families keep their own surnames: Italian across São Paulo, German in Santa Catarina, Japanese in Liberdade and the São Paulo interior, Lebanese and Syrian in the centre of São Paulo, and Azorean names (Silveira, Bittencourt, Ávila, Goulart) on the island of Florianópolis.",
+    "groups": {
+      "brazilian": {
+        "given": {
+          "m": [
+            "Miguel",
+            "Arthur",
+            "Gael",
+            "Heitor",
+            "Davi",
+            "Bernardo",
+            "Theo",
+            "Gabriel",
+            "Lucas",
+            "Pedro",
+            "Matheus",
+            "Rafael",
+            "Guilherme",
+            "Gustavo",
+            "João Pedro",
+            "Enzo",
+            "Felipe",
+            "Bruno",
+            "Thiago",
+            "Leonardo",
+            "Carlos",
+            "José",
+            "Paulo",
+            "Marcos",
+            "Antônio"
+          ],
+          "f": [
+            "Helena",
+            "Alice",
+            "Laura",
+            "Maria Alice",
+            "Valentina",
+            "Heloísa",
+            "Maria Clara",
+            "Sophia",
+            "Manuela",
+            "Júlia",
+            "Ana Clara",
+            "Beatriz",
+            "Larissa",
+            "Camila",
+            "Fernanda",
+            "Juliana",
+            "Mariana",
+            "Gabriela",
+            "Letícia",
+            "Bianca",
+            "Ana Paula",
+            "Patrícia"
+          ]
+        },
+        "family": [
+          "Silva",
+          "Santos",
+          "Oliveira",
+          "Souza",
+          "Rodrigues",
+          "Ferreira",
+          "Alves",
+          "Pereira",
+          "Lima",
+          "Gomes",
+          "Costa",
+          "Ribeiro",
+          "Martins",
+          "Carvalho",
+          "Almeida",
+          "Lopes",
+          "Soares",
+          "Fernandes",
+          "Vieira",
+          "Barbosa",
+          "Rocha",
+          "Dias",
+          "Nascimento",
+          "Andrade",
+          "Moreira",
+          "Nunes",
+          "Marques",
+          "Machado",
+          "Mendes",
+          "Freitas",
+          "Cardoso",
+          "Ramos",
+          "Teixeira",
+          "Araújo",
+          "Cavalcanti"
+        ]
+      },
+      "italian_brazilian": {
+        "given": {
+          "m": [
+            "Enzo",
+            "Lorenzo",
+            "Giovanni",
+            "Matheus",
+            "Rafael",
+            "Bruno",
+            "Rodrigo",
+            "Fábio",
+            "Marcelo",
+            "Ricardo",
+            "Leonardo",
+            "Vinícius"
+          ],
+          "f": [
+            "Giovanna",
+            "Bianca",
+            "Isabella",
+            "Gabriela",
+            "Letícia",
+            "Carolina",
+            "Fernanda",
+            "Juliana",
+            "Larissa",
+            "Natália",
+            "Beatriz",
+            "Camila"
+          ]
+        },
+        "family": [
+          "Rossi",
+          "Ferrari",
+          "Bianchi",
+          "Romano",
+          "Colombo",
+          "Ricci",
+          "Marino",
+          "Greco",
+          "Gallo",
+          "Conti",
+          "De Lucca",
+          "Mancini",
+          "Lombardi",
+          "Moretti",
+          "Barbieri",
+          "Fontana",
+          "Santoro",
+          "Rinaldi",
+          "Zanetti",
+          "Bertolini",
+          "Pellegrini",
+          "Caruso"
+        ]
+      },
+      "japanese_brazilian": {
+        "given": {
+          "m": [
+            "Kenji",
+            "Hiroshi",
+            "Takashi",
+            "Satoshi",
+            "Yuki",
+            "Kazuo",
+            "Akira",
+            "Massao",
+            "Kenzo",
+            "Tadashi",
+            "Hideo",
+            "Shigueru"
+          ],
+          "f": [
+            "Yumi",
+            "Akemi",
+            "Keiko",
+            "Mayumi",
+            "Erika",
+            "Yuri",
+            "Sayuri",
+            "Harumi",
+            "Emi",
+            "Naomi",
+            "Mariko",
+            "Tomoko"
+          ]
+        },
+        "family": [
+          "Tanaka",
+          "Suzuki",
+          "Yamamoto",
+          "Watanabe",
+          "Sato",
+          "Takahashi",
+          "Nakamura",
+          "Kobayashi",
+          "Ito",
+          "Kato",
+          "Yoshida",
+          "Yamada",
+          "Sasaki",
+          "Matsumoto",
+          "Inoue",
+          "Kimura",
+          "Hayashi",
+          "Shimizu"
+        ],
+        "also": {
+          "m": [
+            "Ricardo",
+            "Eduardo",
+            "Marcelo",
+            "Fábio",
+            "Rodrigo",
+            "Daniel"
+          ],
+          "f": [
+            "Juliana",
+            "Patrícia",
+            "Fernanda",
+            "Camila",
+            "Mariana",
+            "Cristina"
+          ]
+        }
+      },
+      "arab_brazilian": {
+        "given": {
+          "m": [
+            "Felipe",
+            "Ricardo",
+            "Fernando",
+            "Marcelo",
+            "Eduardo",
+            "Rafael",
+            "Gabriel",
+            "Jorge",
+            "Kalil",
+            "Samir",
+            "Michel",
+            "Elias"
+          ],
+          "f": [
+            "Mariana",
+            "Camila",
+            "Juliana",
+            "Fernanda",
+            "Carolina",
+            "Beatriz",
+            "Gabriela",
+            "Laila",
+            "Yasmin",
+            "Samira",
+            "Jamile",
+            "Nádia"
+          ]
+        },
+        "family": [
+          "Haddad",
+          "Cury",
+          "Abdalla",
+          "Salomão",
+          "Nassar",
+          "Sabbag",
+          "Jafet",
+          "Mattar",
+          "Daher",
+          "Saad",
+          "Nader",
+          "Farah",
+          "Bechara",
+          "Gebara",
+          "Zogbi",
+          "Chamas",
+          "Assad",
+          "Rahal",
+          "Hanna",
+          "Kalil"
+        ]
+      },
+      "german_brazilian": {
+        "given": {
+          "m": [
+            "Lucas",
+            "Guilherme",
+            "Bruno",
+            "Felipe",
+            "Eduardo",
+            "Henrique",
+            "Rafael",
+            "Leonardo",
+            "Fernando",
+            "Gustavo",
+            "Otávio",
+            "Vinícius"
+          ],
+          "f": [
+            "Bruna",
+            "Larissa",
+            "Amanda",
+            "Gabriela",
+            "Letícia",
+            "Carolina",
+            "Fernanda",
+            "Juliana",
+            "Isadora",
+            "Laura",
+            "Helena",
+            "Camila"
+          ]
+        },
+        "family": [
+          "Schmidt",
+          "Müller",
+          "Becker",
+          "Schneider",
+          "Weber",
+          "Koch",
+          "Krüger",
+          "Wagner",
+          "Hoffmann",
+          "Schulz",
+          "Fischer",
+          "Meyer",
+          "Kuhn",
+          "Zimmermann",
+          "Werner",
+          "Klein",
+          "Kraus",
+          "Wolff",
+          "Lang"
+        ]
+      },
+      "azorean": {
+        "given": {
+          "m": [
+            "João",
+            "José",
+            "Manoel",
+            "Antônio",
+            "Pedro",
+            "Luiz",
+            "Carlos",
+            "Sérgio",
+            "Marcos",
+            "Paulo",
+            "Rodrigo",
+            "Diego",
+            "Valmir",
+            "Juliano"
+          ],
+          "f": [
+            "Maria",
+            "Ana",
+            "Rita",
+            "Teresa",
+            "Lúcia",
+            "Márcia",
+            "Sandra",
+            "Cláudia",
+            "Daniela",
+            "Juliana",
+            "Fernanda",
+            "Patrícia",
+            "Luana",
+            "Tainá"
+          ]
+        },
+        "family": [
+          "Medeiros",
+          "Machado",
+          "Silveira",
+          "Ávila",
+          "Bittencourt",
+          "Furtado",
+          "Pacheco",
+          "Rocha",
+          "Garcia",
+          "Vieira",
+          "Coelho",
+          "Amaral",
+          "Goulart",
+          "Cardoso",
+          "Sousa",
+          "Melo",
+          "Leal",
+          "Quadros",
+          "Martins",
+          "Cunha"
+        ]
+      }
+    },
+    "weights": {
+      "brazilian": 0.82,
+      "italian_brazilian": 0.07,
+      "german_brazilian": 0.04,
+      "azorean": 0.035,
+      "arab_brazilian": 0.02,
+      "japanese_brazilian": 0.015
+    }
+  },
+  "honorifics": {
+    "elder_m": "Seu",
+    "elder_f": "Dona",
+    "peer_m": "Cara",
+    "peer_f": "Amiga",
+    "boss": "Chefe"
+  },
+  "phrases": {
+    "pt": {
+      "hello": [
+        [
+          "Oi!",
+          "Hi!"
+        ],
+        [
+          "Olá!",
+          "Hello!"
+        ],
+        [
+          "E aí?",
+          "What's up?"
+        ]
+      ],
+      "morning": [
+        [
+          "Bom dia!",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Boa tarde!",
+          "Good afternoon"
+        ],
+        [
+          "Boa noite!",
+          "Good evening, good night"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Tudo bem?",
+          "All good? How are you?"
+        ],
+        [
+          "Como vai?",
+          "How are you?"
+        ],
+        [
+          "Beleza?",
+          "All good?"
+        ]
+      ],
+      "fine": [
+        [
+          "Tudo bem, e você?",
+          "All good, and you?"
+        ],
+        [
+          "Tudo ótimo",
+          "All great"
+        ],
+        [
+          "Tranquilo",
+          "All calm, fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Obrigado",
+          "Thank you (said by a man)"
+        ],
+        [
+          "Obrigada",
+          "Thank you (said by a woman)"
+        ],
+        [
+          "Valeu!",
+          "Thanks! (casual)"
+        ]
+      ],
+      "bye": [
+        [
+          "Tchau!",
+          "Bye!"
+        ],
+        [
+          "Até mais!",
+          "See you later!"
+        ],
+        [
+          "Falou!",
+          "Later! (casual)"
+        ]
+      ],
+      "welcome": [
+        [
+          "Bem-vindo!",
+          "Welcome!"
+        ],
+        [
+          "Fique à vontade",
+          "Make yourself at home"
+        ]
+      ],
+      "sorry": [
+        [
+          "Desculpa",
+          "Sorry"
+        ],
+        [
+          "Foi mal",
+          "My bad"
+        ]
+      ],
+      "excuse": [
+        [
+          "Com licença",
+          "Excuse me"
+        ],
+        [
+          "Por favor",
+          "Please, excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Sim",
+          "Yes"
+        ],
+        [
+          "É",
+          "Yeah"
+        ],
+        [
+          "Claro",
+          "Of course"
+        ]
+      ],
+      "no": [
+        [
+          "Não",
+          "No"
+        ],
+        [
+          "Não, obrigado",
+          "No, thanks"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hey!",
+          "Hello"
+        ],
+        [
+          "Hi there!",
+          "Hello"
+        ],
+        [
+          "What's up?",
+          "Hi, how are things?"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning!",
+          "Good morning"
+        ],
+        [
+          "Mornin'!",
+          "Morning!"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ],
+        [
+          "Evening!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How's it going?",
+          "How are you?"
+        ],
+        [
+          "How are you doing?",
+          "How are you?"
+        ],
+        [
+          "How you doin'?",
+          "How are you? (casual)"
+        ]
+      ],
+      "fine": [
+        [
+          "Good, thanks!",
+          "Fine, thanks"
+        ],
+        [
+          "Not bad",
+          "Fine"
+        ],
+        [
+          "Can't complain",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks!",
+          "Thank you"
+        ],
+        [
+          "Thank you so much",
+          "Thank you very much"
+        ],
+        [
+          "Appreciate it",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "See you later!",
+          "Goodbye"
+        ],
+        [
+          "Take care!",
+          "Goodbye"
+        ],
+        [
+          "Have a good one!",
+          "Have a good day"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome!",
+          "Welcome"
+        ],
+        [
+          "Come on in!",
+          "Please come in"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry!",
+          "Sorry"
+        ],
+        [
+          "My bad",
+          "Sorry, my fault"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ],
+        [
+          "Pardon me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yeah",
+          "Yes"
+        ],
+        [
+          "Sure",
+          "Yes, of course"
+        ],
+        [
+          "Yep",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Nope",
+          "No"
+        ],
+        [
+          "No, thanks",
+          "No, thank you"
+        ]
+      ]
+    },
+    "es": {
+      "hello": [
+        [
+          "¡Hola!",
+          "Hello!"
+        ],
+        [
+          "¿Todo bien?",
+          "All good?"
+        ]
+      ],
+      "morning": [
+        [
+          "Buen día",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Buenas tardes",
+          "Good afternoon"
+        ],
+        [
+          "Buenas noches",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "¿Cómo estás?",
+          "How are you?"
+        ],
+        [
+          "¿Cómo andás?",
+          "How are you doing? (Argentine)"
+        ]
+      ],
+      "fine": [
+        [
+          "Bien, gracias",
+          "Fine, thanks"
+        ],
+        [
+          "Todo bien",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Gracias",
+          "Thank you"
+        ],
+        [
+          "Muchas gracias",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Chau",
+          "Bye"
+        ],
+        [
+          "Nos vemos",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Bienvenido",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Perdón",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Disculpá",
+          "Excuse me (Argentine)"
+        ],
+        [
+          "Permiso",
+          "Excuse me, coming through"
+        ]
+      ],
+      "yes": [
+        [
+          "Sí",
+          "Yes"
+        ],
+        [
+          "Dale",
+          "Okay, sure"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "BRL",
+    "symbol": "R$",
+    "words": [
+      [
+        "grana",
+        "money"
+      ],
+      [
+        "conto",
+        "a real, in slang (dez conto)"
+      ],
+      [
+        "pau",
+        "a real, in slang (cinquenta paus)"
+      ],
+      [
+        "pila",
+        "a real, in the south"
+      ],
+      [
+        "troco",
+        "change"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Portuguese_name",
+    "https://en.wikipedia.org/wiki/Brazilian_Portuguese",
+    "https://www.ibge.gov.br",
+    "https://en.wikipedia.org/wiki/Japanese_Brazilians",
+    "https://en.wikipedia.org/wiki/Arab_Brazilians",
+    "https://en.wikipedia.org/wiki/German_Brazilians"
+  ]
+}

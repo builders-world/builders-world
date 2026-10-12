@@ -1,0 +1,852 @@
+{
+  "languages": [
+    {
+      "code": "nl",
+      "name": "Dutch",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "widely"
+    },
+    {
+      "code": "fy",
+      "name": "West Frisian",
+      "official": true,
+      "spoken": "regionally"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "People go by a short everyday first name (roepnaam), often different from the formal names on their passport (Johannes becomes Jan or Hans). Family names often carry a lower-case prefix (tussenvoegsel) such as van, de, van der or van den: Lotte van der Berg, but Mevrouw Van der Berg when the first name is dropped, and it is sorted under B. Children take the father's or mother's family name, chosen by the parents. Dutch people of Surinamese, Antillean, Moroccan, Turkish and Indonesian heritage are part of every big city, and the tech hubs draw many internationals.",
+    "groups": {
+      "dutch": {
+        "given": {
+          "m": [
+            "Daan",
+            "Sem",
+            "Lars",
+            "Thijs",
+            "Bram",
+            "Jeroen",
+            "Ruben",
+            "Niels",
+            "Joost",
+            "Tim",
+            "Stijn",
+            "Sander",
+            "Bas",
+            "Wouter",
+            "Jasper",
+            "Rik",
+            "Koen",
+            "Maarten"
+          ],
+          "f": [
+            "Emma",
+            "Lotte",
+            "Sanne",
+            "Anouk",
+            "Femke",
+            "Lisa",
+            "Iris",
+            "Fleur",
+            "Eva",
+            "Marieke",
+            "Esther",
+            "Roos",
+            "Sophie",
+            "Lieke",
+            "Merel",
+            "Inge",
+            "Noor",
+            "Julia"
+          ]
+        },
+        "family": [
+          "de Jong",
+          "Jansen",
+          "de Vries",
+          "van den Berg",
+          "van Dijk",
+          "Bakker",
+          "Janssen",
+          "Visser",
+          "Smit",
+          "Meijer",
+          "de Boer",
+          "Mulder",
+          "de Groot",
+          "Bos",
+          "Vos",
+          "Peters",
+          "Hendriks",
+          "van Leeuwen",
+          "Dekker",
+          "Brouwer"
+        ],
+        "also": {
+          "m": [
+            "Jan",
+            "Peter",
+            "Hans",
+            "Kees",
+            "Henk",
+            "Dirk"
+          ],
+          "f": [
+            "Anja",
+            "Monique",
+            "Ingrid",
+            "Marjolein",
+            "Wendy",
+            "Karin"
+          ]
+        }
+      },
+      "moroccan_dutch": {
+        "given": {
+          "m": [
+            "Mohamed",
+            "Youssef",
+            "Mehdi",
+            "Bilal",
+            "Ayoub",
+            "Anouar",
+            "Nordin",
+            "Soufyan",
+            "Ilias",
+            "Zakaria",
+            "Hamza",
+            "Achraf",
+            "Said",
+            "Karim",
+            "Redouan",
+            "Yassin"
+          ],
+          "f": [
+            "Fatima",
+            "Sara",
+            "Nadia",
+            "Yasmina",
+            "Imane",
+            "Khadija",
+            "Salma",
+            "Hanan",
+            "Samira",
+            "Ikram",
+            "Hajar",
+            "Naima",
+            "Loubna",
+            "Soumaya",
+            "Meryem",
+            "Houda"
+          ]
+        },
+        "family": [
+          "El Amrani",
+          "Bouzid",
+          "Azzouzi",
+          "El Idrissi",
+          "Ait Ali",
+          "Boukhari",
+          "El Ouali",
+          "Tahiri",
+          "Chakir",
+          "Bennani",
+          "El Bakkali",
+          "Amrani",
+          "Laaroussi",
+          "Akhiat",
+          "El Khattabi",
+          "Moussaoui",
+          "Ouaali",
+          "Belhaj"
+        ]
+      },
+      "turkish_dutch": {
+        "given": {
+          "m": [
+            "Mehmet",
+            "Mustafa",
+            "Ahmet",
+            "Emre",
+            "Burak",
+            "Hakan",
+            "Murat",
+            "Kerem",
+            "Yusuf",
+            "Ömer",
+            "Serkan",
+            "Ali",
+            "Can",
+            "Orhan",
+            "Tolga",
+            "Furkan"
+          ],
+          "f": [
+            "Ayşe",
+            "Fatma",
+            "Elif",
+            "Zeynep",
+            "Merve",
+            "Esra",
+            "Büşra",
+            "Selin",
+            "Derya",
+            "Hatice",
+            "Emine",
+            "Gül",
+            "Sevgi",
+            "Özlem",
+            "Tuba",
+            "Kübra"
+          ]
+        },
+        "family": [
+          "Yılmaz",
+          "Kaya",
+          "Demir",
+          "Şahin",
+          "Çelik",
+          "Yıldız",
+          "Aydın",
+          "Öztürk",
+          "Arslan",
+          "Doğan",
+          "Kılıç",
+          "Aslan",
+          "Koç",
+          "Kurt",
+          "Özdemir",
+          "Güneş"
+        ]
+      },
+      "surinamese": {
+        "given": {
+          "m": [
+            "Ricardo",
+            "Rodney",
+            "Stanley",
+            "Dennis",
+            "Glenn",
+            "Ravi",
+            "Sunil",
+            "Raj",
+            "Anand",
+            "Ryan",
+            "Jermaine",
+            "Romano",
+            "Kenneth",
+            "Iwan",
+            "Sharif",
+            "Marciano"
+          ],
+          "f": [
+            "Shanti",
+            "Priya",
+            "Sharda",
+            "Kavita",
+            "Natasja",
+            "Jennifer",
+            "Sharon",
+            "Melissa",
+            "Romy",
+            "Chantal",
+            "Anjali",
+            "Shirley",
+            "Gwendolyn",
+            "Rachel",
+            "Reshma",
+            "Denise"
+          ]
+        },
+        "family": [
+          "Ramdin",
+          "Ramdas",
+          "Jagesar",
+          "Mahabier",
+          "Sewnath",
+          "Kanhai",
+          "Biharie",
+          "Pinas",
+          "Brunings",
+          "Doelwijt",
+          "Esajas",
+          "Wijngaarde",
+          "Fernandes",
+          "Sabajo",
+          "Kartodikromo",
+          "Tjin-A-Tsoi",
+          "Sedney",
+          "Linger"
+        ]
+      },
+      "antillean": {
+        "given": {
+          "m": [
+            "Jurgen",
+            "Shurandy",
+            "Giovanni",
+            "Rignald",
+            "Edson",
+            "Jeffrey",
+            "Ruthsel",
+            "Kenley",
+            "Jairo",
+            "Hensley",
+            "Roderick",
+            "Marlon",
+            "Sherwin",
+            "Gerson",
+            "Dwayne",
+            "Ashley"
+          ],
+          "f": [
+            "Jeanette",
+            "Ruthmila",
+            "Giselle",
+            "Ivonne",
+            "Glenda",
+            "Natasha",
+            "Sheryl",
+            "Shirley",
+            "Melinda",
+            "Rosalinda",
+            "Maritza",
+            "Kimberly",
+            "Lisette",
+            "Daisy",
+            "Esmeralda",
+            "Yolanda"
+          ]
+        },
+        "family": [
+          "Martina",
+          "Rosaria",
+          "Isenia",
+          "Maduro",
+          "Pietersz",
+          "Doran",
+          "Tromp",
+          "Croes",
+          "Leito",
+          "Felida",
+          "Koeiman",
+          "Römer",
+          "Winklaar",
+          "Bernabela",
+          "Statia",
+          "Josephia"
+        ]
+      },
+      "indonesian_dutch": {
+        "given": {
+          "m": [
+            "Ruud",
+            "Ronald",
+            "Edwin",
+            "Robby",
+            "Danny",
+            "Rudy",
+            "Erwin",
+            "Frank",
+            "Michel",
+            "Rick",
+            "Bastiaan",
+            "Jordy",
+            "Kevin",
+            "Glenn",
+            "Mario",
+            "Frans"
+          ],
+          "f": [
+            "Dewi",
+            "Sari",
+            "Nina",
+            "Ingrid",
+            "Yvonne",
+            "Marjolein",
+            "Patricia",
+            "Tanja",
+            "Ria",
+            "Joyce",
+            "Naomi",
+            "Linda",
+            "Maya",
+            "Kirsten",
+            "Indah",
+            "Monique"
+          ]
+        },
+        "family": [
+          "Soeters",
+          "Pattiasina",
+          "Tahapary",
+          "Latumahina",
+          "Manuhutu",
+          "Wattimena",
+          "Leatemia",
+          "Pattipeilohy",
+          "Sahetapy",
+          "Siahaya",
+          "Tuhumury",
+          "Lewerissa",
+          "Simons",
+          "Lekahena",
+          "Talahatu",
+          "Tumbelaka"
+        ]
+      },
+      "international": {
+        "given": {
+          "m": [
+            "Arjun",
+            "Rahul",
+            "Pablo",
+            "Wei",
+            "Mateusz",
+            "Andrei",
+            "Lucas",
+            "Ahmed",
+            "Diego",
+            "Dmytro",
+            "Marco",
+            "Tomás",
+            "Hao",
+            "Karthik",
+            "Ivan",
+            "Giorgos"
+          ],
+          "f": [
+            "Priya",
+            "Ananya",
+            "Lucía",
+            "Mei",
+            "Katarzyna",
+            "Ioana",
+            "Julia",
+            "Sofia",
+            "Elena",
+            "Olena",
+            "Chiara",
+            "Ana",
+            "Divya",
+            "Yuki",
+            "Maria",
+            "Leila"
+          ]
+        },
+        "family": [
+          "Sharma",
+          "Patel",
+          "García",
+          "Chen",
+          "Kowalski",
+          "Popescu",
+          "Silva",
+          "Kumar",
+          "Rossi",
+          "Kovalenko",
+          "Rodríguez",
+          "Wang",
+          "Iyer",
+          "Nowak",
+          "Müller",
+          "Papadopoulos"
+        ],
+        "family_f": [
+          "Sharma",
+          "Patel",
+          "García",
+          "Chen",
+          "Kowalska",
+          "Popescu",
+          "Silva",
+          "Kumar",
+          "Rossi",
+          "Kovalenko",
+          "Rodríguez",
+          "Wang",
+          "Iyer",
+          "Nowak",
+          "Müller",
+          "Papadopoulou"
+        ]
+      }
+    },
+    "weights": {
+      "dutch": 0.72,
+      "moroccan_dutch": 0.06,
+      "turkish_dutch": 0.06,
+      "surinamese": 0.05,
+      "antillean": 0.02,
+      "indonesian_dutch": 0.04,
+      "international": 0.05
+    }
+  },
+  "honorifics": {
+    "elder_m": "meneer",
+    "elder_f": "mevrouw",
+    "peer_m": "man",
+    "peer_f": "meid",
+    "boss": "baas",
+    "titles": {
+      "elder_m": "Meneer",
+      "elder_f": "Mevrouw",
+      "with": "family"
+    }
+  },
+  "phrases": {
+    "nl": {
+      "hello": [
+        [
+          "Hoi!",
+          "Hi!"
+        ],
+        [
+          "Hallo",
+          "Hello"
+        ],
+        [
+          "Hey!",
+          "Hey!"
+        ]
+      ],
+      "morning": [
+        [
+          "Goedemorgen",
+          "Good morning"
+        ],
+        [
+          "Morgen!",
+          "Morning!"
+        ]
+      ],
+      "evening": [
+        [
+          "Goedenavond",
+          "Good evening"
+        ],
+        [
+          "Fijne avond!",
+          "Have a nice evening!"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Hoe gaat het?",
+          "How's it going?"
+        ],
+        [
+          "Alles goed?",
+          "All good?"
+        ],
+        [
+          "Hoe is het?",
+          "How is it?"
+        ]
+      ],
+      "fine": [
+        [
+          "Goed, en met jou?",
+          "Good, and you?"
+        ],
+        [
+          "Prima",
+          "Fine"
+        ],
+        [
+          "Lekker",
+          "Nice, good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Dank je wel",
+          "Thank you"
+        ],
+        [
+          "Bedankt",
+          "Thanks"
+        ],
+        [
+          "Dank u wel",
+          "Thank you (polite)"
+        ]
+      ],
+      "bye": [
+        [
+          "Doei!",
+          "Bye!"
+        ],
+        [
+          "Tot ziens",
+          "Goodbye"
+        ],
+        [
+          "Tot straks",
+          "See you later"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welkom",
+          "Welcome"
+        ],
+        [
+          "Kom binnen",
+          "Come in"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ],
+        [
+          "Het spijt me",
+          "I'm sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Pardon",
+          "Excuse me"
+        ],
+        [
+          "Mag ik er even langs?",
+          "Can I get past?"
+        ]
+      ],
+      "yes": [
+        [
+          "Ja",
+          "Yes"
+        ],
+        [
+          "Jazeker",
+          "Yes, certainly"
+        ],
+        [
+          "Prima",
+          "Fine, sure"
+        ]
+      ],
+      "no": [
+        [
+          "Nee",
+          "No"
+        ],
+        [
+          "Nee, dank je",
+          "No, thanks"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hi!",
+          "Hi!"
+        ],
+        [
+          "Hello",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "I'm good, thanks",
+          "I'm good, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks!",
+          "Thanks!"
+        ]
+      ],
+      "bye": [
+        [
+          "Bye, see you!",
+          "Bye, see you!"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome!",
+          "Welcome!"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry!",
+          "Sorry!"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    },
+    "fy": {
+      "hello": [
+        [
+          "Hoi!",
+          "Hi!"
+        ],
+        [
+          "Goeie!",
+          "Hello!"
+        ]
+      ],
+      "morning": [
+        [
+          "Goeiemoarn",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Goejûn",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Hoe giet it?",
+          "How's it going?"
+        ]
+      ],
+      "fine": [
+        [
+          "Goed, mei dy?",
+          "Good, and you?"
+        ],
+        [
+          "Prima",
+          "Fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Tankewol",
+          "Thank you"
+        ]
+      ],
+      "bye": [
+        [
+          "Oant sjen",
+          "Goodbye"
+        ],
+        [
+          "Oant letter",
+          "See you later"
+        ]
+      ],
+      "welcome": [
+        [
+          "Wolkom",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Pardon",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Ja",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Nee",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "EUR",
+    "symbol": "€",
+    "words": [
+      [
+        "piek",
+        "a euro (old guilder slang still used)"
+      ],
+      [
+        "knaak",
+        "two and a half euros (old guilder coin)"
+      ],
+      [
+        "geeltje",
+        "old slang for a 25 guilder note"
+      ],
+      [
+        "doekoe",
+        "money (street slang, from Sranan)"
+      ],
+      [
+        "pinnen",
+        "to pay by card"
+      ],
+      [
+        "Tikkie",
+        "a payment request sent by app"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Dutch_name",
+    "https://www.cbs.nl/en-gb",
+    "https://www.meertens.knaw.nl/nvb/",
+    "https://en.wikipedia.org/wiki/Straattaal",
+    "https://en.wikipedia.org/wiki/West_Frisian_language"
+  ]
+}

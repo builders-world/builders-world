@@ -26,7 +26,7 @@ were brought in from their own repositories, which are now read-only archives).
 |---|---|---|
 | [`apps/game`](apps/game) | The game (three.js + Vite). Deploys to Vercel. Was `builders-world/yaba-scene`. | `.github/workflows/game.yml`: tests, build, browser tests |
 | [`services/backend`](services/backend) | The Rust gateway: GitHub sign-in, presence, street bins, the Efforts count. Deploys to Railway. Was `builders-world/open-world-backend`. Its own rules are in [its CLAUDE.md](services/backend/CLAUDE.md). | `.github/workflows/backend.yml`: fmt, clippy, tests, sqlx |
-| [`cities`](cities) | Every country and city, one folder each (`cities/<country>/<city>/`): 84 countries and 135 tech cities, six of them live. The game reads them for the world map. | the game's tests check every file |
+| [`cities`](cities) | Every country and city, one folder each (`cities/<country>/<city>/`): 84 countries and 135 tech cities, six of them live. The game reads them for the world map, and each has a knowledge base ([KNOWLEDGE.md](cities/KNOWLEDGE.md)): how people there are named, the languages they speak on the street, what they say, eat and talk about, so a Nairobi resident speaks Swahili, English or Sheng and is called Wanjiku or Otieno, not Kemi. | the game's tests check every file |
 | `docs/`, `assets/` | The product, the world bible, design and collaboration docs, art. | |
 
 Each check runs only when its folder changes. [CODEOWNERS](.github/CODEOWNERS) says who reviews what: the backend needs

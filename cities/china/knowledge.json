@@ -1,0 +1,114 @@
+{
+  "languages": [
+    { "code": "zh", "name": "Mandarin (Putonghua)", "official": true, "spoken": "widely" },
+    { "code": "yue", "name": "Cantonese", "official": false, "spoken": "in Guangdong, including parts of Shenzhen" },
+    { "code": "en", "name": "English", "official": false, "spoken": "in business districts, tech firms and among the young" }
+  ],
+  "names": {
+    "order": "family given",
+    "conventions": "Family name first, then a given name of one or two syllables: Wang Fang, Li Haoran. A few hundred family names cover almost everyone, and the most common (Wang, Li, Zhang, Liu, Chen) are shared by tens of millions. Northern and southern cities differ in which family names are most common: Chen, Huang, Liang and Lin are everywhere in Guangdong, Shen, Gu, Qian and Xu around Shanghai and Hangzhou. Names are written here in Pinyin without tone marks, as on passports. Friends add Xiao (young) or Lao (old) before a family name (Xiao Wang, Lao Zhang); many office workers, especially in tech and foreign firms, also use an English name such as Kevin or Coco.",
+    "groups": {
+      "north": {
+        "given": {
+          "m": ["Wei", "Hao", "Lei", "Qiang", "Tao", "Jun", "Peng", "Bo", "Chao", "Gang", "Haoran", "Zihao", "Yuxuan", "Jianguo", "Jianjun", "Hongwei", "Xiaodong", "Mingyuan"],
+          "f": ["Fang", "Jing", "Li", "Na", "Yan", "Min", "Xue", "Lina", "Xiaoyan", "Hong", "Lili", "Yuting", "Zihan", "Xinyi", "Shuang", "Ying"]
+        },
+        "family": ["Wang", "Li", "Zhang", "Liu", "Zhao", "Yang", "Sun", "Ma", "Zhu", "Gao", "Guo", "Han", "Song", "Yu", "Dong", "Feng", "Cui", "Tian"],
+        "also": { "m": ["Kevin", "Jason", "Eric", "Tony", "Leo", "Jack"], "f": ["Amy", "Coco", "Vivian", "Lily", "Grace", "Linda"] }
+      },
+      "jiangnan": {
+        "given": {
+          "m": ["Jie", "Jun", "Hao", "Wei", "Yi", "Ming", "Chen", "Zhiwei", "Junjie", "Yifan", "Haoyu", "Zhenyu", "Weimin", "Jianhua", "Tianyi", "Zichen"],
+          "f": ["Jing", "Ting", "Hui", "Yun", "Lan", "Qian", "Wenjing", "Shiyu", "Yiran", "Mengqi", "Xiaoqing", "Yuqing", "Jiayi", "Xiaoli", "Meng", "Yuwei"]
+        },
+        "family": ["Zhang", "Wang", "Chen", "Xu", "Zhou", "Shen", "Lu", "Gu", "Qian", "Jiang", "Wu", "Zhu", "Yu", "Fang", "Ye", "Jin", "Tang", "Shi"],
+        "also": { "m": ["Kevin", "Jason", "Eric", "Allen", "Leo", "David"], "f": ["Amy", "Vivian", "Cherry", "Grace", "Sunny", "Lily"] }
+      },
+      "south": {
+        "given": {
+          "m": ["Wei", "Jun", "Hao", "Jian", "Zhiqiang", "Weijie", "Jiahao", "Junhao", "Zhihao", "Guoqiang", "Wenbin", "Haoxuan", "Zixuan", "Rong", "Hui", "Kaiming"],
+          "f": ["Hui", "Ling", "Min", "Yan", "Xiaoling", "Jiayi", "Shiqi", "Yuxin", "Meiling", "Wenting", "Xiaohong", "Lihua", "Siqi", "Yanting", "Huimin", "Xiaomei"]
+        },
+        "family": ["Chen", "Li", "Huang", "Liang", "Lin", "Zheng", "Xie", "He", "Luo", "Ye", "Cai", "Zeng", "Deng", "Wu", "Liu", "Zhong", "Mai", "Lai"],
+        "also": { "m": ["Kevin", "Jason", "Tony", "Eric", "Ken", "Jack"], "f": ["Amy", "Coco", "Cherry", "Vivian", "Kiki", "Sunny"] }
+      }
+    },
+    "weights": { "north": 0.4, "jiangnan": 0.3, "south": 0.3 }
+  },
+  "honorifics": {
+    "elder_m": "Dàye",
+    "elder_f": "Āyí",
+    "peer_m": "Shuàigē",
+    "peer_f": "Měinǚ",
+    "boss": "Lǎobǎn",
+    "driver_or_tradesman": "Shīfu",
+    "uncle": "Shūshu",
+    "young_man": "Xiǎohuǒzi",
+    "colleague_older": "Lǎo",
+    "colleague_younger": "Xiǎo"
+  },
+  "phrases": {
+    "zh": {
+      "hello": [["Nǐ hǎo", "Hello (你好)"], ["Nín hǎo", "Hello, polite (您好)"], ["Hāi", "Hi (嗨)"]],
+      "morning": [["Zǎo!", "Morning! (早)"], ["Zǎoshang hǎo", "Good morning (早上好)"]],
+      "evening": [["Wǎnshang hǎo", "Good evening (晚上好)"], ["Wǎn'ān", "Good night (晚安)"]],
+      "how_are_you": [["Nǐ zuìjìn zěnmeyàng?", "How have you been? (你最近怎么样?)"], ["Chī le ma?", "Have you eaten? A friendly greeting (吃了吗?)"]],
+      "fine": [["Hái xíng", "Not bad (还行)"], ["Tǐng hǎo de", "Pretty good (挺好的)"], ["Bú cuò", "Not bad at all (不错)"]],
+      "thanks": [["Xièxie", "Thank you (谢谢)"], ["Duō xiè", "Many thanks (多谢)"]],
+      "bye": [["Zàijiàn", "Goodbye (再见)"], ["Bàibai", "Bye bye (拜拜)"], ["Màn zǒu", "Take care, said to a parting guest (慢走)"]],
+      "welcome": [["Huānyíng guānglín", "Welcome, said in shops (欢迎光临)"], ["Bú kèqi", "You're welcome (不客气)"]],
+      "sorry": [["Duìbuqǐ", "Sorry (对不起)"], ["Bù hǎoyìsi", "Sorry, my bad (不好意思)"]],
+      "excuse": [["Qǐngwèn", "Excuse me, may I ask (请问)"], ["Bù hǎoyìsi, ràng yíxià", "Excuse me, let me through (不好意思,让一下)"]],
+      "yes": [["Duì", "Right (对)"], ["Shì de", "Yes (是的)"], ["Hǎo", "OK (好)"], ["Xíng", "Fine, will do (行)"]],
+      "no": [["Bù", "No (不)"], ["Bú shì", "No, it isn't (不是)"], ["Méiyǒu", "Don't have, haven't (没有)"], ["Bú yòng le", "No need, thanks (不用了)"]]
+    },
+    "yue": {
+      "hello": [["Nei hou", "Hello (你好)"], ["Wai!", "Hey! Also hello on the phone (喂)"]],
+      "morning": [["Zou san!", "Good morning (早晨)"]],
+      "evening": [["Maan on", "Good night (晚安)"]],
+      "how_are_you": [["Nei hou ma?", "How are you? (你好嗎?)"], ["Sik zo faan mei a?", "Have you eaten yet? (食咗飯未呀?)"]],
+      "fine": [["Gei hou", "Pretty good (幾好)"], ["Mou man tai", "No problem (冇問題)"]],
+      "thanks": [["M goi", "Thanks, for a service or favour (唔該)"], ["Do ze", "Thank you, for a gift (多謝)"]],
+      "bye": [["Baai baai", "Bye bye (拜拜)"], ["Zoi gin", "Goodbye (再見)"]],
+      "welcome": [["Fun jing", "Welcome (歡迎)"], ["M sai haak hei", "Don't mention it (唔使客氣)"]],
+      "sorry": [["Deoi m zyu", "Sorry (對唔住)"], ["M hou ji si", "Sorry, excuse me (唔好意思)"]],
+      "excuse": [["M goi, ze ze", "Excuse me, coming through (唔該,借借)"]],
+      "yes": [["Hai", "Yes (係)"], ["Hou a", "OK (好呀)"]],
+      "no": [["M hai", "No, it isn't (唔係)"], ["M sai", "No need (唔使)"], ["Mou", "Don't have (冇)"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"], ["Hi", "Hi"]],
+      "morning": [["Good morning", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["Fine, thanks", "Fine, thanks"], ["Not bad", "Not bad"]],
+      "thanks": [["Thank you", "Thank you"], ["Thanks a lot", "Thanks a lot"]],
+      "bye": [["Bye bye", "Bye bye"], ["See you", "See you"]],
+      "welcome": [["Welcome", "Welcome"], ["You're welcome", "You're welcome"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"], ["OK", "OK"]],
+      "no": [["No", "No"], ["No, thanks", "No, thanks"]]
+    }
+  },
+  "money": {
+    "currency": "CNY",
+    "symbol": "¥",
+    "words": [
+      ["kuài", "yuan, the everyday word (块)"],
+      ["máo", "a tenth of a yuan (毛)"],
+      ["sǎo mǎ", "scan the QR code to pay (扫码)"],
+      ["Wēixìn zhīfù", "WeChat Pay (微信支付)"],
+      ["Zhīfùbǎo", "Alipay (支付宝)"],
+      ["hóngbāo", "red envelope of money, also sent by phone (红包)"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Chinese_name",
+    "https://en.wikipedia.org/wiki/List_of_common_Chinese_surnames",
+    "https://en.wikipedia.org/wiki/Standard_Chinese",
+    "https://en.wikipedia.org/wiki/Cantonese",
+    "https://en.wikipedia.org/wiki/Jyutping",
+    "https://en.wikipedia.org/wiki/Pinyin"
+  ]
+}

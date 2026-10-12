@@ -1,0 +1,279 @@
+{
+  "street": {
+    "en": 0.33,
+    "ig": 0.37,
+    "pcm": 0.3
+  },
+  "names": {
+    "weights": {
+      "igbo": 0.86,
+      "yoruba": 0.04,
+      "hausa": 0.03,
+      "edo": 0.02,
+      "ibibio": 0.02,
+      "ikwerre": 0.02,
+      "ijaw": 0.01
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "Good morning! How's the day going?",
+        "Hey! Long time.",
+        "Hi! How's work in Independence Layout?",
+        "Good afternoon, all well at home?",
+        "Hello! How was the keke ride?"
+      ],
+      "reply": [
+        "I'm fine, thanks!",
+        "We thank God.",
+        "Fine, just busy.",
+        "All good. And you?",
+        "Doing well, thanks for asking."
+      ],
+      "sunny": [
+        "Bright Coal City morning.",
+        "Hot one today, drink water.",
+        "Lovely weather for a walk in GRA.",
+        "Clear skies over Milliken Hill today.",
+        "The sun is out in full today."
+      ],
+      "rain": [
+        "It's pouring, stay dry.",
+        "Ogbete will be pure mud now.",
+        "Wait it out, it will ease off.",
+        "Rainy season is here for real.",
+        "Milliken Hill will be slippery after this."
+      ],
+      "bye": [
+        "Take care!",
+        "Bye bye, see you!",
+        "Have a good day.",
+        "Talk later.",
+        "Safe trip home."
+      ],
+      "busy": [
+        "Running late for a meeting!",
+        "I need to reach Ogbete before they close!",
+        "Lecture at UNEC in ten minutes, bye!",
+        "On my way to Trans-Ekulu, later!",
+        "Deadline today, I'll call you."
+      ]
+    },
+    "ig": {
+      "greet": [
+        "Ndewo!",
+        "Kedu?",
+        "Kedu ka i mere?",
+        "Kedu ka o di?",
+        "Ututu oma!",
+        "Nno!"
+      ],
+      "reply": [
+        "O di mma.",
+        "Adim mma, daalu.",
+        "O di mma, imeela.",
+        "Chukwu di mma!"
+      ],
+      "sunny": [
+        "Anwu na-acha taa!",
+        "O na-ekpo oku taa."
+      ],
+      "rain": [
+        "Mmiri na-ezo!",
+        "Mmiri ga-ezo taa."
+      ],
+      "bye": [
+        "Ka omesia!",
+        "Ka emecha!",
+        "Ka chi foo.",
+        "Jee nke oma."
+      ],
+      "busy": [
+        "Ana m aga oru.",
+        "Ana m aga ahia.",
+        "Ngwa, ka emecha!"
+      ]
+    },
+    "pcm": {
+      "greet": [
+        "How far?",
+        "How you dey?",
+        "Nwanne, how body?",
+        "Wetin dey sup?",
+        "Bros, how far now?",
+        "Sister, how you dey?"
+      ],
+      "reply": [
+        "I dey o!",
+        "We dey kampe!",
+        "God dey!",
+        "No wahala at all.",
+        "E dey go, small small."
+      ],
+      "sunny": [
+        "Sun dey shine well well today.",
+        "This heat ehn!",
+        "Weather fine die today.",
+        "Harmattan don come, dust everywhere."
+      ],
+      "rain": [
+        "Rain don start o!",
+        "Make we wait make rain stop.",
+        "This rain no get joy.",
+        "Milliken Hill go slippery now."
+      ],
+      "bye": [
+        "I dey go.",
+        "Make we see later.",
+        "Waka well o!",
+        "Later, nwanne."
+      ],
+      "busy": [
+        "I dey run, abeg.",
+        "Make I catch this keke first!",
+        "I wan reach Ogbete before dem close.",
+        "Work don pile, I go call you."
+      ]
+    }
+  },
+  "transport": {
+    "bus": "bus",
+    "moto_taxi": "okada",
+    "tricycle": "keke",
+    "taxi": "taxi (a 'drop' when it's yours alone)",
+    "ride_hail": "Uber or Bolt",
+    "conductor": "conductor",
+    "driver": "driver",
+    "stage": "bus stop",
+    "park": "motor park"
+  },
+  "touts": [
+    "Ogbete! Ogbete!",
+    "New Haven! New Haven!",
+    "Abakpa! Abakpa Nike!",
+    "Emene! Emene, enter!",
+    "Holy Ghost! Holy Ghost!",
+    "Gariki! Gariki!",
+    "Trans-Ekulu, one more!",
+    "Nsukka! Nsukka, oya!"
+  ],
+  "hawkers": [
+    ["Pure water! Pure water!", "Sachet water!"],
+    ["Okpa di oku!", "Hot okpa!"],
+    ["Ube na oka!", "African pear and roast corn!"],
+    ["Abacha! Abacha!", "African salad!"],
+    ["Groundnut! Groundnut!", "Roasted peanuts!"],
+    ["Recharge card! MTN, Airtel!", "Phone credit!"],
+    ["Gala and Lacasera!", "A snack and a soft drink!"]
+  ],
+  "food": {
+    "street": [
+      "okpa",
+      "abacha",
+      "roast corn and ube",
+      "suya",
+      "akara",
+      "puff-puff",
+      "agidi",
+      "boli and groundnut",
+      "gala",
+      "nkwobi at the beer parlour"
+    ],
+    "dishes": [
+      "ofe onugbu (bitterleaf soup) and fufu",
+      "oha soup and pounded yam",
+      "ofe nsala (white soup)",
+      "abacha (African salad)",
+      "nkwobi",
+      "isi ewu",
+      "ugba",
+      "egusi soup and eba",
+      "jollof rice",
+      "okpa with pap"
+    ],
+    "drinks": [
+      "palm wine (nkwu)",
+      "zobo",
+      "malt",
+      "Chapman",
+      "Hero",
+      "Guinness",
+      "Star"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "Independence Layout",
+      "GRA",
+      "Trans-Ekulu",
+      "New Haven",
+      "Uwani",
+      "Ogui",
+      "Asata",
+      "Abakpa Nike",
+      "Emene",
+      "Achara Layout",
+      "Ogbete",
+      "Coal Camp",
+      "Maryland",
+      "Thinkers Corner",
+      "Republic Layout",
+      "Golf Estate",
+      "Obiagu",
+      "Awkunanaw"
+    ],
+    "streets": [
+      "Okpara Avenue",
+      "Ogui Road",
+      "Zik Avenue",
+      "Chime Avenue",
+      "Agbani Road",
+      "Abakaliki Road",
+      "Bisalla Road",
+      "Presidential Road",
+      "Rangers Avenue",
+      "Market Road",
+      "Edinburgh Road",
+      "the Enugu-Port Harcourt Expressway",
+      "Milliken Hill"
+    ],
+    "landmarks": [
+      "Ogbete Main Market",
+      "Michael Okpara Square",
+      "Nnamdi Azikiwe Stadium",
+      "Polo Park Mall",
+      "UNEC (University of Nigeria, Enugu Campus)",
+      "IMT",
+      "Akanu Ibiam International Airport",
+      "the Holy Ghost Cathedral",
+      "Nike Lake Resort",
+      "Ngwo Pine Forest",
+      "Milliken Hill",
+      "the old coal mines at Onyeama",
+      "Udi Hills"
+    ]
+  },
+  "small_talk": [
+    "Milliken Hill road is something else after rain.",
+    "Ogbete market was packed today.",
+    "Nkwobi at the joint in Independence Layout tonight?",
+    "Rangers play at the stadium on Sunday, are you coming?",
+    "Harmattan is coming, the dust will start soon.",
+    "Okpa and pap for breakfast, nothing better.",
+    "Enugu is cooler than Lagos, I'm telling you.",
+    "The keke from Holy Ghost to Ogbete took forever.",
+    "Ngwo Pine Forest this weekend for a hike?",
+    "My cousin just got admission into UNEC."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Enugu",
+    "https://en.wikipedia.org/wiki/Igbo_language",
+    "https://en.wikipedia.org/wiki/Igbo_cuisine",
+    "https://en.wikipedia.org/wiki/Okpa",
+    "https://en.wikipedia.org/wiki/Abacha",
+    "https://en.wikipedia.org/wiki/Nkwobi",
+    "https://en.wikipedia.org/wiki/Nigerian_Pidgin"
+  ],
+  "needs_native_review": "Igbo lines are written without tone marks, as most people text Igbo. Igbo has only two sunny, two rain and three busy lines (the game speaks English for the rest); Enugu speakers, please check 'Anwu na-acha taa', 'O na-ekpo oku taa', 'Mmiri ga-ezo taa', 'Jee nke oma', 'Ka chi foo' and the hawker calls 'Okpa di oku' and 'Ube na oka', and add lines. Pidgin lines too, and whether okada still runs in the city centre."
+}

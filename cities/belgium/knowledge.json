@@ -1,0 +1,988 @@
+{
+  "languages": [
+    {
+      "code": "nl",
+      "name": "Dutch (Flemish)",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "fr",
+      "name": "French",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "de",
+      "name": "German",
+      "official": true,
+      "spoken": "regionally"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "commonly"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "A first name and the family name, traditionally the father's; since 2014 parents may give the mother's name or both. Flemish family names often start with Van, Vanden, De or Ver (Van Damme, De Smet, Verhaegen) and are written with or without a space depending on the family. Walloon and Brussels names are mostly French. Belgians of Moroccan, Turkish, Congolese and Italian heritage are a big part of Brussels, Antwerp, Liège and Charleroi, and the EU institutions bring people from every member state.",
+    "groups": {
+      "flemish": {
+        "given": {
+          "m": [
+            "Pieter",
+            "Jens",
+            "Thomas",
+            "Wouter",
+            "Stijn",
+            "Bram",
+            "Joris",
+            "Koen",
+            "Tom",
+            "Arne",
+            "Ruben",
+            "Lars",
+            "Sander",
+            "Jonas",
+            "Dries",
+            "Maarten",
+            "Kobe",
+            "Wout"
+          ],
+          "f": [
+            "Lotte",
+            "Sofie",
+            "Lies",
+            "Eline",
+            "Hanne",
+            "Annelies",
+            "Leen",
+            "Ellen",
+            "Jolien",
+            "Nele",
+            "Femke",
+            "Charlotte",
+            "Elke",
+            "Lien",
+            "Marie",
+            "Fien",
+            "Ine",
+            "Kaat"
+          ]
+        },
+        "family": [
+          "Peeters",
+          "Janssens",
+          "Maes",
+          "Jacobs",
+          "Mertens",
+          "Willems",
+          "Claes",
+          "Goossens",
+          "Wouters",
+          "De Smet",
+          "Vermeulen",
+          "Van Damme",
+          "Verhaegen",
+          "De Clercq",
+          "Van den Broeck",
+          "Desmet",
+          "Hermans",
+          "Vandenberghe",
+          "Verstraete",
+          "Michiels"
+        ],
+        "also": {
+          "m": [
+            "Luc",
+            "Marc",
+            "Dirk",
+            "Geert",
+            "Johan",
+            "Bart"
+          ],
+          "f": [
+            "An",
+            "Katrien",
+            "Veerle",
+            "Inge",
+            "Greet",
+            "Hilde"
+          ]
+        }
+      },
+      "francophone": {
+        "given": {
+          "m": [
+            "Nicolas",
+            "Julien",
+            "Maxime",
+            "Thomas",
+            "Antoine",
+            "Arnaud",
+            "Quentin",
+            "Simon",
+            "Olivier",
+            "Cédric",
+            "Grégory",
+            "Benoît",
+            "Martin",
+            "Florian",
+            "Louis",
+            "Romain"
+          ],
+          "f": [
+            "Julie",
+            "Sophie",
+            "Charlotte",
+            "Céline",
+            "Aurélie",
+            "Marie",
+            "Laura",
+            "Pauline",
+            "Manon",
+            "Caroline",
+            "Émilie",
+            "Justine",
+            "Camille",
+            "Delphine",
+            "Élise",
+            "Noémie"
+          ]
+        },
+        "family": [
+          "Dubois",
+          "Lambert",
+          "Dupont",
+          "Martin",
+          "Simon",
+          "Leclercq",
+          "Laurent",
+          "Lejeune",
+          "Renard",
+          "François",
+          "Henry",
+          "Collard",
+          "Gilson",
+          "Lemaire",
+          "Denis",
+          "Wilmotte",
+          "Mathieu",
+          "Dumont"
+        ],
+        "also": {
+          "m": [
+            "Philippe",
+            "Pierre",
+            "Jean",
+            "Michel",
+            "Didier"
+          ],
+          "f": [
+            "Isabelle",
+            "Anne",
+            "Nathalie",
+            "Véronique",
+            "Martine"
+          ]
+        }
+      },
+      "moroccan": {
+        "given": {
+          "m": [
+            "Mohamed",
+            "Youssef",
+            "Mehdi",
+            "Hamza",
+            "Karim",
+            "Bilal",
+            "Ayoub",
+            "Anouar",
+            "Rachid",
+            "Nordin",
+            "Soufiane",
+            "Ilias",
+            "Zakaria",
+            "Adil",
+            "Hicham",
+            "Othman"
+          ],
+          "f": [
+            "Fatima",
+            "Sara",
+            "Nadia",
+            "Yasmina",
+            "Imane",
+            "Khadija",
+            "Salma",
+            "Houda",
+            "Samira",
+            "Ikram",
+            "Hajar",
+            "Meryem",
+            "Soukaina",
+            "Naima",
+            "Latifa",
+            "Asmae"
+          ]
+        },
+        "family": [
+          "El Amrani",
+          "Benali",
+          "El Idrissi",
+          "Bouzid",
+          "Azzouzi",
+          "Ait Ali",
+          "Boukhari",
+          "El Ouali",
+          "Haddouchi",
+          "Tahiri",
+          "Chakir",
+          "Bennani",
+          "El Bakkali",
+          "Amrani",
+          "Laaroussi",
+          "Ouardi",
+          "El Khattabi",
+          "Moussaoui"
+        ]
+      },
+      "turkish": {
+        "given": {
+          "m": [
+            "Mehmet",
+            "Mustafa",
+            "Ahmet",
+            "Emre",
+            "Burak",
+            "Hakan",
+            "Murat",
+            "Kerem",
+            "Yusuf",
+            "Ömer",
+            "Serkan",
+            "Ali",
+            "Can",
+            "Volkan",
+            "Tolga",
+            "Furkan"
+          ],
+          "f": [
+            "Ayşe",
+            "Fatma",
+            "Elif",
+            "Zeynep",
+            "Merve",
+            "Esra",
+            "Büşra",
+            "Selin",
+            "Derya",
+            "Hatice",
+            "Emine",
+            "Gül",
+            "Sevgi",
+            "Özlem",
+            "Tuba",
+            "Kübra"
+          ]
+        },
+        "family": [
+          "Yılmaz",
+          "Kaya",
+          "Demir",
+          "Şahin",
+          "Çelik",
+          "Yıldız",
+          "Aydın",
+          "Öztürk",
+          "Arslan",
+          "Doğan",
+          "Kılıç",
+          "Aslan",
+          "Koç",
+          "Kurt",
+          "Özdemir",
+          "Güneş"
+        ]
+      },
+      "congolese": {
+        "given": {
+          "m": [
+            "Patrick",
+            "Jean-Pierre",
+            "Christian",
+            "Junior",
+            "Glody",
+            "Ricky",
+            "Héritier",
+            "Trésor",
+            "Cédric",
+            "Joël",
+            "Serge",
+            "Yannick",
+            "Dieumerci",
+            "Fiston",
+            "Christopher",
+            "Exaucé"
+          ],
+          "f": [
+            "Grâce",
+            "Merveille",
+            "Christelle",
+            "Nadine",
+            "Sarah",
+            "Divine",
+            "Bénédicte",
+            "Esther",
+            "Ornella",
+            "Joëlle",
+            "Plamedie",
+            "Rebecca",
+            "Gloria",
+            "Sandra",
+            "Chancelle",
+            "Patience"
+          ]
+        },
+        "family": [
+          "Mbuyi",
+          "Kabongo",
+          "Tshibangu",
+          "Ilunga",
+          "Mukendi",
+          "Kalala",
+          "Lukusa",
+          "Mbala",
+          "Nkulu",
+          "Kasongo",
+          "Lumbala",
+          "Mulumba",
+          "Ngoy",
+          "Makiese",
+          "Nsimba",
+          "Mutombo"
+        ]
+      },
+      "italian": {
+        "given": {
+          "m": [
+            "Marco",
+            "Luca",
+            "Giuseppe",
+            "Antonio",
+            "Salvatore",
+            "Francesco",
+            "Alessandro",
+            "Davide",
+            "Matteo",
+            "Stefano",
+            "Fabio",
+            "Vincenzo",
+            "Roberto",
+            "Lorenzo",
+            "Andrea",
+            "Paolo"
+          ],
+          "f": [
+            "Giulia",
+            "Francesca",
+            "Chiara",
+            "Sara",
+            "Valentina",
+            "Elena",
+            "Martina",
+            "Laura",
+            "Silvia",
+            "Federica",
+            "Alessia",
+            "Maria",
+            "Angela",
+            "Rosa",
+            "Carla",
+            "Sofia"
+          ]
+        },
+        "family": [
+          "Russo",
+          "Esposito",
+          "Romano",
+          "Colombo",
+          "Ricci",
+          "Marino",
+          "Greco",
+          "Bruno",
+          "Gallo",
+          "Conti",
+          "De Luca",
+          "Costa",
+          "Giordano",
+          "Mancini",
+          "Lombardi",
+          "Ferrara"
+        ]
+      },
+      "eu_expat": {
+        "given": {
+          "m": [
+            "Pablo",
+            "Jakub",
+            "Andrei",
+            "Lukas",
+            "Mikkel",
+            "Paweł",
+            "Diogo",
+            "Ioannis",
+            "Matthias",
+            "Tomás",
+            "Niklas",
+            "Sebastian",
+            "Mihai",
+            "Kristof",
+            "Rafael",
+            "Emil"
+          ],
+          "f": [
+            "Lucía",
+            "Anna",
+            "Katarzyna",
+            "Ioana",
+            "Eva",
+            "Maria",
+            "Elena",
+            "Sofia",
+            "Laura",
+            "Ana",
+            "Johanna",
+            "Ingrid",
+            "Zuzana",
+            "Agnieszka",
+            "Beatriz",
+            "Eleni"
+          ]
+        },
+        "family": [
+          "García",
+          "Nowak",
+          "Popescu",
+          "Müller",
+          "Papadopoulos",
+          "Kowalski",
+          "Silva",
+          "Novák",
+          "Fernández",
+          "Nielsen",
+          "Schmidt",
+          "Ionescu",
+          "Horváth",
+          "Kovač",
+          "Murphy",
+          "Lindqvist"
+        ],
+        "family_f": [
+          "García",
+          "Nowak",
+          "Popescu",
+          "Müller",
+          "Papadopoulou",
+          "Kowalska",
+          "Silva",
+          "Nováková",
+          "Fernández",
+          "Nielsen",
+          "Schmidt",
+          "Ionescu",
+          "Horváth",
+          "Kovač",
+          "Murphy",
+          "Lindqvist"
+        ]
+      }
+    },
+    "weights": {
+      "flemish": 0.46,
+      "francophone": 0.3,
+      "moroccan": 0.08,
+      "turkish": 0.04,
+      "congolese": 0.03,
+      "italian": 0.04,
+      "eu_expat": 0.05
+    }
+  },
+  "honorifics": {
+    "elder_m": "Monsieur / meneer",
+    "elder_f": "Madame / mevrouw",
+    "peer_m": "fieu",
+    "peer_f": "ma belle",
+    "boss": "chef",
+    "titles": {
+      "elder_m": "Monsieur",
+      "elder_f": "Madame",
+      "with": "family"
+    }
+  },
+  "phrases": {
+    "nl": {
+      "hello": [
+        [
+          "Hallo",
+          "Hello"
+        ],
+        [
+          "Hoi",
+          "Hi"
+        ],
+        [
+          "Dag!",
+          "Hello! (Flemish, also bye)"
+        ]
+      ],
+      "morning": [
+        [
+          "Goeiemorgen",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Goeienavond",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Hoe gaat het?",
+          "How's it going?"
+        ],
+        [
+          "Alles goed?",
+          "All good?"
+        ],
+        [
+          "Hoe is 't?",
+          "How is it?"
+        ]
+      ],
+      "fine": [
+        [
+          "Goed, en met jou?",
+          "Good, and you?"
+        ],
+        [
+          "Alles goed",
+          "All good"
+        ],
+        [
+          "Ça va",
+          "Fine (Flemish often borrow this)"
+        ]
+      ],
+      "thanks": [
+        [
+          "Merci",
+          "Thanks (very common in Flanders)"
+        ],
+        [
+          "Dank u wel",
+          "Thank you (polite)"
+        ],
+        [
+          "Bedankt",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "Salut!",
+          "Bye!"
+        ],
+        [
+          "Tot straks",
+          "See you later"
+        ],
+        [
+          "Dag!",
+          "Bye!"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welkom",
+          "Welcome"
+        ],
+        [
+          "Kom binnen",
+          "Come in"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ],
+        [
+          "Excuseer",
+          "Sorry, excuse me"
+        ]
+      ],
+      "excuse": [
+        [
+          "Pardon",
+          "Excuse me"
+        ],
+        [
+          "Excuseer, mag ik even passeren?",
+          "Excuse me, can I get by?"
+        ]
+      ],
+      "yes": [
+        [
+          "Ja",
+          "Yes"
+        ],
+        [
+          "Ja, zeker",
+          "Yes, sure"
+        ],
+        [
+          "Allez, goed",
+          "Right, fine"
+        ]
+      ],
+      "no": [
+        [
+          "Nee",
+          "No"
+        ],
+        [
+          "Neen",
+          "No (Flemish)"
+        ],
+        [
+          "Nee, merci",
+          "No, thanks"
+        ]
+      ]
+    },
+    "fr": {
+      "hello": [
+        [
+          "Bonjour",
+          "Hello"
+        ],
+        [
+          "Salut !",
+          "Hi!"
+        ]
+      ],
+      "morning": [
+        [
+          "Bonjour",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Bonsoir",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Ça va ?",
+          "How's it going?"
+        ],
+        [
+          "Comment ça va ?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Ça va bien, et toi ?",
+          "Fine, and you?"
+        ],
+        [
+          "Ça va, merci",
+          "Fine, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Merci",
+          "Thanks"
+        ],
+        [
+          "Merci bien",
+          "Many thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "Au revoir",
+          "Goodbye"
+        ],
+        [
+          "À tantôt !",
+          "See you later today! (Belgian)"
+        ],
+        [
+          "Salut !",
+          "Bye!"
+        ]
+      ],
+      "welcome": [
+        [
+          "Bienvenue",
+          "Welcome"
+        ],
+        [
+          "Entrez, je vous en prie",
+          "Come in, please"
+        ]
+      ],
+      "sorry": [
+        [
+          "Pardon",
+          "Sorry"
+        ],
+        [
+          "Désolé",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excusez-moi",
+          "Excuse me"
+        ],
+        [
+          "S'il vous plaît",
+          "Please; also 'here you are' in Belgium"
+        ]
+      ],
+      "yes": [
+        [
+          "Oui",
+          "Yes"
+        ],
+        [
+          "Allez, d'accord",
+          "Go on then, OK"
+        ]
+      ],
+      "no": [
+        [
+          "Non",
+          "No"
+        ],
+        [
+          "Non merci",
+          "No thanks"
+        ]
+      ]
+    },
+    "de": {
+      "hello": [
+        [
+          "Hallo",
+          "Hello"
+        ],
+        [
+          "Guten Tag",
+          "Good day"
+        ]
+      ],
+      "morning": [
+        [
+          "Guten Morgen",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Guten Abend",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Wie geht's?",
+          "How's it going?"
+        ]
+      ],
+      "fine": [
+        [
+          "Gut, danke",
+          "Fine, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Danke",
+          "Thanks"
+        ],
+        [
+          "Danke schön",
+          "Thank you"
+        ]
+      ],
+      "bye": [
+        [
+          "Tschüss",
+          "Bye"
+        ],
+        [
+          "Auf Wiedersehen",
+          "Goodbye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Willkommen",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Entschuldigung",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Entschuldigen Sie",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Ja",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Nein",
+          "No"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hi!",
+          "Hi!"
+        ],
+        [
+          "Hello",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "I'm good, thanks",
+          "I'm good, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks!",
+          "Thanks!"
+        ]
+      ],
+      "bye": [
+        [
+          "Bye, see you!",
+          "Bye, see you!"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome!",
+          "Welcome!"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry!",
+          "Sorry!"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "EUR",
+    "symbol": "€",
+    "words": [
+      [
+        "balles",
+        "euros, in French slang"
+      ],
+      [
+        "een euro",
+        "a euro"
+      ],
+      [
+        "septante",
+        "seventy (Belgian French)"
+      ],
+      [
+        "nonante",
+        "ninety (Belgian French)"
+      ],
+      [
+        "poen",
+        "money, Flemish slang"
+      ],
+      [
+        "cash",
+        "cash, said in both languages"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Belgium",
+    "https://statbel.fgov.be/en",
+    "https://en.wikipedia.org/wiki/Belgian_French",
+    "https://en.wikipedia.org/wiki/Flemish",
+    "https://en.wikipedia.org/wiki/Demographics_of_Belgium"
+  ]
+}

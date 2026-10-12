@@ -1,0 +1,89 @@
+{
+  "street": { "ko": 0.93, "en": 0.07 },
+  "registers": {},
+  "names": { "weights": { "korean": 1.0 } },
+  "phrases": {
+    "ko": {
+      "wow": [["Daebak!", "Amazing! (대박)"]],
+      "really": [["Jinjja?", "Really? (진짜?)"]],
+      "cheer": [["Hwaiting!", "You can do it! (화이팅)"]],
+      "hurry": [["Ppalli ppalli", "Hurry, hurry (빨리 빨리)"]],
+      "oh_dear": [["Aigoo", "Oh dear (아이고)"]],
+      "cheers": [["Geonbae!", "Cheers! (건배)"]],
+      "work_well": [["Sugohaseyo", "Keep up the good work, said leaving a shop (수고하세요)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! Grabbed your iced americano yet?", "Hey, long time no see!", "Hi! Have you eaten?", "Hello! How's your week going?", "Evening! Heading to Hongdae later?"],
+      "reply": ["Good, thanks! Just busy with work.", "Doing well, how about you?", "Not bad, a bit tired after the team dinner last night.", "Great, just had lunch.", "All good, thanks for asking!"],
+      "sunny": ["Great day for a picnic by the Han River.", "Clear sky today, the fine dust has finally gone.", "Perfect day to hike Bukhansan.", "Hot one today, time for bingsu.", "Lovely weather, the cherry blossoms in Yeouido must be out."],
+      "rain": ["Monsoon season, it hasn't stopped all week.", "Rainy day, perfect for pajeon and makgeolli.", "Grab an umbrella from the convenience store.", "The rain is heavy, the subway will be packed.", "Another weather alert on my phone."],
+      "bye": ["See you tomorrow!", "Take care, get home safe.", "Bye! Let's grab chimaek soon.", "Catch you later!", "Have a good night!"],
+      "busy": ["Sorry, I have to catch the subway.", "Running late for a meeting in Gangnam.", "Can't talk, my delivery is waiting.", "Sorry, deadline today!", "In a rush, call you later!"]
+    },
+    "ko": {
+      "greet": ["Annyeonghaseyo!", "Oraenmanieyo!", "Bap meogeosseoyo?", "Joeun achimieyo!", "Annyeong! Jal jinaesseo?"],
+      "reply": ["Ne, jal jinaeyo. Gamsahamnida.", "Gwaenchanayo, geunyang jom bappayo.", "Eung, jal jinaesseo! Neoneun?", "Ne, bap meogeosseoyo!", "Jal jinaeyo, gomawoyo."],
+      "sunny": ["Oneul nalssi jinjja joneyo.", "Hangang gongwone gago sipeoyo.", "Oneul jinjja deopda!", "Haneuri jinjja pureuneyo.", "Nalssi jota! Chimaek eottae?"],
+      "rain": ["Biga mani oneyo.", "Usan gajyeowasseoyo?", "Jangmacheorira biga gyesok oneyo.", "Bi oneun nareneun pajeoni meokgo sipeoyo.", "Biga ol geot gatayo."],
+      "bye": ["Annyeonghi gaseyo!", "Jal ga! Tto bwa!", "Daeume tto bwayo!", "Josimhi gaseyo.", "Sugohaseyo!"],
+      "busy": ["Joesonghaeyo, jigeum jom bappayo.", "Hoeuie neujeosseoyo!", "Jihacheol nochigesseoyo, najunge yeollakhalgeyo!", "Ppalli gaya dwaeyo, mianhaeyo!", "Ajik iri mani namasseoyo."]
+    }
+  },
+  "transport": {
+    "metro": "jihacheol (지하철, Seoul Subway)",
+    "bus": "beoseu (버스, blue, green and red buses)",
+    "taxi": "taeksi (택시)",
+    "ride_hail": "Kakao T",
+    "train": "KTX",
+    "stage": "jeongnyujang (정류장, bus stop)",
+    "card": "T-money",
+    "bike": "Ttareungyi (Seoul Bike)"
+  },
+  "touts": [
+    "Ibeon yeogeun Gangnam, Gangnam-yeogimnida.",
+    "Naerisil muneun oreunjjogimnida.",
+    "Eoseo oseyo! Jigeum seil jungieyo!",
+    "Wonpeulleoseuwon! Hana samyeon hana deo!",
+    "Eodiro moshilkkayo?",
+    "Mask pack, one plus one! Come in, come in!"
+  ],
+  "hawkers": [
+    ["Tteokbokki isseoyo! Masisseoyo!", "Tteokbokki here! Tasty!"],
+    ["Hotteok hana-e cheon won!", "Hotteok, a thousand won each!"],
+    ["Bungeoppang isseoyo!", "Fish-shaped red bean buns!"],
+    ["Gunbam saseyo!", "Buy roasted chestnuts!"],
+    ["Ssayo ssayo!", "Cheap, cheap!"],
+    ["Eomuk ttakkeunhaeyo!", "Fish cake skewers, nice and hot!"],
+    ["Gyeranppang isseoyo!", "Egg bread here!"]
+  ],
+  "food": {
+    "street": ["tteokbokki", "eomuk", "hotteok", "bungeoppang", "gimbap", "sundae", "twigim", "gyeranppang", "dakkochi"],
+    "dishes": ["kimchi jjigae", "samgyeopsal", "bibimbap", "jjajangmyeon", "naengmyeon", "dakgalbi", "Korean fried chicken", "sundubu jjigae", "gukbap"],
+    "drinks": ["soju", "makgeolli", "iced americano", "sikhye", "banana milk", "boricha", "beer"]
+  },
+  "places": {
+    "neighbourhoods": ["Gangnam", "Hongdae", "Itaewon", "Myeongdong", "Jongno", "Yeouido", "Seongsu", "Insadong", "Sinchon", "Jamsil", "Apgujeong", "Bukchon", "Euljiro", "Mangwon"],
+    "streets": ["Teheran-ro", "Sejong-daero", "Jongno", "Garosu-gil", "Euljiro", "Itaewon-ro", "Toegye-ro"],
+    "landmarks": ["Gyeongbokgung", "N Seoul Tower", "Lotte World Tower", "Dongdaemun Design Plaza", "Gwangjang Market", "Bukchon Hanok Village", "Han River parks", "Cheonggyecheon", "COEX", "Namdaemun Market"]
+  },
+  "small_talk": [
+    "Line 2 was packed again this morning.",
+    "The fine dust is bad today, wear your mask.",
+    "Team dinner tonight, I'll end up at the noraebang again.",
+    "The bindaetteok at Gwangjang Market is worth the queue.",
+    "Startups in Pangyo are hiring like mad.",
+    "My delivery came in twenty minutes, Baemin is too fast.",
+    "The Han River parks were full of people eating chimaek last night.",
+    "The new cafe in Seongsu had an hour-long wait.",
+    "My Ttareungyi bike got me to work faster than the bus."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Seoul",
+    "https://en.wikipedia.org/wiki/Seoul_Metropolitan_Subway",
+    "https://en.wikipedia.org/wiki/Gwangjang_Market",
+    "https://en.wikipedia.org/wiki/T-money",
+    "https://en.wikipedia.org/wiki/Korean_cuisine"
+  ]
+}
