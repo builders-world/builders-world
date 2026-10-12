@@ -171,17 +171,38 @@ export async function runPlan(plan, opts = {}) {
 }
 
 // ---------- sign in once, in a window you can see; the token is kept out of the repository and never printed ----------
+// It opens your own Chrome or Edge when installed (else Playwright's Chromium: sign in to GitHub with your password, or a
+// passkey on your phone through the QR code), with a profile of its own next to the session, so GitHub remembers you the
+// next time. It goes straight to GitHub's sign-in.
 async function login(opts) {
   const base = String(opts.base || PROD).replace(/\/+$/, '');
-  const browser = await chromium.launch({ headless: false });
-  const page = await (await browser.newContext({ viewport: { width: 1280, height: 860 } })).newPage();
-  await page.goto(`${base}/?world=1`);
-  console.log(`A browser window is open at ${base}. Sign in with GitHub there (the button in the game, or the Wallet). Waiting up to 5 minutes...`);
-  const token = await page.waitForFunction(() => { try { const t = localStorage.getItem('bw-session'); return t && /^[0-9a-f]{64}$/.test(t) ? t : null; } catch { return null; } }, null, { timeout: 300000, polling: 1000 }).then((h) => h.jsonValue());
-  const me = await page.evaluate(async () => { const r = await fetch('/api/me', { headers: { Authorization: `Bearer ${localStorage.getItem('bw-session')}` } }); return r.ok ? r.json() : { status: r.status }; });
+  const profile = join(dirname(SESSION_FILE), 'browser-profile'); mkdirSync(profile, { recursive: true });
+  let context;
+  for (const channel of ['chrome', 'msedge', undefined]) { // your Chrome or Edge if installed, else Playwright's Chromium
+    try { context = await chromium.launchPersistentContext(profile, { ...(channel ? { channel } : {}), headless: !!opts.headless, viewport: { width: 1280, height: 860 } }); break; } catch { /* not installed */ }
+  }
+  const page = context.pages()[0] || await context.newPage();
+  await page.goto(`${base}/api/auth/github?return=${encodeURIComponent(base)}`);
+  await page.bringToFront().catch(() => {});
+  console.log(`A browser window is open on GitHub's sign-in for Builders World (${base}). Sign in there and approve; it comes back to the game by itself. Waiting up to 10 minutes...`);
+  // the game keeps the session in localStorage once GitHub sends you back; look on every tab of the window
+  const deadline = Date.now() + 600000; let token = null, closed = false;
+  context.on('close', () => { closed = true; });
+  while (!token && !closed && Date.now() < deadline) {
+    for (const pg of context.pages()) {
+      if (!pg.url().startsWith(base)) continue;
+      token = await pg.evaluate(() => { try { const t = localStorage.getItem('bw-session'); return t && /^[0-9a-f]{64}$/.test(t) ? t : null; } catch { return null; } }).catch(() => null);
+      if (token) break;
+      const err = await pg.evaluate(() => location.hash.match(/bw-error=([a-z]+)/)?.[1] || null).catch(() => null);
+      if (err) { console.error(`GitHub sign-in came back with "${err}". Try again: node scripts/verify/bw.mjs login`); await context.close(); process.exitCode = 1; return; }
+    }
+    if (!token) await new Promise((r) => setTimeout(r, 1000));
+  }
+  if (!token) { console.error(closed ? 'The window was closed before sign-in finished. Nothing was saved. Run it again and finish signing in.' : 'No sign-in after 10 minutes. Nothing was saved.'); await context.close().catch(() => {}); process.exitCode = 1; return; }
+  const me = await fetch(`${base}/api/me`, { headers: { Authorization: `Bearer ${token}` } }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
   writeSession({ token, base, login: me?.account?.login || null, at: new Date().toISOString() });
-  await browser.close();
-  console.log(`Signed in${me?.account?.login ? ` as @${me.account.login}` : ''}. Saved to ${SESSION_FILE} (only you can read it).`);
+  await context.close();
+  console.log(`Signed in${me?.account?.login ? ` as @${me.account.login}` : ''}. Saved to ${SESSION_FILE} (only you can read it). Done.`);
 }
 
 // ---------- the command line ----------

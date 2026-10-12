@@ -61,7 +61,7 @@ the command line overrides it.
 ## Signed in: `login`, then `api.mjs`
 
 ```sh
-node scripts/verify/bw.mjs login                         # once: a window opens, sign in with GitHub there
+node scripts/verify/bw.mjs login                         # once: Chrome opens on GitHub; sign in there (10 minutes)
 node scripts/verify/api.mjs GET /api/me                  # as you
 node scripts/verify/api.mjs GET "/api/bins?district=Yaba" --anon
 node scripts/verify/api.mjs PUT /api/me/profile --data '{"profile":{"name":"Test"}}'
