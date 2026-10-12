@@ -182,7 +182,10 @@ function samplePolyline(pts, step) {
 }
 
 // ---------- the world ----------
-export function buildWorld(manifest, via, theme = 'night', kit = null) {
+// opts.open: the district stands inside the open city (src/city/openworld.js): its ground is a disc the city's ground
+// meets, it has no far lots or monuments on its horizon (the real city is there), and no wall at its edge
+export function buildWorld(manifest, via, theme = 'night', kit = null, opts = {}) {
+  const OPEN = !!opts.open;
   const PAL = THEMES[theme] || THEMES.night;
   const T = PAL;
   const rng = mulberry32(1337);
@@ -286,7 +289,8 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   const mb = new MeshBuilder();
   const gb = new MeshBuilder(); // ground surfaces get the wet street material
   const baseGround = PAL.ground; // grass; Greenrey paints earth and paving onto some of the open land (look/greenrey.js)
-  gb.box(0, -0.6, 0, R * 14, 0.6, R * 14, baseGround, { grad: 0, vary: 0 });
+  if (OPEN) { const disc = []; for (let k = 0; k < 64; k++) { const a0 = (k / 64) * Math.PI * 2, a1 = ((k + 1) / 64) * Math.PI * 2, r0 = R * 1.24; disc.push(0, -0.3, 0, Math.cos(a1) * r0, -0.3, Math.sin(a1) * r0, Math.cos(a0) * r0, -0.3, Math.sin(a0) * r0); } gb.raw(disc, baseGround); }
+  else gb.box(0, -0.6, 0, R * 14, 0.6, R * 14, baseGround, { grad: 0, vary: 0 });
 
   // roads: carriageways fitted between building lines, pavements on what is left, paint on main roads
   // the railway's corridor (see the reserve below): known before the streets are drawn, so no zebra is painted on a crossing
@@ -674,7 +678,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   fenceRuns.filter((r) => r.b - r.a >= 1.5).forEach((r) => { drawFence(mb, r); lotFences.push({ name: 'fence', ...fenceCollider(r), h: 1.0 }); });
 
   // far lots beyond the data: unclaimed, dark
-  for (let i = 0; i < 70; i++) {
+  for (let i = 0; i < (OPEN ? 0 : 70); i++) {
     const a = rng() * Math.PI * 2;
     const d = R * (1.35 + rng() * 1.0);
     const w = 10 + rng() * 22, dd = 10 + rng() * 22, h = 5 + rng() * 22;
@@ -882,7 +886,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
 
   // monuments on the horizon: libraries, earned at 25+ contributors
   const monuments = [];
-  MONUMENTS.forEach((mn, i) => {
+  (OPEN ? [] : MONUMENTS).forEach((mn, i) => {
     const a = (mn.angle * Math.PI) / 180;
     const d = R * 1.95;
     const x = Math.cos(a) * d, z = Math.sin(a) * d;
@@ -1109,7 +1113,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     });
     const rr = Math.hypot(pos.x, pos.z);
     const maxR = R * 1.05;
-    if (rr > maxR) { pos.x *= maxR / rr; pos.z *= maxR / rr; }
+    if (rr > maxR && !OPEN) { pos.x *= maxR / rr; pos.z *= maxR / rr; }
   }
 
   let nav = null;
@@ -1186,7 +1190,7 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
   }
 
   return {
-    scene, plots, monuments, spawn, resolve, solidAt, radius: R, via,
+    scene, plots, monuments, spawn, resolve, solidAt, radius: R, open: OPEN, via,
     counts: { buildings: manifest.buildings.length, roads: manifest.roads.length, windows: wins.length },
     spawnYaw: front0.yaw,
     frontOf, env: T.env, theme, pick: groundMesh, solids: staticMesh, ground: groundMesh,

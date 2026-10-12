@@ -27,6 +27,7 @@ import { pushOutDynamic } from './look/physics.js';
 import { setEstateNames } from './estates.js';
 import { CITY_INFO } from './look/cityinfo.js';
 import { areaOf, areaName, cityLabel, regionOf } from './look/areas.js';
+import { LIVE } from './look/citydirectory.js';
 
 const q = new URLSearchParams(location.search);
 const TEST_PACE = +(q.get('pace') ?? 1); // tests walk faster; players never see this
@@ -310,7 +311,8 @@ async function main() {
   const look = new THREE.Vector3();
   let snap = true;
   const holds = { rotL: false, rotR: false };
-  const limits = () => (cam.aerial ? [60, world.radius * 2.2] : [3.5, 40]);
+  // over the open city the aerial view climbs until the whole of it is below you (and on through the clouds)
+  const limits = () => (cam.aerial ? [60, world.open ? 2600 : world.radius * 2.2] : [3.5, 40]);
 
   // ---- world (re)build: same layout, different light ----
   function build(name) {
@@ -321,7 +323,9 @@ async function main() {
     if (world) { scene.remove(world.scene); disposeTree(world.scene); }
     if (sky) { scene.remove(sky); disposeTree(sky); }
     setEstateNames(CITY_INFO[place.city]?.estates); // estates named after this city's streets, not Yaba's
-    world = buildWorld(manifest, via, name, kit);
+    // where the city is baked as an open world (cities/<country>/<city>/city.json "open"), the district stands inside it
+    // (src/city/openworld.js): you can walk out of it into the whole city. ?open=0 keeps the district on its own
+    world = buildWorld(manifest, via, name, kit, { open: !!LIVE[place.city]?.open && q.get('open') !== '0' });
     world.place = { name: place.name, city: place.city, lat: place.lat, lon: place.lon };
     sky = world.env.wet ? blueHourSky() : buildSky(name);
     scene.add(sky, world.scene);
@@ -336,6 +340,7 @@ async function main() {
     chrome.setWorld(world, via, { ...place, name: cityLabel(place.city), city: areaName(areaOf(place.city, place.name)) || place.name });
     street?.dispose();
     if (q.get('look') !== '0') street = createLook({ renderer, scene, camera, world, reduced, quality, sky, bloom, weatherFeed, avatar: body });
+    camera.far = world.open ? 16000 : 4000; camera.updateProjectionMatrix(); // the open city reaches the horizon
     lookRef = street; worldRef = world;
   }
 
@@ -484,7 +489,7 @@ async function main() {
     if (hit && hit.point.y > 0.5 && cam.aerial && world.nearestReachable) { const q = world.nearestReachable(hit.point.x, hit.point.z); if (q) { switchTo(q.x, q.z, () => { if (dog.on) setDog(false); player.set(q.x, 0, q.z); onStreetGround(player); setAerial(false); snap = true; }); return; } }
     if (!hit || hit.point.y > 0.5) { chrome.toast('Click the street to walk there'); return; }
     pt.copy(hit.point);
-    if (Math.hypot(pt.x, pt.z) > world.radius * 1.05) return;
+    if (!world.open && Math.hypot(pt.x, pt.z) > world.radius * 1.05) return;
     if (cam.aerial) {
       switchTo(pt.x, pt.z, () => { if (dog.on) setDog(false); player.set(pt.x, 0, pt.z); onStreetGround(player); setAerial(false); snap = true; });
     } else {
@@ -761,7 +766,7 @@ async function main() {
       // the edge of the area (Elvis, 11 October 2026: not "an abrupt bounding box"): from 93% of the way out, the part
       // of your step that heads further out fades away, so you slow and come to rest at the edge and slide along it,
       // never knocking against a wall; walking along it or back in is untouched
-      if (!inside && !cam.aerial) {
+      if (!inside && !cam.aerial && !world.open) { // (in the open city there is no edge: the city carries on)
         const rr = Math.hypot(player.x, player.z), R0 = world.radius;
         if (rr > R0 * 0.93) {
           const ox = player.x / rr, oz = player.z / rr, out = mv.x * ox + mv.z * oz;
@@ -974,7 +979,10 @@ async function main() {
     street?.update(dt, t, player, cam.yaw, shared.uArrival.value);
     street?.renderReflection();
     // vivid by day, calmer under the lamps at night; and toward grey near the edge of the area, as the world thins out
-    { const rr = cam.aerial ? 0 : Math.hypot(player.x, player.z), u = Math.min(1, Math.max(0, (rr - world.radius * 0.85) / (world.radius * 0.19))); grade.uniforms.uSat.value = (0.94 + 0.18 * shared.uDay.value) * (1 - 0.72 * u * u * (3 - 2 * u)); }
+    { const rr = cam.aerial || world.open ? 0 : Math.hypot(player.x, player.z), u = Math.min(1, Math.max(0, (rr - world.radius * 0.85) / (world.radius * 0.19))); grade.uniforms.uSat.value = (0.94 + 0.18 * shared.uDay.value) * (1 - 0.72 * u * u * (3 - 2 * u)); }
+    // the sky travels with the camera and reaches as far as it sees: over the open city you climb far past where its dome
+    // used to end
+    if (sky && world.open) { sky.position.copy(camera.position); sky.scale.setScalar(Math.max(1, (camera.far * 0.9) / 900)); sky.traverse((o) => { o.renderOrder = -10; }); }
     if (q.get('post') === '0') renderer.render(scene, camera); else composer.render();
     street?.renderPortraits?.(dt);
     if (q.get('govern') !== '0') govern();
