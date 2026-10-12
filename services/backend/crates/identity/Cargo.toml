@@ -1,0 +1,14 @@
+[package]
+name = "identity"
+version = "0.1.0"
+edition = "2021"
+
+[lints]
+workspace = true
+
+[dependencies]
+domain = { path = "../domain" }
+store = { path = "../store" }
+hex = { workspace = true }
+sha2 = { workspace = true }
+uuid = { workspace = true }

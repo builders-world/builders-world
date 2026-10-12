@@ -1,0 +1,46 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT a.id AS account, a.login, a.name, p.profile ->> 'name' AS profile_name,\n               EXTRACT(EPOCH FROM now() - s.last_seen_at)::DOUBLE PRECISION AS \"idle_seconds!\"\n        FROM sessions s\n        JOIN accounts a ON a.id = s.account_id\n        LEFT JOIN profiles p ON p.account_id = a.id\n        WHERE s.token_hash = $1 AND s.revoked_at IS NULL AND s.expires_at > now()\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "account",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "login",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "profile_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "idle_seconds!",
+        "type_info": "Float8"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      true,
+      null,
+      null
+    ]
+  },
+  "hash": "3f5821618d3ce9a4e33564121c8aa39fe787c64bd8fa8773c9508c851e72859d"
+}

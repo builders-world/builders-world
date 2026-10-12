@@ -1,0 +1,4 @@
+[tasks.test-all]
+description = "Run unit & invariant tests across all workspace crates"
+command = "cargo"
+args = ["test", "--workspace"]

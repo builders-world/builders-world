@@ -1,0 +1,38 @@
+---
+source: services/gateway/tests/common/mod.rs
+expression: "serde_json::json!({ \"status\": status.as_u16(), \"body\": masked(body) })"
+---
+{
+  "body": {
+    "avatar": {
+      "color": "#577e73",
+      "style": "hoodie"
+    },
+    "card": {
+      "behance": "",
+      "commits": 12,
+      "dribbble": "",
+      "linkedin": "",
+      "role": "Dev",
+      "showCommits": true,
+      "showSocials": false,
+      "x": ""
+    },
+    "city": "Lagos",
+    "district": "Yaba",
+    "look": {
+      "acc": [
+        "bag"
+      ],
+      "hair": "afro"
+    },
+    "name": "Ada",
+    "pet": {
+      "breed": "awuku",
+      "kind": "dog",
+      "name": "Rex"
+    },
+    "role": "developer"
+  },
+  "status": 200
+}

@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO profiles (account_id, profile) VALUES ($1, $2) ON CONFLICT (account_id) DO UPDATE SET profile = EXCLUDED.profile, updated_at = now()",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Jsonb"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "1f9b7c25bfc41b79c361b8b501582e68725abb7c07dcacfef4311745702c329c"
+}
