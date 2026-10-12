@@ -327,7 +327,7 @@ async function main() {
     if (world) { scene.remove(world.scene); disposeTree(world.scene); }
     if (sky) { scene.remove(sky); disposeTree(sky); }
     setEstateNames(CITY_INFO[place.city]?.estates); // estates named after this city's streets, not Yaba's
-    world = buildWorld(manifest, via, name, kit);
+    world = buildWorld(manifest, via, name, kit, { drive: CITY_INFO[place.city]?.drive || 'right' }); // (which side the stop lines go: roadnet.js)
     world.place = { name: place.name, city: place.city, lat: place.lat, lon: place.lon };
     sky = world.env.wet ? blueHourSky() : buildSky(name);
     scene.add(sky, world.scene);

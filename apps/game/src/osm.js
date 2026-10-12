@@ -13,6 +13,8 @@ const ROAD_WIDTH = {
   motorway: 16, trunk: 15, primary: 14, secondary: 12, tertiary: 10,
   unclassified: 8, residential: 8, living_street: 6, service: 5, pedestrian: 4,
   footway: 2.4, path: 2.2, cycleway: 2.4,
+  // slip roads and links (the ramps of interchanges and flyovers): one lane
+  motorway_link: 7, trunk_link: 7, primary_link: 7, secondary_link: 6, tertiary_link: 6,
 };
 
 export function overpassQuery({ lat, lon, radius }) {
