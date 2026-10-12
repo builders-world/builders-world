@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    { "source": "/api/auth/oauth/github/callback", "destination": "https://gateway-production-6518.up.railway.app/api/auth/github/callback" },
+    { "source": "/api/:path*", "destination": "https://gateway-production-6518.up.railway.app/api/:path*" }
+  ]
+}

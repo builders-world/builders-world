@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "errors": [],
+  "externalRequests": [],
+  "checked": [
+    "built assets",
+    "first person checkin",
+    "both demo roles",
+    "avatar changes during playback",
+    "film completion and replay",
+    "district entry",
+    "browser Back restoration",
+    "production debug hook absent",
+    "mobile framing and horizontal overflow"
+  ],
+  "motion": "onboarding-motion.webm"
+}

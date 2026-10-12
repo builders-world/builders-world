@@ -1,0 +1,83 @@
+// The radio stations of each city (radio.js): real local FM stations, each played live from its own stream.
+// Frequencies are checked against Wikipedia's station lists and the city research of 10 October 2026; every
+// stream here was tested playing in a browser that day. Stations found in the Radio Browser directory keep
+// their directory id (uuid), so the app can ask the directory for a stream's new address if it moves.
+// HTTPS streams only: the game is served over HTTPS and a browser will not play plain http inside it.
+// Popular stations that only stream over plain http or HLS (Smooth 98.1, Radio Rivers, Atinka, Ramogi) are not here.
+
+export const STATIONS = {
+  Lagos: [
+    { name: 'Wazobia FM', freq: '95.1', lang: 'Pidgin', about: 'Pidgin talk, music and banter', uuid: '1dfcc339-6292-4bf1-8b21-5c4a099ecd7e', url: 'https://wazobiafmlagos951-atunwadigital.streamguys1.com/wazobiafmlagos951' },
+    { name: 'Cool FM', freq: '96.9', lang: 'English', about: 'Hits, R&B and Afrobeats', uuid: 'a3c93ca9-9891-4249-a805-d622dadeed21', url: 'https://coolfmlagos969-atunwadigital.streamguys1.com/coolfmlagos969' },
+    { name: 'Nigeria Info', freq: '99.3', lang: 'English', about: 'News, talk and sport', uuid: '36d4a771-6a91-454d-a6e4-d55667aa6dd4', url: 'https://nigeriainfofmlagos993-atunwadigital.streamguys1.com/nigeriainfofmlagos993' },
+    { name: 'Brila FM', freq: '88.9', lang: 'English', about: "Nigeria's sports radio", uuid: '2940057c-ccb6-4d81-a95b-06a74eccd5d4', url: 'https://atunwadigital.streamguys1.com/brilafm' },
+    { name: 'Rhythm FM', freq: '93.7', lang: 'English', about: 'Urban contemporary', url: 'https://rhythmfmlagos-atunwadigital.streamguys1.com/rhythmfmlagos' },
+    { name: 'Lagos Talks', freq: '91.3', lang: 'English', about: 'Talk radio for Lagos', url: 'https://lagostalks-atunwadigital.streamguys1.com/lagostalks' },
+    { name: 'Naija FM', freq: '102.7', lang: 'Pidgin and English', about: 'Naija music all day', url: 'https://naijafmlagos-atunwadigital.streamguys1.com/naijafmlagos' },
+    { name: 'Classic FM', freq: '97.3', lang: 'English', about: 'Soul, jazz and classics', url: 'https://classicfmlagos-atunwadigital.streamguys1.com/classicfmlagos' },
+    { name: 'Metro FM', freq: '97.7', lang: 'English and Yoruba', about: 'Radio Nigeria, Lagos', uuid: '050bccf6-2ca8-41f9-ad89-66d035c8b779', url: 'https://go.webgateready.com/metrofm' },
+    { name: 'Bond FM', freq: '92.9', lang: 'English', about: 'Radio Nigeria: news and talk', uuid: 'fdfd32c3-7612-4d83-acf1-5f7f0bc887db', url: 'https://go.webgateready.com/bondfm' },
+    { name: 'Konga FM', freq: '103.7', lang: 'English', about: 'Business, hits and commerce', uuid: 'f835db87-94b4-4256-a893-b8194316df3f', url: 'https://lunar.citrus3.com:8124/stream' },
+    { name: 'GoRadio', freq: '', lang: 'English', about: 'Lagos online radio: Afrobeats, highlife, gospel', uuid: 'ed39bcfe-7256-46a6-a9d2-5529605946b5', url: 'https://online.goradio.com.ng/listen/gr/radio.mp3' },
+  ],
+  Abuja: [
+    { name: 'Cool FM', freq: '96.9', lang: 'English', about: 'Hits, R&B and Afrobeats', url: 'https://coolfmabuja969-atunwadigital.streamguys1.com/coolfmabuja969' },
+    { name: 'Wazobia FM', freq: '99.5', lang: 'Pidgin', about: 'Pidgin, with Hausa, Igbo and Yoruba', url: 'https://wazobiafmabuja995-atunwadigital.streamguys1.com/wazobiafmabuja995' },
+    { name: 'Nigeria Info', freq: '95.1', lang: 'English', about: 'News, talk and sport', url: 'https://nigeriainfofmabuja951-atunwadigital.streamguys1.com/nigeriainfofmabuja951' },
+    { name: 'Kiss FM', freq: '99.9', lang: 'English', about: 'Music and talk', url: 'https://mars.streamerr.co/8082/stream' },
+    { name: 'Vision FM', freq: '92.1', lang: 'English', about: 'News and talk', url: 'https://stream.zeno.fm/v1ukdpefou2uv' },
+    { name: 'Classic FM', freq: '94.3', lang: 'English', about: 'Soul, jazz and classics', url: 'https://classicfmabuja-atunwadigital.streamguys1.com/classicfmabuja' },
+    { name: 'Liberty Radio', freq: '103.3', lang: 'English and Hausa', about: 'News and talk', url: 'https://stream.zeno.fm/ebt2pkyfxuquv' },
+    { name: 'The Beat', freq: '', lang: 'English', about: 'The Beat 99.9, Abuja feed', url: 'https://beatfmabuja-atunwadigital.streamguys1.com/beatfmabuja' },
+    { name: 'LagosJump Radio', freq: '', lang: 'English', about: 'Abuja online radio: Afrobeats', uuid: '3c8dd994-143a-444d-95da-1a8ba41fce16', url: 'https://radio.lagosjumpradio.com/listen/lagosjump_radio/radio.mp3' },
+  ],
+  'Port Harcourt': [
+    { name: 'Wazobia FM', freq: '94.1', lang: 'Pidgin', about: 'Pidgin talk, music and banter', url: 'https://wazobiafmph941-atunwadigital.streamguys1.com/wazobiafmph941' },
+    { name: 'Nigeria Info', freq: '92.3', lang: 'English', about: 'News, talk and sport', url: 'https://nigeriainfofmph923-atunwadigital.streamguys1.com/nigeriainfofmph923' },
+    { name: 'Family Love FM', freq: '97.7', lang: 'English', about: 'Music and talk', url: 'https://centova92.instainternet.com/proxy/phlovefm?mp=/stream.mp3' },
+    { name: 'The Beat', freq: '', lang: 'English', about: 'The Beat, Port Harcourt feed', url: 'https://beatfmph-atunwadigital.streamguys1.com/beatfmph' },
+    { name: 'Naija FM', freq: '', lang: 'Pidgin and English', about: 'Naija music, Port Harcourt feed', url: 'https://naijafmph-atunwadigital.streamguys1.com/naijafmph' },
+    { name: 'Classic FM', freq: '', lang: 'English', about: 'Classics, Port Harcourt feed', url: 'https://classicfmph-atunwadigital.streamguys1.com/classicfmph' },
+    { name: '1Radio International', freq: '', lang: 'English', about: 'Port Harcourt online radio', uuid: '088c9ccb-aa90-4de1-a019-21a7cf40b039', url: 'https://fm.imediaport.com/1radio' },
+  ],
+  Uyo: [
+    { name: 'Planet FM', freq: '101.1', lang: 'English', about: 'The first private station in Akwa Ibom', url: 'https://stream.zeno.fm/ri9dfzxcss8tv' },
+    { name: 'XL FM', freq: '106.9', lang: 'English, Pidgin and Ibibio', about: "Uyo's vibe", url: 'https://ice31.securenetsystems.net/XL1069FM' },
+    { name: 'Comfort FM', freq: '95.1', lang: 'English', about: 'Music and talk', url: 'https://a3.asurahosting.com:7770/radio.mp3' },
+    { name: 'Memories FM', freq: '96.5', lang: 'English', about: 'Uyo', uuid: '74902e8f-037d-466d-94f2-3408aa456b94', url: 'https://a5.asurahosting.com:6670/radio.mp3' },
+    { name: 'Obong University Radio', freq: '', lang: 'English', about: 'Campus radio, Akwa Ibom', uuid: '79da1764-c67b-4b3d-816a-3d2df144e372', url: 'https://a10.asurahosting.com:7150/radio.mp3' },
+  ],
+  Nairobi: [
+    { name: 'Radio Citizen', freq: '106.7', lang: 'Swahili', about: "Kenya's biggest station", url: 'https://radiocitizen-atunwadigital.streamguys1.com/radiocitizen' },
+    { name: 'Capital FM', freq: '98.4', lang: 'English', about: 'Hits, news and the Nairobi drive', uuid: '4ec5158e-5204-4fad-a329-da356b4b0a05', url: 'https://atunwadigital.streamguys1.com/capitalfm' },
+    { name: 'Kiss 100', freq: '100.3', lang: 'English', about: 'Hits and the breakfast show', url: 'https://kiss100fm-atunwadigital.streamguys1.com/kiss100fm' },
+    { name: 'Classic 105', freq: '105.2', lang: 'English', about: 'Classics and talk', url: 'https://classic105-atunwadigital.streamguys1.com/classic105' },
+    { name: 'Radio Jambo', freq: '97.5', lang: 'Swahili and Sheng', about: 'Sport and banter', url: 'https://radiojambo-atunwadigital.streamguys1.com/radiojambo' },
+    { name: 'Homeboyz Radio', freq: '103.5', lang: 'English and Sheng', about: 'Hip hop and R&B', url: 'https://homeboyzradio-atunwadigital.streamguys1.com/homeboyzradio' },
+    { name: 'Radio Maisha', freq: '102.7', lang: 'Swahili', about: 'Swahili talk and music', url: 'https://radiomaisha-atunwadigital.streamguys1.com/radiomaisha' },
+    { name: 'Hot 96', freq: '96.0', lang: 'English and Swahili', about: 'Music and talk', url: 'https://hot96-atunwadigital.streamguys1.com/hot96' },
+    { name: 'Milele FM', freq: '93.6', lang: 'Swahili', about: 'Swahili talk and music', url: 'https://milelefm-atunwadigital.streamguys1.com/milelefm' },
+    { name: 'Inooro FM', freq: '98.9', lang: 'Kikuyu', about: 'Kikuyu talk and music', url: 'https://inoorofm-atunwadigital.streamguys1.com/inoorofm' },
+    { name: 'Kameme FM', freq: '101.1', lang: 'Kikuyu', about: 'Kikuyu talk and music', uuid: 'ac15c045-6f16-4021-b35c-00b265b7201d', url: 'https://kamemefm-atunwadigital.streamguys1.com/kamemefm' },
+    { name: 'Spice FM', freq: '94.4', lang: 'English', about: 'Business and current affairs', url: 'https://spicefm-atunwadigital.streamguys1.com/spicefm' },
+    { name: 'East FM', freq: '106.3', lang: 'English and Hindi', about: 'For the Asian Kenyan community', url: 'https://eastfm-atunwadigital.streamguys1.com/eastfm' },
+    { name: 'Radio 47', freq: '103.0', lang: 'Swahili', about: 'News and talk in Kiswahili', uuid: '87583ab5-0d53-43ac-a414-46bb39c89217', url: 'https://streaming.shoutcast.com/radio-47' },
+  ],
+  Accra: [
+    { name: 'Joy FM', freq: '99.7', lang: 'English', about: 'News, talk and the Super Morning Show', uuid: '215dbb51-b2ac-4a32-86dc-6c75a4da07d5', url: 'https://mmg.streamguys1.com/JoyFM-mp3?key=8689cc761932e3151f94ddbdbfdf4aa0f4000234b5caeaaa179a2fc0d59a4be9b8b774c3653cb14d1fd76f5cbf80e482' },
+    { name: 'Citi FM', freq: '97.3', lang: 'English', about: 'News, talk and business', uuid: '1f066f01-284d-41fd-8073-d19449ecf2c5', url: 'https://citi973fm.radioca.st/;' },
+    { name: 'Peace FM', freq: '104.3', lang: 'Twi', about: 'Twi talk and current affairs', url: 'https://peacefm-atunwadigital.streamguys1.com/peacefm' },
+    { name: 'Adom FM', freq: '106.3', lang: 'Twi', about: 'Twi talk, highlife and news', uuid: '437db9b6-1791-4c3d-8c87-e04bae63ae70', url: 'https://mmg.streamguys1.com/AdomFM-mp3' },
+    { name: 'Starr FM', freq: '103.5', lang: 'English', about: 'News, talk and music', url: 'https://starrfm-atunwadigital.streamguys1.com/starrfm' },
+    { name: 'Hitz FM', freq: '103.9', lang: 'English', about: 'Hiplife, Afrobeats and hits', uuid: '4ce69ae9-1089-4bc0-9377-b2a28d4e242f', url: 'https://mmg.streamguys1.com/HitzFM-mp3' },
+    { name: 'YFM', freq: '107.9', lang: 'English', about: 'Youth radio', uuid: 'b9246c9b-90d1-4ba0-9209-a68a442bf04e', url: 'https://yfm1079accra-atunwadigital.streamguys1.com/yfm1079accra' },
+    { name: 'Okay FM', freq: '101.7', lang: 'Twi and English', about: 'African music and talk', url: 'https://okayfm-atunwadigital.streamguys1.com/okayfm' },
+    { name: 'Asempa FM', freq: '94.7', lang: 'Twi', about: 'Twi talk and current affairs', uuid: '68dd5238-3809-4a00-abae-247b0ac08003', url: 'https://mmg.streamguys1.com/AsempaFM-mp3' },
+    { name: 'Class FM', freq: '91.3', lang: 'English', about: 'News and talk', url: 'https://classfm-atunwadigital.streamguys1.com/classfm' },
+    { name: '3FM', freq: '92.7', lang: 'English', about: 'Music and talk', url: 'https://3fm-atunwadigital.streamguys1.com/3fm' },
+    { name: 'Radio Gold', freq: '90.5', lang: 'English', about: 'News and talk', url: 'https://radiogold-atunwadigital.streamguys1.com/radiogold' },
+    { name: 'GBC Uniiq FM', freq: '95.7', lang: 'English', about: 'Ghana Broadcasting Corporation', uuid: 'f9fae8a0-17a5-4779-8172-6b276dc2ea92', url: 'https://mediagh.us:2000/stream/uniiqfm' },
+    { name: 'Sompa FM', freq: '106.5', lang: 'Twi', about: 'Highlife and news', uuid: '04aee62f-d8a9-4fc9-b20a-90e8d331f2bd', url: 'https://stream-281.zeno.fm/55sg1lh4pqquv' },
+    { name: 'Oroko Radio', freq: '', lang: 'English', about: 'Accra community radio: music from across Africa', uuid: '7babd377-ed7c-4a63-9778-47b0fd94983b', url: 'https://oroko-radio.radiocult.fm/stream' },
+  ],
+};

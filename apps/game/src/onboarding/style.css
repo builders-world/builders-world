@@ -1,0 +1,158 @@
+body.onboarding { --ink: #eff1e9; --muted: #adb6b2; --accent: #edbd73; --line: #ffffff20; font: 14px/1.5 'Avenir Next', Avenir, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: var(--ink); background: #162727; overflow: hidden; }
+.onboarding * { box-sizing: border-box; }
+.onboarding button, .onboarding input { font: inherit; }
+.onboarding button { min-height: 44px; border-radius: 0; }
+.onboarding button:focus-visible, .onboarding a:focus-visible, .onboarding input:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.onboarding h1:focus { outline: none; }
+#arrival-canvas { position: fixed; inset: 0; display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+#arrival-canvas:active { cursor: grabbing; }
+.arrival-vignette { position: fixed; inset: 0; pointer-events: none; background: linear-gradient(90deg, #0a191c28 25%, transparent 50%, #09181755), linear-gradient(0deg, #071416cf, transparent 38%, transparent 80%, #0a1a20a3); }
+.arrival-header { position: fixed; top: 0; left: 0; right: 0; padding: 25px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; z-index: 10; }
+.arrival-brand { display: flex; gap: 12px; align-items: center; color: var(--ink); text-decoration: none; font-size: 10px; line-height: 1.2; letter-spacing: .16em; }
+.arrival-brand strong { font-size: 17px; letter-spacing: .16em; }
+.brand-symbol { width: 39px; height: 39px; color: #142623; background: var(--accent); padding-left: 7px; font-weight: 900; font-size: 25px; line-height: 34px; position: relative; clip-path: polygon(0 0, 80% 0, 100% 23%, 100% 100%, 0 100%); }
+.brand-symbol span { font-size: 12px; position: absolute; bottom: -7px; right: 3px; }
+.journey { display: flex; gap: 26px; padding: 12px 20px; background: #0e222899; border: 1px solid var(--line); backdrop-filter: blur(16px); }
+.journey > span { display: flex; gap: 8px; align-items: center; color: #bec6c1; font-size: 11px; white-space: nowrap; }
+.journey b { font-size: 10px; font-weight: 500; color: #94a29b; }
+.journey .current { color: var(--accent); }
+.journey .current b { color: var(--accent); }
+.journey .complete b { color: #a1d0b7; }
+.country-button { display: flex; align-items: center; gap: 10px; padding: 8px 12px !important; font-size: 12px !important; background: #0e222899 !important; border: 1px solid var(--line) !important; }
+.flag-ng { width: 20px; height: 13px; display: inline-block; background: linear-gradient(90deg, #3b8a69 33%, #ecece1 33%, #ecece1 67%, #3b8a69 67%); flex-shrink: 0; }
+.scene-caption { position: fixed; left: 40px; bottom: 108px; pointer-events: none; max-width: calc(100vw - 520px); text-shadow: 0 2px 15px #00141680; }
+.scene-caption > div { font-size: 10px; letter-spacing: .19em; margin-bottom: 14px; color: #d8e5df; }
+.scene-caption strong { font-size: clamp(34px, 5.4vw, 80px); letter-spacing: -.025em; font-weight: 500; line-height: 1; display: block; }
+.scene-caption p { font-size: 16px; font-weight: 400; margin: 14px 0; color: #e1e8e0; }
+.arrival-panel { position: fixed; right: 32px; top: 112px; bottom: 83px; width: 390px; padding: 27px 27px 22px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #9eaaa244 transparent; border: 1px solid #e5ecdf30; background: linear-gradient(150deg, #14292cf2, #112023f2); box-shadow: 0 18px 70px #03161c33; backdrop-filter: blur(18px); }
+.arrival-panel h1 { font-size: 34px; line-height: 1.12; font-weight: 500; letter-spacing: -.035em; margin: 19px 0 16px; }
+.arrival-panel h2 { font-size: 20px; font-weight: 500; line-height: 1.25; margin: 10px 0; }
+.eyebrow { display: flex; align-items: center; gap: 9px; font-size: 10px; font-weight: 600; letter-spacing: .14em; color: var(--accent); }
+.eyebrow > span { width: 5px; height: 5px; background: var(--accent); }
+.intro { color: #c4cfca; font-size: 15px; line-height: 1.65; margin: 0 0 25px; }
+.intro.compact { font-size: 13px; margin-bottom: 18px; }
+.primary { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 12px; padding: 14px 17px !important; margin-top: 20px; background: var(--accent) !important; color: #192c2b !important; font-weight: 650 !important; font-size: 13px !important; border: 1px solid transparent !important; min-height: 50px !important; transition: background .2s, transform .2s; }
+.primary:hover { background: #ffce86 !important; }
+.primary:active { transform: translateY(1px); }
+.primary:disabled { background: #71817b !important; color: #172b28 !important; cursor: not-allowed; opacity: .6; }
+.primary > span { font-size: 21px; line-height: 18px; }
+.subtle { text-align: center; color: #aebcb5; font-size: 10px; line-height: 1.6; margin: 13px 0 0; }
+.arrival-ticket { display: flex; justify-content: space-between; align-items: center; padding: 19px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 29px 0; }
+.arrival-ticket > div > span { display: block; font-size: 9px; letter-spacing: .14em; color: #aebcb5; margin-bottom: 7px; }
+.arrival-ticket strong { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 500; }
+.arrival-ticket > b { font-size: 41px; color: #849991; font-weight: 400; letter-spacing: -.04em; }
+.back { display: flex; align-items: center; gap: 9px; color: #d3ded6 !important; font-size: 11px !important; margin-top: -15px; margin-bottom: 9px; }
+.speaker { display: flex; align-items: center; gap: 10px; padding-top: 4px; }
+.speaker > span:last-child { font-size: 9px; letter-spacing: .12em; color: var(--accent); }
+.speaker small { display: block; color: #93a99f; font-size: 8px; margin-top: 2px; }
+.speaker-dot { width: 25px; height: 25px; border-radius: 50%; background: radial-gradient(circle at 50% 32%, #e6ac7e 0 17%, transparent 18%), radial-gradient(ellipse at 50% 120%, #6b8c75 0 48%, #28413a 49%); border: 1px solid #adbcac33; }
+.dialogue { font-size: 13px; color: #d1dad3; line-height: 1.65; border-bottom: 1px solid var(--line); padding-bottom: 17px; margin-bottom: 18px; }
+.field-label, .onboarding legend { display: block; font-size: 11px; color: #ced8d2; margin-bottom: 9px; }
+.onboarding input { width: 100%; min-height: 46px; border: 1px solid #b6c6bb50; background: #07181777; color: var(--ink); padding: 10px 12px; border-radius: 0; font-size: 14px; }
+.onboarding input::placeholder { color: #95a69c; }
+.field-hint { font-size: 10px; color: #a5b5aa; margin: 7px 0 16px; line-height: 1.5; }
+.onboarding fieldset { padding: 0; border: none; margin: 17px 0; min-width: 0; }
+.choice { display: flex; align-items: center; gap: 12px; border: 1px solid var(--line) !important; width: 100%; padding: 12px !important; text-align: left; margin-bottom: 8px; }
+.choice small { display: block; font-size: 10px; color: #a5b5aa; margin-top: 2px; }
+.choice i, .destination i { margin-left: auto; font-style: normal; color: #b9c9bd; }
+.role-icon { font-size: 23px; width: 33px; color: var(--accent); }
+.selected { border-color: var(--accent) !important; background: #eabb7010 !important; }
+.choice:hover, .destination:hover, .district:hover, .style-option:hover { background: #ffffff09; }
+.provider-mark { display: grid; place-items: center; width: 57px; height: 57px; font-size: 25px; margin-top: 19px; background: #ffffff08; border: 1px solid var(--line); color: var(--accent); }
+.connection-state { padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 12px; color: #aab9af; }
+.connection-state.connected { color: #b2d8ac; }
+.prototype-note { color: #b1bfb5; font-size: 11px; line-height: 1.6; margin: 14px 0; }
+.destination-list { border-top: 1px solid var(--line); }
+.destination { width: 100%; display: flex; align-items: center; gap: 14px; text-align: left; padding: 12px 10px !important; border: 1px solid transparent !important; border-bottom-color: var(--line) !important; min-height: 64px !important; }
+.destination.selected { border-color: var(--accent) !important; }
+.airport-code { width: 40px; color: #acbdb2; font-size: 20px; letter-spacing: -.05em; font-weight: 400; }
+.destination strong { font-size: 13px; font-weight: 500; }
+.destination small, .district small { display: block; color: #a5b5aa; font-size: 10px; margin-top: 2px; }
+.district { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 8px; border: 1px solid var(--line) !important; padding: 12px !important; text-align: left; }
+.district strong { font-size: 13px; font-weight: 500; }
+.boarding-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.boarding-heading h1 { font-size: 30px; }
+.boarding-code { color: var(--accent); font-size: 27px; letter-spacing: -.05em; }
+.boarding-code small { display: block; font-size: 8px; color: #acbbae; letter-spacing: .13em; }
+.film-controls { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 14px 0 2px; }
+.film-heading { display: flex; justify-content: space-between; color: #b9c9bd; font-size: 8px; letter-spacing: .12em; }
+.film-controls h2 { font-size: 16px; margin: 12px 0 6px; }
+.film-controls p { font-size: 11px; line-height: 1.5; color: #adbbaf; min-height: 50px; margin: 0 0 12px; }
+.film-progress { height: 3px; background: #ffffff15; }
+.film-progress > span { display: block; height: 100%; width: 0; background: var(--accent); }
+.film-buttons { display: flex; gap: 12px; justify-content: space-between; }
+.film-buttons button { font-size: 10px; color: #d6dcd2; }
+.film-buttons button:disabled { opacity: .35; cursor: default; }
+.avatar-styles > div { display: flex; gap: 7px; }
+.style-option { flex: 1; font-size: 11px !important; border: 1px solid var(--line) !important; padding: 6px !important; }
+.style-option.selected, .district.selected { border-color: var(--accent) !important; background: #eabb7010 !important; }
+.avatar-colors > div { display: flex; gap: 13px; }
+.swatch { width: 44px; height: 44px; background: var(--swatch) !important; color: #12251f !important; border: 2px solid transparent !important; padding: 4px !important; background-clip: content-box !important; }
+.swatch.selected { border-color: var(--accent) !important; }
+.home-pass { border-top: 1px solid #dab57f80; border-bottom: 1px solid #dab57f80; padding: 17px 0; margin: 24px 0; }
+.pass-heading, .pass-details { display: flex; justify-content: space-between; gap: 10px; font-size: 9px; color: #b5c3b8; }
+.pass-heading { letter-spacing: .12em; margin-bottom: 14px; color: var(--accent); }
+.home-pass > strong { font-size: 29px; font-weight: 400; }
+.home-pass > p { font-size: 12px; margin: 2px 0; color: #b5c3b8; }
+.pass-rule { border-top: 1px dashed #adbda833; margin: 17px 0; }
+.text-button { display: block; text-align: center; width: 100%; margin-top: 6px; color: #c2cec2 !important; font-size: 11px !important; }
+.arrival-footer { position: fixed; left: 32px; right: 32px; bottom: 15px; display: flex; align-items: center; justify-content: space-between; gap: 12px; z-index: 5; font-size: 9px; color: #d1d8cd; }
+.arrival-footer > span { display: flex; align-items: center; gap: 10px; letter-spacing: .02em; }
+.arrival-footer i { width: 3px; height: 3px; border-radius: 50%; background: #afbdae; }
+.arrival-footer > div { display: flex; gap: 20px; }
+.arrival-footer button { font-size: 10px !important; color: #d1d8cd; }
+.walking-controls { position: fixed; left: 40px; bottom: 290px; display: none; text-align: center; }
+.walking-controls button { background: #152a28bb !important; border: 1px solid #ffffff30 !important; width: 44px; min-height: 44px; margin: 2px; touch-action: none; }
+.walking-controls > div { display: flex; }
+body[data-stage='lobby'] .walking-controls { display: block; }
+body[data-stage='flight'] .scene-caption strong { font-size: 44px; }
+body[data-stage='flight'] .scene-caption { bottom: 86px; }
+body[data-stage='home'] .scene-caption strong { font-size: 42px; }
+#arrival-toast { position: fixed; left: 50%; top: 88px; transform: translate(-50%, -10px); opacity: 0; pointer-events: none; background: #122722f5; color: #f0e8d7; padding: 12px 20px; border: 1px solid #d6b47e70; z-index: 25; font-size: 12px; transition: .2s; max-width: calc(100vw - 32px); }
+#arrival-toast.visible { transform: translate(-50%, 0); opacity: 1; }
+#arrival-dialog { background: #132824; color: var(--ink); border: 1px solid #c9d3b74d; padding: 34px; width: min(440px, calc(100vw - 32px)); max-height: calc(100dvh - 60px); }
+#arrival-dialog::backdrop { background: #061714b0; backdrop-filter: blur(6px); }
+#arrival-dialog h2 { font-size: 24px; font-weight: 500; letter-spacing: -.02em; margin: 0 20px 16px 0; }
+#arrival-dialog p { color: #c2cfc1; font-size: 13px; line-height: 1.7; }
+.dialog-close { position: absolute; top: 8px; right: 10px; width: 44px; font-size: 25px !important; }
+.dialog-link { color: var(--accent); display: block; margin-top: 20px; text-align: center; font-size: 12px; }
+@media (min-width: 1000px) and (min-height: 900px) { .arrival-panel { top: 16%; bottom: auto; max-height: 75%; } }
+@media (min-width: 761px) { body[data-stage='flight'] .arrival-panel { top: 100px; bottom: 72px; max-height: none; } }
+@media (max-width: 1050px) { .journey { gap: 12px; padding: 10px 14px; } .arrival-header { gap: 14px; padding: 20px; } .arrival-panel { right: 20px; width: 355px; padding: 23px; } .scene-caption { left: 25px; max-width: calc(100vw - 430px); } .scene-caption strong { font-size: 43px; } .walking-controls { left: 25px; } }
+@media (max-width: 760px) {
+  .arrival-header { padding: max(14px, env(safe-area-inset-top)) 16px 12px; align-items: flex-start; }
+  .arrival-brand { font-size: 8px; gap: 8px; } .arrival-brand strong { font-size: 13px; } .brand-symbol { width: 33px; height: 33px; font-size: 22px; line-height: 29px; }
+  .country-button { padding: 4px 10px !important; min-height: 44px !important; font-size: 10px !important; }
+  .journey { position: absolute; top: 65px; left: 16px; right: 16px; display: flex; justify-content: space-between; gap: 7px; padding: 7px 11px; background: #102624b0; }
+  .journey > span { font-size: 9px; gap: 5px; } .journey b { font-size: 8px; }
+  .arrival-panel { left: 12px; right: 12px; width: auto; top: auto; bottom: calc(54px + env(safe-area-inset-bottom)); max-height: 53dvh; padding: 21px; background: #112725f5; }
+  .arrival-panel h1 { font-size: 30px; margin: 13px 0; }
+  .arrival-panel .intro { font-size: 12px; margin-bottom: 14px; }
+  .arrival-ticket { margin: 18px 0 10px; padding: 12px 0; }
+  .arrival-ticket > b { font-size: 30px; }
+  .primary { margin-top: 14px; }
+  .scene-caption { top: 114px; left: 21px; bottom: auto !important; max-width: calc(100vw - 42px); }
+  .scene-caption > div { font-size: 8px; margin-bottom: 8px; }
+  .scene-caption strong, body[data-stage='flight'] .scene-caption strong, body[data-stage='home'] .scene-caption strong { font-size: 26px; }
+  .scene-caption p { display: none; }
+  .arrival-footer { left: 16px; right: 16px; bottom: env(safe-area-inset-bottom); font-size: 8px; }
+  .arrival-footer > span { max-width: 145px; display: block; font-size: 8px; line-height: 1.6; }
+  .arrival-footer i { display: none; }
+  .arrival-footer > div { gap: 13px; }
+  .arrival-footer button { font-size: 9px !important; }
+  .walking-controls { left: auto; right: 12px; bottom: calc(54dvh + 61px); }
+  .walking-controls button { width: 44px; min-height: 44px; }
+  #arrival-toast { top: 105px; font-size: 11px; width: max-content; }
+  .boarding-heading h1 { font-size: 27px; }
+  body[data-stage='role'] .scene-caption, body[data-stage='connect'] .scene-caption { display: none; }
+  body[data-stage='home'] .arrival-panel h1 { font-size: 27px; margin: 10px 0; }
+  body[data-stage='home'] .arrival-panel > .intro { display: none; }
+  body[data-stage='home'] .home-pass { margin: 12px 0; padding: 10px 0; }
+  body[data-stage='home'] .pass-heading { margin-bottom: 6px; }
+  body[data-stage='home'] .home-pass > strong { font-size: 23px; }
+  body[data-stage='home'] .pass-rule { margin: 9px 0; }
+  body[data-stage='home'] .prototype-note { font-size: 10px; margin: 10px 0; }
+  body[data-stage='home'] .text-button { display: inline-block; width: 49%; font-size: 10px !important; }
+}
+@media (max-height: 520px) and (min-width: 761px) { .arrival-panel { top: 90px; bottom: 55px; } .arrival-header { padding-top: 10px; padding-bottom: 10px; } .scene-caption { bottom: 60px; } .walking-controls { bottom: 170px; } .arrival-footer { bottom: 4px; } }
+@media (prefers-reduced-motion: reduce) { .onboarding *, .onboarding *::before, .onboarding *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
