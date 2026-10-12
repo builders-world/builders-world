@@ -1,0 +1,7 @@
+target
+.git
+docs
+.env
+.DS_Store
+*.pdf
+tools

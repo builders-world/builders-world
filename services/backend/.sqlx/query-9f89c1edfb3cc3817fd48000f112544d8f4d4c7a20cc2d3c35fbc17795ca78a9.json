@@ -1,0 +1,32 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        INSERT INTO players (id, district, name, handle, x, y, z, yaw, speed, look, home, np, pet, card, say, emote, knock, answer, play, seen)\n        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, now())\n        ON CONFLICT (id) DO UPDATE SET\n            district = EXCLUDED.district, name = EXCLUDED.name, handle = EXCLUDED.handle,\n            x = EXCLUDED.x, y = EXCLUDED.y, z = EXCLUDED.z, yaw = EXCLUDED.yaw, speed = EXCLUDED.speed,\n            look = EXCLUDED.look, home = EXCLUDED.home, np = EXCLUDED.np, pet = EXCLUDED.pet, card = EXCLUDED.card,\n            say = COALESCE(EXCLUDED.say, players.say),\n            emote = COALESCE(EXCLUDED.emote, players.emote),\n            knock = COALESCE(EXCLUDED.knock, players.knock),\n            answer = COALESCE(EXCLUDED.answer, players.answer),\n            play = COALESCE(EXCLUDED.play, players.play),\n            seen = now()\n        ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Float8",
+        "Float8",
+        "Float8",
+        "Float8",
+        "Float8",
+        "Jsonb",
+        "Text",
+        "Jsonb",
+        "Jsonb",
+        "Jsonb",
+        "Jsonb",
+        "Jsonb",
+        "Jsonb",
+        "Jsonb",
+        "Jsonb"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "9f89c1edfb3cc3817fd48000f112544d8f4d4c7a20cc2d3c35fbc17795ca78a9"
+}

@@ -1,0 +1,63 @@
+name: Game
+
+# The game (apps/game): unit tests, the build and the browser tests. Runs only when the game or this file changes.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+    paths: ['apps/game/**', '.github/workflows/game.yml']
+
+concurrency:
+  group: game-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: apps/game
+
+jobs:
+  # Did this pull request touch apps/game? (GitHub's own path filter only reads the first 300 changed files, and a
+  # skipped job still counts as passed, so this check can be required without blocking unrelated pull requests.)
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      game: ${{ steps.diff.outputs.game }}
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: diff
+        run: |
+          if [ "${{ github.event_name }}" != pull_request ] || git diff --name-only "origin/${{ github.base_ref }}...HEAD" | grep -qE '^(apps/game/|\.github/workflows/game\.yml)'; then
+            echo "game=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "game=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  ci:
+    needs: changes
+    if: needs.changes.outputs.game == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: apps/game/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-results
+          path: apps/game/artifacts/test-results
+          retention-days: 7

@@ -1,0 +1,77 @@
+name: Backend
+
+# The Rust backend (services/backend): exactly the checks its CLAUDE.md requires before review. Runs only when the
+# backend or this file changes.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+    paths: ['services/backend/**', '.github/workflows/backend.yml']
+  workflow_call:
+
+concurrency:
+  group: backend-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  DATABASE_URL: postgres://postgres:postgres@localhost:5432/open_world
+  REDIS_URL: redis://localhost:6379
+
+defaults:
+  run:
+    working-directory: services/backend
+
+jobs:
+  # Did this pull request touch services/backend? (GitHub's own path filter only reads the first 300 changed files, and a
+  # skipped job still counts as passed, so this check can be required without blocking unrelated pull requests.)
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.diff.outputs.backend }}
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: diff
+        run: |
+          if [ "${{ github.event_name }}" != pull_request ] || git diff --name-only "origin/${{ github.base_ref }}...HEAD" | grep -qE '^(services/backend/|\.github/workflows/backend\.yml)'; then
+            echo "backend=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "backend=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  ci:
+    needs: changes
+    if: needs.changes.outputs.backend == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: open_world
+        ports: ["5432:5432"]
+        options: --health-cmd "pg_isready -U postgres" --health-interval 2s --health-timeout 3s --health-retries 20
+      redis:
+        image: redis:7
+        ports: ["6379:6379"]
+        options: --health-cmd "redis-cli ping" --health-interval 2s --health-timeout 3s --health-retries 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.90
+        with:
+          components: clippy, rustfmt
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: services/backend
+      - run: cargo install sqlx-cli --version 0.7.4 --no-default-features --features rustls,postgres --locked
+      - run: tools/sqlx-prepare.sh --check
+      - run: cargo fmt --all --check
+      - run: cargo clippy --workspace --all-targets -- -D warnings
+      - run: cargo test --workspace -- --include-ignored

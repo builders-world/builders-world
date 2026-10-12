@@ -1,0 +1,169 @@
+// Shared by the browser app and scripts/fetch-osm.mjs. No three.js in here.
+// Turns raw Overpass JSON into a small "district manifest" in local metres.
+
+export const DEFAULT_PLACE = { name: 'Yaba', lat: 6.5095, lon: 3.3715, radius: 230 };
+
+export const OVERPASS = [
+  'https://overpass-api.de/api/interpreter',
+  'https://overpass.kumi.systems/api/interpreter',
+  'https://maps.mail.ru/osm/tools/overpass/api/interpreter', // a third mirror: the first two time out often
+];
+
+const ROAD_WIDTH = {
+  motorway: 16, trunk: 15, primary: 14, secondary: 12, tertiary: 10,
+  unclassified: 8, residential: 8, living_street: 6, service: 5, pedestrian: 4,
+  footway: 2.4, path: 2.2, cycleway: 2.4,
+};
+
+export function overpassQuery({ lat, lon, radius }) {
+  return (
+    `[out:json][timeout:30];(` +
+    `way["building"](around:${radius},${lat},${lon});` +
+    `way["highway"](around:${radius},${lat},${lon});` +
+    `way["railway"](around:${radius},${lat},${lon});` +
+    `node["railway"~"^(station|halt)$"](around:${radius},${lat},${lon});` +
+    `);out geom tags;`
+  );
+}
+
+export function slug(name) {
+  return String(name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+function project(lat, lon, c) {
+  const kx = 111320 * Math.cos((c.lat * Math.PI) / 180);
+  const kz = 110574;
+  return [(lon - c.lon) * kx, -(lat - c.lat) * kz]; // north is -z
+}
+
+function num(v) {
+  if (v == null) return null;
+  const n = parseFloat(String(v).replace(',', '.'));
+  return Number.isFinite(n) ? n : null;
+}
+
+export function parseOverpass(json, place) {
+  const R = place.radius;
+  const buildings = [];
+  const roads = [];
+  const rails = [], stations = [];
+  for (const el of json.elements || []) {
+    const t = el.tags || {};
+    // railway stations and halts (a point; or a station drawn as an area, at its middle)
+    if ((t.railway === 'station' || t.railway === 'halt') && (el.type === 'node' || el.geometry)) {
+      const g = el.type === 'node' ? [{ lat: el.lat, lon: el.lon }] : el.geometry, lat = g.reduce((a, q) => a + q.lat, 0) / g.length, lon = g.reduce((a, q) => a + q.lon, 0) / g.length;
+      const [x, z] = project(lat, lon, place).map((v) => +v.toFixed(2));
+      if (Math.hypot(x, z) <= R * 1.3) stations.push({ id: el.id, name: t.name || null, x, z, kind: t.station || t.railway });
+      if (el.type === 'node') continue;
+    }
+    if (el.type !== 'way' || !el.geometry || el.geometry.length < 2) continue;
+    const pts = el.geometry.map((g) => project(g.lat, g.lon, place).map((v) => +v.toFixed(2)));
+    if (t.building) {
+      if (pts.length < 4) continue;
+      const ring = pts.slice(0, -1);
+      let cx = 0, cz = 0;
+      for (const p of ring) { cx += p[0]; cz += p[1]; }
+      cx /= ring.length; cz /= ring.length;
+      if (Math.hypot(cx, cz) > R * 1.15) continue;
+      buildings.push({
+        id: el.id,
+        pts: ring,
+        h: num(t.height),
+        levels: num(t['building:levels']),
+        name: t.name || null,
+      });
+    } else if (['rail', 'light_rail', 'narrow_gauge', 'subway'].includes(t.railway) && t.tunnel !== 'yes' && !t.service) {
+      // the railway itself (main lines only; sidings and yards left out); a line on a bridge keeps its flag
+      const kept = pts.filter((p) => Math.hypot(p[0], p[1]) <= R * 1.3);
+      if (kept.length >= 2) rails.push({ id: el.id, kind: t.railway, name: t.name || null, gauge: num(t.gauge), bridge: !!(t.bridge && t.bridge !== 'no'), pts: kept });
+    } else if (t.highway) {
+      const cls = t.highway;
+      const w = ROAD_WIDTH[cls];
+      if (!w) continue;
+      const kept = pts.filter((p) => Math.hypot(p[0], p[1]) <= R * 1.25);
+      if (kept.length < 2) continue;
+      const road = { id: el.id, cls, w, name: t.name || null, pts: kept };
+      // which way the traffic goes and in how many lanes (traffic.js lays its lane paths from these). OSM's
+      // oneway=-1 means against the drawing direction: flip the points so oneway is always "along pts"
+      const ow = t.oneway === 'yes' || t.oneway === '1' || t.oneway === 'true' || t.junction === 'roundabout' || t.junction === 'circular' || (cls === 'motorway' && t.oneway !== 'no');
+      if (t.oneway === '-1') { road.pts = kept.slice().reverse(); road.oneway = true; } else if (ow) road.oneway = true;
+      const lanes = num(t.lanes); if (lanes) road.lanes = Math.max(1, Math.round(lanes));
+      const fw = num(t['lanes:forward']), bw = num(t['lanes:backward']); if (fw && bw && t.oneway !== '-1') { road.lanesF = Math.round(fw); road.lanesB = Math.round(bw); }
+      if (t.junction === 'roundabout' || t.junction === 'circular') road.roundabout = true;
+      if (t.bridge && t.bridge !== 'no') road.bridge = true;
+      if (t.ref) road.ref = t.ref;
+      roads.push(road);
+    }
+  }
+  return {
+    version: 1,
+    source: 'osm',
+    name: place.name,
+    center: { lat: place.lat, lon: place.lon },
+    radius: R,
+    generated: new Date().toISOString(),
+    buildings,
+    roads,
+    ...(rails.length ? { rails } : {}),
+    ...(stations.length ? { stations } : {}),
+  };
+}
+
+async function postOverpass(url, query, signal) {
+  const res = await fetch(url, {
+    method: 'POST',
+    body: 'data=' + encodeURIComponent(query),
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    signal,
+  });
+  if (!res.ok) throw new Error(`${url} -> ${res.status}`);
+  return res.json();
+}
+
+export async function fetchOverpass(place, timeoutMs = 25000) {
+  const q = overpassQuery(place);
+  let last;
+  for (const url of OVERPASS) {
+    const ctl = new AbortController();
+    const timer = setTimeout(() => ctl.abort(), timeoutMs);
+    try {
+      const json = await postOverpass(url, q, ctl.signal);
+      clearTimeout(timer);
+      return parseOverpass(json, place);
+    } catch (e) {
+      clearTimeout(timer);
+      last = e;
+    }
+  }
+  throw last || new Error('Overpass unreachable');
+}
+
+// Load order: baked manifest (CDN-style) -> local cache -> live OSM -> sample.
+export async function loadManifest(place, { live = true } = {}) {
+  const key = `bw:${slug(place.name)}:${place.lat}:${place.lon}:${place.radius}`;
+  try {
+    const r = await fetch(`./data/${slug(place.name)}.json`, { cache: 'no-cache' });
+    if (r.ok) {
+      const m = await r.json();
+      if (m.buildings?.length || m.roads?.length) return { manifest: m, via: 'baked' }; // (some areas are mapped road by road, few buildings drawn yet)
+    }
+  } catch { /* fall through */ }
+  try {
+    const cached = localStorage.getItem(key);
+    if (cached) {
+      const m = JSON.parse(cached);
+      if (m.buildings?.length) return { manifest: m, via: 'cache' };
+    }
+  } catch { /* storage unavailable */ }
+  if (live) {
+    try {
+      const m = await fetchOverpass(place);
+      if (m.buildings.length) {
+        try { localStorage.setItem(key, JSON.stringify(m)); } catch { /* quota */ }
+        return { manifest: m, via: 'live' };
+      }
+    } catch { /* fall through */ }
+  }
+  const r = await fetch('./data/sample.json');
+  return { manifest: await r.json(), via: 'sample' };
+}

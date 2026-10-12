@@ -1,0 +1,9 @@
+# Who reviews what. GitHub asks these people to review any pull request that touches their paths.
+# (Enforced once code-owner review is switched on in branch protection: that needs the repository public or on a paid plan.)
+# The last matching line wins.
+
+*                     @obileonardo
+/services/backend/    @Yczar
+/.github/workflows/backend.yml  @Yczar
+# Each city will get its own line here once its data moves to cities/<city>/ (the next step), for example:
+# /cities/nairobi/    @nairobi-maintainer

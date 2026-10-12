@@ -15,15 +15,21 @@ The game is live and growing. As of 11 October 2026 it has:
 - **Hubs and cafés with Wi-Fi friction**, community building, and sport played by the real rules.
 - **GitHub sign-in with other players live.**
 
-Each feature is listed in the game's [README](https://github.com/builders-world/yaba-scene#readme). Every request and where it stands is in the [tracker](docs/collaboration/tracker.md).
+Each feature is listed in the game's [README](apps/game/README.md). Every request and where it stands is in the [tracker](docs/collaboration/tracker.md).
 
 **Where the code lives**
 
-| Repository | What it is |
-|---|---|
-| [builders-world/yaba-scene](https://github.com/builders-world/yaba-scene) | The game (three.js + Vite). `main` deploys to Vercel. Nested here at `apps/world/yaba-scene` for local work. |
-| [builders-world/open-world-backend](https://github.com/builders-world/open-world-backend) | The Rust gateway: GitHub sign-in, presence, street bins, the Efforts count (Railway). |
-| builders-world/builders-world (this repository) | The product, the world bible, design and collaboration docs, assets. |
+Everything is in this one repository, with the full history of each part (12 October 2026: the game and the backend
+were brought in from their own repositories, which are now read-only archives).
+
+| Folder | What it is | Checks |
+|---|---|---|
+| [`apps/game`](apps/game) | The game (three.js + Vite). Deploys to Vercel. Was `builders-world/yaba-scene`. | `.github/workflows/game.yml`: tests, build, browser tests |
+| [`services/backend`](services/backend) | The Rust gateway: GitHub sign-in, presence, street bins, the Efforts count. Deploys to Railway. Was `builders-world/open-world-backend`. Its own rules are in [its CLAUDE.md](services/backend/CLAUDE.md). | `.github/workflows/backend.yml`: fmt, clippy, tests, sqlx |
+| `docs/`, `assets/` | The product, the world bible, design and collaboration docs, art. | |
+
+Each check runs only when its folder changes. [CODEOWNERS](.github/CODEOWNERS) says who reviews what: the backend needs
+Ayotomide. Each city is next to get its own folder (`cities/<city>/`) and its own maintainers.
 
 The PRD's original plan put a flat site first (Phase 1) and the 3D world second. In practice the 3D world came first, and the release plan is still to be agreed (see Decisions in the tracker).
 
@@ -51,8 +57,8 @@ Repository: [builders-world/builders-world](https://github.com/builders-world/bu
 
 | Directory | Intended contents |
 | --- | --- |
-| `apps/` | Flat website, internal admin, later 3D client and presence agent |
-| `services/` | API, ingestion, background jobs, later realtime server |
+| `apps/` | The game (`apps/game`); later the flat website and the admin |
+| `services/` | The backend (`services/backend`: gateway and jobs) |
 | `packages/` | Shared contracts, domain rules, UI, and platform integrations |
 | `database/` | Versioned migrations, synthetic seeds, and access policies |
 | `assets/` | Original art sources, references, and intentional export assets |
@@ -61,7 +67,7 @@ Repository: [builders-world/builders-world](https://github.com/builders-world/bu
 | `tests/` | Synthetic fixtures, integration, replay, load, and visual checks |
 | `tools/` | Development/deployment utilities and local Blender access test |
 
-These are logical areas reserved for the planned architecture. They do not imply separate deployments, an installed framework, or completed features. See the directory guide for phase boundaries.
+Apart from `apps/game` and `services/backend`, these are logical areas reserved for the planned architecture. They do not imply separate deployments, an installed framework, or completed features. See the directory guide for phase boundaries.
 
 ## Team
 
@@ -74,7 +80,7 @@ These are logical areas reserved for the planned architecture. They do not imply
 
 ## Working together
 
-- Start each task on a dedicated branch and open a pull request into `main`.
+- Start each task on a dedicated branch and open a pull request into `main`. Nobody pushes code to `main` directly. A change to `services/backend` follows the backend's own rules (one approval from someone who did not write it).
 - Agree task ownership before editing shared areas. For simultaneous local work, use separate Git worktrees.
 - Include a summary, validation performed, and any remaining work in each pull request or handoff.
 - Coordinate deployments and database migrations with the team before running them.

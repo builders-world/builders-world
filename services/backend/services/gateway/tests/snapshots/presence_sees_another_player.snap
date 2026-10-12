@@ -1,0 +1,42 @@
+---
+source: services/gateway/tests/common/mod.rs
+expression: "serde_json::json!({ \"status\": status.as_u16(), \"body\": masked(body) })"
+---
+{
+  "body": {
+    "online": 2,
+    "players": [
+      {
+        "card": {
+          "behance": "",
+          "commits": null,
+          "dribbble": "",
+          "linkedin": "",
+          "role": "",
+          "showCommits": false,
+          "showSocials": false,
+          "x": ""
+        },
+        "handle": "ada-dev",
+        "home": "",
+        "id": "[id]",
+        "look": {
+          "color": "#336699",
+          "full": null,
+          "style": "hoodie"
+        },
+        "name": "ada-dev",
+        "np": null,
+        "pet": null,
+        "speed": 2.0,
+        "t": "[time]",
+        "x": 10.5,
+        "y": 0.0,
+        "yaw": 1.25,
+        "z": -3.0
+      }
+    ],
+    "you": "[id]"
+  },
+  "status": 200
+}
