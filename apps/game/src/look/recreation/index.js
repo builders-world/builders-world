@@ -5,13 +5,14 @@
 // safari in Kenya) is shown as coming, so the app says what the city will have.
 import { createSkydive } from './skydive.js';
 import { createArchery } from './archery.js';
+import { createClimbing } from './climbing.js';
 import { nameFor } from '../knowledge.js';
 import { walletEngine, effortsMark, fmt } from '../wallet.js';
 import { sfx } from '../audio.js';
 import { C, FONT } from '../uikit.js';
 
-const FEE = { tandem: 1500, solo: 800, arch18: 400, arch30: 500 };
-const SOON = ['Hiking', 'Climbing', 'Mountain biking', 'Paragliding', 'Bungee'];
+const FEE = { tandem: 1500, solo: 800, arch18: 400, arch30: 500, boulder: 300 };
+const SOON = ['Hiking', 'Mountain biking', 'Paragliding', 'Bungee'];
 const COACH_LOOK = { body: 'f', skin: '#6b4226', hair: 'braids', top: 'tee', topColor: '#2a9d94', bottom: 'trousers', bottomColor: '#2b2f36', shoes: 'sneakers', shoeColor: '#f4f1ea', acc: [] };
 const LOOK = { body: 'm', skin: '#4a2e1c', hair: 'low', top: 'jacket', topColor: '#d9583f', bottom: 'trousers', bottomColor: '#2b2f36', shoes: 'sneakers', shoeColor: '#1d2028', acc: [] };
 const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch { /* private window */ } } };
@@ -55,6 +56,26 @@ export function createRecreation(o) {
   pickTarget();
   const tandems = () => +(store.get('bw:skydive:tandems') || 0);
   const lessons = () => +(store.get('bw:archery:lessons') || 0);
+  const kw = nameFor('climbing-coach', 'm');
+  const climbCoach = { name: kw?.full || 'Coach Tunde', first: kw?.first || 'Tunde', look: { ...LOOK, top: 'tee', topColor: '#3fae5a' } };
+  // the bouldering wall: 9 m of grass along it and 6 m deep (the mats, then room to stand back), in a park, nothing in it
+  function wallSpot() {
+    // the park's own things (benches, the pavilion, its gate and stalls) keep 7 m clear of the wall and its mats
+    const things = [...(o.parks?.seats || []), ...(o.parks?.pois || []), ...(o.parks?.interact || [])].filter((q) => Number.isFinite(q.x));
+    for (const r of rects) for (const off of [12, 9, 15, 6, 18, 3]) for (let k = 0; k < 16; k++) {
+      const a = (r.ang || 0) + (k * Math.PI) / 8, g = { x: Math.sin(a), z: Math.cos(a) }, f = { x: -g.x, z: -g.z };
+      const at = { x: r.x + g.x * off, z: r.z + g.z * off }, mid = { x: at.x + f.x * 1.5, z: at.z + f.z * 1.5 };
+      if (things.some((q) => Math.hypot(q.x - mid.x, q.z - mid.z) < 7)) continue;
+      // trees (their crowns are above the solid trunk) and lamp posts (too thin to be solid): off the wall, its mats and
+      // the view back to the camera
+      if ((o.parks?.trees || []).some((q) => { const dx = q.x - at.x, dz = q.z - at.z, t = dx * f.x + dz * f.z, side = Math.abs(-dx * f.z + dz * f.x); return (t > -1 && t < 4.5 && side < 6.5) || (t > -8 && t <= -1 && side < 2.6); })) continue;
+      if ([...(o.lamps || []), ...(o.parks?.lights || []).map(([x, , z]) => ({ x, z }))].some((l) => { const dx = l.x - at.x, dz = l.z - at.z, t = dx * f.x + dz * f.z, side = Math.abs(-dx * f.z + dz * f.x); return t > -7.5 && t < 3.5 && side < 5; })) continue;
+      // the wall, its mats and where you stand; and behind that, a clear view back to where the camera stands
+      let ok = true; for (let t = -7; t <= 3.2 && ok; t += 0.3) for (let side = -4.8; side <= 4.8; side += 0.3) if (o.world.solidAt?.(at.x + f.x * t - f.z * side, 1.2, at.z + f.z * t + f.x * side)) { ok = false; break; } // fine enough to catch a lamp post
+      if (ok) return { at, dir: f };
+    }
+    return null;
+  }
   const cw = nameFor('archery-coach', 'f');
   const coach = { name: cw?.full || 'Coach Ada', first: cw?.first || 'Ada', look: COACH_LOOK };
   // the archery range: a lane across a park with room for the distance, clear of trees and posts at chest height
@@ -81,6 +102,8 @@ export function createRecreation(o) {
         <button class="go" data-k="arch18">${effortsMark(12)}${fmt(FEE.arch18)}</button></div>
       <div class="act"><div class="t"><b>Archery, 30 m</b><small>${lessons() ? 'The 80 cm face, twelve arrows, scored.' : 'After your first lesson.'}</small></div>
         <button class="go" data-k="arch30" ${lessons() ? '' : 'disabled'}>${effortsMark(12)}${fmt(FEE.arch30)}</button></div>
+      <div class="act"><div class="t"><b>Bouldering</b><small>${climbCoach.name} runs a wall in the park: four problems, V0 to V3, mats below.</small></div>
+        <button class="go" data-k="boulder">${effortsMark(12)}${fmt(FEE.boulder)}</button></div>
       <div class="soon">${SOON.map((s) => `<span>${s}: coming</span>`).join('')}</div></div>`;
     panel.querySelector('.x').onclick = close;
     panel.onclick = (e) => { if (e.target === panel) close(); };
@@ -92,6 +115,7 @@ export function createRecreation(o) {
   function book(kind) {
     if (jump) return;
     if (kind.startsWith('arch')) { shoot(kind); return; }
+    if (kind === 'boulder') { climb(); return; }
     if (o.canStart && !o.canStart()) { toast('Step outside onto the street first.', 2200); return; }
     pickTarget(); // again now: the open city round the district has loaded since the street was built
     const fee = FEE[kind];
@@ -127,6 +151,22 @@ export function createRecreation(o) {
         toast(`Archery, ${dist} m: ${r.score} of ${r.max}, ${r.tens} tens (${r.xs} X), ${r.misses} ${r.misses === 1 ? 'miss' : 'misses'}. Ends: ${r.ends.join(' and ')}.`, 6000);
       } });
     toast(`${coach.name} has the range set up. Listen to the lesson first.`, 2600);
+  }
+
+  function climb() {
+    if (o.canStart && !o.canStart()) { toast('Step outside onto the street first.', 2200); return; }
+    const spot = wallSpot();
+    if (!spot) { toast(`${climbCoach.first} cannot find a clear patch of grass for the wall here.`, 2600); return; }
+    if (!walletEngine().spend(FEE.boulder, 'Bouldering')) { toast('Not enough Efforts for the wall. Push some commits and come back.', 2600); return; }
+    close();
+    jump = createClimbing({ scene: o.scene, at: spot.at, dir: spot.dir, coach: climbCoach, look: o.avatar?.userData.look, toast,
+      onEnd: (r) => {
+        jump = null; o.standAt?.(spot.at.x, spot.at.z);
+        if (!r || r.aborted) { walletEngine().earn?.(FEE.boulder, 'Bouldering refunded'); toast(`${climbCoach.first} takes the wall down. Fee refunded.`, 2400); return; }
+        dispatchEvent(new CustomEvent('bw:me', { detail: { played: 0.25, skill: 'fitness', n: 1 } }));
+        toast(r.sends.length ? `Bouldering: sent ${r.sends.join(', ')}${r.flashes ? ` (${r.flashes} flashed)` : ''}, in ${r.tries} ${r.tries === 1 ? 'try' : 'tries'}.` : `Bouldering: ${r.tries} ${r.tries === 1 ? 'try' : 'tries'}, no sends yet. ${climbCoach.first} says come back.`, 5000);
+      } });
+    toast(`${climbCoach.name} has the wall up. The lesson first.`, 2400);
   }
 
   addEventListener('bw:outdoors', open);
