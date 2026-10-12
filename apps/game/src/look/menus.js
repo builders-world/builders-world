@@ -938,13 +938,14 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
       if (panMoved > 6) return; // that was a drag, not a tap
       if (AIR_MODES.includes(mapMode)) return; // the airport map is to look at: the planes, the gates, where you are
       if (mapMode !== 'district') {
-        const cx = ((ev.clientX - r.left) / r.width) * cw, cy = ((ev.clientY - r.top) / r.height) * ch, hit = countryPins.find((q) => Math.hypot(q.x - cx, q.y - cy) < q.r);
+        const cx = ((ev.clientX - r.left) / r.width) * cw, cy = ((ev.clientY - r.top) / r.height) * ch, hit = [...countryPins].reverse().find((q) => Math.hypot(q.x - cx, q.y - cy) < q.r);
         if (!hit) { countryPick = null; bubble.style.display = 'none'; drawBigMap(); return; }
         countryPick = hit.name; drawBigMap();
         const k = cityCard(hit.name, world.place?.city || 'Lagos'), m = mapEl.querySelector('.mid').getBoundingClientRect();
-        bubble.innerHTML = `<b>${k.title}</b><small>${k.sub}</small><small>${k.line}</small><button class="qt">${k.action}</button>`;
+        const esc3 = (t) => String(t).replace(/[<>&]/g, '');
+        bubble.innerHTML = `<b>${esc3(k.title)}</b><small>${esc3(k.sub)}</small><small>${esc3(k.line)}</small>${k.about ? `<small>${esc3(k.about)}</small>` : ''}${k.action ? `<button class="qt">${k.action}</button>` : ''}`;
         bubble.style.display = 'block'; bubble.style.left = `${r.left - m.left + (hit.x / cw) * r.width}px`; bubble.style.top = `${r.top - m.top + (hit.y / ch) * r.height}px`;
-        bubble.querySelector('.qt').onclick = (e2) => { e2.stopPropagation(); close(); dispatchEvent(new Event('bw:fly')); };
+        const qt = bubble.querySelector('.qt'); if (qt) qt.onclick = (e2) => { e2.stopPropagation(); close(); dispatchEvent(new Event('bw:fly')); };
         return;
       }
       const [px, py] = toCanvas(ev); void r;
