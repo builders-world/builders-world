@@ -43,6 +43,7 @@ import { createEmotePanel } from './emotepanel.js';
 import { createSpotify, trackUrl } from './spotify.js';
 import { buildLandmarks } from './landmarks.js';
 import { createSports } from './sports/index.js';
+import { createRecreation } from './recreation/index.js';
 import { TIERS, trackDetail, cullDetail } from './quality.js';
 import { watchPlayer, holdOutFood } from './fear.js';
 import { regionOf, areaOf, areaName, areaUrl, areaFare, kmBetween, bearing, cityLabel } from './areas.js';
@@ -204,7 +205,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   let officials = null, rideBlock = null, homeAct = null, lastNearT = 0, nearNow = { park: false, people: false }, lastPos = null;
   let railway = null;
   let shopfronts = null, jobs = null;
-  let greenrey = null, spotify = null, sports = null, mobility = null, slife = null, traffic = null, food = null, pets = null, petIt = null, wardrobe = null, profiler = null, onlineRef = null, building = null, gates = null, visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null;
+  let greenrey = null, spotify = null, sports = null, mobility = null, slife = null, traffic = null, food = null, pets = null, petIt = null, wardrobe = null, profiler = null, onlineRef = null, building = null, gates = null, visiting = null, passes = null, rides = null, pendingExit = null, interiors = null, pendingMove = null, doorOut = null, litter = null, seats = [], benchSeat = null, outdoors = null;
   // the tech places you can walk into (world bible 6.6)
   const doors = [];
   if (props.hubAt) doors.push({ key: 'hub', at: props.hubAt });
@@ -341,13 +342,14 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       return false;
     },
     onRide: (player) => (interiors?.active ? hud.toast('Step outside to call a ride: the driver cannot come in.', 2600) : rides?.openPanel('taxi', { app: true, x: player.x, z: player.z })),
-    isExtraOpen: () => airDialogOpen() || travelDialogOpen() || licenceDeskOpen() || !!jobs?.isOpen || rides?.isMenuOpen() || interiors?.computerOpen || !!benchSeat || !!passes?.registering || !!gates?.isOpen || !!wardrobe?.isOpen || !!pets?.isOpen || !!food?.isOpen || !!sports?.isOpen,
+    isExtraOpen: () => airDialogOpen() || travelDialogOpen() || licenceDeskOpen() || !!jobs?.isOpen || rides?.isMenuOpen() || interiors?.computerOpen || !!benchSeat || !!passes?.registering || !!gates?.isOpen || !!wardrobe?.isOpen || !!pets?.isOpen || !!food?.isOpen || !!sports?.isOpen || !!outdoors?.isOpen,
     closeExtra: () => {
       rides?.closeMenu();
       if (licenceDeskOpen()) { closeLicenceDesk(); return; }
       if (jobs?.isOpen) { jobs.close(); return; }
       if (passes?.registering) { passes.closeRegister(); return; }
       if (sports?.isOpen) { sports.close(); return; }
+      if (outdoors?.isOpen) { outdoors.close(); return; }
       if (gates?.isOpen) { gates.close(); return; }
       if (wardrobe?.isOpen) { wardrobe.cancel(); return; }
       if (pets?.isOpen) { pets.close(); return; }
@@ -643,6 +645,8 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   // signs that say what each place does, and the way to the car park (shopsigns.js), once the car parks are down
   try { buildShopSigns({ world, scene: group, props, doors, places: PLACES }); } catch (err) { console.warn('shop signs skipped', err); }
   // the parks greenrey laid out on the open green land (parkland.js): benches to sit on, the parks on the map, things to do
+  // the Outdoors app (recreation/): skydiving over the open city first, landing in the district's largest park
+  if (!off.has('recreation')) { try { outdoors = createRecreation({ scene, world, openWorld, parks: greenrey?.parks, avatar, toast: hud.toast, getPlayer: () => lastPlayer, canStart: () => !interiors?.active && !sports?.playing, standAt: (x, z) => { const q = (openWorld?.active && Math.hypot(x, z) > world.radius ? null : world.nearestReachable?.(x, z)) || { x, z }; pendingMove = { mode: 'stand', x: q.x, z: q.z }; } }); } catch (err) { console.warn('recreation skipped', err); } }
   // the neighbourhood's own animals, by the estates and the parks; your pet makes friends with them (critters.js)
   try { critters = createCritters({ scene: group, world, getPet: petView, toast: hud.toast, spots: (greenrey?.parks?.pois || []).map((q) => ({ x: q.x, z: q.z })) }); } catch (err) { console.warn('critters skipped', err); }
   if (greenrey?.parks) {
@@ -786,6 +790,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     jobs?.update(dt, player, !!interiors?.active);
     if (!interiors?.active) { food?.update(dt, player); shopfronts?.update(dt, player); if (traffic?.addBlocker) { rideBlock ||= traffic.addBlocker({ r: 1.4 }); const rv = rides?.vehicle; rideBlock.on = !!(rv && world.onCarriageway?.(rv.x, rv.z, 0.6)); if (rv) { rideBlock.x = rv.x; rideBlock.z = rv.z; rideBlock.r = rv.r; } }
       traffic?.update(dt, player); railway?.update(dt, player); digital?.update(dt); slife?.update(dt, player); officials?.update(dt); mobility?.update(dt, t); sports?.update(dt); }
+    outdoors?.update(dt);
     pets?.update(dt, player, yaw ?? 0);
     if (!interiors?.active) critters?.update(dt, player);
     // what you are doing feeds your needs and skills (profile.js)
@@ -1180,6 +1185,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   // fewer draw calls: the static scenery's meshes that share a material, merged (batch.js); nothing on screen changes
   // (?batch=0 turns it off, to compare)
   if (new URLSearchParams(location.search).get('batch') !== '0') try { const r = batchScenery(group, ['landmarks', 'place-fronts', 'shop-signs', 'food-trucks', 'edge-signs', 'civic', 'parkland', 'recreation', 'parks', 'shopfronts']); world.batched = r; } catch (err) { console.warn('batching skipped', err); }
-  return { feed, get food() { return food; }, get greenrey() { return greenrey; }, update, renderReflection, setSize, setGraphics, sport: () => sports?.pose() || null, get sports() { return sports; }, get graphics() { return gfx; }, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get cycling() { return cycling; }, get officials() { return officials; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || !!homeAct || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, openWorld, cityTraffic, cityPeople, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, renderPortraits, get profile() { return profile; }, get critters() { return critters; }, get railway() { return railway; }, streamStats, smallStats, setStreaming, get tallRoom() { return (interiors?.room?.H || 0) > 12; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { feed, get food() { return food; }, get greenrey() { return greenrey; }, update, renderReflection, setSize, setGraphics, sport: () => sports?.pose() || outdoors?.pose() || null, get sports() { return sports; }, get outdoors() { return outdoors; }, get graphics() { return gfx; }, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get cycling() { return cycling; }, get officials() { return officials; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || !!homeAct || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, openWorld, cityTraffic, cityPeople, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, renderPortraits, get profile() { return profile; }, get critters() { return critters; }, get railway() { return railway; }, streamStats, smallStats, setStreaming, get tallRoom() { return (interiors?.room?.H || 0) > 12; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 
