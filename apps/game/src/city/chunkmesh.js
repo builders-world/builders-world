@@ -218,7 +218,9 @@ export function meshChunk(d, meta, { lod = 0, hole = null, ci = 0, cj = 0, size 
   (d.bld || []).forEach((b) => {
     if (lod >= 3 && b.h < 9 && b.p.length < 14) return; // far away, from the air: the small houses melt into the ground
     const pts = pairs(b.p), cx = pts.reduce((a, p) => a + p[0], 0) / pts.length, cz = pts.reduce((a, p) => a + p[1], 0) / pts.length;
-    if (inHole(cx, cz, 0)) return;
+    // kept out by its centre, and also when any corner reaches 10 m into the district's ground: a big building just
+    // outside could otherwise stand in a park at the district's edge
+    if (inHole(cx, cz, 0) || pts.some(([x, z]) => inHole(x, z, -10))) return;
     building(F, S, b, lod);
     let bx0 = Infinity, bz0 = Infinity, bx1 = -Infinity, bz1 = -Infinity; pts.forEach(([x, z]) => { bx0 = Math.min(bx0, x); bz0 = Math.min(bz0, z); bx1 = Math.max(bx1, x); bz1 = Math.max(bz1, z); });
     colliders.push({ t: 'poly', pts, bb: [bx0, bz0, bx1, bz1], h: b.h });
