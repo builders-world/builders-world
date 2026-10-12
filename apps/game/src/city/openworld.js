@@ -45,13 +45,18 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
   const FAR = { low: 3000, medium: 4500, high: 7000, ultra: 9000 }[quality] || 7000; // how far the city reaches from the air
 
   // materials: the districts' wet ground and plaster, the facade shader for walls; all cut away inside the district
-  const ground = wetGroundMaterial(), groundBase = ground.onBeforeCompile;
-  ground.onBeforeCompile = (sh, r) => {
-    groundBase(sh, r); sh.uniforms.uHole = facadeUniforms.uHole;
-    sh.fragmentShader = sh.fragmentShader.replace('#include <common>', '#include <common>\nuniform vec3 uHole;')
-      .replace('#include <clipping_planes_fragment>', '#include <clipping_planes_fragment>\nif (uHole.z > 0.0 && length(vWPos.xz - uHole.xy) < uHole.z) discard;');
+  const groundMat = () => {
+    const m = wetGroundMaterial(), base = m.onBeforeCompile;
+    m.onBeforeCompile = (sh, r) => {
+      base(sh, r); sh.uniforms.uHole = facadeUniforms.uHole;
+      sh.fragmentShader = sh.fragmentShader.replace('#include <common>', '#include <common>\nuniform vec3 uHole;')
+        .replace('#include <clipping_planes_fragment>', '#include <clipping_planes_fragment>\nif (uHole.z > 0.0 && length(vWPos.xz - uHole.xy) < uHole.z) discard;');
+    };
+    m.customProgramCacheKey = () => 'bw-city-ground';
+    return m;
   };
-  ground.customProgramCacheKey = () => 'bw-city-ground';
+  // the chunks' grass under everything: drawn first and writing no depth, so whatever lies on it always shows
+  const ground = groundMat(), lawn = groundMat(); lawn.depthWrite = false;
   const solid = wallMaterial({ wetBottom: false }), facade = facadeMaterial();
   facadeUniforms.uHole.value.set(-1e6, -1e6, -1); // walls are left out by the bake's circle, not cut (chunkmesh.js)
   const lampGeo = lampGeometry(), lampMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.7 });
@@ -59,7 +64,15 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
   let groundHole = new THREE.Vector3();
   // past the baked city: plain country out to the horizon, under everything else, so the city never ends in a void
   { const far = new THREE.Mesh(new THREE.CircleGeometry(30000, 48).rotateX(-Math.PI / 2), new THREE.MeshLambertMaterial({ color: '#79a85a' }));
-    far.position.y = -0.9; far.renderOrder = -1; far.name = 'open-city-country'; group.add(far); }
+    far.position.y = -0.9; far.renderOrder = -2; far.material.depthWrite = false; far.name = 'open-city-country'; group.add(far); }
+  // and its big water (a lagoon, a harbour, a lake) whole, so where the chunks stop the water goes on (index.json far):
+  // both drawn first and never in front of anything, so the chunks' own ground and water always cover them
+  const farWater = (list) => {
+    if (!list?.length) return;
+    const shapes = list.map((p) => { const s = new THREE.Shape(); s.moveTo(p[0], -p[1]); for (let i = 2; i < p.length; i += 2) s.lineTo(p[i], -p[i + 1]); return s; });
+    const m = new THREE.Mesh(new THREE.ShapeGeometry(shapes, 1).rotateX(-Math.PI / 2), new THREE.MeshLambertMaterial({ color: '#5fa8bd', depthWrite: false }));
+    m.position.y = -0.6; m.renderOrder = -1.5; m.name = 'open-city-water'; group.add(m);
+  };
 
   const chunks = new Map(); // key -> { i, j, lod, want, group, colliders, busy }
   let index = null, jobId = 0;
@@ -73,7 +86,7 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
       w.postMessage({ id: ++jobId, key: job.key, url: `${base}${job.key}.json`, meta: { classes: index.classes, ends: index.ends, drive: index.drive }, lod: job.lod, hole, ci: c.i, cj: c.j, size: index.chunk });
     }
   }
-  fetch(`${base}index.json`).then((r) => (r.ok ? r.json() : null)).then((ix) => { if (!ix) { api.active = false; return; } index = ix; api.ready = true; }).catch(() => { api.active = false; });
+  fetch(`${base}index.json`).then((r) => (r.ok ? r.json() : null)).then((ix) => { if (!ix) { api.active = false; return; } index = ix; farWater(ix.far?.water); api.ready = true; }).catch(() => { api.active = false; });
 
   // ---------- collisions: every collider of the loaded chunks, in a 32 m grid ----------
   const CELL = 32, grid = new Map(), gk = (i, j) => i * 73856093 + j;
@@ -119,6 +132,7 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
     if (c.want !== res.lod) return; // the camera moved on while it was being built
     const g = new THREE.Group(); g.name = `chunk_${res.key}_${res.lod}`;
     const o = res.out;
+    if (o.base?.p.length) { const m = new THREE.Mesh(geo(o.base), lawn); m.renderOrder = -1; m.receiveShadow = res.lod === 0; g.add(m); }
     if (o.ground.p.length) { const m = new THREE.Mesh(geo(o.ground), ground); m.receiveShadow = res.lod === 0; g.add(m); }
     if (o.solid.p.length) { const m = new THREE.Mesh(geo(o.solid), solid); m.castShadow = res.lod === 0; m.receiveShadow = res.lod === 0; g.add(m); }
     if (o.facade.p.length) { const m = new THREE.Mesh(geo(o.facade, true), facade); m.castShadow = res.lod === 0; m.receiveShadow = res.lod === 0; g.add(m); }

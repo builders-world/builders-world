@@ -71,7 +71,7 @@ function pointIndex(cell = 8) {
 }
 
 // ---------- 1. read the map ----------
-const els = [], land = [], water = [], rivers = [], pois = [];
+const els = [], land = [], water = [], rivers = [], pois = [], farWater = [];
 const LAND = { park: 'park', garden: 'park', recreation_ground: 'park', village_green: 'grass', grass: 'grass', meadow: 'grass', golf_course: 'golf',
   pitch: 'pitch', stadium: 'pitch', track: 'pitch', playground: 'park', cemetery: 'cemetery', grave_yard: 'cemetery', forest: 'wood', wood: 'wood',
   nature_reserve: 'wood', scrub: 'scrub', parking: 'paved', commercial: 'commercial', retail: 'commercial', industrial: 'industrial', railway: 'industrial',
@@ -96,7 +96,12 @@ for await (let line of rl) {
     if (t.building && isArea) { els.push({ type: 'way', id, tags: t, geometry: ring.map(([lon, lat]) => ({ lon, lat })) }); continue; }
     if ((t.highway || t.railway) && !isArea) { els.push({ type: 'way', id, tags: t, geometry: ring.map(([lon, lat]) => ({ lon, lat })) }); continue; }
     if (t.waterway && !isArea && ['river', 'stream', 'canal'].includes(t.waterway)) { rivers.push({ w: t.waterway === 'river' ? 7 : t.waterway === 'canal' ? 5 : 2.5, p: simplify(pz, 0.8) }); continue; }
-    if (isArea && (t.natural === 'water' || t.water || t.waterway === 'riverbank' || t.landuse === 'reservoir' || t.leisure === 'swimming_pool')) { water.push({ p: simplify(pz.slice(0, -1), 0.6) }); continue; }
+    if (isArea && (t.natural === 'water' || t.water || t.waterway === 'riverbank' || t.landuse === 'reservoir' || t.leisure === 'swimming_pool')) {
+      water.push({ p: simplify(pz.slice(0, -1), 0.6) });
+      // and the big water whole, past the box too (a lagoon, a harbour, a lake), for the far ground (openworld.js)
+      if ((b.x1 - b.x0) * (b.z1 - b.z0) > 4e5) { const q = simplify(pz.slice(0, -1), 12); if (q.length >= 3 && Math.abs(area(q)) > 2e5) farWater.push(q.flatMap(([x, z]) => [Math.round(x), Math.round(z)])); }
+      continue;
+    }
     const k = isArea && (LAND[t.leisure] || LAND[t.landuse] || LAND[t.natural] || LAND[t.amenity]);
     if (k) land.push({ k, p: simplify(pz.slice(0, -1), 0.8), a: Math.abs(area(pz)) });
     // (a shop or office drawn as an area, without a building tag: its name still marks the place)
@@ -265,7 +270,7 @@ for (const [k, c] of [...chunks].sort()) {
   const s = JSON.stringify(body); writeFileSync(new URL(`${k}.json`, out), s); bytes += s.length;
   index.push([i, j, c.bld.length, Math.round(Math.max(0, ...c.bld.map((b) => b.h)))]);
 }
-const meta = { version: 2, city: city.name, key, center: C0, chunk: CH, drive: country.drive || 'right', box: { x0: r1(x0), z0: r1(z0), x1: r1(x1), z1: r1(z1) }, classes: CLASSES, ends: ENDS, names, chunks: index,
+const meta = { version: 2, city: city.name, key, center: C0, chunk: CH, drive: country.drive || 'right', box: { x0: r1(x0), z0: r1(z0), x1: r1(x1), z1: r1(z1) }, classes: CLASSES, ends: ENDS, names, chunks: index, far: { water: farWater },
   counts: { buildings: blds.length, segments: net.segs.length, junctions: net.junctions.length, roundabouts: net.islands.length, lamps: lamps.length, trees: trees.length, places: pois.length },
   sources: 'Map data © OpenStreetMap contributors (ODbL); building heights partly GHS-BUILT-H 2018, European Commission JRC (CC BY 4.0)' };
 writeFileSync(new URL('index.json', out), JSON.stringify(meta)); bytes += JSON.stringify(meta).length;

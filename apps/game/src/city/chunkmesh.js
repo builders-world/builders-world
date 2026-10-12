@@ -174,12 +174,14 @@ function building(F, S, b, lod) {
  * @param o     { lod, hole: [x, z, r] the district's circle, where the chunk draws nothing of its own }
  */
 export function meshChunk(d, meta, { lod = 0, hole = null, ci = 0, cj = 0, size = 200 } = {}) {
-  const G = layer(), S = layer(), F = { p: [], n: [], c: [], f: [] };
+  const G = layer(), S = layer(), F = { p: [], n: [], c: [], f: [] }, B = layer();
   const inHole = (x, z, pad = 0) => hole && Math.hypot(x - hole[0], z - hole[1]) < hole[2] + pad;
   const colliders = [];
   const x0 = ci * size, z0 = cj * size;
-  // the ground: grass, then land use on top (parks, paving, campuses), water, rivers
-  quad(G, [x0, -0.3, z0], [x0 + size, -0.3, z0], [x0 + size, -0.3, z0 + size], [x0, -0.3, z0 + size], rgb(PAL.ground));
+  // the ground: grass, then land use on top (parks, paving, campuses), water, rivers. The grass is a layer of its own
+  // (openworld.js draws it first and never in front of anything): from the air a few centimetres between it and the
+  // water or a park are less than the depth buffer can tell apart, and a lagoon would flicker into lawn in squares
+  quad(B, [x0, -0.3, z0], [x0 + size, -0.3, z0], [x0 + size, -0.3, z0 + size], [x0, -0.3, z0 + size], rgb(PAL.ground));
   (d.land || []).forEach((l) => { const s = LAND[l.k]; if (s) polyFill(G, pairs(l.p), s[1], rgb(s[0])); });
   (d.water || []).forEach((w) => polyFill(G, pairs(w.p), -0.21, C.water));
   (d.rivers || []).forEach((r) => ribbon(G, pairs(r.p), r.w, -0.18, C.water));
@@ -227,5 +229,5 @@ export function meshChunk(d, meta, { lod = 0, hole = null, ci = 0, cj = 0, size 
   for (let i = 0; i < trees.length; i += 3) colliders.push({ t: 'circ', x: trees[i], z: trees[i + 1], r: 0.28 });
   for (let i = 0; i < lamps.length; i += 4) colliders.push({ t: 'circ', x: lamps[i], z: lamps[i + 1], r: 0.14 });
   const pack = (L) => ({ p: new Float32Array(L.p), n: new Float32Array(L.n), c: new Float32Array(L.c) });
-  return { ground: pack(G), solid: pack(S), facade: { ...pack(F), f: new Float32Array(F.f) }, colliders, trees, lamps, buildings: blds, pois: d.poi || [], stations: d.stations || [] };
+  return { base: pack(B), ground: pack(G), solid: pack(S), facade: { ...pack(F), f: new Float32Array(F.f) }, colliders, trees, lamps, buildings: blds, pois: d.poi || [], stations: d.stations || [] };
 }

@@ -4,7 +4,7 @@ import { paintAirport } from './airportmap.js';
 import * as THREE from 'three';
 import { areaOf, areaName, cityLabel } from './areas.js';
 import { createMenus } from './menus.js';
-import { CITY_LAND, CITY_W } from './citymap.js';
+import { CITY_LAND, CITY_W, loadCityMap } from './citymap.js';
 import { createNav, nearestOn, pathLength, pointAlong } from './nav.js';
 import { createTrail } from './trail.js';
 import { audioEngine, sfx } from './audio.js';
@@ -354,7 +354,7 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
   function drawCity(player, k) {
     const o = openWorld.offset, reach = 150, lands = [], waters = [], roads = [], blds = [], pois = [];
     openWorld.mapNear(player.x, player.z, reach, (m, col, ix, ps) => { lands.push(...m.land); waters.push(...m.water); roads.push(...m.roads); col.forEach((c) => c.t === 'poly' && blds.push(c.pts)); pois.push(...ps); });
-    if (!roads.length && !blds.length) return;
+    if (!roads.length && !blds.length) { drawWhole(o, k); return; }
     map.save(); map.translate(-o.x * k, -o.z * k);
     const flat = (p, close) => { map.beginPath(); for (let i = 0; i < p.length; i += 2) (i ? map.lineTo(p[i] * k, p[i + 1] * k) : map.moveTo(p[i] * k, p[i + 1] * k)); if (close) map.closePath(); };
     lands.forEach(([kind, p]) => { const c = CITY_LAND[kind]; if (!c) return; map.fillStyle = c; flat(p, true); map.fill(); });
@@ -367,6 +367,19 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     blds.forEach((pts) => { map.beginPath(); pts.forEach(([x, z], i) => (i ? map.lineTo(x * k, z * k) : map.moveTo(x * k, z * k))); map.closePath(); map.fill(); });
     // the city's places, in the district's colours: food, cafés, banks, fuel, the bus, shops, gyms
     pois.forEach((q) => { const c = CITY_POI[cityPoiKind(q.k)]; if (!c) return; map.fillStyle = '#fff'; map.beginPath(); map.arc(q.x * k, q.z * k, 6, 0, 7); map.fill(); map.fillStyle = c; map.beginPath(); map.arc(q.x * k, q.z * k, 4.2, 0, 7); map.fill(); });
+    map.restore();
+  }
+
+  // high in the air the streets under you are built without their map (openworld.js, far detail): draw them from the
+  // whole city's map instead (citymap.js), which the big map has loaded or soon will
+  let whole = null;
+  function drawWhole(o, k) {
+    if (whole === null) { whole = false; loadCityMap(openWorld.mapUrl).then((M) => { whole = M || false; }); }
+    if (!whole) return;
+    map.save(); map.scale(k, k); map.translate(-o.x, -o.z); map.lineCap = 'round'; map.lineJoin = 'round';
+    whole.land.forEach((P, kind) => { const c = CITY_LAND[kind]; if (c) { map.fillStyle = c; map.fill(P); } });
+    map.fillStyle = K.sea; map.fill(whole.water);
+    [['#c4a46c', 5], ['#f0deb0', 0]].forEach(([col, extra]) => { map.strokeStyle = col; whole.kinds.forEach(({ path, w }) => { map.lineWidth = Math.max(4 / k, w * 0.9) + extra / k; map.stroke(path); }); });
     map.restore();
   }
 
