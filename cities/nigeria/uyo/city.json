@@ -6,5 +6,12 @@
   "state": "Akwa Ibom State",
   "lat": 5.0377,
   "lon": 7.9128,
-  "tech": "Akwa Ibom's capital: a young developer community, new hubs and a state push into tech training."
+  "tech": "Akwa Ibom's capital: a young developer community, new hubs and a state push into tech training.",
+  "open": {
+    "south": 4.985,
+    "west": 7.86,
+    "north": 5.06,
+    "east": 7.955,
+    "chunk": 200
+  }
 }

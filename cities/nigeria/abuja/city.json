@@ -6,5 +6,12 @@
   "state": "Federal Capital Territory",
   "lat": 9.0765,
   "lon": 7.3986,
-  "tech": "The capital: govtech, a growing startup community and the federal agencies that regulate tech."
+  "tech": "The capital: govtech, a growing startup community and the federal agencies that regulate tech.",
+  "open": {
+    "south": 9.03,
+    "west": 7.4,
+    "north": 9.1,
+    "east": 7.52,
+    "chunk": 200
+  }
 }
