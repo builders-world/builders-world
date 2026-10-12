@@ -1,0 +1,21 @@
+{
+  "about": "The Outdoors app lists the city's beaches; going to the nearest puts you on the sand by the sea, with the sea and sand from the air. Run in Accra or Lagos (game.city/area, or --q).",
+  "game": { "city": "Accra", "area": "Osu" },
+  "steps": [
+    { "expect": "window.__bw.look.outdoors.beaches().length > 0", "name": "the city has beaches" },
+    { "log": "window.__bw.look.outdoors.beaches().map((b) => b.label + ' ' + Math.round(b.d) + ' m')" },
+    { "event": "bw:outdoors" },
+    { "wait": 500 },
+    { "shot": "outdoors-app-with-beach" },
+    { "click": "#lk-out [data-beach=\"0\"]" },
+    { "wait": 9000 },
+    { "log": "(() => { const b = window.__bw.look.outdoors.beaches()[0], p = window.__bw.player; return { at: [Math.round(p.x), Math.round(p.z)], toBeach: Math.round(Math.hypot(p.x - b.x, p.z - b.z)) }; })()" },
+    { "expect": "(() => { const b = window.__bw.look.outdoors.beaches()[0], p = window.__bw.player; return Math.hypot(p.x - b.x, p.z - b.z) < 80; })()", "name": "you are at the beach (within 80 m of the water's edge)" },
+    { "eval": "(() => { const b = window.__bw.look.outdoors.beaches()[0], c = window.__bw.cam; c.yaw = c.yawT = Math.atan2(-b.sea.x, -b.sea.z); })()" },
+    { "wait": 2500 },
+    { "shot": "on-the-sand" },
+    { "aerial": true, "dist": 500 },
+    { "shot": "beach-from-above" },
+    { "fps": 3000 }
+  ]
+}

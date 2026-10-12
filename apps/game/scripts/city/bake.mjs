@@ -73,11 +73,12 @@ function pointIndex(cell = 8) {
 }
 
 // ---------- 1. read the map ----------
-const els = [], land = [], water = [], rivers = [], pois = [], farWater = [], coast = [], SEA = 2500;
+const beaches = [];
+const els = [], land = [], water = [], rivers = [], pois = [], farWater = [], coast = [], beachAreas = [], SEA = 2500, SAND = 38;
 const LAND = { park: 'park', garden: 'park', recreation_ground: 'park', village_green: 'grass', grass: 'grass', meadow: 'grass', golf_course: 'golf',
   pitch: 'pitch', stadium: 'pitch', track: 'pitch', playground: 'park', cemetery: 'cemetery', grave_yard: 'cemetery', forest: 'wood', wood: 'wood',
   nature_reserve: 'wood', scrub: 'scrub', parking: 'paved', commercial: 'commercial', retail: 'commercial', industrial: 'industrial', railway: 'industrial',
-  residential: 'residential', construction: 'bare', brownfield: 'bare', farmland: 'grass', allotments: 'grass', school: 'campus', university: 'campus', college: 'campus', hospital: 'campus' };
+  residential: 'residential', beach: 'sand', sand: 'sand', beach_resort: 'sand', construction: 'bare', brownfield: 'bare', farmland: 'grass', allotments: 'grass', school: 'campus', university: 'campus', college: 'campus', hospital: 'campus' };
 const rl = createInterface({ input: createReadStream(new URL('osm.geojsonseq', cache)) });
 let nIn = 0;
 for await (let line of rl) {
@@ -108,6 +109,7 @@ for await (let line of rl) {
       if ((b.x1 - b.x0) * (b.z1 - b.z0) > 4e5) { const q = simplify(pz.slice(0, -1), 12); if (q.length >= 3 && Math.abs(area(q)) > 2e5) farWater.push(q.flatMap(([x, z]) => [Math.round(x), Math.round(z)])); }
       continue;
     }
+    if ((t.natural === 'beach' || t.leisure === 'beach_resort') && t.name) { const [cx, cz] = centroid(isArea ? pz : pz.length ? pz : [proj(...g.coordinates)]); if (inBox(cx, cz, 400)) beachAreas.push({ n: t.name, x: cx, z: cz }); }
     const k = isArea && (LAND[t.leisure] || LAND[t.landuse] || LAND[t.natural] || LAND[t.amenity]);
     if (k) land.push({ k, p: simplify(pz.slice(0, -1), 0.8), a: Math.abs(area(pz)) });
     // (a shop or office drawn as an area, without a building tag: its name still marks the place)
@@ -139,6 +141,10 @@ for await (let line of rl) {
   const walk = (from, to, dir) => { const out = []; const d = (t) => (((dir > 0 ? t - from : from - t) % P) + P) % P, span = d(to); corners.map(([t, c]) => [d(t), c]).filter(([u]) => u > 0 && u < span).sort((a, b) => a[0] - b[0]).forEach(([, c]) => out.push(c)); return out; };
   const inside = (pt, poly) => { let c = false; for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) { const [xi, zi] = poly[i], [xj, zj] = poly[j]; if ((zi > pt[1]) !== (zj > pt[1]) && pt[0] < ((xj - xi) * (pt[1] - zi)) / (zj - zi) + xi) c = !c; } return c; };
   let seas = 0;
+  // a coast whose data ends inside the rectangle (the map was cut a little past the box) is carried on straight from its
+  // last stretch until it is outside, so it can still be closed into the sea
+  const away = (p, q) => { const dx = p[0] - q[0], dz = p[1] - q[1], L = Math.hypot(dx, dz) || 1; return [p[0] + (dx / L) * 4 * SEA, p[1] + (dz / L) * 4 * SEA]; };
+  chains.forEach((ch) => { if (ch.length < 2 || (ch[0][0] === ch[ch.length - 1][0] && ch[0][1] === ch[ch.length - 1][1])) return; const k = Math.min(6, ch.length - 1); if (inR(ch[0])) ch.unshift(away(ch[0], ch[k])); if (inR(ch[ch.length - 1])) ch.push(away(ch[ch.length - 1], ch[ch.length - 1 - k])); });
   chains.forEach((ch) => {
     // the pieces of the coast inside the rectangle, each from one edge to another
     const pieces = []; let cur = null;
@@ -160,7 +166,32 @@ for await (let line of rl) {
       const q = simplify(sea, 12); farWater.push(q.flatMap(([x, z]) => [Math.round(x), Math.round(z)]));
     });
   });
-  if (coast.length) log(`the sea: ${coast.length} pieces of coast in ${chains.length} runs, ${seas} stretches of sea`);
+  // the sand along the open sea (Lagos and Accra are sand from end to end): a strip SAND metres wide on the land side of
+  // the coast (its left), as one four-cornered piece per stretch of coast and a wedge at each bend between them. (A strip
+  // drawn as one long outline crossed itself at sharp bends, could not be filled, and left stretches of grass.)
+  const segs = []; let strips = 0;
+  const put = (poly) => { land.push({ k: 'sand', p: poly.map(([x, z]) => [r1(x), r1(z)]), a: Math.abs(area(poly)) }); strips++; };
+  chains.forEach((ch) => {
+    const c = simplify(ch, 4); let prev = null;
+    for (let i = 1; i < c.length; i++) {
+      const a = c[i - 1], b = c[i];
+      if (!inBox(a[0], a[1], 300) || !inBox(b[0], b[1], 300)) { prev = null; continue; }
+      const L = Math.hypot(b[0] - a[0], b[1] - a[1]); if (L < 0.5) continue;
+      const nx = (b[1] - a[1]) / L, nz = -(b[0] - a[0]) / L; // the land side
+      put([a, b, [b[0] + nx * SAND, b[1] + nz * SAND], [a[0] + nx * SAND, a[1] + nz * SAND]]);
+      if (prev && prev.b === a) put([a, [a[0] + prev.nx * SAND, a[1] + prev.nz * SAND], [a[0] + nx * SAND, a[1] + nz * SAND]]); // the bend
+      prev = { b, nx, nz };
+      segs.push({ a, b, sx: -nx, sz: -nz });
+    }
+  });
+  // the beaches: the named ones (OpenStreetMap), else a stretch of the coast every 1.5 km; each with the way to the sea
+  const near = (x, z) => { let best = null, bd = Infinity; segs.forEach((s) => { const mx = (s.a[0] + s.b[0]) / 2, mz = (s.a[1] + s.b[1]) / 2, d = Math.hypot(mx - x, mz - z); if (d < bd) { bd = d; best = { ...s, mx, mz, d }; } }); return best; };
+  const byName = new Map(); beachAreas.forEach((q) => { if (!byName.has(q.n)) byName.set(q.n, q); }); // a beach mapped twice (its outline and its area) once
+  beaches.push(...[...byName.values()].map((q) => ({ ...q, s: near(q.x, q.z) })).filter((q) => q.s && q.s.d < 400).map((q) => [q.n, r1(q.s.mx), r1(q.s.mz), +q.s.sx.toFixed(3), +q.s.sz.toFixed(3)]));
+  const seen = new Set(beaches.map((q) => q[0]));
+  if (beaches.length < 2) { let acc = 0; segs.forEach((s) => { acc += Math.hypot(s.b[0] - s.a[0], s.b[1] - s.a[1]); if (acc > 1500 && inBox(s.b[0], s.b[1], 0)) { acc = 0; beaches.push([null, r1((s.a[0] + s.b[0]) / 2), r1((s.a[1] + s.b[1]) / 2), +s.sx.toFixed(3), +s.sz.toFixed(3)]); } }); }
+  void seen;
+  if (coast.length) log(`the sea: ${coast.length} pieces of coast in ${chains.length} runs, ${seas} stretches of sea, ${strips} strips of sand, ${beaches.length} beaches`);
 }
 log(`read ${nIn} features: ${els.length} ways and stations, ${land.length} land areas, ${water.length} water, ${rivers.length} rivers, ${pois.length} places`);
 
@@ -327,7 +358,7 @@ for (const [k, c] of [...chunks].sort()) {
   index.push([i, j, c.bld.length, Math.round(Math.max(0, ...c.bld.map((b) => b.h)))]);
 }
 for (const [t, body] of tiles) { const s = JSON.stringify(body); writeFileSync(new URL(`${t}.json`, out), s); bytes += s.length; }
-const meta = { version: 3, city: city.name, key, center: C0, chunk: CH, tile: TILE, drive: country.drive || 'right', box: { x0: r1(x0), z0: r1(z0), x1: r1(x1), z1: r1(z1) }, classes: CLASSES, ends: ENDS, names, chunks: index, far: { water: farWater },
+const meta = { version: 3, city: city.name, key, center: C0, chunk: CH, tile: TILE, drive: country.drive || 'right', box: { x0: r1(x0), z0: r1(z0), x1: r1(x1), z1: r1(z1) }, classes: CLASSES, ends: ENDS, names, chunks: index, far: { water: farWater }, beaches,
   counts: { buildings: blds.length, segments: net.segs.length, junctions: net.junctions.length, roundabouts: net.islands.length, lamps: lamps.length, trees: trees.length, places: pois.length },
   sources: 'Map data © OpenStreetMap contributors (ODbL); building heights partly GHS-BUILT-H 2018, European Commission JRC (CC BY 4.0)' };
 writeFileSync(new URL('index.json', out), JSON.stringify(meta)); bytes += JSON.stringify(meta).length;

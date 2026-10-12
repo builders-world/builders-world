@@ -10,6 +10,7 @@ import { nameFor } from '../knowledge.js';
 import { walletEngine, effortsMark, fmt } from '../wallet.js';
 import { sfx } from '../audio.js';
 import { C, FONT } from '../uikit.js';
+import { regionOf } from '../areas.js';
 
 const FEE = { tandem: 1500, solo: 800, arch18: 400, arch30: 500, boulder: 300 };
 const SOON = ['Hiking', 'Mountain biking', 'Paragliding', 'Bungee'];
@@ -104,13 +105,35 @@ export function createRecreation(o) {
         <button class="go" data-k="arch30" ${lessons() ? '' : 'disabled'}>${effortsMark(12)}${fmt(FEE.arch30)}</button></div>
       <div class="act"><div class="t"><b>Bouldering</b><small>${climbCoach.name} runs a wall in the park: four problems, V0 to V3, mats below.</small></div>
         <button class="go" data-k="boulder">${effortsMark(12)}${fmt(FEE.boulder)}</button></div>
+      ${(() => { const bs = beachList().slice(0, 3); return bs.length ? `<div class="act"><div class="t"><b>The beach</b><small>Free. ${bs.map((b, i) => `<a href="#" data-beach="${i}" style="color:${C.teal};font-weight:800">${b.label}</a> (${(b.d / 1000).toFixed(1)} km)`).join(' · ')}</small></div></div>` : ''; })()}
       <div class="soon">${SOON.map((s) => `<span>${s}: coming</span>`).join('')}</div></div>`;
     panel.querySelector('.x').onclick = close;
     panel.onclick = (e) => { if (e.target === panel) close(); };
     panel.querySelectorAll('button[data-k]').forEach((b) => { b.onclick = () => book(b.dataset.k); });
+    const bs = beachList(); panel.querySelectorAll('[data-beach]').forEach((a) => { a.onclick = (e) => { e.preventDefault(); toBeach(bs[+a.dataset.beach]); }; });
     panel.classList.add('on');
   }
   function close() { panel.classList.remove('on'); }
+
+  // the city's beaches (the open city's bake: the named ones, else stretches of the coast), nearest first; one per name,
+  // the unnamed called after the area they are in ("The beach at Victoria Island")
+  function beachList() {
+    const B = o.openWorld?.active ? o.openWorld.beaches?.() || [] : [];
+    const c = o.world.center || { lat: 0, lon: 0 }, kx = 111320 * Math.cos((c.lat * Math.PI) / 180), P = o.getPlayer?.() || { x: 0, z: 0 };
+    const areas = regionOf(o.world.place?.city)?.areas || [];
+    const named = B.map((b) => {
+      const lat = c.lat - b.z / 110574, lon = c.lon + b.x / kx;
+      const near = areas.map((a) => [a, (a.lat - lat) ** 2 + ((a.lon - lon) * Math.cos((lat * Math.PI) / 180)) ** 2]).sort((p, q) => p[1] - q[1])[0]?.[0];
+      return { ...b, label: b.name || `The beach at ${near?.area || o.world.place?.city || 'the coast'}`, d: Math.hypot(b.x - P.x, b.z - P.z) };
+    }).sort((a, b) => a.d - b.d);
+    const seen = new Set(); return named.filter((b) => !seen.has(b.label) && seen.add(b.label));
+  }
+  function toBeach(b) {
+    close();
+    // onto the sand (the coast's line is the water's edge; the sand runs inland of it), facing the sea
+    dispatchEvent(new CustomEvent('bw:jumpto', { detail: { x: b.x - b.sea.x * 14, z: b.z - b.sea.z * 14, name: b.label, quick: true } }));
+    toast(`${b.label}. ${o.world.place?.city === 'Accra' ? 'Coconut sellers along the sand, a football game further down.' : 'Horses for hire, suya smoke, music from the bars.'}`, 3600);
+  }
 
   function book(kind) {
     if (jump) return;
@@ -176,7 +199,7 @@ export function createRecreation(o) {
     get playing() { return jump?.phase || null; },
     get jump() { return jump; },
     get isOpen() { return panel.classList.contains('on'); },
-    open, close, book, target, guide,
+    open, close, book, target, guide, beaches: beachList, toBeach,
     dispose() { removeEventListener('bw:outdoors', open); jump?.finish({ aborted: true }); panel.remove(); style.remove(); },
   };
 }

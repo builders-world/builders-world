@@ -23,6 +23,7 @@ const LAND = {
   park: ['#86c25e', -0.24], grass: ['#8cc463', -0.24], golf: ['#7cbf55', -0.24], pitch: ['#6fb14f', -0.24], cemetery: ['#9db57e', -0.24],
   wood: ['#5e9a48', -0.24], scrub: ['#8fae62', -0.24], campus: ['#93c66a', -0.27], paved: ['#aaa395', -0.27], commercial: ['#b3ab9b', -0.27],
   industrial: ['#aba292', -0.27], bare: ['#c9a77c', -0.27], residential: null,
+  sand: ['#ecd7a4', -0.232], // the beach: over the grass and the parks, under the water
 };
 // the clay palette (world bible 7.1): ivory, cream, stone, mint and peach plaster; shops add a coloured fascia
 const WALLS = ['#f2ecd9', '#e6d3b3', '#ded8c8', '#e9c9a8', '#cfd9c8', '#f0e2c6', '#e8dcc4', '#d9d2c0'];
