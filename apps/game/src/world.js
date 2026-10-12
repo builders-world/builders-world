@@ -321,9 +321,13 @@ export function buildWorld(manifest, via, theme = 'night', kit = null) {
     const neg = half.map((h) => -h);
     if (roadClass(r.cls).kind === 'estate') {
       const e = half.map((h) => Math.max(0.2, h - 0.38));
-      band(paverTris, pts, nrm, e.map((x) => -x), e, 0.14, pushTri);
-      band(paverEdgeTris, pts, nrm, e, half, 0.14, pushTri); band(paverEdgeTris, pts, nrm, neg, e.map((x) => -x), 0.14, pushTri);
-      let acc = 3.5; for (let i = 0; i < pts.length - 1; i++) { const L = Math.hypot(pts[i + 1][0] - pts[i][0], pts[i + 1][1] - pts[i][1]); if (L < 0.01) continue; const tx = (pts[i + 1][0] - pts[i][0]) / L, tz = (pts[i + 1][1] - pts[i][1]) / L; for (let s = (7 - acc % 7) % 7; s < L; s += 7) { const cx = pts[i][0] + tx * s, cz = pts[i][1] + tz * s, h = half[i]; ribbon(paverBandTris, [[cx - tz * h, cz + tx * h], [cx + tz * h, cz - tx * h]], 0.32, 0.165); } acc += L; }
+      // the blocks stop where the lane runs into another road: laid over its asphalt at the same height, the two
+      // surfaces fought for the same pixels and flickered as the camera moved (Elvis's video, 12 October 2026). They
+      // also sit a centimetre below the asphalt, so the road always wins the little overlap left at the corner.
+      const pushPaver = (out, A, B, Cc) => { if (!otherRoadAt((A[0] + B[0] + Cc[0]) / 3, (A[2] + B[2] + Cc[2]) / 3, r)) pushTri(out, A, B, Cc); };
+      band(paverTris, pts, nrm, e.map((x) => -x), e, 0.13, pushPaver);
+      band(paverEdgeTris, pts, nrm, e, half, 0.13, pushPaver); band(paverEdgeTris, pts, nrm, neg, e.map((x) => -x), 0.13, pushPaver);
+      let acc = 3.5; for (let i = 0; i < pts.length - 1; i++) { const L = Math.hypot(pts[i + 1][0] - pts[i][0], pts[i + 1][1] - pts[i][1]); if (L < 0.01) continue; const tx = (pts[i + 1][0] - pts[i][0]) / L, tz = (pts[i + 1][1] - pts[i][1]) / L; for (let s = (7 - acc % 7) % 7; s < L; s += 7) { const cx = pts[i][0] + tx * s, cz = pts[i][1] + tz * s, h = half[i]; if (otherRoadAt(cx, cz, r)) continue; ribbon(paverBandTris, [[cx - tz * h, cz + tx * h], [cx + tz * h, cz - tx * h]], 0.32, 0.165); } acc += L; }
     } else band(roadTris, pts, nrm, neg, half, 0.14, pushTri);
     band(kerbTris, pts, nrm, half, half.map((h, i) => h + paveL[i]), 0.11, pushTri);
     band(kerbTris, pts, nrm, half.map((h, i) => -h - paveR[i]), neg, 0.11, pushTri);
