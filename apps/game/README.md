@@ -59,7 +59,7 @@ Built with three.js and Vite. There are no game engines, downloads or plug-ins: 
   - by hired danfo, keke or taxi, as a passenger or driving yourself (with a licence);
   - by taxi to another area of the city, or by plane to another city.
 - **Pets:** adopt a dog or a cat, name it, play fetch, or walk around as your dog.
-- **The map:** zoom from your street out to Nigeria and Africa, with quick travel, distances, services and residents.
+- **The map:** your street, filling the screen, with the city's other areas named at the edges; zoom out to a world map you can drag round the globe, with every city in the [`cities/`](../../cities) folder: the live ones to travel to, the rest coming later.
 
 ### Work and community
 - **Hubs, a co-working loft, a design studio, cafés, a gym and a bank**, each with its own interior. Sit at a desk and open your laptop.
@@ -132,6 +132,7 @@ Open the printed address for the onboarding, or add `?world=1` to go straight in
   - `menus.js` (phone, map, bag, wallet, settings), `hud.js`, `weather.js` and `sun.js`;
   - `quality.js`, `stream.js` and `batch.js` (performance).
 - `src/onboarding/` is the arrivals journey.
+- The countries and cities come from `cities/` at the top of the repository, through the `@cities` alias (`src/look/citydirectory.js`). `tests/cities.test.js` checks every file there.
 - `public/data/` holds the baked city areas. `scripts/fetch-osm.mjs` bakes a new one.
 - Shared rules for every city, its own look per city: anything systemic (traffic, zoning, physics, UI) applies to every city, while architecture and flavour are set per city in `src/look/cityinfo.js` and `areas.js`.
 
@@ -152,9 +153,13 @@ In production, Vercel forwards `/api` to the gateway (`vercel.json`). The gatewa
 
 ## Deploying
 
-The live site is the `main` branch on Vercel:
+The live site is the `main` branch on Vercel. The game reads `cities/` from the top of the repository, so Vercel builds
+from the repository root with its Root Directory set to `apps/game` (Project Settings, Build and Deployment). Deploy from
+the root:
 
     vercel deploy --prod --build-env VITE_API_URL=https://<gateway domain>
+
+The root `.vercelignore` uploads only `apps/game` and `cities`.
 
 `railway.json` and `server.mjs` also serve the build on Railway.
 

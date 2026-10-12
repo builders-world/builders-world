@@ -1,0 +1,14 @@
+# Deploys go from the repository root, with Vercel's Root Directory set to apps/game (apps/game/README.md).
+# Upload only what the game's build needs: the game itself and the cities it reads.
+/*
+!/apps
+/apps/*
+!/apps/game
+!/cities
+/apps/game/node_modules
+/apps/game/dist
+/apps/game/artifacts
+/apps/game/tests
+/apps/game/i*.png
+/apps/game/.env*
+/apps/game/.vercel

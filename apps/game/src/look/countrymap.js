@@ -1,5 +1,7 @@
 import WORLD from './world.json';
 import { AIRPORTS, km, flightMinutes } from './travelrules.js';
+import { CITIES, LIVE } from './citydirectory.js';
+import { kmBetween } from './areas.js';
 
 // The map, zoomed out past the district (Elvis, 10 and 11 October 2026: "zoom out and see Nigeria, then move to other
 // countries ... I should be able to pan around the globe. So even if those regions are not yet unlocked, I should be able
@@ -9,14 +11,9 @@ import { AIRPORTS, km, flightMinutes } from './travelrules.js';
 // far it is and to travel there. Countries are Natural Earth's 1:50m boundaries (public domain, via world-atlas),
 // simplified (world.json).
 
-export const CITY_PINS = {
-  Lagos: { lat: 6.5244, lon: 3.3792, state: 'Lagos State', country: 'Nigeria' },
-  Abuja: { lat: 9.0765, lon: 7.3986, state: 'Federal Capital Territory', country: 'Nigeria' },
-  'Port Harcourt': { lat: 4.8156, lon: 7.0498, state: 'Rivers State', country: 'Nigeria' },
-  Uyo: { lat: 5.0377, lon: 7.9128, state: 'Akwa Ibom State', country: 'Nigeria', label: 'Uyo (Akwa Ibom)' },
-  Accra: { lat: 5.6037, lon: -0.187, state: 'Greater Accra', country: 'Ghana' },
-  Nairobi: { lat: -1.2921, lon: 36.8219, state: 'Nairobi County', country: 'Kenya' },
-};
+// the cities you can play, from cities/<country>/<city>/city.json (citydirectory.js); the planned ones are drawn too
+export const CITY_PINS = Object.fromEntries(Object.entries(LIVE).map(([key, c]) => [key, { lat: c.lat, lon: c.lon, state: c.state, country: c.country.mapName || c.country.name, label: c.label !== c.name ? c.label : undefined }]));
+const PLANNED = CITIES.filter((c) => c.status !== 'live');
 const OPEN = new Set(Object.values(CITY_PINS).map((c) => c.country));
 const FONT = '"Baloo 2", ui-rounded, system-ui, sans-serif';
 const TILE = 256, MINZ = 1, MAXZ = 7.2;
@@ -84,28 +81,54 @@ export function drawWorldMap(g, w, h, v, { here = 'Lagos', pick = null, dpr = 1 
     g.fillText(c.name.toUpperCase(), x, y - (open && zc >= 3.4 ? 34 * dpr : 0)); // above the city names
     if (!open && wpx > 160 * dpr) { g.font = `600 ${11 * dpr}px ${FONT}`; g.fillStyle = 'rgba(59,42,32,.32)'; g.fillText('coming later', x, y + fs * 0.9); }
   }));
-  // the cities you can go to
-  const pins = [];
+  // the cities you can go to, laid out first so the names of the cities still to come keep clear of theirs
+  const pins = [], placed = [], live = [];
   copies.forEach((x0) => Object.entries(CITY_PINS).forEach(([name, c]) => {
     const x = x0 + lonPx(c.lon), y = oy + latPx(c.lat); if (x < -20 || x > w + 20 || y < -20 || y > h + 20) return;
-    const mine = name === here, sel = pick === name, r = (mine ? 10 : 7) * dpr;
+    const mine = name === here, sel = pick === name, r = (mine ? 10 : 7) * dpr, L = { name, c, x, y, r, mine, sel };
+    placed.push([x - r * 1.6, y - r * 1.6, r * 3.2, r * 3.2]);
+    // names once there is room for them (the southern Nigerian cities sit close together)
+    const crowded = zc < 5 && ['Port Harcourt', 'Uyo'].includes(name) && !mine && !sel;
+    if (!((zc < 3.4 && !mine && !sel) || crowded)) {
+      L.label = c.label || name; g.font = `800 ${14 * dpr}px ${FONT}`; L.tw = g.measureText(L.label).width;
+      const left = name === 'Port Harcourt' || name === 'Accra', down = name === 'Port Harcourt' ? 1 : name === 'Uyo' ? -1 : 0;
+      L.lx = left ? x - r - 8 * dpr - L.tw : x + r + 8 * dpr; L.ly = y + down * 15 * dpr;
+      placed.push([L.lx - 6 * dpr, L.ly - (mine && zc >= 3.4 ? 30 : 12) * dpr, L.tw + 12 * dpr, (mine && zc >= 3.4 ? 42 : 24) * dpr]);
+    }
+    live.push(L);
+  }));
+  // the cities still to come: small open rings, named once there is room (Elvis: "even if those regions are not yet
+  // unlocked, I should be able to at least see them")
+  const hits = (a) => placed.some((b) => a[0] < b[0] + b[2] && b[0] < a[0] + a[2] && a[1] < b[1] + b[3] && b[1] < a[1] + a[3]);
+  copies.forEach((x0) => PLANNED.forEach((c) => {
+    const x = x0 + lonPx(c.lon), y = oy + latPx(c.lat); if (x < -20 || x > w + 20 || y < -20 || y > h + 20) return;
+    const sel = pick === c.slug, r = (sel ? 6 : 4.5) * dpr;
+    g.fillStyle = sel ? '#2a9d94' : '#fffaf0'; g.strokeStyle = sel ? '#fff' : 'rgba(59,42,32,.7)'; g.lineWidth = 2 * dpr; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill(); g.stroke();
+    pins.push({ name: c.slug, planned: c, x, y, r: Math.max(16 * dpr, r * 2.5) });
+    if (zc < 4.2) return;
+    g.font = `700 ${11.5 * dpr}px ${FONT}`; const tw = g.measureText(c.name).width;
+    // to the right of the ring if there is room, else to the left
+    const boxes = [[x + r + 1 * dpr, y - 9 * dpr, tw + 8 * dpr, 18 * dpr], [x - r - 9 * dpr - tw, y - 9 * dpr, tw + 8 * dpr, 18 * dpr]], box = boxes.find((bx) => !hits(bx));
+    if (!box) return;
+    placed.push(box); g.fillStyle = 'rgba(247,239,220,.8)'; g.beginPath(); g.roundRect(...box, 7 * dpr); g.fill();
+    g.fillStyle = 'rgba(59,42,32,.75)'; g.textAlign = 'left'; g.fillText(c.name, box[0] + 4 * dpr, y + 1 * dpr); g.textAlign = 'center';
+  }));
+  live.forEach(({ name, x, y, r, mine, sel, label, lx, ly, tw }) => {
     if (mine) { g.fillStyle = 'rgba(228,111,79,.25)'; g.beginPath(); g.arc(x, y, r * 2.4, 0, 7); g.fill(); }
     g.fillStyle = mine ? '#e46f4f' : sel ? '#2a9d94' : '#3b2a20'; g.strokeStyle = '#fff'; g.lineWidth = 3 * dpr; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill(); g.stroke();
     pins.push({ name, x, y, r: Math.max(20 * dpr, r * 2) });
-    // names once there is room for them (the southern Nigerian cities sit close together)
-    const crowded = zc < 5 && ['Port Harcourt', 'Uyo'].includes(name) && !mine && !sel; if ((zc < 3.4 && !mine && !sel) || crowded) return;
-    const label = c.label || name; g.font = `800 ${14 * dpr}px ${FONT}`; const tw = g.measureText(label).width;
-    const left = name === 'Port Harcourt' || name === 'Accra', down = name === 'Port Harcourt' ? 1 : name === 'Uyo' ? -1 : 0;
-    const lx = left ? x - r - 8 * dpr - tw : x + r + 8 * dpr, ly = y + down * 15 * dpr;
-    g.fillStyle = 'rgba(247,239,220,.92)'; g.beginPath(); g.roundRect(lx - 6 * dpr, ly - 12 * dpr, tw + 12 * dpr, 24 * dpr, 8 * dpr); g.fill();
+    if (!label) return;
+    g.font = `800 ${14 * dpr}px ${FONT}`; g.fillStyle = 'rgba(247,239,220,.92)'; g.beginPath(); g.roundRect(lx - 6 * dpr, ly - 12 * dpr, tw + 12 * dpr, 24 * dpr, 8 * dpr); g.fill();
     g.fillStyle = '#3b2a20'; g.textAlign = 'left'; g.fillText(label, lx, ly + 1 * dpr); g.textAlign = 'center';
     if (mine && zc >= 3.4) { g.font = `700 ${11 * dpr}px ${FONT}`; g.fillStyle = '#e46f4f'; g.textAlign = 'left'; g.fillText('You are here', lx, ly - 20 * dpr); g.textAlign = 'center'; }
-  }));
+  });
   return { pins, zoom: z, minZoom: minZoom(h), maxZoom: maxZoom(dpr) };
 }
 
 /** What a tap on a city says: how far, how long by air, and what you can do. */
 export function cityCard(name, here) {
+  const p = PLANNED.find((q) => q.slug === name);
+  if (p) { const me = CITY_PINS[here] || CITY_PINS.Lagos, d = Math.round(kmBetween(me, p)); return { title: p.name, sub: p.country.name, line: `Coming later · ${d.toLocaleString('en-US')} km away`, about: p.tech, action: null }; }
   const c = CITY_PINS[name]; if (!c) return null;
   if (name === here) return { title: name, sub: `${c.state}, ${c.country}`, line: 'You are here. The other areas of the city are a taxi ride away.', action: 'Around the city' };
   const d = Math.round(km(here, name)), mins = flightMinutes(here, name), intl = (AIRPORTS[here]?.country || 'Nigeria') !== c.country;
