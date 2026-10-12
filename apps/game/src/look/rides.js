@@ -6,6 +6,8 @@ import { nearestOn, pathLength, pointAlong } from './nav.js';
 import { pushOutDynamic } from './physics.js';
 import { walletEngine, effortsMark, fmt } from './wallet.js';
 import { cityInfo } from './cityinfo.js';
+import { regionOf, areaOf, areaName, areaFare } from './areas.js';
+import { loadCityMap, streetNear } from './citymap.js';
 
 // fares in Efforts: a danfo is cheapest, a taxi to yourself dearest, the keys dearer still
 const FARE = { danfo: 300, keke: 500, taxi: 1500 }, DRIVE_EXTRA = 500;
@@ -68,7 +70,7 @@ function stopSign(M, kind) {
   return g;
 }
 
-export function createRides({ world, scene, nav, props, reduced, toast, onState, getBodies, licence = null }) {
+export function createRides({ world, scene, nav, props, reduced, toast, onState, getBodies, licence = null, openWorld = null }) {
   // driving yourself needs a driver's licence in the bag (licence.js); without one you ride as a passenger
   const licensed = () => !licence || licence.has();
   if (cityInfo().rides?.danfo?.name) TYPES.danfo.name = cityInfo().rides.danfo.name;
@@ -124,6 +126,7 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
     #lkr.on { display: block; }
     #lkr h3 { margin: 0 0 4px; font: 800 24px/1.1 "Baloo 2", ui-rounded, system-ui, sans-serif; }
     #lkr .sub { color: #7a6552; font-size: 13px; margin-bottom: 12px; }
+    #lkr svg { display: inline-block; margin-right: 2px; } /* the Efforts mark beside its amount, not on a line of its own */
     #lkr .lkr-lbl { font: 800 14px/1 "Baloo 2", ui-rounded, system-ui, sans-serif; color: #2a9d94; margin: 14px 0 7px; }
     #lkr .opts { display: grid; gap: 6px; }
     #lkr button { border: 0; border-radius: 16px; padding: 11px 14px; text-align: left; background: #efe2c4; color: #3b2a20; font: 700 14px/1.2 "Baloo 2", ui-rounded, system-ui, sans-serif; cursor: pointer; }
@@ -137,7 +140,58 @@ export function createRides({ world, scene, nav, props, reduced, toast, onState,
   const body = panel.querySelector('.body');
 
   let choice = null; // { kind, from, dest, mode }
+  // ---------- out in the open city: a ride is quick travel (Elvis, 12 October 2026: one continuous city, "taxis stay as
+  // quick travel"). The driver takes you to an area of the city, a landmark (scripts/city/overview.mjs places) or back
+  // to your district, and you pay by the distance ----------
+  const CITY_KIND = { 'shop:mall': 'Mall', marketplace: 'Market', bus_station: 'Bus station', ferry_terminal: 'Ferry terminal', hospital: 'Hospital', university: 'University', college: 'College', hotel: 'Hotel', cinema: 'Cinema', arts_centre: 'Arts centre', museum: 'Museum', sports_centre: 'Sports centre', stadium: 'Stadium', library: 'Library', townhall: 'Town hall', courthouse: 'Court', embassy: 'Embassy', station: 'Railway station' };
+  const cityFare = (kind, km) => Math.max(FARE[kind], Math.round((areaFare(km) * { taxi: 1, keke: 0.55, danfo: 0.3 }[kind]) / 50) * 50);
+  const outside = (from) => openWorld?.active && Math.hypot(from.x, from.z) > world.radius * 0.95;
+  function cityDests(from, M) {
+    const o = openWorld.offset, c = world.center, kx = 111320 * Math.cos((c.lat * Math.PI) / 180), out = [];
+    const inBox = (x, z) => x + o.x > M.box.x0 && x + o.x < M.box.x1 && z + o.z > M.box.z0 && z + o.z < M.box.z1;
+    // set down on the pavement of the nearest street (citymap.js streetNear), not in the middle of a building
+    const kerb = (x, z) => { const s = streetNear(M, x + o.x, z + o.z, 150); return s ? { x: s.side.x - o.x, z: s.side.z - o.z } : { x, z }; };
+    const km = (x, z) => Math.hypot(x - from.x, z - from.z) / 1000;
+    const mine = areaOf(world.place?.city, world.place?.name);
+    out.push({ name: areaName(mine) || world.place?.name || 'Your district', sub: 'Your district', x: 0, z: 0, km: km(0, 0) });
+    (regionOf(world.place?.city)?.areas || []).forEach((a) => {
+      if (a === mine || a.lat == null) return;
+      const x = (a.lon - c.lon) * kx, z = -(a.lat - c.lat) * 110574;
+      if (inBox(x, z)) out.push({ name: areaName(a), sub: 'Area', ...kerb(x, z), km: km(x, z) });
+    });
+    (M.places || []).map(([k, n, x, z]) => ({ k, n, x: x - o.x, z: z - o.z })).map((q) => ({ ...q, d: km(q.x, q.z) })).filter((q) => q.d > 0.25 && CITY_KIND[q.k])
+      .sort((a, b) => a.d - b.d).slice(0, 10).forEach((q) => out.push({ name: q.n, sub: CITY_KIND[q.k], ...kerb(q.x, q.z), km: q.d }));
+    return out;
+  }
+  function openCity(from) {
+    choice = { kind: 'taxi', from, city: true, dest: null, dests: [], mode: 'passenger' };
+    body.innerHTML = '<h3>Hire a ride</h3><div class="sub">Finding a driver near you…</div>';
+    panel.classList.add('on'); onState?.({ menu: true });
+    loadCityMap(openWorld.mapUrl).then((M) => {
+      if (!M || choice?.from !== from) { if (!M) { closePanel(); toast('No drivers out here right now. Walk back towards your district.'); } return; }
+      choice.dests = cityDests(from, M); choice.dest = choice.dests[0]; renderCity();
+    });
+  }
+  function renderCity() {
+    const kinds = ['taxi', 'keke', 'danfo'].filter((k) => cityInfo().rides?.[k] !== null), d = choice.dest, fare = cityFare(choice.kind, d.km);
+    const km = (v) => (v < 1 ? `${Math.round(v * 1000 / 50) * 50} m` : `${v.toFixed(1)} km`);
+    body.innerHTML = `<h3>Hire a ride</h3><div class="sub">You have ${effortsMark(13)}${fmt(walletEngine().balance())}. A driver takes you across the city.</div>
+      <div class="lkr-lbl">Vehicle</div><div class="row">${kinds.map((k) => `<button data-k="${k}" class="${choice.kind === k ? 'sel' : ''}">${TYPES[k].name}<br><small>${effortsMark(11)}${fmt(cityFare(k, d.km))}</small></button>`).join('')}</div>
+      <div class="lkr-lbl">Where to</div><div class="opts">${choice.dests.map((p, i) => `<button data-d="${i}" class="${d === p ? 'sel' : ''}">${p.name}<br><small>${p.sub} · ${km(p.km)}</small></button>`).join('')}</div>
+      <button class="go">Call the ride · ${effortsMark(14)}${fmt(fare)}</button>
+      <button class="x" style="margin-top:6px;width:100%;text-align:center">Cancel</button>`;
+    body.querySelectorAll('[data-k]').forEach((b) => { b.onclick = () => { choice.kind = b.dataset.k; renderCity(); }; });
+    body.querySelectorAll('[data-d]').forEach((b) => { b.onclick = () => { choice.dest = choice.dests[+b.dataset.d]; renderCity(); }; });
+    body.querySelector('.go').onclick = () => {
+      if (!walletEngine().spend(fare, `${TYPES[choice.kind].name} to ${d.name}`)) { toast('Not enough Efforts for this ride. Push some commits and come back.'); return; }
+      closePanel(); toast(`Your ${TYPES[choice.kind].name.toLowerCase()} takes you to ${d.name}.`, 2400);
+      dispatchEvent(new CustomEvent('bw:jumpto', { detail: { x: d.x, z: d.z, name: d.name, quick: true } }));
+    };
+    body.querySelector('.x').onclick = closePanel;
+  }
+
   function openPanel(kind, from) {
+    if (from?.app && outside(from)) { openCity(from); return; }
     const places = (props.places || []).filter(Boolean);
     choice = { kind, from, dest: places[0] || null, mode: 'passenger' };
     render();

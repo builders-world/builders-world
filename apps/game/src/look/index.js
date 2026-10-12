@@ -423,7 +423,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   const licenceDoor = () => doors.find((d) => d.key === 'licensing')?.at || null;
   rides = createRides({ world, scene: group, nav: hud.nav, props, reduced, toast: hud.toast,
     licence: { has: () => !!licenceOf(passes), office: () => PLACES.licensing.name, route: () => { const at = licenceDoor(); if (at) hud.setRoute(at, PLACES.licensing.name); return !!at; } }, getBodies: () => [...(props.bodies?.() || []), ...(dressing?.bodies?.() || [])],
-    onState: (st) => { if (st.ride === false && st.exitAt) pendingExit = st.exitAt; } });
+    onState: (st) => { if (st.ride === false && st.exitAt) pendingExit = st.exitAt; }, openWorld });
   const civic = buildCivic(world, group, { rides });
   // every place you can go and do something, for the map's icons and "find the nearest" (world bible 11.3)
   props.pois = [

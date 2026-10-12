@@ -25,25 +25,29 @@ function simplify(p, tol) {
   return out;
 }
 const area = (p) => { let a = 0; for (let i = 0, n = p.length / 2; i < n; i++) { const j = (i + 1) % n; a += p[i * 2] * p[j * 2 + 1] - p[j * 2] * p[i * 2 + 1]; } return Math.abs(a / 2); };
+// the places a taxi can take you to across the city (look/rides.js): the landmarks, not every shop
+const DEST = new Set(['shop:mall', 'marketplace', 'bus_station', 'ferry_terminal', 'hospital', 'university', 'college', 'hotel', 'cinema', 'arts_centre', 'museum', 'sports_centre', 'stadium', 'library', 'townhall', 'courthouse', 'embassy', 'station']);
 const LAND = new Set(['park', 'grass', 'golf', 'pitch', 'cemetery', 'wood', 'scrub', 'campus', 'commercial', 'industrial']);
 
 export function overview(dir) {
   const index = JSON.parse(readFileSync(new URL('index.json', dir), 'utf8'));
   const service = index.classes.indexOf('service');
-  const roads = [], land = [], water = [];
+  const roads = [], land = [], water = [], places = [], seen = new Set();
   for (const f of readdirSync(dir)) {
     if (!/^-?\d+_-?\d+\.json$/.test(f)) continue;
     const d = JSON.parse(readFileSync(new URL(f, dir), 'utf8'));
     (d.segs || []).forEach((q) => { if (q.c === service) return; const p = simplify(q.p, 1.5); if (p.length >= 4) roads.push([q.c, q.n ?? -1, p]); });
     (d.land || []).forEach((l) => { if (!LAND.has(l.k)) return; const p = simplify(l.p, 3); if (p.length >= 6 && area(p) > 600) land.push([l.k, p]); });
+    (d.poi || []).forEach((q) => { if (!DEST.has(q.k) || !q.n || seen.has(q.n) || /^(department|faculty|school of|lecture|room|block|wing|ward)\b/i.test(q.n)) return; seen.add(q.n); places.push([q.k, q.n, Math.round(q.x), Math.round(q.z)]); });
+    (d.stations || []).forEach((q) => { if (!q.n || seen.has(q.n)) return; seen.add(q.n); places.push(['station', q.n, Math.round(q.x), Math.round(q.z)]); });
     (d.water || []).forEach((w) => { const p = simplify(w.p, 2); if (p.length >= 6 && area(p) > 100) water.push(p); });
   }
   roads.sort((a, b) => b[0] - a[0]); // the small streets first, so the big ones are drawn over them
-  const body = { version: 1, city: index.city, box: index.box, chunk: index.chunk, classes: index.classes, names: index.names, roads, land, water };
+  const body = { version: 1, city: index.city, box: index.box, chunk: index.chunk, classes: index.classes, names: index.names, roads, land, water, places };
   const delta = (p) => p.map((v, i) => (i < 2 ? v : v - p[i - 2]));
   body.roads = roads.map(([c, n, p]) => [c, n, delta(p)]); body.land = land.map(([k, p]) => [k, delta(p)]); body.water = water.map(delta);
   const s = JSON.stringify(body); writeFileSync(new URL('map.json', dir), s);
-  return { bytes: s.length, roads: roads.length, land: land.length, water: water.length };
+  return { bytes: s.length, places: places.length, roads: roads.length, land: land.length, water: water.length };
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
