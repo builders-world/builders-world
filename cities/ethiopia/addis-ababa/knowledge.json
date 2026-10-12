@@ -1,0 +1,64 @@
+{
+  "street": { "am": 0.8, "en": 0.2 },
+  "registers": {},
+  "names": { "weights": { "amhara": 0.5, "oromo": 0.35, "tigrayan": 0.15 } },
+  "phrases": {},
+  "chat": {
+    "en": {
+      "greet": ["Good morning! How are you?", "Hello, how is the family?", "Hi! Long time, where have you been?", "Good afternoon, how's work?", "Hey! Coffee later?"],
+      "reply": ["I'm fine, thank you.", "All good, and you?", "Fine, fine, just busy.", "Very well, thanks.", "Doing well, no complaints."],
+      "sunny": ["Lovely sunny day in Addis.", "Bright sun, but the air is still cool.", "Nice day to sit outside with a macchiato.", "The sun up here is strong, wear a hat.", "Clear skies over Entoto today."],
+      "rain": ["Kiremt is here, carry an umbrella.", "It's pouring, the taxi lines will be long.", "Heavy rain again this afternoon.", "Wait for the rain to stop before you walk to Piassa.", "The roads are muddy after that rain."],
+      "bye": ["Ciao, see you later!", "Bye, take care!", "See you tomorrow!", "Have a good evening!", "Greet everyone at home."],
+      "busy": ["Sorry, I'm late, the light rail was full.", "I'm rushing to a meeting in Bole.", "Let me catch this taxi, talk later.", "Busy day, let's get coffee tomorrow.", "Can't stop now, I'll call you."]
+    },
+    "am": {
+      "greet": ["Selam! Endet neh?", "Selam new?", "Tena yistilign!", "Endemin aderk?", "Endet nesh, ehite?"],
+      "reply": ["Dehna negn, ameseginalehu.", "Selam new, ante?", "Dehna, betam dehna!", "Egziabher yimesgen, dehna negn."],
+      "sunny": ["Zare ayeru konjo new.", "Zare betam mukat new!", "Konjo tsehay new zare.", "Tsehay new, buna enteta."],
+      "rain": ["Zinab eyezenebe new, jantila yaz.", "Kiremt derse.", "Zinabu betam new!", "Menged lay chika new."],
+      "bye": ["Ciao!", "Dehna hun!", "Dehna eder!", "Enagenagnalen!"],
+      "busy": ["Ichekulalehu, behuala enawral.", "Sira alebign, ciao!", "Yiqirta, zegeyehu!", "Zare sira bizu new."]
+    }
+  },
+  "transport": { "bus": "taxi", "moto_taxi": "", "tricycle": "bajaj", "taxi": "lada", "conductor": "woyala", "stage": "tera" },
+  "touts": ["Piassa! Piassa!", "Mexico! Mexico!", "Bole, Bole!", "Megenagna, Megenagna!", "Arat Kilo, Sidist Kilo!", "Merkato, Merkato!", "Ayat! Ayat!", "Stadium, Stadium!"],
+  "hawkers": [
+    ["Kolo! Kolo!", "Roasted barley snack!"],
+    ["Bekolo! Tikus bekolo!", "Roasted maize! Hot roasted maize!"],
+    ["Lotteri! Lotteri!", "Lottery tickets!"],
+    ["Mastika!", "Chewing gum!"],
+    ["Eshet! Eshet!", "Fresh green chickpeas!"],
+    ["Sambusa! Tikus sambusa!", "Samosas! Hot samosas!"]
+  ],
+  "food": {
+    "street": ["sambusa", "bekolo", "kolo", "eshet", "bonbolino", "kategna", "ertib"],
+    "dishes": ["injera", "shiro", "doro wat", "tibs", "kitfo", "beyaynetu", "firfir", "chechebsa", "misir wat", "genfo"],
+    "drinks": ["buna", "shai", "macchiato", "spris", "Ambo", "tej"]
+  },
+  "places": {
+    "neighbourhoods": ["Bole", "Piassa", "Kazanchis", "Arat Kilo", "Sidist Kilo", "Megenagna", "Merkato", "Mexico", "Sar Bet", "Old Airport", "CMC", "Gerji", "Lideta", "Ayat", "Lebu", "Gulele", "Saris", "Haya Hulet"],
+    "streets": ["Bole Road", "Africa Avenue", "Churchill Avenue", "Ras Mekonnen Avenue", "Menelik II Avenue", "Ring Road", "Haile Gebrselassie Avenue", "Debre Zeit Road", "Ras Desta Damtew Street"],
+    "landmarks": ["Meskel Square", "Merkato market", "National Museum of Ethiopia", "Unity Park", "Entoto Park", "Addis Ababa Stadium", "Bole International Airport", "African Union headquarters", "Edna Mall", "Addis Ababa Light Rail", "Friendship Park"]
+  },
+  "small_talk": [
+    "The light rail was packed from Megenagna this morning.",
+    "Kiremt rains are here, carry a jacket and an umbrella.",
+    "Let's get a macchiato before work.",
+    "Bole Road traffic is endless today.",
+    "Coffee ceremony at my aunt's this afternoon, come.",
+    "Cold in the morning and hot by noon, typical Addis.",
+    "The taxi line at Megenagna is so long today.",
+    "Piassa still has the best old cafés.",
+    "Everyone was out running at Meskel Square early this morning."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Addis_Ababa",
+    "https://en.wikipedia.org/wiki/Addis_Ababa_Light_Rail",
+    "https://en.wikipedia.org/wiki/Meskel_Square",
+    "https://en.wikipedia.org/wiki/Ethiopian_cuisine",
+    "https://en.wikipedia.org/wiki/Coffee_ceremony",
+    "https://en.wikipedia.org/wiki/Amharic",
+    "https://en.wikipedia.org/wiki/Anbessa_City_Bus_Service_Enterprise"
+  ]
+}

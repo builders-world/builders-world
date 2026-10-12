@@ -1,0 +1,111 @@
+{
+  "street": { "id": 0.52, "gaul": 0.42, "en": 0.06 },
+  "registers": {
+    "gaul": {
+      "name": "Bahasa gaul Jakarta",
+      "about": "Jakarta's everyday street talk: Indonesian with Betawi words like gue and lo, clipped verbs, Hokkien money slang, and in South Jakarta plenty of English mixed in."
+    }
+  },
+  "names": { "weights": { "javanese": 0.42, "betawi": 0.29, "sundanese": 0.16, "chinese_indonesian": 0.08, "batak": 0.05 } },
+  "phrases": {
+    "gaul": {
+      "hello": [["Woi, apa kabar lo?", "Hey, how are you?"], ["Bro, gimana?", "Bro, how's it going?"]],
+      "fine": [["Aman", "All good, safe"], ["Santuy", "Chill, relaxed (santai)"], ["Baik, bro", "Good, bro"]],
+      "thanks": [["Makasih ya", "Thanks"], ["Thank you, bro", "Thanks, bro"]],
+      "bye": [["Duluan ya!", "I'm off first!"], ["Cabut dulu", "I'm heading off"]],
+      "yes": [["Iya dong", "Yes, of course"], ["Yoi", "Yeah"]],
+      "no": [["Nggak lah", "No way"], ["Ogah", "Don't want to"]],
+      "me_you": [["gue", "I, me"], ["lo", "you"]],
+      "great": [["Mantap!", "Great!"], ["Gokil!", "Crazy good!"]],
+      "lets_go": [["Kuy!", "Let's go! (yuk, reversed)"]],
+      "lazy": [["Mager", "Too lazy to move (malas gerak)"]],
+      "stop_here": [["Kiri, Bang!", "Stop here, driver! (in an angkot)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! Traffic okay today?", "Hey! How was the weekend?", "Hi, have you had lunch?", "Hello! Coffee first?", "Evening! Long day?"],
+      "reply": ["All good, thanks!", "Good, just tired from the commute.", "Pretty good, and you?", "Not bad, just busy with work.", "Great, thanks for asking!"],
+      "sunny": ["So hot today, let's stay inside the mall.", "Clear skies for once, you can see the mountains from the office.", "Perfect weather for Car Free Day on Sudirman.", "It's scorching, grab an es teh.", "Lovely sunny morning."],
+      "rain": ["Rainy season again, the roads will flood.", "It's pouring, my Gojek is going to be late.", "Take an umbrella, it's going to rain this afternoon.", "Traffic is terrible with this rain.", "Big storm coming, let's wait it out."],
+      "bye": ["See you tomorrow!", "Take care on the way home!", "Bye, see you around!", "Have a good evening!", "Catch you later!"],
+      "busy": ["Sorry, I'm late for a meeting in SCBD.", "Got to run, my ride is here.", "Can't talk, deadline today.", "In a rush, chat later!", "Sorry, I need to catch the MRT."]
+    },
+    "id": {
+      "greet": ["Selamat pagi, Pak!", "Halo, apa kabar?", "Pagi, Bu! Sudah sarapan?", "Selamat sore, mau ke mana?", "Assalamualaikum, apa kabar?"],
+      "reply": ["Baik, terima kasih!", "Kabar baik, Bapak bagaimana?", "Alhamdulillah, baik.", "Baik-baik saja, cuma agak capek.", "Sehat, terima kasih!"],
+      "sunny": ["Panas sekali hari ini.", "Cerah ya, enak buat jalan-jalan.", "Wah, terik sekali siang ini.", "Cuacanya bagus, langitnya biru.", "Panas begini enak minum es kelapa."],
+      "rain": ["Hujan deras lagi.", "Bawa payung ya, sebentar lagi hujan.", "Jalanan banjir lagi di dekat Kampung Melayu.", "Musim hujan, macet di mana-mana.", "Hujan terus dari tadi pagi."],
+      "bye": ["Sampai jumpa besok!", "Hati-hati di jalan ya!", "Mari, Pak, saya duluan.", "Selamat malam, sampai besok!", "Permisi, saya pamit dulu."],
+      "busy": ["Maaf, saya buru-buru.", "Saya sudah telat ke kantor!", "Nanti saja kita ngobrol ya.", "Maaf, ada rapat sebentar lagi.", "Ojek saya sudah datang, duluan ya!"]
+    },
+    "gaul": {
+      "greet": ["Woi bro, apa kabar lo?", "Eh, lama nggak ketemu!", "Bro, udah makan belum?", "Halo kak, mau ke mana?", "Weh, gimana kabar lo?"],
+      "reply": ["Aman, bro!", "Baik, lo gimana?", "Santuy aja, lagi nggak sibuk.", "Biasa aja, capek kerja nih.", "Mantap, abis gajian!"],
+      "sunny": ["Panas banget hari ini, gila.", "Cerah nih, kuy ngopi!", "Panas parah, mending ngadem di mal.", "Gerah banget, pengen es teh."],
+      "rain": ["Ujan deres banget, nggak bisa ke mana-mana.", "Banjir lagi deh, males keluar.", "Bawa payung, bro, mendung tuh.", "Ujan-ujan gini enaknya makan mi rebus."],
+      "bye": ["Duluan ya, bro!", "Cabut dulu, ya!", "Ati-ati, bro!", "Sampai ketemu, kabarin ya!"],
+      "busy": ["Sori, gue lagi buru-buru!", "Telat nih, bos gue udah nungguin.", "Nanti gue chat ya, lagi sibuk.", "Ojol gue udah sampe, duluan!"]
+    }
+  },
+  "transport": {
+    "bus": "TransJakarta, the busway",
+    "minibus": "angkot, mikrolet (JakLingko)",
+    "moto_taxi": "ojek, ojol (Gojek, Grab)",
+    "tricycle": "bajaj",
+    "metro": "MRT Jakarta",
+    "train": "KRL Commuter Line",
+    "light_rail": "LRT",
+    "taxi": "taksi (Bluebird)",
+    "ride_hail": "Gojek or Grab",
+    "conductor": "kenek",
+    "stage": "halte (stop), pangkalan ojek (ojek base)"
+  },
+  "touts": [
+    "Blok M, Blok M! Kosong, kosong!",
+    "Kota, Kota! Masih kosong, ayo naik!",
+    "Ojek, Mas? Ojek?",
+    "Tanah Abang, Tanah Abang! Langsung berangkat!",
+    "Kampung Rambutan! Ayo naik!",
+    "Senen, Senen! Masuk, masuk!",
+    "Kiri, Bang!"
+  ],
+  "hawkers": [
+    ["Bakso! Bakso!", "Meatball soup!"],
+    ["Sate, sate!", "Satay!"],
+    ["Roti, roti!", "Bread!"],
+    ["Es doger, seger!", "Es doger, nice and refreshing!"],
+    ["Kopi, kopi! Pop Mie!", "Coffee! Cup noodles!"],
+    ["Tahu bulat, digoreng dadakan!", "Round tofu, fried on the spot!"],
+    ["Aqua dingin, aqua!", "Cold bottled water!"],
+    ["Kerak telor, khas Betawi!", "Kerak telor, a Betawi speciality!"]
+  ],
+  "food": {
+    "street": ["nasi goreng", "sate ayam", "bakso", "kerak telor", "martabak manis", "martabak telur", "gorengan", "siomay", "ketoprak", "bubur ayam"],
+    "dishes": ["soto Betawi", "nasi uduk", "gado-gado", "rendang", "nasi Padang", "gudeg", "ayam geprek", "pecel lele"],
+    "drinks": ["es teh manis", "es kelapa muda", "kopi tubruk", "es cendol", "teh botol", "kopi susu gula aren", "bir pletok"]
+  },
+  "places": {
+    "neighbourhoods": ["Menteng", "Kemang", "Kota Tua", "Glodok", "Blok M", "Senayan", "Kuningan", "SCBD", "Tanah Abang", "Cikini", "Kelapa Gading", "Pantai Indah Kapuk", "Kebayoran Baru", "Tebet"],
+    "streets": ["Jalan Sudirman", "Jalan Thamrin", "Jalan Gatot Subroto", "Jalan Rasuna Said", "Jalan Sabang", "Jalan Jaksa", "Jalan Kemang Raya", "Jalan Pecenongan"],
+    "landmarks": ["Monas", "Bundaran HI", "Istiqlal Mosque", "Fatahillah Square", "Gelora Bung Karno", "Ancol", "Taman Mini Indonesia Indah", "Grand Indonesia", "Pasar Tanah Abang", "Ragunan Zoo"]
+  },
+  "small_talk": [
+    "Sudirman was completely macet this morning.",
+    "Car Free Day on Sunday, let's jog round Bundaran HI.",
+    "Odd-even plates today, so I took the MRT.",
+    "The MRT is so much better than sitting in traffic.",
+    "Rainy season again, check if Kemang is flooding.",
+    "I'll just order on GoFood, too lazy to go out.",
+    "The martabak manis on Pecenongan is the best in town.",
+    "Payday Friday, everyone is in Blok M tonight.",
+    "The KRL from Bogor was packed again."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Jakarta",
+    "https://en.wikipedia.org/wiki/TransJakarta",
+    "https://en.wikipedia.org/wiki/Jakarta_MRT",
+    "https://en.wikipedia.org/wiki/Betawi_cuisine",
+    "https://en.wikipedia.org/wiki/Gojek"
+  ]
+}

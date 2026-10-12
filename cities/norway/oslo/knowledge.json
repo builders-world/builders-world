@@ -1,0 +1,67 @@
+{
+  "street": { "no": 0.82, "en": 0.18 },
+  "names": {
+    "weights": {
+      "norwegian": 0.7,
+      "sami": 0.01,
+      "swedish": 0.05,
+      "polish": 0.06,
+      "pakistani": 0.06,
+      "somali": 0.06,
+      "middle_eastern": 0.06
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hei! How's it going?", "Morning! Coffee yet?", "Hey, long time no see!", "Hei hei! Everything good?", "Hi there, good weekend at the cabin?"],
+      "reply": ["Just fine, thanks! You?", "All good, can't complain.", "Good, a bit busy.", "Fine, just back from the cabin.", "Pretty good, takk!"],
+      "sunny": ["What a day, everyone's swimming at Sørenga.", "Perfect weather for Bygdøy.", "Sun's out, let's get ice cream on Aker Brygge.", "Lovely day for a walk up to Ekeberg.", "Finally some sun!"],
+      "rain": ["Raining again, typical Oslo.", "Bring an umbrella, it's pouring.", "Sleet again, careful, it's slippery.", "Grey day, good day for a museum.", "Wet out there, let's take the trikk."],
+      "bye": ["Ha det!", "Snakkes!", "Have a good one!", "Ha det bra!", "See you later!"],
+      "busy": ["Sorry, I have to catch the T-bane!", "Got a meeting, talk later!", "Have to run, ha det!", "Running late, snakkes!", "Busy today, coffee tomorrow?"]
+    },
+    "no": {
+      "greet": ["Hei! Hvordan går det?", "Heisann! Lenge siden!", "God morgen! Fått i deg kaffe?", "Hei hei! Står til?", "Hallo! Alt bra?"],
+      "reply": ["Bare bra, takk! Og du?", "Det går fint, takk.", "Jo da, kan ikke klage.", "Fint, litt travelt bare."],
+      "sunny": ["For et deilig vær!", "Nå er alle ute på Sørenga og bader.", "Perfekt dag for en tur på Bygdøy.", "Sol! Nå må vi kjøpe is."],
+      "rain": ["Det regner igjen, typisk Oslo.", "Husk paraply, det pøser ned.", "Sludd i dag, uff.", "Glatt på fortauet, gå forsiktig."],
+      "bye": ["Ha det!", "Ha det bra!", "Snakkes!", "Vi ses!", "Ha en fin dag!"],
+      "busy": ["Beklager, jeg må rekke T-banen!", "Har møte, snakkes senere!", "Må stikke, ha det!", "Jeg er sent ute, snakkes!"]
+    }
+  },
+  "transport": {
+    "bus": "buss",
+    "moto_taxi": "elsparkesykkel",
+    "tricycle": "lastesykkel",
+    "taxi": "taxi",
+    "conductor": "billettkontrollør",
+    "stage": "holdeplass",
+    "tram": "trikk",
+    "metro": "T-bane",
+    "train": "tog",
+    "ferry": "båt",
+    "bike_share": "Oslo Bysykkel",
+    "ride_hail": "Uber"
+  },
+  "touts": ["Neste stasjon: Stortinget.", "Toget til Lillestrøm går fra spor 13.", "Ferske reker, rett fra båten!", "A busker on Karl Johans gate playing fiddle tunes.", "Norske jordbær, kom og smak!", "Vafler, nystekte vafler med brunost!"],
+  "hawkers": [
+    ["Ferske reker, rett fra båten!", "Fresh prawns, straight off the boat!"],
+    ["Norske jordbær!", "Norwegian strawberries!"],
+    ["Varme pølser!", "Hot sausages!"],
+    ["Nystekte vafler!", "Freshly made waffles!"],
+    ["Gatemagasin, vil du kjøpe et blad?", "Street magazine, want to buy a copy?"],
+    ["Kom og smak!", "Come and have a taste!"]
+  ],
+  "food": {
+    "street": ["pølse i lompe", "vafler med brunost", "kebab", "skillingsbolle", "ferske reker", "softis", "fiskekaker"],
+    "dishes": ["fårikål", "kjøttkaker", "brunost på brødskive", "raspeballer", "lapskaus", "laks", "fredagstaco", "pinnekjøtt"],
+    "drinks": ["kaffe", "Solo", "Ringnes", "akevitt", "Farris", "kakao", "gløgg"]
+  },
+  "places": {
+    "neighbourhoods": ["Grünerløkka", "Frogner", "Majorstuen", "Tøyen", "Grønland", "Gamle Oslo", "Sagene", "St. Hanshaugen", "Bjørvika", "Torshov", "Holmenkollen", "Nydalen", "Bislett"],
+    "streets": ["Karl Johans gate", "Bogstadveien", "Thorvald Meyers gate", "Markveien", "Torggata", "Grønlandsleiret", "Hegdehaugsveien", "Trondheimsveien", "Storgata", "Pilestredet"],
+    "landmarks": ["Operahuset", "Munch", "Rådhuset", "Slottet", "Vigelandsparken", "Holmenkollbakken", "Akershus festning", "Aker Brygge", "Deichman Bjørvika", "Nasjonalmuseet", "Oslo S", "Sørenga sjøbad", "Mathallen"]
+  },
+  "small_talk": ["The T-bane was stuck at Majorstuen again.", "Did you find a spot at Sørenga yesterday? It was packed.", "Taco on Friday, obviously.", "First snow is supposedly coming this weekend, time to swap the tyres.", "Have you been up to the top floor of Munch? The view is great.", "Everyone's gone to the cabin, the city feels empty.", "Can you Vipps me for the coffee?", "Skiing in Nordmarka after work if the snow holds.", "Seventeenth of May is coming, is your bunad ready?"],
+  "sources": ["https://en.wikipedia.org/wiki/Oslo", "https://ruter.no/en/", "https://en.wikipedia.org/wiki/Norwegian_cuisine", "https://www.ssb.no/en"]
+}

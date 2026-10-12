@@ -87,6 +87,22 @@ export const BUILDERS = [
   },
 ];
 
+// The demo residents take local names in every city (cities/<country>/<city>/knowledge.json, look/knowledge.js): in
+// Nairobi they are Wanjiru and Otieno, in Accra Kofi and Ama, not Yoruba names everywhere. Steady per city. Their handles
+// and repositories follow the new first name.
+const DEMO_SEX = { ada: 'f', femi: 'm', sade: 'f', tobi: 'm', kemi: 'f', ife: 'f', dayo: 'm' };
+const ORIGINAL = BUILDERS.map((b) => ({ id: b.id, name: b.name, handle: b.handle }));
+export function localiseBuilders(city, nameFor) {
+  BUILDERS.forEach((b, i) => {
+    const o = ORIGINAL[i]; if (!DEMO_SEX[o.id] || b.demoResident) return;
+    const n = city && city !== 'Lagos' ? nameFor(`${o.id}:${city}`, DEMO_SEX[o.id]) : null;
+    const name = n ? n.full : o.name, handle = n ? n.first.normalize('NFKD').replace(/[^A-Za-z]/g, '').toLowerCase() || o.handle : o.handle;
+    const swap = (t) => (typeof t === 'string' ? t.split(`${b.handle}/`).join(`${handle}/`) : t);
+    b.today = swap(b.today); b.month = (b.month || []).map(swap); b.repoList = (b.repoList || []).map(([r, s]) => [swap(r), s]);
+    b.name = name; b.handle = handle;
+  });
+}
+
 // A resident from the local onboarding gets an unverified starter plot. Never
 // turn the example account into fabricated GitHub activity or verified metrics.
 if (typeof location !== 'undefined' && new URLSearchParams(location.search).get('resident') === '1') {

@@ -1,0 +1,819 @@
+{
+  "languages": [
+    {
+      "code": "lt",
+      "name": "Lithuanian",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "ru",
+      "name": "Russian",
+      "official": false,
+      "spoken": "commonly"
+    },
+    {
+      "code": "pl",
+      "name": "Polish",
+      "official": false,
+      "spoken": "regionally"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "widely"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Given name then family name. Lithuanian surnames change with gender and marriage: the family list gives the male form (Kazlauskas, Butkus, Kairys). A married woman's form ends in -ienė (Kazlauskienė); an unmarried woman's ends in -aitė from -as (Kazlauskaitė), -ūtė from -us (Butkutė), or -ytė from -is and -ys (Kairytė). Since 2003 women may also use the neutral -ė form (Kazlauskė). Given names are gendered too: men's end in -as, -is, -us, women's in -a or -ė. Vilnius Poles use Polish names (women's -ski becomes -ska), and Russian, Belarusian and Ukrainian names in Lithuanian documents get Lithuanian endings (Ivanovas) while people use the plain form day to day.",
+    "groups": {
+      "lithuanian": {
+        "given": {
+          "m": [
+            "Tomas",
+            "Mantas",
+            "Lukas",
+            "Paulius",
+            "Darius",
+            "Andrius",
+            "Jonas",
+            "Vytautas",
+            "Mindaugas",
+            "Giedrius",
+            "Marius",
+            "Karolis",
+            "Dovydas",
+            "Rokas",
+            "Justinas",
+            "Tadas",
+            "Saulius"
+          ],
+          "f": [
+            "Rūta",
+            "Eglė",
+            "Ieva",
+            "Gintarė",
+            "Agnė",
+            "Lina",
+            "Simona",
+            "Indrė",
+            "Aistė",
+            "Greta",
+            "Kristina",
+            "Jurgita",
+            "Rasa",
+            "Austėja",
+            "Gabija",
+            "Ugnė",
+            "Vaida"
+          ]
+        },
+        "family": [
+          "Kazlauskas",
+          "Jankauskas",
+          "Petrauskas",
+          "Stankevičius",
+          "Vasiliauskas",
+          "Žukauskas",
+          "Butkus",
+          "Paulauskas",
+          "Urbonas",
+          "Kavaliauskas",
+          "Baranauskas",
+          "Pocius",
+          "Navickas",
+          "Rimkus",
+          "Sakalauskas",
+          "Adomaitis",
+          "Kairys"
+        ],
+        "family_f": [
+          "Kazlauskienė",
+          "Jankauskienė",
+          "Petrauskienė",
+          "Stankevičienė",
+          "Vasiliauskienė",
+          "Žukauskienė",
+          "Butkienė",
+          "Paulauskienė",
+          "Urbonienė",
+          "Kavaliauskienė",
+          "Baranauskienė",
+          "Pocienė",
+          "Navickienė",
+          "Rimkienė",
+          "Sakalauskienė",
+          "Adomaitienė",
+          "Kairienė"
+        ]
+      },
+      "polish": {
+        "given": {
+          "m": [
+            "Paweł",
+            "Andrzej",
+            "Tomasz",
+            "Marek",
+            "Krzysztof",
+            "Edward",
+            "Artur",
+            "Waldemar",
+            "Ryszard",
+            "Dariusz",
+            "Robert",
+            "Henryk",
+            "Michał",
+            "Jarosław"
+          ],
+          "f": [
+            "Anna",
+            "Jolanta",
+            "Irena",
+            "Teresa",
+            "Halina",
+            "Renata",
+            "Edyta",
+            "Agnieszka",
+            "Danuta",
+            "Barbara",
+            "Krystyna",
+            "Bożena",
+            "Ewelina",
+            "Joanna"
+          ]
+        },
+        "family": [
+          "Kowalewski",
+          "Jankowski",
+          "Tomaszewski",
+          "Szymański",
+          "Wasilewski",
+          "Butkiewicz",
+          "Romanowski",
+          "Siemaszko",
+          "Pietkiewicz",
+          "Juszkiewicz",
+          "Wiśniewski",
+          "Bogdanowicz",
+          "Mackiewicz",
+          "Narkiewicz"
+        ],
+        "family_f": [
+          "Kowalewska",
+          "Jankowska",
+          "Tomaszewska",
+          "Szymańska",
+          "Wasilewska",
+          "Butkiewicz",
+          "Romanowska",
+          "Siemaszko",
+          "Pietkiewicz",
+          "Juszkiewicz",
+          "Wiśniewska",
+          "Bogdanowicz",
+          "Mackiewicz",
+          "Narkiewicz"
+        ]
+      },
+      "russian": {
+        "given": {
+          "m": [
+            "Aleksandr",
+            "Sergej",
+            "Dmitrij",
+            "Andrej",
+            "Vladimir",
+            "Nikolaj",
+            "Maksim",
+            "Ivan",
+            "Artiom",
+            "Denis",
+            "Igor",
+            "Roman",
+            "Pavel",
+            "Aleksej",
+            "Vadim"
+          ],
+          "f": [
+            "Jelena",
+            "Olga",
+            "Natalija",
+            "Irina",
+            "Svetlana",
+            "Tatjana",
+            "Anna",
+            "Julija",
+            "Jekaterina",
+            "Anastasija",
+            "Marina",
+            "Ksenija",
+            "Darja",
+            "Viktorija",
+            "Liudmila"
+          ]
+        },
+        "family": [
+          "Ivanov",
+          "Smirnov",
+          "Kuznecov",
+          "Popov",
+          "Vasiljev",
+          "Petrov",
+          "Sokolov",
+          "Michailov",
+          "Fiodorov",
+          "Morozov",
+          "Volkov",
+          "Jakovlev",
+          "Pavlov",
+          "Semionov",
+          "Kozlov"
+        ],
+        "family_f": [
+          "Ivanova",
+          "Smirnova",
+          "Kuznecova",
+          "Popova",
+          "Vasiljeva",
+          "Petrova",
+          "Sokolova",
+          "Michailova",
+          "Fiodorova",
+          "Morozova",
+          "Volkova",
+          "Jakovleva",
+          "Pavlova",
+          "Semionova",
+          "Kozlova"
+        ]
+      },
+      "belarusian": {
+        "given": {
+          "m": [
+            "Aliaksandr",
+            "Siarhei",
+            "Dzmitry",
+            "Andrei",
+            "Uladzimir",
+            "Mikalai",
+            "Maksim",
+            "Ivan",
+            "Pavel",
+            "Yauhen",
+            "Artsiom",
+            "Aleh",
+            "Ihar",
+            "Raman"
+          ],
+          "f": [
+            "Volha",
+            "Alena",
+            "Natallia",
+            "Iryna",
+            "Sviatlana",
+            "Tatsiana",
+            "Hanna",
+            "Yuliya",
+            "Katsiaryna",
+            "Anastasiya",
+            "Maryna",
+            "Darya",
+            "Viktoryia",
+            "Liudmila"
+          ]
+        },
+        "family": [
+          "Ivanou",
+          "Kavalenka",
+          "Kazlou",
+          "Navitski",
+          "Marozau",
+          "Kuzniatsou",
+          "Bandarenka",
+          "Tkachou",
+          "Vasilevich",
+          "Karpovich",
+          "Hrynevich",
+          "Zhuk",
+          "Klimovich",
+          "Sidarovich"
+        ],
+        "family_f": [
+          "Ivanova",
+          "Kavalenka",
+          "Kazlova",
+          "Navitskaya",
+          "Marozava",
+          "Kuzniatsova",
+          "Bandarenka",
+          "Tkachova",
+          "Vasilevich",
+          "Karpovich",
+          "Hrynevich",
+          "Zhuk",
+          "Klimovich",
+          "Sidarovich"
+        ]
+      },
+      "ukrainian": {
+        "given": {
+          "m": [
+            "Oleksandr",
+            "Andrii",
+            "Serhii",
+            "Volodymyr",
+            "Dmytro",
+            "Oleh",
+            "Yurii",
+            "Mykola",
+            "Vitalii",
+            "Taras",
+            "Bohdan",
+            "Maksym",
+            "Ihor",
+            "Roman"
+          ],
+          "f": [
+            "Olena",
+            "Oksana",
+            "Nataliia",
+            "Iryna",
+            "Tetiana",
+            "Yuliia",
+            "Kateryna",
+            "Anastasiia",
+            "Svitlana",
+            "Halyna",
+            "Viktoriia",
+            "Mariia",
+            "Khrystyna",
+            "Sofiia"
+          ]
+        },
+        "family": [
+          "Shevchenko",
+          "Kovalenko",
+          "Bondarenko",
+          "Tkachenko",
+          "Kravchenko",
+          "Boiko",
+          "Melnyk",
+          "Oliinyk",
+          "Koval",
+          "Shevchuk",
+          "Polishchuk",
+          "Lysenko",
+          "Marchenko",
+          "Moroz",
+          "Savchenko"
+        ]
+      }
+    },
+    "weights": {
+      "lithuanian": 0.84,
+      "polish": 0.06,
+      "russian": 0.05,
+      "belarusian": 0.03,
+      "ukrainian": 0.02
+    }
+  },
+  "honorifics": {
+    "elder_m": "pone",
+    "elder_f": "ponia",
+    "peer_m": "broli",
+    "peer_f": "drauge",
+    "boss": "šefe",
+    "titles": {
+      "with": "none"
+    }
+  },
+  "phrases": {
+    "lt": {
+      "hello": [
+        [
+          "Labas",
+          "Hi"
+        ],
+        [
+          "Sveiki",
+          "Hello (polite)"
+        ],
+        [
+          "Laba diena",
+          "Good day"
+        ]
+      ],
+      "morning": [
+        [
+          "Labas rytas",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Labas vakaras",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Kaip sekasi?",
+          "How's it going?"
+        ],
+        [
+          "Kaip gyveni?",
+          "How are you doing?"
+        ]
+      ],
+      "fine": [
+        [
+          "Gerai",
+          "Good"
+        ],
+        [
+          "Normaliai",
+          "Okay"
+        ]
+      ],
+      "thanks": [
+        [
+          "Ačiū",
+          "Thanks"
+        ],
+        [
+          "Labai ačiū",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Iki",
+          "Bye"
+        ],
+        [
+          "Viso gero",
+          "Goodbye"
+        ],
+        [
+          "Iki pasimatymo",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Sveiki atvykę",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Atsiprašau",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Atsiprašau",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Taip",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Ne",
+          "No"
+        ]
+      ]
+    },
+    "ru": {
+      "hello": [
+        [
+          "Привет",
+          "Hi"
+        ],
+        [
+          "Здравствуйте",
+          "Hello (polite)"
+        ]
+      ],
+      "morning": [
+        [
+          "Доброе утро",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Добрый вечер",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Как дела?",
+          "How are things?"
+        ],
+        [
+          "Как ты?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Хорошо",
+          "Good"
+        ],
+        [
+          "Нормально",
+          "Okay, fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Спасибо",
+          "Thank you"
+        ],
+        [
+          "Большое спасибо",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Пока",
+          "Bye"
+        ],
+        [
+          "До свидания",
+          "Goodbye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Добро пожаловать",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Извини",
+          "Sorry"
+        ],
+        [
+          "Простите",
+          "Sorry (polite)"
+        ]
+      ],
+      "excuse": [
+        [
+          "Извините",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Да",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Нет",
+          "No"
+        ]
+      ]
+    },
+    "pl": {
+      "hello": [
+        [
+          "Cześć",
+          "Hi"
+        ],
+        [
+          "Dzień dobry",
+          "Hello, good day"
+        ]
+      ],
+      "morning": [
+        [
+          "Dzień dobry",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Dobry wieczór",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Jak się masz?",
+          "How are you?"
+        ],
+        [
+          "Co słychać?",
+          "What's new?"
+        ]
+      ],
+      "fine": [
+        [
+          "Dobrze",
+          "Good"
+        ],
+        [
+          "W porządku",
+          "All right"
+        ]
+      ],
+      "thanks": [
+        [
+          "Dziękuję",
+          "Thank you"
+        ],
+        [
+          "Dzięki",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "Do widzenia",
+          "Goodbye"
+        ],
+        [
+          "Cześć",
+          "Bye"
+        ],
+        [
+          "Na razie",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Witamy",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Przepraszam",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Przepraszam",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Tak",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Nie",
+          "No"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hi",
+          "Hi"
+        ],
+        [
+          "Hello",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Morning!",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you?",
+          "How are you?"
+        ],
+        [
+          "How's it going?",
+          "How's it going?"
+        ]
+      ],
+      "fine": [
+        [
+          "Fine, thanks",
+          "Fine, thanks"
+        ],
+        [
+          "All good",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks",
+          "Thanks"
+        ],
+        [
+          "Thank you",
+          "Thank you"
+        ]
+      ],
+      "bye": [
+        [
+          "Bye",
+          "Bye"
+        ],
+        [
+          "See you",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ],
+        [
+          "Yeah",
+          "Yeah"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "EUR",
+    "symbol": "€",
+    "words": [
+      [
+        "babkės",
+        "money, in slang"
+      ],
+      [
+        "centas",
+        "a cent"
+      ],
+      [
+        "litai",
+        "the old currency, still used when older people compare prices"
+      ],
+      [
+        "pinigėliai",
+        "a bit of money, fondly"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Lithuanian_language",
+    "https://en.wikipedia.org/wiki/Demographics_of_Lithuania",
+    "https://en.wikipedia.org/wiki/Poles_in_Lithuania",
+    "https://osp.stat.gov.lt/",
+    "https://en.wikipedia.org/wiki/List_of_most_common_surnames_in_Europe"
+  ]
+}

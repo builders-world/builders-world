@@ -1,3 +1,4 @@
+import { nameFor } from './knowledge.js';
 import * as THREE from 'three';
 import { createAvatarModel } from '../onboarding/avatar.js';
 import { rigAvatar } from './anim.js';
@@ -45,7 +46,8 @@ export function createJobs({ world, scene, props, toast, passes, onRoute, reduce
   const el = document.createElement('div'); el.id = 'lk-job'; el.setAttribute('role', 'dialog'); document.body.appendChild(el);
   el.addEventListener('keydown', (e) => { e.stopPropagation(); if (e.key === 'Escape') close(); });
   const group = new THREE.Group(); group.name = 'jobs'; scene.add(group);
-  const country = cityInfo().country || 'Nigeria', names = NAMES[country] || NAMES.Nigeria;
+  const country = cityInfo().country || 'Nigeria', names = [0, 1, 2, 3, 4, 5, 6, 7].map((i) => nameFor(`job-${i}`, i % 2 ? 'f' : 'm')?.first).filter(Boolean); // (named as people are here: look/knowledge.js)
+  if (!names.length) names.push(...(NAMES[country] || NAMES.Nigeria));
   let state = store.get('bw-jobs', { done: {}, day: '', count: 0 });
   const save = () => store.set('bw-jobs', state);
   const now = () => Date.now();

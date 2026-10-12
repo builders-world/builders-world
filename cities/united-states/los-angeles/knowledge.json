@@ -1,0 +1,86 @@
+{
+  "street": { "en": 0.56, "es": 0.35, "ko": 0.03, "zh": 0.03, "tl": 0.02, "vi": 0.01 },
+  "registers": {},
+  "names": {
+    "weights": {
+      "latino": 0.47,
+      "american": 0.27,
+      "african_american": 0.08,
+      "korean": 0.04,
+      "filipino": 0.035,
+      "chinese": 0.035,
+      "armenian": 0.03,
+      "iranian": 0.015,
+      "indian": 0.015,
+      "vietnamese": 0.01
+    }
+  },
+  "phrases": {
+    "en": {
+      "hello": [["Hey, what's up?", "Hello"], ["Dude, hey!", "Hey, friend!"]],
+      "fine": [["Chillin'", "Relaxing, all good"], ["All good", "Fine"]],
+      "bye": [["Later!", "See you later"]]
+    },
+    "es": {
+      "hello": [["¿Qué onda, carnal?", "What's up, bro? (Chicano and Mexican)"], ["¿Qué pasó?", "Hey, what's up?"]],
+      "fine": [["Aquí nomás", "Just here, getting by"], ["Todo chido", "All cool"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hey! How's it going?", "What's up, dude?", "Morning! You beat the traffic?", "Hey, long time! How you been?", "Oh hey, good to see you!"],
+      "reply": ["All good, just chillin'.", "Pretty good, the 10 was actually moving today.", "Doing great, you?", "Busy, but good.", "Can't complain, it's sunny."],
+      "sunny": ["Another perfect day, of course.", "Seventy-five and sunny in January, I'll take it.", "Beach day! Who's down?", "June gloom finally burned off.", "The Santa Anas are blowing, it's so dry."],
+      "rain": ["It's raining, nobody here knows how to drive in this.", "Rain in LA? The freeways are going to be chaos.", "Finally some rain, the hills are going to be green.", "It's drizzling and everyone's in a puffer jacket.", "Watch out, the roads get slick after the first rain."],
+      "bye": ["Later, dude!", "Take it easy!", "See you around!", "Drive safe!", "Catch you later, let's get tacos soon."],
+      "busy": ["Can't stop, I'm late for a call in Culver City.", "Gotta run, the 405 is going to be brutal.", "I have an audition in an hour, wish me luck!", "Running to catch the E Line, see ya!", "Heading to set, talk later."]
+    },
+    "es": {
+      "greet": ["¿Qué onda? ¿Cómo estás?", "¡Buenos días! ¿Cómo le va?", "¡Quiubo! ¿Qué cuentas?", "¡Hola, mija! ¿Cómo estás?"],
+      "reply": ["Aquí nomás, trabajando.", "Bien, gracias, ¿y usted?", "Todo chido.", "Echándole ganas, como siempre."],
+      "sunny": ["¡Qué sol tan bonito!", "Hace calorcito, ¿no?", "Buen día pa' ir a la playa.", "Con este calor se antoja un raspado."],
+      "rain": ["¡Mira, está lloviendo!", "Con la lluvia el tráfico se pone feo.", "Maneje con cuidado, está mojado.", "Por fin cayó un poco de agua."],
+      "bye": ["¡Nos vemos!", "Cuídate mucho.", "Que te vaya bien.", "Ándale, luego te veo."],
+      "busy": ["Ya me voy, voy tarde al jale.", "No puedo ahorita, tengo que agarrar el bus.", "Ando de prisa, ¡bye!", "Voy a recoger a los niños, luego hablamos."]
+    }
+  },
+  "transport": { "bus": "Metro bus", "metro": "Metro Rail", "train": "Metrolink", "taxi": "cab", "rideshare": "Uber, Lyft or a Waymo", "scooter": "e-scooter", "stage": "bus stop" },
+  "touts": ["Celebrity homes tour! See the stars' houses, leaving now!", "Tacos al pastor, tacos de asada, come try!", "Free comedy show tonight, two drink minimum!", "Next stop, Seventh Street Metro Center.", "Parking, ten dollars, all day for the game!"],
+  "hawkers": [
+    ["¡Elotes, elotes!", "Corn on the cob with mayo, cheese and chile"],
+    ["¡Tamales, tamales calientitos!", "Hot tamales, from a cart in the morning"],
+    ["¡Fruta picada con chile y limón!", "Cut fruit with chile and lime"],
+    ["Bacon-wrapped hot dogs!", "A cart outside a concert"],
+    ["¡Raspados, raspados!", "Shaved ice with syrup"],
+    ["Water, Gatorade, cold drinks!", "A drink seller by the freeway exit"]
+  ],
+  "food": {
+    "street": ["tacos al pastor", "carne asada tacos", "bacon-wrapped hot dogs", "elotes", "fruit cups with Tajín", "tamales", "birria tacos", "Korean tacos"],
+    "dishes": ["Korean barbecue in Koreatown", "pupusas", "pozole", "pho", "a Double-Double from In-N-Out", "French dip", "Armenian kebab in Glendale", "dim sum in the San Gabriel Valley", "Thai food in Thai Town"],
+    "drinks": ["horchata", "agua de jamaica", "boba", "champurrado", "iced oat milk latte", "Mexican Coke"]
+  },
+  "places": {
+    "neighbourhoods": ["Downtown", "Hollywood", "Silver Lake", "Echo Park", "Koreatown", "Boyle Heights", "Highland Park", "Los Feliz", "Venice", "Westwood", "Leimert Park", "Little Tokyo", "Chinatown", "Thai Town", "Historic Filipinotown", "Little Armenia", "North Hollywood", "Van Nuys", "Mid-City", "Watts"],
+    "streets": ["Sunset Boulevard", "Hollywood Boulevard", "Wilshire Boulevard", "Santa Monica Boulevard", "Melrose Avenue", "Vermont Avenue", "Western Avenue", "Figueroa Street", "Broadway", "Cesar E. Chavez Avenue", "Crenshaw Boulevard", "Olvera Street", "Abbot Kinney Boulevard", "the 405", "the 10", "the 101", "the 110"],
+    "landmarks": ["the Hollywood Sign", "Griffith Observatory", "Santa Monica Pier", "Venice Beach Boardwalk", "Dodger Stadium", "Crypto.com Arena", "the Getty Center", "LACMA", "Walt Disney Concert Hall", "Grand Central Market", "Union Station", "the Hollywood Walk of Fame", "SoFi Stadium", "Watts Towers", "Echo Park Lake", "LAX"]
+  },
+  "small_talk": [
+    "It took me an hour to go six miles on the 405.",
+    "Everyone's a screenwriter here, even my barista.",
+    "The best tacos in this city come from a truck, not a restaurant.",
+    "June gloom is real, the sun won't show up till noon.",
+    "Are you an Eastside or a Westside person?",
+    "Dodgers game tonight, Chavez Ravine is going to be packed.",
+    "I saw the Hollywood Sign from the Griffith trail this morning.",
+    "My apartment in Koreatown is next to three Korean barbecue spots.",
+    "It's seventy degrees and people are wearing beanies.",
+    "Traffic on the 101 was so bad I just turned around and went home."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Los_Angeles",
+    "https://en.wikipedia.org/wiki/Demographics_of_Los_Angeles",
+    "https://www.metro.net",
+    "https://en.wikipedia.org/wiki/Chicano_English",
+    "https://www.census.gov/quickfacts/"
+  ]
+}

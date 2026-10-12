@@ -1,0 +1,97 @@
+{
+  "street": { "en": 0.42, "ar": 0.2, "hi": 0.2, "ml": 0.11, "fil": 0.07 },
+  "names": { "weights": { "emirati": 0.18, "indian": 0.17, "malayali": 0.18, "pakistani": 0.15, "bangladeshi": 0.07, "filipino": 0.08, "egyptian": 0.07, "levantine": 0.06, "western": 0.04 } },
+  "phrases": {
+    "ar": {
+      "hello": [["Hala wallah", "Hey, good to see you"], ["Hayak", "Welcome, come in"]],
+      "agree": [["Yalla", "Come on, let's go"], ["Khalas", "Done, that's it"], ["Inshallah", "God willing"]],
+      "very": [["Wayed", "Very, a lot (وايد)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! How are things?", "Hi! All good with you?", "Hey habibi, long time no see!", "Hello, how was the drive in?", "Evening! Heading to the Corniche?"],
+      "reply": ["All good, alhamdulillah. And you?", "Fine, thanks, quiet week.", "Good, just back from Yas.", "Not bad, the weekend can't come soon enough.", "All good, yalla, how's the family?"],
+      "sunny": ["Too hot to sit outside today.", "The Corniche is beautiful this evening.", "Perfect weather for Saadiyat beach.", "So humid this morning, my car windows were dripping.", "Winter sun, finally, let's eat outside."],
+      "rain": ["Rain! Drive slowly on the Corniche.", "There's water on Airport Road, take Muroor instead.", "Dusty today, the towers have disappeared.", "Fog this morning, I couldn't see the bridge.", "Clouds over Reem, maybe some rain later."],
+      "bye": ["Yalla, see you!", "Take care, drive safe.", "Bye, see you at the weekend.", "Fi aman Allah, my friend.", "Catch you later!"],
+      "busy": ["Sorry, late for a meeting at ADGM.", "Stuck on the bridge, call you back.", "Can't stop, my bus is here.", "Shift's starting, talk later.", "Running to pick up the kids, sorry!"]
+    },
+    "ar": {
+      "greet": ["Marhaba, shlonik?", "Hala wallah, shakhbarak?", "Assalamu alaikum, kaif al hal?", "Sabah el khair! Shlonik al yoom?", "Hayak Allah, wainak?"],
+      "reply": ["Zain, alhamdulillah, wa inta?", "Bekhair, Allah ysalmik.", "Tamam, mashkoor.", "Killa zain, alhamdulillah."],
+      "sunny": ["Al jaw har wayed.", "Al jaw helw al leila, nroh al corniche?", "Al rutooba wayed al yoom.", "Al shams gawiya, la tinsa al mai."],
+      "rain": ["Al matar nazal, mashallah!", "Intabih, al shari' fee mai.", "Fee dhabab al yoom, sooq shway shway.", "Ghubar wayed al yoom."],
+      "bye": ["Ma'a salama.", "Fi aman Allah.", "Nshoofik ba'dain.", "Allah yhafdhik."],
+      "busy": ["Asif, mista'jil.", "Mashghool al heen, akallmik ba'dain.", "Lazim aroh al dawam.", "Indi ijtima' al heen, asif."]
+    },
+    "hi": {
+      "greet": ["Kya haal hai bhai?", "Namaste, kaise ho?", "Assalamu alaikum, sab khair?", "Arre, kahan the itne din?", "Kaam kaisa chal raha hai?"],
+      "reply": ["Sab theek, aap sunao.", "Badhiya bhai, shukriya.", "Chal raha hai, alhamdulillah.", "Mast, sab set hai."],
+      "sunny": ["Bahut garmi hai aaj.", "Dhoop mein mat khade raho, chhaon mein aao.", "Aaj Corniche pe hawa achhi hai.", "Paani peete raho, garmi tez hai."],
+      "rain": ["Baarish aa gayi, gaadi sambhal ke.", "Aaj kohra hai, kuch dikh nahin raha.", "Bahut dhool hai aaj.", "Baadal hain, shayad baarish hogi."],
+      "bye": ["Chalo, milte hain.", "Khuda hafiz.", "Achha bhai, chalta hoon.", "Apna khayal rakhna."],
+      "busy": ["Duty pe hoon, baad mein baat karte hain.", "Bus aa gayi, nikalta hoon.", "Jaldi mein hoon bhai.", "Abhi meeting hai, sorry."]
+    },
+    "ml": {
+      "greet": ["Enthokke undu visesham?", "Ikka, sukhamano?", "Namaskaram chechi!", "Kure naal aayallo kandittu!", "Bhakshanam kazhicho?"],
+      "reply": ["Sukham, ningalo?", "Kuzhappamilla, nanni.", "Nannayi pokunnu.", "Angane okke pokunnu."],
+      "sunny": ["Enthoru choodu!", "Veyil kooduthal aanu, sookshikkane.", "Corniche-il nalla kaattu undu.", "Vellam kudikkan marakkalle."],
+      "rain": ["Mazha peyyunnu, sookshichu odikkane.", "Innu manju undu, onnum kaanan pattunnilla.", "Podikkaattu aanu, jannal adakku.", "Mazha kandittu santhosham aayi."],
+      "bye": ["Shari, pinne kaanam.", "Poyittu varaam.", "Sookshikkane.", "Pinne vilikkam."],
+      "busy": ["Ippo thirakkanu, pinne vilikkam.", "Bus vannu, pokatte.", "Duty-kku samayam aayi.", "Meeting undu, sorry."]
+    },
+    "fil": {
+      "greet": ["Uy kabayan, kumusta?", "Musta na?", "Magandang umaga po!", "Uy, long time no see!", "Kumusta ang trabaho?"],
+      "reply": ["Okay lang, ikaw?", "Mabuti naman, salamat.", "Ayos lang, pagod lang.", "Eto, kayod pa rin."],
+      "sunny": ["Grabe ang init!", "Ang ganda ng Corniche ngayong gabi.", "Tara sa Saadiyat, ang ganda ng araw.", "Ang init, inom ka ng tubig."],
+      "rain": ["Umuulan! Ingat sa daan.", "Ang kapal ng hamog kaninang umaga.", "Ang alikabok ngayon.", "Makulimlim, baka umulan."],
+      "bye": ["Sige, ingat!", "Una na ako.", "Kita tayo sa weekend.", "Babay!"],
+      "busy": ["Sorry, may duty ako.", "Andiyan na ang bus, alis na ako.", "Nagmamadali ako, mamaya na lang.", "May meeting pa ako, sorry."]
+    }
+  },
+  "transport": {
+    "bus": "Abu Dhabi bus",
+    "card": "Hafilat card",
+    "taxi": "TransAD taxi (silver with a yellow roof)",
+    "ride_hail": "Careem or Uber",
+    "robotaxi": "driverless taxi on Yas and Saadiyat",
+    "intercity": "bus to Dubai or Al Ain",
+    "stage": "bus stop or Al Wahda bus station"
+  },
+  "touts": ["Taxi, sir? Taxi?", "Dubai bus, Ibn Battuta, this side!", "Al Ain, Al Ain, leaving now!", "Fresh hammour today, very good, come see!", "Dates, best Khalas dates, try one!", "Carpets, madam, come inside, good price!"],
+  "hawkers": [
+    ["Karak, karak chai!", "Spiced milk tea!"],
+    ["Hammour, fresh hammour!", "Fresh hammour fish!"],
+    ["Tamr, tamr, Khalas, Sukkari!", "Dates, Khalas and Sukkari!"],
+    ["Fresh juice, avocado, mango!", "Fresh juice and shakes!"],
+    ["Gahwa, tfaddal!", "Coffee, please have some!"],
+    ["Samosa, hot samosa!", "Hot samosas!"]
+  ],
+  "food": {
+    "street": ["shawarma", "karak chai", "samosa", "manakish", "luqaimat", "Chips Oman paratha", "falafel", "regag bread"],
+    "dishes": ["machboos", "harees", "thareed", "madrooba", "balaleet", "grilled hammour", "biryani", "saloona"],
+    "drinks": ["karak chai", "gahwa (Arabic coffee with cardamom)", "laban", "avocado shake", "camel milk", "sulaimani", "fresh lemon mint"]
+  },
+  "places": {
+    "neighbourhoods": ["Al Zahiyah (Tourist Club Area)", "Al Khalidiyah", "Al Mushrif", "Al Bateen", "Al Reem Island", "Saadiyat Island", "Yas Island", "Khalifa City", "Mohammed Bin Zayed City", "Musaffah", "Al Markaziyah", "Al Raha Beach", "Al Maryah Island"],
+    "streets": ["Hamdan Street", "Electra Street", "Corniche Road", "Airport Road", "Muroor Road", "Salam Street", "Khaleej Al Arabi Street"],
+    "landmarks": ["Sheikh Zayed Grand Mosque", "Louvre Abu Dhabi", "Qasr Al Hosn", "Qasr Al Watan", "Emirates Palace", "the Corniche", "Etihad Towers", "Ferrari World", "Yas Marina Circuit", "Mina Zayed fish market", "Abu Dhabi Global Market", "Hub71"]
+  },
+  "small_talk": [
+    "The Corniche at sunset is the best free thing in the city.",
+    "Took the bus to Dubai again, an hour and a half each way.",
+    "Topped up my Hafilat card, the bus is fine if you're patient.",
+    "Fish market at Mina this morning, the hammour was beautiful.",
+    "Rode in a driverless taxi on Yas yesterday. Strange but fine.",
+    "Reem Island traffic at eight is something else.",
+    "Hamdan Street still has the best old cafeterias.",
+    "Too humid to run outside, I'll go to the gym."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Abu_Dhabi",
+    "https://en.wikipedia.org/wiki/Corniche_(Abu_Dhabi)",
+    "https://en.wikipedia.org/wiki/Emirati_cuisine",
+    "https://en.wikipedia.org/wiki/Gulf_Arabic"
+  ]
+}

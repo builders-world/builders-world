@@ -1,0 +1,107 @@
+{
+  "languages": [
+    { "code": "si", "name": "Sinhala", "official": true, "spoken": "widely" },
+    { "code": "ta", "name": "Tamil", "official": true, "spoken": "in the north and east, among Tamil and Muslim communities, and widely in Colombo" },
+    { "code": "en", "name": "English", "official": false, "spoken": "the link language of offices, schools and tech; Sri Lankan English mixes in Sinhala words" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Sinhala names are a given name and a family name (Kasun Perera, Nadeesha Jayasinghe). Many family names are Portuguese in origin (Perera, Fernando, Silva) from the colonial era, others are old Sinhala lineage names (Bandara, Dissanayake, Wickramasinghe); formal names can carry a long ancestral house name (vasagama) first, often shortened to initials. Sri Lankan Tamils traditionally have no fixed family name: the father's given name is used as the surname or as an initial (Arun Sivakumar is Arun, son of Sivakumar). Sri Lankan Muslims (Moors) use Arabic origin names, often with the father's name or an old family name like Marikar or Lebbe. Christians among both Sinhala and Tamil communities carry names like Anthony, Joseph or Mary with their own.",
+    "groups": {
+      "sinhala": {
+        "given": {
+          "m": ["Kasun", "Chamara", "Nuwan", "Tharindu", "Dinesh", "Chathura", "Sanjeewa", "Ruwan", "Lahiru", "Pradeep", "Isuru", "Dilshan", "Sampath", "Asanka", "Shehan"],
+          "f": ["Nadeesha", "Dilini", "Sachini", "Ishara", "Chathurika", "Nilmini", "Tharushi", "Kaveesha", "Sanduni", "Hiruni", "Dulani", "Madhavi", "Piumi", "Nethmi"]
+        },
+        "family": ["Perera", "Fernando", "Silva", "Jayasinghe", "Wickramasinghe", "Bandara", "Rathnayake", "Dissanayake", "Gunawardena", "Herath", "Wijesinghe", "Gamage", "Ranasinghe", "Abeysekara", "Mendis", "Karunaratne"],
+        "also": { "m": ["Anthony", "Joseph", "Michael", "Christopher"], "f": ["Mary", "Theresa", "Christine", "Rosemary"] }
+      },
+      "tamil": {
+        "given": {
+          "m": ["Arun", "Karthik", "Suresh", "Ramesh", "Kumaran", "Pratheep", "Thusyanthan", "Mayuran", "Niroshan", "Janarthanan", "Kajan", "Senthil", "Vithushan", "Sutharsan"],
+          "f": ["Kavitha", "Nirosha", "Tharshini", "Thivya", "Sharmila", "Vasanthi", "Kowsalya", "Nirmala", "Anushya", "Mathumitha", "Lavanya", "Keerthana", "Abirami"]
+        },
+        "family": ["Sivakumar", "Kanagaratnam", "Selvarajah", "Thambiah", "Rajaratnam", "Sivanesan", "Ponnambalam", "Arulampalam", "Balasubramaniam", "Nadarajah", "Shanmugam", "Thevarajah", "Yogarajah", "Mahendran"],
+        "also": { "m": ["Anton", "Joseph", "Jude"], "f": ["Mary", "Jesmin", "Shirley"] }
+      },
+      "muslim": {
+        "given": {
+          "m": ["Mohamed", "Fazil", "Rizwan", "Nizam", "Imthiyaz", "Farhan", "Ashraff", "Rimzan", "Hisham", "Ahamed", "Rifkhan", "Nawshad", "Shafraz", "Ilham"],
+          "f": ["Fathima", "Rizna", "Fazna", "Shifana", "Hafsa", "Afra", "Shazna", "Nuzla", "Rifka", "Inshira", "Zainab", "Aysha", "Sumaiya"]
+        },
+        "family": ["Marikar", "Lebbe", "Cassim", "Hameed", "Jaleel", "Ismail", "Ibrahim", "Fuard", "Haniffa", "Saleem", "Rauf", "Razeek", "Careem", "Aziz", "Ghouse"]
+      }
+    },
+    "weights": { "sinhala": 0.74, "tamil": 0.16, "muslim": 0.1 }
+  },
+  "honorifics": {
+    "elder_m": "Uncle",
+    "elder_f": "Aunty",
+    "peer_m": "Machang",
+    "peer_f": "Akke",
+    "boss": "Sir",
+    "older_brother": "Aiya",
+    "younger_sister": "Nangi",
+    "younger_brother": "Malli",
+    "sir_sinhala": "Mahaththaya",
+    "madam_sinhala": "Nona",
+    "elder_brother_tamil": "Anna"
+  },
+  "phrases": {
+    "si": {
+      "hello": [["Ayubowan", "May you live long, the formal greeting (ආයුබෝවන්)"], ["Kohomada?", "How's it going? (කොහොමද?)"]],
+      "morning": [["Suba udesanak", "Good morning (සුබ උදෑසනක්)"]],
+      "evening": [["Suba sandhyawak", "Good evening (සුබ සන්ධ්‍යාවක්)"]],
+      "how_are_you": [["Kohomada?", "How are you?"], ["Sanipen innawada?", "Are you keeping well?"]],
+      "fine": [["Hondai", "Good, fine (හොඳයි)"], ["Ehemai", "Same as always"]],
+      "thanks": [["Bohoma sthuthi", "Thank you very much (බොහොම ස්තූතියි)"], ["Sthuthi", "Thanks"]],
+      "bye": [["Gihin ennam", "I'll go and come, the usual goodbye (ගිහින් එන්නම්)"], ["Ayubowan", "Goodbye, formal"]],
+      "welcome": [["Sadarayen piligannawa", "Welcome, formal"], ["Enna, enna", "Come, come in"]],
+      "sorry": [["Samawenna", "Sorry (සමාවෙන්න)"], ["Aney sorry", "Oh, sorry"]],
+      "excuse": [["Samawenna", "Excuse me"], ["Ahanna", "Excuse me, listen (to call someone)"]],
+      "yes": [["Ow", "Yes (ඔව්)"]],
+      "no": [["Naha", "No (නැහැ)"], ["Epa", "Don't, I don't want it"]]
+    },
+    "ta": {
+      "hello": [["Vanakkam", "Hello (வணக்கம்)"]],
+      "morning": [["Kaalai vanakkam", "Good morning (காலை வணக்கம்)"]],
+      "evening": [["Maalai vanakkam", "Good evening (மாலை வணக்கம்)"]],
+      "how_are_you": [["Eppidi irukkireenga?", "How are you? (எப்படி இருக்கிறீங்க?)"], ["Sugamaa?", "Are you well?"]],
+      "fine": [["Nallaa irukkiren", "I'm fine"], ["Sugam", "Well"]],
+      "thanks": [["Nandri", "Thank you (நன்றி)"]],
+      "bye": [["Poittu varen", "I'll go and come (போயிட்டு வாறேன்)"]],
+      "welcome": [["Vaanga", "Come in, welcome (வாங்க)"]],
+      "sorry": [["Mannikkavum", "Sorry (மன்னிக்கவும்)"]],
+      "excuse": [["Konjam", "Excuse me, just a moment"]],
+      "yes": [["Ow", "Yes, as said in Sri Lankan Tamil"], ["Aam", "Yes (ஆம்)"]],
+      "no": [["Illai", "No (இல்லை)"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"], ["Hi machang", "Hi mate"]],
+      "morning": [["Good morning", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How?", "How are you? (Sri Lankan English)"], ["How are things?", "How are things?"]],
+      "fine": [["Fine, fine", "Fine"], ["Okay no", "Not bad"]],
+      "thanks": [["Thanks", "Thank you"], ["Thank you, no", "Thank you, really"]],
+      "bye": [["I'll go and come", "Bye for now"], ["Bye bye", "Goodbye"]],
+      "welcome": [["Come, come", "Come in"], ["Welcome", "Welcome"]],
+      "sorry": [["Aney sorry", "Oh, sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"], ["Ow", "Yes, borrowed from Sinhala"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "LKR",
+    "symbol": "Rs.",
+    "words": [["rupiyal", "rupees, in Sinhala"], ["sathaya", "a cent"], ["dahasa", "a thousand"], ["laksha", "a hundred thousand"], ["salli", "money, cash"], ["ganan", "price"]]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Sinhala_language",
+    "https://en.wikipedia.org/wiki/Sri_Lankan_Tamil_dialects",
+    "https://en.wikipedia.org/wiki/Sri_Lankan_English",
+    "https://en.wikipedia.org/wiki/Sri_Lankan_Moors",
+    "https://en.wikipedia.org/wiki/Tamil_name",
+    "https://en.wikipedia.org/wiki/Sri_Lankan_rupee"
+  ]
+}

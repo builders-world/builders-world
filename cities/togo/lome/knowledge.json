@@ -1,0 +1,82 @@
+{
+  "street": { "ee": 0.5, "fr": 0.44, "en": 0.06 },
+  "names": { "weights": { "ewe": 0.65, "mina": 0.35 } },
+  "phrases": {
+    "fr": {
+      "hello": [["Ça dit quoi?", "What's up?"], ["Bonne arrivée!", "Welcome!"]],
+      "fine": [["Ça va un peu", "Getting by, fine"], ["On est là", "We're here, fine"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Good morning! Did you wake well?", "Hello, how is the family?", "Good evening, how was the market?", "Ah, it's been a while! Are you well?", "Welcome, come in!"],
+      "reply": ["I woke well, thank you.", "Fine, the family is well.", "We're here, getting by.", "All good, and you?", "Doing well, thanks for asking."],
+      "sunny": ["It's hot today, the beach road will be busy.", "Good day for a walk on the seafront.", "The sun is strong, find some shade.", "Clear sky over the port this morning.", "Too hot to walk, I'll take a zem."],
+      "rain": ["The rains have come!", "Rain again, the roads in Bè will flood.", "Carry an umbrella, the sky is dark.", "Wait a bit, it will pass.", "This rain is good for the fields up country."],
+      "bye": ["See you later!", "Go well!", "See you tomorrow.", "Greet the family for me.", "Safe journey home."],
+      "busy": ["Sorry, I'm late for the office.", "I have to get to the Grand Marché before it closes.", "Let me run, the zem is waiting.", "I'll call you this evening.", "Busy day at the port, we'll talk later."]
+    },
+    "ee": {
+      "greet": ["Ŋdi na wò! Èfɔ̃a?", "Woezɔ! Aleke nèle?", "Fiẽ na wò! Aleke nèle?", "Agoo! Woezɔ!"],
+      "reply": ["Ɛ̃, mefɔ̃. Akpé.", "Mele nyuie, akpé.", "Akpé, mele nyuie.", "Ɛ̃, mele nyuie."],
+      "rain": ["Tsi le dzadzam!", "Tsi le dza ge.", "Tsi le dzadzam, nɔ afi sia."],
+      "bye": ["Mia dogo!", "Hede nyuie!", "Mia dogo etsɔ.", "Akpé, hede nyuie!"]
+    },
+    "fr": {
+      "greet": ["Bonjour, bien dormi?", "Bonsoir! La maison va bien?", "Ça dit quoi, mon frère?", "Bonne arrivée, tantie!", "Ah, ça fait longtemps!"],
+      "reply": ["Ça va un peu, merci.", "On est là, Dieu merci.", "Ça va bien, et toi?", "Tout va bien à la maison."],
+      "sunny": ["Il fait chaud aujourd'hui!", "Le soleil tape fort.", "Belle journée pour la plage.", "Il fait beau sur le boulevard."],
+      "rain": ["La pluie arrive!", "Prends ton parapluie.", "Avec cette pluie, Bè va être inondé.", "Attends que la pluie passe."],
+      "bye": ["À tout à l'heure!", "À demain.", "Bonne soirée!", "Salue la maison."],
+      "busy": ["Je suis pressé, on se parle.", "Je suis en retard au bureau.", "Le zem m'attend, je file!", "Je t'appelle ce soir."]
+    }
+  },
+  "transport": { "bus": "bus Sotral", "moto_taxi": "zémidjan", "tricycle": "tricycle", "taxi": "taxi", "shared_taxi": "taxi-ville", "conductor": "apprenti", "stage": "gare" },
+  "touts": [
+    "Adidogomé! Adidogomé!",
+    "Bè! Bè!",
+    "Agoè! Agoè!",
+    "Grand Marché! Assigamé!",
+    "Tokoin! Tokoin!",
+    "Aného! Aného!",
+    "Kpalimé! Kpalimé!",
+    "Il reste une place! On part!"
+  ],
+  "hawkers": [
+    ["Koliko! Koliko chaud!", "Hot fried yam!"],
+    ["Akpan! Akpan!", "Fermented corn yoghurt drink!"],
+    ["Ablo!", "Steamed corn and rice cakes!"],
+    ["Eau glacée!", "Cold water!"],
+    ["Bissap glacé!", "Cold hibiscus juice!"],
+    ["Atchomon!", "Crunchy fried dough snacks!"],
+    ["Arachides!", "Peanuts!"],
+    ["Crédit! Crédit!", "Phone credit!"]
+  ],
+  "food": {
+    "street": ["koliko (fried yam)", "ablo with fried fish", "atchomon", "beignets", "grilled fish on the beach road", "roasted corn"],
+    "dishes": ["fufu with sauce arachide", "akoumé with gboma dessi", "ayimolou (rice and beans)", "djenkoumé (red corn paste)", "pinon", "kom with fried fish and pepper", "sauce gombo"],
+    "drinks": ["akpan", "bissap", "sodabi (palm spirit)", "deha (palm wine)", "tchoukoutou (millet beer)", "Flag beer"]
+  },
+  "places": {
+    "neighbourhoods": ["Tokoin", "Bè", "Nyékonakpoè", "Kodjoviakopé", "Adidogomé", "Agoè", "Hédzranawoé", "Adakpamé", "Bè-Kpota", "Kégué", "Baguida", "Avédji", "Agbalépédogan", "Amoutivé", "Djidjolé", "Doulassamé"],
+    "streets": ["Boulevard de la République", "Rue du Commerce", "Avenue de la Libération", "Boulevard du Mono", "Route d'Atakpamé", "Route d'Aného", "Avenue de Duisburg", "Boulevard circulaire"],
+    "landmarks": ["Grand Marché d'Adawlato", "Monument de l'Indépendance", "Cathédrale du Sacré-Cœur", "Plage de Lomé", "Port autonome de Lomé", "Palais de Lomé", "Marché de Bè", "Hôtel 2 Février", "Université de Lomé", "Stade de Kégué", "Marché des féticheurs d'Akodessewa"]
+  },
+  "small_talk": [
+    "The zem to Adidogomé flew, I held on tight.",
+    "Koliko on the beach road tonight?",
+    "The Grand Marché is packed, everyone is buying pagne.",
+    "The fufu at the corner maquis is pounded fresh.",
+    "The border at Aflao is busy with traffic from Ghana.",
+    "Sea breeze at the Palais de Lomé gardens is the best in the evening.",
+    "The port trucks blocked the boulevard again.",
+    "Akpan and ablo for breakfast, perfect."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Lom%C3%A9",
+    "https://en.wikipedia.org/wiki/Togolese_cuisine",
+    "https://en.wikipedia.org/wiki/Ewe_language",
+    "https://en.wikipedia.org/wiki/Gen_language",
+    "https://en.wikipedia.org/wiki/Akodessawa_Fetish_Market"
+  ]
+}

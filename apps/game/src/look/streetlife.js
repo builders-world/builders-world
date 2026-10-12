@@ -1,3 +1,4 @@
+import { nameFor, titled, touts, hawkers } from './knowledge.js';
 import * as THREE from 'three';
 import { playEmote } from './expressions.js';
 import { createAvatarModel } from '../onboarding/avatar.js';
@@ -21,8 +22,12 @@ import { cityInfo } from './cityinfo.js';
 
 const box = (w, h, d, x = 0, y = 0, z = 0) => new THREE.BoxGeometry(w, h, d).translate(x, y, z);
 const person = (look, seedName) => { const av = createAvatarModel({ color: '#888888', style: 'tee' }); prepareLook(av.root); const rig = rigAvatar(av.root); dress(av.root, look || lookFor(seedName), rig); return { av, rig, obj: av.root }; };
-const TOUTS = ['Oshodi! Oshodi! Enter with your change!', 'CMS, Obalende, one chance!', 'Ojuelegba, Stadium, Costain!', 'Ikeja Along! Two more people!', 'Mile 12 Mile 12, we dey go now now!'];
-const HAWK = [['Gala! Gala!', 'Gala', 150], ['Pure water! Cold pure water!', 'Pure water', 50], ['Plantain chips, sweet and salty!', 'Plantain chips', 200], ['Charger! Earpiece!', 'Phone charger', 700]];
+// Lagos's calls, the fallback where a city's knowledge has none (look/knowledge.js)
+const TOUTS_LAGOS = ['Oshodi! Oshodi! Enter with your change!', 'CMS, Obalende, one chance!', 'Ojuelegba, Stadium, Costain!', 'Ikeja Along! Two more people!', 'Mile 12 Mile 12, we dey go now now!'];
+const HAWK_LAGOS = [['Gala! Gala!', 'Gala', 150], ['Pure water! Cold pure water!', 'Pure water', 50], ['Plantain chips, sweet and salty!', 'Plantain chips', 200], ['Charger! Earpiece!', 'Phone charger', 700]];
+// what the city's hawkers call and sell: [call, what it is, price in Efforts]
+const hawk = () => { const h = hawkers(); return h.length ? h.map(([call, gloss], i) => [call, String(gloss).replace(/!$/, '').replace(/^./, (c) => c.toUpperCase()), [50, 150, 200, 100, 120, 300, 80][i % 7]]) : HAWK_LAGOS; };
+const TOUTS = () => (touts().length ? touts() : TOUTS_LAGOS);
 
 // a paved access road along a path: tarmac with a kerb line each side, a dashed centre line, IN and OUT arrows at the mouth
 function accessRoad(pts) {
@@ -170,9 +175,9 @@ export function createStreetLife({ world, scene, props, traffic, chat, toast, ge
   const hawkers = [];
   (traffic?.signals || []).slice(0, 3).forEach((sig, si) => {
     for (let k = 0; k < 2; k++) {
-      const [call, item, price] = HAWK[(si * 2 + k) % HAWK.length];
+      const HAWK = hawk(), [call, item, price] = HAWK[(si * 2 + k) % HAWK.length];
       const h = person(lookFor(`hawker-${si}-${k}`, { fem: k === 1, tier: 2 }), `hawker-${si}-${k}`);
-      h.name = k ? 'Mama Blessing' : 'Sunday';
+      h.name = nameFor(`hawker-${si}-${k}`, k ? 'f' : 'm')?.first || (k ? 'Mama Blessing' : 'Sunday');
       const tray = new THREE.Group(); tray.add(new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.28, 0.08, 14), new THREE.MeshStandardMaterial({ color: 0xc9a27a, roughness: 0.8 })));
       for (let j = 0; j < 6; j++) tray.add(new THREE.Mesh(box(0.1, 0.12, 0.06, Math.cos(j) * 0.18, 0.1, Math.sin(j) * 0.18), new THREE.MeshStandardMaterial({ color: [0xe46f4f, 0xcfe8f2, 0xf2b33d][j % 3] })));
       tray.position.y = 1.95; h.rig?.attach ? h.rig.attach(tray, 'head') : h.obj.add(tray);
@@ -199,7 +204,8 @@ export function createStreetLife({ world, scene, props, traffic, chat, toast, ge
   const WALKERS = reduced ? 4 : 10;
   for (let k = 0; k < WALKERS && spots.length > 1; k++) {
     const w = person(lookFor(`walker-${k}`, { fem: k % 2 === 1, elder: k % 5 === 4, tier: k % 3 }), `walker-${k}`);
-    w.name = ['Uche', 'Bimpe', 'Femi', 'Ngozi', 'Baba Tunde', 'Lola', 'Seyi', 'Chioma', 'Obinna', 'Mama Kemi'][k];
+    // named as people are in this city; an elder with the respect people show them here (Mama, Mzee, Baba, Auntie)
+    { const n = nameFor(`walker-${k}`, k % 2 === 1 ? 'f' : 'm'), elder = k % 5 === 4; w.name = n ? (elder ? titled(k % 2 ? 'elder_f' : 'elder_m', n) : n.first) : ['Uche', 'Bimpe', 'Femi', 'Ngozi', 'Baba Tunde', 'Lola', 'Seyi', 'Chioma', 'Obinna', 'Mama Kemi'][k]; }
     const s0 = spots[(k * 7) % spots.length]; const q0 = world.nearestReachable?.(s0.x + (k % 3) - 1, s0.z) || s0;
     w.obj.position.set(q0.x, 0, q0.z); group.add(w.obj);
     walkers.push({ ...w, path: null, at: 0, wait: k * 0.7, pace: 1.1 + (k % 4) * 0.12 - (k % 5 === 4 ? 0.3 : 0) });
@@ -272,7 +278,7 @@ export function createStreetLife({ world, scene, props, traffic, chat, toast, ge
       });
       park.bays.forEach((b) => { if (!b.car) return; b.car.t -= dt; if (b.car.t <= 0 && park.moving.length < 2) { const E = traffic.nodes[park.entry]; park.moving.push({ mesh: b.car.mesh, path: [park.W(((b.x - park.at.x) * park.cT - (b.z - park.at.z) * park.sT), b.lz > 0 ? 1.5 : -1.5), park.inside, ...[...park.access].reverse(), { x: E.x, z: E.z }], i: 0, dir: 'out', block: traffic.addBlocker?.({ r: 1.4 }) }); b.car = null; } });
       park.next -= dt;
-      if (park.next <= 0) { park.next = 6 + Math.random() * 6; const tt = park.touts[Math.floor(Math.random() * park.touts.length)]; talk(tt, (PARK.calls || TOUTS)[Math.floor(Math.random() * (PARK.calls || TOUTS).length)], 30, player); tt.rig?.wave?.(); }
+      if (park.next <= 0) { park.next = 6 + Math.random() * 6; const tt = park.touts[Math.floor(Math.random() * park.touts.length)]; talk(tt, (PARK.calls || TOUTS())[Math.floor(Math.random() * (PARK.calls || TOUTS()).length)], 30, player); tt.rig?.wave?.(); }
       park.touts.forEach((tt) => tt.rig?.update(dt, { speed: 0, t }));
     }
     if (police) { police.lights.forEach((l, k) => { l.visible = Math.sin(t * 6 + k * Math.PI) > 0; }); police.officers.forEach((o) => o.rig?.update(dt, { speed: 0, t })); }

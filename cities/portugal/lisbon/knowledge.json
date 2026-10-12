@@ -1,0 +1,81 @@
+{
+  "street": { "pt": 0.85, "en": 0.15 },
+  "names": { "weights": { "portuguese": 0.72, "brazilian": 0.12, "cape_verdean": 0.05, "angolan": 0.03, "south_asian": 0.05, "ukrainian": 0.03 } },
+  "chat": {
+    "en": {
+      "greet": ["Bom dia! How's it going?", "Hey, good to see you!", "Hi! Bica before we start?", "Morning! Survived the hills?", "Hey, how was the weekend?"],
+      "reply": ["Good, thanks! You?", "All good, legs a bit tired.", "Not bad at all.", "Great, thanks for asking.", "Busy week, but good."],
+      "sunny": ["Another day of sun, apparently.", "Miradouro at sunset later?", "Perfect day for Cascais.", "Too hot to walk up to Graça.", "The river's sparkling today."],
+      "rain": ["The calçada is like an ice rink in the rain.", "Grab an umbrella, it's pouring.", "Rain again, the trams will be packed.", "Lisbon still looks good in the rain.", "Hills plus rain, I'm taking the metro."],
+      "bye": ["Até logo!", "See you tomorrow!", "Catch you at the coworking!", "Have a good one!", "Bye, enjoy your bica!"],
+      "busy": ["Running for the ferry to Cacilhas!", "Late for a call, talk later!", "Sorry, meeting in five.", "Got to catch the 28 before it fills up.", "Deadline today, see you later!"]
+    },
+    "pt": {
+      "greet": ["Bom dia! Tudo bem?", "Olá, então? Tudo bem contigo?", "Boa tarde! Como está?", "Ei, há quanto tempo!"],
+      "reply": ["Tudo bem, obrigado. E tu?", "Vai-se andando.", "Tudo ótimo, obrigada!", "Bem, bem, e contigo?"],
+      "sunny": ["Está um dia lindo!", "Que calor! Vamos à praia?", "Com este sol, apetece uma imperial na esplanada.", "O rio está lindo hoje."],
+      "rain": ["Está a chover a potes!", "Leva o guarda-chuva, que vai chover.", "Com esta chuva, a calçada escorrega.", "Que dia tão cinzento."],
+      "bye": ["Até logo!", "Adeus, até amanhã!", "Tchau, beijinhos!", "Até já!"],
+      "busy": ["Desculpa, estou atrasado, falamos depois!", "Agora não posso, vou perder o elétrico.", "Tenho uma reunião agora, ligo-te mais logo.", "Estou cheia de pressa, até já!"]
+    }
+  },
+  "transport": {
+    "bus": "autocarro (Carris)",
+    "moto_taxi": "trotinete",
+    "tricycle": "tuk-tuk",
+    "taxi": "táxi",
+    "conductor": "fiscal, revisor",
+    "stage": "paragem",
+    "tram": "elétrico",
+    "metro": "metro",
+    "train": "comboio (CP)",
+    "funicular": "elevador",
+    "ferry": "cacilheiro",
+    "bike_share": "Gira",
+    "ride_hail": "Uber, Bolt"
+  },
+  "touts": [
+    "Próxima estação: Baixa-Chiado. Correspondência com a linha azul.",
+    "Quentes e boas!",
+    "Tuk-tuk, tour da cidade? Alfama, miradouros!",
+    "Olha a sorte grande!",
+    "Olha a bolinha! (on the beach at Costa da Caparica)",
+    "A fado singer's voice drifts out of a doorway in Alfama."
+  ],
+  "hawkers": [
+    ["Quentes e boas!", "Hot chestnuts, hot and good!"],
+    ["Olha a sardinha fresquinha!", "Fresh sardines here!"],
+    ["Olha a sorte grande!", "Lottery, the big prize!"],
+    ["Tuk-tuk, tour da cidade?", "Tuk-tuk, city tour?"],
+    ["Olha a bolinha!", "Berlin doughnuts here! (on the beach)"],
+    ["Água fresquinha, um euro!", "Cold water, one euro!"]
+  ],
+  "food": {
+    "street": ["bifana", "prego no pão", "pastel de nata", "castanhas assadas", "sardinha assada no pão", "pão com chouriço", "croquete", "bola de Berlim"],
+    "dishes": ["bacalhau à Brás", "caldo verde", "polvo à lagareiro", "arroz de marisco", "sardinhas assadas", "amêijoas à Bulhão Pato", "cozido à portuguesa", "bitoque"],
+    "drinks": ["bica", "galão", "meia de leite", "imperial", "ginjinha", "vinho verde", "Sumol"]
+  },
+  "places": {
+    "neighbourhoods": ["Alfama", "Mouraria", "Bairro Alto", "Chiado", "Baixa", "Príncipe Real", "Graça", "Belém", "Alcântara", "Marvila", "Arroios", "Campo de Ourique", "Intendente", "Parque das Nações", "Cais do Sodré"],
+    "streets": ["Avenida da Liberdade", "Rua Augusta", "Rua da Prata", "Rua Garrett", "Rua Nova do Carvalho", "Avenida Almirante Reis", "Rua do Alecrim", "Avenida 24 de Julho", "Calçada da Glória"],
+    "landmarks": ["Praça do Comércio", "Torre de Belém", "Mosteiro dos Jerónimos", "Castelo de São Jorge", "Elevador de Santa Justa", "Ponte 25 de Abril", "Miradouro da Senhora do Monte", "Time Out Market", "LX Factory", "Oceanário", "Cristo Rei", "Hub Criativo do Beato"]
+  },
+  "small_talk": [
+    "The 28 was full of tourists again, I walked.",
+    "Santos Populares next month, the whole city will smell of sardines.",
+    "Sunset at the Miradouro de Santa Catarina is the best free show in town.",
+    "Traffic on the 25 de Abril bridge was terrible this morning.",
+    "Web Summit week, every café is full of lanyards.",
+    "My legs are tired from these hills.",
+    "Shall we take the cacilheiro across for dinner in Cacilhas?",
+    "LX Factory on Sunday, anyone?",
+    "The queue for pastéis de Belém was round the block.",
+    "Took the Gira up to Marquês, thank goodness it's electric."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Lisbon",
+    "https://en.wikipedia.org/wiki/Trams_in_Lisbon",
+    "https://www.carris.pt/",
+    "https://www.metrolisboa.pt/"
+  ]
+}

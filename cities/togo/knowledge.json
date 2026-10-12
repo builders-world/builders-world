@@ -1,0 +1,87 @@
+{
+  "languages": [
+    { "code": "fr", "name": "French", "official": true, "spoken": "widely" },
+    { "code": "ee", "name": "Ewe (and Mina, Lomé's Gen variety)", "official": false, "spoken": "widely in the south and in Lomé" },
+    { "code": "kbp", "name": "Kabiyè", "official": false, "spoken": "commonly, in the north and among northern families in Lomé" },
+    { "code": "en", "name": "English", "official": false, "spoken": "commonly near the Ghana border and in trade" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Ewe and Mina children get a day name for the day of the week they were born: Kossi or Kossiwa (Sunday), Kodjo or Adjoa (Monday), Komlan or Abla (Tuesday), Kokou or Akouvi (Wednesday), Yao or Yawa (Thursday), Koffi or Afi (Friday), Komi or Ama (Saturday). Many also carry a name with Mawu (God), like Mawuli or Mawuena, or Sena and Elom, and a French Christian first name. Family names come from the father; old coastal families of Aného and Lomé carry Afro-Brazilian or English names like d'Almeida, de Souza, Lawson and Johnson.",
+    "groups": {
+      "ewe": {
+        "given": {
+          "m": ["Kossi", "Kodjo", "Komlan", "Kokou", "Yao", "Koffi", "Komi", "Mawuli", "Edem", "Sena", "Elom", "Kafui", "Selom", "Dodzi", "Mensah", "Atsu"],
+          "f": ["Kossiwa", "Adjoa", "Abla", "Akouvi", "Yawa", "Afi", "Ama", "Enyonam", "Mawuena", "Dzifa", "Sena", "Elinam", "Akpénè", "Ayélé", "Afiavi", "Delali"]
+        },
+        "family": ["Amouzou", "Akakpo", "Agbodjan", "Ayité", "Afanou", "Attiogbé", "Dogbé", "Ahadji", "Amégan", "Agbéko", "Kpodar", "Gbeasor", "Agbenyo", "Adzoh", "Mensah", "Atsu"],
+        "also": { "m": ["Emmanuel", "Jean-Pierre", "Serge", "Fabrice", "Rodrigue", "Gilbert", "Kevin", "Romuald"], "f": ["Brigitte", "Mireille", "Christelle", "Gisèle", "Rachel", "Pascaline", "Sylvie", "Nadège"] }
+      },
+      "mina": {
+        "given": {
+          "m": ["Kossi", "Kodjo", "Komlan", "Kokou", "Yao", "Koffi", "Komi", "Kwami", "Sena", "Edoh", "Messan", "Anani"],
+          "f": ["Kossiwa", "Adjoa", "Abla", "Akouvi", "Yawa", "Afi", "Ama", "Ablavi", "Afiwa", "Massan", "Dédé", "Yayra"]
+        },
+        "family": ["Lawson", "d'Almeida", "de Souza", "Ajavon", "Johnson", "Wilson", "Santos", "Akué", "Kuevi", "Agboli", "Quashie", "Amorin"]
+      }
+    },
+    "weights": { "ewe": 0.75, "mina": 0.25 }
+  },
+  "honorifics": { "elder_m": "Tonton", "elder_f": "Tantie", "peer_m": "Mon frère", "peer_f": "Ma sœur", "boss": "Patron" },
+  "phrases": {
+    "ee": {
+      "hello": [["Woezɔ", "Welcome, hello"], ["Agoo", "Knock knock, may I come in (said on arrival)"]],
+      "morning": [["Ŋdi", "Good morning"], ["Ŋdi na wò", "Good morning to you"], ["Èfɔ̃a?", "Did you wake well?"]],
+      "evening": [["Fiẽ", "Good evening"]],
+      "how_are_you": [["Aleke nèle?", "How are you?"], ["Èfɔ̃a?", "Did you wake well?"]],
+      "fine": [["Mele nyuie", "I'm well"], ["Ɛ̃, mefɔ̃", "Yes, I woke well"]],
+      "thanks": [["Akpé", "Thank you"], ["Akpé na wò", "Thank you to you"]],
+      "bye": [["Mia dogo", "See you"], ["Hede nyuie", "Go well"]],
+      "welcome": [["Woezɔ", "Welcome"]],
+      "sorry": [["Baba", "Sorry"]],
+      "excuse": [["Agoo", "Excuse me, let me pass"]],
+      "yes": [["Ɛ̃", "Yes"]],
+      "no": [["Ao", "No"]]
+    },
+    "fr": {
+      "hello": [["Bonjour", "Hello"], ["Salut", "Hi"]],
+      "morning": [["Bonjour, bien dormi?", "Good morning, sleep well?"]],
+      "evening": [["Bonsoir", "Good evening"]],
+      "how_are_you": [["Ça va?", "How's it going?"], ["Et la maison?", "And the family?"]],
+      "fine": [["Ça va un peu", "Getting by, fine"], ["Ça va, merci", "Fine, thanks"]],
+      "thanks": [["Merci", "Thank you"], ["Merci beaucoup", "Thanks a lot"]],
+      "bye": [["Au revoir", "Goodbye"], ["À tout à l'heure", "See you later"]],
+      "welcome": [["Bonne arrivée", "Welcome, glad you arrived"], ["Bienvenue", "Welcome"]],
+      "sorry": [["Pardon", "Sorry"], ["Désolé", "Sorry"]],
+      "excuse": [["Excusez-moi", "Excuse me"]],
+      "yes": [["Oui", "Yes"]],
+      "no": [["Non", "No"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["Fine, thanks", "Fine, thanks"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Goodbye", "Goodbye"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "XOF",
+    "symbol": "FCFA",
+    "words": [
+      ["ga", "money, in Ewe"],
+      ["l'argent", "money"],
+      ["mille", "a thousand francs"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Togo",
+    "https://en.wikipedia.org/wiki/Ewe_language",
+    "https://en.wikipedia.org/wiki/Gen_language",
+    "https://en.wikipedia.org/wiki/Ewe_people",
+    "https://en.wikipedia.org/wiki/Kabiye_language",
+    "https://en.wikivoyage.org/wiki/Ewe_phrasebook"
+  ]
+}

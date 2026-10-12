@@ -1,0 +1,100 @@
+{
+  "street": { "si": 0.55, "ta": 0.2, "en": 0.25 },
+  "registers": {},
+  "names": { "weights": { "sinhala": 0.55, "tamil": 0.22, "muslim": 0.23 } },
+  "phrases": {
+    "si": {
+      "how_much": [["Kiyada?", "How much?"], ["Ganan kiyada?", "What's the price?"]],
+      "great": [["Ela!", "Great! Cool!"], ["Supiri!", "Super!"]],
+      "oh_no": [["Aiyo!", "Oh no!"], ["Aney!", "Oh dear!"]],
+      "no_worries": [["Kamak naha", "No problem, never mind"], ["Prashnayak naha", "No problem"]],
+      "come_on": [["Ennako!", "Come on!"], ["Yamu", "Let's go"]]
+    },
+    "en": {
+      "friend": [["Machang", "Mate, buddy"], ["Machan", "Mate, another spelling"]],
+      "tag": [["No?", "Isn't it? (tagged on the end of sentences)"], ["What to do", "Oh well, nothing can be done"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hello machang, how?", "Good morning aunty, all okay?", "Hi! How are things?", "Ah, long time no see!", "Hello, what's new?"],
+      "reply": ["All good, same as usual.", "Fine fine, you?", "Doing well, thanks!", "Okay no, just busy.", "All fine, how is the family?"],
+      "sunny": ["Proper hot today, a king coconut is a must.", "Beautiful day for a walk on Galle Face.", "Sun is too much, carry an umbrella anyway.", "Clear sky, the sunset will be lovely.", "Humid as usual, no?"],
+      "rain": ["The monsoon has properly started.", "Heavy rain, Baseline Road will be flooded.", "Take an umbrella, it is pouring.", "Rain again, the trains will be late.", "Good weather for a plate of hot kottu."],
+      "bye": ["Okay, I'll go and come!", "See you, take care.", "Bye bye, catch you later.", "Okay then, keep in touch.", "Go carefully!"],
+      "busy": ["Sorry, rushing to office, talk later.", "Have a meeting in Fort, will call you.", "Bus is coming, I'll go and come!", "Bit busy now, let us catch up later.", "Stuck in traffic at Kollupitiya, running late."]
+    },
+    "si": {
+      "greet": ["Ayubowan! Kohomada?", "Ah machang, kohomada?", "Akke, kohomada?", "Mokada wenne?"],
+      "reply": ["Hondai, oyata kohomada?", "Ehemai, mokuth naha.", "Hondai, sthuthi!", "Aney hondai, ehemai."],
+      "sunny": ["Ada hari rasnei.", "Awwa hari sarai ne.", "Ada lassana dawasak.", "Rasnei, kurumba ekak bonna one."],
+      "rain": ["Wahinawa, kude gannako.", "Ada nam wessa hari wadi.", "Wahina nisa traffic hari.", "Kude genawada?"],
+      "bye": ["Gihin ennam!", "Passe hambemu.", "Ehenam, gihin ennam.", "Parissamen yanna."],
+      "busy": ["Mata dan hari hadissiyi, passe kathakaramu.", "Office yanna parakkui, passe hambemu.", "Bus eka enawa, gihin ennam!", "Dan wadak thiyenawa, passe call karannam."]
+    },
+    "ta": {
+      "greet": ["Vanakkam! Eppidi?", "Vanakkam anna, sugamaa?", "Eppidi irukkireenga?", "Vanakkam akka!"],
+      "reply": ["Nallaa irukkiren, neenga?", "Sugam, nandri.", "Paravaayillai, okay.", "Ellaam sari, nandri."],
+      "sunny": ["Indaikku nalla veyil.", "Saraiyaana veyil, thanni kudinga.", "Nalla naal indaikku.", "Kadal pakkam nalla kaatru."],
+      "rain": ["Mazhai varuthu, kudai edunga.", "Indaikku nalla mazhai.", "Mazhai naala traffic.", "Kudai kondu vantheengalaa?"],
+      "bye": ["Poittu varen!", "Piragu sandhippom.", "Sari, poittu vaanga.", "Kavanamaa ponga."],
+      "busy": ["Konjam avasaram, piragu kathaippom.", "Office-ku late aachu, poittu varen!", "Bus varuthu, poittu varen!", "Ippo velai irukku, piragu call pannuren."]
+    }
+  },
+  "transport": {
+    "bus": "bus",
+    "tricycle": "three-wheeler",
+    "tuk": "tuk",
+    "ride_hail": "PickMe",
+    "train": "train",
+    "taxi": "cab",
+    "conductor": "conductor",
+    "stage": "bus halt"
+  },
+  "touts": [
+    "Pettah, Pettah, Pettah!",
+    "Kotuwa! Kotuwa!",
+    "Galle Road, Wellawatte, Dehiwala!",
+    "Nugegoda, Maharagama!",
+    "Borella, Borella!",
+    "Issarahata yanna, issarahata!",
+    "Nagga, nagga, ikmanata!",
+    "Tuk venuma? Kohedha yanne?"
+  ],
+  "hawkers": [
+    ["Kadala, kadala!", "Spiced chickpeas!"],
+    ["Isso wade!", "Prawn fritters!"],
+    ["Thambili, thambili!", "King coconut!"],
+    ["Achcharu, achcharu!", "Spicy fruit pickle!"],
+    ["Wade, wade, unu unu!", "Hot vadai!"],
+    ["Rotti, pol rotti!", "Coconut flatbread!"],
+    ["Ice cream, ice cream!", "Ice cream!"]
+  ],
+  "food": {
+    "street": ["isso wade", "kottu roti", "hoppers (appa)", "egg hoppers", "kadala", "achcharu", "short eats (patties, rolls, cutlets)", "pol rotti", "parippu wade", "string hoppers (indiyappa)"],
+    "dishes": ["rice and curry", "lamprais", "pol sambol", "parippu", "fish ambul thiyal", "kiribath", "crab curry", "devilled chicken"],
+    "drinks": ["kiri tea", "plain tea", "thambili (king coconut)", "faluda", "wood apple juice", "ginger beer", "Ceylon tea"]
+  },
+  "places": {
+    "neighbourhoods": ["Kollupitiya", "Bambalapitiya", "Wellawatte", "Cinnamon Gardens", "Borella", "Pettah", "Fort", "Slave Island", "Dehiwala", "Mount Lavinia", "Rajagiriya", "Nugegoda", "Havelock Town", "Kotahena"],
+    "streets": ["Galle Road", "Duplication Road", "Baseline Road", "Union Place", "Main Street", "Havelock Road", "Marine Drive", "Horton Place", "Ward Place"],
+    "landmarks": ["Galle Face Green", "Lotus Tower", "Gangaramaya Temple", "Jami Ul-Alfar Mosque (Red Mosque)", "Beira Lake", "Independence Square", "Viharamahadevi Park", "Dutch Hospital", "Pettah Floating Market", "Port City Colombo", "Mount Lavinia Beach"]
+  },
+  "small_talk": [
+    "Sunset at Galle Face with isso wade, can't beat it.",
+    "Baseline Road was jammed again this morning.",
+    "The southwest monsoon is here, carry an umbrella everywhere.",
+    "Pettah is packed, everyone is shopping for Avurudu.",
+    "You can hear the kottu chopping from down the road.",
+    "The Lotus Tower lights look nice tonight.",
+    "Took the coastal train to Mount Lavinia, lovely ride.",
+    "Hoppers for dinner? There's a good place in Wellawatte.",
+    "The PickMe driver took Marine Drive, much faster."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Colombo",
+    "https://en.wikipedia.org/wiki/Sri_Lankan_cuisine",
+    "https://en.wikipedia.org/wiki/Galle_Face_Green",
+    "https://en.wikipedia.org/wiki/Kottu"
+  ]
+}

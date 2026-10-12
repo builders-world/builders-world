@@ -1,0 +1,696 @@
+{
+  "languages": [
+    {
+      "code": "el",
+      "name": "Greek",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "commonly"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "One given name, very often after a grandparent, so the same few names run through every family. Everyday names are short forms of the official ones (Γιώργος for Γεώργιος, Κώστας for Κωνσταντίνος, Βάσω for Βασιλική), and people celebrate their name day as much as their birthday. Family names change with gender: a man is Παπαδόπουλος, his daughter Παπαδοπούλου; a man is Παπαδάκης, his sister Παπαδάκη. Endings show the region: -άκης is Cretan, -όπουλος Peloponnesian, -ίδης Pontic or northern. Surnames ending in -ου that come from a father's name (Γεωργίου, Ιωάννου) are the same for men and women, so `family` holds those, and `family_by_gender` holds the gendered pairs in matching order. Greek names are written here in Greek script. Albanians are Greece's largest immigrant community, and many also use a Greek name day to day.",
+    "groups": {
+      "greek": {
+        "given": {
+          "m": [
+            "Γιώργος",
+            "Κώστας",
+            "Γιάννης",
+            "Δημήτρης",
+            "Νίκος",
+            "Παναγιώτης",
+            "Βασίλης",
+            "Χρήστος",
+            "Θανάσης",
+            "Μιχάλης",
+            "Αλέξανδρος",
+            "Σπύρος",
+            "Στέλιος",
+            "Άγγελος",
+            "Παύλος",
+            "Θοδωρής"
+          ],
+          "f": [
+            "Μαρία",
+            "Ελένη",
+            "Κατερίνα",
+            "Βασιλική",
+            "Σοφία",
+            "Γεωργία",
+            "Δέσποινα",
+            "Αγγελική",
+            "Δήμητρα",
+            "Ειρήνη",
+            "Χριστίνα",
+            "Αναστασία",
+            "Φωτεινή",
+            "Ευαγγελία",
+            "Ζωή",
+            "Νεφέλη"
+          ]
+        },
+        "family": [
+          "Γεωργίου",
+          "Ιωάννου",
+          "Νικολάου",
+          "Δημητρίου",
+          "Αντωνίου",
+          "Κωνσταντίνου",
+          "Οικονόμου",
+          "Αθανασίου",
+          "Βασιλείου",
+          "Θεοδώρου",
+          "Παναγιώτου",
+          "Αναστασίου",
+          "Χριστοδούλου",
+          "Παπαγεωργίου",
+          "Παπανικολάου",
+          "Σταματίου",
+          "Παπαδόπουλος",
+          "Παπαδάκης",
+          "Γεωργιάδης",
+          "Βλάχος",
+          "Κωνσταντινίδης",
+          "Μαυρίδης",
+          "Καραγιάννης",
+          "Νικολαΐδης",
+          "Αντωνόπουλος",
+          "Δημητρόπουλος",
+          "Μακρής",
+          "Παππάς",
+          "Σταυρόπουλος",
+          "Μιχαηλίδης",
+          "Κυριακίδης"
+        ],
+        "family_f": [
+          "Γεωργίου",
+          "Ιωάννου",
+          "Νικολάου",
+          "Δημητρίου",
+          "Αντωνίου",
+          "Κωνσταντίνου",
+          "Οικονόμου",
+          "Αθανασίου",
+          "Βασιλείου",
+          "Θεοδώρου",
+          "Παναγιώτου",
+          "Αναστασίου",
+          "Χριστοδούλου",
+          "Παπαγεωργίου",
+          "Παπανικολάου",
+          "Σταματίου",
+          "Παπαδοπούλου",
+          "Παπαδάκη",
+          "Γεωργιάδου",
+          "Βλάχου",
+          "Κωνσταντινίδου",
+          "Μαυρίδου",
+          "Καραγιάννη",
+          "Νικολαΐδου",
+          "Αντωνοπούλου",
+          "Δημητροπούλου",
+          "Μακρή",
+          "Παππά",
+          "Σταυροπούλου",
+          "Μιχαηλίδου",
+          "Κυριακίδου"
+        ]
+      },
+      "albanian": {
+        "given": {
+          "m": [
+            "Arben",
+            "Besnik",
+            "Ermal",
+            "Gentian",
+            "Kledi",
+            "Klodian",
+            "Endrit",
+            "Ardit",
+            "Erion",
+            "Dritan",
+            "Fatjon",
+            "Elton",
+            "Altin",
+            "Florian",
+            "Marsel"
+          ],
+          "f": [
+            "Elona",
+            "Blerina",
+            "Anisa",
+            "Jonida",
+            "Klea",
+            "Ilda",
+            "Ermira",
+            "Arta",
+            "Denisa",
+            "Fjona",
+            "Mirela",
+            "Brunilda",
+            "Eralda",
+            "Xhensila",
+            "Dorina"
+          ]
+        },
+        "family": [
+          "Hoxha",
+          "Shehu",
+          "Dervishi",
+          "Leka",
+          "Gjoka",
+          "Kola",
+          "Basha",
+          "Meta",
+          "Prifti",
+          "Çela",
+          "Hysa",
+          "Duka",
+          "Marku",
+          "Lika",
+          "Muça",
+          "Doda"
+        ],
+        "also": {
+          "m": [
+            "Κώστας",
+            "Γιώργος",
+            "Γιάννης",
+            "Σπύρος"
+          ],
+          "f": [
+            "Μαρία",
+            "Ελένη",
+            "Κατερίνα"
+          ]
+        }
+      },
+      "georgian": {
+        "given": {
+          "m": [
+            "Giorgi",
+            "Davit",
+            "Levan",
+            "Irakli",
+            "Nika",
+            "Zurab",
+            "Giga",
+            "Luka",
+            "Lasha",
+            "Tornike",
+            "Vakhtang",
+            "Beka",
+            "Tamaz",
+            "Gocha"
+          ],
+          "f": [
+            "Nino",
+            "Tamar",
+            "Mariam",
+            "Ana",
+            "Natia",
+            "Eka",
+            "Salome",
+            "Ketevan",
+            "Maia",
+            "Nana",
+            "Tamta",
+            "Sopho",
+            "Lela",
+            "Manana"
+          ]
+        },
+        "family": [
+          "Beridze",
+          "Kapanadze",
+          "Gelashvili",
+          "Maisuradze",
+          "Giorgadze",
+          "Lomidze",
+          "Tsiklauri",
+          "Bolkvadze",
+          "Nozadze",
+          "Abashidze",
+          "Chikovani",
+          "Khutsishvili",
+          "Mchedlishvili",
+          "Dolidze",
+          "Tsertsvadze"
+        ]
+      },
+      "egyptian": {
+        "given": {
+          "m": [
+            "Mohamed",
+            "Ahmed",
+            "Mahmoud",
+            "Mostafa",
+            "Karim",
+            "Amr",
+            "Tarek",
+            "Hossam",
+            "Sherif",
+            "Hany",
+            "Waleed",
+            "Khaled",
+            "Ayman",
+            "Ramy"
+          ],
+          "f": [
+            "Mona",
+            "Nour",
+            "Yasmin",
+            "Heba",
+            "Dina",
+            "Rania",
+            "Mariam",
+            "Aya",
+            "Salma",
+            "Nesma",
+            "Shaimaa",
+            "Reem",
+            "Hend",
+            "Amira",
+            "Ghada"
+          ]
+        },
+        "family": [
+          "Hassan",
+          "Mahmoud",
+          "Ibrahim",
+          "Abdelrahman",
+          "El Sayed",
+          "Mostafa",
+          "Farouk",
+          "Soliman",
+          "Mansour",
+          "Fawzy",
+          "Ragab",
+          "Hamdy",
+          "Shehata",
+          "Zaki",
+          "Gamal",
+          "Saad"
+        ],
+        "also": {
+          "m": [
+            "Mina",
+            "Bishoy",
+            "Peter"
+          ],
+          "f": [
+            "Marina",
+            "Nancy",
+            "Christine"
+          ]
+        }
+      },
+      "pakistani": {
+        "given": {
+          "m": [
+            "Muhammad",
+            "Ali",
+            "Imran",
+            "Asif",
+            "Usman",
+            "Bilal",
+            "Kashif",
+            "Tariq",
+            "Zeeshan",
+            "Faisal",
+            "Hamza",
+            "Waqas",
+            "Shahid",
+            "Adnan",
+            "Nadeem"
+          ],
+          "f": [
+            "Ayesha",
+            "Fatima",
+            "Saima",
+            "Nadia",
+            "Sana",
+            "Rabia",
+            "Hina",
+            "Amna",
+            "Mehwish",
+            "Sadia",
+            "Zainab",
+            "Khadija",
+            "Iqra",
+            "Bushra"
+          ]
+        },
+        "family": [
+          "Khan",
+          "Ahmed",
+          "Hussain",
+          "Malik",
+          "Butt",
+          "Chaudhry",
+          "Raza",
+          "Iqbal",
+          "Shah",
+          "Bhatti",
+          "Akhtar",
+          "Javed",
+          "Qureshi",
+          "Rana",
+          "Aslam"
+        ]
+      },
+      "filipino": {
+        "given": {
+          "m": [
+            "Mark",
+            "John Paul",
+            "Jerome",
+            "Jayson",
+            "Christian",
+            "Rommel",
+            "Arnel",
+            "Joel",
+            "Ronald",
+            "Michael",
+            "Rodel",
+            "Reynaldo",
+            "Noel",
+            "Jericho",
+            "Allan"
+          ],
+          "f": [
+            "Maricel",
+            "Jocelyn",
+            "Rowena",
+            "Lorna",
+            "Marites",
+            "Kristine",
+            "Angelica",
+            "Joy",
+            "Rhea",
+            "Jennifer",
+            "Princess",
+            "Liza",
+            "Grace",
+            "Analyn"
+          ]
+        },
+        "family": [
+          "Santos",
+          "Reyes",
+          "Cruz",
+          "Bautista",
+          "Garcia",
+          "Mendoza",
+          "Dela Cruz",
+          "Villanueva",
+          "Ramos",
+          "Aquino",
+          "Castillo",
+          "Fernandez",
+          "Flores",
+          "Gonzales",
+          "Navarro",
+          "Torres"
+        ]
+      }
+    },
+    "weights": {
+      "greek": 0.88,
+      "albanian": 0.07,
+      "georgian": 0.015,
+      "egyptian": 0.015,
+      "pakistani": 0.01,
+      "filipino": 0.01
+    }
+  },
+  "honorifics": {
+    "elder_m": "κύριε",
+    "elder_f": "κυρία",
+    "peer_m": "φίλε",
+    "peer_f": "φίλη μου",
+    "boss": "αφεντικό",
+    "titles": {
+      "elder_m": "Kyrios",
+      "elder_f": "Kyria",
+      "with": "family"
+    }
+  },
+  "phrases": {
+    "el": {
+      "hello": [
+        [
+          "Γεια σου",
+          "Hi (to one person)"
+        ],
+        [
+          "Γεια σας",
+          "Hello (polite or to several)"
+        ],
+        [
+          "Έλα!",
+          "Hey! (on the phone or to a friend)"
+        ]
+      ],
+      "morning": [
+        [
+          "Καλημέρα",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Καλησπέρα",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Τι κάνεις;",
+          "How are you?"
+        ],
+        [
+          "Τι κάνετε;",
+          "How are you? (polite)"
+        ],
+        [
+          "Πώς πας;",
+          "How's it going?"
+        ]
+      ],
+      "fine": [
+        [
+          "Καλά, ευχαριστώ",
+          "Fine, thanks"
+        ],
+        [
+          "Μια χαρά",
+          "Great, all good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Ευχαριστώ",
+          "Thank you"
+        ],
+        [
+          "Ευχαριστώ πολύ",
+          "Thank you very much"
+        ],
+        [
+          "Να 'σαι καλά",
+          "Thanks, be well"
+        ]
+      ],
+      "bye": [
+        [
+          "Γεια",
+          "Bye"
+        ],
+        [
+          "Αντίο",
+          "Goodbye"
+        ],
+        [
+          "Τα λέμε",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Καλώς ήρθες",
+          "Welcome (to one person)"
+        ],
+        [
+          "Καλώς ήρθατε",
+          "Welcome (polite or to several)"
+        ]
+      ],
+      "sorry": [
+        [
+          "Συγγνώμη",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Με συγχωρείτε",
+          "Excuse me (polite)"
+        ],
+        [
+          "Συγγνώμη",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Ναι",
+          "Yes"
+        ],
+        [
+          "Εντάξει",
+          "OK"
+        ]
+      ],
+      "no": [
+        [
+          "Όχι",
+          "No"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hi",
+          "Hi"
+        ],
+        [
+          "Hello",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Morning!",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Evening!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How's it going?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Good, thanks",
+          "Fine, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks",
+          "Thank you"
+        ],
+        [
+          "Cheers",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "Bye",
+          "Goodbye"
+        ],
+        [
+          "See you",
+          "See you later"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ],
+        [
+          "Sure",
+          "Sure"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "EUR",
+    "symbol": "€",
+    "words": [
+      [
+        "φράγκα",
+        "money, in slang (from the old francs)"
+      ],
+      [
+        "εικοσάρικο",
+        "a twenty-euro note"
+      ],
+      [
+        "πενηντάρικο",
+        "a fifty-euro note"
+      ],
+      [
+        "κατοστάρικο",
+        "a hundred-euro note"
+      ],
+      [
+        "ψιλά",
+        "small change"
+      ],
+      [
+        "ρέστα",
+        "change given back"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Greek_name",
+    "https://en.wikipedia.org/wiki/Modern_Greek",
+    "https://en.wikipedia.org/wiki/Immigration_to_Greece",
+    "https://www.statistics.gr/"
+  ]
+}

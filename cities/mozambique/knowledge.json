@@ -1,0 +1,117 @@
+{
+  "languages": [
+    { "code": "pt", "name": "Portuguese", "official": true, "spoken": "widely" },
+    { "code": "ts", "name": "Changana (Xichangana)", "official": false, "spoken": "widely" },
+    { "code": "en", "name": "English", "official": false, "spoken": "some" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Most Mozambicans carry a Portuguese first name (João, Armando, Graça, Felizarda) or a modern one (Edson, Dércio, Neusa, Cátia), followed by a family surname from their community. In the south, around Maputo, Gaza and Inhambane, surnames are Changana, Ronga and Chopi (Cossa, Macamo, Mabunda, Sitoe, Tembe, Nhantumbo). In the centre, around Beira and Tete, they are Sena, Ndau and Nyungwe (Simango, Sithole, Mandava, Phiri). In the north, Makhuwa families on the coast are largely Muslim and a father's first name often becomes the child's surname (Momade, Assane, Issufo). Some southern families also give Changana names with meaning, such as Xiluva (flower). Emakhuwa, Sena, Ndau, Chopi and Ronga are big languages in their own regions; in Maputo, Portuguese and Changana carry the day.",
+    "groups": {
+      "changana": {
+        "given": {
+          "m": ["João", "Manuel", "Carlos", "Armando", "Alberto", "Fernando", "Domingos", "Américo", "Ernesto", "Zacarias", "Felisberto", "Tomás", "Abel", "Celso", "Hélio", "Arsénio"],
+          "f": ["Maria", "Ana", "Rosa", "Graça", "Luísa", "Celeste", "Albertina", "Ermelinda", "Felizarda", "Lurdes", "Esperança", "Cacilda", "Benvinda", "Argentina", "Lídia", "Xiluva"]
+        },
+        "family": ["Cossa", "Macamo", "Mabunda", "Sitoe", "Muianga", "Tembe", "Matsinhe", "Massingue", "Maluleque", "Chaúque", "Cumbe", "Mucavele", "Bila", "Langa", "Nhantumbo", "Machava", "Chongo", "Muchanga", "Novela", "Guambe", "Mate", "Macuácua", "Mahumane", "Zandamela"],
+        "also": {
+          "m": ["Edson", "Nelson", "Dércio", "Ivo", "Elton", "Wilson", "Hamilton", "Edmilson", "Kelvin", "Shelton", "Cláudio", "Délcio"],
+          "f": ["Neusa", "Cátia", "Sónia", "Yolanda", "Kátia", "Yara", "Nilza", "Hélia", "Telma", "Dulce", "Celma", "Shirley"]
+        }
+      },
+      "macua": {
+        "given": {
+          "m": ["Momade", "Assane", "Abdul", "Amade", "Issufo", "Selemane", "Abudo", "Saide", "Ussene", "Rachide", "Amisse", "Abacar"],
+          "f": ["Fátima", "Amina", "Zainabo", "Mariamo", "Ancha", "Saquina", "Anifa", "Rabia", "Alima", "Sumaia", "Jamila", "Zubaida"]
+        },
+        "family": ["Momade", "Assane", "Abdala", "Issufo", "Amisse", "Saide", "Selemane", "Ussene", "Abudo", "Amade", "Mussa", "Bacar", "Faquir", "Rachide"],
+        "also": {
+          "m": ["João", "Manuel", "Pedro", "Alberto", "Francisco", "José", "António", "Luís", "Edson", "Nelson", "Dércio", "Hélio"],
+          "f": ["Maria", "Rosa", "Teresa", "Luísa", "Joana", "Celeste", "Isabel", "Graça", "Neusa", "Cátia", "Sónia", "Yolanda"]
+        }
+      },
+      "sena_ndau": {
+        "given": {
+          "m": ["Alberto", "Fernando", "Daniel", "Samuel", "Tomás", "Jaime", "Rafael", "Eusébio", "Raúl", "Bernardo", "Francisco", "Lucas"],
+          "f": ["Maria", "Rosa", "Ana", "Cristina", "Celeste", "Joana", "Isabel", "Amélia", "Laura", "Olga", "Lúcia", "Rita"]
+        },
+        "family": ["Mandava", "Simango", "Sithole", "Dimande", "Mutemba", "Bande", "Phiri", "Banda", "Chirindza", "Catamo", "Mbewe", "Sande"],
+        "also": {
+          "m": ["Edson", "Nelson", "Dércio", "Ivo", "Elton", "Wilson", "Hamilton", "Edmilson", "Kelvin", "Shelton", "Cláudio", "Délcio"],
+          "f": ["Neusa", "Cátia", "Sónia", "Yolanda", "Kátia", "Yara", "Nilza", "Hélia", "Telma", "Dulce", "Celma", "Shirley"]
+        }
+      }
+    },
+    "weights": { "changana": 0.45, "macua": 0.3, "sena_ndau": 0.25 }
+  },
+  "honorifics": { "elder_m": "Papá", "elder_f": "Mamana", "peer_m": "Mano", "peer_f": "Mana", "boss": "Patrão" },
+  "phrases": {
+    "pt": {
+      "hello": [["Olá!", "Hello"], ["Olá, tudo bem?", "Hello, all good?"]],
+      "morning": [["Bom dia!", "Good morning"]],
+      "evening": [["Boa tarde!", "Good afternoon"], ["Boa noite!", "Good evening"]],
+      "how_are_you": [["Como estás?", "How are you?"], ["Estás bem?", "Are you well?"], ["Tudo bem?", "All good?"]],
+      "fine": [["Estou bem, obrigado", "I'm fine, thanks"], ["Tudo bem", "All good"]],
+      "thanks": [["Obrigado", "Thank you (said by a man)"], ["Obrigada", "Thank you (said by a woman)"], ["Muito obrigado", "Thank you very much"]],
+      "bye": [["Tchau!", "Bye"], ["Até logo", "See you later"], ["Até amanhã", "See you tomorrow"]],
+      "welcome": [["Bem-vindo", "Welcome"], ["Seja bem-vindo", "You are welcome here"]],
+      "sorry": [["Desculpa", "Sorry"], ["Desculpe", "Sorry (polite)"]],
+      "excuse": [["Com licença", "Excuse me"]],
+      "yes": [["Sim", "Yes"]],
+      "no": [["Não", "No"]]
+    },
+    "ts": {
+      "hello": [["Kunjhani?", "Hello, how are you?"], ["Minjhani?", "Hello, how are you? (to several, or politely)"]],
+      "morning": [["Dzixile!", "Good morning"]],
+      "evening": [["Inhlekani!", "Good afternoon"], ["Dzipelile!", "Good evening"]],
+      "how_are_you": [["Kunjhani?", "How are you?"], ["U bom?", "Are you well?"]],
+      "fine": [["Ni bom", "I'm fine"]],
+      "thanks": [["Khanimambo", "Thank you"]],
+      "bye": [["Hambanini!", "Goodbye"], ["Hi ta vonana", "See you later"], ["Hi ta vonana mundzuku", "See you tomorrow"]],
+      "welcome": [["Hoyo-hoyo!", "Welcome"]],
+      "sorry": [["Ni drivaleli", "Forgive me, sorry"]],
+      "excuse": [["Ni drivaleli", "Excuse me"]],
+      "yes": [["Ina", "Yes"]],
+      "no": [["Hum-mh", "No"]]
+    },
+    "en": {
+      "hello": [["Hello!", "Hello"]],
+      "morning": [["Good morning!", "Good morning"]],
+      "evening": [["Good evening!", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["I'm fine, thanks", "I'm fine, thanks"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Goodbye", "Goodbye"], ["See you", "See you"]],
+      "welcome": [["Welcome", "Welcome"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "MZN",
+    "symbol": "MT",
+    "words": [
+      ["meticais", "the currency"],
+      ["mola", "money, in slang"],
+      ["mil", "a thousand meticais"],
+      ["xitique", "a rotating savings group among friends or colleagues"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Mozambique",
+    "https://en.wikipedia.org/wiki/Languages_of_Mozambique",
+    "https://en.wikipedia.org/wiki/Mozambican_Portuguese",
+    "https://en.wikipedia.org/wiki/Tsonga_language",
+    "https://en.wikipedia.org/wiki/Ronga_language",
+    "https://en.wikipedia.org/wiki/Makhuwa_language",
+    "https://en.wikipedia.org/wiki/Tsonga_people",
+    "https://en.wikipedia.org/wiki/Makua_people",
+    "https://en.wikipedia.org/wiki/Sena_people",
+    "https://en.wikipedia.org/wiki/Ndau_people",
+    "https://en.wikipedia.org/wiki/Mozambican_metical",
+    "https://www.changana.info/basic-phrases/",
+    "https://eyeinthemiddle.com/2018/12/10/language-primer-xangana/"
+  ]
+}

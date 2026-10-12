@@ -1,0 +1,95 @@
+{
+  "street": { "vi": 0.87, "en": 0.13 },
+  "registers": {},
+  "names": { "weights": { "south": 0.62, "north": 0.33, "hoa": 0.05 } },
+  "phrases": {
+    "vi": {
+      "hello": [["Chào anh nha", "Hi there, the friendly southern way"]],
+      "how_are_you": [["Dạo này sao rồi?", "How have you been?"], ["Khỏe hông?", "You well?"]],
+      "fine": [["Khỏe re", "Doing great"], ["Cũng được", "Not bad"]],
+      "thanks": [["Cám ơn nha", "Thanks"]],
+      "yes": [["Dạ", "Yes, polite"], ["Ờ", "Yeah"]],
+      "no": [["Hông", "No, the southern way of saying không"], ["Hổng có", "Nope, there isn't"]],
+      "bye": [["Thôi đi nha", "Right, I'm off"]],
+      "wow": [["Trời ơi!", "Oh my!"], ["Dữ dằn!", "Wow, intense!"]],
+      "cheers": [["Một, hai, ba, dzô!", "One, two, three, cheers!"]],
+      "how_much": [["Nhiêu tiền?", "How much?"], ["Bớt chút đi chị", "Knock a bit off"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hello! Had breakfast yet?", "Morning! The traffic is crazy today.", "Hey, how's it going?", "Hi! Long time no see.", "Good to see you, how's work?"],
+      "reply": ["Good thanks, just had cơm tấm.", "All good, busy as always.", "Not bad, and you?", "Doing great, thanks.", "Fine, a bit hot!"],
+      "sunny": ["So hot today, I need an iced coffee.", "The sun is strong, cover up on the bike.", "Nice clear day by the river.", "Dry season, every day is sunny.", "Hot enough to melt, let's find some shade."],
+      "rain": ["Afternoon downpour again, wait it out.", "Rainy season, it pours every afternoon.", "Grab your raincoat, the sky is turning black.", "Rain like this floods the street in minutes.", "Shelter under the shop front till it stops."],
+      "bye": ["See you later!", "Take care on the road!", "Bye, see you tomorrow.", "Have a good one!", "Catch you at the coffee shop."],
+      "busy": ["Sorry, I'm in a hurry.", "Traffic jam, I'm late again.", "Got a meeting, call you after.", "Too busy today, coffee another time?", "My Grab is here, gotta run!"]
+    },
+    "vi": {
+      "greet": ["Chào anh, dạo này sao rồi?", "Ê, lâu quá hông gặp!", "Ăn sáng chưa em?", "Chị ơi, khỏe hông?", "Dạ chào cô, cô đi chợ hả?"],
+      "reply": ["Dạ khỏe, cám ơn anh nha.", "Cũng bình thường à, còn chị sao?", "Ăn rồi, mới ăn tô hủ tiếu.", "Khỏe re, cám ơn nha."],
+      "sunny": ["Trời nắng quá trời luôn.", "Nóng muốn xỉu, uống ly trà đá đi.", "Nắng gắt vậy nhớ mặc áo khoác nha.", "Hôm nay trời đẹp ghê."],
+      "rain": ["Mưa rồi, trú mưa chút đi.", "Mùa mưa, chiều nào cũng mưa.", "Đem áo mưa theo nha, sắp mưa rồi.", "Mưa vầy là đường ngập liền."],
+      "bye": ["Thôi tui đi nha.", "Gặp lại sau nha.", "Đi cẩn thận nha.", "Bye nha, mai gặp."],
+      "busy": ["Tui đang gấp, nói sau nha.", "Kẹt xe quá trời, trễ rồi.", "Bận quá, để bữa khác cà phê nha.", "Phải chạy đi họp, chút gọi lại nha."]
+    }
+  },
+  "transport": {
+    "bus": "xe buýt",
+    "metro": "metro (Line 1, Bến Thành to Suối Tiên)",
+    "moto_taxi": "xe ôm",
+    "ride_hail": "Grab",
+    "taxi": "taxi",
+    "cyclo": "xích lô",
+    "boat": "buýt đường sông (Saigon Waterbus)",
+    "coach_station": "bến xe Miền Đông, bến xe Miền Tây",
+    "stage": "trạm xe buýt",
+    "conductor": "lơ xe"
+  },
+  "touts": [
+    "Xe ôm hông anh?",
+    "Đi đâu em, chở đi nè!",
+    "Miền Tây, Miền Tây! Cần Thơ nè!",
+    "Vũng Tàu, Vũng Tàu, lên xe liền!",
+    "Đà Lạt, xe giường nằm, còn chỗ nè!",
+    "Bến Thành, Chợ Lớn, lên đi!",
+    "Lên xe đi chị, xe chạy liền!"
+  ],
+  "hawkers": [
+    ["Bánh mì nóng giòn nè!", "Hot crispy bánh mì!"],
+    ["Hột vịt lộn đây!", "Fertilised duck eggs!"],
+    ["Bắp nướng nè!", "Grilled corn!"],
+    ["Chè đây, chè đậu xanh nè!", "Sweet soup, mung bean sweet soup!"],
+    ["Bánh bò, bánh da lợn đây!", "Rice cakes, layered pandan cake!"],
+    ["Ai ăn hủ tiếu gõ hông?", "Anyone for knock-knock noodles?"],
+    ["Nước mía nè!", "Sugarcane juice!"]
+  ],
+  "food": {
+    "street": ["bánh mì", "cơm tấm", "hủ tiếu gõ", "bánh xèo", "gỏi cuốn", "bột chiên", "bánh tráng trộn", "ốc", "hột vịt lộn", "bắp xào", "phá lấu"],
+    "dishes": ["cơm tấm sườn bì chả", "bún bò Huế", "canh chua cá", "cá kho tộ", "lẩu mắm", "bò lá lốt", "bún thịt nướng", "hủ tiếu Nam Vang"],
+    "drinks": ["cà phê sữa đá", "bạc xỉu", "trà đá", "nước mía", "sinh tố", "trà tắc", "nước dừa", "trà sữa"]
+  },
+  "places": {
+    "neighbourhoods": ["Quận 1 (District 1)", "Quận 3", "Bình Thạnh", "Phú Nhuận", "Thảo Điền", "Thủ Đức", "Phú Mỹ Hưng (Quận 7)", "Chợ Lớn (Quận 5)", "Gò Vấp", "Tân Bình", "Quận 4", "Bình Tân"],
+    "streets": ["Nguyễn Huệ", "Đồng Khởi", "Lê Lợi", "Bùi Viện", "Phạm Ngũ Lão", "Nguyễn Thị Minh Khai", "Pasteur", "Điện Biên Phủ", "Võ Văn Kiệt", "Hai Bà Trưng", "Nguyễn Văn Linh"],
+    "landmarks": ["Chợ Bến Thành", "Nhà thờ Đức Bà (Notre-Dame Cathedral)", "Bưu điện Thành phố (Central Post Office)", "Bitexco Financial Tower", "Landmark 81", "Phố đi bộ Nguyễn Huệ", "Chợ Bình Tây", "Sông Sài Gòn", "Nhà hát Thành phố (Opera House)", "Công viên phần mềm Quang Trung", "Khu Công nghệ cao (Saigon Hi-Tech Park)"]
+  },
+  "small_talk": [
+    "Afternoon downpour again, we'll wait it out under the awning.",
+    "Traffic on Điện Biên Phủ did not move this morning.",
+    "The metro out to Thủ Đức is so much quicker now.",
+    "Cơm tấm for breakfast, that's the Saigon way.",
+    "Bùi Viện is packed every weekend.",
+    "Tết is coming, the whole city will empty out.",
+    "Coffee in Thảo Điền after work?",
+    "My Grab driver got lost in the hẻm again.",
+    "The high tide flooded the road by the canal again."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Ho_Chi_Minh_City",
+    "https://en.wikipedia.org/wiki/Ho_Chi_Minh_City_Metro",
+    "https://en.wikipedia.org/wiki/Vietnamese_cuisine",
+    "https://en.wikipedia.org/wiki/Ch%E1%BB%A3_L%E1%BB%9Bn",
+    "https://en.wikipedia.org/wiki/C%C6%A1m_t%E1%BA%A5m"
+  ]
+}

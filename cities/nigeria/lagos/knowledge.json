@@ -1,0 +1,302 @@
+{
+  "street": {
+    "en": 0.35,
+    "pcm": 0.45,
+    "yo": 0.2
+  },
+  "names": {
+    "weights": {
+      "yoruba": 0.58,
+      "igbo": 0.22,
+      "hausa": 0.06,
+      "edo": 0.05,
+      "ijaw": 0.03,
+      "ibibio": 0.04,
+      "ikwerre": 0.02
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "Good morning! How's the day going?",
+        "Hey! Long time.",
+        "Hi! How's work in Yaba?",
+        "Good afternoon, all well?",
+        "Hello! How was the traffic?"
+      ],
+      "reply": [
+        "I'm good, thanks!",
+        "We're managing, thank God.",
+        "Fine, just busy.",
+        "All good. And you?",
+        "Doing well, thanks for asking."
+      ],
+      "sunny": [
+        "The sun is out in full today.",
+        "Hot one today, drink water.",
+        "Bright Lagos morning.",
+        "Nice weather for once.",
+        "Perfect day for the beach."
+      ],
+      "rain": [
+        "It's pouring. Third Mainland Bridge will be crazy.",
+        "Rain don start. Stay dry.",
+        "Wait it out, it will ease off.",
+        "Lagos rain, no joke.",
+        "The gutters are full already."
+      ],
+      "bye": [
+        "Take care!",
+        "Bye bye, see you!",
+        "Have a good day.",
+        "Talk later.",
+        "Safe trip home."
+      ],
+      "busy": [
+        "Running late for a meeting!",
+        "I need to catch a bus, see you!",
+        "Deadline today, I'll call you.",
+        "On my way to the Island, later!",
+        "Demo in ten minutes, gotta go!"
+      ]
+    },
+    "pcm": {
+      "greet": [
+        "How far?",
+        "How you dey?",
+        "My guy! How body?",
+        "Wetin dey sup?",
+        "How work na?",
+        "Bros, how far now?",
+        "Sister, how you dey?"
+      ],
+      "reply": [
+        "I dey o!",
+        "We dey, we move!",
+        "Body dey inside cloth.",
+        "No wahala at all.",
+        "God dey!",
+        "E dey go, small small.",
+        "We dey kampe!"
+      ],
+      "sunny": [
+        "Sun dey shine well well today.",
+        "Hot no be here o!",
+        "Weather fine die today.",
+        "This heat ehn!"
+      ],
+      "rain": [
+        "Rain don start o!",
+        "Rain wan flood everywhere.",
+        "Make we wait make rain stop.",
+        "This rain no get joy."
+      ],
+      "bye": [
+        "I dey go.",
+        "Make we see later.",
+        "Waka well o!",
+        "Later, my guy."
+      ],
+      "busy": [
+        "I dey run, abeg.",
+        "Hold on, I dey come!",
+        "Work don pile, I go call you.",
+        "Make I catch this danfo first!"
+      ]
+    },
+    "yo": {
+      "greet": [
+        "E kaaro!",
+        "Bawo ni?",
+        "E ku ise o!",
+        "Se dada ni?"
+      ],
+      "reply": [
+        "Mo wa daadaa.",
+        "A dupe o.",
+        "Ko buru.",
+        "Olorun seun."
+      ],
+      "sunny": [
+        "Oorun mu gan loni.",
+        "Ojo rere ni oni.",
+        "Oorun ti yo daadaa.",
+        "Ooru po loni o."
+      ],
+      "rain": [
+        "Ojo n ro o!",
+        "Ojo yii po gan.",
+        "E je ka duro ki ojo da.",
+        "Ojo ti bere."
+      ],
+      "bye": [
+        "O dabo!",
+        "O di igba.",
+        "Ma a ri e.",
+        "E ku ise o."
+      ],
+      "busy": [
+        "Mo n yara lo.",
+        "Mo ti pe, o di igba!",
+        "Ise po loni.",
+        "Mo n lo si Island."
+      ]
+    }
+  },
+  "transport": {
+    "bus": "danfo",
+    "big_bus": "BRT",
+    "moto_taxi": "okada",
+    "tricycle": "keke",
+    "taxi": "taxi",
+    "ride_hail": "Uber or Bolt",
+    "conductor": "agbero (tout) and the conductor",
+    "driver": "driver",
+    "stage": "bus stop",
+    "ferry": "ferry"
+  },
+  "touts": [
+    "Oshodi! Oshodi! Enter with your change!",
+    "CMS, Obalende, one chance!",
+    "Ojuelegba, Stadium, Costain!",
+    "Ikeja Along! Two more people!",
+    "Mile 12, Mile 12, enter!",
+    "Lekki! Ajah! Wole!",
+    "Yaba, Yaba! Sabo!",
+    "Third Mainland, Obalende, oya!"
+  ],
+  "hawkers": [
+    [
+      "Pure water! Pure water!",
+      "Sachet water!"
+    ],
+    [
+      "Gala! Gala!",
+      "Sausage rolls!"
+    ],
+    [
+      "Plantain chips!",
+      "Plantain crisps!"
+    ],
+    [
+      "Agege bread!",
+      "Soft Lagos bread!"
+    ],
+    [
+      "Recharge card! MTN, Airtel!",
+      "Phone credit!"
+    ],
+    [
+      "Gala and Lacasera!",
+      "A snack and a soft drink!"
+    ],
+    [
+      "Boli and groundnut!",
+      "Roast plantain and peanuts!"
+    ]
+  ],
+  "food": {
+    "street": [
+      "suya",
+      "boli and groundnut",
+      "puff-puff",
+      "akara",
+      "Agege bread",
+      "roasted corn",
+      "gala",
+      "plantain chips",
+      "abacha",
+      "shawarma"
+    ],
+    "dishes": [
+      "jollof rice",
+      "amala and ewedu",
+      "eba and egusi",
+      "pounded yam",
+      "ofada rice and ayamase",
+      "fried rice",
+      "moi moi",
+      "pepper soup",
+      "efo riro",
+      "beans and dodo"
+    ],
+    "drinks": [
+      "zobo",
+      "Chapman",
+      "palm wine",
+      "malt",
+      "Lacasera",
+      "kunu",
+      "Star",
+      "Gulder"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "Yaba",
+      "Ikeja",
+      "Surulere",
+      "Victoria Island",
+      "Lekki",
+      "Ikoyi",
+      "Lagos Island",
+      "Apapa",
+      "Ajah",
+      "Gbagada",
+      "Maryland",
+      "Ogba",
+      "Festac",
+      "Ojota",
+      "Oshodi",
+      "Ebute Metta"
+    ],
+    "streets": [
+      "Herbert Macaulay Way",
+      "Ikorodu Road",
+      "Third Mainland Bridge",
+      "Ozumba Mbadiwe Avenue",
+      "Awolowo Road",
+      "Allen Avenue",
+      "Admiralty Way",
+      "Adeola Odeku Street",
+      "Opebi Road",
+      "Western Avenue",
+      "Funsho Williams Avenue",
+      "Lekki-Epe Expressway"
+    ],
+    "landmarks": [
+      "Computer Village",
+      "Ikeja City Mall",
+      "National Theatre",
+      "Tafawa Balewa Square",
+      "Lekki Toll Gate",
+      "Eko Atlantic",
+      "the Lekki-Ikoyi Link Bridge",
+      "UNILAG",
+      "Yaba Tech",
+      "CcHub",
+      "Balogun Market",
+      "Tarkwa Bay"
+    ]
+  },
+  "small_talk": [
+    "Third Mainland Bridge was locked this morning.",
+    "Meet me at CcHub after five?",
+    "The BRT from Ikorodu was full again.",
+    "I got a new screen at Computer Village, they did it in ten minutes.",
+    "NEPA took light again last night.",
+    "Owambe on Saturday, are you coming?",
+    "Lekki traffic will be terrible after the rain.",
+    "Suya by Yaba bus stop is the best in Lagos, I don't argue.",
+    "My landlord increased rent again.",
+    "There's a hackathon at Yaba this weekend."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Lagos",
+    "https://en.wikipedia.org/wiki/Danfo",
+    "https://en.wikipedia.org/wiki/Nigerian_Pidgin",
+    "https://en.wikipedia.org/wiki/Yoruba_language",
+    "https://en.wikipedia.org/wiki/Nigerian_cuisine"
+  ],
+  "needs_native_review": "Yoruba and Pidgin lines: please check spellings (tone marks are left out, as most people text Yoruba)."
+}

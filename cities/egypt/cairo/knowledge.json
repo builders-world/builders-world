@@ -1,0 +1,79 @@
+{
+  "street": { "arz": 0.92, "en": 0.08 },
+  "names": { "weights": { "egyptian": 0.9, "coptic": 0.1 } },
+  "phrases": {
+    "arz": {
+      "hello": [["Ahlan ya basha!", "Hi, boss!"], ["Ezzayak ya ostaz?", "How are you, sir?"]],
+      "fine": [["Zay el foll", "Great"], ["Tamam", "Fine"], ["Mashi el hal", "Getting by"]],
+      "bye": [["Salam!", "Bye!"], ["Yalla, salam", "Right, bye"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Peace be upon you! How are you?", "Good morning! What's new?", "Hello, how is the family?", "Good evening, how was work?", "Ah, long time! Where have you been?"],
+      "reply": ["Good, thank God. And you?", "All fine, thanks.", "Great, everything is good.", "Getting by, thank God.", "Doing well, thanks for asking."],
+      "sunny": ["It's boiling today, stay in the shade.", "Lovely evening for a walk on the Corniche.", "The sun is fierce, take water.", "Nice day for a felucca on the Nile.", "Too hot to walk, I'll take the metro."],
+      "rain": ["Rain in Cairo? I don't believe it!", "The streets are all water after five minutes of rain.", "Cold today, sahlab weather.", "Wait a bit, it will pass.", "The traffic will be terrible with this rain."],
+      "bye": ["Goodbye, take care!", "See you tomorrow, God willing.", "Good night.", "Greet the family for me.", "Call me later."],
+      "busy": ["Sorry, I'm in a hurry.", "I have to catch the metro.", "Traffic on the Ring Road, I have to go now.", "I'm late for the office in Smart Village.", "Busy today, I'll call you later."]
+    },
+    "arz": {
+      "greet": ["Salamo alaykom, ezzayak ya basha?", "Sabah el kheir! Akhbarak eh?", "Ahlan ya habibi, ezzayak?", "Ezzayek ya anesa? Kollo tamam?", "Masa el kheir ya rayes!"],
+      "reply": ["El hamdulillah, kowayes. W enta?", "Tamam, tamam, el hamdulillah.", "Zay el foll!", "Mashi el hal, el hamdulillah."],
+      "sunny": ["El gaw harr awi el naharda!", "El shams gamda awi.", "Yalla nemshi 'al Kornish.", "Harr nar!"],
+      "rain": ["El donya betmattar!", "Matar fi Masr? Ya salam!", "El gaw bard awi el naharda.", "El shaware' kollaha mayya."],
+      "bye": ["Ma'a el salama!", "Ashoofak bokra, en sha' Allah.", "Yalla salam!", "Kallemni ba'deen."],
+      "busy": ["Ana mesta'gel, ashoofak ba'deen!", "Ma'lesh, 'andi mi'ad dilwa'ti.", "Lazem alha' el metro!", "Mashghool shewaya, nekallem ba'deen."]
+    }
+  },
+  "transport": { "bus": "microbus", "moto_taxi": "", "tricycle": "tuk-tuk", "taxi": "taxi", "shared_taxi": "microbus", "conductor": "monadi", "stage": "maw'af" },
+  "touts": [
+    "Ramses! Ramses!",
+    "Tahrir! Tahrir!",
+    "Giza! Giza!",
+    "Dokki! Dokki!",
+    "Helwan! Helwan!",
+    "Faisal! Faisal!",
+    "Ataba! Ataba!",
+    "Shubra! Fi wahed hena!"
+  ],
+  "hawkers": [
+    ["Batata! Batata!", "Roasted sweet potatoes!"],
+    ["Dora mashwi!", "Roasted corn!"],
+    ["Termes! Termes!", "Lupin beans!"],
+    ["Er' sous sa'a!", "Cold licorice drink!"],
+    ["Ful w ta'miya!", "Beans and falafel!"],
+    ["Mayya sa'a!", "Cold water!"],
+    ["Hommos el sham!", "Hot spiced chickpea drink!"]
+  ],
+  "food": {
+    "street": ["ful medames", "ta'miya", "koshari", "hawawshi", "feteer meshaltet", "kebda Eskandarani (liver sandwich)", "batata (sweet potato)", "termes", "basbousa", "konafa"],
+    "dishes": ["molokhia", "mahshi", "fatta", "macarona bechamel", "hamam mahshi", "kofta", "roz bel laban"],
+    "drinks": ["shai (tea)", "'asab (sugar cane juice)", "er' sous (licorice)", "karkade (hibiscus)", "sahlab", "tamr hindi (tamarind)"]
+  },
+  "places": {
+    "neighbourhoods": ["Downtown (Wust el Balad)", "Zamalek", "Garden City", "Maadi", "Heliopolis (Masr el Gedida)", "Nasr City", "Dokki", "Mohandessin", "Agouza", "Shubra", "Sayeda Zeinab", "El Darb El Ahmar", "Imbaba", "Manial", "New Cairo (Tagamo')", "6th of October City", "Abbasia"],
+    "streets": ["Talaat Harb Street", "Qasr El Nil Street", "26th of July Street", "Corniche El Nil", "Salah Salem Road", "Gameat El Dowal El Arabeya Street", "Al Muizz Street", "Ramses Street", "Abbas El Akkad Street", "Ring Road"],
+    "landmarks": ["Pyramids of Giza", "Khan el-Khalili", "Cairo Tower", "Egyptian Museum", "Grand Egyptian Museum", "Al-Azhar Mosque", "Citadel of Saladin", "Hanging Church", "Tahrir Square", "Ramses Station", "Cairo Opera House", "Al-Azhar Park"]
+  },
+  "small_talk": [
+    "The Ring Road was jammed for an hour.",
+    "The metro got me to Heliopolis in no time.",
+    "Koshari from the place near Tahrir, you know the one.",
+    "Felucca on the Nile after sunset?",
+    "Khan el-Khalili is packed, Ramadan lanterns everywhere.",
+    "The microbus to Giza wanted extra because of the traffic.",
+    "Ahly or Zamalek tonight? The whole café will be watching.",
+    "Tea and shisha at the ahwa on the corner?",
+    "The new museum by the pyramids is incredible."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Cairo",
+    "https://en.wikipedia.org/wiki/Egyptian_Arabic",
+    "https://en.wikipedia.org/wiki/Egyptian_cuisine",
+    "https://en.wikipedia.org/wiki/Koshary",
+    "https://en.wikipedia.org/wiki/Cairo_Metro",
+    "https://en.wikipedia.org/wiki/Khan_el-Khalili",
+    "https://en.wikipedia.org/wiki/Grand_Egyptian_Museum"
+  ]
+}

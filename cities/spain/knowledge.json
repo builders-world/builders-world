@@ -1,0 +1,1088 @@
+{
+  "languages": [
+    {
+      "code": "es",
+      "name": "Spanish",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "ca",
+      "name": "Catalan",
+      "official": true,
+      "spoken": "regionally"
+    },
+    {
+      "code": "eu",
+      "name": "Basque",
+      "official": true,
+      "spoken": "regionally"
+    },
+    {
+      "code": "gl",
+      "name": "Galician",
+      "official": true,
+      "spoken": "regionally"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "in tech circles"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Everyone carries one or two given names and two family names: the father's first family name, then the mother's first family name (María García López). Since 2017 parents may choose the order. Women keep their own family names when they marry. In everyday life people go by the first family name, or by both when the first is very common. Compound given names are common (José Luis, María José, Juan Carlos) and get shortened (Josele, Mariajo). In Catalonia, the Basque Country and Galicia many people carry names in their own language (Jordi, Núria, Iker, Ane) and Catalan family names are joined with i (Puig i Ferrer). Spain's cities also have large Latin American, Moroccan, Romanian, Chinese and Pakistani communities.",
+    "groups": {
+      "spanish": {
+        "given": {
+          "m": [
+            "Antonio",
+            "Manuel",
+            "José",
+            "Francisco",
+            "David",
+            "Javier",
+            "Daniel",
+            "Carlos",
+            "Alejandro",
+            "Pablo",
+            "Sergio",
+            "Jorge",
+            "Álvaro",
+            "Adrián",
+            "Miguel",
+            "Rubén",
+            "Raúl",
+            "Diego",
+            "Hugo",
+            "José Luis"
+          ],
+          "f": [
+            "María",
+            "Carmen",
+            "Lucía",
+            "Laura",
+            "Ana",
+            "Cristina",
+            "Marta",
+            "Sara",
+            "Paula",
+            "Elena",
+            "Raquel",
+            "Andrea",
+            "Isabel",
+            "Patricia",
+            "Irene",
+            "Alba",
+            "Beatriz",
+            "María José"
+          ]
+        },
+        "family": [
+          "García",
+          "Rodríguez",
+          "González",
+          "Fernández",
+          "López",
+          "Martínez",
+          "Sánchez",
+          "Pérez",
+          "Gómez",
+          "Martín",
+          "Jiménez",
+          "Ruiz",
+          "Hernández",
+          "Díaz",
+          "Moreno",
+          "Muñoz",
+          "Álvarez",
+          "Romero",
+          "Navarro",
+          "Torres"
+        ]
+      },
+      "catalan": {
+        "given": {
+          "m": [
+            "Jordi",
+            "Pau",
+            "Marc",
+            "Joan",
+            "Pol",
+            "Arnau",
+            "Oriol",
+            "Xavier",
+            "Albert",
+            "Gerard",
+            "Jaume",
+            "Ferran",
+            "Martí",
+            "Roger",
+            "Guillem",
+            "Èric"
+          ],
+          "f": [
+            "Montserrat",
+            "Núria",
+            "Laia",
+            "Mireia",
+            "Anna",
+            "Marta",
+            "Júlia",
+            "Clara",
+            "Mercè",
+            "Gemma",
+            "Roser",
+            "Neus",
+            "Meritxell",
+            "Aina",
+            "Berta",
+            "Ona"
+          ]
+        },
+        "family": [
+          "Puig",
+          "Vila",
+          "Ferrer",
+          "Serra",
+          "Soler",
+          "Font",
+          "Roca",
+          "Pujol",
+          "Vidal",
+          "Bosch",
+          "Sala",
+          "Mas",
+          "Riera",
+          "Prat",
+          "Casals",
+          "Coll",
+          "Camps",
+          "Ribas"
+        ]
+      },
+      "basque": {
+        "given": {
+          "m": [
+            "Iker",
+            "Aitor",
+            "Unai",
+            "Asier",
+            "Mikel",
+            "Jon",
+            "Gorka",
+            "Iñaki",
+            "Ander",
+            "Xabier",
+            "Eneko",
+            "Julen",
+            "Ibai",
+            "Oier"
+          ],
+          "f": [
+            "Ane",
+            "Nerea",
+            "Leire",
+            "Amaia",
+            "Maite",
+            "Ainhoa",
+            "Itziar",
+            "Irati",
+            "Garazi",
+            "Izaro",
+            "Uxue",
+            "June",
+            "Edurne",
+            "Miren"
+          ]
+        },
+        "family": [
+          "Etxeberria",
+          "Agirre",
+          "Garmendia",
+          "Urrutia",
+          "Goikoetxea",
+          "Zubizarreta",
+          "Arrieta",
+          "Elorza",
+          "Iturbe",
+          "Larrañaga",
+          "Olano",
+          "Zabala",
+          "Aranburu",
+          "Uriarte"
+        ]
+      },
+      "latin_american": {
+        "given": {
+          "m": [
+            "Andrés",
+            "Santiago",
+            "Felipe",
+            "Luis Fernando",
+            "Jhon",
+            "Cristian",
+            "Mauricio",
+            "Gustavo",
+            "Wilson",
+            "Edwin",
+            "Óscar",
+            "Ricardo",
+            "Jesús",
+            "Héctor",
+            "Juan Carlos"
+          ],
+          "f": [
+            "Valentina",
+            "Daniela",
+            "Camila",
+            "Natalia",
+            "Paola",
+            "Yesenia",
+            "Liliana",
+            "Gabriela",
+            "Carolina",
+            "Mariana",
+            "Andreína",
+            "Diana",
+            "Ximena",
+            "Lorena",
+            "Johana",
+            "Yuliana"
+          ]
+        },
+        "family": [
+          "Gutiérrez",
+          "Ramírez",
+          "Rojas",
+          "Vargas",
+          "Castillo",
+          "Herrera",
+          "Mendoza",
+          "Quispe",
+          "Guerrero",
+          "Salazar",
+          "Cárdenas",
+          "Ortiz",
+          "Rincón",
+          "Delgado",
+          "Valencia",
+          "Paredes"
+        ]
+      },
+      "moroccan": {
+        "given": {
+          "m": [
+            "Mohamed",
+            "Ahmed",
+            "Youssef",
+            "Karim",
+            "Hassan",
+            "Rachid",
+            "Said",
+            "Omar",
+            "Hamza",
+            "Mehdi",
+            "Bilal",
+            "Adil",
+            "Anas",
+            "Ayoub",
+            "Driss"
+          ],
+          "f": [
+            "Fatima",
+            "Khadija",
+            "Nadia",
+            "Samira",
+            "Amina",
+            "Salma",
+            "Hanane",
+            "Imane",
+            "Laila",
+            "Sara",
+            "Yasmina",
+            "Zineb",
+            "Meryem",
+            "Houda",
+            "Naima"
+          ]
+        },
+        "family": [
+          "El Amrani",
+          "Benali",
+          "El Idrissi",
+          "Bennani",
+          "Alaoui",
+          "Tahiri",
+          "Ouali",
+          "El Khattabi",
+          "Chakir",
+          "Bouzid",
+          "Lahlou",
+          "Ziani",
+          "Haddad",
+          "El Fassi",
+          "Belhaj"
+        ]
+      },
+      "romanian": {
+        "given": {
+          "m": [
+            "Andrei",
+            "Alexandru",
+            "Ionuț",
+            "Mihai",
+            "Florin",
+            "Adrian",
+            "Cristian",
+            "Gabriel",
+            "Bogdan",
+            "Marius",
+            "Vlad",
+            "Daniel",
+            "Răzvan",
+            "Ciprian"
+          ],
+          "f": [
+            "Andreea",
+            "Elena",
+            "Ioana",
+            "Maria",
+            "Alina",
+            "Mihaela",
+            "Cristina",
+            "Gabriela",
+            "Roxana",
+            "Larisa",
+            "Diana",
+            "Simona",
+            "Bianca",
+            "Raluca"
+          ]
+        },
+        "family": [
+          "Popescu",
+          "Ionescu",
+          "Popa",
+          "Dumitru",
+          "Stan",
+          "Stoica",
+          "Gheorghe",
+          "Rusu",
+          "Munteanu",
+          "Constantin",
+          "Matei",
+          "Marin",
+          "Ciobanu",
+          "Lungu",
+          "Dobre"
+        ]
+      },
+      "pakistani": {
+        "given": {
+          "m": [
+            "Muhammad",
+            "Ali",
+            "Imran",
+            "Asif",
+            "Usman",
+            "Bilal",
+            "Kashif",
+            "Tariq",
+            "Zeeshan",
+            "Faisal",
+            "Hamza",
+            "Waqas",
+            "Shahid",
+            "Adnan",
+            "Nadeem"
+          ],
+          "f": [
+            "Ayesha",
+            "Fatima",
+            "Saima",
+            "Nadia",
+            "Sana",
+            "Rabia",
+            "Hina",
+            "Amna",
+            "Mehwish",
+            "Sadia",
+            "Zainab",
+            "Khadija",
+            "Iqra",
+            "Bushra"
+          ]
+        },
+        "family": [
+          "Khan",
+          "Ahmed",
+          "Hussain",
+          "Malik",
+          "Butt",
+          "Chaudhry",
+          "Raza",
+          "Iqbal",
+          "Shah",
+          "Bhatti",
+          "Akhtar",
+          "Javed",
+          "Qureshi",
+          "Rana",
+          "Aslam"
+        ]
+      },
+      "chinese": {
+        "given": {
+          "m": [
+            "Wei",
+            "Jun",
+            "Hao",
+            "Jian",
+            "Ming",
+            "Lei",
+            "Tao",
+            "Bin",
+            "Qiang",
+            "Yong",
+            "Feng",
+            "Hui",
+            "Peng",
+            "Long"
+          ],
+          "f": [
+            "Li",
+            "Mei",
+            "Xiaoyan",
+            "Yan",
+            "Jing",
+            "Ying",
+            "Lin",
+            "Fang",
+            "Hong",
+            "Xia",
+            "Lili",
+            "Yue",
+            "Na",
+            "Qing"
+          ]
+        },
+        "family": [
+          "Chen",
+          "Wang",
+          "Zhang",
+          "Lin",
+          "Li",
+          "Wu",
+          "Ye",
+          "Hu",
+          "Zhou",
+          "Xu",
+          "Pan",
+          "Jin",
+          "Zhu",
+          "Huang",
+          "Yang"
+        ],
+        "also": {
+          "m": [
+            "David",
+            "Daniel",
+            "Carlos",
+            "Pablo"
+          ],
+          "f": [
+            "Ana",
+            "Lucía",
+            "Sara",
+            "Laura"
+          ]
+        }
+      }
+    },
+    "weights": {
+      "spanish": 0.6,
+      "catalan": 0.12,
+      "basque": 0.03,
+      "latin_american": 0.12,
+      "moroccan": 0.05,
+      "romanian": 0.03,
+      "pakistani": 0.02,
+      "chinese": 0.03
+    }
+  },
+  "honorifics": {
+    "elder_m": "señor",
+    "elder_f": "señora",
+    "peer_m": "tío",
+    "peer_f": "tía",
+    "boss": "jefe",
+    "titles": {
+      "elder_m": "Don",
+      "elder_f": "Doña",
+      "with": "first"
+    }
+  },
+  "phrases": {
+    "es": {
+      "hello": [
+        [
+          "Hola",
+          "Hello"
+        ],
+        [
+          "Buenas",
+          "Hi (any time of day)"
+        ]
+      ],
+      "morning": [
+        [
+          "Buenos días",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Buenas tardes",
+          "Good afternoon or early evening"
+        ],
+        [
+          "Buenas noches",
+          "Good evening, good night"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "¿Qué tal?",
+          "How's it going?"
+        ],
+        [
+          "¿Cómo estás?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Bien, gracias",
+          "Fine, thanks"
+        ],
+        [
+          "Todo bien",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Gracias",
+          "Thank you"
+        ],
+        [
+          "Muchas gracias",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Adiós",
+          "Goodbye"
+        ],
+        [
+          "Hasta luego",
+          "See you later"
+        ],
+        [
+          "Chao",
+          "Bye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Bienvenido",
+          "Welcome (to a man)"
+        ],
+        [
+          "Bienvenida",
+          "Welcome (to a woman)"
+        ]
+      ],
+      "sorry": [
+        [
+          "Perdón",
+          "Sorry"
+        ],
+        [
+          "Lo siento",
+          "I'm sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Perdona",
+          "Excuse me"
+        ],
+        [
+          "Disculpe",
+          "Excuse me (polite)"
+        ]
+      ],
+      "yes": [
+        [
+          "Sí",
+          "Yes"
+        ],
+        [
+          "Vale",
+          "OK"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    },
+    "ca": {
+      "hello": [
+        [
+          "Hola",
+          "Hello"
+        ],
+        [
+          "Ei!",
+          "Hey!"
+        ]
+      ],
+      "morning": [
+        [
+          "Bon dia",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Bona tarda",
+          "Good afternoon or early evening"
+        ],
+        [
+          "Bona nit",
+          "Good night"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Com va?",
+          "How's it going?"
+        ],
+        [
+          "Com estàs?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Molt bé",
+          "Very well"
+        ],
+        [
+          "Bé, gràcies",
+          "Fine, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Gràcies",
+          "Thank you"
+        ],
+        [
+          "Moltes gràcies",
+          "Thank you very much"
+        ],
+        [
+          "Merci",
+          "Thanks (very common in Catalonia)"
+        ]
+      ],
+      "bye": [
+        [
+          "Adéu",
+          "Goodbye"
+        ],
+        [
+          "Fins ara",
+          "See you in a bit"
+        ],
+        [
+          "Fins després",
+          "See you later"
+        ]
+      ],
+      "welcome": [
+        [
+          "Benvingut",
+          "Welcome (to a man)"
+        ],
+        [
+          "Benvinguda",
+          "Welcome (to a woman)"
+        ]
+      ],
+      "sorry": [
+        [
+          "Perdó",
+          "Sorry"
+        ],
+        [
+          "Ho sento",
+          "I'm sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Perdona",
+          "Excuse me"
+        ],
+        [
+          "Disculpi",
+          "Excuse me (polite)"
+        ]
+      ],
+      "yes": [
+        [
+          "Sí",
+          "Yes"
+        ],
+        [
+          "D'acord",
+          "OK"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    },
+    "eu": {
+      "hello": [
+        [
+          "Kaixo",
+          "Hello"
+        ],
+        [
+          "Aupa",
+          "Hi (casual)"
+        ]
+      ],
+      "morning": [
+        [
+          "Egun on",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Arratsalde on",
+          "Good afternoon or evening"
+        ],
+        [
+          "Gabon",
+          "Good night"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Zer moduz?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Ondo",
+          "Fine"
+        ],
+        [
+          "Oso ondo",
+          "Very well"
+        ]
+      ],
+      "thanks": [
+        [
+          "Eskerrik asko",
+          "Thank you"
+        ],
+        [
+          "Mila esker",
+          "Many thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "Agur",
+          "Goodbye"
+        ],
+        [
+          "Gero arte",
+          "See you later"
+        ]
+      ],
+      "welcome": [
+        [
+          "Ongi etorri",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Barkatu",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Barkatu",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Bai",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Ez",
+          "No"
+        ]
+      ]
+    },
+    "gl": {
+      "hello": [
+        [
+          "Ola",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Bos días",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Boas tardes",
+          "Good afternoon or early evening"
+        ],
+        [
+          "Boas noites",
+          "Good evening, good night"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Que tal?",
+          "How's it going?"
+        ],
+        [
+          "Como estás?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Ben",
+          "Fine"
+        ],
+        [
+          "Moi ben",
+          "Very well"
+        ]
+      ],
+      "thanks": [
+        [
+          "Grazas",
+          "Thank you"
+        ],
+        [
+          "Moitas grazas",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Adeus",
+          "Goodbye"
+        ],
+        [
+          "Ata logo",
+          "See you later"
+        ]
+      ],
+      "welcome": [
+        [
+          "Benvido",
+          "Welcome (to a man)"
+        ],
+        [
+          "Benvida",
+          "Welcome (to a woman)"
+        ]
+      ],
+      "sorry": [
+        [
+          "Perdón",
+          "Sorry"
+        ],
+        [
+          "Síntoo",
+          "I'm sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Desculpe",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Si",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Non",
+          "No"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hi",
+          "Hi"
+        ],
+        [
+          "Hello",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Morning!",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Evening!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How's it going?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Good, thanks",
+          "Fine, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks",
+          "Thank you"
+        ],
+        [
+          "Cheers",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "Bye",
+          "Goodbye"
+        ],
+        [
+          "See you",
+          "See you later"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ],
+        [
+          "Sure",
+          "Sure"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "EUR",
+    "symbol": "€",
+    "words": [
+      [
+        "pavo",
+        "a euro, in slang (cinco pavos)"
+      ],
+      [
+        "pasta",
+        "money"
+      ],
+      [
+        "pelas",
+        "money, from the old peseta"
+      ],
+      [
+        "guita",
+        "money"
+      ],
+      [
+        "calderilla",
+        "small change"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Spanish_naming_customs",
+    "https://en.wikipedia.org/wiki/Languages_of_Spain",
+    "https://en.wikipedia.org/wiki/Immigration_to_Spain",
+    "https://www.ine.es/"
+  ]
+}

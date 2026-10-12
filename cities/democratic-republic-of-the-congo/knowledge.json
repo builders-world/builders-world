@@ -1,0 +1,1014 @@
+{
+  "languages": [
+    {
+      "code": "fr",
+      "name": "French",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "ln",
+      "name": "Lingala",
+      "official": false,
+      "spoken": "widely"
+    },
+    {
+      "code": "sw",
+      "name": "Swahili (Congolese Swahili, Kingwana)",
+      "official": false,
+      "spoken": "widely"
+    },
+    {
+      "code": "kg",
+      "name": "Kikongo ya leta (Kituba)",
+      "official": false,
+      "spoken": "regionally"
+    },
+    {
+      "code": "lua",
+      "name": "Tshiluba",
+      "official": false,
+      "spoken": "regionally"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "some"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Most Congolese carry a first name in French or from the Bible (Jean-Pierre, Merveille, Héritier, Grâce) followed by a nom and a post-nom from their own community, for example Glody Mukendi Kabeya or Merveille Nsimba Makiese. The post-nom became standard during the authenticité years of the 1970s and 1980s, when Christian first names were set aside, and many families still keep it. African names often carry meaning: Kongo children can be named after the market day they were born on (Nsona, Nkenge), twins are Nsimba and Nzuzi, Luba names like Mbuyi and Kanku go with twins and the child after them, and Nande families in North Kivu use birth order names (Paluku, Kambale, Kasereka for boys; Kavira, Kahindo, Masika for girls). New hopeful first names are popular in Kinshasa: Plamedi, Exaucé, Chancelvie, Merveille.",
+    "groups": {
+      "kongo": {
+        "given": {
+          "m": [
+            "Nsimba",
+            "Nzuzi",
+            "Nlandu",
+            "Lutete",
+            "Mavungu",
+            "Makiadi",
+            "Masamba",
+            "Nkanga",
+            "Lukeni",
+            "Mpanzu",
+            "Ndombe",
+            "Kiala",
+            "Mbemba",
+            "Mabiala",
+            "Ngoma"
+          ],
+          "f": [
+            "Nkenge",
+            "Nsona",
+            "Luzolo",
+            "Makiese",
+            "Kiese",
+            "Nzinga",
+            "Nzuzi",
+            "Nsimba",
+            "Matondo",
+            "Nkembo",
+            "Nzola",
+            "Kimpa"
+          ]
+        },
+        "family": [
+          "Nsimba",
+          "Nlandu",
+          "Lutete",
+          "Mavungu",
+          "Makiadi",
+          "Masamba",
+          "Nkanga",
+          "Mbemba",
+          "Mabiala",
+          "Ngoma",
+          "Diangana",
+          "Kiala",
+          "Matondo",
+          "Mayamba",
+          "Nzau",
+          "Luyindama"
+        ],
+        "also": {
+          "m": [
+            "Jean-Pierre",
+            "Patrick",
+            "Christian",
+            "Fiston",
+            "Junior",
+            "Dieudonné",
+            "Glody",
+            "Héritier",
+            "Gloire",
+            "Prince",
+            "Trésor",
+            "Bienvenu",
+            "Jonathan",
+            "Exaucé",
+            "Plamedi",
+            "Cédric",
+            "Serge",
+            "Papy",
+            "Rodrigue",
+            "Jérémie",
+            "Deo"
+          ],
+          "f": [
+            "Merveille",
+            "Grâce",
+            "Divine",
+            "Ornella",
+            "Sarah",
+            "Bénédicte",
+            "Nathalie",
+            "Arlette",
+            "Gracia",
+            "Dorcas",
+            "Esther",
+            "Chancelvie",
+            "Rebecca",
+            "Mireille",
+            "Naomie",
+            "Gloria",
+            "Plamedie",
+            "Rachel",
+            "Christelle",
+            "Exaucée"
+          ]
+        }
+      },
+      "luba": {
+        "given": {
+          "m": [
+            "Kabongo",
+            "Kalala",
+            "Mukendi",
+            "Tshibangu",
+            "Ilunga",
+            "Kabeya",
+            "Mutombo",
+            "Ngoyi",
+            "Kanku",
+            "Mpoyi",
+            "Tshimanga",
+            "Kasongo",
+            "Kazadi",
+            "Mwamba",
+            "Kalonji",
+            "Mulumba"
+          ],
+          "f": [
+            "Ngalula",
+            "Mujinga",
+            "Kapinga",
+            "Ntumba",
+            "Mbombo",
+            "Bilonda",
+            "Ndaya",
+            "Kabedi",
+            "Tshiela",
+            "Mbelu",
+            "Mwadi",
+            "Mbuyi"
+          ]
+        },
+        "family": [
+          "Kabongo",
+          "Kalala",
+          "Mukendi",
+          "Tshibangu",
+          "Ilunga",
+          "Kabeya",
+          "Mutombo",
+          "Ngoyi",
+          "Mpoyi",
+          "Tshimanga",
+          "Kasongo",
+          "Kazadi",
+          "Mwamba",
+          "Kalonji",
+          "Mulumba",
+          "Kayembe",
+          "Tshiamala",
+          "Lukusa",
+          "Banza"
+        ],
+        "also": {
+          "m": [
+            "Jean-Pierre",
+            "Patrick",
+            "Christian",
+            "Fiston",
+            "Junior",
+            "Dieudonné",
+            "Glody",
+            "Héritier",
+            "Gloire",
+            "Prince",
+            "Trésor",
+            "Bienvenu",
+            "Jonathan",
+            "Exaucé",
+            "Plamedi",
+            "Cédric",
+            "Serge",
+            "Papy",
+            "Rodrigue",
+            "Jérémie",
+            "Deo"
+          ],
+          "f": [
+            "Merveille",
+            "Grâce",
+            "Divine",
+            "Ornella",
+            "Sarah",
+            "Bénédicte",
+            "Nathalie",
+            "Arlette",
+            "Gracia",
+            "Dorcas",
+            "Esther",
+            "Chancelvie",
+            "Rebecca",
+            "Mireille",
+            "Naomie",
+            "Gloria",
+            "Plamedie",
+            "Rachel",
+            "Christelle",
+            "Exaucée"
+          ]
+        }
+      },
+      "kivu": {
+        "given": {
+          "m": [
+            "Paluku",
+            "Kambale",
+            "Kasereka",
+            "Kakule",
+            "Muhindo",
+            "Mumbere",
+            "Mbusa",
+            "Kataliko",
+            "Bisimwa",
+            "Mugisho",
+            "Byamungu",
+            "Bahati",
+            "Baraka",
+            "Shukuru",
+            "Amani",
+            "Riziki"
+          ],
+          "f": [
+            "Kavira",
+            "Kahindo",
+            "Masika",
+            "Kavugho",
+            "Kahambu",
+            "Mbambu",
+            "Kanyere",
+            "Neema",
+            "Furaha",
+            "Mapendo",
+            "Zawadi",
+            "Rehema",
+            "Imani"
+          ]
+        },
+        "family": [
+          "Paluku",
+          "Kambale",
+          "Kasereka",
+          "Kakule",
+          "Muhindo",
+          "Mumbere",
+          "Mbusa",
+          "Kataliko",
+          "Bisimwa",
+          "Mugisho",
+          "Byamungu",
+          "Cirhuza",
+          "Murhula",
+          "Bahati",
+          "Shukuru"
+        ],
+        "also": {
+          "m": [
+            "Jean-Pierre",
+            "Patrick",
+            "Christian",
+            "Fiston",
+            "Junior",
+            "Dieudonné",
+            "Glody",
+            "Héritier",
+            "Gloire",
+            "Prince",
+            "Trésor",
+            "Bienvenu",
+            "Jonathan",
+            "Exaucé",
+            "Plamedi",
+            "Cédric",
+            "Serge",
+            "Papy",
+            "Rodrigue",
+            "Jérémie",
+            "Deo"
+          ],
+          "f": [
+            "Merveille",
+            "Grâce",
+            "Divine",
+            "Ornella",
+            "Sarah",
+            "Bénédicte",
+            "Nathalie",
+            "Arlette",
+            "Gracia",
+            "Dorcas",
+            "Esther",
+            "Chancelvie",
+            "Rebecca",
+            "Mireille",
+            "Naomie",
+            "Gloria",
+            "Plamedie",
+            "Rachel",
+            "Christelle",
+            "Exaucée"
+          ]
+        }
+      }
+    },
+    "weights": {
+      "kongo": 0.4,
+      "luba": 0.32,
+      "kivu": 0.28
+    }
+  },
+  "honorifics": {
+    "elder_m": "Papa",
+    "elder_f": "Maman",
+    "peer_m": "Ndeko",
+    "peer_f": "Ndeko",
+    "boss": "Chef"
+  },
+  "phrases": {
+    "fr": {
+      "hello": [
+        [
+          "Bonjour !",
+          "Hello"
+        ],
+        [
+          "Salut !",
+          "Hi"
+        ]
+      ],
+      "morning": [
+        [
+          "Bonjour, bien dormi ?",
+          "Good morning, did you sleep well?"
+        ]
+      ],
+      "evening": [
+        [
+          "Bonsoir !",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Ça va ?",
+          "How's it going?"
+        ],
+        [
+          "Comment allez-vous ?",
+          "How are you? (polite)"
+        ]
+      ],
+      "fine": [
+        [
+          "Ça va bien",
+          "I'm fine"
+        ],
+        [
+          "Tout va bien, merci",
+          "All is well, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Merci",
+          "Thank you"
+        ],
+        [
+          "Merci beaucoup",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Au revoir",
+          "Goodbye"
+        ],
+        [
+          "À demain",
+          "See you tomorrow"
+        ]
+      ],
+      "welcome": [
+        [
+          "Bienvenue",
+          "Welcome"
+        ],
+        [
+          "Soyez le bienvenu",
+          "You are welcome here"
+        ]
+      ],
+      "sorry": [
+        [
+          "Pardon",
+          "Sorry"
+        ],
+        [
+          "Désolé",
+          "I'm sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excusez-moi",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Oui",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Non",
+          "No"
+        ]
+      ]
+    },
+    "ln": {
+      "hello": [
+        [
+          "Mbote!",
+          "Hello"
+        ],
+        [
+          "Mbote na yo",
+          "Hello to you"
+        ],
+        [
+          "Mbote na bino",
+          "Hello, all of you"
+        ]
+      ],
+      "morning": [
+        [
+          "Olali malamu?",
+          "Did you sleep well? (a morning greeting)"
+        ]
+      ],
+      "evening": [
+        [
+          "Mbote ya mpokwa",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Ozali malamu?",
+          "Are you well?"
+        ],
+        [
+          "Sango nini?",
+          "What's the news?"
+        ],
+        [
+          "Ndenge nini?",
+          "How's it going?"
+        ]
+      ],
+      "fine": [
+        [
+          "Nazali malamu",
+          "I'm fine"
+        ],
+        [
+          "Malamu",
+          "Fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Matondo",
+          "Thank you"
+        ],
+        [
+          "Natondi yo",
+          "I thank you"
+        ],
+        [
+          "Melesi",
+          "Thanks (from French merci)"
+        ]
+      ],
+      "bye": [
+        [
+          "Tokomonana",
+          "We'll see each other"
+        ],
+        [
+          "Kende malamu",
+          "Go well"
+        ],
+        [
+          "Tikala malamu",
+          "Stay well"
+        ]
+      ],
+      "welcome": [
+        [
+          "Boyei malamu",
+          "Welcome (to several people)"
+        ],
+        [
+          "Oyei malamu",
+          "Welcome (to one person)"
+        ]
+      ],
+      "sorry": [
+        [
+          "Limbisa ngai",
+          "Forgive me"
+        ],
+        [
+          "Bolimbisi",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Bolimbisi",
+          "Excuse me"
+        ],
+        [
+          "Pardon, ndeko",
+          "Excuse me, friend"
+        ]
+      ],
+      "yes": [
+        [
+          "Ee",
+          "Yes"
+        ],
+        [
+          "Iyo",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Te",
+          "No"
+        ],
+        [
+          "Te, matondo",
+          "No, thank you"
+        ]
+      ]
+    },
+    "sw": {
+      "hello": [
+        [
+          "Jambo!",
+          "Hello"
+        ],
+        [
+          "Habari?",
+          "Hello, what news?"
+        ]
+      ],
+      "morning": [
+        [
+          "Habari ya asubui?",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Habari ya mangaribi?",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Habari yako?",
+          "How are you?"
+        ],
+        [
+          "Ujambo?",
+          "Are you well?"
+        ]
+      ],
+      "fine": [
+        [
+          "Muzuri",
+          "Fine"
+        ],
+        [
+          "Sijambo",
+          "I'm well"
+        ],
+        [
+          "Muzuri sana",
+          "Very well"
+        ]
+      ],
+      "thanks": [
+        [
+          "Asante",
+          "Thank you"
+        ],
+        [
+          "Asante sana",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Kwaheri",
+          "Goodbye"
+        ],
+        [
+          "Tutaonana",
+          "We'll see each other"
+        ]
+      ],
+      "welcome": [
+        [
+          "Karibu",
+          "Welcome"
+        ],
+        [
+          "Karibuni",
+          "Welcome, all of you"
+        ]
+      ],
+      "sorry": [
+        [
+          "Pole",
+          "Sorry (sympathy)"
+        ],
+        [
+          "Nisamehe",
+          "Forgive me"
+        ]
+      ],
+      "excuse": [
+        [
+          "Samahani",
+          "Excuse me"
+        ],
+        [
+          "Pardon",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Ndiyo",
+          "Yes"
+        ],
+        [
+          "Ee",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Apana",
+          "No"
+        ]
+      ]
+    },
+    "kg": {
+      "hello": [
+        [
+          "Mbote!",
+          "Hello"
+        ],
+        [
+          "Mbote na beno",
+          "Hello, all of you"
+        ]
+      ],
+      "morning": [
+        [
+          "Mbote, tata",
+          "Good morning, sir (mbote serves at any hour)"
+        ]
+      ],
+      "evening": [
+        [
+          "Mbote, mama",
+          "Good evening, madam (mbote serves at any hour)"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Nge ke mbote?",
+          "Are you well?"
+        ]
+      ],
+      "fine": [
+        [
+          "Mono ke mbote",
+          "I'm well"
+        ],
+        [
+          "Ya mbote",
+          "Good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Matondo",
+          "Thank you"
+        ],
+        [
+          "Matondo mingi",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Kwenda mbote",
+          "Go well (said by the one staying)"
+        ],
+        [
+          "Bikala mbote",
+          "Stay well (said by the one leaving)"
+        ]
+      ],
+      "welcome": [
+        [
+          "Kwiza mbote",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Pardon",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Pardon, tata",
+          "Excuse me, sir"
+        ]
+      ],
+      "yes": [
+        [
+          "Inga",
+          "Yes"
+        ],
+        [
+          "Ee",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Ve",
+          "No"
+        ],
+        [
+          "Kele ve",
+          "No, it is not"
+        ]
+      ]
+    },
+    "lua": {
+      "hello": [
+        [
+          "Moyo!",
+          "Hello (literally: life)"
+        ],
+        [
+          "Muoyo webe",
+          "Hello to you"
+        ],
+        [
+          "Muoyo wenu",
+          "Hello, all of you"
+        ]
+      ],
+      "morning": [
+        [
+          "Betu abu!",
+          "Good morning, hello"
+        ]
+      ],
+      "evening": [
+        [
+          "Muoyo wenu",
+          "Good evening (moyo serves at any hour)"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Malu kayi?",
+          "How are things?"
+        ]
+      ],
+      "fine": [
+        [
+          "Ndi bimpe",
+          "I'm fine"
+        ],
+        [
+          "Malu bimpe",
+          "Things are good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Tuasakidila",
+          "Thank you"
+        ]
+      ],
+      "bye": [
+        [
+          "Ushale bimpe",
+          "Stay well"
+        ],
+        [
+          "Netumonangane",
+          "See you later"
+        ]
+      ],
+      "welcome": [
+        [
+          "Betu abu!",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Pardon",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Pardon",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Eyowa",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "To",
+          "No"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hello!",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning!",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "I'm fine, thanks",
+          "I'm fine, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thank you",
+          "Thank you"
+        ]
+      ],
+      "bye": [
+        [
+          "Goodbye",
+          "Goodbye"
+        ],
+        [
+          "See you",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "CDF",
+    "symbol": "FC",
+    "words": [
+      [
+        "mbongo",
+        "money, in Lingala"
+      ],
+      [
+        "falanga",
+        "money, francs"
+      ],
+      [
+        "nkoto",
+        "a thousand francs"
+      ],
+      [
+        "dollar",
+        "US dollars, used alongside francs for bigger buys"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Democratic_Republic_of_the_Congo",
+    "https://en.wikipedia.org/wiki/Languages_of_the_Democratic_Republic_of_the_Congo",
+    "https://en.wikipedia.org/wiki/Lingala",
+    "https://en.wikipedia.org/wiki/Kituba_language",
+    "https://en.wikipedia.org/wiki/Luba-Kasai_language",
+    "https://en.wikipedia.org/wiki/Congolese_Swahili",
+    "https://en.wikipedia.org/wiki/Authenticit%C3%A9_(Zaire)",
+    "https://en.wikipedia.org/wiki/Nande_people",
+    "https://en.wikipedia.org/wiki/Congolese_franc",
+    "https://www.omniglot.com/language/phrases/lingala.htm",
+    "https://www.kupsala.net/risto/kongo/kituba-english.html",
+    "https://en.wikibooks.org/wiki/Tshiluba/Getting_to_Know_You/Greetings_&_Introductions",
+    "https://lubanation.com/2011/02/06/greetings/"
+  ]
+}

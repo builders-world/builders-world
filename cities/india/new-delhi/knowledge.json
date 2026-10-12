@@ -1,0 +1,133 @@
+{
+  "street": { "hi": 0.45, "hinglish": 0.2, "en": 0.2, "pa": 0.15 },
+  "registers": {
+    "hinglish": {
+      "name": "Hinglish",
+      "about": "Hindi and English mixed mid-sentence, the way younger Delhi talks in offices, colleges, cafes and on the metro."
+    }
+  },
+  "names": {
+    "weights": {
+      "hindi": 0.55,
+      "punjabi": 0.2,
+      "muslim": 0.12,
+      "bengali": 0.04,
+      "malayali": 0.02,
+      "tamil": 0.02,
+      "gujarati": 0.02,
+      "marathi": 0.01,
+      "christian": 0.01,
+      "telugu": 0.01
+    }
+  },
+  "phrases": {
+    "hinglish": {
+      "hello": [["Hey, kya scene?", "Hey, what's up?"], ["Hi yaar!", "Hi, mate!"]],
+      "how_are_you": [["Kaisa hai, bro?", "How are you, bro?"], ["Aur bata, what's up?", "Tell me, what's up?"]],
+      "fine": [["All good yaar", "All good, mate"], ["Bas chill", "Just chilling"]],
+      "thanks": [["Thanks yaar", "Thanks, mate"]],
+      "bye": [["Chal, bye", "Okay, bye"], ["Catch you later", "See you"]],
+      "sorry": [["Sorry yaar, my bad", "Sorry, my mistake"]],
+      "yes": [["Haan, done", "Yes, agreed"], ["Pakka", "Definitely"]],
+      "no": [["Na yaar", "No, mate"]],
+      "slang": [["Scene kya hai?", "What's the plan?"], ["Jugaad", "A clever workaround"], ["Kalesh", "A fuss, a quarrel"], ["Bhasad", "Chaos, a mess"]]
+    },
+    "hi": {
+      "friend": [["Bhai", "Brother, mate"], ["Bhaiya", "Brother, to a driver or shopkeeper"], ["Paaji", "Brother, to a Punjabi man"]],
+      "auto": [["Bhaiya, meter se chaloge?", "Will you go by the meter?"], ["Yahin rok do", "Stop right here"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hi, how are you?", "Good morning! Freezing today, no?", "Hello ji, all good?", "Hey, what's up?", "Hi! Long time, no see."],
+      "reply": ["All good, thanks. You?", "Fine, just about survived the metro.", "Doing well, busy week.", "Good, good. All fine at home?", "Very well, thank you."],
+      "sunny": ["It's 45 degrees, stay indoors.", "Lovely winter sun today, let's sit outside.", "Perfect day for Lodhi Garden.", "The heat is unreal, carry water.", "Clear sky today, you can actually see far."],
+      "rain": ["Finally the monsoon is here.", "Ring Road is flooded again.", "Carry an umbrella, it's pouring.", "Perfect weather for chai and pakoras.", "Minto Bridge is underwater, take another route."],
+      "bye": ["Okay, bye, take care.", "Catch you later.", "See you at the weekend.", "Bye, reach home safe.", "Let's meet for chai soon."],
+      "busy": ["Running late, I'm on the metro.", "Stuck in traffic on the Ring Road, call you later.", "In a meeting, talk in the evening.", "Got to rush to Gurgaon, bye!", "Very busy today, tomorrow?"]
+    },
+    "hi": {
+      "greet": ["Namaste ji, kaise ho?", "Aur bhai, kya haal?", "Kya haal chaal?", "Aur sunao, sab badhiya?"],
+      "reply": ["Sab badhiya ji, aap sunao.", "Mast hai bhai.", "Theek-thaak, chal raha hai.", "Bas, badhiya."],
+      "sunny": ["Aaj toh loo chal rahi hai.", "Bahut garmi hai, paani piyo.", "Sardi ki dhoop kitni achhi lagti hai.", "Dhoop kadak hai aaj."],
+      "rain": ["Baarish aa gayi, ab jam pakka.", "Mausam suhana ho gaya.", "Minto Bridge pe phir paani bhar gaya hoga.", "Chhatri le lo, baarish ho rahi hai."],
+      "bye": ["Chalo, milte hain.", "Phir milenge ji.", "Chalta hoon bhai.", "Dhyaan rakhna."],
+      "busy": ["Late ho raha hoon, metro pakadni hai.", "Abhi jaldi mein hoon, baad mein baat karte hain.", "Meeting hai, nikalna padega.", "Jam mein phansa hoon, baad mein call karta hoon."]
+    },
+    "hinglish": {
+      "greet": ["Hey, kya scene hai?", "Bro, kaisa hai?", "Hi yaar, long time!", "Aur bata, what's up?"],
+      "reply": ["All good yaar, tu bata.", "Bas chill, sab sorted.", "Ekdum fine, bro.", "Mast, thoda busy tha bas."],
+      "sunny": ["Yaar, it's so hot, 45 degrees.", "Winter ki dhoop is the best.", "Itni garmi, I can't even.", "Sunny day hai, Lodhi Garden chalein?"],
+      "rain": ["Finally baarish! Weather is so nice.", "Bro, Ring Road phir flooded hai.", "Chai and pakode weather hai.", "Umbrella le le, it's pouring."],
+      "bye": ["Chal, catch you later.", "Bye yaar, take care.", "Chal bro, milte hain.", "Okay, text kar dena."],
+      "busy": ["Yaar, running late, metro mein hoon.", "Can't talk, meeting hai.", "Baad mein call karta hoon, driving.", "So busy yaar, weekend pe milte hain."]
+    },
+    "pa": {
+      "greet": ["Sat Sri Akal ji!", "Ki haal aa, paaji?", "Ki haal chaal?", "Aur sunao veere, ki chal reha?"],
+      "reply": ["Vadhiya ji, tussi sunao.", "Sab changa.", "Sab vadhiya, chak de!", "Theek-thaak ji, tussi dasso."],
+      "sunny": ["Ajj taan bahut garmi aa.", "Dhup bahut tez aa.", "Sardiyan di dhup kinni changi lagdi.", "Paani peeo, garmi bahut aa."],
+      "rain": ["Meenh pai reha.", "Chhatri lai lao, meenh aa gaya.", "Mausam bada sohna ho gaya.", "Meenh vich pakode khaiye."],
+      "bye": ["Rabb rakha.", "Fer milange.", "Chalo ji, chalde haan.", "Dhyaan rakhna."],
+      "busy": ["Late ho gaya, baad ch gall karange.", "Hune time nahi, kamm aa.", "Jaldi ch haan, fer milde aa.", "Baad ch phone karanga."]
+    }
+  },
+  "transport": {
+    "metro": "Delhi Metro",
+    "bus": "DTC bus",
+    "tricycle": "auto",
+    "e_rickshaw": "e-rickshaw",
+    "cycle_rickshaw": "rickshaw",
+    "taxi": "cab",
+    "ride_hail": "Uber, Ola or Rapido",
+    "moto_taxi": "Rapido bike",
+    "train": "Indian Railways and the Namo Bharat (RRTS)",
+    "conductor": "conductor",
+    "stage": "bus stop"
+  },
+  "touts": [
+    "Kashmere Gate, Kashmere Gate!",
+    "Nehru Place, Nehru Place, baitho!",
+    "ISBT, ISBT!",
+    "Chandni Chowk, chalo, sawari!",
+    "Gurgaon, Gurgaon, sharing!",
+    "Noida, Sector 18!",
+    "Auto chahiye? Kahan jaana hai?"
+  ],
+  "hawkers": [
+    ["Garam garam chai!", "Hot tea!"],
+    ["Chole kulche, le lo!", "Chole kulche, come get them!"],
+    ["Bhutte, garam bhutte!", "Hot roasted corn!"],
+    ["Thandi shikanji!", "Cold lemonade!"],
+    ["Momos, steam aur fried!", "Momos, steamed and fried!"],
+    ["Moongphali garam!", "Hot roasted peanuts! (winter)"],
+    ["Kulfi, kulfi!", "Kulfi ice cream!"]
+  ],
+  "food": {
+    "street": ["chole bhature", "chole kulche", "aloo tikki", "golgappe", "momos", "paranthe", "dahi bhalla", "ram laddoo", "kathi rolls", "daulat ki chaat"],
+    "dishes": ["butter chicken", "dal makhani", "rajma chawal", "nihari", "seekh kebab", "kadhi chawal", "chicken tikka"],
+    "drinks": ["chai", "lassi", "shikanji", "kulhad chai", "nimbu paani", "jaljeera", "cold coffee"]
+  },
+  "places": {
+    "neighbourhoods": ["Connaught Place", "Hauz Khas", "Lajpat Nagar", "Karol Bagh", "Saket", "Chandni Chowk", "Defence Colony", "Greater Kailash", "Rajouri Garden", "Dwarka", "Vasant Kunj", "Green Park", "Mayur Vihar", "Laxmi Nagar", "Paharganj"],
+    "streets": ["Kartavya Path", "Janpath", "Ring Road", "Outer Ring Road", "Chandni Chowk", "Aurobindo Marg", "Barakhamba Road", "Mathura Road", "Lodhi Road"],
+    "landmarks": ["India Gate", "Red Fort", "Qutub Minar", "Humayun's Tomb", "Lodhi Garden", "Dilli Haat", "Rajiv Chowk metro station", "Khan Market", "Agrasen ki Baoli", "Rashtrapati Bhavan", "Bharat Mandapam"]
+  },
+  "small_talk": [
+    "Rajiv Chowk at six is a war zone.",
+    "Fog was so thick this morning, I could not see the car ahead.",
+    "Paranthe in Chandni Chowk this Sunday?",
+    "My auto bhaiya refused to go to Gurgaon again.",
+    "Lodhi Garden is lovely in February.",
+    "Sarojini Nagar for shopping, but go early before it gets packed.",
+    "The Blue Line is delayed again, what else is new.",
+    "Winter has arrived, time for moongphali and gajar ka halwa.",
+    "Hauz Khas village is always buzzing on Friday night."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/New_Delhi",
+    "https://en.wikipedia.org/wiki/Delhi",
+    "https://en.wikipedia.org/wiki/Hinglish",
+    "https://en.wikipedia.org/wiki/Delhi_Metro",
+    "https://en.wikipedia.org/wiki/Punjabi_language"
+  ]
+}

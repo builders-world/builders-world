@@ -1,0 +1,108 @@
+{
+  "street": { "en": 0.25, "sn": 0.42, "street_shona": 0.3, "nd": 0.03 },
+  "registers": {
+    "street_shona": {
+      "name": "Harare street Shona",
+      "about": "The quick Shona of Harare's kombi ranks, markets and young people, full of English borrowings like sharp, chill and blaz."
+    }
+  },
+  "names": { "weights": { "shona": 0.85, "ndebele": 0.08, "chewa": 0.07 } },
+  "phrases": {
+    "street_shona": {
+      "hello": [["Ndeipi?", "What's up?"], ["Zvirisei?", "How are things?"], ["Sei blaz?", "What's up, bro?"]],
+      "how_are_you": [["Uri sharp here?", "Are you good?"], ["Wadii?", "How are you?"]],
+      "fine": [["Hapana", "Nothing much, all good"], ["Zviri sharp", "Things are good"], ["Sharp sharp", "All good"]],
+      "thanks": [["Thanks blaz", "Thanks, bro"], ["Ndatenda mudhara", "Thank you, boss"]],
+      "bye": [["Sharp, tichaonana!", "Cool, see you"], ["Ndoenda, chill", "I'm off, take it easy"]],
+      "yes": [["Ehe", "Yeah"], ["Sharp", "OK, sure"]],
+      "no": [["Aiwa blaz", "No, bro"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! How are you keeping?", "Hi, how was your weekend?", "Hello! How's the family?", "Afternoon! Are you well?", "Good evening, how was your day?"],
+      "reply": ["I'm fine, and you?", "We're here, just pushing.", "Not bad at all, thank you.", "I'm well, thanks for asking.", "Fine fine, the day is going."],
+      "sunny": ["It's hot today, October is doing its thing.", "Lovely day, the jacarandas are out.", "The sun is strong, find some shade.", "Perfect day for a braai.", "Too hot to walk to town, I'll take a kombi."],
+      "rain": ["The rains have finally come!", "Carry an umbrella, the clouds are heavy.", "Town will be flooded again after this.", "This rain is good for the farmers.", "Wait a bit, it will pass soon."],
+      "bye": ["Go well!", "Stay well!", "See you later.", "Take care, regards to the family.", "Safe journey home."],
+      "busy": ["Sorry, I'm rushing to catch a kombi.", "I'm late for work, let's talk later.", "Let me run, there's a queue at the bank.", "I'll call you, I have a meeting soon.", "Running to town, catch you later."]
+    },
+    "sn": {
+      "greet": ["Mhoroi! Makadii nhasi?", "Mangwanani! Mamuka sei?", "Masikati! Maswera sei?", "Mhoro shamwari! Wakadii?", "Manheru! Maswera sei?"],
+      "reply": ["Ndiripo, makadiiwo?", "Tiripo zvedu, ndatenda.", "Ndamuka, kana mamukawo.", "Ndaswera, kana maswerawo.", "Tiri kungoshanda hedu."],
+      "sunny": ["Zuva rapisa nhasi!", "Kunopisa chaizvo nhasi.", "Ndiri kuda mvura inotonhora, kunopisa.", "Zuva rakanaka rekufamba mutaundi."],
+      "rain": ["Mvura yauya!", "Bata amburera yako, mvura iri kunaya.", "Mvura yanaya zvakanyanya nhasi.", "Ndichamirira kuti mvura ipere."],
+      "bye": ["Chisarai zvakanaka!", "Fambai zvakanaka!", "Tichaonana mangwana.", "Muswere zvakanaka!"],
+      "busy": ["Ndiri kumhanya, ndichakufonera.", "Ndanonoka kubasa, tichataura gare gare.", "Kombi yangu yave kuenda, chisarai!", "Ndine basa rakawanda nhasi."]
+    },
+    "street_shona": {
+      "greet": ["Ndeipi blaz?", "Zvirisei mudhara?", "Ah ndeipi shamwari, kudhara kwako!", "Sei mfana, uri sharp here?"],
+      "reply": ["Hapana, ndiri sharp.", "Zviri sharp, iwe wadii?", "Tiri kungotsvaga mari, blaz.", "Sharp sharp, hapana."],
+      "sunny": ["Kwapisa nhasi blaz!", "Heat yanyanya nhasi.", "Ndiri kutsvaga chimwe chinotonhora kunwa.", "Zuva iri harisi kutamba, mudhara."],
+      "rain": ["Mvura yanaya, makombi azara!", "Ndanyorova zvangu, blaz.", "Ndiri kumirira kuti mvura ipere.", "Mvura yauya, town yazara madhaka."],
+      "bye": ["Sharp, tichaonana!", "Ndoenda blaz, chill.", "Sharp sharp, ndichakufonera.", "Tozoonana mudhara."],
+      "busy": ["Ndiri kumhanya blaz, hwindi rave kudaidza.", "Ndine dhiri randiri kuenda kunoita, gare gare.", "Ah blaz ndiri busy, ndofona.", "Mushikashika wangu wave kuenda, sharp!"]
+    },
+    "nd": {
+      "greet": ["Salibonani! Linjani?", "Livuke njani?", "Litshonile! Linjani?", "Sawubona mngane, unjani?"],
+      "reply": ["Sikhona, linjani lina?", "Ngikhona, ngiyabonga.", "Sivuke kuhle, ngiyabonga.", "Ngiyaphila, wena unjani?"],
+      "sunny": ["Kuyatshisa lamuhla!", "Ilanga liyatshisa kakhulu.", "Ngifuna amanzi amakhaza.", "Lilanga elihle lamuhla."],
+      "rain": ["Izulu liyana!", "Thatha isambulela, izulu liyeza.", "Izulu line kakhulu lamuhla.", "Asilinde izulu lidlule."],
+      "bye": ["Lisale kuhle!", "Lihambe kuhle!", "Sizabonana kusasa.", "Uhambe kuhle mngane."],
+      "busy": ["Ngiyaphangisa, ngizakufonela.", "Sengephuzile emsebenzini.", "Ikombi yami isisuka, lisale kuhle!", "Ngilomsebenzi omnengi lamuhla."]
+    }
+  },
+  "transport": { "bus": "kombi", "moto_taxi": "", "tricycle": "", "taxi": "taxi", "conductor": "hwindi", "stage": "rank" },
+  "touts": [
+    "Copa! Copacabana! Tiri kuenda!",
+    "Mbare, Mbare! Musika!",
+    "Chitown, Chitown! Chitungwiza!",
+    "Budiriro, Budiriro! Munhu mumwe!",
+    "Avondale, Avondale! Westgate!",
+    "Highfield, Highfield! Pindai!",
+    "Mabvuku, Tafara! One more!",
+    "Town, town! Fourth Street!"
+  ],
+  "hawkers": [
+    ["Mazai! Mazai akabikwa!", "Eggs! Boiled eggs!"],
+    ["Airtime! Econet, NetOne!", "Airtime for Econet and NetOne!"],
+    ["Maputi, maputi!", "Puffed maize snacks!"],
+    ["Mvura inotonhora!", "Cold water!"],
+    ["Freezits! Freezits!", "Frozen juice lollies!"],
+    ["Chibage chakagochwa!", "Roasted maize!"],
+    ["Madora, madora!", "Mopane worms!"],
+    ["Mazhanje, mazhanje!", "Wild loquat fruit, in season!"]
+  ],
+  "food": {
+    "street": ["maputi", "roasted maize", "boiled eggs with salt", "madora (mopane worms)", "freezits", "nyimo (roasted roundnuts)", "mazhanje in season"],
+    "dishes": ["sadza", "sadza nenyama (with beef stew)", "muriwo une dovi (greens in peanut butter)", "matemba (dried kapenta)", "road runner (free-range chicken)", "covo", "mufushwa (sun-dried greens)"],
+    "drinks": ["Mazoe orange crush", "maheu", "Tanganda tea", "Coke", "Chibuku", "Zambezi lager"]
+  },
+  "places": {
+    "neighbourhoods": ["Avondale", "Borrowdale", "Mbare", "Highfield", "Mount Pleasant", "Belgravia", "Greendale", "Warren Park", "Budiriro", "Glen View", "Kuwadzana", "Eastlea", "Milton Park", "Marlborough", "Mabelreign"],
+    "streets": ["Samora Machel Avenue", "Julius Nyerere Way", "First Street", "Fourth Street", "Borrowdale Road", "Enterprise Road", "Seke Road", "Simon Mazorodze Road", "Leopold Takawira Street", "Herbert Chitepo Avenue", "Josiah Tongogara Avenue", "Harare Drive"],
+    "landmarks": ["Eastgate Centre", "Joina City", "Sam Levy's Village", "Harare Gardens", "Mbare Musika", "Africa Unity Square", "the Kopje", "Mukuvisi Woodlands", "Copacabana rank", "National Gallery of Zimbabwe", "Rufaro Stadium"]
+  },
+  "small_talk": [
+    "The kombi at Copa took forever to fill up this morning.",
+    "ZESA cut the power again last night.",
+    "The jacarandas on Josiah Tongogara are purple already.",
+    "Mbare Musika is packed today, everyone is buying tomatoes.",
+    "I'm going kumusha this weekend to see my gogo.",
+    "Traffic on Samora was bad near Fourth Street.",
+    "Did they give you sweets for change again at the till?",
+    "Let's meet at Sam Levy's for coffee on Saturday.",
+    "Avondale shops on a Saturday morning, everyone is there.",
+    "The rains are late this year, the farmers are waiting.",
+    "Dynamos are playing at Rufaro this weekend."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Harare",
+    "https://en.wikipedia.org/wiki/Shona_language",
+    "https://en.wikipedia.org/wiki/Mbare",
+    "https://en.wikipedia.org/wiki/Eastgate_Centre,_Harare",
+    "https://en.wikipedia.org/wiki/Chitungwiza",
+    "https://en.wikipedia.org/wiki/Sadza",
+    "https://en.wikipedia.org/wiki/Share_taxi"
+  ]
+}

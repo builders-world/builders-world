@@ -1,0 +1,88 @@
+{
+  "street": { "mos": 0.45, "fr": 0.45, "dyu": 0.07, "en": 0.03 },
+  "names": { "weights": { "mossi": 0.72, "west": 0.15, "fulani": 0.07, "gourmantche": 0.06 } },
+  "phrases": {
+    "fr": {
+      "hello": [["On dit quoi?", "What's up?"], ["Ça va un peu?", "Getting by?"]],
+      "fine": [["Ça va un peu", "Getting by, fine"], ["Y a pas de problème", "No problem"]],
+      "bye": [["On est ensemble", "We're together (see you)"], ["On se voit", "See you"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Good morning! Did you sleep well?", "Hello, how is the family?", "Good evening, how was the day?", "Ah, long time! How is work?", "Health only? How are things?"],
+      "reply": ["Health only, thank you.", "Fine, no problem.", "Getting by, thanks.", "The family is well, thank God.", "All good, and you?"],
+      "sunny": ["The heat is something else today.", "April in Ouaga, everyone is looking for shade.", "Hot day, a cold zoom-koom would be perfect.", "The sun is strong on the moto, wear a hat.", "Clear sky over the dams today."],
+      "rain": ["The first rains are here!", "The wind is coming, rain will follow.", "The red dust turns to mud when it rains.", "This rain is good for the fields.", "Wait under the hangar, it will pass."],
+      "bye": ["See you, health to you!", "We're together!", "See you tomorrow.", "Greet the family for me.", "Go well on the road."],
+      "busy": ["Sorry, I'm late for the office.", "I have to get my moto before the traffic.", "Market closes soon, I have to run.", "Let me go, I'll call you tonight.", "Busy day, we'll talk later."]
+    },
+    "mos": {
+      "greet": ["Ne y yibeoogo! Laafi bééme?", "Ne y windiga!", "Ne y zaabre! Laafi bééme?", "Kibaare?", "Ne y windiga! Kibaare?"],
+      "reply": ["Laafi bala, barka.", "Laafi bééme, barka.", "Yel ka be.", "Laafi bala."],
+      "bye": ["Wẽnd na kõ laafi!", "Barka, Wẽnd na kõ laafi.", "Barka wʋsgo!"]
+    },
+    "fr": {
+      "greet": ["Bonjour, on dit quoi?", "Bonsoir! La famille va bien?", "Salut kôrô, ça va un peu?", "Bonjour tantie, bien dormi?", "Ah, ça fait longtemps dêh!"],
+      "reply": ["Ça va un peu, merci.", "Y a pas de problème.", "On est là, Dieu merci.", "Ça va bien, et toi?"],
+      "sunny": ["Il fait chaud dêh!", "Le soleil tape fort aujourd'hui.", "Avec cette chaleur, il faut un zoom-koom bien frais.", "Il fait trop chaud pour rouler à moto."],
+      "rain": ["La pluie arrive, regarde le vent!", "Les premières pluies sont là!", "Avec la pluie, les six-mètres sont dans la boue.", "Attends que la pluie passe."],
+      "bye": ["On est ensemble!", "À demain, si Dieu le veut.", "Bonne soirée!", "Salue la famille."],
+      "busy": ["Je suis pressé, on se voit.", "Je suis en retard au service.", "Je dois aller au marché avant la fermeture.", "Je t'appelle ce soir."]
+    },
+    "dyu": {
+      "greet": ["I ni sɔgɔma! I ka kɛnɛ wa?", "I ni wula!", "I ni ce! I ka kɛnɛ?", "Aw ni ce!"],
+      "reply": ["Tɔɔrɔ tɛ.", "N ka kɛnɛ, i ni ce.", "Hɛrɛ dɔrɔn.", "Tɔɔrɔ tɛ, i ni ce."],
+      "bye": ["K'an bɛn!", "K'an bɛn sini!", "I ni ce, k'an bɛn.", "Ka su hɛrɛ caya."]
+    }
+  },
+  "transport": { "bus": "SOTRACO bus", "moto_taxi": "moto-taxi", "tricycle": "tricycle", "taxi": "taxi vert", "conductor": "apprenti", "stage": "gare" },
+  "touts": [
+    "Gounghin! Gounghin!",
+    "Tampouy! Tampouy!",
+    "Pissy! Pissy!",
+    "Rood Woko! Grand Marché!",
+    "Ouaga 2000!",
+    "Tanghin, Dapoya!",
+    "Bobo! Bobo-Dioulasso!",
+    "Koudougou! On part!"
+  ],
+  "hawkers": [
+    ["Zoom-koom! Zoom-koom glacé!", "Cold millet and ginger drink!"],
+    ["Bissap glacé!", "Cold hibiscus juice!"],
+    ["Gnamakoudji!", "Ginger juice!"],
+    ["Eau glacée! Sachet!", "Cold water sachets!"],
+    ["Samsa! Samsa chaud!", "Hot bean fritters!"],
+    ["Pain! Pain chaud!", "Fresh bread!"],
+    ["Soumbala!", "Fermented néré seasoning!"],
+    ["Unités! Unités!", "Phone credit!"]
+  ],
+  "food": {
+    "street": ["poulet bicyclette (grilled free-range chicken)", "brochettes", "samsa (bean fritters)", "gonré (steamed bean cakes)", "beignets", "grilled fish from the dams"],
+    "dishes": ["tô with sauce gombo", "riz gras", "babenda", "sauce feuille", "ragoût d'igname", "zamnè", "riz sauce arachide"],
+    "drinks": ["zoom-koom", "bissap", "gnamakoudji (ginger juice)", "dolo (millet beer)", "green tea", "Brakina beer"]
+  },
+  "places": {
+    "neighbourhoods": ["Ouaga 2000", "Gounghin", "Tampouy", "Dapoya", "Koulouba", "Zogona", "Pissy", "Patte d'Oie", "Tanghin", "Cissin", "Wemtenga", "Dassasgho", "Kalgondin", "Zone du Bois", "Larlé", "Paspanga", "Somgandé"],
+    "streets": ["Avenue Kwame Nkrumah", "Avenue Yennenga", "Avenue Bassawarga", "Avenue de la Nation", "Avenue Loudun", "Boulevard Charles de Gaulle", "Avenue de l'Indépendance", "Avenue Babanguida"],
+    "landmarks": ["Rood Woko (Grand Marché)", "Place des Nations Unies", "Barrages de Ouaga (the dams)", "Parc urbain Bangr-Weoogo", "Maison du Peuple", "Place des Cinéastes", "Cathédrale de l'Immaculée-Conception", "Grande Mosquée de Ouagadougou", "Stade du 4-Août", "SIAO grounds", "Monument des Héros Nationaux"]
+  },
+  "small_talk": [
+    "Kwame Nkrumah at closing time, motorbikes everywhere.",
+    "Poulet bicyclette tonight at the maquis?",
+    "FESPACO is coming, the whole city is excited.",
+    "The harmattan has covered my moto in dust again.",
+    "The dams are full after the rains.",
+    "Rood Woko is packed on Saturdays.",
+    "Let's sit under the hangar and drink tea.",
+    "The green taxi wanted extra to go to Ouaga 2000.",
+    "The SIAO is on, half the region is in town."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Ouagadougou",
+    "https://en.wikipedia.org/wiki/FESPACO",
+    "https://en.wikipedia.org/wiki/Burkinab%C3%A9_cuisine",
+    "https://en.wikipedia.org/wiki/Mossi_language",
+    "https://en.wikivoyage.org/wiki/Ouagadougou"
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "languages": [
+    { "code": "en", "name": "English", "official": true, "spoken": "widely" },
+    { "code": "af", "name": "Afrikaans", "official": false, "spoken": "widely" },
+    { "code": "ng", "name": "Oshiwambo (Oshindonga and Oshikwanyama)", "official": false, "spoken": "widely" },
+    { "code": "naq", "name": "Khoekhoegowab (Nama and Damara)", "official": false, "spoken": "some" },
+    { "code": "de", "name": "German", "official": false, "spoken": "some" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Ovambo names, the most common in the cities, are usually an Oshiwambo name with a meaning (Ndapewa, I have been given; Tuhafeni, let us rejoice) carried with a baptismal name. Many of those baptismal names are Finnish, from the Lutheran missionaries in the north (Toivo, Aune, Lahja, Selma). Ovambo surnames often go back to a forebear's name (Shikongo, Nangolo, Iipumbu). Many Nama and Damara people carry Afrikaans or biblical first names; Damara and many Nama family names change with gender, ending in -b for a man and -s for a woman (Gariseb and Garises), so only the forms that do not change are listed here. Afrikaans names belong to Afrikaners, the coloured community and the Rehoboth Basters, and German names to the small German-speaking community. Herero, Kavango and Zambezi names are not yet listed. Older people are greeted as Tate (father) and Meme (mother) whatever their background.",
+    "groups": {
+      "ovambo": {
+        "given": {
+          "m": ["Tuhafeni", "Panduleni", "Tangeni", "Mekondjo", "Pendapala", "Hafeni", "Kondjeni", "Tulonga", "Natangwe", "Lineekela", "Hambeleleni", "Tulimeke"],
+          "f": ["Ndapewa", "Ndeshipanda", "Ndinelago", "Ndahafa", "Ndapandula", "Nangula", "Twapewa", "Tuwilika", "Ndilimeke", "Magano", "Ndeutala", "Ndeyapo"]
+        },
+        "family": ["Shikongo", "Nangolo", "Amutenya", "Haufiku", "Iipumbu", "Shilongo", "Ashipala", "Nambala", "Shaanika", "Angula", "Shivute", "Hamunyela", "Amupolo", "Iita"],
+        "also": {
+          "m": ["Toivo", "Eino", "Martti", "Petrus", "Johannes", "Andreas", "Thomas", "Simeon", "Festus", "Lazarus"],
+          "f": ["Aune", "Aili", "Lahja", "Selma", "Hilma", "Saima", "Taimi", "Toini", "Martha", "Saara", "Rauha", "Hilja"]
+        }
+      },
+      "nama_damara": {
+        "given": {
+          "m": ["Johannes", "Petrus", "Hendrik", "Simon", "Jacobus", "David", "Gerhard", "Abraham", "Isak", "Ruben", "Elias", "Frederick"],
+          "f": ["Magdalena", "Anna", "Christina", "Sara", "Elizabeth", "Martha", "Ester", "Rosalia", "Paulina", "Johanna", "Lena", "Ruth"]
+        },
+        "family": ["Witbooi", "Swartbooi", "Boois", "Kooper", "Isaacs", "Hendricks", "Fredericks", "Jacobs", "Afrikaner", "Lambert", "Rooi", "Christiaan", "Gertze"]
+      },
+      "afrikaans": {
+        "given": {
+          "m": ["Johan", "Pieter", "Jaco", "Riaan", "Hennie", "Werner", "Francois", "Willem", "Andries", "Ruan", "Dawid", "Marius", "Stefan", "Gerrit"],
+          "f": ["Anri", "Elmarie", "Marietjie", "Liezl", "Annelie", "Carien", "Ilse", "Elsabe", "Mariska", "Sonja", "Retha", "Charlene", "Michelle"]
+        },
+        "family": ["van der Merwe", "Botha", "Pretorius", "du Plessis", "Swart", "Coetzee", "Steenkamp", "Visser", "Beukes", "Diergaardt", "van Wyk", "Cloete", "Olivier", "Engelbrecht", "Mouton"]
+      },
+      "german_namibian": {
+        "given": {
+          "m": ["Klaus", "Jürgen", "Dieter", "Hans", "Uwe", "Rolf", "Wolfgang", "Heinz", "Stefan", "Thomas", "Andreas", "Matthias", "Jan", "Kai"],
+          "f": ["Heike", "Ute", "Anke", "Birgit", "Sabine", "Gisela", "Ingrid", "Katrin", "Monika", "Ursula", "Silke", "Antje"]
+        },
+        "family": ["Schmidt", "Müller", "Schneider", "Becker", "Hoffmann", "Weber", "Krüger", "Lange", "Fischer", "Schulz", "Meyer", "Wagner", "Voigts"]
+      }
+    },
+    "weights": { "ovambo": 0.62, "nama_damara": 0.16, "afrikaans": 0.19, "german_namibian": 0.03 }
+  },
+  "honorifics": { "elder_m": "Tate", "elder_f": "Meme", "peer_m": "Bra", "peer_f": "Sussie", "boss": "Boss" },
+  "phrases": {
+    "en": {
+      "hello": [["Hello!", "Hello!"], ["Hi!", "Hi!"]],
+      "morning": [["Good morning", "Good morning"], ["How is the morning?", "How are you this morning?"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"], ["Otherwise?", "And how are you otherwise?"]],
+      "fine": [["Fine, thanks", "Fine, thanks"], ["Fine fine", "All good"]],
+      "thanks": [["Thank you", "Thank you"], ["Thanks hey", "Thanks a lot"]],
+      "bye": [["Goodbye", "Goodbye"], ["Go well", "Go well"]],
+      "welcome": [["Welcome", "Welcome"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"], ["Ja", "Yes"]],
+      "no": [["No", "No"]]
+    },
+    "af": {
+      "hello": [["Hallo!", "Hello!"], ["Haai!", "Hi!"]],
+      "morning": [["Goeie môre", "Good morning"], ["Môre!", "Morning!"]],
+      "evening": [["Goeie naand", "Good evening"]],
+      "how_are_you": [["Hoe gaan dit?", "How are you?"], ["Alles reg?", "All right?"]],
+      "fine": [["Goed dankie", "Fine, thanks"], ["Baie goed", "Very good"]],
+      "thanks": [["Dankie", "Thank you"], ["Baie dankie", "Thank you very much"]],
+      "bye": [["Totsiens", "Goodbye"], ["Mooi loop", "Go well"], ["Mooi bly", "Stay well"]],
+      "welcome": [["Welkom", "Welcome"]],
+      "sorry": [["Jammer", "Sorry"]],
+      "excuse": [["Verskoon my", "Excuse me"]],
+      "yes": [["Ja", "Yes"]],
+      "no": [["Nee", "No"]]
+    },
+    "ng": {
+      "hello": [["Halo!", "Hello!"], ["Ongiini?", "Hello, how's it?"]],
+      "morning": [["Wa lalapo?", "Good morning (did you sleep well?)"], ["Mwa lalapo?", "Good morning, all of you"]],
+      "evening": [["Wa tokelwa po?", "Good evening"], ["Wa uhala po?", "Good afternoon"]],
+      "how_are_you": [["Ou li nawa?", "Are you well?"], ["Ongiini?", "How are you?"]],
+      "fine": [["Ondi li nawa, ove?", "I'm fine, and you?"]],
+      "thanks": [["Tangi", "Thank you"], ["Tangi unene", "Thank you very much"]],
+      "bye": [["Kala po nawa", "Stay well"], ["Enda po nawa", "Go well"]],
+      "welcome": [["We ya po!", "You've come! (welcome, pleased to meet you)"]],
+      "sorry": [["Ombili", "Sorry"]],
+      "excuse": [["Arikana", "Please (to get someone's attention)"]],
+      "yes": [["Ee", "Yes"]],
+      "no": [["Ahawe", "No"]]
+    },
+    "naq": {
+      "hello": [["Halau!", "Hello!"]],
+      "morning": [["!Gâi ǁgoas", "Good morning"]],
+      "evening": [["!Gâi !oes", "Good evening"]],
+      "how_are_you": [["Matisa?", "How are you?"], ["Mîre?", "How are you? (polite)"]],
+      "fine": [["!Gâise", "Fine, well"]],
+      "thanks": [["Gangans", "Thank you"]],
+      "bye": [["!Gâise !gûre", "Goodbye (to someone leaving)"], ["!Gâise hâ re", "Goodbye (to someone staying)"]],
+      "welcome": [["ǁKhoreǁhare", "Welcome"]],
+      "sorry": [["ǀÛba te", "Sorry"]],
+      "excuse": [["ǁGawaǁaegu te", "Excuse me"]],
+      "yes": [["Î", "Yes"]],
+      "no": [["Hî-î", "No"]]
+    },
+    "de": {
+      "hello": [["Hallo!", "Hello!"]],
+      "morning": [["Guten Morgen", "Good morning"], ["Moin!", "Morning!"]],
+      "evening": [["Guten Abend", "Good evening"]],
+      "how_are_you": [["Wie geht's?", "How are you?"]],
+      "fine": [["Gut, danke", "Fine, thanks"]],
+      "thanks": [["Danke", "Thank you"], ["Danke schön", "Thank you very much"]],
+      "bye": [["Tschüss", "Bye"], ["Auf Wiedersehen", "Goodbye"]],
+      "welcome": [["Willkommen", "Welcome"]],
+      "sorry": [["Entschuldigung", "Sorry"]],
+      "excuse": [["Entschuldigung", "Excuse me"]],
+      "yes": [["Ja", "Yes"]],
+      "no": [["Nein", "No"]]
+    }
+  },
+  "money": {
+    "currency": "NAD",
+    "symbol": "N$",
+    "words": [
+      ["dollar", "the Namibian dollar"],
+      ["rand", "the South African rand, accepted at par and often what people say"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Namibia",
+    "https://en.wikipedia.org/wiki/Ovambo_language",
+    "https://en.wikipedia.org/wiki/Ovambo_people",
+    "https://en.wikipedia.org/wiki/Khoekhoe_language",
+    "https://en.wikipedia.org/wiki/Damara_people",
+    "https://en.wikipedia.org/wiki/German_Namibians",
+    "https://en.wikipedia.org/wiki/Namlish",
+    "https://en.wikipedia.org/wiki/Namibian_dollar",
+    "https://www.omniglot.com/language/phrases/oshiwambo.htm",
+    "https://www.omniglot.com/language/phrases/khoekhoe.htm"
+  ]
+}

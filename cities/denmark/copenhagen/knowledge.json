@@ -1,0 +1,76 @@
+{
+  "street": { "da": 0.8, "en": 0.2 },
+  "names": {
+    "weights": { "danish": 0.72, "middle_eastern": 0.09, "turkish": 0.05, "polish": 0.05, "pakistani": 0.05, "somali": 0.04 }
+  },
+  "phrases": {
+    "da": {
+      "hello": [
+        ["Hej hej!", "Hi there!"],
+        ["Hvad så?", "What's up?"]
+      ],
+      "thanks": [
+        ["Tak for i dag", "Thanks for today"],
+        ["Tak for sidst", "Thanks for last time"]
+      ],
+      "cheers": [
+        ["Skål!", "Cheers!"]
+      ],
+      "cosy": [
+        ["Hyggeligt!", "How cosy, how nice"]
+      ]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hej! How's it going?", "Morning! Did you bike in against the wind?", "Hey, long time! Hvad så?", "Hi there, lovely to see you!", "Godmorgen! Coffee first?"],
+      "reply": ["All good, thanks! You?", "Fine, just a bit busy.", "Can't complain, the sun's out.", "Pretty good, had a hyggelig weekend.", "Good, thanks for asking!"],
+      "sunny": ["Gorgeous day, everyone's down at the harbour.", "Perfect weather for a swim at Islands Brygge.", "The whole city is sitting on Dronning Louises Bro today.", "Sun's out, time for a soft ice.", "Let's grab smørrebrød and eat it outside."],
+      "rain": ["Raining again, rain trousers on for the bike.", "Proper grey Danish weather today.", "The wind is sideways, umbrellas are useless here.", "Wet and windy, stay in and make it hyggeligt.", "It's coming down hard, let's wait it out in the café."],
+      "bye": ["Hej hej!", "See you, tak for i dag!", "Have a good one!", "Vi ses!", "Take care, enjoy the evening!"],
+      "busy": ["Sorry, I need to catch the metro!", "Late for a meeting, talk later!", "Got to pick up the kids, hej hej!", "Running for the S-tog, catch you later!", "Busy day, let's grab coffee another time!"]
+    },
+    "da": {
+      "greet": ["Hej! Hvordan går det?", "Hej hej! Hvad så?", "Godmorgen! Har du fået kaffe?", "Hej, det er længe siden!", "Morn! Alt vel?"],
+      "reply": ["Det går fint, tak!", "Godt, og selv?", "Jo tak, det går.", "Fint nok, lidt travlt bare.", "Det går godt, tak fordi du spørger."],
+      "sunny": ["Sikke et dejligt vejr!", "Nu skal vi ned på havnen og bade.", "Solen skinner, alle sidder på Dronning Louises Bro.", "Perfekt vejr til en is i Kongens Have."],
+      "rain": ["Det regner igen, typisk.", "Husk regntøj på cyklen!", "Sikke noget vejr, det blæser helt vildt.", "Det er sådan noget gråvejr i dag."],
+      "bye": ["Hej hej!", "Vi ses!", "Tak for i dag!", "Ha' det godt!", "Vi snakkes!"],
+      "busy": ["Undskyld, jeg skal nå toget!", "Jeg har møde, vi snakkes senere!", "Skal lige hente ungerne, hej hej!", "Har travlt, vi ses!"]
+    }
+  },
+  "transport": {
+    "bus": "bus",
+    "moto_taxi": "el-løbehjul",
+    "tricycle": "ladcykel (Christiania-cykel)",
+    "taxi": "taxa",
+    "conductor": "billetkontrollør",
+    "stage": "stoppested",
+    "metro": "Metro",
+    "train": "S-tog",
+    "bike_lane": "cykelsti",
+    "ferry": "havnebus",
+    "bike_share": "delecykel"
+  },
+  "touts": ["Næste station: Kongens Nytorv.", "S-tog mod Hillerød afgår fra spor 9.", "Hus Forbi! Vil du købe et Hus Forbi?", "Ristet hotdog med det hele, kom bare!", "A busker on Strøget singing with a guitar and an open case.", "Friske jordbær, danske jordbær, kom og smag!"],
+  "hawkers": [
+    ["Hus Forbi, støt en hjemløs!", "Hus Forbi street paper, support a homeless seller!"],
+    ["Danske jordbær!", "Danish strawberries!"],
+    ["Ristet hotdog med det hele!", "Grilled hot dog with everything!"],
+    ["Kom og smag!", "Come and have a taste!"],
+    ["Friske tulipaner, to buketter for halvtreds!", "Fresh tulips, two bunches for fifty!"],
+    ["Nye kartofler!", "New potatoes!"]
+  ],
+  "food": {
+    "street": ["rød pølse", "ristet hotdog med det hele", "fransk hotdog", "flæskestegssandwich", "smørrebrød to go", "kanelsnegl", "soft ice", "shawarma on Nørrebrogade"],
+    "dishes": ["smørrebrød", "frikadeller", "stegt flæsk med persillesovs", "flæskesteg", "rugbrød med leverpostej", "æbleskiver", "wienerbrød", "risalamande"],
+    "drinks": ["kaffe", "Carlsberg", "Cocio", "Faxe Kondi", "gløgg", "snaps", "naturvin"]
+  },
+  "places": {
+    "neighbourhoods": ["Nørrebro", "Vesterbro", "Østerbro", "Christianshavn", "Frederiksberg", "Amager", "Indre By", "Nordhavn", "Valby", "Islands Brygge", "Sydhavn", "Kødbyen"],
+    "streets": ["Strøget", "Nørrebrogade", "Istedgade", "Jægersborggade", "Værnedamsvej", "H.C. Andersens Boulevard", "Nyhavn", "Østerbrogade", "Vesterbrogade", "Gothersgade", "Blågårdsgade"],
+    "landmarks": ["Tivoli", "Nyhavn", "Den Lille Havfrue", "Rundetårn", "Christiansborg", "Amalienborg", "Reffen", "Dronning Louises Bro", "Superkilen", "Kastellet", "Operaen", "Christiania", "CopenHill", "Torvehallerne"]
+  },
+  "small_talk": ["The cycle lane on Dronning Louises Bro was a traffic jam this morning.", "Did you see the queue at Reffen on Saturday?", "Swam at the Islands Brygge harbour bath yesterday, freezing but worth it.", "Tak for sidst, by the way, that was a really hyggelig evening.", "The S-tog was delayed again, signal problems.", "Got a cardamom bun from the bakery on Jægersborggade.", "Everyone's out in Fælledparken now the sun's back.", "Did you MobilePay me for the dinner?", "Wind in my face both ways on the bike today, classic."],
+  "sources": ["https://en.wikipedia.org/wiki/Copenhagen", "https://en.wikipedia.org/wiki/Danish_cuisine", "https://en.wikipedia.org/wiki/Copenhagen_Metro", "https://www.dst.dk/en"]
+}

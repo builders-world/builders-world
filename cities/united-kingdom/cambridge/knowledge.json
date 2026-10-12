@@ -1,0 +1,122 @@
+{
+  "street": { "en": 1 },
+  "names": {
+    "weights": {
+      "english": 0.695,
+      "scottish": 0.03,
+      "welsh": 0.02,
+      "irish": 0.03,
+      "indian": 0.05,
+      "pakistani": 0.02,
+      "bangladeshi": 0.015,
+      "caribbean": 0.01,
+      "west_african": 0.015,
+      "east_european": 0.05,
+      "chinese": 0.05,
+      "arab": 0.015
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "Morning! Off to the lab?",
+        "Hiya, how's term going?",
+        "Oh hello! Fancy seeing you at the market.",
+        "Hi there, you alright?",
+        "Morning! Survived supervisions this week?"
+      ],
+      "reply": [
+        "Not bad, thanks. Drowning in reading.",
+        "Good, ta. Just back from the library.",
+        "Fine thanks, bit sleep deprived.",
+        "All good. Exams are getting close though.",
+        "Can't complain. Busy week at the Science Park."
+      ],
+      "sunny": [
+        "Lovely day for a punt.",
+        "The Backs look gorgeous in this light.",
+        "Everyone's out on Jesus Green today.",
+        "Perfect weather for a pint by the river.",
+        "Sun's out, Parker's Piece is full of picnics."
+      ],
+      "rain": [
+        "Cycling in this is miserable.",
+        "Drizzly again. Glad I've got mudguards.",
+        "Pouring down and my bike seat's soaked.",
+        "Raining, so the library will be packed.",
+        "Grey and damp. Very Fenland."
+      ],
+      "bye": [
+        "See you later!",
+        "Take care, good luck with the essay.",
+        "Cheers, have a good one.",
+        "Bye! See you at formal?",
+        "Right, I'll let you get on."
+      ],
+      "busy": [
+        "Sorry, can't stop, I've got a supervision at two.",
+        "Running late, someone's nicked my bike lights again.",
+        "Got a lab meeting, catch you later?",
+        "Can't stop, I need to get out to the Science Park.",
+        "Sorry, deadline at midnight. Message me!"
+      ]
+    }
+  },
+  "transport": {
+    "bus": "bus",
+    "moto_taxi": "Voi e-scooter",
+    "tricycle": "cargo bike",
+    "taxi": "taxi",
+    "conductor": "ticket inspector",
+    "stage": "bus stop",
+    "train": "train",
+    "bike_share": "Voi e-bike",
+    "ride_hail": "Uber",
+    "guided_bus": "the Busway",
+    "park_and_ride": "Park & Ride",
+    "boat": "punt"
+  },
+  "touts": [
+    "Punting tour? Forty-five minutes along the Backs!",
+    "Chauffeured punts, see all the colleges from the river!",
+    "This train is for London King's Cross.",
+    "This is the Busway service to St Ives.",
+    "A busker on King's Parade playing the cello outside the chapel.",
+    "Last loaves, last loaves, half price!"
+  ],
+  "hawkers": [
+    ["Punt tour? See the Backs and the Bridge of Sighs!", "Guided punt tours on the river"],
+    ["Three avocados for two pounds!", "Fruit offer at the market"],
+    ["Fresh doughnuts, still warm!", "Doughnut stall at the market"],
+    ["Big Issue! Cheers.", "Buy the Big Issue street magazine"],
+    ["Pimm's, nice and cold!", "Pimm's at a summer garden party stall"]
+  ],
+  "food": {
+    "street": ["Gardies chips and cheese", "Chelsea bun from Fitzbillies", "falafel from the market", "noodles from a Market Square stall", "gelato on Bene't Street"],
+    "dishes": ["Sunday roast", "formal hall dinner", "fish and chips", "ploughman's lunch", "Eton mess", "scones with jam and cream"],
+    "drinks": ["a pint by the river", "Pimm's", "a cup of tea", "flat white", "port after formal", "cider"]
+  },
+  "places": {
+    "neighbourhoods": ["Mill Road", "Chesterton", "Newnham", "Romsey", "Petersfield", "Trumpington", "Eddington", "Cherry Hinton", "Arbury", "Castle", "Grantchester"],
+    "streets": ["King's Parade", "Trinity Street", "Mill Road", "Regent Street", "Hills Road", "Bridge Street", "Sidney Street", "Trumpington Street", "Station Road", "Milton Road"],
+    "landmarks": ["King's College Chapel", "the Backs", "the Mathematical Bridge", "the Fitzwilliam Museum", "Parker's Piece", "Jesus Green", "Cambridge Science Park", "Addenbrooke's", "the Bridge of Sighs", "Market Square", "the Corpus Clock"]
+  },
+  "small_talk": [
+    "Someone's nicked my bike light again.",
+    "The tour groups on King's Parade walk straight into the cycle lane.",
+    "Grantchester for tea in the Orchard this weekend?",
+    "Rents near the station have gone mad since all the labs moved in.",
+    "My bedder says the heating's fixed. We'll see.",
+    "May Week is in June. Don't ask.",
+    "The Busway's quicker than driving to St Ives.",
+    "Milton Road was solid with Science Park traffic.",
+    "Mill Road's the best place to eat in town.",
+    "Matriculation photos today, the whole of Trinity Street's blocked."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Cambridge",
+    "https://en.wikipedia.org/wiki/Silicon_Fen",
+    "https://en.wikipedia.org/wiki/Cambridgeshire_Guided_Busway",
+    "https://www.visitcambridge.org/"
+  ]
+}

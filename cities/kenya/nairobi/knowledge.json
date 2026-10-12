@@ -1,0 +1,463 @@
+{
+  "street": {
+    "en": 0.42,
+    "sw": 0.23,
+    "sheng": 0.35
+  },
+  "registers": {
+    "sheng": {
+      "name": "Sheng",
+      "about": "Nairobi's own street talk: Swahili grammar, English and Swahili words remixed, new slang every year. Young Nairobi speaks it everywhere; offices and elders less."
+    }
+  },
+  "names": {
+    "weights": {
+      "kikuyu": 0.33,
+      "luo": 0.17,
+      "luhya": 0.15,
+      "kamba": 0.12,
+      "kalenjin": 0.06,
+      "kisii": 0.06,
+      "somali": 0.06,
+      "swahili_coast": 0.02,
+      "indian_kenyan": 0.03
+    }
+  },
+  "phrases": {
+    "sheng": {
+      "hello": [
+        [
+          "Sasa!",
+          "Hi! (Sasa? Poa!)"
+        ],
+        [
+          "Niaje?",
+          "What's up?"
+        ],
+        [
+          "Mambo?",
+          "How's it going?"
+        ],
+        [
+          "Vipi?",
+          "How are things?"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Uko aje?",
+          "How are you?"
+        ],
+        [
+          "Form ni gani?",
+          "What's the plan?"
+        ]
+      ],
+      "fine": [
+        [
+          "Poa!",
+          "Cool!"
+        ],
+        [
+          "Fiti",
+          "All good"
+        ],
+        [
+          "Freshi",
+          "Fresh, fine"
+        ],
+        [
+          "Shwari",
+          "Calm, all good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Shukran",
+          "Thanks"
+        ],
+        [
+          "Asante msee",
+          "Thanks, man"
+        ]
+      ],
+      "bye": [
+        [
+          "Tutaonana",
+          "See you"
+        ],
+        [
+          "Baadaye",
+          "Later"
+        ],
+        [
+          "Chao",
+          "Bye"
+        ]
+      ],
+      "friend": [
+        [
+          "Msee",
+          "Guy, person"
+        ],
+        [
+          "Buda",
+          "Dude, mate"
+        ],
+        [
+          "Manze",
+          "Man (exclamation)"
+        ],
+        [
+          "Bro",
+          "Bro"
+        ]
+      ],
+      "money": [
+        [
+          "Doh",
+          "Money"
+        ],
+        [
+          "Mbao",
+          "Twenty shillings"
+        ],
+        [
+          "Ashuu",
+          "Fifty shillings"
+        ]
+      ],
+      "food": [
+        [
+          "Dishi",
+          "Food, a meal"
+        ],
+        [
+          "Kudishi",
+          "To eat"
+        ]
+      ],
+      "nice": [
+        [
+          "Noma!",
+          "Awesome!"
+        ],
+        [
+          "Moto",
+          "Hot, great"
+        ],
+        [
+          "Imeweza",
+          "Nailed it"
+        ]
+      ],
+      "hurry": [
+        [
+          "Haraka!",
+          "Quick!"
+        ],
+        [
+          "Tumechelewa",
+          "We're late"
+        ]
+      ],
+      "home": [
+        [
+          "Keja",
+          "House, home"
+        ],
+        [
+          "Mtaa",
+          "The hood, neighbourhood"
+        ]
+      ]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "Morning! How's the day treating you?",
+        "Hey! Good to see you.",
+        "Hi! Busy day in Kilimani?",
+        "Good afternoon! All well?",
+        "Hello! Haven't seen you in a while."
+      ],
+      "reply": [
+        "All good, thanks!",
+        "Doing well, can't complain.",
+        "Fine, just a lot of meetings.",
+        "Great, thank you. And you?",
+        "Good good. Just grabbing a coffee."
+      ],
+      "sunny": [
+        "Lovely weather today.",
+        "Proper Nairobi sunshine.",
+        "Perfect day for a walk to Yaya.",
+        "Warm one today, stay hydrated.",
+        "Blue skies over the city today."
+      ],
+      "rain": [
+        "It's pouring, carry an umbrella.",
+        "The long rains are here.",
+        "Ngong Road will be flooded by now.",
+        "Wait it out, it'll pass.",
+        "That's a proper Nairobi downpour."
+      ],
+      "bye": [
+        "Have a good one!",
+        "Take care!",
+        "Catch you later.",
+        "See you around.",
+        "Safe journey home."
+      ],
+      "busy": [
+        "Running to a meeting, talk later!",
+        "Late for the matatu, see you!",
+        "Deadline today, I'll call you.",
+        "Off to Westlands, catch you later.",
+        "On my way to a demo, later!"
+      ]
+    },
+    "sw": {
+      "greet": [
+        "Habari yako?",
+        "Habari ya leo?",
+        "Hujambo rafiki?",
+        "Shikamoo mzee.",
+        "Karibu sana!"
+      ],
+      "reply": [
+        "Nzuri sana, asante.",
+        "Salama tu.",
+        "Sijambo, asante.",
+        "Niko poa kabisa.",
+        "Mungu ni mwema."
+      ],
+      "sunny": [
+        "Jua kali leo!",
+        "Hali ya hewa ni nzuri leo.",
+        "Siku nzuri ya kutembea.",
+        "Jua limewaka kweli."
+      ],
+      "rain": [
+        "Mvua inanyesha sana.",
+        "Chukua mwavuli.",
+        "Mvua kubwa leo.",
+        "Ngoja mvua ipite kwanza."
+      ],
+      "bye": [
+        "Kwaheri!",
+        "Tutaonana kesho.",
+        "Uende salama.",
+        "Kila la heri."
+      ],
+      "busy": [
+        "Nina haraka, tutaongea baadaye.",
+        "Nimechelewa kazini!",
+        "Naenda mjini, tutaonana.",
+        "Niko na mkutano sasa hivi."
+      ]
+    },
+    "sheng": {
+      "greet": [
+        "Niaje msee!",
+        "Sasa buda, form?",
+        "Mambo vipi?",
+        "Niaje bro, uko fiti?",
+        "Sasa! Ni siku mob."
+      ],
+      "reply": [
+        "Poa sana!",
+        "Fiti, nikona tu.",
+        "Shwari, na wewe?",
+        "Freshi kabisa.",
+        "Poa, tunasukuma tu."
+      ],
+      "sunny": [
+        "Manze, jua iko on leo!",
+        "Weather ni noma leo.",
+        "Siku poa ya kuzurura.",
+        "Kuna joto mob."
+      ],
+      "rain": [
+        "Mvua imechapa!",
+        "Manze, mvua imenyesha kinoma!",
+        "Barabara imejaa maji.",
+        "Leo hakuna kutoka, mvua ni mob."
+      ],
+      "bye": [
+        "Tutaonana msee!",
+        "Baadaye bro.",
+        "Chao!",
+        "Sawa, tuko pamoja."
+      ],
+      "busy": [
+        "Niko kwa haraka, baadaye!",
+        "Nimechelewa mathree, buda!",
+        "Kuna deadline, nitakushow.",
+        "Naenda tao, tutaonana."
+      ]
+    }
+  },
+  "transport": {
+    "bus": "matatu",
+    "bus_slang": "mathree",
+    "moto_taxi": "boda boda",
+    "tricycle": "tuktuk",
+    "taxi": "taxi",
+    "ride_hail": "Uber or Bolt",
+    "conductor": "makanga",
+    "driver": "dere",
+    "stage": "stage",
+    "town": "tao"
+  },
+  "touts": [
+    "Town, town! Kencom!",
+    "Kawangware, 46! Panda!",
+    "Yaya, Yaya, tunaenda!",
+    "Ngong Road: Adams, Prestige!",
+    "Fifty bob, fifty bob, panda!",
+    "Westie, Westie! Sarit!",
+    "Railways! Railways!",
+    "Tao tao, imejaa moja!"
+  ],
+  "hawkers": [
+    [
+      "Maji baridi, maji!",
+      "Cold water!"
+    ],
+    [
+      "Smokie pasua, mbili mbili!",
+      "Smokies with kachumbari!"
+    ],
+    [
+      "Mahindi choma!",
+      "Roast maize!"
+    ],
+    [
+      "Airtime! Bundles!",
+      "Phone credit and data!"
+    ],
+    [
+      "Gazeti! Daily Nation!",
+      "Newspaper!"
+    ],
+    [
+      "Njugu karanga!",
+      "Peanuts!"
+    ],
+    [
+      "Mutura moto moto!",
+      "Hot mutura sausage!"
+    ]
+  ],
+  "food": {
+    "street": [
+      "smokie pasua",
+      "mahindi choma",
+      "mutura",
+      "samosa",
+      "mandazi",
+      "chapati",
+      "bhajia",
+      "njugu karanga",
+      "boiled eggs with kachumbari",
+      "viazi karai"
+    ],
+    "dishes": [
+      "nyama choma",
+      "ugali",
+      "sukuma wiki",
+      "githeri",
+      "pilau",
+      "mukimo",
+      "chapati and beans",
+      "fish from Lake Victoria (tilapia)",
+      "matumbo",
+      "kuku choma"
+    ],
+    "drinks": [
+      "chai",
+      "Kenyan coffee",
+      "dawa",
+      "mursik",
+      "Stoney tangawizi",
+      "mala",
+      "Tusker"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "Kilimani",
+      "Westlands",
+      "Kileleshwa",
+      "Lavington",
+      "Hurlingham",
+      "Parklands",
+      "Upper Hill",
+      "South B",
+      "South C",
+      "Eastleigh",
+      "Kibera",
+      "Ngara",
+      "Karen",
+      "Langata",
+      "Rongai",
+      "Kasarani",
+      "Embakasi",
+      "Buruburu"
+    ],
+    "streets": [
+      "Ngong Road",
+      "Argwings Kodhek Road",
+      "Waiyaki Way",
+      "Uhuru Highway",
+      "Kenyatta Avenue",
+      "Moi Avenue",
+      "Tom Mboya Street",
+      "Mombasa Road",
+      "Thika Road",
+      "Lenana Road",
+      "Wood Avenue",
+      "Kindaruma Road",
+      "Haile Selassie Avenue",
+      "Mama Ngina Street"
+    ],
+    "landmarks": [
+      "KICC",
+      "Yaya Centre",
+      "Prestige Plaza",
+      "Adams Arcade",
+      "Sarit Centre",
+      "The Junction",
+      "Uhuru Park",
+      "Central Park",
+      "Kenyatta National Hospital",
+      "Nairobi National Park",
+      "Kencom",
+      "Railways bus station",
+      "the Nairobi Expressway",
+      "iHub"
+    ]
+  },
+  "small_talk": [
+    "Traffic on Ngong Road was mad this morning.",
+    "The expressway saved me an hour today.",
+    "Meet you at Yaya at six?",
+    "There's a demo night at Nairobi Garage on Thursday.",
+    "M-Pesa me the balance later, no stress.",
+    "The matatu to town had the loudest music today.",
+    "Saw a giraffe from the Southern Bypass this morning.",
+    "The long rains will start any day now.",
+    "Nyama choma on Saturday at the usual place?",
+    "My keja in Kileleshwa has the best view of the Ngong Hills."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Nairobi",
+    "https://en.wikipedia.org/wiki/Sheng_slang",
+    "https://en.wikipedia.org/wiki/Matatu",
+    "https://en.wikipedia.org/wiki/Kenyan_cuisine",
+    "https://en.wikipedia.org/wiki/Demographics_of_Kenya"
+  ],
+  "needs_native_review": "Swahili and Sheng lines: Sheng changes every year, please keep it current."
+}

@@ -1,0 +1,96 @@
+{
+  "languages": [
+    { "code": "ary", "name": "Moroccan Arabic (Darija)", "official": false, "spoken": "widely" },
+    { "code": "ar", "name": "Modern Standard Arabic", "official": true, "spoken": "in school, news and offices" },
+    { "code": "zgh", "name": "Amazigh (Tashelhit, Tamazight, Tarifit)", "official": true, "spoken": "commonly, at home and in many shops" },
+    { "code": "fr", "name": "French", "official": false, "spoken": "widely in business, mixed into Darija" },
+    { "code": "en", "name": "English", "official": false, "spoken": "among young people and in tech" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "A Muslim first name and a family name from the father, fixed by the civil registry in the 1900s. Family names often start with El, Ben or Bel, or name a place or trade: El Fassi (from Fez), Tazi (from Taza), Haddad (smith). Old Fez families carry names like Bennani, Berrada and Benjelloun. Amazigh families, many of them from the Souss, carry names like Ait Lahcen or Ouhammou, where Ait means 'the people of' and Ou means 'son of', and give Amazigh first names like Itto, Tiziri, Yuba and Anir. Fatima Zahra and Mohamed Amine style double names are very common.",
+    "groups": {
+      "arab": {
+        "given": {
+          "m": ["Mohamed", "Youssef", "Hamza", "Ayoub", "Mehdi", "Amine", "Omar", "Hassan", "Rachid", "Khalid", "Abdellah", "Said", "Anas", "Othmane", "Zakaria", "Ismail", "Soufiane", "Reda"],
+          "f": ["Fatima Zahra", "Khadija", "Meryem", "Salma", "Hajar", "Imane", "Sanaa", "Nadia", "Zineb", "Houda", "Kawtar", "Hind", "Ghizlane", "Siham", "Oumaima", "Chaimae", "Loubna", "Asmae"]
+        },
+        "family": ["El Amrani", "Alaoui", "Bennani", "Tazi", "Berrada", "El Idrissi", "Benjelloun", "Chraibi", "Lahlou", "El Fassi", "Bouzidi", "Naciri", "Mansouri", "El Ouazzani", "Bennis", "Ziani", "Bakkali", "Haddad"]
+      },
+      "amazigh": {
+        "given": {
+          "m": ["Lahcen", "Lhoussaine", "Brahim", "Moha", "Hammou", "Mbarek", "Aziz", "Said", "Hassan", "Ahmed", "Omar", "Yuba", "Anir", "Amnay"],
+          "f": ["Fadma", "Itto", "Touda", "Mina", "Aicha", "Zahra", "Rkia", "Tiziri", "Tilelli", "Dihya", "Ijja", "Hadda"]
+        },
+        "family": ["Ait Lahcen", "Ait Brahim", "Ait Ali", "Ait Said", "Ait Taleb", "Amzil", "Oulhaj", "Ouahmane", "Ouhammou", "Oussaid", "Amghar", "Ouchen"]
+      }
+    },
+    "weights": { "arab": 0.65, "amazigh": 0.35 }
+  },
+  "honorifics": { "elder_m": "Hajj", "elder_f": "Hajja", "peer_m": "Khouya", "peer_f": "Khti", "boss": "Chef" },
+  "phrases": {
+    "ary": {
+      "hello": [["Salam", "Hi"], ["Salam alikoum", "Peace be upon you"]],
+      "morning": [["Sbah l'khir", "Good morning"], ["Sbah n'nour", "Good morning (the reply)"]],
+      "evening": [["Msa l'khir", "Good evening"]],
+      "how_are_you": [["Labas?", "All well?"], ["Kidayr?", "How are you? (to a man)"], ["Kidayra?", "How are you? (to a woman)"], ["Ach khbarek?", "What's your news?"]],
+      "fine": [["Labas, hamdullah", "Fine, thank God"], ["Bikhir", "Good"], ["Mzyan", "Good"]],
+      "thanks": [["Choukran", "Thank you"], ["Barak llahu fik", "Thank you, God bless you"]],
+      "bye": [["Bslama", "Goodbye"], ["Tsbah ala khir", "Good night"]],
+      "welcome": [["Marhba", "Welcome"], ["Marhba bik", "Welcome to you"]],
+      "sorry": [["Smhli", "Sorry"], ["Smh liya", "Forgive me"]],
+      "excuse": [["Smhli", "Excuse me"]],
+      "yes": [["Iyeh", "Yes"], ["Wakha", "Okay"]],
+      "no": [["La", "No"], ["Lla", "No"]]
+    },
+    "zgh": {
+      "hello": [["Azul", "Hello"]],
+      "how_are_you": [["Manzakin?", "How are you? (Tashelhit)"], ["Labas?", "All well?"]],
+      "fine": [["Labas", "Fine"]],
+      "thanks": [["Tanmmirt", "Thank you"]],
+      "yes": [["Yah", "Yes"]],
+      "no": [["Uhu", "No (Tashelhit)"]]
+    },
+    "fr": {
+      "hello": [["Salut", "Hi"], ["Bonjour", "Hello"]],
+      "morning": [["Bonjour", "Good morning"]],
+      "evening": [["Bonsoir", "Good evening"]],
+      "how_are_you": [["Ça va?", "How's it going?"]],
+      "fine": [["Ça va, hamdullah", "Fine, thank God"]],
+      "thanks": [["Merci", "Thank you"]],
+      "bye": [["À plus", "See you"], ["Au revoir", "Goodbye"]],
+      "welcome": [["Bienvenue", "Welcome"]],
+      "sorry": [["Pardon", "Sorry"]],
+      "excuse": [["Excusez-moi", "Excuse me"]],
+      "yes": [["Oui", "Yes"]],
+      "no": [["Non", "No"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["Fine, thanks", "Fine, thanks"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Goodbye", "Goodbye"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "MAD",
+    "symbol": "DH",
+    "words": [
+      ["flouss", "money"],
+      ["drahem", "money"],
+      ["ryal", "five centimes; many people count prices in ryals, twenty to the dirham"],
+      ["alf ryal", "a thousand ryals, which is 50 dirhams"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Morocco",
+    "https://en.wikipedia.org/wiki/Moroccan_Arabic",
+    "https://en.wikipedia.org/wiki/Shilha_language",
+    "https://en.wikipedia.org/wiki/Berber_languages",
+    "https://en.wikipedia.org/wiki/Moroccan_dirham",
+    "https://en.wikivoyage.org/wiki/Moroccan_Arabic_phrasebook"
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "languages": [
+    { "code": "kk", "name": "Kazakh", "official": true, "spoken": "widely, the state language" },
+    { "code": "ru", "name": "Russian", "official": true, "spoken": "widely, especially in Almaty and in business" },
+    { "code": "en", "name": "English", "official": false, "spoken": "some, among young people and in tech" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Most people carry a given name, a family name and, on documents, a patronymic from the father's name. Kazakh family names usually come from a grandfather's or father's name with a Russian-style ending: Akhmetov for a man, Akhmetova for a woman. Some families now use the Kazakh forms instead: -uly for a son and -kyzy for a daughter (Nurlan Serikuly). Russian, Tatar and Uyghur families follow the same -ov and -ova pattern. Koreans of Kazakhstan, the Koryo-saram, mostly have Russian given names with Korean family names in their Russian spelling: Tsoi, Ten, Pak, Kim. Each group's family list is the men's form; family_f gives the women's form where it differs.",
+    "groups": {
+      "kazakh": {
+        "given": {
+          "m": ["Nurlan", "Yerlan", "Askar", "Daniyar", "Arman", "Aidos", "Bauyrzhan", "Yerzhan", "Dauren", "Alibek", "Timur", "Asylbek", "Marat", "Aibek", "Sanzhar", "Alikhan", "Nurzhan", "Yerbol"],
+          "f": ["Aigerim", "Aruzhan", "Dana", "Ainur", "Gulnara", "Saule", "Zhanar", "Dinara", "Madina", "Asel", "Aizhan", "Aliya", "Akmaral", "Kamila", "Gaukhar", "Botagoz"]
+        },
+        "family": ["Akhmetov", "Omarov", "Suleimenov", "Nurlanov", "Serikbayev", "Zhaksylykov", "Iskakov", "Abdrakhmanov", "Kassymov", "Zhumabayev", "Tulegenov", "Sarsenbayev", "Kenzhebayev", "Mukanov", "Ospanov", "Baimukhanov"],
+        "family_f": ["Akhmetova", "Omarova", "Suleimenova", "Nurlanova", "Serikbayeva", "Zhaksylykova", "Iskakova", "Abdrakhmanova", "Kassymova", "Zhumabayeva", "Tulegenova", "Sarsenbayeva", "Kenzhebayeva", "Mukanova", "Ospanova", "Baimukhanova"]
+      },
+      "russian": {
+        "given": {
+          "m": ["Aleksandr", "Dmitry", "Sergey", "Andrey", "Alexey", "Maxim", "Ivan", "Nikolai", "Vladimir", "Artyom", "Pavel", "Yevgeny", "Denis", "Igor"],
+          "f": ["Yelena", "Olga", "Natalya", "Tatyana", "Irina", "Svetlana", "Anna", "Yekaterina", "Maria", "Anastasia", "Yulia", "Oksana", "Viktoria", "Darya"]
+        },
+        "family": ["Ivanov", "Smirnov", "Kuznetsov", "Popov", "Petrov", "Volkov", "Sokolov", "Morozov", "Novikov", "Fedorov", "Pavlov", "Lebedev", "Kozlov", "Semyonov", "Vasiliev"],
+        "family_f": ["Ivanova", "Smirnova", "Kuznetsova", "Popova", "Petrova", "Volkova", "Sokolova", "Morozova", "Novikova", "Fedorova", "Pavlova", "Lebedeva", "Kozlova", "Semyonova", "Vasilieva"]
+      },
+      "uyghur": {
+        "given": {
+          "m": ["Dilshat", "Erkin", "Alim", "Ilyar", "Murat", "Arslan", "Dilmurat", "Yusup", "Kurban", "Abdurakhman", "Akbar", "Shokhrat", "Iskandar", "Parkhat"],
+          "f": ["Gulnar", "Dilnaz", "Mehriban", "Zulfiya", "Aygul", "Patima", "Dilbar", "Nurgul", "Mukaddas", "Saida", "Rahila", "Guzal"]
+        },
+        "family": ["Iminov", "Kasymov", "Mamatov", "Turdiev", "Khasanov", "Yusupov", "Kurbanov", "Rozakhunov", "Sabitov", "Niyazov", "Abdullayev", "Tokhtiev"],
+        "family_f": ["Iminova", "Kasymova", "Mamatova", "Turdieva", "Khasanova", "Yusupova", "Kurbanova", "Rozakhunova", "Sabitova", "Niyazova", "Abdullayeva", "Tokhtieva"]
+      },
+      "koryo": {
+        "given": {
+          "m": ["Viktor", "Sergey", "Vladimir", "Aleksandr", "Roman", "Vyacheslav", "Igor", "Oleg", "Gennady", "Valery", "Eduard", "Konstantin"],
+          "f": ["Svetlana", "Lyudmila", "Marina", "Irina", "Larisa", "Anzhelika", "Galina", "Inna", "Tatyana", "Natalya", "Oksana", "Yelena"]
+        },
+        "family": ["Kim", "Li", "Pak", "Tsoi", "Ten", "Khan", "Kan", "Nam", "Yugai", "Ogai", "Tyan", "Shin", "Ni", "Khegai"]
+      },
+      "tatar": {
+        "given": {
+          "m": ["Rustam", "Ildar", "Rinat", "Marat", "Ruslan", "Timur", "Airat", "Ravil", "Farid", "Damir", "Ilnur", "Renat"],
+          "f": ["Alsu", "Gulnara", "Dinara", "Liliya", "Elmira", "Leysan", "Guzel", "Albina", "Regina", "Rezeda", "Alina", "Elvira"]
+        },
+        "family": ["Khairullin", "Nurullin", "Gilmanov", "Safin", "Sabirov", "Galiev", "Yusupov", "Fatkullin", "Ziganshin", "Kamalov", "Shakirov", "Mukhametov"],
+        "family_f": ["Khairullina", "Nurullina", "Gilmanova", "Safina", "Sabirova", "Galieva", "Yusupova", "Fatkullina", "Ziganshina", "Kamalova", "Shakirova", "Mukhametova"]
+      }
+    },
+    "weights": { "kazakh": 0.7, "russian": 0.21, "uyghur": 0.04, "koryo": 0.02, "tatar": 0.03 }
+  },
+  "honorifics": {
+    "elder_m": "Aga",
+    "elder_f": "Apai",
+    "peer_m": "Bauyrym",
+    "peer_f": "Ainalayin",
+    "boss": "Bastyk",
+    "russian_elder": "first name and patronymic, as in Sergey Ivanovich",
+    "note": "Aga and Apai follow the name: Nurlan aga, Saule apai. Ainalayin is a warm word for someone younger. In Russian, people say Shef to the boss and use the first name with the patronymic for elders."
+  },
+  "phrases": {
+    "kk": {
+      "hello": [["Salem", "Hi (Сәлем)"], ["Salemetsiz be", "Hello, polite (Сәлеметсіз бе)"], ["Assalaumagaleikum", "Peace be upon you, said to elders (Ассалаумағалейкум)"]],
+      "morning": [["Kayyrly tan", "Good morning (Қайырлы таң)"]],
+      "evening": [["Kayyrly kesh", "Good evening (Қайырлы кеш)"]],
+      "how_are_you": [["Kalyn kalay?", "How are you? (Қалың қалай?)"], ["Kalaysyz?", "How are you, polite (Қалайсыз?)"]],
+      "fine": [["Zhaksy", "Good (Жақсы)"], ["Zhaman emes", "Not bad (Жаман емес)"], ["Bari zhaksy", "All good (Бәрі жақсы)"]],
+      "thanks": [["Rakhmet", "Thank you (Рахмет)"], ["Kop rakhmet", "Thank you very much (Көп рахмет)"]],
+      "bye": [["Sau bol", "Bye (Сау бол)"], ["Sau bolynyz", "Goodbye, polite (Сау болыңыз)"], ["Kezdeskenshe", "See you (Кездескенше)"]],
+      "welcome": [["Kosh keldiniz", "Welcome (Қош келдіңіз)"]],
+      "sorry": [["Keshiriniz", "Sorry (Кешіріңіз)"], ["Keshir", "Sorry, casual (Кешір)"]],
+      "excuse": [["Keshiriniz", "Excuse me (Кешіріңіз)"]],
+      "yes": [["Ia", "Yes (Иә)"]],
+      "no": [["Zhok", "No (Жоқ)"]]
+    },
+    "ru": {
+      "hello": [["Privet", "Hi (Привет)"], ["Zdravstvuyte", "Hello, polite (Здравствуйте)"]],
+      "morning": [["Dobroye utro", "Good morning (Доброе утро)"]],
+      "evening": [["Dobryy vecher", "Good evening (Добрый вечер)"]],
+      "how_are_you": [["Kak dela?", "How are you? (Как дела?)"], ["Kak vy?", "How are you, polite (Как вы?)"]],
+      "fine": [["Khorosho", "Good (Хорошо)"], ["Normalno", "Fine (Нормально)"]],
+      "thanks": [["Spasibo", "Thank you (Спасибо)"], ["Bolshoye spasibo", "Thank you very much (Большое спасибо)"]],
+      "bye": [["Poka", "Bye (Пока)"], ["Do svidaniya", "Goodbye (До свидания)"]],
+      "welcome": [["Dobro pozhalovat", "Welcome (Добро пожаловать)"]],
+      "sorry": [["Izvinite", "Sorry (Извините)"], ["Prostite", "Sorry (Простите)"]],
+      "excuse": [["Izvinite", "Excuse me (Извините)"], ["Mozhno?", "May I? (Можно?)"]],
+      "yes": [["Da", "Yes (Да)"]],
+      "no": [["Net", "No (Нет)"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"], ["Hi", "Hi"]],
+      "morning": [["Good morning", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["I'm fine, thanks", "I'm fine, thanks"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Bye", "Bye"]],
+      "welcome": [["Welcome", "Welcome"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "KZT",
+    "symbol": "₸",
+    "words": [
+      ["tenge", "the currency (теңге)"],
+      ["tiyn", "a hundredth of a tenge"],
+      ["shtuka", "a thousand tenge, in Russian slang (штука)"],
+      ["sdacha", "change given back (сдача)"],
+      ["Kaspi", "the Kaspi app, how most people pay and send money"],
+      ["perevod", "a money transfer, as in 'send it by Kaspi perevod' (перевод)"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Kazakh_language",
+    "https://en.wikipedia.org/wiki/Demographics_of_Kazakhstan",
+    "https://en.wikipedia.org/wiki/Koryo-saram",
+    "https://en.wikipedia.org/wiki/Eastern_Slavic_naming_customs",
+    "https://en.wikipedia.org/wiki/Kazakhstani_tenge"
+  ]
+}

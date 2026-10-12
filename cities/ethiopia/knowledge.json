@@ -1,0 +1,121 @@
+{
+  "languages": [
+    { "code": "am", "name": "Amharic", "official": true, "spoken": "widely" },
+    { "code": "om", "name": "Afaan Oromoo", "official": true, "spoken": "widely" },
+    { "code": "ti", "name": "Tigrinya", "official": true, "spoken": "some" },
+    { "code": "en", "name": "English", "official": false, "spoken": "some" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Ethiopians have no family surnames. Names are patronymic: a person's own given name, followed by the father's given name, and sometimes the grandfather's, so Selamawit Tesfaye is Selamawit, daughter of Tesfaye, and her brother may be Dawit Tesfaye. Women keep their own father's name when they marry. The 'family' lists below are fathers' given names, which sit where a surname would. People are addressed by their first name, with Ato (Mr), Weizero (Mrs) or Weizerit (Miss) for politeness: Ato Dawit, never Ato Tesfaye. Amharic names are often meaningful words or short sentences (Tesfaye, my hope; Selamawit, of peace); Oromo names often carry wishes or the time of birth (Chaltu, the better one; Gemechu, joy); Tigrinya names often begin with Gebre- (servant of) or Haile- (power of). Names are written here in Latin letters, the way people text them, though they are written in Ge'ez script in Ethiopia.",
+    "groups": {
+      "amhara": {
+        "given": {
+          "m": ["Abebe", "Dawit", "Yonas", "Bereket", "Tewodros", "Mulugeta", "Getachew", "Tesfaye", "Alemayehu", "Biniyam", "Henok", "Kebede", "Mesfin", "Ermias", "Natnael", "Eyob", "Girma", "Tilahun"],
+          "f": ["Selamawit", "Hirut", "Meron", "Tigist", "Bethlehem", "Mekdes", "Hiwot", "Tsion", "Liya", "Almaz", "Meseret", "Rahel", "Kidist", "Eden", "Mahlet", "Bezawit", "Yeshi", "Tsehay"]
+        },
+        "family": ["Abebe", "Kebede", "Tesfaye", "Getachew", "Alemu", "Mulugeta", "Bekele", "Girma", "Tadesse", "Worku", "Assefa", "Desta", "Demissie", "Negash", "Shiferaw", "Tilahun", "Ayele", "Haile"],
+        "also": {
+          "m": ["Daniel", "Samuel", "Michael", "Abraham", "Yared", "Robel", "Nahom", "Abel", "Yohannes", "Solomon"],
+          "f": ["Hanna", "Ruth", "Sara", "Martha", "Lydia", "Feven", "Saba", "Helen", "Selam", "Mariam"]
+        }
+      },
+      "oromo": {
+        "given": {
+          "m": ["Gemechu", "Tolosa", "Chala", "Gudina", "Fayisa", "Tolera", "Kenenisa", "Obsa", "Gutema", "Jiregna", "Tufa", "Dabesa", "Lelisa", "Ebisa", "Gadisa", "Bulti", "Abdi"],
+          "f": ["Chaltu", "Lensa", "Ayantu", "Hawi", "Bontu", "Obse", "Gelane", "Meti", "Ebise", "Lalise", "Sena", "Iftu"]
+        },
+        "family": ["Gemechu", "Tolosa", "Chala", "Lemma", "Gudina", "Tolera", "Bekele", "Gutema", "Tufa", "Dabesa", "Gadisa", "Abdisa", "Fufa", "Jemal", "Dinsa", "Guta"],
+        "also": {
+          "m": ["Ahmed", "Mohammed", "Ibrahim", "Kedir", "Nebil", "Daniel", "Samuel", "Yohannes", "Abdulkadir", "Musa"],
+          "f": ["Fatuma", "Hayat", "Nebila", "Hanan", "Zeyneb", "Hanna", "Ruth", "Sara", "Amina", "Rahma"]
+        }
+      },
+      "tigrayan": {
+        "given": {
+          "m": ["Haftom", "Mebrahtu", "Berhe", "Kidane", "Tesfay", "Gebrehiwot", "Hagos", "Fitsum", "Yemane", "Mehari", "Goitom", "Filmon", "Kahsay", "Gidey", "Abraha", "Amanuel"],
+          "f": ["Letay", "Mebrat", "Azeb", "Senait", "Rahwa", "Mihret", "Freweyni", "Hiwet", "Tsega", "Lemlem", "Akberet", "Hadas", "Yordanos", "Luwam", "Hermon", "Ruta"]
+        },
+        "family": ["Gebremedhin", "Gebrehiwot", "Hagos", "Berhe", "Kidane", "Tesfay", "Kahsay", "Gidey", "Abraha", "Mebrahtu", "Hailu", "Gebreyesus", "Woldegiorgis", "Tekle"],
+        "also": {
+          "m": ["Daniel", "Samuel", "Michael", "Biniam", "Yonas", "Robel", "Natnael", "Henok"],
+          "f": ["Saba", "Selam", "Feven", "Ruth", "Hanna", "Eden", "Sara", "Helen"]
+        }
+      }
+    },
+    "weights": { "amhara": 0.4, "oromo": 0.4, "tigrayan": 0.2 }
+  },
+  "honorifics": { "elder_m": "Gashe", "elder_f": "Emama", "peer_m": "Wendime", "peer_f": "Ehite", "boss": "Alaqa" },
+  "phrases": {
+    "am": {
+      "hello": [["Selam!", "Hello"], ["Tena yistilign!", "Hello, a respectful greeting"], ["Selam new?", "All good? (casual hello)"]],
+      "morning": [["Endemin aderk?", "Good morning, to a man"], ["Endemin adersh?", "Good morning, to a woman"]],
+      "evening": [["Endemin amesheh?", "Good evening, to a man"], ["Dehna eder!", "Good night, to a man"]],
+      "how_are_you": [["Endet neh?", "How are you? (to a man)"], ["Endet nesh?", "How are you? (to a woman)"], ["Endemin neh?", "How are you? (to a man)"]],
+      "fine": [["Dehna negn", "I'm fine"], ["Dehna", "Fine"], ["Egziabher yimesgen", "Thank God, I'm well"]],
+      "thanks": [["Ameseginalehu", "Thank you"], ["Betam ameseginalehu", "Thank you very much"]],
+      "bye": [["Ciao!", "Bye, as Addis says it"], ["Dehna hun!", "Goodbye, stay well (to a man)"], ["Dehna huni!", "Goodbye, stay well (to a woman)"]],
+      "welcome": [["Enkwan dehna metah!", "Welcome (to a man)"], ["Enkwan dehna metash!", "Welcome (to a woman)"]],
+      "sorry": [["Yiqirta", "Sorry"], ["Aznalehu", "I'm sorry, I feel for you"]],
+      "excuse": [["Yiqirta", "Excuse me"]],
+      "yes": [["Awo", "Yes"], ["Ishi", "Okay"]],
+      "no": [["Aydelem", "No, it isn't"], ["Ay", "No"]]
+    },
+    "om": {
+      "hello": [["Akkam?", "Hello, how are you?"], ["Nagaa", "Peace, hello"]],
+      "morning": [["Akkam bulte?", "Good morning, how was your night?"], ["Akkam bultan?", "Good morning, to several people or politely"]],
+      "evening": [["Akkam oolte?", "Good evening, how was your day?"], ["Akkam ooltan?", "Good evening, politely"]],
+      "how_are_you": [["Akkam jirta?", "How are you?"], ["Fayyaa dha?", "Are you well?"]],
+      "fine": [["Nagaa", "Fine, in peace"], ["Fayyaa dha", "I'm well"]],
+      "thanks": [["Galatoomi", "Thank you"], ["Galatoomaa", "Thank you, politely"]],
+      "bye": [["Nagaatti", "Goodbye, go in peace"]],
+      "welcome": [["Baga nagaan dhufte", "Welcome"], ["Baga nagaan dhuftan", "Welcome, politely"]],
+      "sorry": [["Dhiifama", "Sorry"]],
+      "excuse": [["Dhiifama", "Excuse me"]],
+      "yes": [["Eeyyee", "Yes"]],
+      "no": [["Lakki", "No"], ["Miti", "It isn't"]]
+    },
+    "ti": {
+      "hello": [["Selam!", "Hello"]],
+      "morning": [["Kemey hadirka?", "Good morning, to a man"], ["Kemey hadirki?", "Good morning, to a woman"]],
+      "evening": [["Kemey amsika?", "Good evening, to a man"], ["Kemey amsiki?", "Good evening, to a woman"]],
+      "how_are_you": [["Kemey aleka?", "How are you? (to a man)"], ["Kemey aleki?", "How are you? (to a woman)"]],
+      "fine": [["Dehan", "Fine"], ["Tsbuq", "Good"]],
+      "thanks": [["Yekenyeley", "Thank you"]],
+      "bye": [["Dehan kun", "Goodbye, stay well (to a man)"], ["Dehan kuni", "Goodbye, stay well (to a woman)"]],
+      "welcome": [["Enkwan dehan metsaka", "Welcome (to a man)"], ["Enkwan dehan metsaki", "Welcome (to a woman)"]],
+      "sorry": [["Yiqreta", "Sorry"]],
+      "excuse": [["Yiqreta", "Excuse me"]],
+      "yes": [["Ewe", "Yes"]],
+      "no": [["Aykonen", "No, it isn't"]]
+    },
+    "en": {
+      "hello": [["Hello!", "Hello"], ["Hi!", "Hi"]],
+      "morning": [["Good morning!", "Good morning"]],
+      "evening": [["Good evening!", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["I'm fine, thank you.", "I'm fine, thank you"]],
+      "thanks": [["Thank you!", "Thank you"]],
+      "bye": [["Bye!", "Goodbye"], ["See you!", "See you"]],
+      "welcome": [["You are welcome!", "You are welcome"]],
+      "sorry": [["Sorry!", "Sorry"]],
+      "excuse": [["Excuse me.", "Excuse me"]],
+      "yes": [["Yes.", "Yes"]],
+      "no": [["No.", "No"]]
+    }
+  },
+  "money": {
+    "currency": "ETB",
+    "symbol": "Br",
+    "words": [["birr", "the currency, and money in general"], ["santim", "a cent, a hundredth of a birr"], ["shi", "a thousand, as in and shi birr (one thousand birr)"]]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Ethiopia",
+    "https://en.wikipedia.org/wiki/Amharic",
+    "https://en.wikipedia.org/wiki/Oromo_language",
+    "https://en.wikipedia.org/wiki/Tigrinya_language",
+    "https://en.wikipedia.org/wiki/Habesha_name",
+    "https://en.wikipedia.org/wiki/Oromo_people",
+    "https://en.wikipedia.org/wiki/Ethiopian_birr"
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "street": { "ar": 0.66, "en": 0.18, "hi": 0.16 },
+  "names": { "weights": { "saudi": 0.62, "egyptian": 0.07, "yemeni": 0.04, "indian": 0.05, "malayali": 0.03, "pakistani": 0.07, "bangladeshi": 0.06, "filipino": 0.04, "levantine": 0.02 } },
+  "phrases": {
+    "ar": {
+      "hello": [["Ya hala", "Welcome, hi"], ["Hala wa ghala", "Hi, dear one, warm welcome"]],
+      "agree": [["Abshir", "Sure, consider it done"], ["Yalla", "Come on, let's go"], ["Inshallah", "God willing"], ["Tamam", "Okay"]],
+      "very": [["Marra", "Very (مرة), as in harr marra"], ["Wajid", "A lot (واجد)"]],
+      "now": [["Al heen", "Now (الحين)"], ["Shway", "A little, wait a bit"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! How are you?", "Hi, all good?", "Hey, long time, where have you been?", "Hello, how's work going?", "Evening! Heading to the Boulevard?"],
+      "reply": ["All good, alhamdulillah. You?", "Fine, thanks, busy week.", "Good, just finished a long day at KAFD.", "Can't complain, the weekend is close.", "All good, how's the family?"],
+      "sunny": ["Fifty degrees today, I'm not leaving the car's AC.", "The sun is brutal, carry water.", "Beautiful evening, perfect for a walk in Diriyah.", "Winter evenings here are lovely.", "Great weather for a weekend in the desert."],
+      "rain": ["It's raining, the roads will flood, take care.", "Dust storm, the sky's gone orange.", "Wadi Hanifa will be flowing after this rain.", "Cold tonight, bring a jacket.", "Dust again, I can't see the Kingdom Tower."],
+      "bye": ["See you, take care!", "Fi aman Allah.", "Bye, drive safe.", "Catch you at the weekend.", "Yalla, see you later."],
+      "busy": ["Sorry, running for the metro!", "Stuck on King Fahd Road, call you later.", "Late for a meeting, sorry!", "Can't stop, my shift starts now.", "Have to pick the kids up from school, sorry!"]
+    },
+    "ar": {
+      "greet": ["Hala wallah! Wesh lonak?", "Assalamu alaikum, kaif al hal?", "Ya hala, wesh akhbarak?", "Sabah al khair, wesh lonak al yoom?", "Hayak Allah, tfaddal."],
+      "reply": ["Bikhair, alhamdulillah. W ant?", "Zain, Allah ysallimk.", "Tamam, alhamdulillah.", "Kullah zain, ya'tik al 'afia."],
+      "sunny": ["Al jaw harr marra al yoom.", "Al shams harra, la tinsa al moya.", "Al jaw rayig al leila, nitla' al barr?", "Al dinya harr, khallik fil mukayyif."],
+      "rain": ["Al matar nazal! Al jaw rayig.", "Intabih, al seyool fil shawari'.", "Fee ghubar wajid al yoom.", "Al dinya ghaim, yimkin timtir."],
+      "bye": ["Ma'a al salama.", "Fi aman Allah.", "Yalla, nshoofak ba'dain.", "Allah yhafdhak."],
+      "busy": ["Asif, mista'jil, 'indi dawam.", "Mashghool al heen, akallmak ba'dain.", "Al zahma marra, lazim amshi al heen.", "Abshir, bas ba'd shway."]
+    },
+    "hi": {
+      "greet": ["Kya haal hai bhai?", "Assalamu alaikum, sab khair?", "Namaste ji, kaise ho?", "Arre bhai, kahan the itne din?", "Kaam kaisa chal raha hai?"],
+      "reply": ["Sab theek, aap sunao.", "Alhamdulillah, sab khair hai.", "Badhiya bhai.", "Chal raha hai, shukriya."],
+      "sunny": ["Aaj toh aag baras rahi hai.", "Bahut garmi hai, paani peete raho.", "Shaam ko mausam achha ho jata hai.", "Dhoop mein kaam mushkil hai aaj."],
+      "rain": ["Baarish aa gayi! Sadak pe paani bhar jayega.", "Aandhi aa rahi hai, dhool hi dhool.", "Raat ko thand hai, jacket le lo.", "Baadal hain, shayad baarish hogi."],
+      "bye": ["Chalo, milte hain.", "Khuda hafiz bhai.", "Achha, chalta hoon.", "Apna khayal rakhna."],
+      "busy": ["Abhi duty pe hoon, baad mein baat karte hain.", "Gaadi lekar nikalna hai, sorry.", "Jaldi mein hoon bhai.", "Dukaan band hone wali hai, jaldi karo."]
+    }
+  },
+  "transport": {
+    "metro": "Riyadh Metro",
+    "bus": "Riyadh Bus",
+    "taxi": "limousine (what people call a taxi here)",
+    "ride_hail": "Uber, Careem or Jeeny",
+    "intercity": "SAPTCO coach",
+    "stage": "metro station or bus stop"
+  },
+  "touts": ["Limousine? Taxi, taxi?", "Ta'al, ta'al, arkhas si'r!", "Bi khamsa, bi khamsa, kull shay bi khamsa!", "Thob, shimagh, best quality, come!", "Oud, bukhoor, try, try!", "Tamr, sukkari, khudri, tfaddal!"],
+  "hawkers": [
+    ["Tamr! Sukkari tazij!", "Dates! Fresh sukkari!"],
+    ["Gahwa wa tamr, tfaddal!", "Coffee and dates, please!"],
+    ["Mutabbaq, harr!", "Hot mutabbaq!"],
+    ["Shawarma dajaj!", "Chicken shawarma!"],
+    ["Moya bareda!", "Cold water!"],
+    ["Ful wa tamees!", "Fava beans and tamees bread!"],
+    ["Karak, karak!", "Spiced milk tea!"]
+  ],
+  "food": {
+    "street": ["shawarma", "mutabbaq", "ful with tamees bread", "sambosa", "falafel", "balila", "karak chai", "luqaimat"],
+    "dishes": ["kabsa", "mandi", "jareesh", "margoog", "qursan", "mathbi", "saleeg", "haneeth"],
+    "drinks": ["gahwa (light Saudi coffee with cardamom)", "karak chai", "laban", "Saudi champagne (apple juice and sparkling water)", "Vimto", "mint tea", "fresh juice"]
+  },
+  "places": {
+    "neighbourhoods": ["Al Olaya", "Al Malaz", "Al Sulaimaniyah", "Al Nakheel", "Al Yasmin", "Al Malqa", "Al Wurud", "Al Murabba", "Al Batha", "Al Rawdah", "Al Sahafa", "Hittin", "Al Naseem", "Diriyah", "King Abdullah Financial District"],
+    "streets": ["King Fahd Road", "Olaya Street", "Tahlia Street", "Northern Ring Road", "Eastern Ring Road", "King Abdullah Road", "Makkah Road", "Prince Turki bin Abdulaziz Road"],
+    "landmarks": ["Kingdom Centre", "Al Faisaliah Tower", "Masmak Fortress", "Boulevard City", "At-Turaif in Diriyah", "Bujairi Terrace", "Wadi Hanifa", "Edge of the World", "KAFD", "National Museum", "Souq Al Zal", "Riyadh Park mall"]
+  },
+  "small_talk": [
+    "King Fahd Road was packed, the metro is the way now.",
+    "Going to the Boulevard for Riyadh Season?",
+    "Weekend kashta in the desert if the weather holds.",
+    "Dust again, the sky went orange this afternoon.",
+    "Coffee at Bujairi Terrace tonight?",
+    "Winter nights in Riyadh get properly cold.",
+    "The new metro station at KAFD is beautiful.",
+    "Got my thob ironed for the wedding on Thursday.",
+    "Tahlia Street is the place for a late dinner."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Riyadh",
+    "https://en.wikipedia.org/wiki/Riyadh_Metro",
+    "https://en.wikipedia.org/wiki/Najdi_Arabic",
+    "https://en.wikipedia.org/wiki/Saudi_Arabian_cuisine",
+    "https://en.wikipedia.org/wiki/Diriyah"
+  ]
+}

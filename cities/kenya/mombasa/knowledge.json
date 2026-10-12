@@ -1,0 +1,271 @@
+{
+  "street": {
+    "en": 0.33,
+    "sw": 0.67
+  },
+  "names": {
+    "weights": {
+      "swahili_coast": 0.38,
+      "luo": 0.12,
+      "kamba": 0.12,
+      "kikuyu": 0.1,
+      "luhya": 0.1,
+      "somali": 0.07,
+      "indian_kenyan": 0.06,
+      "kisii": 0.03,
+      "kalenjin": 0.02
+    }
+  },
+  "phrases": {
+    "sw": {
+      "hello": [
+        ["Jambo", "Hello"],
+        ["Hujambo?", "How are you?"],
+        ["Salama?", "All well?"],
+        ["Assalamu alaikum", "Peace be upon you"]
+      ],
+      "elder": [
+        ["Shikamoo", "Respectful greeting to an elder"],
+        ["Marahaba", "The elder's reply to Shikamoo"]
+      ],
+      "fine": [
+        ["Salama", "All well"],
+        ["Sijambo", "I'm fine (reply to Hujambo)"],
+        ["Nzuri", "Fine"],
+        ["Alhamdulillah", "Thanks be to God, fine"]
+      ]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "Morning! How's the coast treating you?",
+        "Hey! Good to see you.",
+        "Hi! Busy day in town?",
+        "Good afternoon! All well at home?",
+        "Hello! Haven't seen you since the beach."
+      ],
+      "reply": [
+        "All good, thanks!",
+        "Fine, just this heat.",
+        "Doing well, taking it slowly.",
+        "Great, thank you. And you?",
+        "Good good. Just back from Old Town."
+      ],
+      "sunny": [
+        "Hot and humid, as usual.",
+        "Perfect day for Nyali beach.",
+        "The sea breeze is lovely today.",
+        "Sun is strong, get some madafu.",
+        "Clear skies over the Indian Ocean."
+      ],
+      "rain": [
+        "The long rains are here.",
+        "It's pouring, carry an umbrella.",
+        "Wait it out, it'll pass.",
+        "Digo Road will flood now.",
+        "At least the rain cools things down."
+      ],
+      "bye": [
+        "Take care!",
+        "Catch you later.",
+        "See you around.",
+        "Safe journey home.",
+        "Pole pole, enjoy the day."
+      ],
+      "busy": [
+        "Got to catch the ferry, see you!",
+        "Late for work in town, talk later!",
+        "Off to Nyali for a meeting, later!",
+        "Deadline today, I'll call you.",
+        "My tuktuk is waiting, bye!"
+      ]
+    },
+    "sw": {
+      "greet": [
+        "Habari yako?",
+        "Habari za asubuhi?",
+        "Hujambo?",
+        "Shikamoo.",
+        "Assalamu alaikum!",
+        "Mambo vipi?"
+      ],
+      "reply": [
+        "Marahaba.",
+        "Waalaikum salaam.",
+        "Sijambo, asante.",
+        "Salama tu, alhamdulillah.",
+        "Nzuri sana, asante.",
+        "Poa, na wewe?"
+      ],
+      "sunny": [
+        "Jua kali leo!",
+        "Joto ni jingi leo.",
+        "Hali ya hewa ni nzuri leo.",
+        "Siku nzuri ya kwenda pwani."
+      ],
+      "rain": [
+        "Mvua inanyesha sana.",
+        "Chukua mwavuli.",
+        "Ngoja mvua ipite kwanza.",
+        "Mvua za masika zimeanza."
+      ],
+      "bye": [
+        "Kwaheri!",
+        "Tutaonana kesho, inshallah.",
+        "Uende salama.",
+        "Kwaheri ya kuonana.",
+        "Kila la heri."
+      ],
+      "busy": [
+        "Nina haraka, tutaongea baadaye.",
+        "Nimechelewa kazini!",
+        "Naenda mjini, tutaonana.",
+        "Nawahi feri, tutaonana!"
+      ]
+    }
+  },
+  "transport": {
+    "bus": "matatu",
+    "moto_taxi": "boda boda",
+    "tricycle": "tuktuk",
+    "taxi": "taxi",
+    "ride_hail": "Uber or Bolt",
+    "conductor": "makanga",
+    "driver": "dere",
+    "stage": "stage",
+    "ferry": "the Likoni ferry (feri)",
+    "train": "the SGR (Madaraka Express)"
+  },
+  "touts": [
+    "Feri! Feri! Likoni!",
+    "Nyali! Nyali, panda!",
+    "Bamburi! Mtwapa!",
+    "Changamwe! Changamwe!",
+    "Mwembe Tayari! Mwembe Tayari!",
+    "Kongowea! Kongowea!",
+    "Bombolulu! Bombolulu!",
+    "Mtwapa, imebaki moja!"
+  ],
+  "hawkers": [
+    ["Madafu! Madafu baridi!", "Fresh coconuts!"],
+    ["Viazi karai!", "Battered fried potatoes!"],
+    ["Mahamri moto!", "Hot coconut doughnuts!"],
+    ["Kahawa chungu!", "Bitter coffee!"],
+    ["Mabuyu!", "Baobab seed sweets!"],
+    ["Mihogo! Mihogo ya kukaanga!", "Fried cassava!"],
+    ["Maji baridi!", "Cold water!"],
+    ["Kashata!", "Coconut sweets!"]
+  ],
+  "food": {
+    "street": [
+      "viazi karai",
+      "mahamri",
+      "mishkaki",
+      "bhajia",
+      "fried cassava with chilli and lemon",
+      "madafu",
+      "mabuyu",
+      "kaimati",
+      "samosa",
+      "kashata"
+    ],
+    "dishes": [
+      "biryani",
+      "pilau",
+      "mbaazi wa nazi with mahamri",
+      "samaki wa kupaka (fish in coconut sauce)",
+      "wali wa nazi (coconut rice)",
+      "maharagwe ya nazi (beans in coconut)",
+      "pweza (octopus) curry",
+      "chapati and beef stew",
+      "grilled fish",
+      "ugali and fish"
+    ],
+    "drinks": [
+      "kahawa chungu",
+      "madafu",
+      "chai",
+      "tamarind juice (ukwaju)",
+      "sugarcane juice",
+      "passion juice",
+      "Stoney tangawizi"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "Old Town",
+      "Nyali",
+      "Bamburi",
+      "Kizingo",
+      "Tudor",
+      "Likoni",
+      "Changamwe",
+      "Kisauni",
+      "Shanzu",
+      "Majengo",
+      "Makadara",
+      "Ganjoni",
+      "Mkomani",
+      "Kongowea",
+      "Bombolulu",
+      "Mikindani",
+      "Port Reitz",
+      "Mwembe Tayari"
+    ],
+    "streets": [
+      "Moi Avenue",
+      "Digo Road",
+      "Nyerere Avenue",
+      "Haile Selassie Road",
+      "Abdel Nasser Road",
+      "Makadara Road",
+      "Nkrumah Road",
+      "Jomo Kenyatta Avenue",
+      "Biashara Street",
+      "Ndia Kuu",
+      "Links Road",
+      "Mama Ngina Drive"
+    ],
+    "landmarks": [
+      "Fort Jesus",
+      "the Moi Avenue tusks",
+      "the Likoni ferry",
+      "Mama Ngina Waterfront",
+      "Nyali Bridge",
+      "Haller Park",
+      "Nyali Beach",
+      "Bamburi Beach",
+      "Kongowea Market",
+      "Marikiti Market",
+      "the Mandhry Mosque",
+      "the Jain Temple",
+      "City Mall Nyali",
+      "Moi International Airport",
+      "the SGR terminus at Miritini",
+      "the Old Port"
+    ]
+  },
+  "small_talk": [
+    "The queue for the Likoni ferry was long this morning.",
+    "Biryani at the usual place in Old Town?",
+    "This heat, I need madafu.",
+    "Sunset at Mama Ngina Waterfront later?",
+    "Traffic on Nyali Bridge was slow again.",
+    "Took the SGR down from Nairobi, smooth ride.",
+    "Kahawa chungu by Fort Jesus in the evening?",
+    "The tide is out, Nyali beach is wide today.",
+    "Viazi karai and a cold soda, that's lunch sorted.",
+    "The kusi winds are making the sea rough."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Mombasa",
+    "https://en.wikipedia.org/wiki/Mombasa_Old_Town",
+    "https://en.wikipedia.org/wiki/Fort_Jesus",
+    "https://en.wikipedia.org/wiki/Likoni_Ferry",
+    "https://en.wikipedia.org/wiki/Swahili_people",
+    "https://en.wikipedia.org/wiki/Mijikenda_peoples",
+    "https://en.wikipedia.org/wiki/Kenyan_cuisine"
+  ],
+  "needs_native_review": "Coastal Swahili lines are plain everyday Swahili with coast greetings (Shikamoo, Marahaba, Assalamu alaikum); Mombasa speakers, please add Kimvita turns of phrase and check 'Nawahi feri' and 'Siku nzuri ya kwenda pwani'. kenya/knowledge.json has no Mijikenda name group, so Mijikenda and Arab-Swahili names fall under swahili_coast for now; a mijikenda group (Kahindi, Kazungu, Kenga, Mwanajuma, Kadzo ...) in the country file would make Mombasa truer."
+}

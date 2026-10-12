@@ -1,0 +1,425 @@
+{
+  "languages": [
+    {
+      "code": "uk",
+      "name": "Ukrainian",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "commonly"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Given name, patronymic and family name: Oleksandr Petrovych Melnyk, Olena Ivanivna Melnyk. The patronymic (usually -ovych for men, -ivna for women) is used in formal address, while everyday polite address is пане or пані with the first name (пане Олександре). Surnames ending in -enko, -uk, -chuk or a consonant (Shevchenko, Kovalchuk, Melnyk) are the same for men and women; adjective surnames change, so Kovalskyi becomes Kovalska. Short forms are everywhere: Sasha for Oleksandr, Andriiko, Dima, Olia, Natasha, Katia. Latin spellings here follow the official transliteration used in Ukrainian passports. Crimean Tatars carry Turkic and Muslim given names (Server, Elmira) with surnames that take -ova for women (Asanov, Asanova).",
+    "groups": {
+      "ukrainian": {
+        "given": {
+          "m": [
+            "Oleksandr",
+            "Andrii",
+            "Dmytro",
+            "Serhii",
+            "Mykola",
+            "Volodymyr",
+            "Ivan",
+            "Yurii",
+            "Vitalii",
+            "Bohdan",
+            "Taras",
+            "Maksym",
+            "Oleh",
+            "Roman",
+            "Artem",
+            "Denys",
+            "Vladyslav",
+            "Ihor"
+          ],
+          "f": [
+            "Olena",
+            "Nataliia",
+            "Tetiana",
+            "Iryna",
+            "Svitlana",
+            "Oksana",
+            "Yuliia",
+            "Hanna",
+            "Kateryna",
+            "Mariia",
+            "Anastasiia",
+            "Viktoriia",
+            "Olha",
+            "Daria",
+            "Sofiia",
+            "Khrystyna"
+          ]
+        },
+        "family": [
+          "Melnyk",
+          "Shevchenko",
+          "Boiko",
+          "Kovalenko",
+          "Bondarenko",
+          "Tkachenko",
+          "Kovalchuk",
+          "Kravchenko",
+          "Oliinyk",
+          "Shevchuk",
+          "Koval",
+          "Polishchuk",
+          "Bondar",
+          "Tkachuk",
+          "Moroz",
+          "Marchenko",
+          "Lysenko",
+          "Rudenko",
+          "Savchenko",
+          "Kovalskyi"
+        ],
+        "family_f": [
+          "Melnyk",
+          "Shevchenko",
+          "Boiko",
+          "Kovalenko",
+          "Bondarenko",
+          "Tkachenko",
+          "Kovalchuk",
+          "Kravchenko",
+          "Oliinyk",
+          "Shevchuk",
+          "Koval",
+          "Polishchuk",
+          "Bondar",
+          "Tkachuk",
+          "Moroz",
+          "Marchenko",
+          "Lysenko",
+          "Rudenko",
+          "Savchenko",
+          "Kovalska"
+        ]
+      },
+      "crimean_tatar": {
+        "given": {
+          "m": [
+            "Server",
+            "Eldar",
+            "Rustem",
+            "Lenur",
+            "Enver",
+            "Remzi",
+            "Ilmi",
+            "Dilaver",
+            "Seyran",
+            "Edem",
+            "Emil",
+            "Timur",
+            "Asan",
+            "Refat"
+          ],
+          "f": [
+            "Elmira",
+            "Liliia",
+            "Zarema",
+            "Aliie",
+            "Esma",
+            "Mavile",
+            "Elvira",
+            "Diliara",
+            "Gulnara",
+            "Emine",
+            "Lenara",
+            "Zera",
+            "Sabrie",
+            "Aishe"
+          ]
+        },
+        "family": [
+          "Asanov",
+          "Memetov",
+          "Osmanov",
+          "Ibraimov",
+          "Bekirov",
+          "Kurtseitov",
+          "Seitov",
+          "Ametov",
+          "Abdurakhmanov",
+          "Emirov",
+          "Bilialov",
+          "Ablaiev",
+          "Mustafaiev",
+          "Ismailov",
+          "Seitumerov"
+        ],
+        "family_f": [
+          "Asanova",
+          "Memetova",
+          "Osmanova",
+          "Ibraimova",
+          "Bekirova",
+          "Kurtseitova",
+          "Seitova",
+          "Ametova",
+          "Abdurakhmanova",
+          "Emirova",
+          "Bilialova",
+          "Ablaieva",
+          "Mustafaieva",
+          "Ismailova",
+          "Seitumerova"
+        ]
+      }
+    },
+    "weights": {
+      "ukrainian": 0.99,
+      "crimean_tatar": 0.01
+    }
+  },
+  "honorifics": {
+    "elder_m": "пане",
+    "elder_f": "пані",
+    "peer_m": "друже",
+    "peer_f": "подруго",
+    "boss": "шефе",
+    "titles": {
+      "elder_m": "Пан",
+      "elder_f": "Пані",
+      "with": "first"
+    }
+  },
+  "phrases": {
+    "uk": {
+      "hello": [
+        [
+          "Привіт!",
+          "Hi!"
+        ],
+        [
+          "Добрий день",
+          "Good day"
+        ],
+        [
+          "Вітаю!",
+          "Greetings!"
+        ]
+      ],
+      "morning": [
+        [
+          "Доброго ранку",
+          "Good morning"
+        ],
+        [
+          "Добрий ранок",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Добрий вечір",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Як справи?",
+          "How are you?"
+        ],
+        [
+          "Як ти?",
+          "How are you? (to a friend)"
+        ],
+        [
+          "Як ся маєте?",
+          "How are you doing? (polite, warm)"
+        ]
+      ],
+      "fine": [
+        [
+          "Добре, дякую",
+          "Good, thanks"
+        ],
+        [
+          "Нормально",
+          "Fine"
+        ],
+        [
+          "Все добре",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Дякую",
+          "Thank you"
+        ],
+        [
+          "Дуже дякую",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "До побачення",
+          "Goodbye"
+        ],
+        [
+          "Бувай!",
+          "Bye!"
+        ],
+        [
+          "На все добре!",
+          "All the best!"
+        ]
+      ],
+      "welcome": [
+        [
+          "Ласкаво просимо",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Вибачте",
+          "Sorry (polite)"
+        ],
+        [
+          "Вибач",
+          "Sorry (informal)"
+        ]
+      ],
+      "excuse": [
+        [
+          "Перепрошую",
+          "Excuse me"
+        ],
+        [
+          "Вибачте, можна пройти?",
+          "Excuse me, may I get past?"
+        ]
+      ],
+      "yes": [
+        [
+          "Так",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Ні",
+          "No"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hi!",
+          "Hi!"
+        ],
+        [
+          "Hello",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Fine, thanks",
+          "Fine, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "See you",
+          "See you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "UAH",
+    "symbol": "₴",
+    "words": [
+      [
+        "гривня",
+        "hryvnia, the currency"
+      ],
+      [
+        "копійка",
+        "kopiika, a hundredth of a hryvnia"
+      ],
+      [
+        "сотка",
+        "a hundred hryvnias, slang"
+      ],
+      [
+        "штука",
+        "a thousand hryvnias, slang"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Ukrainian_name",
+    "https://en.wikipedia.org/wiki/Romanization_of_Ukrainian",
+    "https://en.wikipedia.org/wiki/Crimean_Tatars",
+    "https://en.wikipedia.org/wiki/Ukrainian_hryvnia",
+    "https://ukrstat.gov.ua/"
+  ]
+}

@@ -1,0 +1,1260 @@
+{
+  "languages": [
+    {
+      "code": "en",
+      "name": "English",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "mi",
+      "name": "Māori (te reo Māori)",
+      "official": true,
+      "spoken": "some"
+    },
+    {
+      "code": "sm",
+      "name": "Samoan",
+      "official": false,
+      "spoken": "some"
+    },
+    {
+      "code": "to",
+      "name": "Tongan",
+      "official": false,
+      "spoken": "some"
+    },
+    {
+      "code": "zh",
+      "name": "Mandarin Chinese",
+      "official": false,
+      "spoken": "some"
+    },
+    {
+      "code": "hi",
+      "name": "Hindi",
+      "official": false,
+      "spoken": "some"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Given name then family name, Western style. Pākehā (New Zealanders of European descent) mostly have English, Scottish and Irish names. Many Māori carry an English first name alongside or instead of a Māori one, and family names that are Māori (Ngata, Hēnare, Tipene, Parata) or English (Walker, Brown); Māori names are written with macrons on long vowels. Samoan and Tongan families often have biblical first names in Pacific form (Sione for John, Tavita or Tevita for David, Mele for Mary), and chiefly titles can become surnames (Tuilagi, Fuimaono). Auckland also has large Chinese, Indian, Korean and Filipino communities.",
+    "groups": {
+      "pakeha": {
+        "given": {
+          "m": [
+            "Oliver",
+            "Noah",
+            "Jack",
+            "Leo",
+            "George",
+            "Charlie",
+            "William",
+            "Hunter",
+            "Lucas",
+            "Arlo",
+            "Thomas",
+            "James",
+            "Liam",
+            "Hamish",
+            "Finn",
+            "Max"
+          ],
+          "f": [
+            "Isla",
+            "Charlotte",
+            "Amelia",
+            "Olivia",
+            "Lily",
+            "Harper",
+            "Mia",
+            "Ava",
+            "Sophie",
+            "Ruby",
+            "Grace",
+            "Emily",
+            "Zoe",
+            "Georgia",
+            "Hannah",
+            "Matilda"
+          ]
+        },
+        "family": [
+          "Smith",
+          "Wilson",
+          "Williams",
+          "Brown",
+          "Taylor",
+          "Jones",
+          "Anderson",
+          "Thompson",
+          "Walker",
+          "White",
+          "Campbell",
+          "Robertson",
+          "Stewart",
+          "Martin",
+          "Scott",
+          "Clark",
+          "Young",
+          "Mitchell",
+          "King",
+          "Harris",
+          "Murray",
+          "Wright",
+          "Johnson",
+          "MacDonald"
+        ]
+      },
+      "maori": {
+        "given": {
+          "m": [
+            "Wiremu",
+            "Hēmi",
+            "Rāwiri",
+            "Tamati",
+            "Nikau",
+            "Tāne",
+            "Mikaere",
+            "Hōhepa",
+            "Rangi",
+            "Ariki",
+            "Kauri",
+            "Māui",
+            "Hone",
+            "Tama",
+            "Manaia"
+          ],
+          "f": [
+            "Aroha",
+            "Mere",
+            "Ngaio",
+            "Moana",
+            "Kahurangi",
+            "Anahera",
+            "Hine",
+            "Ātaahua",
+            "Kaia",
+            "Huia",
+            "Kiri",
+            "Mihi",
+            "Hana",
+            "Waimarie",
+            "Te Aroha"
+          ]
+        },
+        "family": [
+          "Ngata",
+          "Hēnare",
+          "Tipene",
+          "Parata",
+          "Pōmare",
+          "Te Rangi",
+          "Rāwiri",
+          "Wihongi",
+          "Paki",
+          "Tamihana",
+          "Te Huia",
+          "Kereama",
+          "Mātene",
+          "Hōhaia",
+          "Rangihau",
+          "Tūhiwai",
+          "Walker",
+          "Brown"
+        ],
+        "also": {
+          "m": [
+            "John",
+            "James",
+            "Joseph",
+            "Michael",
+            "Daniel",
+            "Jacob"
+          ],
+          "f": [
+            "Mary",
+            "Sarah",
+            "Grace",
+            "Ruby",
+            "Chloe",
+            "Hannah"
+          ]
+        }
+      },
+      "samoan": {
+        "given": {
+          "m": [
+            "Sione",
+            "Ioane",
+            "Tavita",
+            "Iosefa",
+            "Pita",
+            "Mikaele",
+            "Fetu",
+            "Sefo",
+            "Manu",
+            "Samuelu",
+            "Filipo",
+            "Paulo"
+          ],
+          "f": [
+            "Malia",
+            "Sina",
+            "Lagi",
+            "Alofa",
+            "Lupe",
+            "Losa",
+            "Mele",
+            "Ana",
+            "Teuila",
+            "Silia",
+            "Sefina",
+            "Masina"
+          ]
+        },
+        "family": [
+          "Leota",
+          "Tuilagi",
+          "Faleolo",
+          "Fuimaono",
+          "Sapolu",
+          "Afamasaga",
+          "Toleafoa",
+          "Leaupepe",
+          "Lemalu",
+          "Aumua",
+          "Tuimavave",
+          "Fa'amausili"
+        ],
+        "also": {
+          "m": [
+            "John",
+            "David",
+            "Peter",
+            "Joseph",
+            "Daniel",
+            "Isaac"
+          ],
+          "f": [
+            "Mary",
+            "Grace",
+            "Faith",
+            "Esther",
+            "Ruth",
+            "Hope"
+          ]
+        }
+      },
+      "tongan": {
+        "given": {
+          "m": [
+            "Sione",
+            "Tevita",
+            "Viliami",
+            "Siosaia",
+            "Sitani",
+            "Semisi",
+            "Paula",
+            "Taniela",
+            "Mosese",
+            "Lisiate",
+            "Tomasi",
+            "Siaosi"
+          ],
+          "f": [
+            "Mele",
+            "Lupe",
+            "'Ana",
+            "Salote",
+            "Seini",
+            "Lesieli",
+            "Kalolaine",
+            "Vika",
+            "Sela",
+            "Lavinia",
+            "'Ofa",
+            "Meleane"
+          ]
+        },
+        "family": [
+          "Fifita",
+          "Taufa",
+          "Lātū",
+          "Moala",
+          "Vea",
+          "Havili",
+          "Fonua",
+          "Mahe",
+          "Taione",
+          "Piutau",
+          "Kupu",
+          "Tuipulotu",
+          "Funaki",
+          "Hufanga"
+        ]
+      },
+      "chinese": {
+        "given": {
+          "m": [
+            "Ka Ho",
+            "Chi Wai",
+            "Ho Yin",
+            "Wai Kit",
+            "Chun Kit",
+            "Hao",
+            "Wei",
+            "Jun",
+            "Zihao",
+            "Yifan",
+            "Haoran",
+            "Jian",
+            "Lei"
+          ],
+          "f": [
+            "Mei Ling",
+            "Wing Yan",
+            "Ka Yan",
+            "Hoi Yan",
+            "Wai Man",
+            "Xinyi",
+            "Yuting",
+            "Ziyi",
+            "Jing",
+            "Yan",
+            "Hui",
+            "Mei",
+            "Shu"
+          ]
+        },
+        "family": [
+          "Chan",
+          "Wong",
+          "Lee",
+          "Leung",
+          "Lam",
+          "Cheung",
+          "Ng",
+          "Ho",
+          "Lau",
+          "Tang",
+          "Chen",
+          "Wang",
+          "Zhang",
+          "Liu",
+          "Li",
+          "Huang",
+          "Lin",
+          "Wu",
+          "Zhou",
+          "Yang"
+        ],
+        "also": {
+          "m": [
+            "Kevin",
+            "Eric",
+            "Jason",
+            "Alex",
+            "Vincent",
+            "Raymond",
+            "Calvin",
+            "Ryan"
+          ],
+          "f": [
+            "Jenny",
+            "Amy",
+            "Grace",
+            "Michelle",
+            "Vivian",
+            "Cindy",
+            "Winnie",
+            "Crystal"
+          ]
+        }
+      },
+      "indian": {
+        "given": {
+          "m": [
+            "Arjun",
+            "Rahul",
+            "Rohan",
+            "Vikram",
+            "Aditya",
+            "Karthik",
+            "Sanjay",
+            "Rajesh",
+            "Anil",
+            "Siddharth",
+            "Nikhil",
+            "Varun",
+            "Aarav",
+            "Vivek"
+          ],
+          "f": [
+            "Priya",
+            "Ananya",
+            "Kavya",
+            "Divya",
+            "Neha",
+            "Pooja",
+            "Shreya",
+            "Aishwarya",
+            "Deepa",
+            "Lakshmi",
+            "Anjali",
+            "Meera",
+            "Riya",
+            "Sneha"
+          ]
+        },
+        "family": [
+          "Patel",
+          "Shah",
+          "Sharma",
+          "Gupta",
+          "Mehta",
+          "Desai",
+          "Joshi",
+          "Agarwal",
+          "Verma",
+          "Kapoor",
+          "Malhotra",
+          "Reddy",
+          "Iyer",
+          "Nair",
+          "Rao",
+          "Kumar",
+          "Trivedi",
+          "Bhatt"
+        ]
+      },
+      "korean": {
+        "given": {
+          "m": [
+            "Min-jun",
+            "Ji-hoon",
+            "Seo-jun",
+            "Hyun-woo",
+            "Sung-min",
+            "Dong-hyun",
+            "Jae-won",
+            "Joon-ho",
+            "Tae-hoon",
+            "Sang-woo",
+            "Young-jin",
+            "Do-yoon"
+          ],
+          "f": [
+            "Ji-yeon",
+            "Seo-yeon",
+            "Min-ji",
+            "Su-bin",
+            "Ha-eun",
+            "Ye-jin",
+            "Eun-ji",
+            "Hye-jin",
+            "Yoon-ah",
+            "Ji-woo",
+            "Da-eun",
+            "Na-yeon"
+          ]
+        },
+        "family": [
+          "Kim",
+          "Lee",
+          "Park",
+          "Choi",
+          "Jung",
+          "Kang",
+          "Cho",
+          "Yoon",
+          "Jang",
+          "Lim",
+          "Han",
+          "Shin",
+          "Oh",
+          "Seo",
+          "Kwon",
+          "Hwang"
+        ],
+        "also": {
+          "m": [
+            "Daniel",
+            "David",
+            "John",
+            "Paul",
+            "Andrew",
+            "Joseph"
+          ],
+          "f": [
+            "Grace",
+            "Esther",
+            "Sarah",
+            "Christine",
+            "Jennifer",
+            "Julie"
+          ]
+        }
+      },
+      "filipino": {
+        "given": {
+          "m": [
+            "Jose",
+            "Juan",
+            "Mark",
+            "John Paul",
+            "Carlo",
+            "Miguel",
+            "Paolo",
+            "Rafael",
+            "Jericho",
+            "Angelo",
+            "Christian",
+            "Ramon",
+            "Emmanuel",
+            "Joshua"
+          ],
+          "f": [
+            "Maria",
+            "Angelica",
+            "Kristine",
+            "Joy",
+            "Jasmine",
+            "Princess",
+            "Rowena",
+            "Grace",
+            "Mylene",
+            "Rosario",
+            "Camille",
+            "Andrea",
+            "Bea",
+            "Nicole"
+          ]
+        },
+        "family": [
+          "Santos",
+          "Reyes",
+          "Cruz",
+          "Bautista",
+          "Garcia",
+          "Mendoza",
+          "Del Rosario",
+          "Ramos",
+          "Aquino",
+          "Villanueva",
+          "Castillo",
+          "Dela Cruz",
+          "Fernandez",
+          "Navarro",
+          "Tolentino",
+          "Manalo",
+          "Domingo",
+          "Pascual"
+        ]
+      }
+    },
+    "weights": {
+      "pakeha": 0.62,
+      "maori": 0.15,
+      "indian": 0.07,
+      "chinese": 0.06,
+      "samoan": 0.04,
+      "tongan": 0.02,
+      "filipino": 0.02,
+      "korean": 0.01
+    }
+  },
+  "honorifics": {
+    "elder_m": "Matua",
+    "elder_f": "Whaea",
+    "peer_m": "Bro",
+    "peer_f": "Sis",
+    "boss": "Boss"
+  },
+  "phrases": {
+    "en": {
+      "hello": [
+        [
+          "Kia ora!",
+          "Hello (said by everyone)"
+        ],
+        [
+          "Hey, how's it going?",
+          "Hi"
+        ],
+        [
+          "Gidday",
+          "Hello"
+        ]
+      ],
+      "morning": [
+        [
+          "Mōrena!",
+          "Morning! (te reo, used by most Kiwis)"
+        ],
+        [
+          "Morning!",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Evening!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How's it going?",
+          "How are you?"
+        ],
+        [
+          "How ya doing?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Good as",
+          "Really good"
+        ],
+        [
+          "Sweet as",
+          "All good, no problem"
+        ],
+        [
+          "Not bad, eh",
+          "Fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Cheers",
+          "Thanks"
+        ],
+        [
+          "Kia ora",
+          "Thanks"
+        ],
+        [
+          "Thanks heaps",
+          "Thanks a lot"
+        ]
+      ],
+      "bye": [
+        [
+          "See ya",
+          "Goodbye"
+        ],
+        [
+          "Ka kite",
+          "See you (te reo, used by most Kiwis)"
+        ],
+        [
+          "Catch ya later",
+          "See you later"
+        ]
+      ],
+      "welcome": [
+        [
+          "Haere mai",
+          "Welcome (te reo)"
+        ],
+        [
+          "Welcome",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry, bro",
+          "Sorry"
+        ],
+        [
+          "My bad",
+          "Sorry, my fault"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ],
+        [
+          "Sorry, just squeezing past",
+          "Excuse me, coming through"
+        ]
+      ],
+      "yes": [
+        [
+          "Yeah",
+          "Yes"
+        ],
+        [
+          "Choice",
+          "Great, yes"
+        ],
+        [
+          "Yeah, nah, yeah",
+          "Yes (after some thought)"
+        ]
+      ],
+      "no": [
+        [
+          "Nah",
+          "No"
+        ],
+        [
+          "Yeah, nah",
+          "No, said politely"
+        ]
+      ]
+    },
+    "mi": {
+      "hello": [
+        [
+          "Kia ora!",
+          "Hello! (also thanks)"
+        ],
+        [
+          "Tēnā koe",
+          "Hello, to one person (formal)"
+        ]
+      ],
+      "morning": [
+        [
+          "Mōrena!",
+          "Morning!"
+        ],
+        [
+          "Ata mārie",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Ahiahi mārie",
+          "Good evening"
+        ],
+        [
+          "Pō mārie",
+          "Good night"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Kei te pēhea koe?",
+          "How are you?"
+        ],
+        [
+          "Kei te pēhea koutou?",
+          "How are you all?"
+        ]
+      ],
+      "fine": [
+        [
+          "Kei te pai",
+          "I'm good"
+        ],
+        [
+          "Ka pai",
+          "Good, great"
+        ],
+        [
+          "Tino pai",
+          "Very good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Kia ora",
+          "Thanks"
+        ],
+        [
+          "Ngā mihi",
+          "Thanks, regards"
+        ]
+      ],
+      "bye": [
+        [
+          "Ka kite anō",
+          "See you again"
+        ],
+        [
+          "Hei konā",
+          "Bye, see you"
+        ],
+        [
+          "Haere rā",
+          "Goodbye, to someone leaving"
+        ],
+        [
+          "E noho rā",
+          "Goodbye, to someone staying"
+        ]
+      ],
+      "welcome": [
+        [
+          "Haere mai",
+          "Welcome, come in"
+        ],
+        [
+          "Nau mai, haere mai",
+          "Welcome, all are welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Aroha mai",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Tēnā koa",
+          "Please, excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Āe",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Kāo",
+          "No"
+        ]
+      ]
+    },
+    "sm": {
+      "hello": [
+        [
+          "Tālofa!",
+          "Hello!"
+        ],
+        [
+          "Tālofa lava",
+          "Hello (warmer, more formal)"
+        ],
+        [
+          "Mālō!",
+          "Hi! Well done!"
+        ]
+      ],
+      "morning": [
+        [
+          "Manuia le taeao",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Manuia le afiafi",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "O ā mai oe?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Manuia, fa'afetai",
+          "Fine, thank you"
+        ],
+        [
+          "Lelei lava",
+          "Very good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Fa'afetai",
+          "Thank you"
+        ],
+        [
+          "Fa'afetai tele lava",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Tōfā",
+          "Goodbye"
+        ],
+        [
+          "Tōfā soifua",
+          "Farewell"
+        ]
+      ],
+      "welcome": [
+        [
+          "Afio mai",
+          "Welcome (respectful)"
+        ]
+      ],
+      "sorry": [
+        [
+          "Fa'amalie atu",
+          "Sorry, excuse me"
+        ]
+      ],
+      "excuse": [
+        [
+          "Tulou",
+          "Excuse me, as you pass someone"
+        ]
+      ],
+      "yes": [
+        [
+          "Ioe",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Leai",
+          "No"
+        ]
+      ]
+    },
+    "to": {
+      "hello": [
+        [
+          "Mālō e lelei!",
+          "Hello!"
+        ],
+        [
+          "Mālō e tau lava",
+          "Hello, thank you for being here (a warm greeting)"
+        ]
+      ],
+      "morning": [
+        [
+          "Mālō e lelei ki he pongipongi ni",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Mālō e lelei ki he efiafi ni",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Fēfē hake?",
+          "How are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "Sai pē, mālō",
+          "Fine, thanks"
+        ]
+      ],
+      "thanks": [
+        [
+          "Mālō",
+          "Thanks"
+        ],
+        [
+          "Mālō 'aupito",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "'Alu ā",
+          "Goodbye, to someone leaving"
+        ],
+        [
+          "Nofo ā",
+          "Goodbye, to someone staying"
+        ]
+      ],
+      "welcome": [
+        [
+          "Talitali fiefia",
+          "Welcome"
+        ]
+      ],
+      "sorry": [
+        [
+          "Fakamolemole",
+          "Sorry, please"
+        ]
+      ],
+      "excuse": [
+        [
+          "Tulou",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "'Io",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "'Ikai",
+          "No"
+        ]
+      ]
+    },
+    "zh": {
+      "hello": [
+        [
+          "你好",
+          "Hello (nǐ hǎo)"
+        ]
+      ],
+      "morning": [
+        [
+          "早上好",
+          "Good morning (zǎoshang hǎo)"
+        ],
+        [
+          "早",
+          "Morning (zǎo)"
+        ]
+      ],
+      "evening": [
+        [
+          "晚上好",
+          "Good evening (wǎnshang hǎo)"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "你好吗？",
+          "How are you? (nǐ hǎo ma)"
+        ],
+        [
+          "最近怎么样？",
+          "How have you been? (zuìjìn zěnmeyàng)"
+        ]
+      ],
+      "fine": [
+        [
+          "挺好的",
+          "Pretty good (tǐng hǎo de)"
+        ],
+        [
+          "还行",
+          "Not bad (hái xíng)"
+        ]
+      ],
+      "thanks": [
+        [
+          "谢谢",
+          "Thank you (xièxie)"
+        ]
+      ],
+      "bye": [
+        [
+          "再见",
+          "Goodbye (zàijiàn)"
+        ],
+        [
+          "拜拜",
+          "Bye-bye (bàibai)"
+        ]
+      ],
+      "welcome": [
+        [
+          "欢迎",
+          "Welcome (huānyíng)"
+        ]
+      ],
+      "sorry": [
+        [
+          "对不起",
+          "Sorry (duìbuqǐ)"
+        ],
+        [
+          "不好意思",
+          "Sorry, excuse me (bù hǎoyìsi)"
+        ]
+      ],
+      "excuse": [
+        [
+          "请问",
+          "Excuse me, may I ask (qǐngwèn)"
+        ]
+      ],
+      "yes": [
+        [
+          "是",
+          "Yes (shì)"
+        ],
+        [
+          "对",
+          "Right (duì)"
+        ]
+      ],
+      "no": [
+        [
+          "不是",
+          "No (bú shì)"
+        ],
+        [
+          "没有",
+          "No, don't have any (méiyǒu)"
+        ]
+      ]
+    },
+    "hi": {
+      "hello": [
+        [
+          "नमस्ते",
+          "Hello (namaste)"
+        ]
+      ],
+      "morning": [
+        [
+          "सुप्रभात",
+          "Good morning (suprabhāt), formal"
+        ],
+        [
+          "गुड मॉर्निंग",
+          "Good morning, said in English as most people do"
+        ]
+      ],
+      "evening": [
+        [
+          "शुभ संध्या",
+          "Good evening (shubh sandhyā), formal"
+        ],
+        [
+          "नमस्ते",
+          "Hello, at any hour (namaste)"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "आप कैसे हैं?",
+          "How are you? (āp kaise hain)"
+        ],
+        [
+          "क्या हाल है?",
+          "How's it going? (kyā hāl hai)"
+        ]
+      ],
+      "fine": [
+        [
+          "मैं ठीक हूँ",
+          "I'm fine (main ṭhīk hūn)"
+        ],
+        [
+          "बढ़िया",
+          "Great (baṛhiyā)"
+        ]
+      ],
+      "thanks": [
+        [
+          "धन्यवाद",
+          "Thank you (dhanyavād)"
+        ],
+        [
+          "शुक्रिया",
+          "Thanks (shukriyā)"
+        ]
+      ],
+      "bye": [
+        [
+          "फिर मिलेंगे",
+          "See you again (phir milenge)"
+        ],
+        [
+          "चलो, बाय",
+          "Okay, bye (chalo, bye)"
+        ]
+      ],
+      "welcome": [
+        [
+          "स्वागत है",
+          "Welcome (swāgat hai)"
+        ]
+      ],
+      "sorry": [
+        [
+          "माफ़ कीजिए",
+          "Sorry, excuse me (māf kījiye)"
+        ],
+        [
+          "सॉरी",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "सुनिए",
+          "Excuse me (suniye)"
+        ]
+      ],
+      "yes": [
+        [
+          "हाँ",
+          "Yes (hān)"
+        ],
+        [
+          "जी हाँ",
+          "Yes (polite, jī hān)"
+        ]
+      ],
+      "no": [
+        [
+          "नहीं",
+          "No (nahīn)"
+        ],
+        [
+          "जी नहीं",
+          "No (polite, jī nahīn)"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "NZD",
+    "symbol": "$",
+    "words": [
+      [
+        "bucks",
+        "dollars"
+      ],
+      [
+        "grand",
+        "a thousand dollars"
+      ],
+      [
+        "shrapnel",
+        "loose coins"
+      ],
+      [
+        "a fiver",
+        "a five dollar note"
+      ],
+      [
+        "a twenty",
+        "a twenty dollar note"
+      ]
+    ]
+  },
+  "sources": [
+    "https://www.stats.govt.nz/topics/census",
+    "https://www.tetaurawhiri.govt.nz",
+    "https://maoridictionary.co.nz",
+    "https://en.wikipedia.org/wiki/New_Zealand_English",
+    "https://en.wikipedia.org/wiki/Samoan_language",
+    "https://en.wikipedia.org/wiki/Tongan_language",
+    "https://en.wikipedia.org/wiki/M%C4%81ori_language"
+  ]
+}

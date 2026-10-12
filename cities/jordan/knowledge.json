@@ -1,0 +1,590 @@
+{
+  "languages": [
+    {
+      "code": "ar",
+      "name": "Arabic (Jordanian Levantine Arabic on the street)",
+      "official": true,
+      "spoken": "everywhere"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "widely in business, universities, tech and West Amman"
+    }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Jordanians carry their own name, their father's name, their grandfather's name and a family name, as in Omar Khaled Mahmoud Al-Zoubi; day to day it is the first name and family name, and women keep their family name after marriage. Family names often come from a clan or tribe (Obeidat, Bataineh, Tarawneh), a home town (Nabulsi, Khalili), or a trade (Haddad, smith; Najjar, carpenter). Older people are called by kunya, Abu or Umm plus the eldest son's name (Abu Omar, Umm Omar). Christian Jordanians share most family names and carry names like Issa, Elias, George and Rita alongside the common Arabic ones. Syrian, Iraqi and Egyptian residents follow the same Arabic pattern.",
+    "groups": {
+      "jordanian": {
+        "given": {
+          "m": [
+            "Mohammad",
+            "Ahmad",
+            "Omar",
+            "Khaled",
+            "Yazan",
+            "Zaid",
+            "Laith",
+            "Hamza",
+            "Ali",
+            "Mahmoud",
+            "Faris",
+            "Tareq",
+            "Rami",
+            "Sami",
+            "Ibrahim",
+            "Hasan",
+            "Issa",
+            "Fadi"
+          ],
+          "f": [
+            "Lina",
+            "Rania",
+            "Dana",
+            "Hala",
+            "Rasha",
+            "Sara",
+            "Leen",
+            "Tala",
+            "Ruba",
+            "Noor",
+            "Aya",
+            "Haneen",
+            "Farah",
+            "Dima",
+            "Rawan",
+            "Lujain"
+          ]
+        },
+        "family": [
+          "Al-Zoubi",
+          "Obeidat",
+          "Al-Momani",
+          "Al-Shboul",
+          "Bataineh",
+          "Khasawneh",
+          "Al-Masri",
+          "Haddad",
+          "Hijazi",
+          "Al-Khatib",
+          "Nabulsi",
+          "Tarawneh",
+          "Al-Rawashdeh",
+          "Al-Ajlouni",
+          "Twal",
+          "Khalili",
+          "Najjar",
+          "Abu Zaid",
+          "Al-Nsour",
+          "Qudah"
+        ],
+        "also": {
+          "m": [
+            "George",
+            "Elias",
+            "Nabil",
+            "Majdi"
+          ],
+          "f": [
+            "Rita",
+            "Maria",
+            "Nisreen",
+            "Suha"
+          ]
+        }
+      },
+      "syrian": {
+        "given": {
+          "m": [
+            "Mohammad",
+            "Ahmad",
+            "Omar",
+            "Khaled",
+            "Mahmoud",
+            "Abdulrahman",
+            "Yamen",
+            "Mohannad",
+            "Ghaith",
+            "Hussam",
+            "Samer",
+            "Wael",
+            "Anas",
+            "Majd",
+            "Hadi",
+            "Firas"
+          ],
+          "f": [
+            "Rahaf",
+            "Nour",
+            "Ghazal",
+            "Lama",
+            "Rasha",
+            "Raghad",
+            "Yara",
+            "Heba",
+            "Batoul",
+            "Alaa",
+            "Douaa",
+            "Sidra",
+            "Bayan",
+            "Amani",
+            "Joud",
+            "Sham"
+          ]
+        },
+        "family": [
+          "Al-Halabi",
+          "Al-Shami",
+          "Khoury",
+          "Hamwi",
+          "Al-Homsi",
+          "Kurdi",
+          "Darwish",
+          "Sabbagh",
+          "Al-Ahmad",
+          "Al-Hussein",
+          "Hamdan",
+          "Al-Ali",
+          "Hariri",
+          "Al-Hamwi",
+          "Al-Rifai",
+          "Masalmeh"
+        ]
+      },
+      "iraqi": {
+        "given": {
+          "m": [
+            "Ali",
+            "Hussein",
+            "Mustafa",
+            "Haider",
+            "Ammar",
+            "Ahmed",
+            "Omar",
+            "Saif",
+            "Yasir",
+            "Karrar",
+            "Zaid",
+            "Muhannad",
+            "Hassan",
+            "Abbas",
+            "Mohammed",
+            "Ayad"
+          ],
+          "f": [
+            "Zahraa",
+            "Fatima",
+            "Maryam",
+            "Ruqaya",
+            "Noor",
+            "Shahad",
+            "Hawraa",
+            "Zainab",
+            "Sura",
+            "Ban",
+            "Rusul",
+            "Huda",
+            "Dalia",
+            "Amna"
+          ]
+        },
+        "family": [
+          "Al-Jubouri",
+          "Al-Obaidi",
+          "Al-Dulaimi",
+          "Al-Tamimi",
+          "Al-Saadi",
+          "Al-Rubaie",
+          "Al-Khafaji",
+          "Al-Shammari",
+          "Al-Ani",
+          "Al-Bayati",
+          "Al-Hashimi",
+          "Al-Zubaidi",
+          "Al-Musawi",
+          "Al-Azzawi"
+        ]
+      },
+      "egyptian": {
+        "given": {
+          "m": [
+            "Mohamed",
+            "Ahmed",
+            "Mahmoud",
+            "Mostafa",
+            "Amr",
+            "Karim",
+            "Tarek",
+            "Hossam",
+            "Sherif",
+            "Hany",
+            "Ayman",
+            "Waleed",
+            "Ramy",
+            "Youssef",
+            "Mina",
+            "Islam"
+          ],
+          "f": [
+            "Mai",
+            "Nour",
+            "Yasmin",
+            "Heba",
+            "Dina",
+            "Rania",
+            "Shaimaa",
+            "Aya",
+            "Mariam",
+            "Salma",
+            "Esraa",
+            "Doaa",
+            "Marwa",
+            "Nada",
+            "Menna",
+            "Hagar"
+          ]
+        },
+        "family": [
+          "Hassan",
+          "Ibrahim",
+          "Abdel Aziz",
+          "Mahmoud",
+          "El Sayed",
+          "Abdel Rahman",
+          "Fathy",
+          "Gamal",
+          "Soliman",
+          "Mostafa",
+          "Farouk",
+          "Kamal",
+          "Shawky",
+          "Saad",
+          "Hegazy",
+          "Naguib"
+        ]
+      }
+    },
+    "weights": {
+      "jordanian": 0.84,
+      "syrian": 0.1,
+      "iraqi": 0.02,
+      "egyptian": 0.04
+    }
+  },
+  "honorifics": {
+    "elder_m": "Ammo",
+    "elder_f": "Khalto",
+    "peer_m": "Akhoy",
+    "peer_f": "Ukhti",
+    "boss": "Basha",
+    "respected_older_m": "Hajj",
+    "respected_older_f": "Hajjeh",
+    "friend_m": "Ya zalameh"
+  },
+  "phrases": {
+    "ar": {
+      "hello": [
+        [
+          "Marhaba",
+          "Hello (مرحبا)"
+        ],
+        [
+          "Ahlan",
+          "Hi"
+        ],
+        [
+          "Assalamu alaikum",
+          "Peace be upon you, the everyday greeting"
+        ],
+        [
+          "Hala wallah",
+          "Hey, great to see you"
+        ]
+      ],
+      "morning": [
+        [
+          "Sabah il kheir",
+          "Good morning (صباح الخير)"
+        ],
+        [
+          "Sabah il noor",
+          "Good morning, the reply"
+        ]
+      ],
+      "evening": [
+        [
+          "Masa il kheir",
+          "Good evening (مساء الخير)"
+        ],
+        [
+          "Masa il noor",
+          "Good evening, the reply"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Kifak?",
+          "How are you? to a man (كيفك)"
+        ],
+        [
+          "Kifik?",
+          "How are you? to a woman"
+        ],
+        [
+          "Shu akhbarak?",
+          "What's new?"
+        ],
+        [
+          "Shlonak?",
+          "How are you? the Jordanian Bedouin-style form"
+        ]
+      ],
+      "fine": [
+        [
+          "Il hamdilla",
+          "Fine, thank God"
+        ],
+        [
+          "Mnih",
+          "Good"
+        ],
+        [
+          "Tamam",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Shukran",
+          "Thanks"
+        ],
+        [
+          "Yislamu",
+          "Thank you, bless your hands"
+        ],
+        [
+          "Ya'tik il 'afyeh",
+          "Thanks, God give you strength, to someone working"
+        ]
+      ],
+      "bye": [
+        [
+          "Ma'a salameh",
+          "Goodbye"
+        ],
+        [
+          "Bashoofak",
+          "See you"
+        ],
+        [
+          "Allah ma'ak",
+          "God be with you"
+        ]
+      ],
+      "welcome": [
+        [
+          "Ahlan wa sahlan",
+          "Welcome"
+        ],
+        [
+          "Ya hala",
+          "Welcome, warm"
+        ],
+        [
+          "Tfaddal",
+          "Please, come in, go ahead"
+        ]
+      ],
+      "sorry": [
+        [
+          "Mit'assif",
+          "Sorry (m)"
+        ],
+        [
+          "Mit'assfeh",
+          "Sorry (f)"
+        ],
+        [
+          "Sorry",
+          "Sorry, used as it is"
+        ]
+      ],
+      "excuse": [
+        [
+          "Law samaht",
+          "Excuse me, if you please"
+        ],
+        [
+          "Min fadlak",
+          "Please (to a man)"
+        ]
+      ],
+      "yes": [
+        [
+          "Aah",
+          "Yeah"
+        ],
+        [
+          "Na'am",
+          "Yes, polite"
+        ],
+        [
+          "Akeed",
+          "Sure"
+        ]
+      ],
+      "no": [
+        [
+          "La'",
+          "No"
+        ],
+        [
+          "La, shukran",
+          "No, thanks"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hi",
+          "Hi"
+        ],
+        [
+          "Hello",
+          "Hello"
+        ],
+        [
+          "Hi, ahlan",
+          "Hi, welcome"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How are you?",
+          "How are you?"
+        ],
+        [
+          "How is everything?",
+          "How is everything?"
+        ]
+      ],
+      "fine": [
+        [
+          "Fine, thanks",
+          "Fine, thanks"
+        ],
+        [
+          "All good, il hamdilla",
+          "All good, thank God"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thank you",
+          "Thank you"
+        ],
+        [
+          "Merci",
+          "Thanks, the French word many Ammanis use"
+        ]
+      ],
+      "bye": [
+        [
+          "Bye",
+          "Bye"
+        ],
+        [
+          "Yalla bye",
+          "Okay, bye"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome",
+          "Welcome"
+        ],
+        [
+          "Welcome to Jordan",
+          "What everyone says to visitors"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry",
+          "Sorry"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yes",
+          "Yes"
+        ],
+        [
+          "Of course",
+          "Of course"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ],
+        [
+          "No, thanks",
+          "No, thanks"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "JOD",
+    "symbol": "JD",
+    "words": [
+      [
+        "dinar",
+        "the currency, written JD"
+      ],
+      [
+        "qirsh",
+        "a piastre, a hundredth of a dinar"
+      ],
+      [
+        "fils",
+        "a thousandth of a dinar"
+      ],
+      [
+        "nuss dinar",
+        "half a dinar"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Jordanian_Arabic",
+    "https://en.wikipedia.org/wiki/Levantine_Arabic",
+    "https://en.wikipedia.org/wiki/Demographics_of_Jordan",
+    "https://en.wikipedia.org/wiki/Arabic_name",
+    "https://en.wikipedia.org/wiki/Kunya_(Arabic)",
+    "https://en.wikipedia.org/wiki/Jordanian_dinar"
+  ]
+}

@@ -1,0 +1,297 @@
+{
+  "languages": [
+    { "code": "en", "name": "English", "official": true, "spoken": "widely" },
+    { "code": "zu", "name": "isiZulu", "official": true, "spoken": "widely" },
+    { "code": "xh", "name": "isiXhosa", "official": true, "spoken": "widely" },
+    { "code": "af", "name": "Afrikaans", "official": true, "spoken": "widely" },
+    { "code": "st", "name": "Sesotho", "official": true, "spoken": "widely" },
+    { "code": "tn", "name": "Setswana", "official": true, "spoken": "widely" },
+    { "code": "nso", "name": "Sepedi", "official": true, "spoken": "widely" },
+    { "code": "ts", "name": "Xitsonga", "official": true, "spoken": "some" },
+    { "code": "ve", "name": "Tshivenda", "official": true, "spoken": "some" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Most Black South Africans carry a name in their home language that means something (Sipho, gift; Lerato, love; Tumelo, faith; Ntsako, joy) and often an English or Christian name too (Lucky, Precious, Johannes), with a family name from the father's line. Zulu, Xhosa and Ndebele families also have a clan name, and calling someone by it (a Dlamini as Dlamini, a Mkhize as Khabazela) is warm and respectful. Sotho, Tswana and Pedi family names often start with Mo- or Ma- (Mokoena, Molefe, Maponya). Afrikaans family names come from Dutch, French Huguenot and German settlers (Van der Merwe, Du Plessis, Botha). Coloured families in the Cape carry English and Afrikaans names (Adams, Hendricks, September), Cape Muslim families spell Arabic names the Cape way (Mogamat, Gadija, Achmat), and Indian South Africans in Durban mostly carry Tamil, Telugu, Hindi and Gujarati family names (Naidoo, Pillay, Govender, Maharaj, Patel).",
+    "groups": {
+      "zulu": {
+        "given": {
+          "m": ["Sipho", "Sibusiso", "Themba", "Mandla", "Bongani", "Sifiso", "Nkosinathi", "Siyabonga", "Lungelo", "Mthokozisi", "Sanele", "Thulani", "Mlungisi", "Njabulo"],
+          "f": ["Nomvula", "Thandeka", "Zanele", "Nokuthula", "Lindiwe", "Nompumelelo", "Sibongile", "Thembeka", "Ayanda", "Nosipho", "Khanyisile", "Zinhle", "Nonhlanhla", "Mbali"]
+        },
+        "family": ["Dlamini", "Ndlovu", "Zulu", "Mkhize", "Ngcobo", "Khumalo", "Nkosi", "Mthembu", "Shabalala", "Cele", "Zungu", "Ntuli", "Gumede", "Mchunu", "Sithole", "Hadebe", "Majola", "Msomi"],
+        "also": { "m": ["Lucky", "Gift", "Innocent", "Patrick", "Samuel", "Joseph"], "f": ["Precious", "Beauty", "Patience", "Grace", "Mercy", "Faith"] }
+      },
+      "xhosa": {
+        "given": {
+          "m": ["Lwazi", "Siyabulela", "Mzwandile", "Lukhanyo", "Xolani", "Bulelani", "Mncedisi", "Lonwabo", "Lubabalo", "Sandile", "Vuyo", "Luvuyo", "Athenkosi", "Ayabonga"],
+          "f": ["Nomsa", "Thandiwe", "Zoleka", "Nolitha", "Asanda", "Ziyanda", "Siphokazi", "Nomathemba", "Yonela", "Lulama", "Akhona", "Babalwa", "Nokuzola", "Bongiwe"]
+        },
+        "family": ["Mabandla", "Mxenge", "Ntshinga", "Matiwane", "Faku", "Ndamase", "Mgijima", "Jali", "Gqola", "Mangcu", "Bikitsha", "Nkwinti", "Booi", "Dyantyi"],
+        "also": { "m": ["Lucky", "Andile", "Michael", "Thomas", "Patrick", "Wiseman"], "f": ["Nomonde", "Patience", "Nomfundo", "Pumla", "Grace", "Beauty"] }
+      },
+      "sotho": {
+        "given": {
+          "m": ["Thabo", "Tumelo", "Teboho", "Tshepo", "Thabang", "Lehlohonolo", "Katleho", "Lebohang", "Sello", "Tebello", "Moeketsi", "Pule", "Mpho", "Karabo"],
+          "f": ["Lerato", "Palesa", "Puleng", "Rethabile", "Lineo", "Mamello", "Nthabiseng", "Dineo", "Limpho", "Refiloe", "Mosa", "Nthati", "Matshidiso", "Neo"]
+        },
+        "family": ["Mokoena", "Mofokeng", "Moloi", "Motaung", "Tsotetsi", "Letsie", "Makhetha", "Mokhele", "Mohapi", "Lebona", "Sefako", "Masilo"],
+        "also": { "m": ["Johannes", "Jacob", "Daniel", "Samuel", "Lucky", "Gift"], "f": ["Portia", "Elizabeth", "Martha", "Precious", "Grace", "Patience"] }
+      },
+      "tswana": {
+        "given": {
+          "m": ["Kagiso", "Tumisang", "Kabelo", "Thato", "Oratile", "Kgosi", "Tebogo", "Thapelo", "Katlego", "Olebogeng", "Omphile", "Tshepiso", "Itumeleng", "Kgotso"],
+          "f": ["Boitumelo", "Gaone", "Masego", "Reabetswe", "Bonolo", "Kelebogile", "Naledi", "Lesego", "Keabetswe", "Onalenna", "Goitseone", "Tshegofatso", "Kgomotso"]
+        },
+        "family": ["Molefe", "Modise", "Moeng", "Mogale", "Moagi", "Mokgatle", "Kgosana", "Mothibi", "Tau", "Mosimane", "Motlhabane", "Kgomo"],
+        "also": { "m": ["Johannes", "Lucky", "Daniel", "Joseph", "Thomas", "Gift"], "f": ["Precious", "Portia", "Grace", "Elizabeth", "Patience", "Mercy"] }
+      },
+      "pedi": {
+        "given": {
+          "m": ["Matome", "Lesiba", "Lehlogonolo", "Kgothatso", "Sello", "Kamogelo", "Tshepo", "Tumelo", "Thabiso", "Mpho", "Kholofelo", "Phuti", "Lethabo", "Katlego"],
+          "f": ["Mokgadi", "Mmathabo", "Lerato", "Dikeledi", "Mapula", "Refilwe", "Tebogo", "Masego", "Kgaugelo", "Mahlatse", "Mosima", "Mmapula", "Lebogang"]
+        },
+        "family": ["Mphahlele", "Maake", "Ledwaba", "Maponya", "Mabotja", "Ramokgopa", "Masemola", "Molepo", "Makgoba", "Phasha", "Mashilo", "Seanego", "Mojapelo"],
+        "also": { "m": ["Johannes", "Lucky", "Samuel", "Jacob", "Gift", "Daniel"], "f": ["Precious", "Martha", "Grace", "Portia", "Beauty", "Elizabeth"] }
+      },
+      "tsonga": {
+        "given": {
+          "m": ["Ntsako", "Hlulani", "Rhulani", "Tiyani", "Vutomi", "Hlayisani", "Vongani", "Nkateko", "Kulani", "Tinyiko", "Hlengani", "Ntiyiso"],
+          "f": ["Tsakani", "Khensani", "Rirhandzu", "Mixo", "Basani", "Tintswalo", "Nyeleti", "Hlamalani", "Ntsakisi", "Ripfumelo", "Tsundzukani", "Akani"]
+        },
+        "family": ["Baloyi", "Mathebula", "Maluleke", "Chauke", "Ngobeni", "Hlongwane", "Mabunda", "Nkuna", "Rikhotso", "Mkhabela", "Novela", "Manganyi", "Mahlaule", "Shirinda"],
+        "also": { "m": ["Lucky", "Gift", "Samuel", "Joseph", "Patrick", "Daniel"], "f": ["Precious", "Grace", "Patience", "Mercy", "Beauty", "Faith"] }
+      },
+      "venda": {
+        "given": {
+          "m": ["Thendo", "Ndivhuwo", "Takalani", "Rudzani", "Mashudu", "Azwinndini", "Murendeni", "Fhatuwani", "Mulalo", "Tshilidzi", "Ndamulelo", "Pfano", "Dakalo", "Khathu"],
+          "f": ["Rotondwa", "Unarine", "Vhahangwele", "Livhuwani", "Lufuno", "Khathutshelo", "Shonisani", "Phathutshedzo", "Masindi", "Tshifhiwa", "Ndivhudzannyi", "Wavhudi"]
+        },
+        "family": ["Mulaudzi", "Mudau", "Ramabulana", "Netshiavha", "Ravele", "Nemavhola", "Munyai", "Nemaungani", "Sikhwari", "Ramovha", "Rambau", "Madzivhandila", "Mathivha"],
+        "also": { "m": ["Lucky", "Gift", "Samuel", "Daniel", "Joseph", "Thomas"], "f": ["Grace", "Precious", "Patience", "Mercy", "Faith", "Beauty"] }
+      },
+      "ndebele": {
+        "given": {
+          "m": ["Themba", "Bongani", "Sipho", "Mandla", "Jabulani", "Sibusiso", "Mduduzi", "Sifiso", "Thulani", "Nhlanhla", "Vusi", "Sizwe"],
+          "f": ["Thandi", "Nomsa", "Zodwa", "Busisiwe", "Lindiwe", "Nomvula", "Thembi", "Sibongile", "Zanele", "Buhle", "Nompumelelo", "Nonhlanhla"]
+        },
+        "family": ["Mahlangu", "Skosana", "Masilela", "Msiza", "Mtsweni", "Kabini", "Sibanyoni", "Mabena", "Jiyane", "Masango", "Mnguni", "Sindane"],
+        "also": { "m": ["Lucky", "Johannes", "Samuel", "Gift", "Jacob", "Daniel"], "f": ["Precious", "Martha", "Grace", "Beauty", "Patience", "Elizabeth"] }
+      },
+      "afrikaans": {
+        "given": {
+          "m": ["Johan", "Pieter", "Jaco", "Riaan", "Werner", "Gerhard", "Hendrik", "Francois", "Marius", "Wikus", "Danie", "Stefan", "Ruan", "Divan"],
+          "f": ["Annelie", "Marieke", "Elmarie", "Liezl", "Anel", "Mariska", "Carina", "Elize", "Lizelle", "Retha", "Ilse", "Anri", "Chantelle", "Marelize"]
+        },
+        "family": ["Botha", "Van der Merwe", "Pretorius", "Du Plessis", "Smit", "Van Wyk", "Venter", "Nel", "Coetzee", "Steyn", "Joubert", "Fourie", "Kruger", "Du Toit", "Le Roux", "Van Zyl", "Swanepoel"]
+      },
+      "english_sa": {
+        "given": {
+          "m": ["Michael", "David", "Craig", "Grant", "Bradley", "Ryan", "Sean", "Kyle", "Justin", "Gareth", "Warren", "Andrew", "Matthew", "Dylan"],
+          "f": ["Sarah", "Nicole", "Lauren", "Kirsten", "Megan", "Jessica", "Claire", "Tracey", "Kerry", "Samantha", "Jenna", "Emma"]
+        },
+        "family": ["Smith", "Jones", "Taylor", "Brown", "Williams", "Wilson", "Thompson", "Campbell", "Robertson", "Stewart", "Edwards", "Harris", "King", "Clarke"]
+      },
+      "coloured": {
+        "given": {
+          "m": ["Ashwin", "Clint", "Jerome", "Ricardo", "Brandon", "Shaun", "Jason", "Keenan", "Marlon", "Charlton", "Reagan", "Wesley", "Denver", "Lyle", "Eldridge"],
+          "f": ["Chantal", "Natasha", "Michelle", "Bronwyn", "Charlene", "Lee-Ann", "Monique", "Candice", "Jolene", "Chanelle", "Abigail", "Juanita", "Rochelle"]
+        },
+        "family": ["Adams", "Hendricks", "Jacobs", "Williams", "Petersen", "Arendse", "Davids", "Jansen", "Fortuin", "Abrahams", "Isaacs", "Van Wyk", "September", "Africa", "Booysen", "Cupido", "Daniels", "Meyer"]
+      },
+      "cape_muslim": {
+        "given": {
+          "m": ["Mogamat", "Achmat", "Ebrahim", "Yusuf", "Ismail", "Zaid", "Waleed", "Faiek", "Riyaad", "Tashreeq", "Ridwaan", "Abdullah", "Igshaan", "Fuad"],
+          "f": ["Fatima", "Gadija", "Nazeema", "Faldielah", "Shanaaz", "Zulfa", "Nuraan", "Tasneem", "Raeesa", "Mariam", "Waseela", "Soraya"]
+        },
+        "family": ["Abrahams", "Isaacs", "Davids", "Salie", "Allie", "Solomons", "Samuels", "Moos", "Gamieldien", "Kamalie", "Toefy", "Dollie", "Jaffer", "Hendricks"]
+      },
+      "indian": {
+        "given": {
+          "m": ["Rajesh", "Suren", "Dhiren", "Vishal", "Kumaran", "Logan", "Prakash", "Navin", "Kubendran", "Imraan", "Yusuf", "Ashok", "Rakesh", "Previn"],
+          "f": ["Priya", "Kamini", "Nirasha", "Shamila", "Kerisha", "Nishani", "Kershnee", "Theshni", "Shanthi", "Ayesha", "Fathima", "Nazia", "Seema"]
+        },
+        "family": ["Naidoo", "Pillay", "Govender", "Reddy", "Moodley", "Chetty", "Singh", "Maharaj", "Padayachee", "Naicker", "Patel", "Moosa", "Essop", "Ramsamy", "Sewpersad"],
+        "also": { "m": ["Kevin", "Darren", "Desmond", "Clive", "Trevor", "Dean"], "f": ["Sharon", "Denise", "Natalie", "Charlene", "Melissa", "Vanessa"] }
+      }
+    },
+    "weights": {
+      "zulu": 0.23,
+      "xhosa": 0.15,
+      "sotho": 0.08,
+      "tswana": 0.08,
+      "pedi": 0.08,
+      "tsonga": 0.06,
+      "venda": 0.02,
+      "ndebele": 0.02,
+      "afrikaans": 0.07,
+      "english_sa": 0.06,
+      "coloured": 0.09,
+      "cape_muslim": 0.02,
+      "indian": 0.04
+    }
+  },
+  "honorifics": { "elder_m": "Baba", "elder_f": "Mama", "peer_m": "Bra", "peer_f": "Sisi", "boss": "Boss" },
+  "phrases": {
+    "en": {
+      "hello": [["Howzit!", "Hi, how's it going?"], ["Hey, hi!", "Hello"]],
+      "morning": [["Morning!", "Good morning"]],
+      "evening": [["Evening!", "Good evening"]],
+      "how_are_you": [["How are you doing?", "How are you?"], ["Howzit going?", "How's it going?"]],
+      "fine": [["Fine, thanks", "Fine"], ["Lekker, thanks", "Great, thanks"], ["Sharp", "All good"]],
+      "thanks": [["Thanks", "Thank you"], ["Shot!", "Thanks, nice one"]],
+      "bye": [["Cheers!", "Bye"], ["Sharp, later!", "See you later"]],
+      "welcome": [["Welcome, come in", "Welcome"]],
+      "sorry": [["Sorry, hey", "Sorry"], ["Shame, sorry", "Oh, I'm sorry for you"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Ja", "Yes"], ["Yes", "Yes"]],
+      "no": [["No", "No"], ["Nah", "No"]]
+    },
+    "zu": {
+      "hello": [["Sawubona", "Hello (to one person)"], ["Sanibonani", "Hello (to several people, or respectfully)"]],
+      "morning": [["Uvuke kanjani?", "How did you wake up? (good morning)"]],
+      "evening": [["Sawubona", "Hello (said at any time of day)"]],
+      "how_are_you": [["Unjani?", "How are you?"], ["Kunjani?", "How is it?"]],
+      "fine": [["Ngiyaphila", "I am well"], ["Ngikhona", "I'm here (I'm fine)"]],
+      "thanks": [["Ngiyabonga", "Thank you"], ["Ngiyabonga kakhulu", "Thank you very much"]],
+      "bye": [["Sala kahle", "Stay well (said by the one leaving)"], ["Hamba kahle", "Go well (said to the one leaving)"]],
+      "welcome": [["Wamukelekile", "You are welcome here"]],
+      "sorry": [["Ngiyaxolisa", "I'm sorry"], ["Uxolo", "Sorry"]],
+      "excuse": [["Uxolo", "Excuse me"]],
+      "yes": [["Yebo", "Yes"]],
+      "no": [["Cha", "No"]]
+    },
+    "xh": {
+      "hello": [["Molo", "Hello (to one person)"], ["Molweni", "Hello (to several people)"]],
+      "morning": [["Uvuke njani?", "How did you wake up? (good morning)"]],
+      "evening": [["Molweni", "Hello (said at any time of day)"]],
+      "how_are_you": [["Unjani?", "How are you?"], ["Kunjani?", "How is it?"]],
+      "fine": [["Ndiphilile", "I am well"], ["Ndiyaphila", "I am well"]],
+      "thanks": [["Enkosi", "Thank you"], ["Enkosi kakhulu", "Thank you very much"]],
+      "bye": [["Sala kakuhle", "Stay well (said by the one leaving)"], ["Hamba kakuhle", "Go well (said to the one leaving)"]],
+      "welcome": [["Wamkelekile", "You are welcome here"]],
+      "sorry": [["Uxolo", "Sorry"], ["Ndicela uxolo", "I ask your pardon"]],
+      "excuse": [["Uxolo", "Excuse me"]],
+      "yes": [["Ewe", "Yes"]],
+      "no": [["Hayi", "No"]]
+    },
+    "af": {
+      "hello": [["Hallo", "Hello"], ["Haai", "Hi"]],
+      "morning": [["Goeiemôre", "Good morning"], ["Môre!", "Morning!"]],
+      "evening": [["Goeienaand", "Good evening"]],
+      "how_are_you": [["Hoe gaan dit?", "How are you?"]],
+      "fine": [["Goed dankie", "Fine, thanks"], ["Lekker", "Great"]],
+      "thanks": [["Dankie", "Thank you"], ["Baie dankie", "Thank you very much"]],
+      "bye": [["Totsiens", "Goodbye"], ["Lekker bly", "Take care (enjoy your stay)"]],
+      "welcome": [["Welkom", "Welcome"]],
+      "sorry": [["Jammer", "Sorry"]],
+      "excuse": [["Verskoon my", "Excuse me"]],
+      "yes": [["Ja", "Yes"]],
+      "no": [["Nee", "No"]]
+    },
+    "st": {
+      "hello": [["Dumela", "Hello (to one person)"], ["Dumelang", "Hello (to several people)"]],
+      "morning": [["O tsohile jwang?", "How did you wake up? (good morning)"]],
+      "evening": [["Mantsiboya a matle", "Good evening"]],
+      "how_are_you": [["O kae?", "How are you?"], ["O phela jwang?", "How are you keeping?"]],
+      "fine": [["Ke teng", "I'm here (I'm fine)"], ["Ke phela hantle", "I am well"]],
+      "thanks": [["Ke a leboha", "Thank you"]],
+      "bye": [["Sala hantle", "Stay well (said by the one leaving)"], ["Tsamaya hantle", "Go well (said to the one leaving)"]],
+      "welcome": [["O amohelehile", "You are welcome here"]],
+      "sorry": [["Ke kopa tshwarelo", "I ask your forgiveness"]],
+      "excuse": [["Ntshwarele", "Excuse me, pardon me"]],
+      "yes": [["Ee", "Yes"]],
+      "no": [["Tjhe", "No"]]
+    },
+    "tn": {
+      "hello": [["Dumela rra", "Hello, sir"], ["Dumela mma", "Hello, madam"], ["Dumelang", "Hello (to several people)"]],
+      "morning": [["O tsogile jang?", "How did you wake up? (good morning)"]],
+      "evening": [["O tlhotse jang?", "How did you spend the day? (good evening)"]],
+      "how_are_you": [["O kae?", "How are you?"]],
+      "fine": [["Ke teng", "I'm here (I'm fine)"], ["Ke tsogile sentle", "I woke up well"]],
+      "thanks": [["Ke a leboga", "Thank you"]],
+      "bye": [["Sala sentle", "Stay well (said by the one leaving)"], ["Tsamaya sentle", "Go well (said to the one leaving)"]],
+      "welcome": [["O amogelesegile", "You are welcome here"]],
+      "sorry": [["Ke maswabi", "I'm sorry"]],
+      "excuse": [["Intshwarele", "Excuse me, pardon me"]],
+      "yes": [["Ee", "Yes"]],
+      "no": [["Nnyaa", "No"]]
+    },
+    "nso": {
+      "hello": [["Thobela", "Hello (respectful)"], ["Dumelang", "Hello"]],
+      "morning": [["O tsogile bjang?", "How did you wake up? (good morning)"]],
+      "evening": [["Thobela", "Hello (respectful, at any time of day)"]],
+      "how_are_you": [["O kae?", "How are you?"], ["Le kae?", "How are you all?"]],
+      "fine": [["Ke gona", "I'm here (I'm fine)"]],
+      "thanks": [["Ke a leboga", "Thank you"], ["Ke a leboga kudu", "Thank you very much"]],
+      "bye": [["Šala gabotse", "Stay well (said by the one leaving)"], ["Sepela gabotse", "Go well (said to the one leaving)"]],
+      "welcome": [["Re a go amogela", "We welcome you"]],
+      "sorry": [["Ntshwarele", "Forgive me, sorry"]],
+      "excuse": [["Tshwarelo", "Pardon, excuse me"]],
+      "yes": [["Ee", "Yes"]],
+      "no": [["Aowa", "No"]]
+    },
+    "ts": {
+      "hello": [["Xewani", "Hello"], ["Avuxeni", "Hello, good morning"]],
+      "morning": [["Avuxeni", "Good morning"]],
+      "evening": [["Riperile", "Good evening"]],
+      "how_are_you": [["Ku njhani?", "How are you?"], ["Mi njhani?", "How are you? (respectful)"]],
+      "fine": [["Ndzi kona", "I'm fine"], ["Ndzi kona, ndza nkhensa", "I'm fine, thank you"]],
+      "thanks": [["Inkomu", "Thank you"], ["Ndza nkhensa", "I thank you"]],
+      "bye": [["Sala kahle", "Stay well (said by the one leaving)"], ["Famba kahle", "Go well (said to the one leaving)"]],
+      "welcome": [["Ha mi amukela", "We welcome you"]],
+      "sorry": [["Ndzi kombela ku khomeriwa", "I ask your forgiveness"]],
+      "excuse": [["Ndzi khomeleni", "Excuse me"]],
+      "yes": [["Ina", "Yes"]],
+      "no": [["E-e", "No"]]
+    },
+    "ve": {
+      "hello": [["Ndaa", "Hello (said by a man)"], ["Aa", "Hello (said by a woman)"]],
+      "morning": [["Ndi matsheloni", "Good morning"]],
+      "evening": [["Ndi madekwana", "Good evening"]],
+      "how_are_you": [["Vho vuwa hani?", "How did you wake up? (respectful)"], ["Hu ita hani?", "How is it going?"]],
+      "fine": [["Ndo vuwa", "I woke up well (I'm fine)"]],
+      "thanks": [["Ndo livhuwa", "Thank you"], ["Ndo livhuwa nga maanda", "Thank you very much"]],
+      "bye": [["Kha vha sale", "Stay well (to the one staying)"], ["Vha tshimbile zwavhudi", "Go well (to the one leaving)"]],
+      "welcome": [["Ri a ni ṱanganedza", "We welcome you"]],
+      "sorry": [["Ndi khou humbela pfarelo", "I am asking for forgiveness"]],
+      "excuse": [["Pfarelo", "Pardon"]],
+      "yes": [["Ee", "Yes"]],
+      "no": [["Hai", "No"]]
+    }
+  },
+  "money": {
+    "currency": "ZAR",
+    "symbol": "R",
+    "words": [
+      ["rand", "the currency, also said as 'bucks'"],
+      ["bucks", "rand, in casual talk (fifty bucks)"],
+      ["mali", "money, from isiZulu imali"],
+      ["zaka", "money, in township slang"],
+      ["a bar", "a thousand rand, in slang"],
+      ["change", "coins, small money for the taxi"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_South_Africa",
+    "https://en.wikipedia.org/wiki/South_African_English",
+    "https://en.wikipedia.org/wiki/Zulu_language",
+    "https://en.wikipedia.org/wiki/Xhosa_language",
+    "https://en.wikipedia.org/wiki/Afrikaans",
+    "https://en.wikipedia.org/wiki/Sotho_language",
+    "https://en.wikipedia.org/wiki/Tswana_language",
+    "https://en.wikipedia.org/wiki/Northern_Sotho_language",
+    "https://en.wikipedia.org/wiki/Tsonga_language",
+    "https://en.wikipedia.org/wiki/Venda_language",
+    "https://en.wikipedia.org/wiki/Southern_Ndebele_language",
+    "https://en.wikipedia.org/wiki/Zulu_people",
+    "https://en.wikipedia.org/wiki/Xhosa_clan_names",
+    "https://en.wikipedia.org/wiki/Cape_Malays",
+    "https://en.wikipedia.org/wiki/Coloureds",
+    "https://en.wikipedia.org/wiki/Indian_South_Africans",
+    "https://en.wikipedia.org/wiki/South_African_rand",
+    "https://www.omniglot.com/language/phrases/tsonga.htm",
+    "https://www.omniglot.com/language/phrases/venda.htm",
+    "https://www.omniglot.com/language/phrases/northernsotho.htm"
+  ]
+}

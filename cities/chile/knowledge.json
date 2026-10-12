@@ -1,0 +1,783 @@
+{
+  "languages": [
+    {
+      "code": "es",
+      "name": "Spanish",
+      "official": true,
+      "spoken": "widely"
+    },
+    {
+      "code": "ht",
+      "name": "Haitian Creole",
+      "official": false,
+      "spoken": "some"
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "official": false,
+      "spoken": "some"
+    }
+  ],
+  "names": {
+    "order": "given family family",
+    "conventions": "Chileans carry two surnames, the father's first and the mother's second (Josefa Muñoz Rojas), and both are used on forms, at school and at work. Two given names are usual too (José Tomás, María Ignacia). Popular names lean classic: Agustín, Benjamín, Vicente, Isidora, Josefa, Trinidad, Antonia. González and Muñoz top the surname list. Mapuche families carry surnames from Mapudungun (Painemal, Catrileo, Huenchullán) and sometimes Mapuche given names like Rayén or Millaray. Santiago also has large Venezuelan, Peruvian and Haitian communities.",
+    "groups": {
+      "chilean": {
+        "given": {
+          "m": [
+            "Agustín",
+            "Benjamín",
+            "Vicente",
+            "Martín",
+            "Matías",
+            "Joaquín",
+            "Tomás",
+            "Maximiliano",
+            "Cristóbal",
+            "Sebastián",
+            "Felipe",
+            "Ignacio",
+            "Diego",
+            "Nicolás",
+            "José Tomás",
+            "Juan Pablo",
+            "Rodrigo",
+            "Gonzalo",
+            "Cristián",
+            "Mauricio",
+            "Patricio"
+          ],
+          "f": [
+            "Sofía",
+            "Isidora",
+            "Florencia",
+            "Josefa",
+            "Agustina",
+            "Emilia",
+            "Antonia",
+            "Trinidad",
+            "Catalina",
+            "Martina",
+            "Fernanda",
+            "Constanza",
+            "Javiera",
+            "Valentina",
+            "Francisca",
+            "Camila",
+            "Daniela",
+            "Carolina",
+            "Paulina",
+            "Macarena",
+            "María Ignacia"
+          ]
+        },
+        "family": [
+          "González",
+          "Muñoz",
+          "Rojas",
+          "Díaz",
+          "Pérez",
+          "Soto",
+          "Contreras",
+          "Silva",
+          "Martínez",
+          "Sepúlveda",
+          "Morales",
+          "Rodríguez",
+          "López",
+          "Fuentes",
+          "Hernández",
+          "Torres",
+          "Araya",
+          "Flores",
+          "Espinoza",
+          "Valenzuela",
+          "Castillo",
+          "Tapia",
+          "Reyes",
+          "Gutiérrez",
+          "Castro",
+          "Pizarro",
+          "Álvarez",
+          "Vásquez",
+          "Carrasco",
+          "Cortés",
+          "Herrera",
+          "Núñez",
+          "Jara",
+          "Vergara",
+          "Figueroa",
+          "Riquelme",
+          "Bravo",
+          "Sandoval",
+          "Orellana",
+          "Zúñiga",
+          "Olivares",
+          "Alarcón",
+          "Henríquez",
+          "Saavedra",
+          "Aravena",
+          "Urrutia",
+          "Echeverría",
+          "Larraín"
+        ]
+      },
+      "mapuche": {
+        "given": {
+          "m": [
+            "Nahuel",
+            "Lautaro",
+            "Ignacio",
+            "José",
+            "Juan",
+            "Luis",
+            "Carlos",
+            "Pedro",
+            "Manuel",
+            "Héctor",
+            "Cristián",
+            "Matías"
+          ],
+          "f": [
+            "Ayelén",
+            "Rayén",
+            "Millaray",
+            "Aylin",
+            "María",
+            "Rosa",
+            "Juana",
+            "Carmen",
+            "Daniela",
+            "Valentina",
+            "Catalina",
+            "Camila"
+          ]
+        },
+        "family": [
+          "Millán",
+          "Huenchullán",
+          "Painemal",
+          "Catrileo",
+          "Ñancupil",
+          "Llancaqueo",
+          "Calfucura",
+          "Antileo",
+          "Huaiquimilla",
+          "Quilaqueo",
+          "Cayupán",
+          "Nahuelpán",
+          "Marileo",
+          "Pailalef",
+          "Curín",
+          "Coliqueo"
+        ]
+      },
+      "venezuelan": {
+        "given": {
+          "m": [
+            "José",
+            "Luis",
+            "Carlos",
+            "Jesús",
+            "Miguel",
+            "Alejandro",
+            "Jorge",
+            "Daniel",
+            "Andrés",
+            "Gabriel",
+            "Rafael",
+            "Héctor",
+            "Johan"
+          ],
+          "f": [
+            "María",
+            "Daniela",
+            "Andrea",
+            "Gabriela",
+            "Mariana",
+            "Valentina",
+            "Carolina",
+            "Andreína",
+            "Génesis",
+            "Oriana",
+            "Fabiola",
+            "Yuliana",
+            "Rosángela"
+          ]
+        },
+        "family": [
+          "González",
+          "Rodríguez",
+          "Pérez",
+          "Hernández",
+          "García",
+          "Martínez",
+          "López",
+          "Díaz",
+          "Rondón",
+          "Briceño",
+          "Contreras",
+          "Colmenares",
+          "Villalobos",
+          "Uzcátegui",
+          "Pacheco",
+          "Rivas",
+          "Medina",
+          "Marcano",
+          "Guevara",
+          "Sánchez"
+        ]
+      },
+      "peruvian": {
+        "given": {
+          "m": [
+            "Luis",
+            "José",
+            "Carlos",
+            "Jorge",
+            "César",
+            "Miguel",
+            "Juan",
+            "Víctor",
+            "Raúl",
+            "Alberto",
+            "Manuel",
+            "Renzo",
+            "Piero"
+          ],
+          "f": [
+            "María",
+            "Rosa",
+            "Ana",
+            "Carmen",
+            "Lucía",
+            "Milagros",
+            "Rocío",
+            "Karina",
+            "Fiorella",
+            "Valeria",
+            "Claudia",
+            "Pamela",
+            "Gianella"
+          ]
+        },
+        "family": [
+          "Quispe",
+          "Flores",
+          "Sánchez",
+          "Rodríguez",
+          "García",
+          "Huamán",
+          "Mamani",
+          "Rojas",
+          "Chávez",
+          "Vásquez",
+          "Ramos",
+          "Díaz",
+          "Torres",
+          "Mendoza",
+          "Vargas",
+          "Castillo",
+          "Condori",
+          "Paredes"
+        ]
+      },
+      "haitian": {
+        "given": {
+          "m": [
+            "Jean",
+            "Pierre",
+            "Joseph",
+            "Wilson",
+            "Frantz",
+            "Jacques",
+            "Emmanuel",
+            "Ricardo",
+            "Kervens",
+            "Stevenson",
+            "Jonas",
+            "Wilner",
+            "Fritz"
+          ],
+          "f": [
+            "Marie",
+            "Rose",
+            "Nadège",
+            "Fabiola",
+            "Mirlande",
+            "Guerline",
+            "Widline",
+            "Esther",
+            "Nathalie",
+            "Sandra",
+            "Roseline",
+            "Lovely",
+            "Daphnée"
+          ]
+        },
+        "family": [
+          "Pierre",
+          "Joseph",
+          "Jean-Baptiste",
+          "Louis",
+          "Charles",
+          "Saint-Louis",
+          "Augustin",
+          "Dorvil",
+          "Étienne",
+          "François",
+          "Désir",
+          "Michel",
+          "Paul",
+          "Alexis",
+          "Célestin"
+        ]
+      }
+    },
+    "weights": {
+      "chilean": 0.86,
+      "mapuche": 0.07,
+      "venezuelan": 0.04,
+      "peruvian": 0.02,
+      "haitian": 0.01
+    }
+  },
+  "honorifics": {
+    "elder_m": "Don",
+    "elder_f": "Señora",
+    "peer_m": "Compadre",
+    "peer_f": "Amiga",
+    "boss": "Jefe"
+  },
+  "phrases": {
+    "es": {
+      "hello": [
+        [
+          "¡Hola!",
+          "Hello!"
+        ],
+        [
+          "¡Buenas!",
+          "Hi there!"
+        ],
+        [
+          "¿Cómo estái?",
+          "How are you? (casual Chilean)"
+        ]
+      ],
+      "morning": [
+        [
+          "Buenos días",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Buenas tardes",
+          "Good afternoon"
+        ],
+        [
+          "Buenas noches",
+          "Good evening, good night"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "¿Cómo está?",
+          "How are you? (polite)"
+        ],
+        [
+          "¿Cómo estái?",
+          "How are you? (casual)"
+        ],
+        [
+          "¿Qué tal?",
+          "How's it going?"
+        ]
+      ],
+      "fine": [
+        [
+          "Bien, gracias",
+          "Fine, thanks"
+        ],
+        [
+          "Todo bien",
+          "All good"
+        ],
+        [
+          "Aquí, bien",
+          "Doing fine"
+        ]
+      ],
+      "thanks": [
+        [
+          "Gracias",
+          "Thank you"
+        ],
+        [
+          "Muchas gracias",
+          "Thank you very much"
+        ]
+      ],
+      "bye": [
+        [
+          "Chao",
+          "Bye"
+        ],
+        [
+          "Nos vemos",
+          "See you"
+        ],
+        [
+          "Que estés bien",
+          "Take care"
+        ]
+      ],
+      "welcome": [
+        [
+          "Bienvenido",
+          "Welcome"
+        ],
+        [
+          "Pase no más",
+          "Come on in"
+        ]
+      ],
+      "sorry": [
+        [
+          "Perdón",
+          "Sorry"
+        ],
+        [
+          "Disculpe",
+          "Sorry (polite)"
+        ]
+      ],
+      "excuse": [
+        [
+          "Permiso",
+          "Excuse me, coming through"
+        ],
+        [
+          "Disculpe",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Sí",
+          "Yes"
+        ],
+        [
+          "Ya",
+          "Okay, yes"
+        ],
+        [
+          "Ya po",
+          "Okay then"
+        ]
+      ],
+      "no": [
+        [
+          "No",
+          "No"
+        ],
+        [
+          "No po",
+          "No (with the Chilean 'po')"
+        ]
+      ]
+    },
+    "ht": {
+      "hello": [
+        [
+          "Bonjou",
+          "Hello, good morning"
+        ],
+        [
+          "Sak pase?",
+          "What's up?"
+        ]
+      ],
+      "morning": [
+        [
+          "Bonjou",
+          "Good morning"
+        ]
+      ],
+      "evening": [
+        [
+          "Bonswa",
+          "Good afternoon, good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "Kijan ou ye?",
+          "How are you?"
+        ],
+        [
+          "Sak pase?",
+          "What's happening?"
+        ]
+      ],
+      "fine": [
+        [
+          "M byen, mèsi",
+          "I'm well, thanks"
+        ],
+        [
+          "N ap boule",
+          "We're rolling, all good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Mèsi",
+          "Thanks"
+        ],
+        [
+          "Mèsi anpil",
+          "Thanks a lot"
+        ]
+      ],
+      "bye": [
+        [
+          "Orevwa",
+          "Goodbye"
+        ],
+        [
+          "N a wè pita",
+          "See you later"
+        ]
+      ],
+      "welcome": [
+        [
+          "Byenveni",
+          "Welcome"
+        ],
+        [
+          "Antre non",
+          "Come on in"
+        ]
+      ],
+      "sorry": [
+        [
+          "Eskize m",
+          "Sorry"
+        ],
+        [
+          "Padon",
+          "Pardon"
+        ]
+      ],
+      "excuse": [
+        [
+          "Eskize m",
+          "Excuse me"
+        ],
+        [
+          "Souple",
+          "Please"
+        ]
+      ],
+      "yes": [
+        [
+          "Wi",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Non",
+          "No"
+        ]
+      ]
+    },
+    "en": {
+      "hello": [
+        [
+          "Hey!",
+          "Hello"
+        ],
+        [
+          "Hi there!",
+          "Hello"
+        ],
+        [
+          "What's up?",
+          "Hi, how are things?"
+        ]
+      ],
+      "morning": [
+        [
+          "Good morning!",
+          "Good morning"
+        ],
+        [
+          "Mornin'!",
+          "Morning!"
+        ]
+      ],
+      "evening": [
+        [
+          "Good evening",
+          "Good evening"
+        ],
+        [
+          "Evening!",
+          "Good evening"
+        ]
+      ],
+      "how_are_you": [
+        [
+          "How's it going?",
+          "How are you?"
+        ],
+        [
+          "How are you doing?",
+          "How are you?"
+        ],
+        [
+          "How you doin'?",
+          "How are you? (casual)"
+        ]
+      ],
+      "fine": [
+        [
+          "Good, thanks!",
+          "Fine, thanks"
+        ],
+        [
+          "Not bad",
+          "Fine"
+        ],
+        [
+          "Can't complain",
+          "All good"
+        ]
+      ],
+      "thanks": [
+        [
+          "Thanks!",
+          "Thank you"
+        ],
+        [
+          "Thank you so much",
+          "Thank you very much"
+        ],
+        [
+          "Appreciate it",
+          "Thanks"
+        ]
+      ],
+      "bye": [
+        [
+          "See you later!",
+          "Goodbye"
+        ],
+        [
+          "Take care!",
+          "Goodbye"
+        ],
+        [
+          "Have a good one!",
+          "Have a good day"
+        ]
+      ],
+      "welcome": [
+        [
+          "Welcome!",
+          "Welcome"
+        ],
+        [
+          "Come on in!",
+          "Please come in"
+        ]
+      ],
+      "sorry": [
+        [
+          "Sorry!",
+          "Sorry"
+        ],
+        [
+          "My bad",
+          "Sorry, my fault"
+        ]
+      ],
+      "excuse": [
+        [
+          "Excuse me",
+          "Excuse me"
+        ],
+        [
+          "Pardon me",
+          "Excuse me"
+        ]
+      ],
+      "yes": [
+        [
+          "Yeah",
+          "Yes"
+        ],
+        [
+          "Sure",
+          "Yes, of course"
+        ],
+        [
+          "Yep",
+          "Yes"
+        ]
+      ],
+      "no": [
+        [
+          "Nope",
+          "No"
+        ],
+        [
+          "No, thanks",
+          "No, thank you"
+        ]
+      ]
+    }
+  },
+  "money": {
+    "currency": "CLP",
+    "symbol": "$",
+    "words": [
+      [
+        "luca",
+        "a thousand pesos"
+      ],
+      [
+        "gamba",
+        "a hundred pesos"
+      ],
+      [
+        "quina",
+        "five hundred pesos"
+      ],
+      [
+        "palo",
+        "a million pesos"
+      ],
+      [
+        "plata",
+        "money"
+      ],
+      [
+        "chaucha",
+        "small change, almost nothing"
+      ]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Chilean_Spanish",
+    "https://en.wikipedia.org/wiki/Spanish_naming_customs",
+    "https://en.wikipedia.org/wiki/Mapuche",
+    "https://www.ine.gob.cl",
+    "https://www.registrocivil.cl",
+    "https://forebears.io/chile/surnames"
+  ]
+}

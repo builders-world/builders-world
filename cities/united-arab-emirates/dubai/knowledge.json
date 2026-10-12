@@ -1,0 +1,108 @@
+{
+  "street": { "en": 0.46, "ar": 0.14, "hi": 0.22, "ml": 0.1, "fil": 0.08 },
+  "names": { "weights": { "emirati": 0.09, "indian": 0.21, "malayali": 0.15, "pakistani": 0.14, "bangladeshi": 0.07, "filipino": 0.1, "egyptian": 0.07, "levantine": 0.09, "western": 0.08 } },
+  "phrases": {
+    "ar": {
+      "hello": [["Hala habibi", "Hi, my dear"], ["Hala wallah, wainak?", "Hey, where have you been?"]],
+      "agree": [["Yalla", "Come on, let's go"], ["Khalas", "Done, enough, that's it"], ["Inshallah", "God willing, also a gentle maybe"]],
+      "very": [["Wayed", "Very, a lot, Emirati (وايد)"]]
+    },
+    "hi": {
+      "hello": [["Kya scene hai bhai?", "What's the plan, brother?"]],
+      "fine": [["Sab set hai", "Everything's sorted"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! How's it going?", "Hi habibi, long time!", "Hey, all good with you?", "Hello my friend, how's work treating you?", "Evening! Coming from the office?"],
+      "reply": ["All good, alhamdulillah. You?", "Good, good, just busy as usual.", "Can't complain, the weekend is close.", "Fine, thanks! Just survived Sheikh Zayed Road.", "All good, yalla, you tell me."],
+      "sunny": ["Forty-five today. I'm not leaving the AC.", "Too hot to walk even to the metro.", "Lovely weather, finally beach season.", "The humidity is crazy this morning, my glasses fogged up.", "Perfect evening for a walk at Kite Beach."],
+      "rain": ["Rain in Dubai! Everyone's filming it.", "Careful on the roads, nobody here knows how to drive in rain.", "Proper storm, they've told people to work from home.", "Sandstorm today, close your windows.", "The sky's gone orange with dust, crazy."],
+      "bye": ["Yalla, see you!", "Take care, habibi.", "Catch you at the weekend.", "Bye, drive safe.", "See you later, inshallah."],
+      "busy": ["Sorry, running to catch the metro!", "Got a client call in five, talk later.", "Stuck in traffic, I'll call you back.", "Can't stop, my shift starts now.", "Late for a meeting in DIFC, sorry!"]
+    },
+    "ar": {
+      "greet": ["Marhaba! Shlonik?", "Hala wallah, shakhbarak?", "Assalamu alaikum, shlonik al yoom?", "Sabah el khair! Kaif al hal?", "Hala habibi, wainak?"],
+      "reply": ["Zain, alhamdulillah. Wa inta?", "Bekhair, Allah ysalmik.", "Killa zain, mashkoor.", "Tamam, alhamdulillah."],
+      "sunny": ["Al jaw har wayed al yoom.", "Al shams gawiya, ishrab mai.", "Al rutooba wayed al yoom!", "Al jaw zain, yalla nitmasha 'al shati'."],
+      "rain": ["Al matar nazal, mashallah!", "Al matar yinzil, intabih fil sayyara.", "Al jaw ghaim al yoom.", "Ghubar wayed al yoom, sakkir al dirisha."],
+      "bye": ["Ma'a salama!", "Fi aman Allah.", "Yalla, nshoofik ba'dain.", "Allah yhafdhik."],
+      "busy": ["Asif, ana mista'jil wayed.", "Mashghool al heen, akallmik ba'dain.", "Lazim aroh al dawam.", "Al zahma wayed, lazim atharrak al heen."]
+    },
+    "hi": {
+      "greet": ["Kya haal hai bhai?", "Namaste ji, kaise ho?", "Assalamu alaikum bhai, sab theek?", "Arre bhai, bade dinon baad!", "Kaisa chal raha hai kaam?"],
+      "reply": ["Sab badhiya, aap sunao.", "Theek hai bhai, chal raha hai.", "Sab khair hai, shukriya.", "Mast hai yaar."],
+      "sunny": ["Aaj bahut garmi hai yaar.", "Dhoop bahut tez hai, paani peete raho.", "Aaj mausam accha hai, Creek pe chalein?", "AC ke bina toh jeena mushkil hai."],
+      "rain": ["Arre, Dubai mein baarish! Kamaal hai.", "Baarish ho rahi hai, gaadi dheere chalana.", "Aaj bahut dhool hai, khidki band rakho.", "Baadal aaye hain, shayad baarish hogi."],
+      "bye": ["Chalo, phir milte hain.", "Khuda hafiz bhai.", "Achha, chalta hoon.", "Dhyaan rakhna."],
+      "busy": ["Bhai, abhi duty pe hoon, baad mein baat karte hain.", "Jaldi mein hoon, metro pakadni hai.", "Shift shuru hone wali hai, nikalta hoon.", "Abhi time nahin hai yaar, sorry."]
+    },
+    "ml": {
+      "greet": ["Enthokke undu visesham?", "Chetta, sukhamano?", "Namaskaram! Evideya pokunne?", "Kure naal aayallo kandittu!", "Bhakshanam kazhicho?"],
+      "reply": ["Sukham thanne, ningalo?", "Kuzhappamilla, nannayi pokunnu.", "Nannayi irikkunnu, nanni.", "Angane pokunnu."],
+      "sunny": ["Enthoru choodu!", "Innu nalla veyil aanu, vellam kudikkane.", "Nalla kaalavastha, beachil pokam?", "Choodu sahikkan pattunnilla."],
+      "rain": ["Mazha! Naattil ninnu varunna pole thonnunnu.", "Mazha peyyunnu, sookshichu odikkane.", "Ivide mazha kandittu ethra naal aayi!", "Kaattum podiyum undu, jannal adakku."],
+      "bye": ["Shari, pinne kaanam.", "Poyittu varaam.", "Sookshikkane.", "Shari chetta, vilikkam."],
+      "busy": ["Ippo kurachu thirakkanu, pinne vilikkam.", "Duty-kku late aayi, pokatte!", "Metro pidikkanam, pinne kaanam.", "Shift thudangan pokunnu, sorry."]
+    },
+    "fil": {
+      "greet": ["Uy kabayan! Kumusta?", "Kumusta ka na?", "Musta, pre?", "Magandang umaga po!", "Uy, ikaw pala! Long time!"],
+      "reply": ["Okay lang, ikaw?", "Mabuti naman, salamat.", "Ayos lang, kayod lang.", "Eto, laban lang."],
+      "sunny": ["Grabe ang init ngayon!", "Ang init, parang oven sa labas.", "Ganda ng panahon, tara sa beach!", "Uminom ka ng tubig, ang init."],
+      "rain": ["Umuulan! Bihira 'to dito.", "Ingat sa daan, madulas.", "Ang lakas ng hangin, maalikabok.", "Parang nasa Pinas lang, umuulan."],
+      "bye": ["Sige, ingat ka!", "Una na ako, ingat!", "Kita tayo ulit.", "Babay! Ingat."],
+      "busy": ["Sorry, may duty pa ako.", "Nagmamadali ako, male-late na ako sa trabaho.", "Mamaya na lang tayo mag-usap, ha?", "Hahabol pa ako sa metro."]
+    }
+  },
+  "transport": {
+    "metro": "Dubai Metro (Red and Green lines)",
+    "tram": "Dubai Tram",
+    "bus": "RTA bus",
+    "taxi": "taxi",
+    "ride_hail": "Careem or Uber",
+    "boat": "abra (the wooden water taxi across the Creek)",
+    "card": "Nol card",
+    "toll": "Salik",
+    "stage": "metro station or bus stop"
+  },
+  "touts": ["Abra, abra! Deira side, one dirham!", "Taxi, sir? Taxi?", "Come, come, have a look, best price!", "Pashmina, pashmina, good price for you, madam!", "Saffron, spices, very good quality, my friend!", "Desert safari, today evening, pick-up from hotel!", "Gold, gold, come inside, just looking is free!"],
+  "hawkers": [
+    ["Karak chai, karak!", "Strong spiced milk tea!"],
+    ["Shawarma, fresh shawarma!", "Fresh shawarma!"],
+    ["Fresh juice, avocado, mango!", "Fresh juice and shakes!"],
+    ["Cold water, cold drinks!", "Cold water, cold drinks!"],
+    ["Hala, tfaddal, gahwa!", "Welcome, please, have some coffee!"],
+    ["Chips Oman paratha, hot!", "Hot paratha rolled with Chips Oman!"],
+    ["Luqaimat, fresh luqaimat!", "Sweet dumplings with date syrup!"]
+  ],
+  "food": {
+    "street": ["shawarma", "karak chai", "falafel", "samosa", "manakish", "luqaimat", "Chips Oman paratha", "regag bread with egg and cheese"],
+    "dishes": ["machboos", "harees", "thareed", "biryani", "balaleet", "madrooba", "Kerala porotta and beef fry", "mandi"],
+    "drinks": ["karak chai", "gahwa (Arabic coffee with cardamom)", "laban", "avocado shake", "camel milk", "sulaimani", "Vimto", "fresh lemon mint"]
+  },
+  "places": {
+    "neighbourhoods": ["Deira", "Bur Dubai", "Karama", "Al Barsha", "Jumeirah", "Dubai Marina", "Jumeirah Lake Towers", "Business Bay", "Downtown Dubai", "Al Quoz", "Satwa", "Al Qusais", "Mirdif", "International City", "Jumeirah Village Circle", "Dubai Silicon Oasis"],
+    "streets": ["Sheikh Zayed Road", "Al Wasl Road", "Jumeirah Beach Road", "Al Rigga Road", "Al Fahidi Street", "Al Khail Road", "Naif Road", "2nd December Street", "Emirates Road"],
+    "landmarks": ["Burj Khalifa", "Dubai Mall", "Dubai Creek", "Gold Souk", "Spice Souk", "Al Fahidi Historical Neighbourhood", "Burj Al Arab", "Dubai Frame", "Museum of the Future", "Palm Jumeirah", "Mall of the Emirates", "Kite Beach", "Dubai Internet City", "Global Village"]
+  },
+  "small_talk": [
+    "Sheikh Zayed Road was a car park again this morning.",
+    "Too hot for the beach till October, honestly.",
+    "Took the abra across the Creek, still the best deal in town.",
+    "Topped up my Nol card, the metro is the only sane way to the Marina.",
+    "That cafeteria in Karama still does the best karak.",
+    "Salik got me twice today, I keep forgetting.",
+    "Winter is here, everyone is out at Kite Beach.",
+    "Going to Global Village this weekend?",
+    "My building in JVC has a pool and nobody uses it till December.",
+    "Rent in the Marina went up again."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Dubai",
+    "https://en.wikipedia.org/wiki/Dubai_Metro",
+    "https://en.wikipedia.org/wiki/Abra_(boat)",
+    "https://en.wikipedia.org/wiki/Emirati_cuisine",
+    "https://en.wikipedia.org/wiki/Karak_tea",
+    "https://en.wikipedia.org/wiki/Salik_(road_toll)"
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "street": { "bm": 0.82, "fr": 0.15, "en": 0.03 },
+  "names": { "weights": { "bambara": 0.58, "malinke": 0.14, "fulani": 0.15, "soninke": 0.13 } },
+  "phrases": {
+    "bm": {
+      "hello": [["I ni ce!", "Hello!"], ["I ni sɔgɔma!", "Good morning!"]],
+      "fine": [["Tɔɔrɔ si tɛ", "No trouble"], ["Hɛrɛ dɔrɔn", "Peace only"]],
+      "bye": [["K'an bɛn!", "See you!"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Good morning! Did you sleep well?", "Hello, how is the family?", "Good evening, no trouble today?", "Ah my friend, how is work?", "Peace be with you, how are things?"],
+      "reply": ["Fine, no trouble at all.", "Peace only, thank you.", "The family is well, thank God.", "We are here, thanks for asking.", "All good, and yours?"],
+      "sunny": ["The heat is serious today, find shade.", "Hot season in Bamako, drink plenty of water.", "Good day to sit by the river.", "The sun is hard on the Pont Fahd at noon.", "Too hot to walk, I'll take a sotrama."],
+      "rain": ["The rainy season has started!", "Rain is coming, the sky is red with dust first.", "The roads in Kalaban will be mud after this.", "This rain will cool the city down.", "Wait under the shelter, it will pass."],
+      "bye": ["See you tomorrow!", "Good night, sleep in peace.", "Greet the family for me.", "Go well!", "See you at the grin later."],
+      "busy": ["Sorry, the sotrama is leaving.", "I'm late for work, we'll talk.", "Traffic on the bridge, I have to go.", "Let me run to the Grand Marché before it closes.", "I'll call you this evening."]
+    },
+    "bm": {
+      "greet": ["I ni sɔgɔma! I ka kɛnɛ wa?", "Aw ni ce! Hɛrɛ tɛ?", "I ni wula! Somɔgɔw ka kɛnɛ wa?", "N teri, i ni ce! I ka kɛnɛ?", "I ni su! Hɛrɛ tɛ?"],
+      "reply": ["N'ba, tɔɔrɔ si tɛ.", "N'se, hɛrɛ dɔrɔn.", "Hɛrɛ dɔrɔn, i ni ce.", "Tɔɔrɔ si tɛ, Ala ka tanu."],
+      "sunny": ["Funteni ka bon bi!", "Tile ka gɛlɛn bi!", "Funteni bɛ yen kosɛbɛ.", "Ji suma bɛ yen wa?"],
+      "rain": ["Sanji bɛ na!", "Sanji nana!", "Samiya sera!", "Nɛnɛ bɛ yen bi."],
+      "bye": ["K'an bɛn!", "K'an bɛn sini!", "Ka su hɛrɛ caya.", "I ni ce, k'an bɛn!"],
+      "busy": ["Baara ka ca bi!", "N bɛ taa baara la.", "N bɛ taa sisan, k'an bɛn.", "Sotrama bɛ n makɔnɔ!"]
+    },
+    "fr": {
+      "greet": ["Bonjour, ça va? La famille va bien?", "Bonsoir! Ça fait longtemps!", "Salut, on dit quoi?", "Bonjour tonton, bien dormi?"],
+      "reply": ["Ça va, pas de problème.", "On est là, merci.", "Ça va bien, Dieu merci.", "Ça va un peu, et toi?"],
+      "sunny": ["Il fait chaud dêh!", "Le soleil tape fort aujourd'hui.", "Belle journée au bord du fleuve.", "Avec cette chaleur, il faut de l'eau glacée."],
+      "rain": ["L'hivernage est arrivé!", "La pluie arrive, il y a du vent.", "Avec la pluie, les goudrons sont inondés.", "Attends que la pluie passe."],
+      "bye": ["À demain, inch'Allah.", "Bonne nuit!", "On se voit au grin.", "Salue la famille."],
+      "busy": ["Je suis pressé, on se parle.", "Je suis en retard au boulot.", "Le sotrama part, je file!", "Je t'appelle ce soir."]
+    }
+  },
+  "transport": { "bus": "sotrama", "moto_taxi": "moto-taxi", "tricycle": "katakatani", "taxi": "taxi", "shared_taxi": "duruni", "conductor": "apprenti", "stage": "gare" },
+  "touts": [
+    "Kati! Kati!",
+    "Kalaban Coura! Kalaban!",
+    "Grand Marché! Grand Marché!",
+    "Badalabougou!",
+    "Djicoroni, Djicoroni!",
+    "Sogoniko! Faladié!",
+    "Banconi! Banconi!",
+    "Hamdallaye, Lafiabougou!"
+  ],
+  "hawkers": [
+    ["Ji suma! Ji suma!", "Cold water!"],
+    ["Dabileni suma!", "Cold hibiscus juice!"],
+    ["Ɲamakuji!", "Ginger juice!"],
+    ["Sogo! Brochettes!", "Meat skewers!"],
+    ["Fritte! Fritte!", "Fried plantain and sweet potato!"],
+    ["Tiga! Tiga!", "Peanuts! Peanuts!"],
+    ["Crédit! Crédit!", "Phone credit!"]
+  ],
+  "food": {
+    "street": ["brochettes", "fritte (fried plantain, potato and fish)", "roasted peanuts", "ngomi (millet fritters)", "fried fish by the river", "mangoes in season"],
+    "dishes": ["tigadɛgɛna (peanut sauce)", "riz au gras (zamè)", "tô with okra sauce", "fonio", "capitaine braisé (grilled Nile perch)", "dégué (millet and yoghurt)", "riz sauce feuille"],
+    "drinks": ["dabileni (hibiscus juice)", "ɲamakuji (ginger juice)", "green tea at the grin (three rounds)", "tamarind juice", "dégué", "Castel beer"]
+  },
+  "places": {
+    "neighbourhoods": ["Hamdallaye", "ACI 2000", "Badalabougou", "Hippodrome", "Lafiabougou", "Djicoroni", "Kalaban Coura", "Missira", "Médina Coura", "Niarela", "Bagadadji", "Quinzambougou", "Faladié", "Sogoniko", "Sébénikoro", "Banconi", "Torokorobougou", "Magnambougou"],
+    "streets": ["Boulevard de l'Indépendance", "Avenue du Fleuve", "Route de Koulikoro", "Avenue Cheick Zayed", "Avenue Mohamed V", "Route de Guinée", "Pont des Martyrs", "Pont Roi Fahd"],
+    "landmarks": ["Grand Marché (Marché Rose)", "Monument de l'Indépendance", "Tour de l'Afrique", "Musée national du Mali", "Grande Mosquée de Bamako", "Point G hill", "Koulouba hill", "Niger river (Djoliba)", "Parc national de Bamako", "Marché de Médina Coura", "Stade Modibo Keïta"]
+  },
+  "small_talk": [
+    "The Pont Fahd was backed up all the way to the Grand Marché.",
+    "Tea at the grin tonight? The third round is the sweetest.",
+    "The river is high after the rains.",
+    "The sotrama to Kalaban was packed again.",
+    "Capitaine fish by the river this weekend?",
+    "Harmattan dust is everywhere this week.",
+    "Hot season is coming, the mangoes are nearly ready.",
+    "The new houses in ACI 2000 keep going up.",
+    "Market day at Médina Coura, everyone is out."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Bamako",
+    "https://en.wikipedia.org/wiki/Malian_cuisine",
+    "https://en.wikipedia.org/wiki/National_Museum_of_Mali",
+    "https://en.wikipedia.org/wiki/Bambara_language",
+    "https://en.wikivoyage.org/wiki/Bamako"
+  ]
+}

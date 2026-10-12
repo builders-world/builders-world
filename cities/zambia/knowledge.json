@@ -1,0 +1,123 @@
+{
+  "languages": [
+    { "code": "en", "name": "English", "official": true, "spoken": "widely" },
+    { "code": "ny", "name": "Nyanja", "official": false, "spoken": "widely" },
+    { "code": "bem", "name": "Bemba", "official": false, "spoken": "widely" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Most Zambians carry an English or Christian first name and a name in their own language, and the local name is just as often used as a surname. Bemba names such as Mulenga, Chanda, Mwansa and Bwalya are both first names and family names, and many are unisex. Nyanja and Chewa names from the east carry a meaning: Chikondi (love), Madalitso (blessings), Chisomo (grace). Tonga names from the south often mark the birth: Mutinta for a girl born after boys, Choolwe for a lucky child; Tonga surnames often start with Ha- or Si-. Lozi names from the west include Mubita, Lubinda and, for women, Inonge and Namakau. English names are often virtues: Gift, Given, Bright, Precious, Mercy. Elders are addressed with the respectful prefix Ba (Ba Mulenga) or as the parent of their first child (Bashi Chanda, Bana Chanda).",
+    "groups": {
+      "bemba": {
+        "given": {
+          "m": ["Mulenga", "Chanda", "Mwansa", "Mutale", "Bwalya", "Musonda", "Chileshe", "Kabwe", "Kasonde", "Chola", "Mubanga", "Mwamba", "Kangwa", "Chisanga"],
+          "f": ["Bupe", "Mapalo", "Luse", "Chilufya", "Mwenya", "Mwila", "Musonda", "Chanda", "Mwape", "Chileshe", "Mutale", "Mwansa"]
+        },
+        "family": ["Mulenga", "Bwalya", "Chanda", "Mwansa", "Mutale", "Musonda", "Chileshe", "Kabwe", "Kasonde", "Chola", "Mubanga", "Mwamba", "Kangwa", "Chisanga", "Kalaba", "Ng'andu"],
+        "also": {
+          "m": ["Brian", "Joseph", "Moses", "Emmanuel", "Gift", "Patrick", "Davies", "Mathews", "Given", "Bright", "Kelvin", "Prince"],
+          "f": ["Mercy", "Precious", "Grace", "Esther", "Ruth", "Memory", "Agness", "Charity", "Beauty", "Natasha", "Purity", "Loveness"]
+        }
+      },
+      "nyanja_chewa": {
+        "given": {
+          "m": ["Kondwani", "Madalitso", "Limbani", "Yamikani", "Mphatso", "Chikondi", "Chisomo", "Tiyamike", "Dalitso", "Mwiza", "Chimwemwe", "Kumbukani", "Thokozani"],
+          "f": ["Thandiwe", "Tamanda", "Chimwemwe", "Tiyamike", "Mwiza", "Chisomo", "Chikondi", "Mphatso", "Tadala", "Takondwa", "Pemphero", "Thokozani"]
+        },
+        "family": ["Phiri", "Banda", "Mwale", "Zulu", "Tembo", "Lungu", "Daka", "Mbewe", "Sakala", "Ngoma", "Nyirenda", "Chirwa", "Njobvu", "Mwanza", "Soko"],
+        "also": {
+          "m": ["Brian", "Joseph", "Peter", "Lazarous", "Gift", "Moses", "Emmanuel", "Charles", "Lucky", "Innocent", "Felix", "Collins"],
+          "f": ["Mercy", "Agness", "Esther", "Ruth", "Grace", "Rose", "Loveness", "Doreen", "Memory", "Florence", "Patience", "Gertrude"]
+        }
+      },
+      "tonga": {
+        "given": {
+          "m": ["Choolwe", "Mweemba", "Moonga", "Mwiinga", "Mudenda", "Muleya", "Munsaka", "Habeenzu", "Nchimunya", "Maambo"],
+          "f": ["Mutinta", "Choolwe", "Luyando", "Lushomo", "Nchimunya", "Mweemba"]
+        },
+        "family": ["Mudenda", "Mweemba", "Muleya", "Munsaka", "Moonga", "Mwiinga", "Siamwiza", "Hamweemba", "Muzyamba", "Habeenzu", "Hamoonga", "Mweetwa"],
+        "also": {
+          "m": ["Given", "Godfrey", "Patrick", "Gift", "Elijah", "Mathews"],
+          "f": ["Mercy", "Grace", "Ruth", "Precious", "Charity", "Brenda"]
+        }
+      },
+      "lozi": {
+        "given": {
+          "m": ["Mubita", "Lubinda", "Mukela", "Sitali", "Akapelwa", "Kalaluka", "Sililo", "Mutumba", "Liswaniso", "Mukelabai", "Nalumino", "Simasiku"],
+          "f": ["Inonge", "Mwangala", "Namakau", "Imasiku", "Namushi", "Nawa", "Inambao", "Liseli", "Akufuna", "Nasilele"]
+        },
+        "family": ["Mubita", "Lubinda", "Mukela", "Sitali", "Akapelwa", "Kalaluka", "Sililo", "Mutumba", "Imasiku", "Nalumino", "Mukelabai", "Liswaniso", "Simasiku", "Inambao"],
+        "also": {
+          "m": ["Kennedy", "Brian", "Davies", "Robson", "Martin", "Gift"],
+          "f": ["Mercy", "Agness", "Precious", "Gloria", "Esther", "Sharon"]
+        }
+      }
+    },
+    "weights": { "bemba": 0.4, "nyanja_chewa": 0.33, "tonga": 0.17, "lozi": 0.1 }
+  },
+  "honorifics": { "elder_m": "Bashikulu", "elder_f": "Ba Mayo", "peer_m": "Bo", "peer_f": "Sister", "boss": "Ba Boss" },
+  "phrases": {
+    "en": {
+      "hello": [["Hello, how are you?", "Hello"], ["Hi, how's it?", "Hi"]],
+      "morning": [["Good morning, how did you wake up?", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"], ["How are things?", "How are things?"]],
+      "fine": [["I'm fine, and you?", "I'm fine, and you?"], ["Just fine", "All good"]],
+      "thanks": [["Thank you", "Thank you"], ["Thank you so much", "Thanks a lot"]],
+      "bye": [["Bye, see you", "Goodbye"], ["Go well", "Go well"]],
+      "welcome": [["You are welcome", "Welcome"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    },
+    "ny": {
+      "hello": [["Muli bwanji?", "Hello, how are you? (respectful)"], ["Bwanji!", "Hi!"]],
+      "morning": [["Mwauka bwanji?", "Good morning, how did you wake up?"]],
+      "evening": [["Mwaswela bwanji?", "Good evening, how did you spend the day?"]],
+      "how_are_you": [["Muli bwanji?", "How are you? (respectful)"], ["Uli bwanji?", "How are you? (to a friend)"]],
+      "fine": [["Ndili bwino", "I'm fine"], ["Ndili bwino, kaya inu?", "I'm fine, and you?"]],
+      "thanks": [["Zikomo", "Thank you"], ["Zikomo kwambili", "Thank you very much"]],
+      "bye": [["Tizaonana", "See you"], ["Pitani bwino", "Go well"], ["Salani bwino", "Stay well"]],
+      "welcome": [["Mwalandilidwa", "Welcome"], ["Lowani", "Come in"]],
+      "sorry": [["Pepani", "Sorry"]],
+      "excuse": [["Pepani", "Excuse me"]],
+      "yes": [["Inde", "Yes"], ["Ee", "Yeah"]],
+      "no": [["Iyayi", "No"]]
+    },
+    "bem": {
+      "hello": [["Mwapoleni mukwai!", "Hello (respectful)"], ["Muli shani?", "How are you?"]],
+      "morning": [["Mwashibukeni mukwai!", "Good morning"]],
+      "evening": [["Cungulopo!", "Good evening"], ["Mwabombeni!", "Well done for the day's work (afternoon greeting)"]],
+      "how_are_you": [["Muli shani?", "How are you? (respectful)"], ["Uli shani?", "How are you? (to a friend)"]],
+      "fine": [["Ndi bwino", "I'm fine"], ["Ndi bwino, nga imwe?", "I'm fine, and you?"]],
+      "thanks": [["Natotela", "Thank you"], ["Natotela sana", "Thank you very much"]],
+      "bye": [["Shalenipo", "Stay well (said by the one leaving)"], ["Endeni bwino", "Go well"], ["Tukamonana", "We will see each other"]],
+      "welcome": [["Mwaiseni", "Welcome, come in"]],
+      "sorry": [["Njelelako", "Forgive me, sorry"]],
+      "excuse": [["Mukwai", "Excuse me (polite address)"]],
+      "yes": [["Ee mukwai", "Yes (polite)"], ["Eya", "Yeah"]],
+      "no": [["Awe", "No"]]
+    }
+  },
+  "money": {
+    "currency": "ZMW",
+    "symbol": "K",
+    "words": [
+      ["kwacha", "the currency; the word means dawn"],
+      ["ngwee", "a hundredth of a kwacha; the word means bright"],
+      ["ndalama", "money, in Nyanja"],
+      ["indalama", "money, in Bemba"],
+      ["talk time", "airtime for your phone, sold on every corner"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Zambia",
+    "https://en.wikipedia.org/wiki/Chewa_language",
+    "https://en.wikipedia.org/wiki/Bemba_language",
+    "https://en.wikipedia.org/wiki/Tonga_language_(Zambia_and_Zimbabwe)",
+    "https://en.wikipedia.org/wiki/Lozi_language",
+    "https://en.wikipedia.org/wiki/Bemba_people",
+    "https://en.wikipedia.org/wiki/Zambian_kwacha"
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "street": { "en": 0.4, "zu": 0.6 },
+  "registers": {},
+  "names": {
+    "weights": {
+      "zulu": 0.68,
+      "indian": 0.18,
+      "english_sa": 0.07,
+      "xhosa": 0.04,
+      "coloured": 0.02,
+      "afrikaans": 0.01
+    }
+  },
+  "phrases": {},
+  "chat": {
+    "en": {
+      "greet": ["Howzit! How's the day treating you?", "Morning! Hot one already, hey?", "Hey, howzit, long time no see!", "Sawubona! You well?", "Howzit, my friend, how's the family?"],
+      "reply": ["I'm good, thanks, and you?", "Lekker, just sweating, hey!", "All good, can't complain.", "Fine thanks, busy busy.", "Shot, I'm well!"],
+      "sunny": ["Perfect beach day, the water looks lovely.", "So humid today, my shirt is stuck to me.", "Sun's out, the Golden Mile will be packed.", "What a day for a swim at North Beach.", "It's boiling, let's get a cold drink."],
+      "rain": ["Eish, it's bucketing down.", "Summer storm coming in off the sea.", "Rain again, the N2 will be a mess.", "At least the rain cools things down a bit.", "Grab an umbrella, those clouds look heavy."],
+      "bye": ["Cheers, go well!", "Shot, see you later!", "Sharp, catch you now now.", "Go nicely, hey!", "Later, greet everyone at home!"],
+      "busy": ["Sorry, I'm late, traffic on the N3 was mad!", "Can't talk, my taxi is leaving the rank!", "I'll call you just now, I'm at work.", "Rushing to the market before it closes, later!", "Eish, I'm in a hurry, let's chat later."]
+    },
+    "zu": {
+      "greet": ["Sawubona! Unjani namhlanje?", "Sanibonani, kunjani?", "Sawubona sisi, unjani?", "Sawubona Baba, uvuke kanjani?", "Heyi, sawubona mngane wami!"],
+      "reply": ["Ngiyaphila, ngiyabonga. Wena unjani?", "Ngikhona, ngiyabonga!", "Sikhona, siyabonga.", "Ngisaphila, ngiyabonga kakhulu."],
+      "sunny": ["Kuyashisa kakhulu namhlanje!", "Ilanga liyashisa, ake siye olwandle.", "Isimo sezulu sihle namuhla.", "Kuhle kakhulu phandle namhlanje."],
+      "rain": ["Liyana!", "Imvula iyeza, shesha!", "Thatha isambulela, liyana.", "Liyaduma! Bheka amafu."],
+      "bye": ["Sala kahle!", "Hamba kahle!", "Sizobonana!", "Sizobonana kusasa!"],
+      "busy": ["Ngiyaxolisa, ngiyashesha!", "Ngisemsebenzini, sizokhuluma.", "Angikwazi ukuma, ngiyaphuthuma!", "Ngizokushayela ucingo kamuva."]
+    }
+  },
+  "transport": { "bus": "taxi", "moto_taxi": "", "tricycle": "", "taxi": "metered taxi", "conductor": "conductor", "stage": "rank" },
+  "touts": ["Town, town!", "Umlazi! Umlazi!", "KwaMashu, KwaMashu!", "Pinetown!", "Berea, Berea!", "Chatsworth! Phoenix!", "Warwick! One seat left!"],
+  "hawkers": [
+    ["Amanzi! Cold water!", "Cold water!"],
+    ["Mielies, hot mielies!", "Hot roasted corn!"],
+    ["Litchis! Sweet litchis!", "Sweet litchis!"],
+    ["Samoosas, chilli bites!", "Samoosas and chilli bites!"],
+    ["Airtime, data!", "Phone airtime and data!"],
+    ["Ama-avocado, R10!", "Avocados, ten rand!"],
+    ["Sugar cane, fresh sugar cane!", "Fresh sugar cane to chew!"]
+  ],
+  "food": {
+    "street": ["bunny chow", "samoosas", "chilli bites", "mielies", "vetkoek", "shisa nyama", "roti roll"],
+    "dishes": ["mutton curry", "breyani", "phutu with amasi", "isidudu", "beans curry", "pap and chicken stew", "prawn curry"],
+    "drinks": ["amahewu", "falooda", "masala tea", "rooibos tea", "umqombothi"]
+  },
+  "places": {
+    "neighbourhoods": ["Umlazi", "KwaMashu", "Berea", "Glenwood", "Morningside", "Musgrave", "Umhlanga", "Chatsworth", "Phoenix", "Pinetown", "Durban North", "Westville", "Inanda", "Point"],
+    "streets": ["Florida Road", "Dr Pixley KaSeme Street", "Anton Lembede Street", "Marine Parade", "Musgrave Road", "Mahatma Gandhi Road", "Margaret Mncadi Avenue"],
+    "landmarks": ["Moses Mabhida Stadium", "uShaka Marine World", "the Golden Mile", "Warwick Junction", "Victoria Street Market", "North Beach", "Durban Botanic Gardens", "Kings Park", "Umhlanga Lighthouse", "Gateway"]
+  },
+  "small_talk": [
+    "So humid today, even the walls are sweating.",
+    "The beachfront was packed this weekend.",
+    "The sardine run should be coming up the coast soon.",
+    "Bunny chow for lunch? Quarter mutton, I'm starving.",
+    "The Sharks are playing at Kings Park on Saturday.",
+    "Traffic at the EB Cloete interchange was terrible again.",
+    "Let's go for a walk on the Umhlanga promenade.",
+    "Warwick was so busy this morning, I could hardly move.",
+    "Litchi season, my favourite time of year."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Durban",
+    "https://en.wikipedia.org/wiki/Zulu_language",
+    "https://en.wikipedia.org/wiki/Indian_South_African_English",
+    "https://en.wikipedia.org/wiki/Bunny_chow",
+    "https://en.wikipedia.org/wiki/Moses_Mabhida_Stadium",
+    "https://en.wikipedia.org/wiki/Indian_South_Africans",
+    "https://en.wikipedia.org/wiki/Sardine_run"
+  ]
+}

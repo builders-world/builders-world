@@ -1,0 +1,100 @@
+{
+  "street": { "fr": 0.6, "nl": 0.15, "en": 0.25 },
+  "names": { "weights": { "flemish": 0.12, "francophone": 0.38, "moroccan": 0.2, "turkish": 0.06, "congolese": 0.07, "italian": 0.05, "eu_expat": 0.12 } },
+  "phrases": {
+    "fr": {
+      "bye": [["À tantôt !", "See you later today!"], ["À la revoyure !", "See you again! (old Brussels)"]],
+      "drink": [["On va boire un pot ?", "Shall we go for a drink?"], ["Une Jupiler, s'il vous plaît", "A Jupiler, please"]],
+      "numbers": [["septante", "seventy"], ["nonante", "ninety"]],
+      "ok": [["Allez !", "Come on / right then / bye (Belgians say it for everything)"], ["Ça va, hein", "It's fine, eh"]],
+      "lunch": [["On va dîner ?", "Shall we have lunch? (dîner is lunch in Belgium)"]]
+    },
+    "nl": {
+      "want": [["Ik heb goesting in frietjes", "I fancy some chips (goesting, Flemish for craving)"]],
+      "ok": [["Allez, salut!", "Right, bye!"], ["Ça va", "Fine (Flemish borrow it from French)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hi! Are you heading to Schuman too?", "Morning! Did the metro behave today?", "Hey, nice to meet you, which DG are you in?", "Hello! Coffee on Place Lux?", "Hi there, welcome to Brussels!"],
+      "reply": ["All good, thanks, just survived another long meeting.", "Great, I finally found a decent flat in Ixelles.", "Fine, a bit tired, the tunnels were blocked again.", "Pretty good, thanks for asking!", "Not bad, I had the best frites at Flagey."],
+      "sunny": ["Sun's out, Place Lux will be full tonight.", "Perfect weather for the Bois de la Cambre.", "Lovely day, let's grab a beer on a terrace.", "Sun in Brussels, enjoy it while it lasts!", "Gorgeous, let's eat outside at Place Sainte-Catherine."],
+      "rain": ["Raining again, classic Brussels.", "Grey sky, perfect excuse for a waffle.", "Bring your umbrella, it's drizzling all day.", "Pouring, I'm not cycling up to Ixelles in this.", "Wet again, at least the cafés are cosy."],
+      "bye": ["See you later!", "Bye, have a good evening!", "Take care, see you on Thursday!", "Ciao, enjoy the weekend!", "Bye! À tantôt, as they say here."],
+      "busy": ["Sorry, I'm late for a working group, catch you later!", "Running to Gare Centrale, talk soon!", "Can't stop, my train to Leuven leaves in ten!", "Back to back meetings today, see you!", "Busy one, let's catch up over a beer?"]
+    },
+    "fr": {
+      "greet": ["Bonjour ! Ça va ?", "Salut ! Ça fait longtemps !", "Bonjour Madame, ça va bien ?", "Allez, salut ! Comment tu vas ?", "Bonjour ! On boit un café ?"],
+      "reply": ["Ça va bien, merci, et vous ?", "Ça va, hein, on ne se plaint pas.", "Très bien, merci !", "Ça va, un peu fatigué.", "Pas mal, et toi ?"],
+      "sunny": ["Quel beau temps, on en profite !", "Il fait bon, on va au Bois de la Cambre ?", "Grand soleil, les terrasses sont pleines.", "Enfin du soleil à Bruxelles !", "Il fait beau, on mange dehors à midi ?"],
+      "rain": ["Il drache encore !", "Quelle drache, prends ton parapluie.", "Il pleut, c'est Bruxelles, hein.", "Temps gris, on reste au café.", "Encore de la pluie, on a l'habitude."],
+      "bye": ["Allez, à tantôt !", "Au revoir, bonne journée !", "Bonne soirée !", "Salut, à demain !", "Allez, à plus !"],
+      "busy": ["Désolé, je suis pressé, à tantôt !", "J'ai une réunion, je file !", "Je vais rater mon tram, à plus !", "Pas le temps, je t'appelle !", "Je suis en retard, excuse-moi !"]
+    },
+    "nl": {
+      "greet": ["Dag! Alles goed?", "Hallo! Hoe is 't?", "Goeiemorgen! Lang niet gezien!", "Hey! Ook op weg naar 't werk?", "Dag meneer, alles goed?"],
+      "reply": ["Goed, merci, en met jou?", "Ça va, alles goed!", "Prima, dank u.", "Goed, een beetje moe.", "Alles goed, merci!"],
+      "sunny": ["Wat een mooi weer vandaag!", "Zalig weer, iets drinken op een terras?", "De zon schijnt, allez, naar buiten!", "Mooi weer, eindelijk!", "Warm vandaag, ik heb goesting in een ijsje."],
+      "rain": ["Het regent weer, typisch.", "Wat een regen, neem je paraplu mee.", "Grijs weer vandaag.", "Het giet, ik blijf binnen.", "Weer regen, we zijn het gewoon."],
+      "bye": ["Salut!", "Allez, tot straks!", "Dag, tot morgen!", "Nog een fijne dag!", "Tot later!"],
+      "busy": ["Sorry, ik moet me haasten!", "Ik heb een vergadering, tot straks!", "Mijn trein vertrekt, salut!", "Geen tijd, ik bel je!", "Ik ben te laat, sorry!"]
+    }
+  },
+  "transport": {
+    "bus": "bus",
+    "moto_taxi": "trottinette / step",
+    "tricycle": "vélo-taxi",
+    "taxi": "taxi",
+    "conductor": "contrôleur / controleur",
+    "stage": "arrêt / halte",
+    "metro": "métro / metro",
+    "tram": "tram",
+    "train": "train / trein",
+    "bike_share": "Villo!",
+    "ride_hail": "Uber"
+  },
+  "touts": [
+    "Prochain arrêt : De Brouckère. Volgende halte: De Brouckère.",
+    "Attention, les portes se ferment. Opgelet, de deuren sluiten.",
+    "Bienvenue à bord. Welkom aan boord. Welcome on board.",
+    "Allez, les tomates, un euro le kilo !",
+    "Ladies and gentlemen, a little music for your morning!",
+    "Contrôle, vos titres de transport, s'il vous plaît."
+  ],
+  "hawkers": [
+    ["Gaufres chaudes, gaufres !", "Hot waffles!"],
+    ["Allez, les fraises, deux barquettes cinq euros !", "Come on, strawberries, two punnets five euros!"],
+    ["Caricoles, caricoles !", "Sea snails in broth! (Brussels street snack)"],
+    ["Frites fraîches, mayonnaise, andalouse !", "Fresh fries, mayo, andalouse sauce!"],
+    ["Smoutebollen, warm!", "Hot doughnut balls! (fairground)"],
+    ["Speculoos, goûtez !", "Speculoos biscuits, try one!"]
+  ],
+  "food": {
+    "street": ["frites (cornet de frites)", "gaufre de Liège", "gaufre de Bruxelles", "mitraillette", "caricoles", "smoutebollen", "kebab de Saint-Josse"],
+    "dishes": ["moules-frites", "carbonnade flamande (stoverij)", "stoemp", "vol-au-vent", "boulets sauce lapin", "chicons au gratin", "waterzooi", "tomate-crevettes", "américain préparé", "pain à la grecque"],
+    "drinks": ["Jupiler", "Orval", "Westmalle", "Duvel", "gueuze", "kriek", "un café", "Spa", "chocolat chaud"]
+  },
+  "places": {
+    "neighbourhoods": ["Ixelles", "Saint-Gilles", "Schaerbeek", "Etterbeek", "Molenbeek", "Uccle", "Les Marolles", "Matonge", "Quartier européen", "Sablon", "Dansaert", "Flagey", "Saint-Josse", "Anderlecht"],
+    "streets": ["Rue Neuve", "Avenue Louise", "Boulevard Anspach", "Rue Antoine Dansaert", "Chaussée d'Ixelles", "Rue de la Loi", "Rue Haute", "Rue Blaes", "Chaussée de Wavre", "Avenue de Tervueren"],
+    "landmarks": ["Grand-Place", "Manneken Pis", "Atomium", "Berlaymont", "Parlement européen", "Mont des Arts", "Palais de Justice", "Parc du Cinquantenaire", "Galeries Royales Saint-Hubert", "Gare du Midi", "Place du Jeu de Balle", "Bois de la Cambre"]
+  },
+  "small_talk": [
+    "The Montgomery tunnel was closed again this morning.",
+    "Flea market at Jeu de Balle on Sunday, want to come?",
+    "My landlord answers in French, my neighbour in Dutch, I answer in English.",
+    "Place Lux is full of interns every Thursday evening.",
+    "The best frites are at Maison Antoine, don't argue.",
+    "Boulevard Anspach is so nice since they closed it to cars.",
+    "Another strike on the STIB, I'm walking to work.",
+    "It rained in the morning, sun at noon, hail at four. Brussels.",
+    "Lunch break by the ponds at Flagey, can't beat it."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Brussels",
+    "https://en.wikipedia.org/wiki/Belgian_French",
+    "https://www.stib-mivb.be/",
+    "https://www.villo.be/",
+    "https://en.wikipedia.org/wiki/Municipalities_of_the_Brussels-Capital_Region"
+  ]
+}

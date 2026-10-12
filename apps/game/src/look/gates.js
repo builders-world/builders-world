@@ -1,3 +1,4 @@
+import { nameFor, honorific } from './knowledge.js';
 import * as THREE from 'three';
 import { createAvatarModel } from '../onboarding/avatar.js';
 import { trackPerson } from './anim.js';
@@ -12,7 +13,8 @@ import { C, FONT } from './uikit.js';
 // gate without a pass and the guard turns you back; climb the wall and it costs you your reputation.
 
 const VISIT_DAYS = 3, COOLDOWN_DAYS = 1, RENT = 5000, RENT_DAYS = 30, DAY = 86400000;
-const GUARDS = ['Sule', 'Baba Musa', 'Officer Chinedu', 'Mallam Garba', 'Oga Tunde', 'Ibrahim', 'Femi', 'Aliyu'];
+// the guards at the estate gates, named as people are in this city (look/knowledge.js)
+const guardName = (i) => nameFor(`guard-${i}`, 'm')?.first || ['Sule', 'Baba Musa', 'Officer Chinedu', 'Mallam Garba', 'Oga Tunde', 'Ibrahim', 'Femi', 'Aliyu'][i % 8];
 
 const CSS = `
 #lk-gate { position: fixed; inset: 0; z-index: 36; display: none; place-items: center; background: rgba(20,16,12,.45); font-family: ${FONT}; color: ${C.ink}; }
@@ -45,7 +47,7 @@ export function createGates({ world, scene, props, lives, passes, toast, getHour
     const [px, pz] = g.post[1];
     guard.root.position.set(px + g.inward[0] * 1.2, 0, pz + g.inward[1] * 1.2);
     guard.root.rotation.y = g.ry; group.add(trackPerson(guard.root));
-    g.guard = GUARDS[(E.ei * 3 + gi) % GUARDS.length];
+    g.guard = guardName(E.ei * 3 + gi);
     g.out = { x: g.x - g.inward[0] * 2.6, z: g.z - g.inward[1] * 2.6 };
     props.interact.push({ id: `gate:${E.ei}:${gi}`, label: `Gatehouse: ${E.name}, Gate ${g.no}`, x: g.out.x, z: g.out.z, r: 3.2 });
   }));
@@ -139,7 +141,7 @@ export function createGates({ world, scene, props, lives, passes, toast, getHour
     const viaGate = lastOut && E.gates.some((q) => Math.hypot(q.x - lastOut.x, q.z - lastOut.z) < 6);
     if (cool <= 0) {
       cool = 2;
-      if (viaGate) toast(`${g.guard}: "Oga, sign in at the gatehouse first. Who are you visiting?"`, 3600);
+      if (viaGate) toast(`${g.guard}: "${honorific('boss', 'Boss')}, sign in at the gatehouse first. Who are you visiting?"`, 3600);
       else { toast(`${g.guard}: "Hey! You no fit climb wall enter estate. Out!"`, 3600); passes.addRep(-8, 'caught climbing an estate wall'); }
     }
     return { x: g.out.x, z: g.out.z, yaw: g.ry };

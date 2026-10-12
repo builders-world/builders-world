@@ -1,0 +1,409 @@
+{
+  "street": {
+    "es": 0.6,
+    "chileno": 0.35,
+    "ht": 0.03,
+    "en": 0.02
+  },
+  "registers": {
+    "chileno": {
+      "name": "Chileno",
+      "about": "Santiago's quick street Spanish: swallowed s's, cachai, po, al tiro, bacán, fome, la micro, la pega, and verb forms like estái and querís."
+    }
+  },
+  "names": {
+    "weights": {
+      "chilean": 0.8,
+      "venezuelan": 0.07,
+      "mapuche": 0.06,
+      "peruvian": 0.04,
+      "haitian": 0.03
+    }
+  },
+  "phrases": {
+    "chileno": {
+      "hello": [
+        [
+          "¿Qué onda?",
+          "What's up?"
+        ],
+        [
+          "¿Cómo estái?",
+          "How are you?"
+        ],
+        [
+          "¿Qué hubo?",
+          "Hey, what's new?"
+        ]
+      ],
+      "fine": [
+        [
+          "Bacán",
+          "Great, cool"
+        ],
+        [
+          "Filete",
+          "Excellent (playful)"
+        ],
+        [
+          "Al pelo",
+          "Perfect"
+        ]
+      ],
+      "yes": [
+        [
+          "Ya po",
+          "Okay then"
+        ],
+        [
+          "Al tiro",
+          "Right away"
+        ],
+        [
+          "¿Cachai?",
+          "You get it? Right?"
+        ]
+      ],
+      "no": [
+        [
+          "Na' que ver",
+          "No way, nothing to do with it"
+        ]
+      ],
+      "thanks": [
+        [
+          "Gracias, compadre",
+          "Thanks, mate"
+        ]
+      ],
+      "bye": [
+        [
+          "Chao, nos vemos",
+          "Bye, see you"
+        ],
+        [
+          "Cuídate harto",
+          "Take good care"
+        ]
+      ]
+    }
+  },
+  "chat": {
+    "es": {
+      "greet": [
+        "¡Buenos días! ¿Cómo está?",
+        "¡Hola! ¿Cómo le ha ido?",
+        "Buenas tardes, ¿cómo estamos?",
+        "¡Qué gusto verte! ¿Cómo has estado?",
+        "¡Hola! ¿Todo bien por la casa?"
+      ],
+      "reply": [
+        "Muy bien, gracias, ¿y usted?",
+        "Bien, aquí trabajando.",
+        "Todo bien, gracias a Dios.",
+        "Bien, con harta pega.",
+        "Bien, gracias por preguntar."
+      ],
+      "sunny": [
+        "Qué lindo día, se ve la cordillera.",
+        "Hace mucho calor, tome agua.",
+        "Día perfecto para subir al San Cristóbal.",
+        "Con este sol se viene un mote con huesillo.",
+        "Qué solcito más rico."
+      ],
+      "rain": [
+        "Por fin llovió, se limpió el aire.",
+        "Lleve paraguas, anuncian lluvia.",
+        "Con esta lluvia el taco va a estar terrible.",
+        "Hace un frío tremendo y llueve.",
+        "Se vino el sistema frontal."
+      ],
+      "bye": [
+        "Chao, que le vaya bien.",
+        "Nos vemos, cuídese.",
+        "Hasta luego, saludos a la familia.",
+        "¡Que tenga buen día!",
+        "Chao, un abrazo."
+      ],
+      "busy": [
+        "Disculpe, voy atrasado a la pega.",
+        "Tengo que tomar el metro, nos vemos.",
+        "Voy a una reunión, después lo llamo.",
+        "Ando apurado, hablamos.",
+        "Voy a buscar a los niños al colegio."
+      ]
+    },
+    "chileno": {
+      "greet": [
+        "¿Qué onda? ¿Cómo estái?",
+        "¡Hola po! ¿Qué contái?",
+        "¿Qué hubo, compadre?",
+        "¡Tanto tiempo! ¿Cómo estái?"
+      ],
+      "reply": [
+        "Bacán, ¿y tú?",
+        "Aquí, con harta pega.",
+        "Todo bien po.",
+        "Filete, gracias."
+      ],
+      "sunny": [
+        "¡Qué calor, cachai!",
+        "Día bacán pa' ir al parque.",
+        "Se ve la cordillera, está precioso.",
+        "Con este calor se pasa un mote con huesillo."
+      ],
+      "rain": [
+        "Llueve un poco y se cae Santiago, cachai.",
+        "Puro taco con la lluvia.",
+        "Qué frío, me voy al tiro a la casa.",
+        "Se largó a llover, qué fome."
+      ],
+      "bye": [
+        "Chao, nos vemos.",
+        "Ya po, cuídate harto.",
+        "Nos vemos al tiro.",
+        "Chao, compadre."
+      ],
+      "busy": [
+        "Voy atrasado a la pega, chao.",
+        "Se me va la micro, nos vemos.",
+        "Ando a mil, después hablamos.",
+        "Tengo que irme al tiro, cachai."
+      ]
+    },
+    "ht": {
+      "greet": [
+        "Sak pase?",
+        "Bonjou! Kijan ou ye?",
+        "Bonswa, kòman ou ye?",
+        "Alo! Sa k ap fèt?"
+      ],
+      "reply": [
+        "N ap boule!",
+        "M byen, mèsi. E ou menm?",
+        "Pa pi mal.",
+        "N ap kenbe."
+      ],
+      "sunny": [
+        "Bèl tan jodi a!",
+        "Solèy la cho jodi a.",
+        "Fè cho anpil jodi a.",
+        "Se yon bèl jounen."
+      ],
+      "rain": [
+        "Lapli ap tonbe.",
+        "Pran parapli ou.",
+        "Fè frèt anpil jodi a.",
+        "Lapli sa a pa vle kanpe."
+      ],
+      "bye": [
+        "N a wè pita!",
+        "Orevwa!",
+        "Pase bon jounen!",
+        "Pran swen ou."
+      ],
+      "busy": [
+        "M prese, m pral travay.",
+        "M an reta, n a pale pita.",
+        "M pral pran metwo a.",
+        "Eskize m, m pa gen tan kounye a."
+      ]
+    },
+    "en": {
+      "greet": [
+        "Hi! How's it going?",
+        "Morning! Did you see the mountains today?",
+        "Hey, good to see you!",
+        "Hola! How are you?",
+        "Hey there, how was the weekend?"
+      ],
+      "reply": [
+        "Good, thanks! You?",
+        "Great, I finally tried a completo.",
+        "Not bad, busy week.",
+        "All good, gracias!",
+        "Doing well, the metro was packed though."
+      ],
+      "sunny": [
+        "Clear day, the Andes look amazing.",
+        "Hot and dry, perfect for San Cristóbal.",
+        "Gorgeous out, Parque Forestal will be full.",
+        "Sunny again, Santiago summers are something.",
+        "Nice day for a terrace in Lastarria."
+      ],
+      "rain": [
+        "Finally some rain, the smog is gone.",
+        "Bring an umbrella, a front is coming in.",
+        "Rain and the whole city slows down.",
+        "Cold and wet, perfect for a cazuela.",
+        "The streets flood fast here when it rains."
+      ],
+      "bye": [
+        "See you later!",
+        "Take care!",
+        "Chao!",
+        "Have a good one!",
+        "Catch you later."
+      ],
+      "busy": [
+        "Gotta run, meeting in Sanhattan.",
+        "Late, Line 1 was packed.",
+        "Catching the micro, talk later!",
+        "Running, my Uber is here.",
+        "Can't stop, see you!"
+      ]
+    }
+  },
+  "transport": {
+    "bus": "micro",
+    "metro": "Metro",
+    "train": "tren",
+    "taxi": "taxi",
+    "shared_taxi": "colectivo",
+    "rideshare": "Uber, Cabify or DiDi",
+    "card": "tarjeta bip!",
+    "stage": "paradero"
+  },
+  "touts": [
+    "Próxima estación: Baquedano.",
+    "¡Colectivo, quedan dos asientos!",
+    "¡Sopaipillas calentitas!",
+    "¡Mote con huesillo heladito!",
+    "¡Casera, llévese la fruta, está buenísima!"
+  ],
+  "hawkers": [
+    [
+      "¡Sopaipillas calentitas!",
+      "Hot fried pumpkin bread!"
+    ],
+    [
+      "¡Mote con huesillo heladito!",
+      "Peach and wheat drink, nice and cold!"
+    ],
+    [
+      "¡Casera, lleve palta!",
+      "Avocados, love! (a feria stall calling a regular customer)"
+    ],
+    [
+      "¡Cabritas, cabritas!",
+      "Popcorn!"
+    ],
+    [
+      "¡Maní confitado!",
+      "Sugared peanuts!"
+    ],
+    [
+      "¡Empanadas de pino!",
+      "Beef empanadas!"
+    ]
+  ],
+  "food": {
+    "street": [
+      "sopaipillas",
+      "completo italiano",
+      "empanadas de pino",
+      "mote con huesillo",
+      "maní confitado",
+      "anticuchos",
+      "choripán",
+      "cabritas"
+    ],
+    "dishes": [
+      "pastel de choclo",
+      "cazuela",
+      "porotos granados",
+      "chorrillana",
+      "lomo a lo pobre",
+      "charquicán",
+      "humitas",
+      "chacarero",
+      "barros luco",
+      "pan amasado con pebre"
+    ],
+    "drinks": [
+      "mote con huesillo",
+      "pisco sour",
+      "té",
+      "terremoto",
+      "Bilz y Pap",
+      "vino carmenere"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "Providencia",
+      "Ñuñoa",
+      "Las Condes",
+      "Vitacura",
+      "Santiago Centro",
+      "Barrio Lastarria",
+      "Barrio Italia",
+      "Bellavista",
+      "Barrio Brasil",
+      "Barrio Yungay",
+      "Recoleta",
+      "Independencia",
+      "Estación Central",
+      "Maipú",
+      "La Florida",
+      "Puente Alto",
+      "San Miguel",
+      "Macul",
+      "La Reina",
+      "Barrio Franklin"
+    ],
+    "streets": [
+      "la Alameda",
+      "Avenida Providencia",
+      "Avenida Apoquindo",
+      "Avenida Vicuña Mackenna",
+      "Avenida Irarrázaval",
+      "Paseo Ahumada",
+      "Paseo Huérfanos",
+      "Avenida Matta",
+      "Avenida Italia",
+      "Avenida Pedro de Valdivia",
+      "Costanera Norte",
+      "Avenida Kennedy",
+      "Avenida Recoleta"
+    ],
+    "landmarks": [
+      "Cerro San Cristóbal",
+      "Cerro Santa Lucía",
+      "Plaza de Armas",
+      "La Moneda",
+      "Costanera Center",
+      "Mercado Central",
+      "La Vega Central",
+      "Parque Forestal",
+      "Museo Nacional de Bellas Artes",
+      "Estadio Nacional",
+      "Estadio Monumental",
+      "Parque Bicentenario",
+      "Plaza Baquedano",
+      "La Chascona",
+      "Teatro Municipal",
+      "la cordillera de los Andes"
+    ]
+  },
+  "small_talk": [
+    "After the rain you can see the whole cordillera, it's unreal.",
+    "Did you feel the temblor last night? Just a little one.",
+    "Once at seven: tea, marraqueta and palta, nothing better.",
+    "Colo-Colo or la U? Careful, people take it seriously.",
+    "Line 1 at rush hour is a full body workout.",
+    "The taco on Costanera Norte was terrible this morning.",
+    "In winter the smog sits over the city until it rains.",
+    "There's a sushi place on every corner in Providencia.",
+    "Fiestas Patrias are coming, start eating empanadas now.",
+    "I bought all my fruit at La Vega, way cheaper than the supermarket."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Santiago",
+    "https://en.wikipedia.org/wiki/Chilean_Spanish",
+    "https://www.metro.cl",
+    "https://www.red.cl",
+    "https://www.ine.gob.cl",
+    "https://www.asale.org/damer/"
+  ]
+}

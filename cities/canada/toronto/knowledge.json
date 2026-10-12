@@ -1,0 +1,335 @@
+{
+  "street": {
+    "en": 0.81,
+    "zh": 0.05,
+    "yue": 0.04,
+    "pa": 0.03,
+    "tl": 0.03,
+    "es": 0.02,
+    "ar": 0.01,
+    "fr": 0.01
+  },
+  "registers": {},
+  "names": {
+    "weights": {
+      "anglo": 0.411,
+      "chinese": 0.119,
+      "indian": 0.076,
+      "caribbean": 0.076,
+      "filipino": 0.054,
+      "italian": 0.054,
+      "punjabi": 0.043,
+      "pakistani": 0.032,
+      "portuguese": 0.032,
+      "iranian": 0.027,
+      "latino": 0.027,
+      "arab": 0.022,
+      "korean": 0.016,
+      "french": 0.011
+    }
+  },
+  "phrases": {
+    "en": {
+      "hello": [
+        [
+          "Wagwan!",
+          "What's going on? (Toronto slang from Jamaican Patois)"
+        ],
+        [
+          "Yo, what's good?",
+          "Hey, how are you?"
+        ]
+      ],
+      "fine": [
+        [
+          "I'm good, styll",
+          "I'm good, honestly"
+        ],
+        [
+          "Bare busy, but good",
+          "Very busy, but good"
+        ]
+      ],
+      "yes": [
+        [
+          "Ahlie",
+          "Right? Isn't it? (Toronto slang)"
+        ]
+      ],
+      "bye": [
+        [
+          "Say less, later",
+          "Got it, see you later"
+        ]
+      ]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "Hey! How's it going?",
+        "Morning! Grab a double-double yet?",
+        "Wagwan, how you been?",
+        "Oh hey, long time no see!",
+        "Hi there, how are things?"
+      ],
+      "reply": [
+        "Good, thanks! You?",
+        "Not bad, the subway was actually on time.",
+        "Bare busy, but good.",
+        "Doing alright, can't complain.",
+        "All good, just surviving the 401."
+      ],
+      "sunny": [
+        "Patio season, finally!",
+        "Gorgeous day, I'm taking the ferry to the Island.",
+        "Trinity Bellwoods is going to be packed.",
+        "Nice and hot, the lake looks amazing.",
+        "Sun's out, the whole city is on Queen West."
+      ],
+      "rain": [
+        "It's pouring, and of course the streetcar is late.",
+        "Rain all day, so much for the patio.",
+        "The DVP is flooded again.",
+        "Grab an umbrella, it's coming down hard.",
+        "Cold rain, perfect day to stay in the PATH."
+      ],
+      "bye": [
+        "Later!",
+        "Take care, eh!",
+        "See you around!",
+        "Have a good one!",
+        "Catch you later, stay warm."
+      ],
+      "busy": [
+        "Gotta run, Line 1 is delayed again.",
+        "Late for a meeting on Bay Street, talk later.",
+        "Catching the GO train, see you!",
+        "Can't stop, the Gardiner is a parking lot.",
+        "Running to work, text me!"
+      ]
+    },
+    "zh": {
+      "greet": [
+        "早！吃了吗？",
+        "你好，最近怎么样？",
+        "好久不见！",
+        "早上好！"
+      ],
+      "reply": [
+        "挺好的，谢谢。",
+        "还行，就是忙。",
+        "不错，你呢？",
+        "老样子。"
+      ],
+      "sunny": [
+        "今天天气真好。",
+        "太阳好大啊。",
+        "今天好热。",
+        "天气不错，出去走走。"
+      ],
+      "rain": [
+        "下雨了，带伞了吗？",
+        "雨下得好大。",
+        "地铁又晚点了。",
+        "今天好冷，还下雨。"
+      ],
+      "bye": [
+        "再见！",
+        "拜拜，慢走。",
+        "回头见！",
+        "改天聊。"
+      ],
+      "busy": [
+        "我赶地铁，先走了。",
+        "我要迟到了，回头聊。",
+        "不好意思，我赶时间。",
+        "我去上班了，再见。"
+      ]
+    },
+    "yue": {
+      "greet": [
+        "早晨！食咗早餐未呀？",
+        "你好呀，最近點呀？",
+        "好耐冇見！",
+        "早晨，今日好凍呀。"
+      ],
+      "reply": [
+        "幾好，唔該。",
+        "都OK，有啲忙。",
+        "好好呀，你呢？",
+        "麻麻地啦。"
+      ],
+      "sunny": [
+        "今日天氣好好呀。",
+        "難得出太陽！",
+        "今日好熱呀。",
+        "天氣咁好，去公園行下。"
+      ],
+      "rain": [
+        "落雨喇，記得帶遮。",
+        "落緊大雨呀。",
+        "又落雨，好凍呀。",
+        "落雪喇，小心路滑。"
+      ],
+      "bye": [
+        "拜拜！",
+        "再見，慢慢行。",
+        "遲啲見！",
+        "得閒飲茶！"
+      ],
+      "busy": [
+        "唔好意思，我趕時間。",
+        "我要返工喇，拜拜！",
+        "我趕地鐵，遲啲傾。",
+        "我好忙呀，下次再傾。"
+      ]
+    }
+  },
+  "transport": {
+    "bus": "TTC bus",
+    "metro": "the subway",
+    "streetcar": "streetcar",
+    "train": "GO Train",
+    "airport_train": "UP Express",
+    "taxi": "cab",
+    "rideshare": "Uber",
+    "bike": "Bike Share Toronto",
+    "stage": "TTC stop"
+  },
+  "touts": [
+    "The next station is Union. Union Station.",
+    "Street meat! Hot dogs, sausages!",
+    "Island ferry, boarding now!",
+    "Programs! Get your Jays programs!",
+    "Roti, doubles, come get it!"
+  ],
+  "hawkers": [
+    [
+      "Hot dogs, sausages, get your street meat!",
+      "A hot dog cart outside City Hall"
+    ],
+    [
+      "Peameal bacon on a bun!",
+      "A sandwich counter at St. Lawrence Market"
+    ],
+    [
+      "Roasted corn, hot and buttered!",
+      "A corn stand at the Ex"
+    ],
+    [
+      "Patties, beef patties!",
+      "A Jamaican bakery counter"
+    ],
+    [
+      "Water, cold water, two dollars!",
+      "A seller outside a game"
+    ]
+  ],
+  "food": {
+    "street": [
+      "street meat",
+      "peameal bacon sandwich",
+      "Jamaican beef patty in coco bread",
+      "doubles",
+      "shawarma",
+      "butter tarts"
+    ],
+    "dishes": [
+      "jerk chicken in Little Jamaica",
+      "roti",
+      "dim sum in Markham",
+      "Korean barbecue on Bloor",
+      "Portuguese chicken",
+      "souvlaki on the Danforth",
+      "pho",
+      "butter chicken"
+    ],
+    "drinks": [
+      "a double-double",
+      "an iced capp",
+      "bubble tea",
+      "a Caesar",
+      "sorrel at Christmas"
+    ]
+  },
+  "places": {
+    "neighbourhoods": [
+      "Downtown",
+      "the Annex",
+      "Kensington Market",
+      "Chinatown",
+      "Little Italy",
+      "Little Portugal",
+      "Koreatown",
+      "Greektown",
+      "Leslieville",
+      "the Beaches",
+      "Liberty Village",
+      "Yorkville",
+      "Scarborough",
+      "North York",
+      "Etobicoke",
+      "Parkdale",
+      "Regent Park",
+      "Little Jamaica",
+      "Gerrard India Bazaar",
+      "the Distillery District"
+    ],
+    "streets": [
+      "Yonge Street",
+      "Queen Street West",
+      "King Street",
+      "Bloor Street",
+      "Spadina Avenue",
+      "Dundas Street",
+      "College Street",
+      "Danforth Avenue",
+      "Eglinton Avenue",
+      "Front Street",
+      "University Avenue",
+      "Bay Street",
+      "St. Clair Avenue",
+      "the Gardiner",
+      "the DVP",
+      "the 401"
+    ],
+    "landmarks": [
+      "the CN Tower",
+      "Rogers Centre",
+      "Scotiabank Arena",
+      "Union Station",
+      "St. Lawrence Market",
+      "Nathan Phillips Square",
+      "the Toronto Islands",
+      "Casa Loma",
+      "the Royal Ontario Museum",
+      "the AGO",
+      "High Park",
+      "Sankofa Square",
+      "the PATH",
+      "Harbourfront",
+      "the Scarborough Bluffs",
+      "the University of Toronto"
+    ]
+  },
+  "small_talk": [
+    "The 401 was a parking lot again this morning.",
+    "The Eglinton line, have you ever seen anything take so long?",
+    "Leafs lost again, I'm not even surprised.",
+    "Grab me a double-double if you pass a Timmies.",
+    "Rent in this city is wild, my cousin moved to Hamilton.",
+    "The Ex starts next week, I'm going for the food building.",
+    "Streetcar's short-turning again, I'm walking.",
+    "Did you go to Caribana this year? The parade was massive.",
+    "Best patty in the city is in Scarborough, trust me.",
+    "Island ferry line was two hours on Saturday."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Toronto",
+    "https://en.wikipedia.org/wiki/Demographics_of_Toronto",
+    "https://www.ttc.ca",
+    "https://en.wikipedia.org/wiki/Multicultural_Toronto_English",
+    "https://www12.statcan.gc.ca/census-recensement/index-eng.cfm"
+  ]
+}

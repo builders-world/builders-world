@@ -1,0 +1,85 @@
+{
+  "languages": [
+    { "code": "fr", "name": "French", "official": true, "spoken": "widely" },
+    { "code": "fon", "name": "Fon (Fongbe)", "official": false, "spoken": "widely in the south and in Cotonou" },
+    { "code": "yo", "name": "Yoruba (Nago)", "official": false, "spoken": "commonly in the south-east" },
+    { "code": "guw", "name": "Gun", "official": false, "spoken": "commonly around Porto-Novo" },
+    { "code": "bba", "name": "Bariba", "official": false, "spoken": "in the north" },
+    { "code": "en", "name": "English", "official": false, "spoken": "a little, in trade with Nigeria" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Beninese people usually carry a French Christian first name (Romaric, Gildas, Prudence, Bénédicta) or a Muslim one, a Fon or Yoruba name, and a family name from the father. Many Fon names come from the circumstances of a birth: Dossou and Dossi for a boy or girl born after twins, Agossou for a baby born feet first, Zinsou and Zinhoué for twins. Names built on Sè or Mahou (God) are common: Sèdjro, Sènami, Mahougnon. Yoruba Muslim families of Cotonou and Porto-Novo carry names like Lawani and Yessoufou, and their daughters' names often end in -ath: Latifath, Rafiath, Sikirath.",
+    "groups": {
+      "fon": {
+        "given": {
+          "m": ["Sèdjro", "Sènan", "Mahougnon", "Houénou", "Dossou", "Agossou", "Zinsou", "Codjo", "Comlan", "Sossa", "Kpossi", "Gbènou"],
+          "f": ["Fifamè", "Sènami", "Houéfa", "Dossi", "Zinhoué", "Sèna", "Mahoussi", "Ayaba", "Ablawa", "Gnona", "Sèdami", "Hounsi"]
+        },
+        "family": ["Dossou", "Zinsou", "Agossou", "Gbaguidi", "Hounkpatin", "Adjovi", "Tossou", "Sossou", "Houessou", "Ahouansou", "Hounsou", "Kpadonou", "Akpovi", "Hounnou", "Agbangla", "Dossou-Yovo", "Ahouandjinou", "Gnonlonfoun"],
+        "also": { "m": ["Romaric", "Gildas", "Rodrigue", "Ghislain", "Wilfried", "Hermann", "Fortuné", "Parfait", "Ulrich", "Arnaud"], "f": ["Prudence", "Bénédicta", "Gloria", "Prisca", "Gisèle", "Christelle", "Nadège", "Victoire", "Espérance", "Carine"] }
+      },
+      "yoruba": {
+        "given": {
+          "m": ["Rafiou", "Rachidi", "Latifou", "Wassiou", "Kamarou", "Moubarak", "Babatoundé", "Adébayo", "Kolawolé", "Olatoundji", "Abiola", "Akim"],
+          "f": ["Latifath", "Rafiath", "Sikirath", "Kafayath", "Nafissath", "Fadilath", "Bassirath", "Adjoké", "Folachadé", "Bolanlé", "Yétoundé", "Moutiath"]
+        },
+        "family": ["Lawani", "Yessoufou", "Tiamiyou", "Salami", "Raïmi", "Bouraïma", "Akanni", "Alao", "Sanni", "Bello", "Adéchina", "Akandé", "Adéoti", "Ogoundélé", "Oké"]
+      }
+    },
+    "weights": { "fon": 0.72, "yoruba": 0.28 }
+  },
+  "honorifics": { "elder_m": "Tonton", "elder_f": "Tantie", "peer_m": "Mon frère", "peer_f": "Ma sœur", "boss": "Patron" },
+  "phrases": {
+    "fon": {
+      "hello": [["A dò ganji à?", "Are you well? (the everyday greeting)"]],
+      "morning": [["A fɔ́n ganji à?", "Did you wake well? (good morning)"]],
+      "how_are_you": [["A dò ganji à?", "Are you well?"]],
+      "fine": [["Un dò ganji", "I'm well"], ["Ɛɛn, un fɔ́n ganji", "Yes, I woke well"]],
+      "thanks": [["Awanu", "Thank you"]],
+      "welcome": [["Kwabɔ", "Welcome"], ["Kúdo wa bɔ", "Welcome, well done for coming"]],
+      "yes": [["Ɛɛn", "Yes"]],
+      "no": [["Ǎwo", "No"]]
+    },
+    "fr": {
+      "hello": [["Bonjour", "Hello"], ["Salut", "Hi"]],
+      "morning": [["Bonjour, bien dormi?", "Good morning, sleep well?"]],
+      "evening": [["Bonsoir", "Good evening"]],
+      "how_are_you": [["Ça va?", "How's it going?"], ["Et la maison?", "And the family?"]],
+      "fine": [["Ça va un peu", "Getting by, fine"], ["Ça va, Dieu merci", "Fine, thank God"]],
+      "thanks": [["Merci", "Thank you"], ["Merci beaucoup", "Thanks a lot"]],
+      "bye": [["Au revoir", "Goodbye"], ["À tout à l'heure", "See you later"]],
+      "welcome": [["Bonne arrivée", "Welcome, glad you arrived"], ["Bienvenue", "Welcome"]],
+      "sorry": [["Pardon", "Sorry"], ["Désolé", "Sorry"]],
+      "excuse": [["Excusez-moi", "Excuse me"]],
+      "yes": [["Oui", "Yes"]],
+      "no": [["Non", "No"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["Fine, thanks", "Fine, thanks"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Goodbye", "Goodbye"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "XOF",
+    "symbol": "FCFA",
+    "words": [
+      ["akwɛ", "money, in Fon"],
+      ["l'argent", "money"],
+      ["mille", "a thousand francs"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Benin",
+    "https://en.wikipedia.org/wiki/Fon_language",
+    "https://en.wikipedia.org/wiki/Fon_people",
+    "https://en.wikipedia.org/wiki/Yoruba_people",
+    "https://en.wikipedia.org/wiki/Gun_language",
+    "https://en.wikivoyage.org/wiki/Benin"
+  ]
+}

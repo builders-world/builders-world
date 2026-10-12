@@ -1,0 +1,105 @@
+{
+  "street": { "de": 0.66, "hamburgisch": 0.2, "en": 0.14 },
+  "registers": {
+    "hamburgisch": {
+      "name": "Hamburger Schnack",
+      "about": "Hamburg German with Low German words: Moin at any hour of the day, Schietwetter for the rain, Digga among the young, and a dry northern understatement."
+    }
+  },
+  "names": { "weights": { "german": 0.71, "turkish": 0.08, "polish": 0.05, "afghan": 0.04, "russian_german": 0.04, "arab": 0.03, "italian": 0.02, "bks": 0.02, "vietnamese": 0.01 } },
+  "phrases": {
+    "hamburgisch": {
+      "hello": [["Moin!", "Hi (any time of day)"], ["Moin moin!", "Hi there (a bit chattier)"]],
+      "how_are_you": [["Allens klar?", "All good?"], ["Na, wie läuft's?", "How's it going?"]],
+      "fine": [["Allens klar", "All good"], ["Muss ja", "Got to keep going"], ["Läuft", "It's going fine"]],
+      "thanks": [["Danke, Digga", "Thanks, mate"], ["Dank di", "Thanks (Low German)"]],
+      "bye": [["Tschüss", "Bye"], ["Tschüssi, bis denn", "Bye, see you then"]],
+      "yes": [["Jo", "Yeah"]],
+      "no": [["Nee", "No"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! Busy on the Elbe today?", "Hey, how's things?", "Hi! Coming down to the harbour later?", "Hello, long time no see!", "Hey, did you make it through the rain?"],
+      "reply": ["All good, thanks!", "Not bad, just back from a walk round the Alster.", "Fine, a bit windswept.", "Pretty good, you?", "Can't complain, the U3 was on time."],
+      "sunny": ["Sun on the Alster, the whole city is out.", "Perfect day for the beach at Övelgönne.", "Proper summer weather for once!", "Everyone's at the Elbstrand today.", "Great day for a Fischbrötchen at the Landungsbrücken."],
+      "rain": ["Schietwetter again, typical Hamburg.", "Drizzle and wind, the usual.", "Bring a proper jacket, it's coming in sideways.", "Rain again, we never trust the sky here.", "It's grey, but the harbour still looks good."],
+      "bye": ["Tschüss!", "See you later!", "Take care!", "Have a good one!", "See you at the Fischmarkt on Sunday!"],
+      "busy": ["Sorry, my ferry leaves in five!", "Can't stop, late for a meeting in the HafenCity.", "Got to run for the S-Bahn!", "In a hurry, catch you later!", "Late for a call, sorry!"]
+    },
+    "de": {
+      "greet": ["Hallo! Wie geht's?", "Guten Morgen! Gut geschlafen?", "Hi, lange nicht gesehen!", "Hallo, alles gut bei dir?", "Hey, schön dich zu sehen!"],
+      "reply": ["Gut, danke! Und dir?", "Alles gut, viel zu tun.", "Ganz okay, bisschen müde.", "Super, war am Wochenende an der Elbe.", "Geht so, Montag halt."],
+      "sunny": ["Endlich Sonne!", "Heute ist die Alster bestimmt voll.", "Perfektes Wetter für den Elbstrand.", "So ein schöner Tag, ab in den Park.", "Bei dem Wetter fahr ich mit der Fähre raus."],
+      "rain": ["Schon wieder Regen.", "Nimm lieber eine Regenjacke mit.", "Typisch Hamburg, grau und nass.", "Es nieselt schon den ganzen Tag.", "Bei dem Wind ist ein Schirm sinnlos."],
+      "bye": ["Tschüss!", "Bis später!", "Mach's gut!", "Schönen Tag noch!", "Bis bald!"],
+      "busy": ["Sorry, ich muss los, meine Bahn kommt!", "Keine Zeit, ich bin spät dran.", "Ich hab gleich ein Meeting, bis später!", "Ich bin in Eile, wir hören uns!", "Muss weiter, tschüss!"]
+    },
+    "hamburgisch": {
+      "greet": ["Moin!", "Moin moin, allens klar?", "Moin, Digga!", "Na, moin! Wie läuft's?", "Moin, lange nicht gesehen!"],
+      "reply": ["Allens klar, und bei dir?", "Muss ja.", "Jo, läuft.", "Kann nich klagen.", "Ganz gut, bisschen müde."],
+      "sunny": ["Endlich mal Sonne über der Alster!", "Bei dem Wetter ab an die Elbe.", "Moin Sonne, lange nicht gesehen!", "Heute ist der Strand in Övelgönne voll.", "Herrlich, so ein Tag am Hafen."],
+      "rain": ["Typisch Schietwetter.", "Schon wieder Schmuddelwetter.", "Regnet ja wieder Bindfäden.", "Gibt kein schlechtes Wetter, nur falsche Kleidung.", "Ohne Friesennerz geh ich heute nicht raus."],
+      "bye": ["Tschüss!", "Tschüssi, bis denn!", "Mach's gut!", "Bis die Tage!"],
+      "busy": ["Keine Zeit, die Fähre geht gleich!", "Muss los, Digga, bis denn!", "Bin spät dran, tschüss!", "Muss zur Bahn, bis später!"]
+    }
+  },
+  "transport": {
+    "bus": "Bus",
+    "moto_taxi": "E-Scooter",
+    "tricycle": "Fahrradrikscha",
+    "taxi": "Taxi",
+    "conductor": "Kontrolleur",
+    "stage": "Haltestelle",
+    "metro": "U-Bahn",
+    "train": "S-Bahn",
+    "ferry": "Hafenfähre",
+    "bike_share": "StadtRAD",
+    "ride_hail": "MOIA, Uber"
+  },
+  "touts": [
+    "Bitte zurückbleiben!",
+    "Nächste Haltestelle: Landungsbrücken.",
+    "Nächster Halt: Neumühlen, Övelgönne.",
+    "Moin, die neue Hinz&Kunzt ist da!",
+    "Hier, noch 'ne Tüte obendrauf, alles für zehn Euro!",
+    "Fahrkartenkontrolle, Ihre Fahrkarten bitte!",
+    "Guten Tag, liebe Fahrgäste, ein kleines Lied für Sie und dann bin ich auch schon wieder weg."
+  ],
+  "hawkers": [
+    ["Fischbrötchen! Bismarck, Matjes, Krabben!", "Fish rolls! Pickled herring, matjes, shrimp!"],
+    ["Frische Krabben, direkt vom Kutter!", "Fresh brown shrimp, straight off the boat!"],
+    ["Alles für zehn Euro, noch 'ne Ananas obendrauf!", "All of it for ten euros, I'll throw in a pineapple!"],
+    ["Franzbrötchen, ganz frisch!", "Franzbrötchen, fresh out of the oven!"],
+    ["Hinz&Kunzt, das Hamburger Straßenmagazin!", "Hinz&Kunzt, Hamburg's street magazine!"],
+    ["Aal, frisch geräuchert!", "Eel, freshly smoked!"]
+  ],
+  "food": {
+    "street": ["Fischbrötchen", "Franzbrötchen", "Krabbenbrötchen", "Currywurst", "Bratwurst", "Döner"],
+    "dishes": ["Labskaus", "Pannfisch", "Birnen, Bohnen und Speck", "Aalsuppe", "Scholle Finkenwerder Art", "Rote Grütze"],
+    "drinks": ["Astra", "Alsterwasser", "Holsten", "Fritz-Kola", "Lütt un Lütt", "Kaffee"]
+  },
+  "places": {
+    "neighbourhoods": ["St. Pauli", "Altona", "Ottensen", "Sternschanze", "Eimsbüttel", "Winterhude", "Eppendorf", "HafenCity", "St. Georg", "Wilhelmsburg", "Blankenese"],
+    "streets": ["Reeperbahn", "Jungfernstieg", "Mönckebergstraße", "Elbchaussee", "Schulterblatt", "Große Bergstraße", "Lange Reihe", "Grindelallee", "Ballindamm", "Spitalerstraße"],
+    "landmarks": ["Elbphilharmonie", "Speicherstadt", "Landungsbrücken", "Michel (St. Michaelis)", "Rathaus", "Außenalster", "Alter Elbtunnel", "Fischmarkt", "Planten un Blomen", "Miniatur Wunderland"]
+  },
+  "small_talk": [
+    "The 62 ferry is the cheapest harbour tour in town.",
+    "Fischmarkt on Sunday morning, you in?",
+    "Elbphilharmonie tickets went in minutes again.",
+    "Nice day, so of course everyone is jogging round the Alster.",
+    "Hamburg weather: four seasons before lunch.",
+    "Got my Franzbrötchen from the bakery on the corner, best in Ottensen.",
+    "The Schanze was packed last night.",
+    "Container ships look massive from the beach at Övelgönne.",
+    "Is the Dom on yet? I fancy the funfair."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Hamburg",
+    "https://de.wikipedia.org/wiki/Moin",
+    "https://en.wikipedia.org/wiki/Low_German",
+    "https://www.hvv.de/",
+    "https://www.hinzundkunzt.de/"
+  ]
+}

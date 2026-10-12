@@ -1,0 +1,85 @@
+{
+  "street": { "ary": 0.78, "fr": 0.17, "en": 0.05 },
+  "names": { "weights": { "arab": 0.68, "amazigh": 0.32 } },
+  "phrases": {
+    "ary": {
+      "hello": [["Salam!", "Hi!"], ["Salam alikoum", "Peace be upon you"]],
+      "how_are_you": [["Labas?", "All well?"], ["Kidayr?", "How are you?"]],
+      "fine": [["Labas, hamdullah", "Fine, thank God"], ["Kolchi mzyan", "All good"]],
+      "bye": [["Bslama", "Goodbye"], ["Thalla f rassek", "Take care"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Salam! How are you?", "Good morning! All well?", "Hello, how is the family?", "Good evening, how was the office?", "Ah, long time! How are the studies going?"],
+      "reply": ["Fine, thank God. And you?", "All good, thanks.", "Great, everything is fine.", "Not bad, can't complain.", "Doing well, thanks for asking."],
+      "sunny": ["Lovely day for the Kasbah des Oudayas.", "Perfect weather for a walk along the Bouregreg.", "The sun is strong, find some shade.", "Clear sky, you can see right across to Salé.", "Nice day for the beach below the Kasbah."],
+      "rain": ["It's raining, take an umbrella.", "Rain again, the Atlantic wind is cold.", "The tram will be packed with this weather.", "Wait a bit, it will pass.", "Cold and wet today, harira weather."],
+      "bye": ["Goodbye, take care!", "See you later.", "Good night.", "Greet the family for me.", "Go in peace."],
+      "busy": ["Sorry, I'm late for the ministry.", "I have a class in Agdal.", "I'll miss the train to Casa, see you!", "Let me catch the tram to Salé.", "I'll call you this evening."]
+    },
+    "ary": {
+      "greet": ["Salam, labas?", "Sbah l'khir a khouya, kidayr?", "Salam khti, labas alik?", "Ahlan, ach khbarek?", "Fin a sahbi? Ghbrti!"],
+      "reply": ["Labas, hamdullah. Nta?", "Bikhir, l'hamdullah.", "Kolchi mzyan, choukran.", "Mzyan bezzaf!"],
+      "sunny": ["Lhal skhoun lyoum!", "Chems zwina, yallah l'Oudaya!", "Jow zwin lyoum.", "Nhar zwin, yallah l'bhar."],
+      "rain": ["Shta katsabb!", "Shta katsabb, khod parapluie.", "Lhal bared lyoum.", "Shta bezzaf, tram ghadi ykoun amer."],
+      "bye": ["Bslama!", "Nchoufek mn baad.", "Yallah, bslama, thalla f rassek.", "Tsbah ala khir."],
+      "busy": ["Ana mzroub, nchoufek mn baad!", "Smhli, ana khddam daba.", "Ghadi ifoutni tran!", "Ma andich lweqt daba, nhdro mn baad."]
+    },
+    "fr": {
+      "greet": ["Salut, ça va?", "Bonjour! Ça fait longtemps!", "Bonsoir, la famille va bien?", "Coucou, tu vas bien?"],
+      "reply": ["Ça va, hamdullah.", "Très bien, et toi?", "Ça va, merci.", "Ça roule!"],
+      "sunny": ["Il fait beau aujourd'hui!", "Belle journée pour les Oudayas.", "Le soleil tape fort.", "Quel temps magnifique sur le Bouregreg."],
+      "rain": ["Il pleut encore!", "Prends ton parapluie.", "Il fait froid avec ce vent.", "Attends que ça passe."],
+      "bye": ["À plus!", "À demain.", "Bonne soirée!", "Bonne nuit."],
+      "busy": ["Je suis pressé, on se parle.", "Je suis en retard au ministère.", "Je vais rater le train, à plus!", "Je t'appelle ce soir."]
+    }
+  },
+  "transport": { "bus": "bus", "moto_taxi": "", "tricycle": "triporteur", "taxi": "petit taxi", "shared_taxi": "grand taxi", "conductor": "receveur", "stage": "mahatta" },
+  "touts": [
+    "Salé! Salé!",
+    "Témara! Témara!",
+    "Kénitra, wahed!",
+    "Agdal! Agdal!",
+    "Hay Riad!",
+    "Bab Lhad! Bab Lhad!",
+    "Baqa blassa wahda!",
+    "Casa! Casa!"
+  ],
+  "hawkers": [
+    ["Hrira skhouna!", "Hot harira!"],
+    ["Sfenj skhoun!", "Hot doughnuts!"],
+    ["Babbouche!", "Snail soup!"],
+    ["Lma bared!", "Cold water!"],
+    ["Msemen w harcha!", "Flaky flatbread and semolina cakes!"],
+    ["Zriaa w kaoukaou!", "Sunflower seeds and peanuts!"]
+  ],
+  "food": {
+    "street": ["sfenj", "msemen", "harcha", "babbouche", "bissara", "grilled sardines", "maqouda"],
+    "dishes": ["couscous on Friday", "tajine", "rfissa", "pastilla", "harira", "seffa", "loubia"],
+    "drinks": ["atay (mint tea)", "café nss-nss", "jus d'avocat", "fresh orange juice", "lben", "panaché"]
+  },
+  "places": {
+    "neighbourhoods": ["Agdal", "Hassan", "Océan", "Les Orangers", "Souissi", "Hay Riad", "Yacoub El Mansour", "Akkari", "Takaddoum", "Médina", "Kasbah des Oudayas", "Diour Jamaa", "Youssoufia", "Hay Nahda"],
+    "streets": ["Avenue Mohammed V", "Avenue Hassan II", "Avenue Allal Ben Abdellah", "Avenue Fal Ould Oumeir", "Avenue de France", "Avenue Annakhil", "Avenue Mohammed VI", "Rue des Consuls"],
+    "landmarks": ["Hassan Tower", "Mausoleum of Mohammed V", "Kasbah of the Udayas", "Chellah", "Bouregreg Marina", "Grand Théâtre de Rabat", "Mohammed VI Museum of Modern and Contemporary Art", "Rabat-Ville station", "Rabat beach", "Mohammed VI Tower", "Bab Lhad", "Andalusian Gardens"]
+  },
+  "small_talk": [
+    "The tram over the bridge to Salé was quick today.",
+    "Let's walk the Oudayas and have tea at Café Maure.",
+    "Agdal is packed with students again.",
+    "The new tower on the Bouregreg looks good in this light.",
+    "Rue des Consuls has the carpets you were looking for.",
+    "The Al Boraq got me to Tangier in no time.",
+    "Sunset from the Kasbah walls tonight?",
+    "The blue petit taxi wouldn't take me to Hay Riad."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Rabat",
+    "https://en.wikipedia.org/wiki/Moroccan_Arabic",
+    "https://en.wikipedia.org/wiki/Kasbah_of_the_Udayas",
+    "https://en.wikipedia.org/wiki/Hassan_Tower",
+    "https://en.wikipedia.org/wiki/Rabat%E2%80%93Sal%C3%A9_tramway",
+    "https://en.wikipedia.org/wiki/Moroccan_cuisine"
+  ]
+}

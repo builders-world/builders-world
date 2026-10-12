@@ -1,0 +1,249 @@
+{
+  "street": { "ln": 0.48, "fr": 0.25, "indoubil": 0.24, "en": 0.03 },
+  "registers": {
+    "indoubil": {
+      "name": "Indoubil (Kinshasa street Lingala)",
+      "about": "Kinshasa's street talk: Lingala mixed freely with French and youth slang, grown out of the Indoubil slang of the 1960s. Heard at the bus stops, in the markets and wherever young Kinois meet."
+    }
+  },
+  "names": { "weights": { "kongo": 0.55, "luba": 0.33, "kivu": 0.12 } },
+  "phrases": {
+    "indoubil": {
+      "hello": [["Mbote!", "Hi!"], ["Boni?", "How's it?"], ["Sango nini?", "What's new?"]],
+      "how_are_you": [["Ndenge nini?", "How's it going?"], ["Ozali bien?", "You good?"]],
+      "fine": [["Ezali bien", "It's good"], ["Ezali mabe te", "Not bad at all"], ["Tozali kaka", "We're hanging in there"]],
+      "thanks": [["Melesi", "Thanks"], ["Matondo, ndeko", "Thanks, friend"]],
+      "bye": [["Tokomonana", "See you"], ["Nakei", "I'm off"]],
+      "friend": [["Ndeko", "Brother, sister, friend"], ["Moninga", "Friend"], ["Yaya", "Big brother or big sister"], ["Leki", "Little brother or little sister"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": [
+        "Good morning! How was the night?",
+        "Hello, my friend, how is the family?",
+        "Hey, long time! Where have you been hiding?",
+        "Good afternoon, Papa, are you well?",
+        "Hello! Did you make it through the traffic?"
+      ],
+      "reply": [
+        "All good, thank you, and you?",
+        "Fine, thank you, the day is going well.",
+        "We are here, we keep going!",
+        "Very well, thank you for asking.",
+        "Doing fine, just a bit tired from the traffic."
+      ],
+      "sunny": [
+        "The sun is hitting hard today.",
+        "Hot day, I need a cold drink.",
+        "Beautiful day to walk by the river.",
+        "In this heat even the wewa riders are hiding in the shade.",
+        "Clear sky, you can see Brazzaville across the river."
+      ],
+      "rain": [
+        "The rain is coming, the sky over Ndjili is black.",
+        "Heavy rain, the roads will flood again.",
+        "Wait under here until the rain stops.",
+        "No taxis anywhere when it rains like this.",
+        "At least the rain cools the city down."
+      ],
+      "bye": [
+        "Go well, see you tomorrow!",
+        "Greet the family for me.",
+        "Bye bye, take care on the road.",
+        "See you on Sunday!",
+        "Off I go, stay well!"
+      ],
+      "busy": [
+        "Sorry, I'm in a hurry, my bus is leaving!",
+        "I have a meeting in Gombe, let's talk later.",
+        "Can't stop now, I'm late for work.",
+        "I'm rushing to the market before it closes.",
+        "Call me tonight, I'm running!"
+      ]
+    },
+    "fr": {
+      "greet": [
+        "Bonjour, ça va ?",
+        "Bonjour Papa, vous allez bien ?",
+        "Salut mon frère, quoi de neuf ?",
+        "Bonsoir Maman, la journée s'est bien passée ?",
+        "Eh, ça fait longtemps !"
+      ],
+      "reply": [
+        "Ça va bien, merci, et toi ?",
+        "On est là, on avance !",
+        "Très bien, merci beaucoup.",
+        "Ça va un peu, on tient le coup."
+      ],
+      "sunny": [
+        "Il fait chaud aujourd'hui !",
+        "Quel soleil, il faut boire de l'eau.",
+        "Belle journée pour une promenade au bord du fleuve.",
+        "Le soleil tape fort ce matin."
+      ],
+      "rain": [
+        "La pluie arrive, il faut se dépêcher.",
+        "Avec cette pluie, les routes vont être bloquées.",
+        "Attendons ici que la pluie passe.",
+        "Il pleut fort, pas de taxi en vue."
+      ],
+      "bye": [
+        "Au revoir, à demain !",
+        "Bonne journée !",
+        "Salue la famille pour moi.",
+        "À plus tard, mon frère !"
+      ],
+      "busy": [
+        "Désolé, je suis pressé !",
+        "J'ai un rendez-vous à la Gombe, on se parle plus tard.",
+        "Je suis en retard pour le boulot.",
+        "Je cours, je t'appelle ce soir."
+      ]
+    },
+    "ln": {
+      "greet": [
+        "Mbote na yo!",
+        "Mbote Papa, ozali malamu?",
+        "Mbote Maman, sango nini?",
+        "Ndeko, mbote! Ndenge nini?",
+        "Olali malamu?"
+      ],
+      "reply": [
+        "Nazali malamu, matondo. Yo?",
+        "Malamu, ndeko!",
+        "Tozali kaka, matondo.",
+        "Nazali malamu mingi."
+      ],
+      "sunny": [
+        "Moi ezali makasi lelo!",
+        "Molunge mingi lelo.",
+        "Lelo moi ezali kitoko.",
+        "Moi ezo bete makasi, tomela mayi."
+      ],
+      "rain": [
+        "Mbula ezo ya!",
+        "Mbula ezo noka makasi.",
+        "Tozela mbula esila.",
+        "Mbula oyo, nzela ekotonda mayi."
+      ],
+      "bye": [
+        "Tokomonana!",
+        "Kende malamu, ndeko.",
+        "Tikala malamu!",
+        "Tokomonana lobi!"
+      ],
+      "busy": [
+        "Nazali pressé, ndeko!",
+        "Nazali na mosala, tokosolola sima.",
+        "Nakei, nazali na retard!",
+        "Tika nakende, bus ekei!"
+      ]
+    },
+    "indoubil": {
+      "greet": [
+        "Mbote ndeko, boni?",
+        "Eh yaya, sango nini?",
+        "Leki, ndenge nini? Ça va?",
+        "Moninga, boni? Ozali bien?"
+      ],
+      "reply": [
+        "Ezali bien, ndeko!",
+        "Tozali kaka, on avance!",
+        "Ça va, yaya, ezali malamu.",
+        "Bien bien, ezali mabe te!"
+      ],
+      "sunny": [
+        "Moi ya lelo ezali makasi, ndeko!",
+        "Chaleur ya lelo! Sucré malili esengeli.",
+        "Moi ezo bete, tokende na ombre.",
+        "Lelo ezali kitoko, ambiance pembeni ya fleuve!"
+      ],
+      "rain": [
+        "Eh, mbula ezo ya, tokima!",
+        "Mbula ezo noka, wewa ezali te!",
+        "Mbula oyo ekobebisa programme na ngai.",
+        "Tozela mbula esila, ndeko."
+      ],
+      "bye": [
+        "Tokomonana, ndeko!",
+        "Nakei, ciao!",
+        "Kende malamu, on se voit!",
+        "Nakobenga yo na pokwa!"
+      ],
+      "busy": [
+        "Nazali pressé, ndeko, sima!",
+        "Embouteillage, nazali na retard!",
+        "Nazali na mosala, tokosolola sima.",
+        "Tika nakende, chef azali kozela ngai!"
+      ]
+    }
+  },
+  "transport": {
+    "bus": "fula-fula",
+    "minibus": "esprit de mort",
+    "moto_taxi": "wewa",
+    "tricycle": "tricycle",
+    "taxi": "taxi",
+    "small_taxi": "ketch",
+    "conductor": "receveur",
+    "caller": "chargeur",
+    "stage": "arrêt"
+  },
+  "touts": [
+    "Victoire, Victoire!",
+    "Gare centrale, Gare centrale!",
+    "UPN! UPN!",
+    "Rond-point Ngaba!",
+    "Matete, Matete!",
+    "Ndjili, Sainte-Thérèse!",
+    "Zando, Zando!",
+    "Kintambo magasin!",
+    "Lemba terminus!",
+    "Bandal, Bandal!"
+  ],
+  "hawkers": [
+    ["Mampa! Mampa ya sika!", "Bread! Fresh bread!"],
+    ["Mikate ya moto!", "Hot doughnuts!"],
+    ["Nguba, nguba ya kokalinga!", "Peanuts, roasted peanuts!"],
+    ["Mayi ya malili!", "Cold water!"],
+    ["Sucré malili!", "Cold soft drinks!"],
+    ["Unités! Vodacom, Airtel, Orange!", "Airtime! Vodacom, Airtel, Orange!"],
+    ["Kamundele, kamundele!", "Meat skewers!"],
+    ["Mbika!", "Pumpkin seeds!"]
+  ],
+  "food": {
+    "street": ["kamundele", "mikate", "nguba", "mbika", "kwanga", "soso ya kotumba", "mpiodi ya kokalinga", "makemba ya kotumba"],
+    "dishes": ["pondu", "poulet à la moambe", "fufu", "liboke ya mbisi", "makayabu", "madesu", "loso na madesu", "ndakala", "ntaba"],
+    "drinks": ["Primus", "Skol", "Turbo King", "Tembo", "tangawisi", "Vitalo", "malafu ya mbila"]
+  },
+  "places": {
+    "neighbourhoods": ["Gombe", "Lingwala", "Kintambo", "Ngaliema", "Bandalungwa", "Kalamu", "Matonge", "Kasa-Vubu", "Limete", "Lemba", "Ngaba", "Matete", "Masina", "Ndjili", "Barumbu", "Selembao", "Binza", "Mont-Ngafula"],
+    "streets": ["Boulevard du 30 Juin", "Avenue de la Libération", "Avenue Kasa-Vubu", "Boulevard Lumumba", "Avenue des Huileries", "Avenue de l'Université", "Avenue du Commerce", "Boulevard Triomphal"],
+    "landmarks": ["Rond-point Victoire", "Gare centrale", "Grand Marché (Zando)", "Stade des Martyrs", "Échangeur de Limete", "Fleuve Congo", "Beach Ngobila", "Cathédrale Notre-Dame du Congo", "Académie des Beaux-Arts", "Université de Kinshasa", "Marché de la Liberté", "Musée national de la RDC"]
+  },
+  "small_talk": [
+    "Boulevard du 30 Juin was jammed again this morning, I walked the last part.",
+    "Let's go to Matonge tonight, the bands play late there.",
+    "From the river you can see Brazzaville so clearly today.",
+    "I took a wewa from Victoire, faster than any taxi.",
+    "My aunt is making pondu and fufu on Sunday, come through.",
+    "The esprit de mort to Ndjili was so full, people were hanging at the door.",
+    "The Léopards play on Saturday, we are watching at the bar in Bandal.",
+    "Buy some mikate at the corner, they are still hot.",
+    "There is a wedding in Lemba this weekend, everyone has new pagne.",
+    "The Zando was packed, I bought fabric for the whole family."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Kinshasa",
+    "https://en.wikipedia.org/wiki/Indoubil",
+    "https://en.wikipedia.org/wiki/Lingala",
+    "https://en.wikipedia.org/wiki/Matonge",
+    "https://en.wikipedia.org/wiki/Gombe,_Kinshasa",
+    "https://en.wikipedia.org/wiki/Boulevard_du_30_Juin",
+    "https://en.wikipedia.org/wiki/Stade_des_Martyrs",
+    "https://en.wikipedia.org/wiki/Congolese_cuisine",
+    "https://en.wikipedia.org/wiki/Moambe_chicken",
+    "https://www.omniglot.com/language/phrases/lingala.htm"
+  ]
+}

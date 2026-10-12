@@ -1,0 +1,146 @@
+{
+  "languages": [
+    { "code": "id", "name": "Indonesian", "official": true, "spoken": "widely" },
+    { "code": "jv", "name": "Javanese", "official": false, "spoken": "widely at home, by Javanese families" },
+    { "code": "su", "name": "Sundanese", "official": false, "spoken": "regionally, West Java and Sundanese families in Jakarta" },
+    { "code": "en", "name": "English", "official": false, "spoken": "some, in business, tech and South Jakarta" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Most Indonesians have no inherited family name. Many Javanese, especially older people, use a single name (Sukarni, Slamet), and others carry two or three personal names where the last one is not passed on: Budi Santoso's children will not be Santosos. The family list for Javanese, Sundanese and Muslim Jakartan names therefore holds common second names, with family_f giving the ones women usually carry (Lestari, Rahayu). Batak people do carry a clan name (marga) such as Siregar or Simanjuntak, and Batak women write it after boru (br.). Chinese Indonesians mostly use Indonesian-sounding family names like Wijaya, Gunawan or Halim. People are addressed by first name with Pak, Bu, Mas, Mbak or Bang.",
+    "groups": {
+      "javanese": {
+        "given": {
+          "m": ["Budi", "Agus", "Joko", "Bambang", "Eko", "Dwi", "Slamet", "Wahyu", "Adi", "Teguh", "Arif", "Rizky", "Dimas", "Bayu", "Yoga", "Fajar", "Andi", "Hendra"],
+          "f": ["Sri", "Siti", "Dewi", "Ayu", "Wulan", "Endang", "Rina", "Putri", "Ratna", "Dian", "Indah", "Tri", "Ani", "Wati", "Nadia", "Retno"]
+        },
+        "family": ["Santoso", "Saputra", "Pratama", "Wibowo", "Nugroho", "Setiawan", "Hidayat", "Kurniawan", "Susanto", "Prasetyo", "Purnomo", "Utomo", "Gunawan", "Wijaya", "Sutrisno"],
+        "family_f": ["Lestari", "Rahayu", "Wulandari", "Puspitasari", "Kusumawati", "Handayani", "Fitriani", "Anggraini", "Susanti", "Utami", "Wahyuni", "Permatasari", "Setyowati", "Pratiwi"]
+      },
+      "sundanese": {
+        "given": {
+          "m": ["Asep", "Ujang", "Cecep", "Dadang", "Yayan", "Deden", "Iwan", "Wawan", "Ade", "Ridwan", "Usep", "Jajang", "Aep", "Dedi"],
+          "f": ["Euis", "Neneng", "Entin", "Imas", "Cucu", "Nining", "Iis", "Yuyun", "Teti", "Elis", "Rina", "Lilis", "Neng", "Yanti"]
+        },
+        "family": ["Permana", "Sudrajat", "Hidayat", "Supriatna", "Kurnia", "Ramdani", "Gunawan", "Setiawan", "Suherman", "Rusmana", "Hermawan", "Firmansyah", "Mulyana", "Nugraha"],
+        "family_f": ["Nurhayati", "Kurniasih", "Rahmawati", "Sari", "Herawati", "Mulyani", "Susilawati", "Rosmiati", "Komalasari", "Maryati", "Sumiati", "Hartini"]
+      },
+      "betawi": {
+        "given": {
+          "m": ["Muhammad", "Ahmad", "Abdul", "Rizky", "Fauzi", "Ilham", "Syahrul", "Rahmat", "Hasan", "Ridwan", "Irfan", "Fahmi", "Firman", "Rohman"],
+          "f": ["Siti", "Nur", "Aisyah", "Fatimah", "Nurul", "Zahra", "Annisa", "Fitri", "Rahmah", "Laila", "Nabila", "Salma", "Khadijah"]
+        },
+        "family": ["Fauzi", "Rahman", "Hidayat", "Ramadhan", "Maulana", "Firmansyah", "Hakim", "Syahputra", "Akbar", "Saputra", "Kurniawan", "Hamzah", "Fadillah"],
+        "family_f": ["Rahmawati", "Nurjanah", "Aulia", "Ramadhani", "Fitriani", "Safitri", "Maharani", "Azzahra", "Khairunnisa", "Fauziah", "Hasanah", "Amalia"]
+      },
+      "batak": {
+        "given": {
+          "m": ["Hotman", "Sahat", "Parlindungan", "Tumpal", "Poltak", "Robert", "Daniel", "Martin", "Ferdinand", "Johannes", "Togar", "Binsar", "Rudolf", "Saut"],
+          "f": ["Rugun", "Tiur", "Romauli", "Debora", "Maria", "Sarah", "Lisbeth", "Ruth", "Martha", "Rosmawati", "Erna", "Dameria", "Sondang"]
+        },
+        "family": ["Siregar", "Simanjuntak", "Nasution", "Hutapea", "Sitompul", "Simatupang", "Panjaitan", "Situmorang", "Sinaga", "Hutagalung", "Manurung", "Pardede", "Silalahi", "Lubis", "Tambunan", "Harahap"]
+      },
+      "chinese_indonesian": {
+        "given": {
+          "m": ["Kevin", "Hendra", "Steven", "William", "Andre", "Michael", "Jonathan", "Felix", "Ricky", "Albert", "Hans", "Ivan", "Edwin"],
+          "f": ["Jessica", "Michelle", "Stephanie", "Cindy", "Melissa", "Yenny", "Lily", "Sherly", "Fenny", "Vivian", "Natalia", "Grace", "Angela"]
+        },
+        "family": ["Wijaya", "Gunawan", "Halim", "Santoso", "Salim", "Kusuma", "Tanuwijaya", "Sutanto", "Hartono", "Lim", "Tan", "Setiadi", "Widjaja", "Susanto", "Lie"]
+      }
+    },
+    "weights": { "javanese": 0.5, "sundanese": 0.18, "betawi": 0.15, "batak": 0.1, "chinese_indonesian": 0.07 }
+  },
+  "honorifics": {
+    "elder_m": "Pak",
+    "elder_f": "Bu",
+    "peer_m": "Mas",
+    "peer_f": "Mbak",
+    "boss": "Bos",
+    "betawi_m": "Bang",
+    "betawi_f": "Mpok",
+    "any": "Kak",
+    "note": "Pak (Bapak) and Bu (Ibu) go before the first name: Pak Budi, Bu Sri. Mas and Mbak are Javanese for older brother and sister, used all over Jakarta; Bang and Mpok are the Betawi ones."
+  },
+  "phrases": {
+    "id": {
+      "hello": [["Halo", "Hello"], ["Hai", "Hi"], ["Assalamualaikum", "Peace be upon you, a common greeting"]],
+      "morning": [["Selamat pagi", "Good morning"], ["Pagi!", "Morning!"]],
+      "afternoon": [["Selamat siang", "Good day, around midday"], ["Selamat sore", "Good afternoon"]],
+      "evening": [["Selamat malam", "Good evening"]],
+      "how_are_you": [["Apa kabar?", "How are you?"], ["Gimana kabarnya?", "How's it going?"]],
+      "fine": [["Baik", "Fine"], ["Kabar baik", "I'm well"], ["Baik-baik saja", "All fine"]],
+      "thanks": [["Terima kasih", "Thank you"], ["Makasih", "Thanks"], ["Terima kasih banyak", "Thanks a lot"]],
+      "bye": [["Sampai jumpa", "See you"], ["Dah!", "Bye!"], ["Hati-hati di jalan", "Take care on the road"]],
+      "welcome": [["Selamat datang", "Welcome"], ["Silakan masuk", "Please come in"]],
+      "sorry": [["Maaf", "Sorry"], ["Mohon maaf", "My apologies"]],
+      "excuse": [["Permisi", "Excuse me"], ["Numpang lewat", "Excuse me, coming through"]],
+      "yes": [["Ya", "Yes"], ["Iya", "Yes"], ["Betul", "That's right"]],
+      "no": [["Tidak", "No"], ["Nggak", "No, casual"], ["Bukan", "No, not that"]]
+    },
+    "jv": {
+      "hello": [["Monggo", "Hello, please, said in passing"], ["Kulo nuwun", "Hello, may I come in, at a door"]],
+      "morning": [["Sugeng enjing", "Good morning"]],
+      "evening": [["Sugeng dalu", "Good evening"], ["Sugeng sonten", "Good afternoon"]],
+      "how_are_you": [["Piye kabare?", "How are you? (ngoko, casual)"], ["Pripun kabaripun?", "How are you? (krama, polite)"]],
+      "fine": [["Apik", "Good (ngoko)"], ["Sae", "Good (krama)"]],
+      "thanks": [["Matur nuwun", "Thank you"], ["Suwun", "Thanks"]],
+      "bye": [["Pamit rumiyin", "I'll take my leave first"], ["Monggo", "Go ahead, goodbye"]],
+      "welcome": [["Sugeng rawuh", "Welcome"]],
+      "sorry": [["Nyuwun pangapunten", "I'm sorry (krama)"], ["Ngapura", "Sorry (ngoko)"]],
+      "excuse": [["Nuwun sewu", "Excuse me"]],
+      "yes": [["Inggih", "Yes (krama)"], ["Iya", "Yes (ngoko)"]],
+      "no": [["Mboten", "No (krama)"], ["Ora", "No (ngoko)"]]
+    },
+    "su": {
+      "hello": [["Sampurasun", "Hello, the traditional greeting, answered with Rampes"]],
+      "morning": [["Wilujeng enjing", "Good morning"]],
+      "evening": [["Wilujeng wengi", "Good evening"], ["Wilujeng sonten", "Good afternoon"]],
+      "how_are_you": [["Kumaha damang?", "How are you?"], ["Kumaha kabarna?", "How are things?"]],
+      "fine": [["Damang", "Well, healthy"], ["Sae", "Good"]],
+      "thanks": [["Hatur nuhun", "Thank you"]],
+      "bye": [["Pamit heula", "I'll take my leave first"]],
+      "welcome": [["Wilujeng sumping", "Welcome"], ["Mangga", "Please, go ahead"]],
+      "sorry": [["Hapunten", "Sorry"]],
+      "excuse": [["Punten", "Excuse me"]],
+      "yes": [["Muhun", "Yes"]],
+      "no": [["Henteu", "No"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"], ["Hi", "Hi"]],
+      "morning": [["Good morning", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["I'm fine, thanks", "I'm fine, thanks"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Bye", "Bye"]],
+      "welcome": [["Welcome", "Welcome"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "IDR",
+    "symbol": "Rp",
+    "words": [
+      ["rupiah", "the currency"],
+      ["ribu", "a thousand"],
+      ["juta", "a million"],
+      ["kembalian", "change given back"],
+      ["gopek", "five hundred rupiah, Jakarta slang"],
+      ["seceng", "a thousand rupiah, Jakarta slang"],
+      ["goceng", "five thousand rupiah, Jakarta slang"],
+      ["ceban", "ten thousand rupiah, Jakarta slang"],
+      ["gocap", "fifty thousand rupiah, Jakarta slang"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Indonesian_names",
+    "https://en.wikipedia.org/wiki/Indonesian_language",
+    "https://en.wikipedia.org/wiki/Javanese_language",
+    "https://en.wikipedia.org/wiki/Sundanese_language",
+    "https://en.wikipedia.org/wiki/Marga_(Batak)",
+    "https://en.wikipedia.org/wiki/Indonesian_rupiah"
+  ]
+}

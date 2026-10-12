@@ -1,0 +1,73 @@
+{
+  "street": { "en": 0.85, "es": 0.04, "zh": 0.03, "vi": 0.03, "tl": 0.02, "hi": 0.02, "ko": 0.01 },
+  "registers": {},
+  "names": {
+    "weights": {
+      "american": 0.6,
+      "latino": 0.07,
+      "chinese": 0.06,
+      "african_american": 0.05,
+      "indian": 0.05,
+      "vietnamese": 0.03,
+      "filipino": 0.03,
+      "ethiopian": 0.03,
+      "korean": 0.02
+    }
+  },
+  "phrases": {
+    "en": {
+      "hello": [["Hey there", "Hello"]],
+      "fine": [["Doing alright", "Fine"]],
+      "bye": [["Have a good one", "Goodbye"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hey, how's it going?", "Morning! Got your coffee yet?", "Hi there, good to see you.", "Hey! How was your weekend?", "Oh hey, how have you been?"],
+      "reply": ["Doing alright, thanks.", "Pretty good, just caffeinated.", "Good, the Link was on time for once.", "Not bad, just busy.", "All good, you?"],
+      "sunny": ["The Mountain is out today!", "Sun's out, everybody's at Gas Works.", "Gorgeous day, I'm taking the ferry to Bainbridge.", "Finally some sun, I almost forgot what it looked like.", "Seattle in July, best place on earth."],
+      "rain": ["Just a little drizzle, nobody here uses an umbrella.", "Gray again, it's that time of year.", "It's been misting since October.", "Rain jacket weather, as usual.", "Light rain all day, perfect coffee weather."],
+      "bye": ["Have a good one!", "Take care!", "See you around.", "Catch you later.", "Stay dry out there."],
+      "busy": ["Gotta catch the Link, talk later.", "Late for a meeting in South Lake Union.", "Running to the ferry, see you!", "I'm on call this week, gotta go.", "Heading to the bus, talk soon."]
+    }
+  },
+  "transport": { "bus": "King County Metro bus", "metro": "Link light rail", "train": "Sounder", "ferry": "Washington State Ferries", "streetcar": "Seattle Streetcar", "monorail": "the Monorail", "taxi": "cab", "rideshare": "Uber or Lyft", "stage": "bus stop" },
+  "touts": ["One king salmon, flying away!", "Next station, Westlake.", "Ferry to Bainbridge, now boarding.", "Cream cheese hot dogs, get 'em here!", "Fresh flowers, ten dollars a bunch!"],
+  "hawkers": [
+    ["Salmon going to Minnesota!", "A Pike Place fishmonger calling out an order before throwing the fish"],
+    ["Fresh flowers, ten a bunch!", "A flower stall at Pike Place Market"],
+    ["Cream cheese dogs!", "A hot dog cart after a game"],
+    ["Rainier cherries, taste one!", "A fruit stall in summer"],
+    ["Real Change, get your paper!", "A street paper vendor"]
+  ],
+  "food": {
+    "street": ["a Seattle dog with cream cheese", "pork buns in the International District", "food truck teriyaki", "smoked salmon", "fresh doughnuts at Pike Place"],
+    "dishes": ["chicken teriyaki", "pho", "grilled salmon", "Dungeness crab", "oysters", "clam chowder", "Ethiopian food on Cherry Street", "dim sum", "Rainier cherries"],
+    "drinks": ["a latte", "drip coffee", "a pour-over", "kombucha", "a local IPA", "bubble tea"]
+  },
+  "places": {
+    "neighbourhoods": ["Capitol Hill", "Ballard", "Fremont", "Wallingford", "the U District", "Queen Anne", "Belltown", "South Lake Union", "Pioneer Square", "the Chinatown-International District", "Beacon Hill", "Columbia City", "Georgetown", "West Seattle", "Rainier Valley", "Green Lake", "Magnolia", "Rainier Beach"],
+    "streets": ["Pike Street", "Pine Street", "First Avenue", "Third Avenue", "Broadway", "Aurora Avenue", "Rainier Avenue South", "Ballard Avenue", "University Way", "Westlake Avenue", "Denny Way", "Alaskan Way", "I-5"],
+    "landmarks": ["the Space Needle", "Pike Place Market", "the Gum Wall", "Kerry Park", "Gas Works Park", "the Fremont Troll", "Lumen Field", "T-Mobile Park", "Climate Pledge Arena", "Chihuly Garden and Glass", "the Museum of Pop Culture", "the Ballard Locks", "Discovery Park", "the Seattle Great Wheel", "the University of Washington", "the Amazon Spheres"]
+  },
+  "small_talk": [
+    "The Mountain is out, you can see Rainier from the bridge.",
+    "That's a little spendy for a sandwich, isn't it?",
+    "I've lived here three years and I still only know people from work.",
+    "There are four coffee shops on this block and they're all busy.",
+    "Did you try the new Link station? So much better than the bus.",
+    "Summer here is perfect, just don't tell anyone.",
+    "It's not raining hard, it's just being Seattle.",
+    "Traffic on I-5 was backed up past the ship canal.",
+    "I'm taking the ferry out to the islands this weekend.",
+    "Mariners game tonight, cream cheese dogs after."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Seattle",
+    "https://en.wikipedia.org/wiki/Demographics_of_Seattle",
+    "https://www.soundtransit.org",
+    "https://kingcounty.gov/en/dept/metro",
+    "https://www.pikeplacemarket.org",
+    "https://www.census.gov/quickfacts/"
+  ]
+}

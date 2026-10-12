@@ -1,0 +1,125 @@
+{
+  "street": { "en": 0.45, "singlish": 0.35, "zh": 0.12, "ms": 0.05, "ta": 0.03 },
+  "registers": {
+    "singlish": {
+      "name": "Singlish",
+      "about": "Singapore's own everyday English, with grammar and words from Hokkien, Malay, Cantonese and Tamil and particles like lah, leh, lor and meh. Everyone switches into it with friends, at the hawker centre and in the coffee shop."
+    }
+  },
+  "names": { "weights": { "chinese": 0.74, "malay": 0.135, "indian": 0.09, "eurasian": 0.035 } },
+  "phrases": {
+    "singlish": {
+      "hello": [["Eh, hello!", "Hey, hello!"], ["Oi!", "Hey! Between friends"]],
+      "how_are_you": [["How ah?", "How's things?"], ["Makan already?", "Have you eaten yet?"]],
+      "fine": [["Can lah", "Fine, it's OK"], ["Okay lor", "Fine, I guess"], ["Steady", "All good"]],
+      "thanks": [["Thanks ah", "Thanks"]],
+      "bye": [["Bye bye ah", "Bye"], ["Chiong already", "I'm rushing off now"]],
+      "sorry": [["Paiseh", "Sorry, how embarrassing (Hokkien 歹勢)"]],
+      "excuse": [["Paiseh, excuse me ah", "Sorry, excuse me"]],
+      "yes": [["Can", "Yes, OK"], ["Confirm", "Definitely"], ["Ya lor", "Yeah, exactly"]],
+      "no": [["Cannot", "No, not possible"], ["No lah", "No"], ["Don't have", "There isn't any"]],
+      "great": [["Shiok!", "So good!"], ["Power!", "Excellent!"]],
+      "bad": [["Jialat", "Terrible, a real mess (Hokkien 吃力)"], ["Sian", "Bored, fed up"]],
+      "reserve": [["Chope", "Reserve a seat, often with a packet of tissues"]],
+      "relax": [["Lepak", "Hang out, chill (Malay)"]],
+      "takeaway": [["Tapao", "Takeaway (打包)"], ["Da bao", "Takeaway (打包)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! Had breakfast?", "Hi! How's your day going?", "Hey, long time no see!", "Hello! Heading to work?", "Good morning, Uncle!"],
+      "reply": ["Good, thanks!", "Not bad, just busy.", "All fine, how about you?", "Great, had kaya toast already.", "Tired, but surviving."],
+      "sunny": ["So hot today, stay in the aircon.", "Lovely day for East Coast Park.", "The sun is really strong, bring water.", "Blue sky over the bay today, so nice.", "Perfect weather for a walk at the Botanic Gardens."],
+      "rain": ["Heavy rain coming, look at those clouds.", "It's pouring, wait under the void deck.", "Monsoon season, rain every afternoon.", "Thunderstorm again, the Grab fares will shoot up.", "Bring an umbrella, it can rain any time."],
+      "bye": ["See you!", "Bye, take care!", "Catch you later!", "See you tomorrow!", "Have a good one!"],
+      "busy": ["Sorry, rushing for the MRT!", "Got a meeting at Raffles Place, talk later.", "So busy this week, let's makan after.", "My Grab is here, gotta go!", "Running late, I'll text you!"]
+    },
+    "singlish": {
+      "greet": ["Eh, long time no see leh!", "Wah, you also here ah?", "Oi, makan already or not?", "Bro, how's life ah?", "Eh, where you going so early?"],
+      "reply": ["Can lah, still surviving.", "Okay lor, same same.", "Not bad leh, you?", "Steady lah, thanks ah!", "Aiyah, so-so only."],
+      "sunny": ["Wah, so hot sia, melt already.", "The sun damn garang today.", "Hot until cannot tahan, go aircon place lah.", "Today weather shiok, sky so blue."],
+      "rain": ["Confirm rain later, see the clouds.", "Wah, pour until like that, wait abit lah.", "Bring umbrella or not? Later sure rain one.", "Rain again ah, Grab sure surge like crazy."],
+      "bye": ["Okay lah, see you ah!", "Chiong already, bye bye!", "Take care ah, jio me next time.", "Next time go makan together ah!"],
+      "busy": ["Sorry ah, rushing, later talk.", "Cannot lah, very busy today.", "Got meeting, I go first ah.", "Siao liao, late already, bye!"]
+    },
+    "zh": {
+      "greet": ["Zǎo ān! Chī bǎo le méi?", "Hāi, hǎo jiǔ bú jiàn!", "Āyí, zǎo!", "Nǐ hǎo, qù shàngbān a?"],
+      "reply": ["Hái hǎo, xièxie!", "Chī le, nǐ ne?", "Bú cuò, hěn máng.", "Hǎo a, dōu hǎo."],
+      "sunny": ["Jīntiān hǎo rè ō!", "Tàiyáng hǎo dà, duō hē shuǐ.", "Tiānqì hǎo hǎo, qù hǎibiān zǒuzou.", "Rè sǐ le, jìn qù chuī lěngqì."],
+      "rain": ["Yào xià dà yǔ le.", "Xià yǔ le, xiān zài zhèlǐ děng yí xià.", "Xiàwǔ yòu xià yǔ.", "Jìde dài sǎn ō."],
+      "bye": ["Bàibai!", "Zàijiàn!", "Míngtiān jiàn!", "Màn zǒu ō!"],
+      "busy": ["Bù hǎoyìsi, wǒ gǎn dìtiě!", "Yào kāi huì le, děng yí xià liáo.", "Zhè xīngqī hǎo máng.", "Wǒ xiān zǒu le, chídào le!"]
+    },
+    "ms": {
+      "greet": ["Assalamualaikum, apa khabar?", "Hai, sihat?", "Selamat pagi, makcik!", "Eh, lama tak jumpa!", "Dah makan?"],
+      "reply": ["Khabar baik, terima kasih.", "Sihat, alhamdulillah.", "Baik je, awak?", "Dah, dah makan tadi."],
+      "sunny": ["Panas betul hari ni!", "Cuaca cantik, jom jalan-jalan.", "Terik sangat, minum air banyak-banyak.", "Panas terik, nak air sejuk."],
+      "rain": ["Hujan lebat ni, bawa payung tak?", "Tunggu hujan reda dulu.", "Petang-petang mesti hujan.", "Hujan lagi, tunggu bawah blok dulu."],
+      "bye": ["Jumpa lagi!", "Okay, jalan dulu ya.", "Hati-hati ya!", "Kirim salam pada keluarga."],
+      "busy": ["Maaf, saya kena cepat ni.", "Nak kejar MRT, nanti kita borak.", "Sibuk sikit hari ni, lain kali ya.", "Dah lambat ni, nanti saya call."]
+    },
+    "ta": {
+      "greet": ["Vanakkam! Eppadi irukkeenga?", "Saapteengala?", "Enna, romba naal aachu paathu!", "Kaalai vanakkam, anna!"],
+      "reply": ["Nallaa irukken, neenga?", "Saapten, nandri!", "Paravaillai, nallaa poguthu.", "Ellaam nallaa irukku."],
+      "sunny": ["Inniki romba veyil!", "Romba soodaa irukku, thanni kudinga.", "Veyil romba adikkuthu.", "Vaanam nallaa thelivaa irukku."],
+      "rain": ["Mazhai varudhu, kudai eduthukonga.", "Semma mazhai, konjam wait pannunga.", "Saayangaalam kandippaa mazhai varum.", "Mazhai nikkira varaikkum inga irunga."],
+      "bye": ["Poitu varen!", "Apram paakalaam!", "Paathu ponga!", "Naalaikku paakalaam!"],
+      "busy": ["Sorry, konjam avasaram.", "Office-ku late aaguthu, apram pesalaam.", "Inniki romba busy, naalaikku pesalaam.", "MRT pidikkanum, poitu varen!"]
+    }
+  },
+  "transport": {
+    "metro": "MRT",
+    "light_rail": "LRT",
+    "bus": "bus (SBS Transit and SMRT)",
+    "taxi": "taxi, or cab",
+    "ride_hail": "Grab",
+    "stage": "bus stop, or bus interchange",
+    "card": "EZ-Link card",
+    "boat": "bumboat, to Pulau Ubin from Changi Point"
+  },
+  "touts": [
+    "Satay, satay! Come sit, got table!",
+    "Hello, menu, menu! See first, no need order!",
+    "Chilli crab, sambal stingray, come try!",
+    "Got seat inside, aircon one!",
+    "Durian, durian! Very good today, try first!",
+    "River cruise, last boat, going now!"
+  ],
+  "hawkers": [
+    ["Ice cream, ice cream! Bread or wafer?", "Ice cream sandwich, in bread or a wafer"],
+    ["Kopi, teh, what you want?", "Coffee or tea, what will you have?"],
+    ["Chicken rice, roasted or steamed?", "Hainanese chicken rice, roasted or steamed chicken?"],
+    ["Satay, how many sticks?", "Satay, how many sticks?"],
+    ["Tau huay, hot or cold?", "Soybean pudding, hot or cold? (豆花)"],
+    ["Sugarcane, fresh one, with lemon!", "Fresh sugarcane juice with lemon"],
+    ["Mao Shan Wang, very sweet today!", "Mao Shan Wang durian, the prized variety"]
+  ],
+  "food": {
+    "street": ["chicken rice", "char kway teow", "laksa", "satay", "roti prata", "nasi lemak", "carrot cake (chai tow kway)", "Hokkien mee", "bak chor mee", "kaya toast with soft-boiled eggs", "mee rebus", "rojak"],
+    "dishes": ["chilli crab", "black pepper crab", "fish head curry", "nasi padang", "bak kut teh", "chicken biryani", "mee siam", "sambal stingray"],
+    "drinks": ["kopi", "kopi O", "teh tarik", "teh C", "Milo Dinosaur", "bandung", "sugarcane juice", "barley", "Tiger beer"]
+  },
+  "places": {
+    "neighbourhoods": ["Tiong Bahru", "Toa Payoh", "Tampines", "Jurong East", "Bedok", "Ang Mo Kio", "Little India", "Chinatown", "Kampong Glam", "Katong", "Bishan", "Punggol", "Woodlands", "Holland Village", "one-north", "Tanjong Pagar"],
+    "streets": ["Orchard Road", "Serangoon Road", "Arab Street", "Haji Lane", "East Coast Road", "Bukit Timah Road", "North Bridge Road", "Club Street", "Ann Siang Road", "Boat Quay"],
+    "landmarks": ["Marina Bay Sands", "Merlion", "Gardens by the Bay", "Lau Pa Sat", "Maxwell Food Centre", "Jewel Changi", "Raffles Hotel", "Esplanade", "Sultan Mosque", "Sri Mariamman Temple", "Singapore Botanic Gardens", "Newton Food Centre", "Singapore Flyer"]
+  },
+  "small_talk": [
+    "The chicken rice queue at Maxwell is crazy again.",
+    "Someone choped our table with a tissue packet, can you believe it.",
+    "North-South Line had a delay this morning, I was so late.",
+    "Thank goodness the MRT is aircon.",
+    "The aunties at the void deck have their mahjong going again.",
+    "The waterfall at Jewel looks amazing at night.",
+    "Let's go Lau Pa Sat after work, satay street opens at seven.",
+    "The new HDB flats in Punggol are so near the water.",
+    "My Grab driver took the PIE, of course it jammed."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Singlish",
+    "https://en.wikipedia.org/wiki/Singaporean_cuisine",
+    "https://en.wikipedia.org/wiki/Hawker_centre",
+    "https://en.wikipedia.org/wiki/Mass_Rapid_Transit_(Singapore)",
+    "https://en.wikipedia.org/wiki/Singapore"
+  ]
+}

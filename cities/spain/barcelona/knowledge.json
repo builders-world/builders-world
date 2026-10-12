@@ -1,0 +1,88 @@
+{
+  "street": { "es": 0.48, "ca": 0.37, "en": 0.15 },
+  "names": { "weights": { "catalan": 0.35, "spanish": 0.36, "latin_american": 0.14, "moroccan": 0.04, "pakistani": 0.04, "chinese": 0.03, "romanian": 0.02, "basque": 0.02 } },
+  "chat": {
+    "en": {
+      "greet": ["Morning! How's it going?", "Hey, good to see you!", "Hi! Coffee before standup?", "Hola! All good?", "Hey, how was the weekend?"],
+      "reply": ["Good, thanks! You?", "All good, a bit sleepy.", "Not bad at all.", "Great, thanks for asking.", "Busy week, but good."],
+      "sunny": ["Gorgeous out. Beach after work?", "Another sunny one, never gets old.", "Perfect terrace weather.", "It's warm already and it's only ten.", "Sun's out, Barceloneta will be packed."],
+      "rain": ["Rain in Barcelona, who'd have thought.", "Grab an umbrella, it's pouring.", "Everyone's indoors, the terraces are empty.", "The streets get slippery fast when it rains here.", "At least the rain cools things down."],
+      "bye": ["See you later!", "Fins ara!", "Catch you tomorrow!", "Have a good one!", "Bye, see you at the coworking!"],
+      "busy": ["Sorry, running for the metro!", "Can't stop, meeting in five.", "Late for a call, talk later!", "Got to dash, the Bicing dock is full again.", "Catch you later, deadline today!"]
+    },
+    "es": {
+      "greet": ["¡Hola! ¿Qué tal?", "Buenas, ¿cómo va?", "¡Ey! ¿Qué tal todo?", "Buenos días, ¿cómo estás?"],
+      "reply": ["Bien, ¿y tú?", "Aquí, tirando.", "Todo bien, gracias.", "Muy bien, gracias."],
+      "sunny": ["¡Qué calor hace hoy!", "Hace un día buenísimo.", "Apetece ir a la playa, ¿eh?", "Con este sol, una terraza ya."],
+      "rain": ["Está lloviendo a cántaros.", "Coge el paraguas, que llueve.", "Vaya día más gris.", "Otra vez lluvia, ¿eh?"],
+      "bye": ["¡Hasta luego!", "¡Nos vemos!", "Venga, ¡chao!", "¡Hasta mañana!"],
+      "busy": ["Perdona, voy con prisa, ¡luego hablamos!", "No puedo, que pierdo el metro.", "Tengo una reunión, te llamo luego.", "Voy fatal de tiempo, ¡hasta luego!"]
+    },
+    "ca": {
+      "greet": ["Bon dia! Com va?", "Ei, què tal?", "Hola, bona tarda!", "Ei! Quant de temps!"],
+      "reply": ["Molt bé, i tu?", "Anar fent, gràcies.", "Tot bé, gràcies!", "Bé, bé, aquí estem."],
+      "sunny": ["Quina calor que fa avui!", "Fa un dia preciós.", "Ve de gust anar a la platja, eh?", "Amb aquest sol, una terrassa i un vermut."],
+      "rain": ["Plou a bots i barrals!", "Agafa el paraigua, que plou.", "Quin dia més gris.", "Ja tornem a tenir pluja, eh?"],
+      "bye": ["Adéu, fins ara!", "Fins després!", "Fins demà!", "Ens veiem!"],
+      "busy": ["Ho sento, vaig tard, parlem després!", "Ara no puc, que perdo el metro!", "Vaig de bòlit, fins ara!", "Tinc una reunió, després et truco!"]
+    }
+  },
+  "transport": {
+    "bus": "bus (TMB)",
+    "moto_taxi": "moto compartida (Cooltra, Acciona)",
+    "tricycle": "bicitaxi",
+    "taxi": "taxi (groc i negre)",
+    "conductor": "revisor",
+    "stage": "parada",
+    "metro": "metro",
+    "tram": "tramvia (TRAM)",
+    "train": "Rodalies, FGC",
+    "bike_share": "Bicing",
+    "ride_hail": "Cabify, Uber"
+  },
+  "touts": [
+    "Propera estació: Passeig de Gràcia.",
+    "Si us plau, deixeu sortir abans d'entrar.",
+    "¡Para hoy, que me quedan para hoy!",
+    "Castanyes calentes, moniatos!",
+    "Cerveza, beer, agua fresca!",
+    "A busker on La Rambla tunes a Spanish guitar and starts a rumba catalana."
+  ],
+  "hawkers": [
+    ["Castanyes calentes!", "Hot chestnuts!"],
+    ["Cerveza, beer, agua!", "Beer, beer, water! (on the beach)"],
+    ["¡Coco, coco fresquito!", "Fresh coconut! (on the beach)"],
+    ["¡Para hoy, me quedan para hoy!", "Tickets for today's draw!"],
+    ["Fruita fresca, tasteu, tasteu!", "Fresh fruit, have a taste!"],
+    ["Tres per deu euros!", "Three for ten euros!"]
+  ],
+  "food": {
+    "street": ["entrepà de botifarra", "bocadillo de jamón", "patatas bravas", "croquetes", "pa amb tomàquet", "churros", "bunyols", "empanadas"],
+    "dishes": ["paella", "fideuà", "arròs negre", "escalivada", "calçots amb romesco", "esqueixada", "suquet de peix", "crema catalana"],
+    "drinks": ["cafè amb llet", "tallat", "caña", "vermut", "cava", "orxata", "clara"]
+  },
+  "places": {
+    "neighbourhoods": ["Gràcia", "El Born", "El Raval", "Barri Gòtic", "Eixample", "Poblenou", "Sants", "La Barceloneta", "Sant Antoni", "Poble-sec", "Les Corts", "Sarrià", "Horta"],
+    "streets": ["La Rambla", "Passeig de Gràcia", "Avinguda Diagonal", "Gran Via de les Corts Catalanes", "Via Laietana", "Rambla del Poblenou", "Carrer de Blai", "Carrer de Verdi", "Passeig de Sant Joan"],
+    "landmarks": ["Sagrada Família", "Park Güell", "Casa Batlló", "La Pedrera", "Mercat de la Boqueria", "Camp Nou", "Montjuïc", "Tibidabo", "Arc de Triomf", "Torre Glòries", "Bunkers del Carmel", "Platja de la Barceloneta"]
+  },
+  "small_talk": [
+    "The Bicing dock outside the office was empty again.",
+    "Festa Major de Gràcia is next week, the streets are already decorated.",
+    "The L1 was packed this morning.",
+    "Calçot season is coming, who's up for a calçotada?",
+    "Pintxos on Carrer de Blai tonight?",
+    "It's so humid today, everyone's off to the beach.",
+    "Poblenou is all startups and coffee shops now.",
+    "Did you hear the castellers practising last night?",
+    "Sant Jordi is coming, time to buy a book and a rose.",
+    "Dinner before nine? You're definitely not from here."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Barcelona",
+    "https://en.wikipedia.org/wiki/Catalan_language",
+    "https://en.wikipedia.org/wiki/Bicing",
+    "https://www.tmb.cat/",
+    "https://www.idescat.cat/"
+  ]
+}

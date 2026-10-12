@@ -1,0 +1,96 @@
+{
+  "languages": [
+    { "code": "rw", "name": "Kinyarwanda", "official": true, "spoken": "widely" },
+    { "code": "en", "name": "English", "official": true, "spoken": "some" },
+    { "code": "fr", "name": "French", "official": true, "spoken": "some" },
+    { "code": "sw", "name": "Swahili", "official": true, "spoken": "some" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Rwandans carry a Kinyarwanda name of their own that is not a family name: parents choose it for each child, so brothers and sisters, and a child and its father, usually have different Kinyarwanda names. Most people also carry a Christian or French first name, like Jean Claude or Aline. On official papers the Kinyarwanda name usually comes first, in capitals (MUGISHA Jean Claude); in everyday use people say Jean Claude Mugisha. Many names are short sentences about God or the family: Habimana (God exists), Niyonzima (he is the living one), Ishimwe (praise). Names starting Uwi-, Uwa-, Umu- or Muka- are mostly given to girls. The 'family' list below is simply common Kinyarwanda names that sit in the surname position.",
+    "groups": {
+      "rwandan": {
+        "given": {
+          "m": ["Habimana", "Hakizimana", "Niyonzima", "Ndayisaba", "Nshimiyimana", "Mugisha", "Kwizera", "Manzi", "Gatete", "Shyaka", "Rukundo", "Mutabazi", "Bizimana", "Niyonsenga", "Ntwali", "Gasana", "Kamanzi", "Mugabo"],
+          "f": ["Uwase", "Uwera", "Umutoni", "Mukamana", "Mukeshimana", "Ingabire", "Umuhoza", "Uwamahoro", "Mutoni", "Keza", "Ineza", "Uwimana", "Uwineza", "Teta", "Isimbi", "Gwiza", "Umurerwa", "Akaliza", "Iradukunda", "Ishimwe"]
+        },
+        "family": ["Mugisha", "Habimana", "Niyonzima", "Hakizimana", "Ndayisaba", "Nshimiyimana", "Bizimana", "Uwimana", "Mukamana", "Ingabire", "Rukundo", "Mutabazi", "Gasana", "Kamanzi", "Uwase", "Mukeshimana", "Niyonsenga", "Kwizera"],
+        "also": {
+          "m": ["Jean Claude", "Eric", "Patrick", "Emmanuel", "Jean de Dieu", "Olivier", "Innocent", "Fabrice", "Didier", "Alain", "Kevin", "Yves", "Thierry", "Christian"],
+          "f": ["Aline", "Claudine", "Diane", "Grace", "Josiane", "Alice", "Clarisse", "Solange", "Divine", "Sandrine", "Marie Claire", "Esther"]
+        }
+      }
+    },
+    "weights": { "rwandan": 1 }
+  },
+  "honorifics": { "elder_m": "Muzehe", "elder_f": "Mama", "peer_m": "Muvandimwe", "peer_f": "Muvandimwe", "boss": "Boss" },
+  "phrases": {
+    "rw": {
+      "hello": [["Muraho!", "Hello"], ["Bite se?", "What's up?"]],
+      "morning": [["Mwaramutse!", "Good morning"], ["Waramutse!", "Good morning, to one person"]],
+      "evening": [["Mwiriwe!", "Good afternoon, good evening"], ["Ijoro ryiza!", "Good night"]],
+      "how_are_you": [["Amakuru?", "How are you? Any news?"], ["Amakuru yawe?", "How are you doing?"]],
+      "fine": [["Ni meza", "It's good, I'm fine"], ["Ni byiza", "All is well"], ["Ndaho", "I'm here, I'm okay"], ["Ni sawa", "It's fine"]],
+      "thanks": [["Murakoze", "Thank you"], ["Murakoze cyane", "Thank you very much"], ["Urakoze", "Thanks, to one person"]],
+      "bye": [["Murabeho!", "Goodbye"], ["Mwirirwe!", "Have a good day"], ["Tuzongera kubonana", "We'll see each other again"]],
+      "welcome": [["Murakaza neza!", "Welcome"]],
+      "sorry": [["Mbabarira", "Forgive me"], ["Ihangane", "Be strong, said in sympathy"]],
+      "excuse": [["Mbabarira", "Excuse me"], ["Umbabarire", "Pardon me"]],
+      "yes": [["Yego", "Yes"]],
+      "no": [["Oya", "No"]]
+    },
+    "en": {
+      "hello": [["Hello!", "Hello"], ["Hi!", "Hi"]],
+      "morning": [["Good morning!", "Good morning"]],
+      "evening": [["Good evening!", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["I'm fine, thank you.", "I'm fine, thank you"], ["No problem.", "All is well"]],
+      "thanks": [["Thank you!", "Thank you"]],
+      "bye": [["Goodbye!", "Goodbye"], ["See you!", "See you"]],
+      "welcome": [["You are welcome!", "You are welcome"]],
+      "sorry": [["Sorry!", "Sorry"]],
+      "excuse": [["Excuse me.", "Excuse me"]],
+      "yes": [["Yes.", "Yes"]],
+      "no": [["No.", "No"]]
+    },
+    "fr": {
+      "hello": [["Bonjour!", "Hello"], ["Salut!", "Hi"]],
+      "morning": [["Bonjour!", "Good morning"]],
+      "evening": [["Bonsoir!", "Good evening"]],
+      "how_are_you": [["Ça va?", "How are you?"], ["Comment allez-vous?", "How are you? (polite)"]],
+      "fine": [["Ça va bien.", "I'm fine"], ["Très bien, merci.", "Very well, thanks"]],
+      "thanks": [["Merci!", "Thank you"], ["Merci beaucoup.", "Thank you very much"]],
+      "bye": [["Au revoir!", "Goodbye"], ["À demain!", "See you tomorrow"]],
+      "welcome": [["Bienvenue!", "Welcome"]],
+      "sorry": [["Désolé.", "Sorry"]],
+      "excuse": [["Excusez-moi.", "Excuse me"], ["Pardon.", "Pardon"]],
+      "yes": [["Oui.", "Yes"]],
+      "no": [["Non.", "No"]]
+    },
+    "sw": {
+      "hello": [["Habari?", "Hello, any news?"], ["Jambo", "Hello"]],
+      "morning": [["Habari ya asubuhi?", "Good morning"]],
+      "evening": [["Habari ya jioni?", "Good evening"]],
+      "how_are_you": [["Habari yako?", "How are you?"]],
+      "fine": [["Nzuri", "Fine"], ["Sawa", "Okay"]],
+      "thanks": [["Asante", "Thank you"]],
+      "bye": [["Kwaheri", "Goodbye"]],
+      "welcome": [["Karibu", "Welcome"]],
+      "sorry": [["Pole", "Sorry"]],
+      "excuse": [["Samahani", "Excuse me"]],
+      "yes": [["Ndiyo", "Yes"]],
+      "no": [["Hapana", "No"]]
+    }
+  },
+  "money": {
+    "currency": "RWF",
+    "symbol": "FRw",
+    "words": [["amafaranga", "money, francs"], ["ijana", "a hundred francs"], ["igihumbi", "a thousand francs"]]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Kinyarwanda",
+    "https://en.wikipedia.org/wiki/Languages_of_Rwanda",
+    "https://en.wikipedia.org/wiki/Rwanda",
+    "https://en.wikipedia.org/wiki/Rwandan_franc"
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "street": { "fr": 0.42, "camfranglais": 0.25, "wes": 0.27, "en": 0.06 },
+  "registers": {
+    "camfranglais": {
+      "name": "Camfranglais",
+      "about": "The young city's mix of French, English, Pidgin and Cameroonian languages: on dit quoi, je go, mon mola, le do, la nga."
+    }
+  },
+  "names": { "weights": { "bamileke": 0.42, "sawa": 0.15, "beti": 0.13, "grassfields": 0.12, "southwest": 0.06, "northern": 0.12 } },
+  "phrases": {
+    "camfranglais": {
+      "hello": [["On dit quoi?", "What's up?"], ["Ça dit quoi?", "What's the word?"], ["Mon mola, c'est comment?", "My buddy, how is it?"]],
+      "how_are_you": [["Tu es comment?", "How are you?"], ["Ça va un peu?", "Getting by?"]],
+      "fine": [["On est là", "We're here, fine"], ["Je gère", "I'm managing"], ["Tout est calé", "All sorted"]],
+      "thanks": [["Merci mon frère", "Thanks, brother"], ["Thank you, mola", "Thanks, buddy"]],
+      "bye": [["Je go", "I'm going"], ["On se call", "We'll call each other"], ["On est ensemble", "We're together (see you)"]],
+      "yes": [["C'est ça même", "That's exactly it"]],
+      "no": [["Jamais!", "Never!"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! How was the night?", "Hello, how is the family?", "Good evening, how was work?", "Ah, long time! You're well?", "Hi there, how is business?"],
+      "reply": ["I'm fine, thank you.", "We're here, managing.", "All good, and you?", "Doing fine, thanks for asking.", "The family is well, thank God."],
+      "sunny": ["This Douala heat, I'm sweating already.", "Hot and humid as usual.", "Good day for fish at Youpwe.", "The sun is strong, find some shade.", "Too hot to walk, I'll take a bendskin."],
+      "rain": ["The rain in Douala does not joke.", "Carry an umbrella, it's coming down again.", "Ndokoti will be flooded after this.", "Wait under the shade, it will ease off.", "Rain all night, the roads are mud."],
+      "bye": ["See you later!", "Go well!", "See you tomorrow.", "Greet the family for me.", "Take care on the road."],
+      "busy": ["Sorry, I'm late for the office in Bonanjo.", "Traffic on the Wouri bridge, I have to go.", "Let me run, the bendskin is waiting.", "I'll call you this evening.", "Busy day at the port, we'll talk later."]
+    },
+    "wes": {
+      "greet": ["How na?", "How you dey, my broda?", "Morning-o! How for house?", "Massa, how na?", "Mami, how you dey?"],
+      "reply": ["I dey fine, tank you.", "We dey, small small.", "We dey try.", "Everything dey fine."],
+      "sunny": ["Sun don hot today!", "Hot dey plenty for Douala.", "Sun di burn man skin-o!", "Dis hot no be small."],
+      "rain": ["Rain di come!", "Rain don start, make we hide.", "Dis rain no di joke.", "Water don full road for Bonabéri."],
+      "bye": ["Make we see after.", "I go see you tomorrow.", "Waka fine!", "Stay fine-o!"],
+      "busy": ["I di hurry, make we talk after.", "I don late for work.", "Bendskin di wait me, I go call you.", "Work plenty today, I no get time."]
+    },
+    "camfranglais": {
+      "greet": ["On dit quoi mon mola?", "Ça dit quoi?", "Mon frère, c'est comment?", "Le mbom, tu es où depuis?"],
+      "reply": ["On est là, tranquille.", "Je suis là, je gère.", "Ça va un peu, on se bat.", "Tout est calé."],
+      "sunny": ["Le soleil cogne même!", "Il fait hot hein!", "Le soleil-là ne blague pas.", "Avec ce soleil, il faut une bière bien glacée."],
+      "rain": ["La pluie-là ne blague pas!", "Il pleut, je ne go plus nulle part.", "Avec cette pluie, les routes sont gâtées.", "La pluie va me mouiller, je n'ai pas de parapluie."],
+      "bye": ["Je go, on se call.", "On est ensemble!", "À plus, mon mola.", "Je vais back demain."],
+      "busy": ["Je suis en retard, le taxi m'attend.", "Je go au taf, on se call.", "Je n'ai pas le temps, je suis pressé.", "Le bendskin m'attend, je go!"]
+    },
+    "fr": {
+      "greet": ["Bonjour, bien dormi?", "Bonsoir! La famille va bien?", "Bonjour maman, ça va?", "Ah, ça fait longtemps!", "Bonne arrivée!"],
+      "reply": ["Ça va, merci.", "On est là, Dieu merci.", "Ça va bien, et vous?", "Ça va un peu."],
+      "sunny": ["Il fait chaud aujourd'hui!", "Quelle chaleur à Douala!", "Le soleil tape fort.", "Il fait lourd."],
+      "rain": ["Il pleut encore!", "Prends ton parapluie.", "Avec cette pluie, Ndokoti sera bloqué.", "Attends que la pluie passe."],
+      "bye": ["Bonne journée!", "À demain.", "Bonne soirée!", "Salue la famille."],
+      "busy": ["Je suis en retard, on se parle.", "J'ai une réunion à Bonanjo.", "Il y a des embouteillages, je dois partir.", "Je t'appelle ce soir."]
+    }
+  },
+  "transport": { "bus": "bus", "moto_taxi": "bendskin", "tricycle": "", "taxi": "taxi", "shared_taxi": "taxi", "conductor": "chargeur", "stage": "carrefour" },
+  "touts": [
+    "Ndokoti! Ndokoti!",
+    "Akwa! Akwa!",
+    "Bonabéri! Bonabéri!",
+    "Deido! Rond-point Deido!",
+    "Bonamoussadi! Makepe!",
+    "PK 14! PK 14!",
+    "Yaoundé! Yaoundé! On part!",
+    "Buea, Limbe! One place!"
+  ],
+  "hawkers": [
+    ["Soya! Soya chaud!", "Hot grilled beef skewers!"],
+    ["Beignets haricots!", "Doughnuts and beans!"],
+    ["Plantain braisé, safou!", "Roasted plantain with plum!"],
+    ["Maïs braisé!", "Roasted corn!"],
+    ["Eau fraîche! Eau glacée!", "Cold water!"],
+    ["Arachides grillées!", "Roasted peanuts!"],
+    ["Miondo! Miondo!", "Thin cassava sticks!"],
+    ["Crédit! Crédit!", "Phone credit!"]
+  ],
+  "food": {
+    "street": ["soya", "beignets-haricots-bouillie (BHB)", "plantain braisé with safou", "maïs braisé with safou", "poisson braisé", "puff-puff", "miondo"],
+    "dishes": ["ndolè", "poisson braisé at Youpwe", "mbongo tchobi", "koki", "eru with water fufu", "poulet DG", "kwacoco"],
+    "drinks": ["33 Export", "Castel", "Guinness", "folléré (hibiscus juice)", "matango (palm wine)", "Top pamplemousse"]
+  },
+  "places": {
+    "neighbourhoods": ["Akwa", "Bonanjo", "Bonapriso", "Deido", "Bali", "Bonamoussadi", "Makepe", "Logbessou", "Ndokoti", "New Bell", "Bépanda", "Bonabéri", "Kotto", "Japoma", "Logpom", "Youpwe", "Village", "PK 14"],
+    "streets": ["Boulevard de la Liberté", "Rue Joss", "Avenue Charles de Gaulle", "Boulevard de la République", "Rue Njo-Njo", "Boulevard du Général Leclerc", "Rue Joffre", "Pont sur le Wouri"],
+    "landmarks": ["Pont sur le Wouri", "Marché Central", "Marché Sandaga", "La Pagode (Palais des Rois Bell)", "Rond-point Deido", "Cathédrale Saints-Pierre-et-Paul", "Port de Douala", "Stade de la Réunification", "Espace doual'art", "Marché Mboppi", "Youpwe fish market", "Stade de Japoma"]
+  },
+  "small_talk": [
+    "Ndokoti at rush hour is impossible.",
+    "The Wouri bridge was blocked again this morning.",
+    "Fish at Youpwe tonight?",
+    "This Douala heat, I'm sweating at eight in the morning.",
+    "A bendskin is the only way to beat the traffic in Akwa.",
+    "Ndolè on Sunday at my mother's, as always.",
+    "The taxi driver said 'Akwa, deux cents' and I jumped in.",
+    "Rain in July here is non-stop.",
+    "Mboppi market has every fabric you could want."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Douala",
+    "https://en.wikipedia.org/wiki/Camfranglais",
+    "https://en.wikipedia.org/wiki/Cameroonian_Pidgin_English",
+    "https://en.wikipedia.org/wiki/Cameroonian_cuisine",
+    "https://en.wikipedia.org/wiki/Ndol%C3%A9",
+    "https://en.wikipedia.org/wiki/Motorcycle_taxi"
+  ]
+}

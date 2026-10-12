@@ -1,0 +1,77 @@
+{
+  "languages": [
+    { "code": "arz", "name": "Egyptian Arabic (Masri)", "official": false, "spoken": "widely" },
+    { "code": "ar", "name": "Modern Standard Arabic", "official": true, "spoken": "in school, news and offices" },
+    { "code": "en", "name": "English", "official": false, "spoken": "commonly in business, tourism and tech" },
+    { "code": "fr", "name": "French", "official": false, "spoken": "among some older and French-schooled families" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "Egyptians usually have no fixed surname in the European sense: a full name is the person's own name, then the father's first name, then the grandfather's, and sometimes a family name, as in Ahmed Mohamed Hassan. People are known by the first two, so the 'family' name here is often the father's first name. Egyptian spelling uses g for the Arabic j (Gamal, Gaber, Hagar). Coptic Christian families favour biblical and saints' names such as Mina, Bishoy, Girgis, Marina and Demiana, and carry family names like Boutros and Hanna.",
+    "groups": {
+      "egyptian": {
+        "given": {
+          "m": ["Mohamed", "Ahmed", "Mahmoud", "Mostafa", "Omar", "Youssef", "Hassan", "Khaled", "Amr", "Karim", "Tarek", "Sherif", "Hossam", "Islam", "Ziad", "Hazem", "Abdelrahman", "Ibrahim"],
+          "f": ["Fatma", "Mariam", "Nour", "Salma", "Yasmin", "Aya", "Rana", "Dina", "Heba", "Shaimaa", "Mona", "Nadia", "Sara", "Hagar", "Menna", "Rahma", "Doaa", "Reem"]
+        },
+        "family": ["Hassan", "Mahmoud", "Ibrahim", "Abdel Aziz", "Mostafa", "Ali", "El Sayed", "Abdallah", "Salem", "Fawzy", "Hegazy", "Shaheen", "Ramadan", "Gaber", "Saad", "Soliman", "Mansour", "El Masry", "Zaki", "Khalil"]
+      },
+      "coptic": {
+        "given": {
+          "m": ["Mina", "Bishoy", "Girgis", "Kyrillos", "Marco", "Fady", "Ramy", "Michael", "Peter", "Hany", "Maged", "Sameh", "Ehab", "Remon"],
+          "f": ["Marina", "Demiana", "Irini", "Christine", "Mariam", "Mira", "Sandra", "Monica", "Nevine", "Mary", "Marian", "Verina"]
+        },
+        "family": ["Girgis", "Hanna", "Boutros", "Iskander", "Mikhail", "Tawadros", "Habib", "Ghali", "Wassef", "Rizk", "Morcos", "Fahmy", "Saleeb", "Aziz"]
+      }
+    },
+    "weights": { "egyptian": 0.9, "coptic": 0.1 }
+  },
+  "honorifics": { "elder_m": "Hagg", "elder_f": "Hagga", "peer_m": "Basha", "peer_f": "Anesa", "boss": "Rayes" },
+  "phrases": {
+    "arz": {
+      "hello": [["Salamo alaykom", "Peace be upon you"], ["Ahlan", "Hi"]],
+      "morning": [["Sabah el kheir", "Good morning"], ["Sabah el foll", "Good morning (literally, a morning of jasmine)"]],
+      "evening": [["Masa el kheir", "Good evening"], ["Masa el nour", "Good evening (the reply)"]],
+      "how_are_you": [["Ezzayak?", "How are you? (to a man)"], ["Ezzayek?", "How are you? (to a woman)"], ["Akhbarak eh?", "What's new with you?"]],
+      "fine": [["Kowayes, el hamdulillah", "Good, thank God"], ["Tamam", "Fine"], ["Zay el foll", "Great (literally, like jasmine)"]],
+      "thanks": [["Shukran", "Thank you"], ["Metshakker", "Thanks, I'm grateful"], ["Tislam eedak", "Thanks (literally, bless your hands)"]],
+      "bye": [["Ma'a el salama", "Goodbye"], ["Salam", "Bye"], ["Ashoofak ba'deen", "See you later"]],
+      "welcome": [["Ahlan wa sahlan", "Welcome"], ["Nawwart", "You've lit up the place (welcome)"]],
+      "sorry": [["Asef", "Sorry (said by a man)"], ["Asfa", "Sorry (said by a woman)"], ["Ma'lesh", "Never mind, sorry"]],
+      "excuse": [["Law samaht", "Excuse me, please (to a man)"], ["Law samahti", "Excuse me, please (to a woman)"], ["Ba'd eznak", "With your permission"]],
+      "yes": [["Aywa", "Yes"], ["Ah", "Yeah"]],
+      "no": [["La'", "No"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"], ["Hi", "Hi"]],
+      "morning": [["Good morning", "Good morning"]],
+      "evening": [["Good evening", "Good evening"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["Fine, thanks", "Fine, thanks"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Bye", "Bye"]],
+      "welcome": [["Welcome", "Welcome"]],
+      "sorry": [["Sorry", "Sorry"]],
+      "excuse": [["Excuse me", "Excuse me"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "EGP",
+    "symbol": "E£",
+    "words": [
+      ["felous", "money"],
+      ["geneh", "a pound"],
+      ["ersh", "a piastre; also just 'money'"],
+      ["nos geneh", "half a pound"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Egyptian_Arabic",
+    "https://en.wikipedia.org/wiki/Arabic_name",
+    "https://en.wikipedia.org/wiki/Copts",
+    "https://en.wikipedia.org/wiki/Egyptian_pound",
+    "https://en.wikivoyage.org/wiki/Egyptian_Arabic_phrasebook"
+  ]
+}

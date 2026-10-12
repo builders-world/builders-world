@@ -1,0 +1,98 @@
+{
+  "street": { "zh": 0.85, "en": 0.15 },
+  "registers": {
+    "wuu": {
+      "name": "Shanghainese",
+      "about": "The city's own Wu dialect, heard from older Shanghainese at home, in the lanes and at the morning market. Younger people mostly speak Mandarin and drop in a Shanghainese word or two. Spellings here are informal romanisations."
+    }
+  },
+  "names": { "weights": { "north": 0.2, "jiangnan": 0.65, "south": 0.15 } },
+  "phrases": {
+    "wuu": {
+      "hello": [["Nong hao", "Hello (侬好)"]],
+      "thanks": [["Xia ya nong", "Thank you (谢谢侬)"]],
+      "bye": [["Zai wei", "Goodbye (再会)"]],
+      "yes": [["Hao e", "OK, sure (好额)"]],
+      "we": [["A la", "We, us, as in 'we Shanghainese' (阿拉)"]]
+    },
+    "zh": {
+      "how_are_you": [["Zuìjìn máng ma?", "Busy lately? (最近忙吗?)"]],
+      "fine": [["Hái kěyǐ", "Not bad (还可以)"]],
+      "yes": [["Hǎo de", "OK, sure (好的)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! Coffee first?", "Hi, how's it going?", "Hey, haven't seen you in ages!", "Good morning, ready for the week?", "Hello! Off to the office?"],
+      "reply": ["Good, thanks, just busy.", "Not bad, how about you?", "All fine, can't complain.", "Great, I had shengjian for breakfast.", "Tired, but OK."],
+      "sunny": ["Gorgeous day for a walk along the Bund.", "Sunny at last, time to dry the laundry.", "So hot and sticky today.", "Perfect weather to sit outside on Wukang Road.", "Blue sky, you can see right across to Pudong."],
+      "rain": ["Plum rain season again, everything's damp.", "Bring an umbrella, it's pouring.", "Typhoon warning tonight, get home early.", "It's been drizzling for days.", "The metro will be packed with this rain."],
+      "bye": ["See you later!", "Bye, take care!", "Talk soon!", "See you tomorrow!", "Have a good evening!"],
+      "busy": ["Sorry, I have to run to Line 2!", "Got a call with the team in five minutes.", "Busy week, let's catch up after.", "Can't stop, I'm late for a meeting in Lujiazui!", "Running, my delivery is downstairs!"]
+    },
+    "zh": {
+      "greet": ["Zǎo a! Chī zǎofàn le méi?", "Hāi, zuìjìn máng ma?", "Hǎo jiǔ bú jiàn, nǐ hǎo ma?", "Āyí zǎo! Qù mǎi cài a?", "Zǎo, jīntiān yòu jiābān a?"],
+      "reply": ["Hái kěyǐ, xièxie!", "Tǐng hǎo de, nǐ ne?", "Máng shì máng, hái xíng.", "Bú cuò, lǎo yàngzi.", "Chī guò le, hē le bēi kāfēi."],
+      "sunny": ["Jīntiān tiānqì zhēn hǎo, qù Wàitān zǒuzou.", "Tàiyáng chūlái le, kuài shài bèizi!", "Rè sǐ le, mēn de bùdéliǎo.", "Zhème hǎo de tiān, zuò wàimiàn hē kāfēi ba."],
+      "rain": ["Méiyǔ jì yòu lái le, dōu shì cháo de.", "Xià dà yǔ le, jìde dài sǎn.", "Táifēng yào lái le, zǎo diǎn huí jiā.", "Zhè yǔ xià le hǎo jǐ tiān le."],
+      "bye": ["Zàijiàn!", "Bàibai, mànmàn zǒu!", "Gǎitiān jiàn!", "Míngtiān jiàn a!"],
+      "busy": ["Bù hǎoyìsi, wǒ gǎn dìtiě!", "Mǎshàng kāi huì, děng huìr liáo.", "Zhè zhōu tài máng le, gǎitiān chī fàn.", "Kuài chídào le, xiān zǒu le!"]
+    }
+  },
+  "transport": {
+    "metro": "dìtiě (地铁)",
+    "bus": "gōngjiāo (公交)",
+    "taxi": "chūzūchē (出租车)",
+    "ride_hail": "Dīdī (滴滴)",
+    "bike": "gòngxiǎng dānchē (共享单车, shared bike)",
+    "e_bike": "diàndòngchē (电动车)",
+    "boat": "lúndù (轮渡, Huangpu River ferry)",
+    "maglev": "cífú (磁浮, airport maglev)",
+    "stage": "zhàn (站, stop)"
+  },
+  "touts": [
+    "Dǎ chē ma? Hóngqiáo, Pǔdōng jīchǎng!",
+    "Shǒubiǎo, bāo, kànkan ba!",
+    "Huángpǔ Jiāng yóuchuán, wǎnshang de, lái ma?",
+    "Lǐbian yǒu zuò, xiǎolóngbāo xiànzuò de!",
+    "Shuàigē, měinǚ, jìnlái kàn yí xià!",
+    "Zhūjiājiǎo yí rì yóu, míngtiān chūfā!"
+  ],
+  "hawkers": [
+    ["Shēngjiān, gāng chū guō!", "Pan-fried buns, just out of the pan (生煎)"],
+    ["Cōngyóu bǐng, xiànzuò de!", "Scallion pancakes, made fresh (葱油饼)"],
+    ["Cífàntuán, jiā yóutiáo!", "Sticky rice roll with a fried dough stick (粢饭团)"],
+    ["Táng chǎo lìzi, xiāng a!", "Sugar-roasted chestnuts, smell that! (糖炒栗子)"],
+    ["Dòujiāng, tián de xián de?", "Soy milk, sweet or savoury? (豆浆)"],
+    ["Yángméi, xīnxiān de yángméi!", "Fresh bayberries (杨梅)"],
+    ["Chòu dòufu, lái yí fèn?", "Stinky tofu, want a portion? (臭豆腐)"]
+  ],
+  "food": {
+    "street": ["shēngjiān (生煎)", "xiǎolóngbāo (小笼包)", "cōngyóu bǐng (葱油饼)", "cífàntuán (粢饭团)", "yóutiáo (油条)", "dàbǐng (大饼)", "táng chǎo lìzi (糖炒栗子)", "chòu dòufu (臭豆腐)"],
+    "dishes": ["hóngshāo ròu (红烧肉)", "cōngyóu bànmiàn (葱油拌面)", "Shànghǎi xūnyú (熏鱼)", "dàzháxiè (大闸蟹, hairy crab)", "yóubào xiā (油爆虾)", "xièfěn miàn (蟹粉面)", "páigǔ niángāo (排骨年糕)"],
+    "drinks": ["dòujiāng (豆浆)", "kāfēi (咖啡)", "nǎichá (奶茶)", "huángjiǔ (黄酒)", "lǜchá (绿茶)", "suānméitāng (酸梅汤)"]
+  },
+  "places": {
+    "neighbourhoods": ["Jing'an", "Xuhui", "Huangpu", "Lujiazui", "Xintiandi", "Tianzifang", "Former French Concession", "Zhangjiang", "Wujiaochang", "Xujiahui", "Hongqiao", "Changning", "Qiantan"],
+    "streets": ["Nanjing Road", "Huaihai Road", "Wukang Road", "Yuyuan Road", "Fuxing Road", "Hengshan Road", "Century Avenue", "Anfu Road", "Julu Road"],
+    "landmarks": ["The Bund", "Oriental Pearl Tower", "Shanghai Tower", "Yu Garden", "Jing'an Temple", "People's Square", "Shanghai Museum", "Wukang Mansion", "Jin Mao Tower"]
+  },
+  "small_talk": [
+    "The queue for shengjian at the corner was out the door.",
+    "Line 2 at eight in the morning is not for the faint-hearted.",
+    "Another new coffee shop opened on Anfu Road.",
+    "Plum rain season, my clothes never dry.",
+    "My grandma still bargains at the wet market in Shanghainese.",
+    "Hairy crab season is coming, the prices are already up.",
+    "The plane trees on Wukang Road look lovely right now.",
+    "Zhangjiang is so far, but the canteen at work is great.",
+    "The Bund was packed with tourists again last night."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Shanghai",
+    "https://en.wikipedia.org/wiki/Shanghainese",
+    "https://en.wikipedia.org/wiki/Shanghai_cuisine",
+    "https://en.wikipedia.org/wiki/Shengjian_mantou",
+    "https://en.wikipedia.org/wiki/The_Bund"
+  ]
+}

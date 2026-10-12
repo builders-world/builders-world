@@ -1,0 +1,71 @@
+{
+  "street": { "rw": 0.7, "en": 0.2, "fr": 0.1 },
+  "registers": {},
+  "names": { "weights": { "rwandan": 1 } },
+  "phrases": {},
+  "chat": {
+    "en": {
+      "greet": ["Good morning! How are you?", "Hello, how is the family?", "Hi! Long time no see.", "Good afternoon, how is work going?", "Morning! Did the moto get you here on time?"],
+      "reply": ["I'm fine, thank you.", "Very well, and you?", "All good, no problem.", "Doing great, thanks for asking.", "Fine, just busy as usual."],
+      "sunny": ["Beautiful day in Kigali.", "The sun is strong up on these hills.", "Lovely day to walk through the Car Free Zone.", "Clear skies, you can see across all the hills.", "Warm afternoon, time for a cold juice."],
+      "rain": ["The rain is coming, let's get inside.", "Take an umbrella, it's the rainy season.", "Wait for the rain to pass before taking a moto.", "Heavy rain this afternoon, it will stop soon.", "The motos have all stopped under the trees."],
+      "bye": ["Goodbye, have a great day!", "See you tomorrow!", "Take care, greet the family.", "Have a good evening!", "Safe journey home!"],
+      "busy": ["Sorry, I'm late for a meeting in Kacyiru.", "I have to catch the bus, talk later.", "Busy day, let's catch up this weekend.", "I'm rushing, I'll call you.", "Let me grab a moto, I'm running late."]
+    },
+    "rw": {
+      "greet": ["Muraho!", "Mwaramutse neza?", "Amakuru yawe?", "Bite se, muvandimwe?", "Mwiriwe!"],
+      "reply": ["Ni meza, murakoze!", "Ni byiza, nawe se?", "Ndaho, nta kibazo.", "Ni sawa sha!"],
+      "sunny": ["Uyu munsi izuba ni ryinshi!", "Ikirere ni cyiza uyu munsi.", "Izuba riratwika!", "Ni umunsi mwiza wo gutembera."],
+      "rain": ["Imvura iragwa, fata umutaka!", "Imvura iraje, twinjire mu nzu.", "Reka imvura ihite.", "Imvura ni nyinshi uyu munsi."],
+      "bye": ["Murabeho!", "Tuzongera kubonana!", "Mwirirwe!", "Ijoro ryiza!"],
+      "busy": ["Mfite akazi kenshi uyu munsi!", "Ndihuta, tuzavugana nyuma.", "Ntinze ku kazi!", "Reka mfate moto, tuzavugana!"]
+    },
+    "fr": {
+      "greet": ["Bonjour, ça va?", "Salut! Quoi de neuf?", "Bonsoir, comment allez-vous?", "Bonjour, bien dormi?"],
+      "reply": ["Ça va bien, merci!", "Très bien, et toi?", "Ça va, on se débrouille.", "Pas mal, merci."],
+      "sunny": ["Il fait beau aujourd'hui!", "Quel soleil ce matin!", "Belle journée pour marcher.", "Il fait chaud à midi."],
+      "rain": ["Il pleut, prends un parapluie.", "La pluie arrive, rentrons.", "Attendons que la pluie passe.", "Encore la pluie, c'est la saison."],
+      "bye": ["Au revoir!", "À demain!", "Bonne soirée!", "À plus tard!"],
+      "busy": ["Je suis pressé, on se parle plus tard.", "Je suis en retard au bureau!", "Désolé, j'ai une réunion.", "Je file, à tout à l'heure!"]
+    }
+  },
+  "transport": { "bus": "bus", "moto_taxi": "moto", "tricycle": "", "taxi": "taxi voiture", "conductor": "", "stage": "gare" },
+  "touts": ["Moto? Tugende!", "Nyabugogo, Nyabugogo!", "Musanze, Musanze!", "Huye, Huye, imodoka iragiye!", "Rubavu, Rubavu!", "Muhanga, Muhanga, tugende!"],
+  "hawkers": [
+    ["Amazi akonje!", "Cold water!"],
+    ["Ibigori byokeje!", "Roasted maize!"],
+    ["Avoka nziza!", "Good avocados!"],
+    ["Imineke!", "Ripe bananas!"],
+    ["Amandazi ashyushye!", "Hot mandazi!"],
+    ["Inanasi!", "Pineapples!"]
+  ],
+  "food": {
+    "street": ["brochette", "sambusa", "amandazi", "ibigori byokeje", "chapati", "akabenzi", "ifiriti"],
+    "dishes": ["isombe", "ibitoki", "ibishyimbo", "ubugali", "isambaza", "ibirayi", "melange buffet"],
+    "drinks": ["icyayi", "ikawa", "ikivuguto", "amata", "umutobe", "Fanta"]
+  },
+  "places": {
+    "neighbourhoods": ["Kimihurura", "Kacyiru", "Nyarutarama", "Kiyovu", "Remera", "Kimironko", "Nyamirambo", "Gikondo", "Kicukiro", "Kibagabaga", "Kanombe", "Gisozi", "Nyabugogo", "Muhima", "Kagugu"],
+    "streets": ["Airport Road", "KG 7 Avenue", "KN 4 Avenue", "KN 3 Road", "Boulevard de l'Umuganda", "Avenue de la Paix"],
+    "landmarks": ["Kigali Convention Centre", "Kimironko Market", "Nyabugogo bus park", "BK Arena", "Amahoro Stadium", "Kigali Heights", "Kigali City Tower", "Inema Arts Center", "Mount Kigali", "Car Free Zone", "Kandt House Museum"]
+  },
+  "small_talk": [
+    "Got a moto from Remera to town in ten minutes.",
+    "Kimironko market has the best avocados.",
+    "Everyone is going to the game at BK Arena tonight.",
+    "It's cool in Kigali this morning, bring a jacket.",
+    "Rainy season again, the motos all wait under the trees.",
+    "Let's go for brochettes and chips in Nyamirambo.",
+    "That hill up to Kiyovu leaves me out of breath every time.",
+    "Tap your card when you get on the bus.",
+    "Umuganda is on Saturday morning, so we'll meet after."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Kigali",
+    "https://en.wikipedia.org/wiki/Kinyarwanda",
+    "https://en.wikipedia.org/wiki/Kigali_Convention_Centre",
+    "https://en.wikipedia.org/wiki/Umuganda",
+    "https://en.wikipedia.org/wiki/Nyamirambo",
+    "https://en.wikipedia.org/wiki/BK_Arena"
+  ]
+}

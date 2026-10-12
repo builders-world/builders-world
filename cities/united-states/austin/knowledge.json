@@ -1,0 +1,84 @@
+{
+  "street": { "en": 0.8, "es": 0.17, "vi": 0.01, "zh": 0.01, "hi": 0.01 },
+  "registers": {},
+  "names": {
+    "weights": {
+      "american": 0.48,
+      "latino": 0.32,
+      "african_american": 0.07,
+      "indian": 0.05,
+      "chinese": 0.03,
+      "vietnamese": 0.02,
+      "korean": 0.02,
+      "filipino": 0.01
+    }
+  },
+  "phrases": {
+    "en": {
+      "hello": [["Howdy!", "Hello (Texan)"], ["Hey y'all!", "Hello, everyone"]],
+      "bye": [["Y'all take care now", "Take care, all of you"]],
+      "fine": [["Fixin' to have a good day", "About to have a good day"]]
+    },
+    "es": {
+      "hello": [["¿Qué onda?", "What's up?"], ["¿Qué hubo?", "Hi, what's new?"]],
+      "fine": [["Ahí la llevo", "Getting by"], ["Todo bien", "All good"]],
+      "yes": [["Órale", "Okay, right on"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Howdy! How's it going?", "Hey y'all, good to see you!", "Morning! You grab breakfast tacos yet?", "Hey, how've you been?", "What's up? Long time!"],
+      "reply": ["Doing great, thanks! You?", "Can't complain, it's a nice one.", "Pretty good, just survived I-35.", "All good, fixin' to grab some lunch.", "Good, just trying to stay cool."],
+      "sunny": ["Perfect day for Barton Springs.", "Hot one today, stay hydrated.", "Zilker's going to be packed.", "Sun's out, everybody's on the patio.", "Hundred and two today, y'all. Hundred and two."],
+      "rain": ["Finally some rain, the lawns needed it.", "Watch the low water crossings, it floods fast.", "Big storm rolling in off the Hill Country.", "MoPac's going to be a mess in this rain.", "Rain on a Saturday, there goes my float trip."],
+      "bye": ["See y'all later!", "Take it easy!", "Catch you on the flip side.", "Have a good one, stay cool!", "Later! Keep it weird."],
+      "busy": ["Can't stop, I'm late for a standup.", "Gotta run, traffic on 35 is backing up.", "Heading to the Domain for a meeting, talk later!", "Running to catch the 801, see you!", "Got a gig on Sixth tonight, gotta set up."]
+    },
+    "es": {
+      "greet": ["¿Qué onda? ¿Cómo estás?", "¡Buenos días! ¿Cómo le va?", "¡Hola! ¿Ya desayunaste?", "¿Qué hubo? ¿Cómo has estado?"],
+      "reply": ["Bien, gracias, ¿y tú?", "Aquí nomás, trabajando.", "Ahí la llevo.", "Todo bien, gracias a Dios."],
+      "sunny": ["¡Qué calorón!", "Está pesado el sol hoy.", "Hace mucho calor, toma agua.", "Bonito día para ir al río."],
+      "rain": ["Por fin llovió.", "Cuidado, se inunda rápido por aquí.", "Viene una tormenta fuerte.", "Está lloviendo bien recio."],
+      "bye": ["¡Ándale pues, nos vemos!", "Cuídate mucho.", "Que te vaya bien.", "¡Hasta luego!"],
+      "busy": ["Voy tarde al jale, luego te hablo.", "No puedo ahorita, ando con prisa.", "Tengo que agarrar el bus, ¡bye!", "Me esperan en el trabajo, nos vemos."]
+    }
+  },
+  "transport": { "bus": "CapMetro bus", "rapid_bus": "MetroRapid", "train": "MetroRail Red Line", "taxi": "cab", "rideshare": "Uber, Lyft or a Waymo", "scooter": "e-scooter", "stage": "bus stop" },
+  "touts": ["Breakfast tacos! Bean and cheese, migas, chorizo!", "Brisket by the pound, come on in!", "Live music tonight, no cover!", "Pedicab! Where you headed?", "Next stop, Republic Square."],
+  "hawkers": [
+    ["Breakfast tacos, two for five!", "A taco truck in the morning"],
+    ["¡Elotes, raspas, aguas frescas!", "Corn, shaved ice and fruit drinks"],
+    ["Pedicab ride downtown?", "A bicycle taxi driver on Sixth Street"],
+    ["Ice cold Topo Chico!", "A drink seller at a festival"],
+    ["Get your kolaches, fresh this morning!", "A bakery stall selling Czech Texan pastries"]
+  ],
+  "food": {
+    "street": ["breakfast tacos", "food truck tacos al pastor", "elote", "kolaches", "queso and chips", "brisket sandwiches"],
+    "dishes": ["smoked brisket", "migas", "Tex-Mex enchiladas", "fajitas", "chili con carne", "barbacoa", "chicken fried steak", "pho on North Lamar"],
+    "drinks": ["Topo Chico", "sweet tea", "Big Red", "horchata", "agua fresca", "frozen margarita"]
+  },
+  "places": {
+    "neighbourhoods": ["Downtown", "East Austin", "South Congress", "Travis Heights", "Bouldin Creek", "Zilker", "Clarksville", "Hyde Park", "Mueller", "Holly", "Montopolis", "North Loop", "Riverside", "West Campus", "The Domain", "Rainey Street"],
+    "streets": ["Congress Avenue", "South Congress Avenue", "Sixth Street", "Lamar Boulevard", "Guadalupe Street", "Cesar Chavez Street", "Riverside Drive", "Burnet Road", "MoPac", "I-35", "South First Street", "East Seventh Street"],
+    "landmarks": ["Texas State Capitol", "Barton Springs Pool", "Zilker Park", "Lady Bird Lake", "the Congress Avenue Bridge bats", "the UT Tower", "Moody Center", "Q2 Stadium", "Mount Bonnell", "Circuit of the Americas", "the Moody Theater", "Texas Memorial Stadium"]
+  },
+  "small_talk": [
+    "Did you go see the bats come out under the Congress Avenue Bridge?",
+    "I-35 was a parking lot again this morning.",
+    "Barton Springs is sixty-eight degrees all year, it's freezing and I love it.",
+    "Everyone I meet moved here from California last year.",
+    "You're from Austin? Like, actually from Austin?",
+    "The line at the barbecue place was three hours, worth it though.",
+    "South by is next month, good luck finding a parking spot.",
+    "We hit a hundred degrees for the twentieth day in a row.",
+    "Cedar fever is killing me this week.",
+    "Bean and cheese is the best breakfast taco and I'll die on that hill."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Austin,_Texas",
+    "https://www.capmetro.org",
+    "https://en.wikipedia.org/wiki/Texan_English",
+    "https://en.wikipedia.org/wiki/Tejano",
+    "https://www.census.gov/quickfacts/"
+  ]
+}

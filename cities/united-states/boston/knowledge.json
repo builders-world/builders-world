@@ -1,0 +1,86 @@
+{
+  "street": { "en": 0.83, "es": 0.1, "zh": 0.03, "ht": 0.03, "vi": 0.01 },
+  "registers": {},
+  "names": {
+    "weights": {
+      "american": 0.46,
+      "latino": 0.19,
+      "african_american": 0.1,
+      "chinese": 0.07,
+      "haitian": 0.04,
+      "indian": 0.04,
+      "west_indian": 0.03,
+      "vietnamese": 0.03,
+      "korean": 0.01,
+      "filipino": 0.01,
+      "ethiopian": 0.01
+    }
+  },
+  "phrases": {
+    "en": {
+      "hello": [["How ya doin'?", "Hello, how are you?"], ["Hey, guy!", "Hey, friend!"]],
+      "fine": [["Wicked good", "Very good"], ["Not too bad", "Fine"]],
+      "bye": [["Take it easy", "Goodbye"]]
+    },
+    "es": {
+      "hello": [["¿Qué lo que?", "What's up? (Dominican)"], ["¿Qué es la que hay?", "What's up? (Puerto Rican)"]],
+      "fine": [["Tranquilo", "All calm, all good"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hey, how ya doin'?", "Morning! Grab a Dunks yet?", "Hey guy, good to see you!", "How's it going? Long time!", "Hey there, how are things?"],
+      "reply": ["Wicked good, thanks.", "Not too bad, can't complain.", "Doing alright, you?", "Good, just got off the Red Line.", "Hanging in, it's been a week."],
+      "sunny": ["Finally, a nice day. Everybody's on the Common.", "Beautiful out, I'm heading down the Esplanade.", "Wicked hot today, the T is going to be a sauna.", "Perfect day for a Sox game.", "Sun's out, the patios on Newbury are packed."],
+      "rain": ["Another nor'easter coming, figures.", "It's pouring, and of course the Green Line is delayed.", "Wicked raw out today.", "Rain all weekend, so much for the Cape.", "Grab an umbrella, it's coming down sideways off the harbor."],
+      "bye": ["Take it easy!", "See ya later!", "Alright, have a good one.", "Catch you later, stay dry.", "Later, go Sox!"],
+      "busy": ["Can't talk, gotta catch the Orange Line.", "Running late, the Pike was backed up to Newton.", "Gotta go, class at Northeastern in ten.", "Heading to a meeting in the Seaport, talk later.", "Late for work, the shuttle bus replaced the train again."]
+    },
+    "es": {
+      "greet": ["¡Buenos días! ¿Cómo está?", "¿Qué lo que? ¿Todo bien?", "¡Hola! ¿Qué tal, mi pana?", "¡Wepa! ¿Cómo andas?"],
+      "reply": ["Todo bien, gracias.", "Tranquilo, aquí trabajando.", "Bien, bien, ¿y tú?", "Ahí vamos, gracias."],
+      "sunny": ["¡Qué día tan lindo!", "Por fin salió el sol.", "Hoy hace calor de verdad.", "Buen día para ir a la playa."],
+      "rain": ["Está lloviendo duro.", "Ese frío con lluvia no es fácil.", "Viene una tormenta, ten cuidado.", "Trae paraguas, que va a llover."],
+      "bye": ["¡Nos vemos!", "Cuídate mucho.", "Hasta luego, saludos a tu mamá.", "Dale, nos vemos."],
+      "busy": ["Voy tarde al trabajo, después hablamos.", "Tengo que coger el tren, ¡nos vemos!", "Ando apurado, te llamo luego.", "Voy a buscar a los nenes a la escuela."]
+    }
+  },
+  "transport": { "bus": "MBTA bus", "metro": "the T", "train": "commuter rail", "trolley": "Green Line", "ferry": "the ferry", "taxi": "cab", "rideshare": "Uber or Lyft", "bike": "Bluebikes", "stage": "bus stop" },
+  "touts": ["Next stop, Park Street. Change for the Red Line.", "Programs! Get your programs!", "Peanuts! Get your peanuts here!", "Hot dogs, sausages, peppers and onions!", "Lobster rolls, fresh today!"],
+  "hawkers": [
+    ["Sausages, peppers and onions!", "A grill cart outside Fenway Park"],
+    ["Peanuts, get your peanuts!", "A peanut seller on game day"],
+    ["Fresh fruit, three for a dollar!", "A vendor at Haymarket on a Saturday"],
+    ["Clam chowder, get it hot!", "A chowder stand at Quincy Market"],
+    ["¡Pastelitos, empanadas!", "Pastries and turnovers, in East Boston"]
+  ],
+  "food": {
+    "street": ["Fenway Franks", "sausage, peppers and onions", "lobster rolls", "clam chowder in a bread bowl", "Haymarket fruit", "cannoli from the North End"],
+    "dishes": ["New England clam chowder", "fried clams", "baked beans", "roast beef sandwich", "Boston cream pie", "steak tips", "pho in Dorchester", "dim sum in Chinatown"],
+    "drinks": ["Dunkin' iced coffee", "a regular coffee", "a frappe", "Moxie", "a cold one at the bar"]
+  },
+  "places": {
+    "neighbourhoods": ["Back Bay", "Beacon Hill", "North End", "South End", "South Boston", "Jamaica Plain", "Dorchester", "Roxbury", "East Boston", "Charlestown", "Fenway", "Allston", "Brighton", "Chinatown", "Seaport", "Mattapan", "Roslindale"],
+    "streets": ["Newbury Street", "Boylston Street", "Commonwealth Avenue", "Massachusetts Avenue", "Tremont Street", "Washington Street", "Hanover Street", "Beacon Street", "Cambridge Street", "Blue Hill Avenue", "Dorchester Avenue", "the Mass Pike", "Storrow Drive"],
+    "landmarks": ["Fenway Park", "Boston Common", "the Public Garden", "Faneuil Hall", "Quincy Market", "the Freedom Trail", "the Old North Church", "the Prudential Center", "the Charles River Esplanade", "TD Garden", "the Boston Public Library", "the Zakim Bridge", "Harvard Square", "MIT", "Logan Airport"]
+  },
+  "small_talk": [
+    "The Green Line is down again, I walked from Kenmore.",
+    "Gonna grab a coffee at Dunks, you want anything?",
+    "My cousin's got a place down the Cape this summer.",
+    "Did you see the Sox last night?",
+    "Parking in the North End is impossible on a weekend.",
+    "Storrow Drive got another truck stuck under a bridge on moving day.",
+    "Every apartment lease turns over on September first, it's chaos.",
+    "There's a packie on the corner if you need anything.",
+    "Get your drink from the bubbler, it's free.",
+    "Snow emergency tonight, move your car off the main road."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Boston",
+    "https://www.mbta.com",
+    "https://en.wikipedia.org/wiki/Boston_accent",
+    "https://en.wikipedia.org/wiki/Demographics_of_Boston",
+    "https://www.census.gov/quickfacts/"
+  ]
+}

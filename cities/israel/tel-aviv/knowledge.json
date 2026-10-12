@@ -1,0 +1,96 @@
+{
+  "street": { "he": 0.74, "en": 0.1, "ru": 0.09, "ar": 0.07 },
+  "names": { "weights": { "hebrew": 0.78, "russian_speaking": 0.13, "arab": 0.09 } },
+  "phrases": {
+    "he": {
+      "agree": [["Yalla", "Come on, let's go"], ["Sababa", "Cool, great"], ["Achla", "Excellent, from Arabic (אחלה)"], ["Yofi", "Lovely, nice (יופי)"]],
+      "friend": [["Achi", "Bro (אחי)"], ["Gever", "Man, dude (גבר)"], ["Motek", "Sweetie, friendly to anyone (מותק)"]],
+      "no_worries": [["Ein ba'aya", "No problem (אין בעיה)"], ["Yihye beseder", "It'll be fine (יהיה בסדר)"]],
+      "wait": [["Rega", "One second (רגע)"], ["Sheniya", "Just a sec"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hey! How's it going?", "Morning! Coffee first?", "Hi, long time, what's new?", "Hey, how's the startup?", "Evening! Beach after work?"],
+      "reply": ["All good, thanks. You?", "Fine, crazy week but fine.", "Good, just got back from the gym on the promenade.", "Can't complain, the weekend is almost here.", "Great, sababa, you?"],
+      "sunny": ["Perfect beach day, see you at Gordon.", "So humid, my shirt is stuck to me.", "Hamsin today, stay inside.", "Sun, sea, what more do you need?", "Lovely evening for a walk at the port."],
+      "rain": ["It's pouring, take an umbrella.", "Every time it rains the Ayalon closes.", "Finally some rain!", "Cold today, wear a jacket.", "The scooters are all lying in puddles."],
+      "bye": ["Yalla bye!", "See you!", "Talk soon.", "Have a good weekend!", "Shabbat shalom!"],
+      "busy": ["Sorry, running to a meeting.", "Stuck in traffic on Namir, call you later.", "Can't talk, I'm on a call.", "Late for the light rail, bye!", "Deadline today, talk tomorrow."]
+    },
+    "he": {
+      "greet": ["Ahlan! Ma nishma?", "Hey, ma koreh?", "Boker tov! Ma shlomkha?", "Shalom, ma ha-inyanim?", "Achi, ma nishma?"],
+      "reply": ["Sababa, ve-ata?", "Beseder gamur, toda.", "Hakol beseder.", "Mitzuyan, toda!", "Ein tluna."],
+      "sunny": ["Eize yom yafe, yalla la-yam!", "Cham ve-lach hayom.", "Sharav hayom, tishte mayim.", "Shemesh, yam, ma tzarich yoter?"],
+      "rain": ["Yored geshem, kach mitriya.", "Sof sof geshem!", "Kol pa'am she-yored geshem, ha-Ayalon nisgar.", "Kar hayom, tilbash me'il."],
+      "bye": ["Yalla bye!", "Lehitraot!", "Yalla, nedaber.", "Shavua tov!"],
+      "busy": ["Sori, ani memaher, nedaber achar kach.", "Ein li zman achshav, yesh li pgisha.", "Ani be-pkak, ani me'acher.", "Yalla, ani tzarich lazuz."]
+    },
+    "ru": {
+      "greet": ["Privet! Kak dela?", "Zdravstvuyte!", "O, privet, skolko let!", "Dobroye utro! Kak ty?"],
+      "reply": ["Normalno, a ty?", "Vsyo khorosho, spasibo.", "Potikhonku.", "Otlichno!"],
+      "sunny": ["Zharko segodnya!", "Pogoda super, poshli na more.", "Opyat khamsin, uzhas.", "Solntse, more, krasota."],
+      "rain": ["Dozhd poshyol, vozmi zontik.", "Nakonets-to dozhd!", "Kholodno segodnya, odevaysya teplee.", "Iz-za dozhdya vezde probki."],
+      "bye": ["Poka!", "Do vstrechi!", "Udachi!", "Sozvonimsya."],
+      "busy": ["Izvini, speshu.", "Ne mogu seychas, perezvonyu.", "Opazdyvayu na rabotu.", "Davay potom pogovorim."]
+    },
+    "ar": {
+      "greet": ["Marhaba, kifak?", "Ahlan, shu akhbarak?", "Sabah il kheir!", "Ahlan ya zalameh!"],
+      "reply": ["Mnih, il hamdilla.", "Tamam, w inta?", "Kulshi mnih.", "Mashi il hal."],
+      "sunny": ["Il jaw shoob il yom.", "Yalla 'al bahr!", "Shams helweh il yom.", "Ktir rtubeh il yom."],
+      "rain": ["Bitshatti, khod shamsiyeh.", "Il dinya bardeh il yom.", "Akhiran ijat il shita!", "Il bahr hayej il yom."],
+      "bye": ["Ma'a salameh.", "Yalla, bashoofak.", "Allah ma'ak.", "Bnshoofak ba'dein."],
+      "busy": ["Mista'jil, bahkeek ba'dein.", "Ma fi wa'it halla'.", "Lazim aruh 'al shughul.", "Sorry, mashghul shway."]
+    }
+  },
+  "transport": {
+    "bus": "otobus",
+    "shared_taxi": "sherut (yellow shared minibus)",
+    "taxi": "monit",
+    "ride_hail": "Gett",
+    "light_rail": "ha-rakevet ha-kala (Red Line)",
+    "train": "rakevet (Israel Railways)",
+    "scooter": "korkinet (electric scooter)",
+    "bike": "Tel-O-Fun",
+    "card": "Rav-Kav",
+    "stage": "tachana (stop or station)"
+  },
+  "touts": ["Ramat Gan! Ramat Gan!", "Bat Yam, Bat Yam, yalla!", "Ha-Tachana ha-Merkazit!", "Petach Tikva, makom echad!", "Hakol be-eser, hakol be-eser!", "Rak hayom, tut be-esrim!"],
+  "hawkers": [
+    ["Avatiach! Avatiach matok!", "Watermelon! Sweet watermelon!"],
+    ["Artik, artik!", "Ice lollies! (on the beach)"],
+    ["Hakol be-eser!", "Everything for ten shekels!"],
+    ["Ba'agele, ba'agele cham!", "Hot Jerusalem bagel!"],
+    ["Tut sade, tut!", "Strawberries!"],
+    ["Mango, rak be-eser!", "Mango, only ten shekels!"]
+  ],
+  "food": {
+    "street": ["falafel", "sabich", "shawarma", "hummus", "burekas", "Jerusalem bagel (ka'ak)", "malawach", "pita with schnitzel"],
+    "dishes": ["shakshuka", "hummus with ful", "jachnun", "kubbeh soup", "chicken with rice", "Israeli salad", "grilled fish in Jaffa", "majadra"],
+    "drinks": ["cafe hafuch", "limonana", "botz (Turkish-style coffee)", "tea with nana", "shoko (chocolate milk)", "Goldstar beer", "arak"]
+  },
+  "places": {
+    "neighbourhoods": ["Florentin", "Neve Tzedek", "Jaffa", "Ajami", "Kerem HaTeimanim", "Lev HaIr", "Ramat Aviv", "the Old North", "Sarona", "Neve Sha'anan", "Bavli", "Yad Eliyahu", "Shapira", "Montefiore"],
+    "streets": ["Rothschild Boulevard", "Dizengoff Street", "Allenby Street", "Ibn Gabirol Street", "King George Street", "Sheinkin Street", "Ben Yehuda Street", "Herbert Samuel Promenade", "Yefet Street", "Derech Begin", "Namir Road", "Ayalon Highway"],
+    "landmarks": ["Carmel Market", "Jaffa Port", "Jaffa Clock Tower", "Dizengoff Square", "Habima Square", "Azrieli Center", "Sarona Market", "Tel Aviv Port", "Gordon Beach", "Frishman Beach", "Yarkon Park", "Levinsky Market", "Tel Aviv Museum of Art", "HaTachana"]
+  },
+  "small_talk": [
+    "Parking in Florentin is impossible, I gave up and took a scooter.",
+    "The Red Line gets me to Petah Tikva in no time now.",
+    "Carmel Market is cheapest on Friday afternoon.",
+    "Everyone's at the beach since the hamsin started.",
+    "The Ayalon was jammed again this morning.",
+    "Rent on Dizengoff went up again, unbelievable.",
+    "Friday brunch in Jaffa? I'll book.",
+    "My Rav-Kav ran out, topping it up now.",
+    "The sea is flat today, perfect for paddle."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Tel_Aviv",
+    "https://en.wikipedia.org/wiki/Carmel_Market",
+    "https://en.wikipedia.org/wiki/Red_Line_(Tel_Aviv_Light_Rail)",
+    "https://en.wikipedia.org/wiki/Share_taxi",
+    "https://en.wikipedia.org/wiki/Israeli_cuisine",
+    "https://en.wikipedia.org/wiki/Modern_Hebrew"
+  ]
+}

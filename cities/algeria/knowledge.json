@@ -1,0 +1,102 @@
+{
+  "languages": [
+    { "code": "arq", "name": "Algerian Arabic (Darja)", "official": false, "spoken": "widely" },
+    { "code": "ar", "name": "Modern Standard Arabic", "official": true, "spoken": "in school, news and offices" },
+    { "code": "kab", "name": "Kabyle (Taqbaylit)", "official": true, "spoken": "commonly, in Kabylie and in many Algiers families" },
+    { "code": "fr", "name": "French", "official": false, "spoken": "widely, mixed into everyday Darja" },
+    { "code": "en", "name": "English", "official": false, "spoken": "among students and in tech" }
+  ],
+  "names": {
+    "order": "given family",
+    "conventions": "A Muslim or Amazigh first name and a fixed family name passed down from the father, set by the civil registry in the late 1800s. Family names often start with Ben or Bel (son of), Bou (father of, or owner of), or in Kabylie with Aït (the people of). Arabic names are written in the French way: Djamel, Abdelkader, Khadidja. Kabyle families also give Amazigh names like Massinissa, Yuba, Thiziri and Dihia. On forms the family name comes first.",
+    "groups": {
+      "arab": {
+        "given": {
+          "m": ["Mohamed", "Ahmed", "Abdelkader", "Karim", "Amine", "Yacine", "Sofiane", "Bilal", "Walid", "Nassim", "Riad", "Djamel", "Rachid", "Mourad", "Hichem", "Islam", "Adel", "Fares"],
+          "f": ["Amina", "Fatima", "Meriem", "Sarah", "Imene", "Lina", "Yasmine", "Nesrine", "Khadidja", "Samia", "Nadia", "Houria", "Soumia", "Asma", "Rania", "Hanane"]
+        },
+        "family": ["Benali", "Belkacem", "Bouzid", "Benamar", "Mansouri", "Hamidi", "Saadi", "Brahimi", "Khelifi", "Zerrouki", "Bensaid", "Boukhalfa", "Cherif", "Rahmani", "Benmoussa", "Bouziane", "Djebbar", "Larbi"]
+      },
+      "kabyle": {
+        "given": {
+          "m": ["Amar", "Ali", "Mohand", "Said", "Arezki", "Lounes", "Idir", "Massinissa", "Yuba", "Aksel", "Mokrane", "Hocine", "Slimane", "Smail", "Belaid", "Rabah"],
+          "f": ["Tassadit", "Ouardia", "Dihia", "Thiziri", "Taous", "Lynda", "Kahina", "Tinhinane", "Lila", "Djamila", "Sonia", "Nora", "Zahia", "Fatma", "Tafat", "Kenza"]
+        },
+        "family": ["Aït Saïd", "Aït Kaci", "Amrani", "Meziane", "Belaid", "Ouali", "Hamani", "Chabane", "Amrouche", "Mokrani", "Lounici", "Haddad", "Ouchene", "Kaci", "Ferrah", "Mammeri"]
+      }
+    },
+    "weights": { "arab": 0.75, "kabyle": 0.25 }
+  },
+  "honorifics": { "elder_m": "Ammi", "elder_f": "Khalti", "peer_m": "Khouya", "peer_f": "Okhti", "boss": "Chef" },
+  "phrases": {
+    "arq": {
+      "hello": [["Salam alikoum", "Peace be upon you"], ["Wesh?", "Hey, what's up?"], ["Ahlan", "Hi"]],
+      "morning": [["Sbah el kheir", "Good morning"]],
+      "evening": [["Msa el kheir", "Good evening"]],
+      "how_are_you": [["Wesh rak?", "How are you? (to a man)"], ["Wesh raki?", "How are you? (to a woman)"], ["Labes?", "All well?"], ["Kirak?", "How are you?"]],
+      "fine": [["Labes, hamdoullah", "Fine, thank God"], ["Mlih", "Good"]],
+      "thanks": [["Saha", "Thanks (literally, health)"], ["Yaatik saha", "Thank you (may you be given health)"], ["Choukran", "Thank you"]],
+      "bye": [["Bslama", "Goodbye"], ["Tsbah ala kheir", "Good night"]],
+      "welcome": [["Marhba", "Welcome"], ["Marhba bik", "Welcome to you"]],
+      "sorry": [["Smahli", "Sorry, forgive me"]],
+      "excuse": [["Smahli khouya", "Excuse me, brother"], ["Smahli okhti", "Excuse me, sister"]],
+      "yes": [["Ih", "Yes"], ["Wah", "Yeah"]],
+      "no": [["La", "No"], ["Lala", "No, no"]]
+    },
+    "kab": {
+      "hello": [["Azul", "Hello"], ["Azul fell-ak", "Hello to you (to a man)"], ["Azul fell-am", "Hello to you (to a woman)"]],
+      "morning": [["Sbaḥ lxir", "Good morning"]],
+      "evening": [["Lmesa lxir", "Good evening"]],
+      "how_are_you": [["Amek telliḍ?", "How are you?"], ["Labas?", "All well?"]],
+      "fine": [["Labas, tanemmirt", "Fine, thanks"], ["Ulac lbas", "No trouble, fine"]],
+      "thanks": [["Tanemmirt", "Thank you"], ["Ṣaḥḥa", "Thanks"]],
+      "bye": [["Ar timlilit", "Until we meet again"], ["Ar azekka", "See you tomorrow"]],
+      "welcome": [["Ansuf", "Welcome"]],
+      "sorry": [["Surfiyi", "Sorry, forgive me"]],
+      "excuse": [["Surfiyi", "Excuse me"]],
+      "yes": [["Ih", "Yes"]],
+      "no": [["Ala", "No"]]
+    },
+    "fr": {
+      "hello": [["Salut", "Hi"], ["Bonjour", "Hello"]],
+      "morning": [["Bonjour", "Good morning"]],
+      "evening": [["Bonsoir", "Good evening"]],
+      "how_are_you": [["Ça va?", "How's it going?"]],
+      "fine": [["Ça va, hamdoullah", "Fine, thank God"]],
+      "thanks": [["Merci", "Thank you"]],
+      "bye": [["À plus", "See you"], ["Au revoir", "Goodbye"]],
+      "welcome": [["Bienvenue", "Welcome"]],
+      "sorry": [["Pardon", "Sorry"]],
+      "excuse": [["Excusez-moi", "Excuse me"]],
+      "yes": [["Oui", "Yes"]],
+      "no": [["Non", "No"]]
+    },
+    "en": {
+      "hello": [["Hello", "Hello"]],
+      "how_are_you": [["How are you?", "How are you?"]],
+      "fine": [["Fine, thanks", "Fine, thanks"]],
+      "thanks": [["Thank you", "Thank you"]],
+      "bye": [["Goodbye", "Goodbye"]],
+      "yes": [["Yes", "Yes"]],
+      "no": [["No", "No"]]
+    }
+  },
+  "money": {
+    "currency": "DZD",
+    "symbol": "DA",
+    "words": [
+      ["drahem", "money"],
+      ["douro", "five centimes; some people still count prices in douros, twenty to the dinar"],
+      ["alf", "a thousand, counted in centimes: 10 dinars"],
+      ["melyoun", "a million centimes: 10,000 dinars"]
+    ]
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Languages_of_Algeria",
+    "https://en.wikipedia.org/wiki/Algerian_Arabic",
+    "https://en.wikipedia.org/wiki/Kabyle_language",
+    "https://en.wikipedia.org/wiki/Kabyle_people",
+    "https://en.wikipedia.org/wiki/Algerian_dinar",
+    "https://en.wikivoyage.org/wiki/Algerian_Arabic_phrasebook"
+  ]
+}

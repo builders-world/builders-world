@@ -1,13 +1,14 @@
-// Chat bubbles (world bible 11.2): people on the street greet each other and you, in the English and
-// Pidgin mix of Lagos. Register follows lifestyle: tier 0 (well-off) speaks mostly English, tier 2 mostly
-// Pidgin, tier 1 mixes freely. Moods show as a line or just an emoji. Keys 1-6 send your own emote.
+// Chat bubbles (world bible 11.2): people on the street greet each other and you, in the languages of their own city
+// (look/knowledge.js: Sheng, Swahili and English in Nairobi, Pidgin and Yoruba in Lagos, Twi and Ghanaian Pidgin in
+// Accra ...). Register follows lifestyle: tier 0 (well-off) leans to English, tier 2 to the street language. The lines
+// below are Lagos's, the fallback where a city's file has none of a kind. Moods show as a line or just an emoji. Keys 1-6 send your own emote.
 
 import * as THREE from 'three';
 import { sfx } from './audio.js';
 import { FONT, C } from './uikit.js';
 import { BY_ID, QUICK, REACT, playEmote } from './expressions.js';
 
-const PIDGIN_SHARE = [0.1, 0.5, 0.9];
+import { registerFor, line as kLine, phrase } from './knowledge.js';
 const pick = (a) => a[Math.floor(Math.random() * a.length)];
 
 const LINES = {
@@ -69,8 +70,16 @@ export function createChat({ camera, avatar, getEnv, reduced }) {
   let clock = 0, tick = 0, moodT = 20, last = null, meCool = 0, quietUntil = 0;
 
   function add(p) { people.push({ cool: 0, coolMe: 0, mood: pick(Object.keys(MOODS)), ...p }); }
-  const speaks = (p) => (Math.random() < PIDGIN_SHARE[p.tier ?? 1] ? 'pd' : 'en');
-  const line = (set, p) => pick(LINES[set][speaks(p)]);
+  // each person keeps one voice: the register the city's mix gives them (steady per person)
+  const speaks = (p) => (p.reg ??= registerFor(p.tier ?? 1, `${p.id ?? p.name}:voice`));
+  // the hand-written Lagos sets answer in Pidgin ('pd') for Nigerian Pidgin, in English for everything else
+  const lagos = (p) => (speaks(p) === 'pcm' ? 'pd' : 'en');
+  const line = (set, p) => {
+    const reg = speaks(p);
+    if (['greet', 'reply', 'rain', 'sunny'].includes(set)) { const l = kLine(set, reg); if (l) return l; }
+    if (['morning', 'afternoon', 'evening'].includes(set) && reg !== 'en') { const ph = phrase(set === 'afternoon' ? 'hello' : set, reg); if (ph) return ph[0]; }
+    return pick(LINES[set][lagos(p)]);
+  };
 
   function say(obj, text, { name, me = false, emoji = false, hold = 3.2 } = {}) {
     // one bubble per speaker: a new line replaces the old
@@ -134,7 +143,7 @@ export function createChat({ camera, avatar, getEnv, reduced }) {
     if (!best) return;
     setTimeout(() => {
       if (kind === 'greet') { say(best.obj, greeting(best), { name: best.name }); return; }
-      const opts = ANSWER[{ laugh: '😄', win: '🎉', thanks: '🙏', dance: '🔥' }[kind] || '👍'][speaks(best)], t = pick(opts);
+      const opts = ANSWER[{ laugh: '😄', win: '🎉', thanks: '🙏', dance: '🔥' }[kind] || '👍'][lagos(best)], t = pick(opts);
       say(best.obj, t, { name: best.name, emoji: [...t].length <= 2 });
     }, 900);
     best.coolMe = clock + 20;
@@ -171,7 +180,7 @@ export function createChat({ camera, avatar, getEnv, reduced }) {
         moodT = 30 + Math.random() * 30;
         const seen = clock > quietUntil ? people.filter((p) => clock > p.cool && p.obj.position.distanceTo(camera.position) < 20) : [];
         if (seen.length) {
-          const p = pick(seen), m = MOODS[p.mood], text = Math.random() < 0.55 || !m.en ? m.emoji : `${m[speaks(p)]} ${m.emoji}`;
+          const p = pick(seen), m = MOODS[p.mood], busy = p.mood === 'busy' && kLine('busy', speaks(p)), text = Math.random() < 0.55 || !m.en ? m.emoji : `${busy || m[lagos(p)]} ${m.emoji}`;
           say(p.obj, text, { name: p.name, emoji: text === m.emoji, hold: 2.6 });
           p.cool = clock + 6;
           if (Math.random() < 0.3) p.mood = pick(Object.keys(MOODS));

@@ -1,0 +1,86 @@
+{
+  "street": { "en": 0.84, "zh": 0.06, "yue": 0.02, "pa": 0.02, "ar": 0.02, "es": 0.02, "tl": 0.01, "fr": 0.01 },
+  "registers": {},
+  "names": {
+    "weights": {
+      "anglo": 0.55,
+      "chinese": 0.1,
+      "indian": 0.08,
+      "punjabi": 0.03,
+      "arab": 0.03,
+      "pakistani": 0.02,
+      "iranian": 0.02,
+      "korean": 0.02,
+      "filipino": 0.02,
+      "caribbean": 0.02,
+      "latino": 0.02,
+      "portuguese": 0.01,
+      "french": 0.01,
+      "italian": 0.01
+    }
+  },
+  "phrases": {
+    "en": {
+      "hello": [["Hey, how's it going?", "Hello"]],
+      "fine": [["Surviving midterms", "Getting by (student)"]],
+      "bye": [["Good luck on co-op!", "Good luck with your work term!"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Hey! How's the term going?", "Morning! Coffee first?", "Hi! Long time, were you on co-op?", "Hey, how's it going?", "Oh hey, good to see you!"],
+      "reply": ["Good, just survived a midterm.", "Not bad, busy with a project.", "Pretty good, just got back from co-op in Toronto.", "Doing well, thanks! You?", "Tired, but good."],
+      "sunny": ["Nice day, everyone's out in Waterloo Park.", "Sun's out, the patios in Uptown are full.", "Perfect day to bike the Iron Horse Trail.", "Finally warm, the geese are out too.", "Beautiful day, let's walk around Columbia Lake."],
+      "rain": ["Pouring again, the walk from the ION stop is going to be wet.", "Rain and wind, classic Waterloo.", "Grab an umbrella, it's coming down.", "Freezing rain tonight, careful on Columbia.", "Gray and wet, I'm staying in the library."],
+      "bye": ["See you later!", "Good luck with the exam!", "Take care!", "Catch you at the hackathon.", "Have a good one!"],
+      "busy": ["Can't stop, I have a co-op interview.", "Running to catch the ION.", "Late for a lecture, talk later!", "Got a standup at Communitech, see you!", "Deadline tonight, gotta go."]
+    },
+    "zh": {
+      "greet": ["你好！最近怎么样？", "早！上课去吗？", "好久不见！", "早上好！"],
+      "reply": ["挺好的，就是作业多。", "还行，刚考完试。", "不错，你呢？", "有点累，不过还好。"],
+      "sunny": ["今天天气真好。", "出太阳了，去公园走走吧。", "今天好暖和。", "天气不错，适合骑车。"],
+      "rain": ["下雨了，带伞了吗？", "雨下得好大。", "今天好冷，还下雨。", "下雪了，路上小心。"],
+      "bye": ["再见！", "拜拜，考试加油！", "回头见！", "改天聊。"],
+      "busy": ["我赶轻轨，先走了。", "我要去上课了，回头聊。", "不好意思，我赶时间。", "今晚要交作业，先走了。"]
+    }
+  },
+  "transport": { "bus": "GRT bus", "light_rail": "the ION", "train": "GO Train", "taxi": "cab", "rideshare": "Uber", "scooter": "e-scooter", "stage": "GRT stop" },
+  "touts": ["Next stop, University of Waterloo station.", "Apple fritters, fresh and hot!", "Oktoberfest tickets, right here!", "Free pizza at the info session, come on in!", "Shawarma, open till late!"],
+  "hawkers": [
+    ["Apple fritters, hot!", "A fritter stand at St. Jacobs Farmers' Market"],
+    ["Maple syrup, local!", "A market stall in spring"],
+    ["Fresh sausage on a bun!", "A grill stand during Oktoberfest"],
+    ["Corn, sweet corn!", "A farm stand at the edge of town"],
+    ["Free coffee for students!", "A club table on campus"]
+  ],
+  "food": {
+    "street": ["apple fritters", "sausage on a bun", "shawarma on rocks", "poutine", "bubble tea", "pizza by the slice"],
+    "dishes": ["schnitzel", "butter chicken", "hand-pulled noodles", "pho", "Korean fried chicken", "summer sausage from the market", "shoofly pie"],
+    "drinks": ["a double-double", "bubble tea", "a local craft beer", "apple cider", "an iced capp"]
+  },
+  "places": {
+    "neighbourhoods": ["Uptown Waterloo", "Downtown Kitchener", "Northdale", "Lakeshore", "Beechwood", "Laurelwood", "Columbia Forest", "Lincoln Village", "Eastbridge", "Westvale", "the Innovation District"],
+    "streets": ["King Street", "University Avenue", "Columbia Street", "Phillip Street", "Albert Street", "Erb Street", "Weber Street", "Westmount Road", "Bridgeport Road", "Northfield Drive"],
+    "landmarks": ["the University of Waterloo", "Wilfrid Laurier University", "Waterloo Park", "the Perimeter Institute", "Waterloo Public Square", "Communitech", "Conestoga Mall", "Kitchener City Hall", "St. Jacobs Farmers' Market", "Columbia Lake", "Laurel Creek", "the Iron Horse Trail"]
+  },
+  "small_talk": [
+    "Watch out for the geese near the Dana Porter library, they're nesting.",
+    "Did you land a co-op for next term?",
+    "Oktoberfest is next week, the whole region goes wild.",
+    "The ION is great when it isn't snowing.",
+    "Half of Silicon Valley went to school here, apparently.",
+    "Free pizza at three info sessions this week, I'm not buying dinner.",
+    "Kitchener or Waterloo? They're basically one city.",
+    "The farmers' market fritters are worth the line.",
+    "Exam season, the library is full by eight in the morning.",
+    "My startup is at Communitech now, come by sometime."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Waterloo,_Ontario",
+    "https://en.wikipedia.org/wiki/University_of_Waterloo",
+    "https://www.grt.ca",
+    "https://www.communitech.ca",
+    "https://www.oktoberfest.ca",
+    "https://www12.statcan.gc.ca/census-recensement/index-eng.cfm"
+  ]
+}

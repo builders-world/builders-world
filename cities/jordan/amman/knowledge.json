@@ -1,0 +1,82 @@
+{
+  "street": { "ar": 0.86, "en": 0.14 },
+  "names": { "weights": { "jordanian": 0.82, "syrian": 0.11, "iraqi": 0.03, "egyptian": 0.04 } },
+  "phrases": {
+    "ar": {
+      "hello": [["Ya hala", "Hi, welcome"], ["Ahlein", "Hi, warm"]],
+      "agree": [["Yalla", "Come on, let's go"], ["Mashi", "Okay, fine"], ["Tamam", "Okay"], ["Inshallah", "God willing, also a gentle maybe"]],
+      "now": [["Hassa", "Now, Jordanian (هسا)"], ["Shway shway", "Slowly, take it easy"]],
+      "take_care": [["Dir balak", "Take care, watch out (دير بالك)"]],
+      "friend": [["Ya zalameh", "Mate, man (يا زلمة)"]]
+    }
+  },
+  "chat": {
+    "en": {
+      "greet": ["Morning! How are you?", "Hi! Long time, how's everything?", "Hey, how's work going?", "Hello, how's the family?", "Evening! Coming to Rainbow Street?"],
+      "reply": ["Fine, il hamdilla. You?", "All good, thanks, busy week.", "Good, good, just tired.", "Can't complain, the weekend is close.", "All good, merci. And you?"],
+      "sunny": ["Lovely day, let's walk up to the Citadel.", "Hot today, stay in the shade.", "Perfect evening for a rooftop in Weibdeh.", "Sunny but the air is fresh, I love Amman in spring.", "So dry today, drink water."],
+      "rain": ["It's raining, take an umbrella.", "Cold today, wear a jacket.", "They say snow tomorrow, the whole city will stop!", "The streets downtown are rivers, be careful.", "Foggy on the hills this morning."],
+      "bye": ["Bye, take care!", "See you, yalla.", "Ma'a salameh!", "Take care of yourself.", "See you at the weekend."],
+      "busy": ["Sorry, late for work!", "Stuck at Seventh Circle, call you later.", "Running to catch the service.", "Got a meeting in Abdali, talk later.", "Can't stop now, sorry!"]
+    },
+    "ar": {
+      "greet": ["Marhaba! Kifak?", "Ahlan ya zalameh, shu akhbarak?", "Sabah il kheir! Kif il hal?", "Hala wallah, wenak?", "Ya hala, shlonak?"],
+      "reply": ["Il hamdilla, mnih. W inta?", "Tamam, yislamu.", "Kulshi tamam, il hamdilla.", "Mashi il hal, ya'tik il 'afyeh."],
+      "sunny": ["Il jaw shoob il yom!", "Shams helweh, yalla 'a Rainbow?", "Il jaw rawa'a, khalina nimshi.", "Il dinya shoob, ishrab may."],
+      "rain": ["Il dinya bitshatti, khod shamsiyeh.", "Bardeh il yom, ilbas jakeit.", "Bi'oolu fi talj bukra!", "Il shawari' malyaneh may, dir balak."],
+      "bye": ["Ma'a salameh!", "Yalla, bashoofak.", "Allah ma'ak.", "Dir balak 'ala halak."],
+      "busy": ["Sorry, mista'jil, 'indi shughul.", "Ma fi wa'it hassa, bahkeek ba'dein.", "Il azmeh wa'feh, lazim atla' badri.", "Lazim alhag il servees."]
+    }
+  },
+  "transport": {
+    "bus": "baas",
+    "brt": "Amman Bus Rapid Transit (BRT)",
+    "shared_taxi": "servees (white shared taxi on a fixed route)",
+    "taxi": "taksi (yellow taxi)",
+    "minibus": "kosta",
+    "ride_hail": "Careem or Uber",
+    "intercity": "JETT coach",
+    "card": "Amman Bus card",
+    "stage": "mujamma' (bus station), like Raghadan or the North Bus Station"
+  },
+  "touts": ["Zarqa, Zarqa, Zarqa!", "Irbid! Irbid! Wahad, wahad!", "Salt! Salt! One seat left!", "Wihdat, Wihdat!", "Sweileh, Sweileh!", "Duwar il-Dakhliyeh, ya shabab!"],
+  "hawkers": [
+    ["Ka'ek, ka'ek bi simsim!", "Sesame bread rings!"],
+    ["Turmus, turmus!", "Lupini beans!"],
+    ["Dorra, dorra!", "Corn, boiled or grilled!"],
+    ["Qahweh! Qahweh sada!", "Coffee! Bitter Arabic coffee!"],
+    ["Sahlab sukhun!", "Hot sahlab!"],
+    ["Tamer hindi, kharroub!", "Tamarind and carob juice!"],
+    ["Batikh, batikh 'al sikkeen!", "Watermelon, cut so you can taste!"]
+  ],
+  "food": {
+    "street": ["falafel", "hummus", "foul", "shawarma", "ka'ek with za'atar", "manakish", "knafeh", "sfiha"],
+    "dishes": ["mansaf", "maqluba", "musakhan", "mujaddara", "zarb", "shishbarak", "mloukhiyeh", "galayet bandora"],
+    "drinks": ["qahweh sada (bitter Arabic coffee)", "Turkish coffee", "tea with mint", "sage tea (shai bi maramiyyeh)", "sahlab", "lemon with mint", "tamer hindi", "kharroub"]
+  },
+  "places": {
+    "neighbourhoods": ["Jabal Amman", "Jabal al-Weibdeh", "Abdoun", "Sweifieh", "Shmeisani", "Downtown (al-Balad)", "Abdali", "Khalda", "Tla' al-Ali", "Dabouq", "Um Uthaina", "Jubeiha", "Marka", "Jabal al-Hussein", "Deir Ghbar", "Wadi Saqra"],
+    "streets": ["Rainbow Street", "Mecca Street", "Zahran Street", "Wakalat Street", "King Hussein Street", "Queen Rania Street", "Gardens Street", "Prince Muhammad Street"],
+    "landmarks": ["Amman Citadel", "Roman Theatre", "Abdali Boulevard", "Jordan Gate Towers", "Hashem Restaurant", "Habibah Sweets", "King Abdullah I Mosque", "Darat al-Funun", "Jordan Museum", "Raghadan Flagpole", "the Circles (First to Eighth)", "Paris Square in Weibdeh"]
+  },
+  "small_talk": [
+    "Third Circle traffic was a nightmare this morning.",
+    "Habibah has a queue again, but the knafeh is worth it.",
+    "If it snows they will close the whole city, watch.",
+    "Take the servees from downtown, it's quicker than waiting for a taxi.",
+    "Rainbow Street is packed every Thursday night.",
+    "Another hill, another staircase. Amman keeps your legs strong.",
+    "We ate at Hashem standing up, it was that full.",
+    "My mother is making mansaf on Friday, come.",
+    "The BRT made the ride to Sweileh so much easier.",
+    "The water comes on Tuesday this week, fill the tanks."
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Amman",
+    "https://en.wikipedia.org/wiki/Jordanian_Arabic",
+    "https://en.wikipedia.org/wiki/Jordanian_cuisine",
+    "https://en.wikipedia.org/wiki/Mansaf",
+    "https://en.wikipedia.org/wiki/Share_taxi",
+    "https://en.wikipedia.org/wiki/Amman_Bus_Rapid_Transit"
+  ]
+}
