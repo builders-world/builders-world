@@ -42,13 +42,13 @@ whole city streamed round the player, with traffic, people, places to go into an
 | PR | What | Status | Who |
 |---|---|---|---|
 | #6 `chore/codex-visual-qa` | How Codex reviews, tests and finishes alongside Claude | Docs only; Vercel's preview failed to read git (not the code). Waiting for Elvis | Codex |
+| #10 `fix/codex-phone-hud` | Prevent touch toast and movement-stick overlap | Open; build and 46 tests pass; Elvis asked Claude to merge after review | Codex |
 
 ## In progress (branches not yet in a pull request)
 
 | Branch | What | Who | Files it owns |
 |---|---|---|---|
 | `feat/recreation` | Recreation with guides, lessons and fees: skydiving over the open city first, then archery; later hiking, mountain biking, climbing, paragliding, wingsuit, bungee, beaches, gun range, and a photo safari in Kenya instead of hunting | Claude | `apps/game/src/look/recreation/` (new) |
-| `fix/codex-phone-hud` | Small touch HUD spacing fix, validated at 390x844 on Low and Medium; local branch based on `e32500f`, awaiting Elvis's approval to push | Codex | `apps/game/src/look/hud.js` (mobile toast CSS only), `apps/game/src/look/input.js` (stick offset only) |
 
 The open world (`apps/game/src/city/`, `scripts/city/`, `public/city/`) is on main. Its city data ships with the
 deployment; a city is baked (`scripts/city/prepare.sh`, `bake.mjs`) when it goes live. The other 129 cities are
