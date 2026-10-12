@@ -78,6 +78,26 @@ Every issue records: ID, severity, observed versus expected behavior, reproducti
 
 Fix blockers and crashes first, then broken interactions or severe visual regressions, then polish. A finishing patch is complete only when its acceptance case is verified, relevant checks pass and the owner can find the handoff. Never claim a screenshot review proves full-game stability.
 
+## Synchronization checkpoint: 2026-10-12 11:05 UTC
+
+This checkpoint supplements earlier chat prompts. Fetch and inspect again before starting work; timestamps are observations, not a continuously refreshed feed.
+
+| Source | Observed state |
+|---|---|
+| `origin/main` | `c4c2366`; unchanged since the last chat handoff |
+| Country/city PR #2 | Merged as `5534872` |
+| Road-network PR #5 | Open, head `270cf3b` |
+| `origin/feat/open-world` | `5e72f2d`; published phone-performance update: tier-dependent distance detail, simpler distant buildings and capped aerial reach. Code inspected, not independently benchmarked. No open-world PR observed. |
+| Local `feat/city-knowledge` | Worktree `Builders-World.worktrees/knowledge-claude`, based on `c4c2366`, with uncommitted `cities/KNOWLEDGE.md`. No remote branch or PR observed. Treat as active Claude work; scope can expand. |
+| PRs #3 and #4 | Still open; NOW.md marks them superseded by the open world and #5 respectively |
+| PR #6 | Codex collaboration documentation only, still open |
+
+Open-world ownership also includes `apps/game/src/look/index.js`, `apps/game/city.html` and `apps/game/.gitignore` in addition to the city directories, main/world/osm integration and road-network tests already recorded. Consult the current branch diff before proposing an edit; the earlier prompt's list was not exhaustive.
+
+Claude's `claude-notes.md` still describes the frozen nested repository. Its generated status repeats that text. It should be refreshed by Claude; Codex has not edited Claude-owned notes. Verify pushed commits/PR state with GitHub, active ownership with NOW.md and branch diffs, and unpublished work through shared notes/read-only worktree status. Contradictions require coordination, not silently treating a file as free.
+
+No replacement prompt is required for these updates. Codex publishes checkpoint changes in its own local status and PR #6; Claude should read the shared status at task boundaries under the existing collaboration instructions. This publishes the information but does not prove Claude has read it. No background watcher, automatic prompt delivery or change to Claude's tools/hooks is installed.
+
 ## Current checkpoint
 
 Documentation review: [PR #6](https://github.com/builders-world/builders-world/pull/6). The setup branch incorporates main at `c4c2366`, preserving Claude's latest road-network and open-world updates.

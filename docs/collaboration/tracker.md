@@ -195,7 +195,7 @@ Every request Elvis has made, with where it stands. Updated 10 October 2026, 10:
 
 | ID | Request | Status | Where | Review |
 |---|---|---|---|---|
-| QA-1 | Use Game Studio for visual art, bug testing and finishing alongside Claude in an isolated worktree with a readable handoff | Setup complete: separate worktree from `5534872`, ownership and fixed-commit QA workflow documented. No runtime change or playtest claimed. Documentation [PR #6](https://github.com/builders-world/builders-world/pull/6) open for review. | `docs/collaboration/codex-visual-qa.md`; `Builders-World.collab/codex-status.md` | `chore/codex-visual-qa` |
+| QA-1 | Use Game Studio for visual art, bug testing and finishing alongside Claude in an isolated worktree with a readable handoff | Setup complete: separate worktree from `5534872`, ownership and fixed-commit QA workflow documented. No runtime change or playtest claimed. Reconciled published open-world head `5e72f2d` and local city-knowledge ownership; checkpoint updates replace repeated chat handoffs. Documentation [PR #6](https://github.com/builders-world/builders-world/pull/6) open for review. | `docs/collaboration/codex-visual-qa.md`; `Builders-World.collab/codex-status.md` | `chore/codex-visual-qa` |
 
 ## Decisions waiting on Elvis
 

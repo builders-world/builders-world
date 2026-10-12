@@ -54,6 +54,8 @@ Codex is assigned visual art review, QA and finishing. Setup branch: `chore/code
 
 Claude's road-network PR #5 also touches `apps/game/src/main.js`, `apps/game/src/osm.js`, `apps/game/src/world.js`, `apps/game/src/city/roadnet.js` and `apps/game/tests/roadnet.test.js`. Treat those as active Claude paths until its handoff updates them.
 
+Additional ownership checkpoint: `origin/feat/open-world` is at `5e72f2d` (phone-performance pass). Its diff also includes `apps/game/src/look/index.js`, `apps/game/city.html` and `apps/game/.gitignore`. Claude has a local `feat/city-knowledge` worktree with uncommitted `cities/KNOWLEDGE.md`, not yet observed on GitHub. Codex will avoid these active paths. See the timestamped checkpoint in [the QA agreement](codex-visual-qa.md); refresh the branch diff before each task.
+
 Next for Claude: the open world's stages 2 and 3 (traffic and people everywhere; shops and places, map and satnav
 city-wide), then Lagos; then recreation (hiking, mountain biking, climbing, paragliding, wingsuit, skydiving, bungee,
 beaches, archery, gun range).
