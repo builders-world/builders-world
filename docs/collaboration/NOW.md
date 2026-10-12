@@ -16,7 +16,7 @@ Everything is in **builders-world/builders-world** (since 12 October 2026). The 
 |---|---|---|
 | `apps/game` | The game (three.js + Vite). Live at https://buildersworld.vercel.app | `.github/workflows/game.yml` |
 | `services/backend` | The Rust gateway (Railway). Its own rules: `services/backend/CLAUDE.md` | `.github/workflows/backend.yml` |
-| `cities/<country>/<city>` | Every country and city (after PR #2 merges) | `apps/game/tests/cities.test.js` |
+| `cities/<country>/<city>` | Country/city directory (PR #2 merged) | `apps/game/tests/cities.test.js` |
 | `docs/` | PRD, world bible, tracker, this page | |
 
 **Deploys:** Vercel builds `main` by itself (root `apps/game`): merging is going live. Every pull request gets a
@@ -33,21 +33,24 @@ checkout is the previous repository: do not build on it. Claude works in
 ## Live on main
 
 Everything in [progress.md](progress.md), section 1: 157 requests, from the first Yaba scene to the world map, jobs,
-airports, licences, road hierarchy and CI. Latest merged: the one-repository merge (#1, 12 October).
+airports, licences, road hierarchy and CI. Latest merged: country/city directory (#2, 12 October, `5534872`); the one-repository merge (#1) preceded it.
 
 ## Open pull requests
 
 | PR | What | Status | Who |
 |---|---|---|---|
-| #2 `feat/cities-by-country` | `cities/<country>/<city>/`: 84 countries, 135 tech cities, on the world map | Ready, waiting for Elvis to merge (first) | Claude |
 | #4 `fix/road-flicker` | Estate paving no longer flickers where it meets a road | Ready, waiting for Elvis to merge | Claude |
 | #3 `feat/city-grid` | Nairobi backdrop grid | Superseded by the open world; to be closed | Claude |
 
-## In progress (branches not yet in a pull request)
+## In progress
 
 | Branch | What | Who | Files it owns |
 |---|---|---|---|
 | `feat/open-world` | Nairobi as one open world: the real street grid, built in 200 m squares round the player (stage 1: bake, streaming, walking, distance detail, clouds) | Claude | `apps/game/scripts/city/`, `apps/game/src/city/`, `apps/game/public/city/`, `cities/kenya/nairobi/city.json` |
+
+Codex is assigned visual art review, QA and finishing. Setup branch: `chore/codex-visual-qa` (documentation PR pending). Its current file scope is `docs/collaboration/codex-visual-qa.md` plus its own entries in this page and the tracker. See [the working agreement](codex-visual-qa.md) and `Builders-World.collab/codex-status.md`. This does not reserve all visual or UI work from Claude. Exact runtime paths are claimed per fix; none are claimed yet.
+
+Read-only coordination check, 12 October: Claude's worktree is also using `feat/road-network`, touching `apps/game/src/main.js`, `apps/game/src/osm.js`, `apps/game/src/world.js`, `apps/game/src/city/roadnet.js` and `apps/game/tests/roadnet.test.js`. Treat those as active Claude paths until its handoff updates them.
 
 Next for Claude: the open world's stages 2 and 3 (traffic and people everywhere; shops and places, map and satnav
 city-wide), then Lagos; then recreation (hiking, mountain biking, climbing, paragliding, wingsuit, skydiving, bungee,
@@ -55,7 +58,7 @@ beaches, archery, gun range).
 
 ## Waiting on people
 
-- **Elvis:** merge #2 and #4; archive or delete `yaba-scene`; decisions in the tracker (default avatar, phase 1
+- **Elvis:** merge #4; archive or delete `yaba-scene`; decisions in the tracker (default avatar, phase 1
   scope, Red Line overpass, cargo highway, phone apps, laptop browser).
 - **Ayotomide:** point Railway at this repository (root `services/backend`); add https://buildersworld.vercel.app
   to the gateway's `ALLOWED_ORIGINS`.
