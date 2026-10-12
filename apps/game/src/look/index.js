@@ -122,7 +122,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   const cityTraffic = openWorld?.active && !off.has('citytraffic') ? createCityTraffic({ openWorld, quality, drive: cityInfo().drive, reduced }) : null;
   // the open city's cafes, restaurants, banks, gyms and co-working spaces: walk up to one and go in (the district's
   // own rooms, under the place's real name)
-  const CITY_ROOM = { cafe: 'cafe', restaurant: 'cafe', fast_food: 'cafe', food_court: 'cafe', bank: 'bank', gym: 'gym', fitness_centre: 'gym', coworking_space: 'hub' };
+  const CITY_ROOM = { cafe: 'cafe', restaurant: 'cafe', fast_food: 'cafe', food_court: 'cafe', bank: 'bank', gym: 'gym', fitness_centre: 'gym', coworking_space: 'hub', coworking: 'hub' };
   let cityDoors = [], cityDoorsIn = 0;
   function cityPlaces(player, dt) {
     if (!openWorld?.active || (cityDoorsIn -= dt) > 0) return; cityDoorsIn = 0.5;
@@ -314,9 +314,9 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
         return !!r;
       }
       if (active?.id?.startsWith('cityplace:')) { // a place out in the open city: its kind's room, under its own name
-        const key = active.key, door = { x: active.x, z: active.z, yaw: Math.atan2(active.x - player.x, active.z - player.z) + Math.PI }, was = PLACES[key].name;
-        doorOut = door; PLACES[key].name = active.name;
-        interiors.enter(key).then((p) => { PLACES[key].name = was; setInside(active.name); pendingMove = { ...p, mode: 'inside' }; });
+        const key = active.key, door = { x: active.x, z: active.z, yaw: Math.atan2(active.x - player.x, active.z - player.z) + Math.PI };
+        doorOut = door;
+        interiors.enter(key, null, active.name).then((p) => { setInside(active.name); pendingMove = { ...p, mode: 'inside' }; });
         return true;
       }
       if (active?.id?.startsWith('enter:')) {

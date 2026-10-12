@@ -34,13 +34,13 @@ function shell({ ORIGIN, scene, W, D, H, floor, wall, accent }) {
   return { g, M, add, colliders, block, window, sun, door };
 }
 
-export function buildCafe({ ORIGIN, scene, onOrder }) {
+export function buildCafe({ ORIGIN, scene, onOrder, name = cityInfo().places.cafe }) {
   const W = 18, D = 12, H = 3.4, S = shell({ ORIGIN, scene, W, D, H, floor: 0x8a5a36, wall: 0xe9dcc3, accent: 0xa87950 });
   const { g, M, add, block } = S, wood = M(0xa87950, 0.6), dark = M(0x3b2a20, 0.6), green = M(0x2f6b4f, 0.8);
   // the counter, the coffee machine, the pastry case, the menu board with the Wi-Fi on it
   add(box(6, 1.05, 0.9, 4, 0.52, -3.6), wood); add(box(6.1, 0.06, 1, 4, 1.07, -3.6), dark); block(4, -3.6, 6, 0.9);
   add(box(0.7, 0.55, 0.5, 2.2, 1.37, -3.7), M(0x9aa3b2, 0.35, 0.6)); add(box(1.4, 0.5, 0.7, 5.6, 1.35, -3.6), M(0xf4ede0, 0.2));
-  const menu = canvasTex(512, 256, (x, w, h) => { x.fillStyle = '#1d2028'; x.fillRect(0, 0, w, h); x.fillStyle = '#f2b33d'; x.font = '900 34px "Arial Black", sans-serif'; x.fillText(cityInfo().places.cafe.toUpperCase(), 20, 46); x.fillStyle = '#eef2ff'; x.font = '22px Arial'; (cityInfo().cafeMenu || ['Flat white 500', 'Zobo iced tea 350', 'Meat pie 400', 'Puff-puff 150']).forEach((t, i) => x.fillText(t, 24 + (i % 2) * 250, 96 + Math.floor(i / 2) * 44)); x.fillStyle = '#a8e0d0'; x.font = '20px Arial'; x.fillText(`Wi-Fi ${cityInfo().wifi.cafe[0]}   pass: ${cityInfo().wifi.cafe[1]}`, 24, 222); });
+  const menu = canvasTex(512, 256, (x, w, h) => { x.fillStyle = '#1d2028'; x.fillRect(0, 0, w, h); x.fillStyle = '#f2b33d'; x.font = '900 34px "Arial Black", sans-serif'; x.fillText(name.toUpperCase(), 20, 46); x.fillStyle = '#eef2ff'; x.font = '22px Arial'; (cityInfo().cafeMenu || ['Flat white 500', 'Zobo iced tea 350', 'Meat pie 400', 'Puff-puff 150']).forEach((t, i) => x.fillText(t, 24 + (i % 2) * 250, 96 + Math.floor(i / 2) * 44)); x.fillStyle = '#a8e0d0'; x.font = '20px Arial'; x.fillText(`Wi-Fi ${cityInfo().wifi.cafe[0]}   pass: ${cityInfo().wifi.cafe[1]}`, 24, 222); });
   add(new THREE.PlaneGeometry(4, 2).translate(4, 2.5, -D / 2 + 0.12), new THREE.MeshBasicMaterial({ map: menu }));
   // tables by the window, sofa, plants
   const desks = [];
@@ -57,20 +57,21 @@ export function buildCafe({ ORIGIN, scene, onOrder }) {
   [1, 4].forEach((k) => { const d = desks[k], p = person(null, `cafe-${k}`); p.obj.position.set(d.x, -0.42, d.z + 0.55); p.obj.rotation.y = Math.PI; g.add(p.obj); people.push(p); });
   const used = new Set([1, 4]);
   const interact = [
-    { id: 'in:exit', label: `Leave ${cityInfo().places.cafe}`, x: S.door.x, z: S.door.z + 0.6, r: 2.2 },
+    { id: 'in:exit', label: `Leave ${name}`, x: S.door.x, z: S.door.z + 0.6, r: 2.2 },
     { id: 'in:order', label: 'Order at the counter', x: 4, z: -2.6, r: 2.0, use: () => onOrder?.('cafe') },
     ...desks.map((d, i) => (used.has(i) ? null : { id: `in:desk:${i}`, label: 'Sit and work here', x: d.x, z: d.z + 1.0, r: 1.3, desk: d })).filter(Boolean),
   ];
   return { key: 'cafe', group: g, colliders: S.colliders, interact, door: S.door, window: S.window, sun: S.sun, people, desks, W, D, H };
 }
 
-export function buildGym({ ORIGIN, scene, toast }) {
+export function buildGym({ ORIGIN, scene, toast, name = cityInfo().places.gym }) {
   const W = 20, D = 14, H = 4, S = shell({ ORIGIN, scene, W, D, H, floor: 0x3b3f45, wall: 0xdfe3e6, accent: 0xe46f4f });
   const { g, M, add, block } = S, black = M(0x1d2028, 0.5), red = M(0xe46f4f, 0.6), steel = M(0xb8bec4, 0.3, 0.7);
   // a mirror along the back wall, rubber mats, the name painted big
   add(box(12, 2.4, 0.05, 2, 1.5, -D / 2 + 0.14), new THREE.MeshStandardMaterial({ color: 0xcfe0e8, roughness: 0.05, metalness: 0.9 }));
-  const name = canvasTex(512, 128, (x, w, h) => { x.fillStyle = '#e46f4f'; x.fillRect(0, 0, w, h); x.fillStyle = '#fff'; x.font = '900 64px "Arial Black", sans-serif'; x.textAlign = 'center'; x.fillText('YABA FITNESS', w / 2, 86); });
-  add(new THREE.PlaneGeometry(6, 1.5).rotateY(Math.PI / 2).translate(-W / 2 + 0.12, 2.6, -1), new THREE.MeshBasicMaterial({ map: name }));
+  // the gym's own name on the wall (it read "YABA FITNESS" in every city), shrunk to fit a long one
+  const sign = canvasTex(512, 128, (x, w, h) => { x.fillStyle = '#e46f4f'; x.fillRect(0, 0, w, h); x.fillStyle = '#fff'; x.textAlign = 'center'; const t = name.toUpperCase(); let fs = 64; do { x.font = `900 ${fs}px "Arial Black", sans-serif`; fs -= 2; } while (x.measureText(t).width > w * 0.92 && fs > 20); x.fillText(t, w / 2, 86); });
+  add(new THREE.PlaneGeometry(6, 1.5).rotateY(Math.PI / 2).translate(-W / 2 + 0.12, 2.6, -1), new THREE.MeshBasicMaterial({ map: sign }));
   // treadmills in a row, a weights rack and benches, a punching bag on its chain
   const mills = [];
   for (let k = 0; k < 4; k++) { const x = -7 + k * 2.2, z = -4.4; add(box(0.9, 0.2, 2, x, 0.1, z), black); add(box(0.7, 0.03, 1.7, x, 0.21, z), M(0x2b2b2e, 0.9)); add(box(0.08, 1.2, 0.08, x - 0.4, 0.8, z - 0.9), steel); add(box(0.08, 1.2, 0.08, x + 0.4, 0.8, z - 0.9), steel); add(box(0.9, 0.35, 0.15, x, 1.45, z - 0.9), black); block(x, z, 0.9, 2); mills.push({ x, z }); }
@@ -85,7 +86,7 @@ export function buildGym({ ORIGIN, scene, toast }) {
   try { workouts = +(localStorage.getItem('bw-workouts') || 0); } catch { /* */ }
   const logWorkout = (what) => { workouts++; try { localStorage.setItem('bw-workouts', String(workouts)); } catch { /* */ } toast?.(`${what} Workouts so far: ${workouts}.`, 3000); };
   const interact = [
-    { id: 'in:exit', label: `Leave ${cityInfo().places.gym}`, x: S.door.x, z: S.door.z + 0.6, r: 2.2 },
+    { id: 'in:exit', label: `Leave ${name}`, x: S.door.x, z: S.door.z + 0.6, r: 2.2 },
     { id: 'in:mill', label: 'Run on the treadmill', x: mills[1].x, z: mills[1].z + 1.4, r: 1.4, use: () => logWorkout('Twenty minutes at a steady pace. Your legs know it.') },
     { id: 'in:weights', label: 'Lift at the rack', x: 6, z: -4.6, r: 1.6, use: () => logWorkout('Three sets of eight. Good form.') },
     { id: 'in:bag', label: 'Hit the punching bag', x: -6, z: 4.4, r: 1.5, use: () => { swing = 1.2; logWorkout('Jab, jab, cross. The bag swings.'); } },
@@ -99,12 +100,12 @@ export function buildGym({ ORIGIN, scene, toast }) {
   return room;
 }
 
-export function buildBank({ ORIGIN, scene, toast, onTeller }) {
+export function buildBank({ ORIGIN, scene, toast, onTeller, name = cityInfo().places.bank }) {
   const W = 20, D = 14, H = 4.2, S = shell({ ORIGIN, scene, W, D, H, floor: 0xd9d2c3, wall: 0xf2ede2, accent: 0x2a9d94 });
   const { g, M, add, block } = S, teal = M(0x2a9d94, 0.6), glass = new THREE.MeshStandardMaterial({ color: 0x9fc4d6, roughness: 0.05, transparent: true, opacity: 0.3 }), wood = M(0x8a5a36, 0.6);
   // the counter with glass screens and three windows, the queue line, the loans desk, a vault door
   add(box(12, 1.15, 0.9, 1, 0.58, -3.8), teal); add(box(12, 1.0, 0.05, 1, 1.65, -3.4), glass); block(1, -3.8, 12, 0.9);
-  const sign = canvasTex(512, 128, (x, w, h) => { x.fillStyle = '#2a9d94'; x.fillRect(0, 0, w, h); x.fillStyle = '#fff'; x.textAlign = 'center'; { const t = cityInfo().places.bank.toUpperCase(); let fs = 52; do { x.font = `900 ${fs}px "Arial Black", sans-serif`; fs -= 2; } while (x.measureText(t).width > w * 0.92 && fs > 20); x.fillText(t, w / 2, 70); } x.font = '24px Arial'; x.fillText(`Efforts accounts · Builder loans · Wi-Fi ${cityInfo().wifi.bank[0]}`, w / 2, 108); });
+  const sign = canvasTex(512, 128, (x, w, h) => { x.fillStyle = '#2a9d94'; x.fillRect(0, 0, w, h); x.fillStyle = '#fff'; x.textAlign = 'center'; { const t = name.toUpperCase(); let fs = 52; do { x.font = `900 ${fs}px "Arial Black", sans-serif`; fs -= 2; } while (x.measureText(t).width > w * 0.92 && fs > 20); x.fillText(t, w / 2, 70); } x.font = '24px Arial'; x.fillText(`Efforts accounts · Builder loans · Wi-Fi ${cityInfo().wifi.bank[0]}`, w / 2, 108); });
   add(new THREE.PlaneGeometry(8, 2).translate(1, 3.1, -D / 2 + 0.12), new THREE.MeshBasicMaterial({ map: sign }));
   for (let k = 0; k < 6; k++) add(new THREE.CylinderGeometry(0.05, 0.08, 1, 8).translate(-2 + k * 1.2, 0.5, -1.2), M(0xd9a83a, 0.3, 0.7));
   add(box(6, 0.04, 0.04, 1, 0.92, -1.2), M(0x7a1d2a, 0.8));

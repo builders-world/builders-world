@@ -11,7 +11,7 @@
 //
 //   osmium extract -b W,S,E,N kenya-latest.osm.pbf -o city.osm.pbf
 //   osmium tags-filter city.osm.pbf w/building w/highway w/railway w/landuse w/leisure w/natural w/waterway w/amenity \
-//     nwr/shop n/amenity n/railway=station,halt n/tourism r/building r/landuse r/leisure r/natural -o f.osm.pbf
+//     nwr/shop n/amenity n/railway=station,halt n/tourism n/leisure=fitness_centre,sports_centre n/office r/building r/landuse r/leisure r/natural -o f.osm.pbf
 //   osmium export f.osm.pbf -f geojsonseq -a type,id -o .cache/city/<city>/osm.geojsonseq
 //   python3 scripts/city/heights.py <GHS-BUILT-H tile> S W N E .cache/city/<city>/heights.json
 //   node scripts/city/bake.mjs kenya/nairobi
@@ -42,6 +42,8 @@ const t0 = Date.now(), log = (...a) => console.log(`[${((Date.now() - t0) / 1000
 // ---------- geometry helpers ----------
 const pointInPoly = (x, z, pts) => { let c = false; for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) { const [xi, zi] = pts[i], [xj, zj] = pts[j]; if ((zi > z) !== (zj > z) && x < ((xj - xi) * (z - zi)) / (zj - zi) + xi) c = !c; } return c; };
 const area = (p) => { let a = 0; for (let i = 0; i < p.length; i++) { const [x1_, z1_] = p[i], [x2, z2] = p[(i + 1) % p.length]; a += x1_ * z2 - x2 * z1_; } return a / 2; };
+// what kind of place a feature is, for the minimap and the doors you can go through (look/index.js CITY_ROOM)
+const poiKind = (t) => (t.shop ? `shop:${t.shop}` : t.amenity || t.tourism || t.office || (t.leisure === 'fitness_centre' || t.leisure === 'sports_centre' ? t.leisure : null));
 const centroid = (p) => [p.reduce((a, q) => a + q[0], 0) / p.length, p.reduce((a, q) => a + q[1], 0) / p.length];
 const bbox = (p) => { let a = Infinity, b = Infinity, c = -Infinity, d = -Infinity; p.forEach(([x, z]) => { a = Math.min(a, x); b = Math.min(b, z); c = Math.max(c, x); d = Math.max(d, z); }); return { x0: a, z0: b, x1: c, z1: d }; };
 const scaleAbout = (pts, c, k) => pts.map(([x, z]) => [c[0] + (x - c[0]) * k, c[1] + (z - c[1]) * k]);
@@ -85,7 +87,7 @@ for await (let line of rl) {
   if (g.type === 'Point') {
     const [x, z] = proj(...g.coordinates); if (!inBox(x, z, 60)) continue;
     if (t.railway === 'station' || t.railway === 'halt') els.push({ type: 'node', id, lat: g.coordinates[1], lon: g.coordinates[0], tags: t });
-    const kind = t.shop ? 'shop' : t.amenity || t.tourism || t.office; if (kind && t.name) pois.push({ x: r1(x), z: r1(z), k: t.shop ? `shop:${t.shop}` : kind, n: t.name });
+    const kind = poiKind(t); if (kind && t.name) pois.push({ x: r1(x), z: r1(z), k: kind, n: t.name });
     continue;
   }
   const rings = g.type === 'Polygon' ? [g.coordinates[0]] : g.type === 'MultiPolygon' ? g.coordinates.map((p) => p[0]) : g.type === 'LineString' ? [g.coordinates] : [];
@@ -93,6 +95,8 @@ for await (let line of rl) {
     const pz = ring.map(([lon, lat]) => proj(lon, lat)); const b = bbox(pz);
     if (b.x1 < x0 - 80 || b.x0 > x1 + 80 || b.z1 < z0 - 80 || b.z0 > z1 + 80) continue;
     const isArea = g.type !== 'LineString';
+    // a named place drawn as its building (many banks, cafés and gyms are): a place at its middle, and the building too
+    if (t.building && isArea && t.name && poiKind(t)) { const [cx, cz] = centroid(pz); if (inBox(cx, cz, 60)) pois.push({ x: r1(cx), z: r1(cz), k: poiKind(t), n: t.name }); }
     if (t.building && isArea) { els.push({ type: 'way', id, tags: t, geometry: ring.map(([lon, lat]) => ({ lon, lat })) }); continue; }
     if ((t.highway || t.railway) && !isArea) { els.push({ type: 'way', id, tags: t, geometry: ring.map(([lon, lat]) => ({ lon, lat })) }); continue; }
     if (t.waterway && !isArea && ['river', 'stream', 'canal'].includes(t.waterway)) { rivers.push({ w: t.waterway === 'river' ? 7 : t.waterway === 'canal' ? 5 : 2.5, p: simplify(pz, 0.8) }); continue; }
@@ -105,7 +109,7 @@ for await (let line of rl) {
     const k = isArea && (LAND[t.leisure] || LAND[t.landuse] || LAND[t.natural] || LAND[t.amenity]);
     if (k) land.push({ k, p: simplify(pz.slice(0, -1), 0.8), a: Math.abs(area(pz)) });
     // (a shop or office drawn as an area, without a building tag: its name still marks the place)
-    if (isArea && t.name && (t.shop || t.office || t.amenity) && !t.building) { const [cx, cz] = centroid(pz); pois.push({ x: r1(cx), z: r1(cz), k: t.shop ? `shop:${t.shop}` : t.amenity || t.office, n: t.name }); }
+    if (isArea && t.name && poiKind(t) && !t.building) { const [cx, cz] = centroid(pz); pois.push({ x: r1(cx), z: r1(cz), k: poiKind(t), n: t.name }); }
   }
 }
 log(`read ${nIn} features: ${els.length} ways and stations, ${land.length} land areas, ${water.length} water, ${rivers.length} rivers, ${pois.length} places`);
