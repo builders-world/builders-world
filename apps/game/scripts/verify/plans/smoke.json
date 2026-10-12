@@ -1,0 +1,58 @@
+{
+  "about": "The game loads, the open city streams round the district, the aerial view and the big map work, no console errors.",
+  "game": {
+    "city": "Nairobi",
+    "area": "City Centre",
+    "quality": "medium"
+  },
+  "steps": [
+    {
+      "expect": "window.__bw.look.openWorld?.ready",
+      "name": "the open city is in"
+    },
+    {
+      "expect": "window.__bw.look.streamStats?.() != null",
+      "name": "streaming reports stats"
+    },
+    {
+      "eval": "() => { for (let i = 1; i <= 6; i++) window.__bw.player.set(i * 60, 0, 30); }"
+    },
+    {
+      "wait": 3000
+    },
+    {
+      "shot": "outside-the-district"
+    },
+    {
+      "log": "window.__bw.look.openWorld.stats()"
+    },
+    {
+      "expect": "window.__bw.look.openWorld.stats().tris > 20000",
+      "name": "the open city round you has buildings and streets (not empty grass)"
+    },
+    {
+      "aerial": true
+    },
+    {
+      "shot": "aerial"
+    },
+    {
+      "aerial": false
+    },
+    {
+      "press": "m"
+    },
+    {
+      "wait": 1200
+    },
+    {
+      "shot": "big-map"
+    },
+    {
+      "press": "Escape"
+    },
+    {
+      "fps": 3000
+    }
+  ]
+}

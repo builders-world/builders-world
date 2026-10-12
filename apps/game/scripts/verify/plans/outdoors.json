@@ -1,0 +1,23 @@
+{
+  "about": "The Outdoors app opens and lists every activity; archery starts, shoots one arrow and scores it; Esc leaves.",
+  "game": { "city": "Nairobi", "area": "City Centre" },
+  "steps": [
+    { "event": "bw:outdoors" },
+    { "wait": 500 },
+    { "shot": "outdoors-app" },
+    { "expect": "document.querySelectorAll('#lk-out .act').length >= 4", "name": "the activities are listed" },
+    { "click": "#lk-out button[data-k=\"arch18\"]" },
+    { "waitFor": "document.querySelector('#bw-arch-brief')" },
+    { "eval": "() => { for (let i = 0; i < 5; i++) document.querySelector('#bw-arch-brief .go')?.click(); }" },
+    { "wait": 1200 },
+    { "expect": "window.__bw.look.outdoors.jump?.phase === 'ready'", "name": "at the shooting line" },
+    { "hold": " ", "ms": 1500 },
+    { "wait": 2200 },
+    { "shot": "after-one-arrow" },
+    { "expect": "window.__bw.look.outdoors.jump.state().ends[0].length === 1", "name": "one arrow scored" },
+    { "log": "window.__bw.look.outdoors.jump.state().ends" },
+    { "press": "Escape" },
+    { "wait": 800 },
+    { "expect": "!window.__bw.look.outdoors.jump", "name": "Esc leaves the range" }
+  ]
+}
