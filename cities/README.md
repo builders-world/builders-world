@@ -35,6 +35,7 @@ cities/
 | `lat`, `lon` | Where the city centre is, in degrees |
 | `tech` | One plain sentence on why tech people go there. No em dashes |
 | `key`, `label`, `state` | Live cities only: the game's own name for the city, how it is labelled, and its state or county |
+| `grid` | Optional, live cities: the box the whole city is baked for, `{south, west, north, east}` in degrees. Bake it with `python3 apps/game/scripts/grid/bake.py <country>/<city>`; the game then draws the city round the district (`apps/game/src/look/citygrid.js`) |
 
 ## Adding a city
 

@@ -6,5 +6,11 @@
   "state": "Nairobi County",
   "lat": -1.2921,
   "lon": 36.8219,
-  "tech": "\"Silicon Savannah\": M-Pesa's home, the iHub generation and big-tech offices in Westlands."
+  "tech": "\"Silicon Savannah\": M-Pesa's home, the iHub generation and big-tech offices in Westlands.",
+  "grid": {
+    "south": -1.315,
+    "west": 36.765,
+    "north": -1.25,
+    "east": 36.845
+  }
 }

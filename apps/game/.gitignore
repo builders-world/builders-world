@@ -6,3 +6,6 @@ artifacts/*.webm
 artifacts/motion/
 .vercel
 .env*
+
+# downloaded map data for the city grid bake (scripts/grid/bake.py)
+.cache/
