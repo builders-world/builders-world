@@ -914,7 +914,7 @@ async function main() {
     // ---- idle cinematic camera: stand still for 30 s and the camera wanders the street, like GTA V ----
     idle.t += dt;
     if (input.state.move.x || input.state.move.y || input.state.look.x || input.state.look.y) idle.t = 0;
-    const idleNow = idle.t > 30 && !travel.on && !riding && !inside && !cam.aerial && !street?.hud.isOpen() && !reduced && !document.querySelector('#lk-board.on, #lkr.on');
+    const idleNow = idle.t > 30 && !travel.on && !riding && !inside && !cam.aerial && !playing && !street?.hud.isOpen() && !reduced && !document.querySelector('#lk-board.on, #lkr.on');
     if (idleNow !== idle.on) { idle.on = idleNow; idle.shot = -1; idle.until = 0; document.body.classList.toggle('bw-cine', idleNow); document.body.classList.toggle('bw-idle', idleNow); if (!idleNow) snap = true; }
     if (idle.on) {
       const clearView = (x, y, z, tx, ty, tz) => { if (C.solidAt(x, y, z)) return false; for (let k = 1; k < 9; k++) { const u = k / 10; if (C.solidAt(x + (tx - x) * u, y + (ty - y) * u, z + (tz - z) * u)) return false; } return true; };

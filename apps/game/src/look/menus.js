@@ -462,6 +462,8 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
       if (!spots.length) { toast('No sports here yet.'); return; }
       onRoute?.(spots[0], spots[0].name); toast(`${spots[0].name}: follow the line. Tennis, padel, basketball, the pool, table tennis and chess are all playable.`, 3600);
     }],
+    // guided things to do outdoors, with a fee and a lesson: skydiving first (recreation/)
+    ['Outdoors', 'chute', '#bfe3c9', () => { close(); dispatchEvent(new Event('bw:outdoors')); }],
     ['Help', 'help', '#f0e1bd', () => { close(); showGuide(); }],
   ];
   // the apps that need the internet; the rest (camera, map, bag, wardrobe, settings...) work without it
