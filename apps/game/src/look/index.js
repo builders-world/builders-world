@@ -44,7 +44,7 @@ import { createSpotify, trackUrl } from './spotify.js';
 import { buildLandmarks } from './landmarks.js';
 import { createSports } from './sports/index.js';
 import { createRecreation } from './recreation/index.js';
-import { TIERS, trackDetail, cullDetail } from './quality.js';
+import { TIERS, PEOPLE_REACH, trackDetail, cullDetail } from './quality.js';
 import { watchPlayer, holdOutFood } from './fear.js';
 import { regionOf, areaOf, areaName, areaUrl, areaFare, kmBetween, bearing, cityLabel } from './areas.js';
 import { buildEdgeSigns } from './edge.js';
@@ -132,7 +132,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       .filter((q) => CITY_ROOM[q.k]).map((q, i) => ({ id: `cityplace:${i}`, label: `Enter ${q.n}`, x: q.x, z: q.z, r: 3.2, key: CITY_ROOM[q.k], name: q.n }));
     props.interact.push(...cityDoors);
   }
-  const cityPeople = openWorld?.active && !off.has('citypeople') ? createCityPeople({ openWorld, quality, reduced, seeDist: TIERS[quality]?.people ?? 60 }) : null;
+  const cityPeople = openWorld?.active && !off.has('citypeople') ? createCityPeople({ openWorld, quality, reduced, seeDist: (PEOPLE_REACH[quality] || PEOPLE_REACH.medium)[1] }) : null;
   if (clouds) scene.add(clouds.group);
   if (openWorld?.active) {
     group.add(openWorld.group);
@@ -701,7 +701,9 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     pm.dispose(); geo.dispose();
     return rt.texture;
   }
-  function setGraphics(t) {
+  let tierName = quality;
+  function setGraphics(t, name) {
+    if (name) tierName = name;
     setStreamTier(t);
     gfx = t;
     // sun shadows round the player
@@ -781,7 +783,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       cullT = 0.2;
       // indoors too: the people in the room by the camera (the airport's hall is 136 m long, so they are seen further, and
       // always in full), everyone outside put away; a person left culled from an earlier visit is brought back
-      if (!interiors?.active) { cullPeople(camera, gfx.people * detailK, Math.min(24, gfx.people * detailK * 0.45)); cullDetail(camera, gfx.detail * detailK); cullSmall(camera); } else cullPeople(camera, Math.max(gfx.people, 110), Infinity);
+      if (!interiors?.active) { const [pn, pf] = PEOPLE_REACH[tierName] || PEOPLE_REACH.medium; cullPeople(camera, pf, pn); cullDetail(camera, gfx.detail * detailK); cullSmall(camera); } else cullPeople(camera, Math.max(gfx.people, 110), Infinity);
       scene.children.forEach((c) => { c.matrixWorldAutoUpdate = c.visible; settle(c); });
       group.children.forEach((c) => { c.matrixWorldAutoUpdate = c.visible && !STILL.has(c.name); settle(c); });
       settle(group);

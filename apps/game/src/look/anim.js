@@ -29,7 +29,10 @@ function avgColour(tex) {
   try { if (img && (img.width || img.videoWidth)) { const cv = document.createElement('canvas'); cv.width = cv.height = 8; const g = cv.getContext('2d'); g.drawImage(img, 0, 0, 8, 8); const d = g.getImageData(0, 0, 8, 8).data; let r = 0, gg = 0, b = 0, n = 0; for (let i = 0; i < d.length; i += 4) { if (d[i + 3] < 40) continue; r += d[i]; gg += d[i + 1]; b += d[i + 2]; n++; } if (n) c.setRGB(r / n / 255, gg / n / 255, b / n / 255, THREE.SRGBColorSpace); } } catch { /* a texture we cannot read: the default */ }
   AVG.set(tex.uuid, c); return c;
 }
-function bakeLod(root) {
+function bakeLod(root, attach = true) {
+  // every part's own matrix worked out from where it is now: a person put away out of sight stops updating theirs (cull),
+  // and one put away before it was ever drawn still has the identity there, which baked a head as a 2 m ball on the ground
+  root.traverse((o) => o.updateMatrix());
   root.updateMatrixWorld(true);
   const inv = new THREE.Matrix4().copy(root.matrixWorld).invert(), m = new THREE.Matrix4(), col = new THREE.Color(), geos = [];
   const shown = (o) => { for (let a = o; a && a !== root; a = a.parent) { const v = a.parent === root ? (a.userData.vis ?? a.visible) : a.visible; if (!v) return false; } return true; };
@@ -46,11 +49,36 @@ function bakeLod(root) {
   });
   if (!geos.length) return null;
   const merged = mergeGeometries(geos, false); geos.forEach((g) => g.dispose());
-  const lod = new THREE.Mesh(merged, LOD_MAT); lod.userData.lod = true; lod.castShadow = true; lod.visible = false; root.add(lod);
+  // never below their own feet: a pose set by hand (a crouched skater, a rider's legs) can reach under the ground line,
+  // which from afar reads as someone sunk into the pavement
+  merged.computeBoundingBox(); if (merged.boundingBox.min.y < -0.05) merged.translate(0, -merged.boundingBox.min.y, 0);
+  const lod = new THREE.Mesh(merged, LOD_MAT); lod.userData.lod = true; lod.castShadow = true; lod.visible = false; if (attach) root.add(lod);
   return lod;
 }
+// The far stand-in, walking (Elvis, 13 October 2026: "some of the characters are not moving well ... gliding"): one
+// merged mesh was a single frozen pose, so a person past the close-up distance slid along on still legs. Now it is a
+// little flipbook: four poses from the walk cycle (each foot planting and passing) and the pose they stood in when it was
+// made (a seated or busy person keeps theirs). The rig steps through it at their real walking pace (update), so they
+// walk at any distance, still at one draw call and without working out a single joint.
+const WALK_FRAMES = 4, LOD_WALK = 1.2;
+function bakeLodSet(root) {
+  const rig = root.userData.rigApi, set = new THREE.Group(); set.userData.lod = true; set.visible = false; set.name = 'lod';
+  const still = bakeLod(root, false); if (!still) return null;
+  const frames = [];
+  if (rig?.poseAt) {
+    const undo = rig.poseAt(null); // keeps what it changes, to put back after
+    for (let i = 0; i < WALK_FRAMES; i++) { rig.poseAt(i / WALK_FRAMES, LOD_WALK); const f = bakeLod(root, false); if (f) frames.push(f); }
+    undo();
+    root.updateMatrixWorld(true);
+  }
+  [still, ...frames].forEach((m) => { m.visible = false; set.add(m); });
+  still.visible = true;
+  set.userData.still = still; set.userData.frames = frames.length === WALK_FRAMES ? frames : null;
+  root.add(set);
+  return set;
+}
 /** A person's clothes or body changed (style.js dress): bake their far-off mesh again when it is next needed. */
-export function staleLod(root) { const L = root?.userData?.lodMesh; if (L) { L.removeFromParent(); L.geometry.dispose(); root.userData.lodMesh = null; } unpackPerson(root); }
+export function staleLod(root) { const L = root?.userData?.lodMesh; if (L) { L.removeFromParent(); L.traverse((m) => m.geometry?.dispose()); root.userData.lodMesh = null; } unpackPerson(root); }
 
 // ---------- a person close up, in fewer pieces (Elvis, 13 October 2026: performance) ----------
 // A dressed person is 25 to 40 small meshes, each a draw call. The plain ones hanging off each joint of the rig (the
@@ -96,14 +124,16 @@ export function cullPeople(camera, dist = 60, lodDist = Math.min(32, dist * 0.55
   const cx = camera.position.x, cz = camera.position.z, d2 = dist * dist, l2 = lodDist * lodDist;
   // out of view and not close: put away like the far ones (not drawn, not posed, no shadow). Within 15 m everyone
   // stays, and the view is taken a little wide, so turning round never finds a crowd popping in at your elbow
-  let packs = 0;
+  let packs = 0, bakes = 0;
   camera.updateMatrixWorld(); cullFr.setFromProjectionMatrix(cullM.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
   for (const root of PEOPLE) {
     if (!root.parent) { PEOPLE.delete(root); continue; }
     const e = root.matrixWorld.elements, dx = e[12] - cx, dz = e[14] - cz, dd = dx * dx + dz * dz;
     // (you are never culled: a cinematic camera far from your body, the taxi ride to the airport, used to leave you hidden)
     const unseen = dd > 225 && !cullFr.intersectsSphere(cullS.set(cullS.center.set(e[12], e[13] + 0.9, e[14]), 5));
-    const state = root.userData.noLod ? 'near' : dd > d2 || unseen ? 'far' : dd > l2 && root.userData.rigged ? 'lod' : 'near';
+    let state = root.userData.noLod ? 'near' : dd > d2 || unseen ? 'far' : dd > l2 && root.userData.rigged ? 'lod' : 'near';
+    // the walking stand-in is five poses to bake: a few people a pass; anyone waiting stays as they are, in full
+    if (state === 'lod' && !root.userData.lodMesh) { if (bakes >= 4) state = root.userData.cull === 'far' ? 'far' : 'near'; else bakes++; }
     // close up and not you: merged into fewer pieces, a few people a pass so a crowd arriving never stalls a frame
     if (state === 'near' && !root.userData.noLod && !root.userData.packed && packs < 6 && root.userData.rigged) { packs++; packPerson(root); }
     if (state === (root.userData.cull || 'near') && !(state === 'lod' && !root.userData.lodMesh)) continue;
@@ -112,7 +142,7 @@ export function cullPeople(camera, dist = 60, lodDist = Math.min(32, dist * 0.55
     if ((root.userData.cull || 'near') === 'near') root.children.forEach((c) => { if (!c.userData.lod) c.userData.vis = c.visible; });
     root.userData.cull = state; root.userData.far = state === 'far';
     let lod = root.userData.lodMesh;
-    if (state === 'lod' && !lod) lod = root.userData.lodMesh = bakeLod(root);
+    if (state === 'lod' && !lod) lod = root.userData.lodMesh = bakeLodSet(root);
     root.children.forEach((c) => { if (c.userData.lod) return; c.visible = state === 'near' && (c.userData.vis ?? true); c.matrixWorldAutoUpdate = state === 'near'; c.traverse((x) => { x.matrixAutoUpdate = state === 'near'; }); });
     if (lod) lod.visible = state === 'lod';
   }
@@ -190,9 +220,39 @@ export function rigAvatar(root) {
    * @param dt     seconds
    * @param s      { speed: ground speed m/s, running: bool, air: bool, vy: vertical speed, t: time, seated: bool }
    */
+  // how fast the body really moves over the ground (world position, frame to frame): a walk driven by the speed someone
+  // asked for slides its feet whenever the body moves at another (eased toward a far-off goal, catching up with a remote
+  // player's report, slowed by a crowd). Driven by this, a planted foot stays planted, for every character alike
+  // both over the ground (world) and within its own group (local): a body carried by something (a rider in a car) moves
+  // in the world but not in its group, so it is the local one that says whether they are walking when nobody says
+  let lastX = null, lastZ = null, lastLX = null, lastLZ = null, moved = 0, movedL = 0;
+  const measure = (dt) => {
+    const e = root.matrixWorld.elements, x = e[12], z = e[14], lx = root.position.x, lz = root.position.z;
+    if (lastX !== null && dt > 1e-4) {
+      const d = Math.hypot(x - lastX, z - lastZ), dl = Math.hypot(lx - lastLX, lz - lastLZ), k = 1 - Math.exp(-dt * 10);
+      if (d < 3) moved += (d / dt - moved) * k; else moved = 0; // (a jump of metres is a teleport, not a walk)
+      if (dl < 3) movedL += (dl / dt - movedL) * k; else movedL = 0;
+    }
+    lastX = x; lastZ = z; lastLX = lx; lastLZ = lz; return moved;
+  };
   function update(dt, s) {
+    const real = measure(dt);
+    // walking, not seated, not in the air, not marking time on the spot: the legs follow the ground speed
+    // walking (said so), not seated, not in the air, not marking time on the spot: the legs follow the ground speed
+    const asked = s.speed || 0, free = !s.seated && !s.air && !s.inPlace && s.cycle == null;
+    const speed = free && asked > 0.05 ? Math.min(7, real) : asked; // (said 0: riding, pedalling, posed by hand; not a walk)
+    // far off: the flipbook stand-in (bakeLodSet), stepped at this pace
+    if (root.userData.cull === 'lod') {
+      const set = root.userData.lodMesh, fr = set?.userData?.frames;
+      if (fr) {
+        const sp = speed, f = Math.max(0.9 + 0.38 * sp, (sp * 0.62) / 0.54);
+        if (sp > 0.15) cur.cycle = ((cur.cycle ?? 0) + f * dt) % 1;
+        const show = sp > 0.15 ? fr[Math.floor(cur.cycle * fr.length) % fr.length] : set.userData.still;
+        set.children.forEach((m) => { m.visible = m === show; });
+      }
+      return;
+    }
     if (root.userData.far) return; // out of sight: no pose to work out
-    const speed = s.speed || 0;
     const k = ease(16, dt);
     cur.walk = lerp(cur.walk, Math.min(1, speed / 1.2) * (s.air ? 0 : 1), ease(10, dt));
     cur.run = lerp(cur.run, s.running && speed > 3 ? 1 : 0, ease(6, dt));
@@ -217,7 +277,7 @@ export function rigAvatar(root) {
     const f = Math.max(lerp(0.9 + 0.38 * sp, 1.45 + 0.13 * sp, run), (sp * duty / reachMax) * lerp(1, 0.74, hurry));
     const T = Math.min(reachMax, sp * duty / f);                       // how far a planted foot travels back
     const lift = lerp(0.07, 0.16, run) * walk;
-    cur.cycle = ((cur.cycle ?? 0) + f * dt * Math.min(1, sp / 0.25)) % 1;
+    cur.cycle = s.cycle ?? ((cur.cycle ?? 0) + f * dt * Math.min(1, sp / 0.25)) % 1;
     const FOOT = HIP_Y - THIGH - SHIN, LEG = THIGH + SHIN;
     const footAt = (u) => {
       u = ((u % 1) + 1) % 1;
@@ -377,7 +437,20 @@ export function rigAvatar(root) {
   const DUR = { cheer: 2.0, thumbs: 1.6, laugh: 1.8, thanks: 1.8, dance: 3.2, look: 2.6, phone: 4.5, stretch: 2.2, shift: 3.5 };
   function play(name) { if (!DUR[name]) return; cur.g = { name, t: 0, dur: DUR[name], idle: ['look', 'phone', 'stretch', 'shift'].includes(name) }; }
   function dispose() { own.forEach((g) => g.dispose()); }
-  const rig = { pelvis, chest, neck, L, R, attach, update, landed, wave, play, dispose, emote, emoting: () => !!cur.e, moving: () => cur.walk > 0.3 };
+  // the walk at a given point of its cycle, for baking the far stand-in; poseAt(null) returns a function that puts every
+  // joint and the walk's state back as they were
+  function poseAt(cycle, speed = LOD_WALK) {
+    if (cycle === null) {
+      const saved = []; root.traverse((o) => { if (o !== root && !o.isMesh) saved.push([o, o.rotation.clone(), o.position.clone()]); }); const c0 = { ...cur };
+      return () => { saved.forEach(([o, r, p]) => { o.rotation.copy(r); o.position.copy(p); }); Object.assign(cur, c0); };
+    }
+    const far = root.userData.far, cull = root.userData.cull; root.userData.far = false; root.userData.cull = 'near';
+    cur.walk = 1; cur.run = 0; cur.air = 0; cur.sp = speed; cur.e = null;
+    update(0.5, { speed, cycle, t: 0, inPlace: true });
+    root.userData.far = far; root.userData.cull = cull;
+  }
+  const rig = { pelvis, chest, neck, L, R, attach, update, landed, wave, play, dispose, emote, poseAt, emoting: () => !!cur.e, moving: () => cur.walk > 0.3 };
+  root.userData.rigApi = rig;
   root.userData.rig = rig;
   attachFace(root, rig); // eyes, brows and a mouth that can change (expressions.js)
   return rig;

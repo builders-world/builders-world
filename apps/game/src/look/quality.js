@@ -13,6 +13,10 @@ export const LABEL = { auto: 'Auto', low: 'Low', medium: 'Medium', high: 'High',
 // horizon: how far you see from the street before the haze closes in and nothing more is drawn (open-world
 // games draw full detail to about 300 m and swap to stand-ins beyond); sizeK: a small thing stays drawn out to
 // its size times this (a 1 m bench at 190 m on High); govMin: the lowest the resolution may drop to hold 60 frames a second.
+// people (Elvis, 13 October 2026: "as long as the characters are around my viewport ... they should render fully"):
+// anyone in view is drawn out to peopleFar, as a walking stand-in (one draw call each, anim.js) past peopleNear, where
+// they are drawn whole; the frame-rate governor never shortens either
+export const PEOPLE_REACH = { low: [16, 90], medium: [22, 120], high: [28, 150], ultra: [36, 200] };
 export const TIERS = {
   low: { sizeK: 110, pr: 1, msaa: 0, bloom: false, shadows: 0, shadowR: 0, ao: 0, aniso: 1, lights: 3, reflect: 0, rain: 2500, people: 32, detail: 80, treeNear: 70, plantNear: 45, horizon: 280, govMin: 0.5, env: 0 },
   medium: { sizeK: 150, pr: 1.25, msaa: 2, bloom: true, shadows: 0, shadowR: 0, ao: 0, aniso: 4, lights: 8, reflect: 0.35, rain: 5000, people: 45, detail: 120, treeNear: 110, plantNear: 65, horizon: 340, govMin: 0.6, env: 0 },
