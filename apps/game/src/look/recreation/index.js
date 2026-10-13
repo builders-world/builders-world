@@ -6,13 +6,14 @@
 import { createSkydive } from './skydive.js';
 import { createArchery } from './archery.js';
 import { createClimbing } from './climbing.js';
+import { createSurf } from './surf.js';
 import { nameFor } from '../knowledge.js';
 import { walletEngine, effortsMark, fmt } from '../wallet.js';
 import { sfx } from '../audio.js';
 import { C, FONT } from '../uikit.js';
 import { regionOf } from '../areas.js';
 
-const FEE = { tandem: 1500, solo: 800, arch18: 400, arch30: 500, boulder: 300 };
+const FEE = { tandem: 1500, solo: 800, arch18: 400, arch30: 500, boulder: 300, surf: 600 };
 const SOON = ['Hiking', 'Mountain biking', 'Paragliding', 'Bungee'];
 const COACH_LOOK = { body: 'f', skin: '#6b4226', hair: 'braids', top: 'tee', topColor: '#2a9d94', bottom: 'trousers', bottomColor: '#2b2f36', shoes: 'sneakers', shoeColor: '#f4f1ea', acc: [] };
 const LOOK = { body: 'm', skin: '#4a2e1c', hair: 'low', top: 'jacket', topColor: '#d9583f', bottom: 'trousers', bottomColor: '#2b2f36', shoes: 'sneakers', shoeColor: '#1d2028', acc: [] };
@@ -77,6 +78,8 @@ export function createRecreation(o) {
     }
     return null;
   }
+  const sw = nameFor('surf-instructor', 'm');
+  const surfCoach = { name: sw?.full || 'Coach Seun', first: sw?.first || 'Seun', look: { ...LOOK, top: 'tee', topColor: '#2a9d94', bottom: 'shorts', bottomColor: '#22336a' } };
   const cw = nameFor('archery-coach', 'f');
   const coach = { name: cw?.full || 'Coach Ada', first: cw?.first || 'Ada', look: COACH_LOOK };
   // the archery range: a lane across a park with room for the distance, clear of trees and posts at chest height
@@ -105,6 +108,8 @@ export function createRecreation(o) {
         <button class="go" data-k="arch30" ${lessons() ? '' : 'disabled'}>${effortsMark(12)}${fmt(FEE.arch30)}</button></div>
       <div class="act"><div class="t"><b>Bouldering</b><small>${climbCoach.name} runs a wall in the park: four problems, V0 to V3, mats below.</small></div>
         <button class="go" data-k="boulder">${effortsMark(12)}${fmt(FEE.boulder)}</button></div>
+      ${(() => { const b = beachList()[0]; return b ? `<div class="act"><div class="t"><b>Surf lesson</b><small>${surfCoach.name} at ${b.label}: on the sand first, then six waves.</small></div>
+        <button class="go" data-k="surf">${effortsMark(12)}${fmt(FEE.surf)}</button></div>` : ''; })()}
       ${(() => { const bs = beachList().slice(0, 3); return bs.length ? `<div class="act"><div class="t"><b>The beach</b><small>Free. ${bs.map((b, i) => `<a href="#" data-beach="${i}" style="color:${C.teal};font-weight:800">${b.label}</a> (${(b.d / 1000).toFixed(1)} km)`).join(' · ')}</small></div></div>` : ''; })()}
       <div class="soon">${SOON.map((s) => `<span>${s}: coming</span>`).join('')}</div></div>`;
     panel.querySelector('.x').onclick = close;
@@ -139,6 +144,7 @@ export function createRecreation(o) {
     if (jump) return;
     if (kind.startsWith('arch')) { shoot(kind); return; }
     if (kind === 'boulder') { climb(); return; }
+    if (kind === 'surf') { surf(); return; }
     if (o.canStart && !o.canStart()) { toast('Step outside onto the street first.', 2200); return; }
     pickTarget(); // again now: the open city round the district has loaded since the street was built
     const fee = FEE[kind];
@@ -190,6 +196,25 @@ export function createRecreation(o) {
         toast(r.sends.length ? `Bouldering: sent ${r.sends.join(', ')}${r.flashes ? ` (${r.flashes} flashed)` : ''}, in ${r.tries} ${r.tries === 1 ? 'try' : 'tries'}.` : `Bouldering: ${r.tries} ${r.tries === 1 ? 'try' : 'tries'}, no sends yet. ${climbCoach.first} says come back.`, 5000);
       } });
     toast(`${climbCoach.name} has the wall up. The lesson first.`, 2400);
+  }
+
+  // surfing: to the nearest beach first (quick travel), then the lesson on its sand
+  function surf() {
+    if (o.canStart && !o.canStart()) { toast('Step outside onto the street first.', 2200); return; }
+    const b = beachList()[0]; if (!b) { toast('No surf here: the city has no beach on the sea.', 2400); return; }
+    if (!walletEngine().spend(FEE.surf, 'Surf lesson')) { toast('Not enough Efforts for the lesson. Push some commits and come back.', 2600); return; }
+    const start = () => {
+      jump = createSurf({ scene: o.scene, beach: b, coach: surfCoach, look: o.avatar?.userData.look, toast,
+        onEnd: (r) => {
+          jump = null; o.standAt?.(b.x - b.sea.x * 14, b.z - b.sea.z * 14);
+          if (!r || r.aborted) { walletEngine().earn?.(FEE.surf, 'Surf lesson refunded'); toast(`${surfCoach.first} waves you off. Fee refunded.`, 2400); return; }
+          dispatchEvent(new CustomEvent('bw:me', { detail: { played: 0.3, skill: 'fitness', n: 1 } }));
+          toast(r.stood ? `Surf lesson: ${r.stood} ${r.stood === 1 ? 'wave' : 'waves'} ridden, best ride ${r.best} points.` : `Surf lesson: ${r.waves} tries, no ride yet. ${surfCoach.first} says the next one is yours.`, 5000);
+        } });
+    };
+    const P = o.getPlayer?.() || { x: 0, z: 0 };
+    if (Math.hypot(P.x - b.x, P.z - b.z) < 250) { close(); start(); return; }
+    toBeach(b); setTimeout(start, 5500);
   }
 
   addEventListener('bw:outdoors', open);
