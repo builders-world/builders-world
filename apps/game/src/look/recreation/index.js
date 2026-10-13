@@ -10,14 +10,15 @@ import { createSurf } from './surf.js';
 import { createBeachLife } from './beachlife.js';
 import { createParamotor } from './paramotor.js';
 import { createBungee } from './bungee.js';
+import { createHike } from './hike.js';
+import { createBike } from './bike.js';
 import { nameFor } from '../knowledge.js';
 import { walletEngine, effortsMark, fmt } from '../wallet.js';
 import { sfx } from '../audio.js';
 import { C, FONT } from '../uikit.js';
 import { regionOf } from '../areas.js';
 
-const FEE = { tandem: 1500, solo: 800, arch18: 400, arch30: 500, boulder: 300, surf: 600, paramotor: 2500, bungee: 1200 };
-const SOON = ['Hiking', 'Mountain biking'];
+const FEE = { tandem: 1500, solo: 800, arch18: 400, arch30: 500, boulder: 300, surf: 600, paramotor: 2500, bungee: 1200, hike: 500, mtb: 900 };
 const COACH_LOOK = { body: 'f', skin: '#6b4226', hair: 'braids', top: 'tee', topColor: '#2a9d94', bottom: 'trousers', bottomColor: '#2b2f36', shoes: 'sneakers', shoeColor: '#f4f1ea', acc: [] };
 const LOOK = { body: 'm', skin: '#4a2e1c', hair: 'low', top: 'jacket', topColor: '#d9583f', bottom: 'trousers', bottomColor: '#2b2f36', shoes: 'sneakers', shoeColor: '#1d2028', acc: [] };
 const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch { /* private window */ } } };
@@ -84,6 +85,11 @@ export function createRecreation(o) {
   const pw = nameFor('paramotor-pilot', 'f'), bw = nameFor('bungee-master', 'm');
   const pilot = { name: pw?.full || 'Captain Funke', first: pw?.first || 'Funke', look: { ...COACH_LOOK, top: 'jacket', topColor: '#e46f4f' } };
   const master = { name: bw?.full || 'Kunle', first: bw?.first || 'Kunle', look: { ...LOOK, top: 'tee', topColor: '#f2b631' } };
+  const hg = nameFor('hiking-guide', 'f'), bc = nameFor('bike-coach', 'm');
+  const hikeGuide = { name: hg?.full || 'Wanjiru', first: hg?.first || 'Wanjiru', look: { ...COACH_LOOK, top: 'jacket', topColor: '#3f7a35', bottom: 'trousers' } };
+  const bikeCoach = { name: bc?.full || 'Coach Kofi', first: bc?.first || 'Kofi', look: { ...LOOK, top: 'tee', topColor: '#f2b631', bottom: 'shorts', bottomColor: '#2b2f36' } };
+  // the city's hills (city/hills.js), nearest first
+  const hillSite = () => { const H = o.openWorld?.hills; if (!H?.sites?.length) return null; const P = o.getPlayer?.() || { x: 0, z: 0 }; return H.sites.map((s) => ({ ...s, dist: Math.hypot(s.x - P.x, s.z - P.z) })).sort((a, b) => a.dist - b.dist)[0]; };
   const sw = nameFor('surf-instructor', 'm');
   const surfCoach = { name: sw?.full || 'Coach Seun', first: sw?.first || 'Seun', look: { ...LOOK, top: 'tee', topColor: '#2a9d94', bottom: 'shorts', bottomColor: '#22336a' } };
   const cw = nameFor('archery-coach', 'f');
@@ -121,7 +127,12 @@ export function createRecreation(o) {
       ${(() => { const b = beachList()[0]; return b ? `<div class="act"><div class="t"><b>Surf lesson</b><small>${surfCoach.name} at ${b.label}: on the sand first, then six waves.</small></div>
         <button class="go" data-k="surf">${effortsMark(12)}${fmt(FEE.surf)}</button></div>` : ''; })()}
       ${(() => { const bs = beachList().slice(0, 3); return bs.length ? `<div class="act"><div class="t"><b>The beach</b><small>Free. ${bs.map((b, i) => `<a href="#" data-beach="${i}" style="color:${C.teal};font-weight:800">${b.label}</a> (${(b.d / 1000).toFixed(1)} km)`).join(' · ')}</small></div></div>` : ''; })()}
-      <div class="soon">${SOON.map((s) => `<span>${s}: coming</span>`).join('')}</div></div>`;
+      ${(() => { const h = hillSite(); if (!h) return `<div class="soon"><span>Hiking and mountain biking: ${city} is flat, with no hills near it. Nairobi, Abuja and Accra have them.</span></div>`;
+        return `<div class="act"><div class="t"><b>Hiking</b><small>${hikeGuide.name} walks you up ${h.summit || h.name}${h.top_m ? ` (${h.top_m.toLocaleString()} m)` : ''}, ${(h.dist / 1000).toFixed(0)} km from here.</small></div>
+        <button class="go" data-k="hike">${effortsMark(12)}${fmt(FEE.hike)}</button></div>
+      <div class="act"><div class="t"><b>Mountain biking</b><small>A bike from the hire hut and ${bikeCoach.name}: the pickup to the top of ${h.name.replace(/^the /, '')}, then down the trail against the clock.</small></div>
+        <button class="go" data-k="mtb">${effortsMark(12)}${fmt(FEE.mtb)}</button></div>`; })()}
+      </div>`;
     panel.querySelector('.x').onclick = close;
     panel.onclick = (e) => { if (e.target === panel) close(); };
     panel.querySelectorAll('button[data-k]').forEach((b) => { b.onclick = () => book(b.dataset.k); });
@@ -157,6 +168,7 @@ export function createRecreation(o) {
     if (kind === 'surf') { surf(); return; }
     if (kind === 'paramotor') { fly(); return; }
     if (kind === 'bungee') { bungee(); return; }
+    if (kind === 'hike' || kind === 'mtb') { hills(kind); return; }
     if (o.canStart && !o.canStart()) { toast('Step outside onto the street first.', 2200); return; }
     pickTarget(); // again now: the open city round the district has loaded since the street was built
     const fee = FEE[kind];
@@ -271,6 +283,26 @@ export function createRecreation(o) {
         toast(`Bungee: ${r.drop} m down, ${r.freefall} s of free fall, ${r.g} g at the bottom, ${r.bounces} bounces. You went ${r.went ? `after ${r.went} s on the edge` : 'straight away'}.`, 6000);
       } });
     toast(`${master.name} straps you in. The briefing on the way up.`, 2600);
+  }
+
+  // a hike up the hills, or a bike down them: you are back in the city where you booked when it is over
+  function hills(kind) {
+    if (o.canStart && !o.canStart()) { toast('Step outside onto the street first.', 2200); return; }
+    const site = hillSite(); if (!site) { toast('No hills near here.', 2000); return; }
+    const hike = kind === 'hike', fee = FEE[kind];
+    if (!walletEngine().spend(fee, hike ? `A guided hike, ${site.name}` : `Mountain biking, ${site.name}`)) { toast('Not enough Efforts. Push some commits and come back.', 2600); return; }
+    close();
+    const back = o.getPlayer?.() || { x: 0, z: 0 }, H = o.openWorld.hills, city = o.world.place?.city || 'Nairobi';
+    const onEnd = (r) => {
+      jump = null; o.standAt?.(back.x, back.z);
+      if (!r || r.aborted) { walletEngine().earn?.(fee, 'Refund'); toast(`${hike ? hikeGuide.first : bikeCoach.first} drives you back. Fee refunded.`, 2400); return; }
+      dispatchEvent(new CustomEvent('bw:me', { detail: { played: 0.35, skill: 'fitness', n: 1 } }));
+      if (hike) toast(r.top ? `${r.summit}: ${r.km} km, ${r.climbed} m up, ${r.minutes} minutes on the hill, ${r.rests} ${r.rests === 1 ? 'rest' : 'rests'}. ${hikeGuide.first} drives you back to the city.` : `You turned back after ${r.km} km and ${r.climbed} m of climbing. The top is still there.`, 6500);
+      else toast(r.done ? `Down ${site.name.replace(/^the /, '')}: ${r.time} s (${bikeCoach.first}: ${r.par} s), ${r.km} km, ${r.drop} m of drop, ${r.top} km/h at the fastest, ${r.crashes} ${r.crashes === 1 ? 'fall' : 'falls'}.` : `You walked the bike down after ${r.gates} gates. ${bikeCoach.first} says come back.`, 6500);
+    };
+    jump = hike ? createHike({ scene: o.scene, hills: H, site, guide: hikeGuide, avatar: o.avatar, toast, city, onEnd })
+      : createBike({ scene: o.scene, hills: H, site, coach: bikeCoach, avatar: o.avatar, toast, onEnd });
+    toast(hike ? `${hikeGuide.name} meets you at the gate below ${site.summit || site.name}.` : `The pickup drops you and the bike at the top. ${bikeCoach.name} has a word first.`, 3000);
   }
 
   // the beaches themselves, set up with their people when you are near one (beachlife.js)

@@ -13,5 +13,14 @@
     "north": 9.1,
     "east": 7.52,
     "chunk": 200
-  }
+  },
+  "hills": [
+    {
+      "name": "the hills north of Abuja",
+      "lat": 9.15,
+      "lon": 7.44,
+      "km": 10,
+      "biome": "rock"
+    }
+  ]
 }

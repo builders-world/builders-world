@@ -104,6 +104,14 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
     if (disposed) return;
     airfield = createAirfield(d, { quality }); airfield.setNight(night); group.add(airfield.group); api.airport = d; api.airfield = airfield;
   }).catch((e) => console.warn('airport', e));
+  // the city's real hills, where it has any (hills.js; scripts/city/hills.py): Ngong, north of Abuja, Aburi
+  let hills = null;
+  whenLoaded.then(() => fetch(`${home}hills.json`)).then((r) => (r?.ok ? r.json() : null)).then(async (d) => {
+    if (!d?.sites?.length) return;
+    const { createHills } = await import('./hills.js');
+    if (disposed) return;
+    hills = createHills(d, { quality, off }); hills.group.position.set(off.x, 0, off.z); group.add(hills.group); api.hills = hills; // (its own positions are the scene's)
+  }).catch((e) => console.warn('hills', e));
   let disposed = false;
   fetch(`${home}index.json`, { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : null)).then((ix) => { if (!ix) { api.active = false; return; } index = ix; if (ix.v) base = `${home}${ix.v}/`; loaded(ix); farWater(ix.far?.water); api.ready = true; }).catch(() => { api.active = false; });
 
@@ -177,6 +185,7 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
   let tick = 0;
   api.update = (camera, dt = 0.016, fogFar = 1500, fog = null) => {
     airfield?.update(dt, camera, fog);
+    hills?.update(dt, camera, fog);
     // hand over finished chunks, one or two a frame, so a burst of them never stalls the game
     for (let k = 0; k < 2 && ready.length; k++) install(ready.shift());
     if (!index || (tick -= dt) > 0) return; tick = 0.25;
@@ -265,7 +274,7 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
     return name;
   };
   api.stats = () => { let tris = 0, byLod = [0, 0, 0, 0]; chunks.forEach((c) => { if (c.lod >= 0) byLod[c.lod]++; c.group?.traverse((m) => { if (m.isMesh && m.geometry?.attributes.position) tris += (m.geometry.attributes.position.count / 3) * (m.isInstancedMesh ? m.count : 1); }); }); return { chunks: chunks.size, byLod, queued: queue.length, busy: busy.size, tris: Math.round(tris) }; };
-  api.dispose = () => { disposed = true; airfield?.dispose(); workers.forEach((w) => w.terminate()); chunks.forEach((c) => c.group && disposeGroup(c.group)); };
+  api.dispose = () => { disposed = true; airfield?.dispose(); hills?.dispose(); workers.forEach((w) => w.terminate()); chunks.forEach((c) => c.group && disposeGroup(c.group)); };
   void groundHole; void reduced;
   facadeUniforms.uHole.value.set(-1e6, -1e6, -1);
   // the ground's circle: in the scene's frame the district's centre is the origin

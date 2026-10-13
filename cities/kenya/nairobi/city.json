@@ -13,5 +13,18 @@
     "north": -1.25,
     "east": 36.845,
     "chunk": 200
-  }
+  },
+  "hills": [
+    {
+      "name": "Ngong Hills",
+      "lat": -1.405,
+      "lon": 36.638,
+      "km": 10,
+      "biome": "grass",
+      "summit": "Lamwia, Ngong Hills",
+      "features": [
+        "wind farm"
+      ]
+    }
+  ]
 }
