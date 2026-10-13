@@ -1,0 +1,29 @@
+{
+  "about": "The city's real hills (city/hills.js): they load, stand where the bake put them, and the Outdoors app runs a hike and a bike descent on them. Run in Nairobi, Abuja or Accra (game.city/area, or --q); Lagos, Port Harcourt and Uyo have none.",
+  "game": { "city": "Nairobi", "area": "City Centre" },
+  "steps": [
+    { "wait": 6000 },
+    { "expect": "!!window.__bw.look.openWorld.hills && window.__bw.look.openWorld.hills.sites.length > 0", "name": "the hills are loaded" },
+    { "log": "window.__bw.look.openWorld.hills.sites.map((s) => ({ name: s.name, top: s.top_m, summitY: Math.round(window.__bw.look.openWorld.hills.heightAt(s.top.x, s.top.z)), relief: s.relief }))" },
+    { "expect": "(() => { const s = window.__bw.look.openWorld.hills.sites[0]; return Math.abs(window.__bw.look.openWorld.hills.heightAt(s.top.x, s.top.z) - s.relief) < 40; })()", "name": "the summit stands at the hills' full height" },
+    { "event": "bw:outdoors" },
+    { "wait": 500 },
+    { "shot": "outdoors-app-with-hiking" },
+    { "click": "#lk-out button[data-k=\"hike\"]" },
+    { "wait": 3000 },
+    { "expect": "window.__bw.look.outdoors.jump?.phase === 'brief'", "name": "the hike's briefing is up" },
+    { "shot": "hike-briefing-at-the-gate" },
+    { "eval": "window.__bw.look.outdoors.jump.finish({ aborted: true })" },
+    { "wait": 1500 },
+    { "event": "bw:outdoors" },
+    { "wait": 500 },
+    { "click": "#lk-out button[data-k=\"mtb\"]" },
+    { "wait": 3000 },
+    { "expect": "window.__bw.look.outdoors.jump?.phase === 'brief'", "name": "the bike's briefing is up at the top" },
+    { "shot": "bike-at-the-top" },
+    { "eval": "window.__bw.look.outdoors.jump.finish({ aborted: true })" },
+    { "wait": 1500 },
+    { "expect": "!window.__bw.look.outdoors.jump", "name": "back in the city" },
+    { "fps": 3000 }
+  ]
+}
