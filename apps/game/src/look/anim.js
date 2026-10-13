@@ -50,7 +50,45 @@ function bakeLod(root) {
   return lod;
 }
 /** A person's clothes or body changed (style.js dress): bake their far-off mesh again when it is next needed. */
-export function staleLod(root) { const L = root?.userData?.lodMesh; if (L) { L.removeFromParent(); L.geometry.dispose(); root.userData.lodMesh = null; } }
+export function staleLod(root) { const L = root?.userData?.lodMesh; if (L) { L.removeFromParent(); L.geometry.dispose(); root.userData.lodMesh = null; } unpackPerson(root); }
+
+// ---------- a person close up, in fewer pieces (Elvis, 13 October 2026: performance) ----------
+// A dressed person is 25 to 40 small meshes, each a draw call. The plain ones hanging off each joint of the rig (the
+// torso, sleeves, collar and buttons on the chest; the hair and ears on the neck; a shin and its shoe) are merged into
+// one mesh per joint, coloured per vertex with one material for everyone; the rig moves the joints as before, so walking,
+// waving and sitting are unchanged. Anything with a picture on it (the drawn face, a print), anything see-through, and
+// the bits the face hides are left as they are. Undone when the person is dressed again (staleLod).
+const PACK_MAT = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.78 });
+const NO_PACK = typeof location !== 'undefined' && new URLSearchParams(location.search).get('pack') === '0'; // (to compare)
+const packable = (o, skip) => {
+  if (!o.isMesh || o.isInstancedMesh || o.isSkinnedMesh || o.userData.lod || o.userData.pack || o.userData.faceDecor || skip.has(o) || Array.isArray(o.material)) return false;
+  const m = o.material; return !!m && !m.map && !m.transparent && !(m.alphaTest > 0) && (m.isMeshStandardMaterial || m.isMeshLambertMaterial || m.isMeshPhongMaterial) && o.visible && !o.children.length;
+};
+export function packPerson(root) {
+  if (!root || root.userData.packed || root.userData.noPack || NO_PACK) return;
+  root.userData.packed = true;
+  const skip = new Set(root.userData.dressFound?.brows || []), byParent = new Map(), col = new THREE.Color();
+  root.traverse((o) => { if (o !== root && o.parent !== root && packable(o, skip)) { const l = byParent.get(o.parent) || []; l.push(o); byParent.set(o.parent, l); } });
+  for (const [p, list] of byParent) {
+    if (list.length < 2) continue;
+    const geos = list.map((o) => {
+      o.updateMatrix();
+      const src = o.geometry.index ? o.geometry.toNonIndexed() : o.geometry, g = new THREE.BufferGeometry();
+      g.setAttribute('position', src.getAttribute('position').clone()); if (src.getAttribute('normal')) g.setAttribute('normal', src.getAttribute('normal').clone()); else g.computeVertexNormals();
+      g.applyMatrix4(o.matrix);
+      col.copy(o.material.color || col.set(0xffffff)); const n = g.getAttribute('position').count, c = new Float32Array(n * 3); for (let i = 0; i < n; i++) col.toArray(c, i * 3);
+      g.setAttribute('color', new THREE.BufferAttribute(c, 3)); if (src !== o.geometry) src.dispose(); return g;
+    });
+    const mesh = new THREE.Mesh(mergeGeometries(geos, false), PACK_MAT); geos.forEach((g) => g.dispose());
+    mesh.userData.pack = list; mesh.castShadow = list.some((o) => o.castShadow); mesh.receiveShadow = list.some((o) => o.receiveShadow);
+    p.add(mesh); list.forEach((o) => { o.visible = false; o.userData.packedAway = true; });
+  }
+}
+export function unpackPerson(root) {
+  if (!root?.userData?.packed) return; root.userData.packed = false;
+  const packs = []; root.traverse((o) => { if (o.userData.pack) packs.push(o); });
+  packs.forEach((m) => { m.userData.pack.forEach((o) => { if (o.userData.packedAway) { o.visible = true; o.userData.packedAway = false; } }); m.removeFromParent(); m.geometry.dispose(); });
+}
 
 const cullFr = new THREE.Frustum(), cullM = new THREE.Matrix4(), cullS = new THREE.Sphere();
 export function cullPeople(camera, dist = 60, lodDist = Math.min(32, dist * 0.55)) {
@@ -58,6 +96,7 @@ export function cullPeople(camera, dist = 60, lodDist = Math.min(32, dist * 0.55
   const cx = camera.position.x, cz = camera.position.z, d2 = dist * dist, l2 = lodDist * lodDist;
   // out of view and not close: put away like the far ones (not drawn, not posed, no shadow). Within 15 m everyone
   // stays, and the view is taken a little wide, so turning round never finds a crowd popping in at your elbow
+  let packs = 0;
   camera.updateMatrixWorld(); cullFr.setFromProjectionMatrix(cullM.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
   for (const root of PEOPLE) {
     if (!root.parent) { PEOPLE.delete(root); continue; }
@@ -65,6 +104,8 @@ export function cullPeople(camera, dist = 60, lodDist = Math.min(32, dist * 0.55
     // (you are never culled: a cinematic camera far from your body, the taxi ride to the airport, used to leave you hidden)
     const unseen = dd > 225 && !cullFr.intersectsSphere(cullS.set(cullS.center.set(e[12], e[13] + 0.9, e[14]), 5));
     const state = root.userData.noLod ? 'near' : dd > d2 || unseen ? 'far' : dd > l2 && root.userData.rigged ? 'lod' : 'near';
+    // close up and not you: merged into fewer pieces, a few people a pass so a crowd arriving never stalls a frame
+    if (state === 'near' && !root.userData.noLod && !root.userData.packed && packs < 6 && root.userData.rigged) { packs++; packPerson(root); }
     if (state === (root.userData.cull || 'near') && !(state === 'lod' && !root.userData.lodMesh)) continue;
     // leaving the close-to state: remember what each part showed (a rig hides the avatar's own box legs and arms for
     // good; showing everything again on the way back put a frozen second pair over the moving ones)

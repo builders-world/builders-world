@@ -159,7 +159,7 @@ export function createStreetLife({ world, scene, props, traffic, chat, toast, ge
     s1.position.set(0, 3.55, 1.05); g.add(s1);
     // the flagpole, the patrol car
     g.add(new THREE.Mesh(box(0.08, 6, 0.08, -6.5, 3, 4), post()), new THREE.Mesh(box(0.9, 0.3, 0.02, -6.05, 5.6, 4), new THREE.MeshBasicMaterial({ color: 0x0d8a3d })), new THREE.Mesh(box(0.3, 0.3, 0.03, -6.05, 5.6, 4), new THREE.MeshBasicMaterial({ color: 0xffffff })));
-    const car = vehicle('saloon', 1); car.children[0].material.color.setHex(0x1f3d7a); car.position.set(sAt.x + 4.2, 0, sAt.z + 4.2); car.rotation.y = Math.PI / 2;
+    const car = vehicle('saloon', 1, { paint: 0x1f3d7a }); car.position.set(sAt.x + 4.2, 0, sAt.z + 4.2); car.rotation.y = Math.PI / 2;
     const bar = new THREE.Group(); bar.add(new THREE.Mesh(box(0.35, 0.12, 0.25, -0.2, 1.45, -0.15), new THREE.MeshBasicMaterial({ color: 0x2a5cff })), new THREE.Mesh(box(0.35, 0.12, 0.25, 0.2, 1.45, -0.15), new THREE.MeshBasicMaterial({ color: 0xff2a2a }))); car.add(bar); group.add(car);
     world.addColliders?.([{ name: 'police_station', cx: sAt.x, cz: sAt.z - 2.5, hx: 5.5, hz: 3.5, ry: 0 }, { name: 'parked_car', cx: sAt.x + 4.2, cz: sAt.z + 4.2, hx: 2.2, hz: 0.95, ry: 0, h: 1.5 }]);
     world.claim?.({ kind: 'police_station', cx: sAt.x, cz: sAt.z, hx: 8, hz: 7, ry: 0 });
