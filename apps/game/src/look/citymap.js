@@ -8,6 +8,19 @@ export const CITY_LAND = { park: '#8cc463', grass: '#8cc463', golf: '#7cbf55', p
 export const CITY_W = [16, 14, 11, 9, 8, 6, 6, 5, 4, 7, 7, 6, 6, 6];
 const WATER = '#8ed3c4';
 
+/** The city's airport on a map already set to the city's frame (city/airfield.js data): its grass, aprons, taxiways and runways. */
+export function drawCityAirport(g, A, px) {
+  if (!A?.runways) return;
+  const path = (f, close) => { g.beginPath(); for (let i = 0; i < f.length; i += 2) (i ? g.lineTo(f[i], f[i + 1]) : g.moveTo(f[i], f[i + 1])); if (close) g.closePath(); };
+  g.fillStyle = '#b5cf86'; path(A.bound, true); g.fill();
+  g.fillStyle = '#d9d3c4'; A.aprons.forEach((f) => { path(f, true); g.fill(); });
+  g.lineCap = 'round'; g.lineJoin = 'round'; g.strokeStyle = '#9a9ea3';
+  A.taxiways.forEach(({ w, p }) => { g.lineWidth = Math.max(w, 2 / px); path(p); g.stroke(); });
+  g.lineCap = 'butt'; g.strokeStyle = '#5d6166';
+  A.runways.forEach(({ w, p }) => { g.lineWidth = Math.max(w, 5 / px); path(p); g.stroke(); });
+  g.fillStyle = '#e8b493'; A.buildings.forEach(({ p }) => { path(p, true); g.fill(); });
+}
+
 const cache = new Map();
 /** Fetch and unpack a city's map.json once: points come as the first one and then the steps to each next one. */
 export function loadCityMap(url) {
@@ -57,6 +70,7 @@ export function drawCityMap(g, M, view, o) {
   // past the baked city: the land goes on, a little faded
   const b = M.box;
   g.fillStyle = 'rgba(247,239,220,.38)'; g.beginPath(); g.rect(b.x0 - 2e4, b.z0 - 2e4, b.x1 - b.x0 + 4e4, b.z1 - b.z0 + 4e4); g.rect(b.x1, b.z0, b.x0 - b.x1, b.z1 - b.z0); g.fill('evenodd');
+  drawCityAirport(g, o.airport, px); // (under the city: where the box takes it in, the city's own streets and buildings show on top)
   M.land.forEach((P, k) => { const c = CITY_LAND[k]; if (!c) return; g.fillStyle = c; g.fill(P); });
   g.fillStyle = WATER; g.fill(M.water);
   g.lineCap = 'round'; g.lineJoin = 'round';
@@ -86,6 +100,26 @@ export function drawCityMap(g, M, view, o) {
   if (D) {
     const [x, y] = toScreen(D.x, D.z - D.r); g.font = `800 ${Math.round(15 * Math.max(1, MK))}px ${o.font}`; const w = g.measureText(D.name).width + 20;
     g.fillStyle = o.paper; g.beginPath(); g.roundRect(x - w / 2, y - 34 * MK, w, 26 * MK, 13 * MK); g.fill(); g.fillStyle = o.ink; g.fillText(D.name, x, y - 21 * MK);
+  }
+  // the airport: its name over it, or at the map's edge the way it lies when it is off the map, with how far it is
+  if (o.airport?.center) {
+    const A = o.airport, [ax, ay] = toScreen(A.center[0], A.center[1]), km = o.me ? Math.hypot(A.center[0] - o.me.x, A.center[1] - o.me.z) / 1000 : 0;
+    // the room the pill has: clear of the title over the map's top and the zoom buttons down its right side
+    const u = g.canvas?.clientWidth ? cw / g.canvas.clientWidth : MK; // (canvas pixels per screen pixel: the room is in screen pixels)
+    const L = 12 * u, R = cw - 70 * u, T = 128 * u, B = ch - 16 * u, on = ax > L + 60 * u && ax < R - 60 * u && ay > T && ay < B;
+    const label = `✈ ${A.iata}${on ? ` · ${A.name}` : ''}${km >= 1 ? ` · ${km.toFixed(km < 10 ? 1 : 0)} km` : ''}`;
+    g.font = `800 ${Math.round(13 * Math.max(1, MK))}px ${o.font}`; const w = g.measureText(label).width + 22 * MK, h = 26 * MK;
+    // off the map: where the line from the middle toward it leaves the room (the pill inside it)
+    const cx = (L + R) / 2, cy = (T + B) / 2, dx = ax - cx, dy = ay - cy;
+    const k = on ? 1 : Math.min(((R - L) / 2 - w / 2 - 14 * MK) / Math.max(1e-3, Math.abs(dx)), ((B - T) / 2 - h / 2 - 14 * MK) / Math.max(1e-3, Math.abs(dy)));
+    const x = cx + dx * k, y = cy + dy * k;
+    g.fillStyle = o.ink; g.beginPath(); g.roundRect(x - w / 2, y - h / 2, w, h, h / 2); g.fill();
+    if (!on) { // a pointer off the pill's edge, toward it
+      const a = Math.atan2(dy, dx), c = Math.cos(a), sn = Math.sin(a), t = Math.min(w / 2 / Math.max(1e-3, Math.abs(c)), h / 2 / Math.max(1e-3, Math.abs(sn)));
+      const tx = x + c * (t + 12 * MK), ty = y + sn * (t + 12 * MK), bx = x + c * (t - 2), by = y + sn * (t - 2), q = 8 * MK;
+      g.beginPath(); g.moveTo(tx, ty); g.lineTo(bx - sn * q, by + c * q); g.lineTo(bx + sn * q, by - c * q); g.closePath(); g.fill();
+    }
+    g.fillStyle = o.paper; g.fillText(label, x, y + 1);
   }
   // you are here
   if (o.me) {

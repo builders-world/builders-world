@@ -216,8 +216,10 @@ if (isMain) {
     else if (cmd === 'logout') { if (existsSync(SESSION_FILE)) rmSync(SESSION_FILE); console.log('Signed out (session file removed).'); }
     else if (cmd === 'run') {
       if (!a._[1]) throw new Error('which plan? node scripts/verify/bw.mjs run plan.json');
-      const plan = JSON.parse(readFileSync(a._[1], 'utf8'));
-      const file = await runPlan(plan, Object.fromEntries(Object.entries(common).filter(([, v]) => v !== undefined && v !== false)));
+      const plan = JSON.parse(readFileSync(a._[1], 'utf8')), given = (o) => Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined && v !== false));
+      // (the command line's --city, --area, --quality... over the plan's own game, as the README says)
+      plan.game = { ...plan.game, ...given(game) };
+      const file = await runPlan(plan, given(common));
       summarise(file);
     } else if (cmd === 'shot') {
       const steps = [];

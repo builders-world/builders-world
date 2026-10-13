@@ -4,7 +4,7 @@ import { paintAirport } from './airportmap.js';
 import * as THREE from 'three';
 import { areaOf, areaName, cityLabel } from './areas.js';
 import { createMenus } from './menus.js';
-import { CITY_LAND, CITY_W, loadCityMap } from './citymap.js';
+import { CITY_LAND, CITY_W, loadCityMap, drawCityAirport } from './citymap.js';
 import { createNav, nearestOn, pathLength, pointAlong } from './nav.js';
 import { createTrail } from './trail.js';
 import { audioEngine, sfx } from './audio.js';
@@ -357,6 +357,8 @@ export function createHud({ world, props, camera, reduced, onInteract, weatherFe
     const n = openWorld.mapNear(player.x, player.z, reach, (m, col, ix, ps) => { lands.push(...m.land); waters.push(...m.water); roads.push(...m.roads); col.forEach((c) => c.t === 'poly' && blds.push(c.pts)); pois.push(...ps); });
     // some of the ground in reach has no map of its own just now (high up): the whole city's under it
     if (!n || n.got < n.want) drawWhole(o, k);
+    // the airport, when you are near it (city/airfield.js)
+    const A = openWorld.airport; if (A?.center && Math.hypot(A.center[0] - o.x - player.x, A.center[1] - o.z - player.z) < 6000) { map.save(); map.scale(k, k); map.translate(-o.x, -o.z); drawCityAirport(map, A, k); map.restore(); }
     if (!roads.length && !blds.length) return;
     map.save(); map.translate(-o.x * k, -o.z * k);
     const flat = (p, close) => { map.beginPath(); for (let i = 0; i < p.length; i += 2) (i ? map.lineTo(p[i] * k, p[i + 1] * k) : map.moveTo(p[i] * k, p[i + 1] * k)); if (close) map.closePath(); };

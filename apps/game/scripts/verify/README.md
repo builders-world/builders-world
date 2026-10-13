@@ -34,7 +34,8 @@ everything. FAIL means a console error, a failed check or a step that broke.
 
 A plan is the steps a player takes and what must be true. `plans/` has examples: `smoke.json` (the open city, the
 aerial view, the map), `outdoors.json` (the Outdoors app and an arrow at the range), `phone-hud.json` (nothing on the
-phone's HUD overlaps).
+phone's HUD overlaps), `airport.json` (the city's airport from the air, a plane in flight, the airport on the city map).
+`--city`, `--area`, `--quality`, `--hour` and `--weather` on the command line take the place of the plan's own.
 
 ```sh
 node scripts/verify/bw.mjs run scripts/verify/plans/smoke.json --serve

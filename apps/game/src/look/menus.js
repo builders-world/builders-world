@@ -710,7 +710,7 @@ export function createMenus({ world, props, weatherFeed, getPlayer, getPath, sna
     if (AIR_MODES.includes(mapMode)) { drawAirport(); return; }
     if (mapMode === 'city' && cityMap) {
       const o = openWorld.offset, me = getPlayer() || { x: 0, z: 0 };
-      drawCityMap(mapCanvas.getContext('2d'), cityMap, cview, { MK, OX, OY, cw, ch, leaf: C.leaf, ink: C.ink, paper: C.paper, font: FONT, me: { x: me.x + o.x, z: me.z + o.z }, pick: cityPick, district: { x: o.x, z: o.z, r: world.radius, name: placeName(world) } });
+      drawCityMap(mapCanvas.getContext('2d'), cityMap, cview, { MK, OX, OY, cw, ch, leaf: C.leaf, ink: C.ink, paper: C.paper, font: FONT, me: { x: me.x + o.x, z: me.z + o.z }, pick: cityPick, district: { x: o.x, z: o.z, r: world.radius, name: placeName(world) }, airport: openWorld.airport });
       return;
     }
     if (mapMode !== 'district') { drawCountry(); return; }
