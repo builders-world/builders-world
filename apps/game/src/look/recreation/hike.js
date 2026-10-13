@@ -115,7 +115,7 @@ export function createHike(o) {
     else if (S.phase === 'summit') { const a = S.t * 0.18 + me.yaw; cam.from.set(me.x + Math.sin(a) * 14, me.y + 6, me.z + Math.cos(a) * 14); cam.at.set(me.x, me.y + 1.4, me.z); }
     else if (S.view === 1) { const w = at(S.d + 25); cam.from.set(me.x + fx * 0.3, me.y + 1.65, me.z + fz * 0.3); cam.at.set(w.x, w.y + 1.4, w.z); }
     else if (S.view === 2) { cam.from.set(me.x + fz * 9 * far, me.y + 3, me.z - fx * 9 * far); cam.at.set(me.x, me.y + 1.2, me.z); } // from the side: the slope you are on
-    else { const back = at(S.d - 7 * far), w = at(S.d + 14); cam.from.set(back.x, Math.max(back.y, me.y) + 3.4, back.z); cam.at.set(w.x, w.y + 1.2, w.z); }
+    else { const w = at(S.d + 14); cam.from.set(me.x - fx * 7 * far, me.y + 3.4, me.z - fz * 7 * far); cam.at.set(w.x, w.y + 1.2, w.z); } // behind you the way you face (at the gate the route has no behind)
     // the ground under the camera: never under the hill
     const gy = hills.heightAt(cam.from.x, cam.from.z); if (gy != null && cam.from.y < gy + 1.5) cam.from.y = gy + 1.5;
     you.obj.visible = S.view !== 1 || S.phase !== 'walk';
