@@ -1,0 +1,23 @@
+{
+  "about": "The surf lesson: booked from the Outdoors app (quick travel to the nearest beach), the lesson on the sand, then paddling out through the white water. Run in Accra or Lagos.",
+  "game": { "city": "Accra", "area": "Osu" },
+  "steps": [
+    { "event": "bw:outdoors" },
+    { "wait": 500 },
+    { "click": "#lk-out button[data-k=\"surf\"]" },
+    { "waitFor": "document.querySelector('#bw-surf-brief')", "timeout": 30000 },
+    { "wait": 4000 },
+    { "shot": "lesson-on-the-sand" },
+    { "eval": "() => { for (let i = 0; i < 5; i++) document.querySelector('#bw-surf-brief .go')?.click(); }" },
+    { "wait": 800 },
+    { "expect": "window.__bw.look.outdoors.jump?.phase === 'paddle'", "name": "in the water" },
+    { "hold": "w", "ms": 6000 },
+    { "shot": "paddling-out" },
+    { "expect": "window.__bw.look.outdoors.jump.state().v > 5", "name": "paddled out from the sand" },
+    { "log": "window.__bw.look.outdoors.jump.state()" },
+    { "fps": 3000 },
+    { "press": "Escape" },
+    { "wait": 800 },
+    { "expect": "!window.__bw.look.outdoors.jump", "name": "Esc ends the lesson" }
+  ]
+}
