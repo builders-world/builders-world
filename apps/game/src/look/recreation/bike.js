@@ -75,7 +75,7 @@ export function createBike(o) {
       S.run += dt;
       const steer = (down('a') || down('arrowleft') ? 1 : 0) - (down('d') || down('arrowright') ? 1 : 0), pedal = down('w') || down('arrowup'), brake = down('s') || down('arrowdown');
       const fx = Math.sin(S.yaw), fz = Math.cos(S.yaw), h0 = Y(S.x, S.z), h1 = Y(S.x + fx * 2, S.z + fz * 2), grade = (h1 - h0) / 2; // down the hill is negative
-      const nl = nearest(S.x, S.z, S.prog - 80, S.prog + 160), onTrail = nl.dist < 3.2; S.off = nl.dist; if (nl.dist < 12) S.prog = Math.max(S.prog, nl.d); // where you are on the line: only near where you were
+      const nl = nearest(S.x, S.z, S.prog - 80, S.prog + 160), onTrail = nl.dist < 4.5 /* the track and its edges: 3 or 4 m off the line is still on the dirt */; S.off = nl.dist; if (nl.dist < 12) S.prog = Math.max(S.prog, nl.d); // where you are on the line: only near where you were
       // forces along the ground: gravity down the slope, rolling (trail or grass), air, pedals, brakes
       let a = -G * grade / Math.sqrt(1 + grade * grade) - G * (onTrail ? 0.025 : 0.11) * Math.sign(S.v) - 0.0045 * S.v * Math.abs(S.v);
       if (pedal && S.v < 9) a += 3.6 * (1 - S.v / 9.5); // a low gear: up the short climbs out of the saddle
