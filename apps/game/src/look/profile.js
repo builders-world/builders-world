@@ -212,11 +212,13 @@ export function createProfile({ avatar, getName, getPet, getFriends, onDog, toas
   dogEl.onclick = () => onDog?.();
   draw(); syncCommits();
 
+  const rc = { t: 0, v: [] };
   return {
     el, update, toggle, feel, gain, bump, get mood() { return moodNow; }, get state() { return S; },
     setDriving(v) { dogEl.classList.toggle('driving', !!v); },
     // where the two live portraits go on the screen (CSS pixels), for the renderer
-    rects() { const show = !document.body.classList.contains('nohud') && !document.body.classList.contains('bw-cine') && getComputedStyle(el).display !== 'none'; if (!show) return []; const out = [['me', ph.getBoundingClientRect()]]; if (dogEl.classList.contains('on')) out.push(['dog', dogEl.getBoundingClientRect()]); return out; },
+    // (measured from the page's layout at most every 0.4 s: reading it every frame made the browser lay the page out again)
+    rects() { const now = performance.now(); if (now - rc.t < 400) return rc.v; rc.t = now; const show = !document.body.classList.contains('nohud') && !document.body.classList.contains('bw-cine') && getComputedStyle(el).display !== 'none'; if (!show) return (rc.v = []); const out = [['me', ph.getBoundingClientRect()]]; if (dogEl.classList.contains('on')) out.push(['dog', dogEl.getBoundingClientRect()]); return (rc.v = out); },
     dispose() { offs.forEach((f) => f()); el.remove(); panel.remove(); st.remove(); save(); },
   };
 }
@@ -236,17 +238,30 @@ export function createPortraits(renderer) {
     const s = { rt, mesh, cam: new THREE.PerspectiveCamera(28, 1, 0.05, 3.2), t: 0 }; slots.set(id, s); return s;
   };
   const bg = new THREE.Color('#efe2c4'), prevClear = new THREE.Color();
+  // the portrait's own little stage: just the face and a soft light, not the whole city round it (rendering the main
+  // scene for a 192 px circle walked all 12,000 of its objects twelve times a second)
+  const stage = new THREE.Scene(); stage.matrixWorldAutoUpdate = false; stage.background = bg;
+  stage.add(new THREE.HemisphereLight('#fff7ea', '#b49a7a', 1.6)); const key = new THREE.DirectionalLight('#ffffff', 1.5); key.position.set(0.4, 1, 1); stage.add(key);
   return {
     // shoot(id, scene, eye, at, dt, show[], hide[]) renders a slot when it is due; `show` made visible for it, `hide` hidden
     shoot(id, scene, eye, at, dt, show = [], hide = []) {
       const s = slot(id); s.t -= dt; if (s.t > 0) return; s.t = 1 / 12;
       s.cam.position.copy(eye); s.cam.lookAt(at);
       const vis = [...show, ...hide].map((o) => [o, o.visible]); show.forEach((o) => { o.visible = true; }); hide.forEach((o) => { o.visible = false; });
-      const fog = scene.fog, back = scene.background; scene.fog = null; scene.background = bg;
       const prevT = renderer.getRenderTarget(), alpha = renderer.getClearAlpha(); renderer.getClearColor(prevClear);
-      renderer.setRenderTarget(s.rt); renderer.render(scene, s.cam);
+      const root = show[0], home = root?.parent, slotAt = home ? home.children.indexOf(root) : -1;
+      if (root && home && !root.isScene) {
+        // borrowed onto the stage as it stands (its matrices are this frame's), drawn, and put back where it was
+        home.children.splice(slotAt, 1); stage.children.push(root); root.parent = stage;
+        renderer.setRenderTarget(s.rt); renderer.render(stage, s.cam);
+        stage.children.pop(); home.children.splice(slotAt, 0, root); root.parent = home;
+      } else {
+        const fog = scene.fog, back = scene.background; scene.fog = null; scene.background = bg;
+        renderer.setRenderTarget(s.rt); renderer.render(scene, s.cam);
+        scene.fog = fog; scene.background = back;
+      }
       renderer.setRenderTarget(prevT); renderer.setClearColor(prevClear, alpha);
-      scene.fog = fog; scene.background = back; vis.forEach(([o, v]) => { o.visible = v; });
+      vis.forEach(([o, v]) => { o.visible = v; });
     },
     // draw the slots into their circles (CSS pixel rects from profile.rects())
     blit(rects) {

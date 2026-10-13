@@ -35,7 +35,7 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
   // where the district's centre is in the city's frame (x east, z south, metres from the city's centre)
   const kx = 111320 * Math.cos((city.lat * Math.PI) / 180);
   off.x = (world.center.lon - city.lon) * kx; off.z = -(world.center.lat - city.lat) * 110574;
-  group.position.set(-off.x, 0, -off.z);
+  group.position.set(-off.x, 0, -off.z); group.updateMatrix(); group.matrixAutoUpdate = false; // set once: a group that recomputes its own matrix makes every chunk under it do the same, every frame
   const R = world.radius, hole = [off.x, off.z, R * HOLE];
   // where the city's files are: public/city/ in the deployment, or elsewhere through VITE_CITY_BASE (an object store
   // filled by scripts/city/upload.mjs). An uploaded index.json names the version its tiles and map went up under ("v")
@@ -161,8 +161,8 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
     const o = res.out;
     if (o.base?.p.length) { const m = new THREE.Mesh(geo(o.base), lawn); m.renderOrder = -1; m.receiveShadow = res.lod === 0; g.add(m); }
     if (o.ground.p.length) { const m = new THREE.Mesh(geo(o.ground), ground); m.receiveShadow = res.lod === 0; g.add(m); }
-    if (o.solid.p.length) { const m = new THREE.Mesh(geo(o.solid), solid); m.castShadow = res.lod === 0; m.receiveShadow = res.lod === 0; g.add(m); }
-    if (o.facade.p.length) { const m = new THREE.Mesh(geo(o.facade, true), facade); m.castShadow = res.lod === 0; m.receiveShadow = res.lod === 0; g.add(m); }
+    if (o.solid.p.length) { const m = new THREE.Mesh(geo(o.solid), solid); m.userData.shadowSelf = true; m.castShadow = res.lod === 0 && c.cast !== false; m.receiveShadow = res.lod === 0; g.add(m); }
+    if (o.facade.p.length) { const m = new THREE.Mesh(geo(o.facade, true), facade); m.userData.shadowSelf = true; m.castShadow = res.lod === 0 && c.cast !== false; m.receiveShadow = res.lod === 0; g.add(m); }
     if (res.lod === 0 && o.trees.length) { // (trees near you; further out the city's green is its parks and lawns)
       const rnd = mulberry32(Math.abs(c.i * 7919 + c.j * 104729) + 1), list = [];
       for (let i = 0; i < o.trees.length; i += 3) list.push({ x: o.trees[i], z: o.trees[i + 1], kind: pickTree(key, 'street', rnd), ry: rnd() * 6.28, s: o.trees[i + 2] > 0.5 ? 0.9 + rnd() * 0.3 : 0.75 + rnd() * 0.2 });
@@ -174,7 +174,7 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
       im.computeBoundingSphere(); bulbs.computeBoundingSphere(); bulbs.visible = night > 0.05; bulbs.userData.bulbs = true; g.add(im, bulbs);
     }
     if (c.group) { group.remove(c.group); disposeGroup(c.group); }
-    c.group = g; c.lod = res.lod; group.add(g); g.updateMatrixWorld(true);
+    c.group = g; c.lod = res.lod; group.add(g); g.updateMatrixWorld(true); g.traverse((o) => { o.matrixAutoUpdate = false; }); // a chunk never moves: its matrices are worked out once, not every frame
     dropCol(c); if (res.lod < 2) addCol(c, o.colliders);
     // (the district has its own places: the city's inside its circle are left to it)
     c.buildings = o.buildings; c.pois = (o.pois || []).filter((q) => Math.hypot(q.x - hole[0], q.z - hole[1]) > R * BUILD_HOLE); c.map = o.map || null; api.mapVersion++;
@@ -183,6 +183,9 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
 
   // ---------- streaming ----------
   let tick = 0;
+  let detail = 1, viewAware = 1; const NEAR = 120, SHADOW_REACH = 60, look3 = new THREE.Vector3();
+  api.setDetail = (k) => { detail = Math.max(0.5, Math.min(1, k)); }; // (main.js: the governor's detail step)
+  api.setViewAware = (on) => { viewAware = on ? 1 : 0; }; // (?view=0 to compare)
   api.update = (camera, dt = 0.016, fogFar = 1500, fog = null) => {
     airfield?.update(dt, camera, fog);
     hills?.update(dt, camera, fog);
@@ -194,19 +197,31 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
     if (typeof document !== 'undefined' && document.body?.classList.contains('bw-swoop')) return;
     const cx = camera.position.x + off.x, cz = camera.position.z + off.z, alt = Math.max(0, camera.position.y - 20);
     // nothing is built past the haze: at street level that is a kilometre or so; from the air, the whole city
-    const r0 = T[0] + alt * 0.25 * GROW, r1 = T[1] + alt * 0.45 * GROW, r2 = T[2] + alt * 0.7 * GROW, r3 = Math.min(FAR, Math.max(r2, fogFar * 1.05)), S = index.chunk;
+    // detail (the frame-rate governor in main.js) shrinks how far each finer detail reaches before the resolution drops
+    const r0 = (T[0] + alt * 0.25 * GROW) * detail, r1 = (T[1] + alt * 0.45 * GROW) * detail, r2 = (T[2] + alt * 0.7 * GROW) * detail, r3 = Math.min(FAR, Math.max(r2, fogFar * 1.05)), S = index.chunk;
+    // where you are looking (Elvis, 13 October 2026: "far away objects and things to your back and your sides" at lower
+    // detail, "what a person sees in front of them should stay sharp"): a chunk behind or beside the camera counts as
+    // further off than it is, so it gets coarser detail, and less memory. Everything within NEAR stays as it is, so a
+    // quick turn never finds a hole; from high up looking down, all round is in view and nothing is held back
+    camera.getWorldDirection(look3); const flat = Math.hypot(look3.x, look3.z), fx = look3.x / (flat || 1), fz = look3.z / (flat || 1), aim = Math.max(0, Math.min(1, (flat - 0.35) / 0.45)) * viewAware;
     const want = new Map();
     index.chunks.forEach(([i, j]) => {
-      const x = (i + 0.5) * S, z = (j + 0.5) * S, d = Math.max(0, Math.hypot(x - cx, z - cz) - S * 0.5);
+      const x = (i + 0.5) * S, z = (j + 0.5) * S, dist = Math.hypot(x - cx, z - cz), d = Math.max(0, dist - S * 0.5);
+      const cos = dist > 1 ? ((x - cx) * fx + (z - cz) * fz) / dist : 1, behind = Math.max(0, Math.min(1, (0.45 - cos) / 1.2)); // 0 ahead, 1 straight behind
+      const dv = d < NEAR ? d : NEAR + (d - NEAR) * (1 + 1.8 * behind * aim);
       const c = chunks.get(`${i}_${j}`), cur = c?.lod;
       // a little give either way, so a chunk on the boundary does not flip back and forth
-      const lod = d < r0 + (cur === 0 ? 30 : 0) ? 0 : d < r1 + (cur === 1 ? 40 : 0) ? 1 : d < r2 + (cur === 2 ? 80 : 0) ? 2 : d < r3 + (cur === 3 ? 120 : 0) ? 3 : -1;
-      if (lod >= 0) want.set(`${i}_${j}`, { lod, d, i, j });
+      let lod = dv < r0 + (cur === 0 ? 30 : 0) ? 0 : dv < r1 + (cur === 1 ? 40 : 0) ? 1 : dv < r2 + (cur === 2 ? 80 : 0) ? 2 : -1;
+      if (lod < 0) lod = d < r3 + (cur === 3 ? 120 : 0) ? 3 : -1; // out of the haze by true distance: kept coarse, not dropped, so turning round still finds the city there
+      if (lod >= 0) want.set(`${i}_${j}`, { lod, d: dv, i, j, near: d });
     });
     want.forEach((w, k) => {
       let c = chunks.get(k); if (!c) { c = { i: w.i, j: w.j, lod: -1, want: -1, group: null, col: [], busy: false }; chunks.set(k, c); }
       if (c.want !== w.lod) { c.want = w.lod; if (c.lod !== w.lod) { c.busy = true; queue.push({ key: k, lod: w.lod, d: w.d }); } }
     });
+    // only the blocks close round you throw sun shadows: a chunk is 200 m across, and every one in reach of the shadow
+    // map was drawn into it whole, most of it far outside the few dozen metres the shadows cover
+    want.forEach((w, k) => { const c = chunks.get(k); const cast = w.near < SHADOW_REACH && c?.lod === 0; if (c?.group && c.cast !== cast) { c.cast = cast; c.group.traverse((m) => { if (m.isMesh) { m.userData.shadowSelf = true; m.castShadow = cast && (m.material === solid || m.material === facade || !!m.parent?.name?.startsWith('city_trees')); } }); } });
     chunks.forEach((c, k) => { if (!want.has(k) && !c.busy) { if (c.group) { group.remove(c.group); disposeGroup(c.group); } dropCol(c); chunks.delete(k); if (c.map) api.mapVersion++; } });
     queue.sort((a, b) => (a.lod - b.lod) * 400 + (a.d - b.d));
     pump();

@@ -11,7 +11,7 @@ import { person, playerPerson, gameKeys, sportsUI } from '../sports/common.js';
 import { bikeModel } from '../mobility.js';
 import { sfx } from '../audio.js';
 import { C, FONT } from '../uikit.js';
-import { briefCard, recMode } from './brief.js';
+import { briefCard, recMode, release } from './brief.js';
 
 const G = 9.81, GATE = 200, RUN = 2400;
 const STEPS = (site, len, drop) => [
@@ -117,7 +117,7 @@ export function createBike(o) {
   function finish(result) {
     if (ended) return; ended = true;
     keys.on = false; ui.show(false); ui.meter(null); card.remove(); pad.remove(); recMode(false);
-    helmet.removeFromParent(); you.dispose?.(); coach.dispose?.(); group.removeFromParent();
+    helmet.removeFromParent(); you.dispose?.(); coach.dispose?.(); release(group);
     o.onEnd?.(result);
   }
   keys.on = true;

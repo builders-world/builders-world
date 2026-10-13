@@ -12,7 +12,7 @@ import * as THREE from 'three';
 import { person, playerPerson, gameKeys, sportsUI } from '../sports/common.js';
 import { sfx } from '../audio.js';
 import { C, FONT } from '../uikit.js';
-import { briefCard, recMode } from './brief.js';
+import { briefCard, recMode, release } from './brief.js';
 import { jumpPlane, ramAir, drogueChute, kitUp, landingArea, cloudBank, airRush, altimeter } from './skyart.js';
 
 const EXIT = 3000, PULL = 1500, AAD = 750, G = 9.81;
@@ -249,7 +249,7 @@ export function createSkydive(o) {
     if (ended) return; ended = true;
     keys.on = false; ui.show(false); ui.meter(null); card.remove(); pad.remove?.(); recMode(false); alti?.remove(); unkit.forEach((f) => f());
     you.dispose?.(); inst?.dispose?.();
-    group.removeFromParent();
+    release(group);
     o.onEnd?.(result, { x: S.phase === 'landed' ? S.pos.x : T.x, z: S.phase === 'landed' ? S.pos.z : T.z });
   }
 

@@ -11,7 +11,7 @@ import * as THREE from 'three';
 import { person, playerPerson, gameKeys, sportsUI } from '../sports/common.js';
 import { sfx } from '../audio.js';
 import { C, FONT } from '../uikit.js';
-import { briefCard, recMode } from './brief.js';
+import { briefCard, recMode, release } from './brief.js';
 
 const G = 9.81, V = 58, ENDS = 2, PER = 6, CENTRE = 1.3;
 const STEPS = [
@@ -208,7 +208,7 @@ export function createArchery(o) {
   function finish(r) {
     if (ended) return; ended = true;
     keys.on = false; ui.show(false); ui.meter(null); card.remove(); hud.remove(); recMode(false);
-    me.dispose?.(); coach.dispose?.(); faceTex.dispose(); group.removeFromParent();
+    me.dispose?.(); coach.dispose?.(); faceTex.dispose(); release(group);
     o.onEnd?.(r);
   }
   keys.on = true;

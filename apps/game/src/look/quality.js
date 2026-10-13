@@ -59,7 +59,9 @@ export function autoTier(info) {
   if (mem && mem <= 2) return 'low';
   if (mem && mem <= 4) return kind === 'discrete' || kind === 'apple' ? 'medium' : 'low';
   if (kind === 'integrated') return cores >= 8 ? 'medium' : 'low';
-  if (kind === 'apple') return /Max|Ultra/i.test(gpu) ? 'ultra' : 'high';
+  // Apple: the base chips (M1 to M4) hold 60 on Medium with room to spare and run over budget on High (an M4 measured
+  // 11.4 ms a frame on Medium, 16.6 ms on High, 13 October 2026); Pro chips take High, Max and Ultra take Ultra
+  if (kind === 'apple') return /Max|Ultra/i.test(gpu) ? 'ultra' : /Pro/i.test(gpu) ? 'high' : 'medium';
   if (kind === 'discrete') return /RTX\s*(30[7-9]0|40\d0|50\d0)|RX\s*(6[89]\d0|7[89]\d0|9\d{3})/i.test(gpu) ? 'ultra' : 'high';
   return cores && cores < 4 ? 'medium' : 'high';
 }
