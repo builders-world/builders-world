@@ -96,6 +96,15 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
       w.postMessage({ id: ++jobId, key: job.key, url: `${base}${index.tile ? `t_${Math.floor(c.i / index.tile)}_${Math.floor(c.j / index.tile)}` : job.key}.json`, tile: index.tile || 0, meta: { classes: index.classes, ends: index.ends, drive: index.drive }, lod: job.lod, hole, ci: c.i, cj: c.j, size: index.chunk });
     }
   }
+  // the city's airport, where it really is, past the box or in it (airfield.js; scripts/city/airport.mjs)
+  let airfield = null, night = 0;
+  whenLoaded.then(() => fetch(`${home}airport.json`)).then((r) => (r?.ok ? r.json() : null)).then(async (d) => {
+    if (!d?.runways) return;
+    const { createAirfield } = await import('./airfield.js');
+    if (disposed) return;
+    airfield = createAirfield(d, { quality }); airfield.setNight(night); group.add(airfield.group); api.airport = d; api.airfield = airfield;
+  }).catch((e) => console.warn('airport', e));
+  let disposed = false;
   fetch(`${home}index.json`, { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : null)).then((ix) => { if (!ix) { api.active = false; return; } index = ix; if (ix.v) base = `${home}${ix.v}/`; loaded(ix); farWater(ix.far?.water); api.ready = true; }).catch(() => { api.active = false; });
 
   // ---------- collisions: every collider of the loaded chunks, in a 32 m grid ----------
@@ -165,8 +174,9 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
   const disposeGroup = (g) => g.traverse((m) => { if (m.isMesh && m.geometry !== lampGeo && m.geometry !== bulbGeo && !m.name.startsWith('city_trees')) m.geometry?.dispose(); });
 
   // ---------- streaming ----------
-  let tick = 0, night = 0;
-  api.update = (camera, dt = 0.016, fogFar = 1500) => {
+  let tick = 0;
+  api.update = (camera, dt = 0.016, fogFar = 1500, fog = null) => {
+    airfield?.update(dt, camera, fog);
     // hand over finished chunks, one or two a frame, so a burst of them never stalls the game
     for (let k = 0; k < 2 && ready.length; k++) install(ready.shift());
     if (!index || (tick -= dt) > 0) return; tick = 0.25;
@@ -193,7 +203,7 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
     pump();
   };
   api.setNight = (n) => {
-    night = n; facadeUniforms.uNight.value = n;
+    night = n; airfield?.setNight(n); facadeUniforms.uNight.value = n;
     group.traverse((o) => { if (o.userData.bulbs) o.visible = n > 0.05; });
   };
   api.classes = () => index?.classes || null;
@@ -255,7 +265,7 @@ export function createOpenWorld({ world, quality = 'high', reduced = false }) {
     return name;
   };
   api.stats = () => { let tris = 0, byLod = [0, 0, 0, 0]; chunks.forEach((c) => { if (c.lod >= 0) byLod[c.lod]++; c.group?.traverse((m) => { if (m.isMesh && m.geometry?.attributes.position) tris += (m.geometry.attributes.position.count / 3) * (m.isInstancedMesh ? m.count : 1); }); }); return { chunks: chunks.size, byLod, queued: queue.length, busy: busy.size, tris: Math.round(tris) }; };
-  api.dispose = () => { workers.forEach((w) => w.terminate()); chunks.forEach((c) => c.group && disposeGroup(c.group)); };
+  api.dispose = () => { disposed = true; airfield?.dispose(); workers.forEach((w) => w.terminate()); chunks.forEach((c) => c.group && disposeGroup(c.group)); };
   void groundHole; void reduced;
   facadeUniforms.uHole.value.set(-1e6, -1e6, -1);
   // the ground's circle: in the scene's frame the district's centre is the origin

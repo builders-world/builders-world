@@ -733,7 +733,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   let lastPlayer = null;
   function update(dt, t, player, yaw, arrival) {
     lastPlayer = player;
-    openWorld?.update(camera, dt, scene.fog?.far ?? 1500);
+    openWorld?.update(camera, dt, scene.fog?.far ?? 1500, scene.fog);
     cityTraffic?.update(camera, dt);
     cityPeople?.update(camera, dt, player);
     cityPlaces(player, dt);

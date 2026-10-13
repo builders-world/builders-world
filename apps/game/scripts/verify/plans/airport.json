@@ -1,0 +1,25 @@
+{
+  "about": "The city's airport stands where it really is (city/airfield.js): its runways, terminal and parked planes, traffic in the air, and its place on the city map. Run in any open city (--city Lagos --area Yaba; Accra Osu; Nairobi \"City Centre\"). The free camera holds the game's own still for a look from the air.",
+  "game": { "city": "Lagos", "area": "Yaba", "quality": "medium" },
+  "steps": [
+    { "waitFor": "window.__bw.look.openWorld?.airfield", "timeout": 30000 },
+    { "log": "(() => { const a = window.__bw.look.openWorld.airport; return { name: a.name, runways: a.runways.map((r) => r.ref.join('/')), km: Math.round(Math.hypot(...a.center) / 100) / 10 }; })()" },
+    { "expect": "window.__bw.look.openWorld.airport.runways.length > 0", "name": "the airport has its runways" },
+    { "expect": "window.__bw.scene.getObjectByName('airfield')?.children.some((c) => c.name === 'airfield-parked')", "name": "planes stand at the gates" },
+    { "wait": 3000 },
+    { "expect": "window.__bw.look.openWorld.airfield.planes().some((p) => p.y > 30)", "name": "a plane is in the air (landing or taking off)" },
+    { "eval": "() => { const B = window.__bw, A = B.look.openWorld.airport, o = B.look.openWorld.offset, C = B.camera, P = C.position, set = P.set.bind(P), look = C.lookAt.bind(C); P.copy = () => P; C.lookAt = () => {}; const cx = A.center[0] - o.x, cz = A.center[1] - o.z, d = Math.hypot(cx, cz) || 1; set(cx - (cx / d) * 2600, 1300, cz - (cz / d) * 2600); look(cx, 0, cz); }" },
+    { "wait": 8000 },
+    { "shot": "the-airport-from-the-air" },
+    { "eval": "() => { const B = window.__bw, a = B.look.openWorld.airfield, p = a.planes().filter((v) => v.y > 30).sort((x, y) => x.y - y.y)[0]; a.frozen = true; const C = B.camera, P = C.position; P.set.call(P, p.x + 60, p.y + 15, p.z - 70); Object.getPrototypeOf(C).lookAt.call(C, p.x, p.y, p.z); }" },
+    { "wait": 2500 },
+    { "shot": "a-plane-in-the-air" },
+    { "press": "m" },
+    { "wait": 1000 },
+    { "click": "button[data-z=\"-1\"][aria-label=\"Zoom out\"]" },
+    { "wait": 1500 },
+    { "shot": "the-city-map-shows-it" },
+    { "press": "Escape" },
+    { "fps": 3000 }
+  ]
+}

@@ -81,14 +81,15 @@ export function aircraft(al, { L = 32, r = 1.5, span = 26 } = {}) {
     // the cockpit glass and the row of cabin windows; a cheatline in the airline's colour
     dark.push(box(r * 1.15, 0.32, 0.9, 0, cy + 0.62, L * 0.33 + 1.6));
     [-1, 1].forEach((s) => { dark.push(box(0.06, 0.24, L * 0.56, s * r * 0.985, cy + 0.32, 0.02 * L)); livery.push(box(0.06, 0.22, L * 0.62, s * r * 0.975, cy - 0.28, 0.02 * L)); dark.push(box(0.07, 1.7, 0.8, s * r * 0.99, cy - 0.1, L * 0.24)); });
-    // wings, swept, with a little dihedral; engines under them
+    // wings, swept, with a little dihedral; engines under them (the left one drawn mirrored, not scaled by -1: a mirrored
+    // mesh turns its faces inside out, and the wing's top was lit from below)
     const wing = (half, root, tip, sweep, th) => { const sh = new THREE.Shape(); sh.moveTo(0, 0); sh.lineTo(half, -sweep); sh.lineTo(half, -sweep - tip); sh.lineTo(0, -root); sh.closePath(); return new THREE.ExtrudeGeometry(sh, { depth: th, bevelEnabled: false }).rotateX(Math.PI / 2); };
     [-1, 1].forEach((s) => {
-      const wg = wing(span / 2, 5.2, 1.4, 5, 0.32); if (s < 0) wg.scale(-1, 1, 1); wg.rotateZ(s * 0.06).translate(0, cy - r * 0.55, 2.4); white.push(wg);
+      const wg = wing(s * span / 2, 5.2, 1.4, 5, 0.32); wg.rotateZ(s * 0.06).translate(0, cy - r * 0.55, 2.4); white.push(wg);
       livery.push(box(0.18, 1.4, 0.7, s * (span / 2 - 0.1), cy - r * 0.55 + span * 0.03 + 0.6, 2.4 - 6.2)); // winglet
       grey.push(new THREE.CylinderGeometry(0.78, 0.7, 3.2, 18).rotateX(Math.PI / 2).translate(s * span * 0.19, cy - r - 0.35, 3.2));
       dark.push(new THREE.CircleGeometry(0.66, 18).translate(s * span * 0.19, cy - r - 0.35, 4.81));
-      const tl = wing(5.2, 2.6, 1.0, 2.2, 0.2); if (s < 0) tl.scale(-1, 1, 1); tl.translate(0, cy + 0.65, -L * 0.42); white.push(tl);
+      const tl = wing(s * 5.2, 2.6, 1.0, 2.2, 0.2); tl.translate(0, cy + 0.65, -L * 0.42); white.push(tl);
       grey.push(new THREE.CylinderGeometry(0.42, 0.42, 0.34, 14).rotateZ(Math.PI / 2).translate(s * 1.6, 0.42, -0.6)); grey.push(box(0.16, cy - r - 0.2, 0.16, s * 1.6, (cy - r) / 2 + 0.3, -0.6));
     });
     grey.push(new THREE.CylinderGeometry(0.32, 0.32, 0.26, 12).rotateZ(Math.PI / 2).translate(0, 0.32, L * 0.36)); grey.push(box(0.12, cy - r - 0.1, 0.12, 0, (cy - r) / 2 + 0.25, L * 0.36));
