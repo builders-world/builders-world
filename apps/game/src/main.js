@@ -976,7 +976,8 @@ async function main() {
     }
     // a feature can ask for a held shot: first person at a food stall's counter, for instance
     if (shotCam) { desired.set(shotCam.from.x, shotCam.from.y, shotCam.from.z); focus.set(shotCam.at.x, shotCam.at.y, shotCam.at.z); fixed = true; }
-    if (fixed && !snap) { const k = shotCam ? 1 - Math.exp(-dt * 5) : idle.on ? 1 - Math.exp(-dt * 3) : travel.on ? 1 - Math.exp(-dt * 5) : 1 - Math.exp(-dt * (view.id === 'first' ? 30 : 4)); camPos.lerp(desired, k); look.lerp(focus, 1 - Math.exp(-dt * (travel.on ? 6 : 20))); }
+    if (fixed && shotCam?.lock) { camPos.copy(desired); look.copy(focus); } // a shot that moves fast (a plane, a fall) asks to be held exactly, or the easing trails metres behind
+    else if (fixed && !snap) { const k = shotCam ? 1 - Math.exp(-dt * 5) : idle.on ? 1 - Math.exp(-dt * 3) : travel.on ? 1 - Math.exp(-dt * 5) : 1 - Math.exp(-dt * (view.id === 'first' ? 30 : 4)); camPos.lerp(desired, k); look.lerp(focus, 1 - Math.exp(-dt * (travel.on ? 6 : 20))); }
     else if (snap) { camPos.copy(desired); look.copy(focus); snap = false; }
     else {
       const k = 1 - Math.exp(-dt * 6);

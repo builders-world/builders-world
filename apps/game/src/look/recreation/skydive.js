@@ -13,6 +13,7 @@ import { person, playerPerson, gameKeys, sportsUI } from '../sports/common.js';
 import { sfx } from '../audio.js';
 import { C, FONT } from '../uikit.js';
 import { briefCard, recMode } from './brief.js';
+import { jumpPlane, ramAir, drogueChute, kitUp, landingArea, cloudBank, airRush, altimeter } from './skyart.js';
 
 const EXIT = 3000, PULL = 1500, AAD = 750, G = 9.81;
 const STEPS = [
@@ -40,28 +41,10 @@ export function createSkydive(o) {
 
   // ---------- the target in the park: rings, a big DZ and a windsock ----------
   const T = o.target;
-  const tgt = new THREE.Group(); tgt.position.set(T.x, 0.07, T.z); group.add(tgt);
-  [[14, C.paper], [11, C.coral], [8, C.paper], [5, C.coral], [2.2, C.amber]].forEach(([r, c], i) => { const m = new THREE.Mesh(new THREE.CircleGeometry(r, 48).rotateX(-Math.PI / 2), M(c, 1)); m.position.y = i * 0.004; tgt.add(m); });
-  const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.08, 6, 8).translate(0, 3, 0), M('#d8d2c4')); pole.position.set(18, 0, 0); tgt.add(pole);
-  const sock = new THREE.Mesh(new THREE.ConeGeometry(0.45, 2.2, 10, 1, true).rotateZ(-Math.PI / 2).translate(1.1, 0, 0), new THREE.MeshStandardMaterial({ color: C.coral, side: THREE.DoubleSide }));
-  sock.position.set(18, 5.6, 0); sock.rotation.y = -windDir + Math.PI / 2; tgt.add(sock);
+  const tgt = landingArea(windDir, windSpd); tgt.position.set(T.x, 0.07, T.z); group.add(tgt);
 
-  // ---------- the plane: a high-wing jump plane, clay ----------
-  const plane = new THREE.Group(); group.add(plane);
-  {
-    const body = M('#f4f1ea'), stripe = M(C.teal), dark = M('#2b2f36', 0.5);
-    const add = (g, m, x = 0, y = 0, z = 0) => { const k = new THREE.Mesh(g, m); k.position.set(x, y, z); plane.add(k); return k; };
-    add(new THREE.BoxGeometry(1.7, 1.8, 11), body, 0, 0, 0);
-    add(new THREE.BoxGeometry(1.72, 0.3, 11.02), stripe, 0, -0.2, 0);
-    add(new THREE.CylinderGeometry(0.85, 0.7, 1.6, 12).rotateX(Math.PI / 2), body, 0, 0, 6.2);
-    add(new THREE.BoxGeometry(16, 0.25, 2), body, 0, 1.05, 1.5);
-    add(new THREE.BoxGeometry(5, 0.2, 1.3), body, 0, 0.4, -5.2);
-    add(new THREE.BoxGeometry(0.2, 2.2, 1.6), stripe, 0, 1.4, -5.1);
-    add(new THREE.BoxGeometry(1.75, 0.7, 2.2), dark, 0, 0.45, 3.3); // the windows
-    add(new THREE.BoxGeometry(0.05, 1.5, 1.2), dark, 0.86, -0.05, -1.4); // the open door, on the right
-    [-1, 1].forEach((s) => add(new THREE.BoxGeometry(0.12, 1.1, 0.12).rotateZ(s * 0.5), dark, s * 0.9, -1.1, 1.8));
-    const prop = add(new THREE.BoxGeometry(3, 0.25, 0.08), dark, 0, 0, 7.05); plane.userData.prop = prop;
-  }
+  // ---------- the plane: a Caravan-style jump plane (skyart.js) ----------
+  const plane = jumpPlane(); group.add(plane);
   plane.visible = false;
 
   // ---------- the jumpers: you (and on a tandem, the instructor on your back), the canopy, a drogue ----------
@@ -69,22 +52,13 @@ export function createSkydive(o) {
   const you = playerPerson(o.avatar, 'you-skydive'), inst = o.solo ? null : person(o.guide.look, `guide-${o.guide.name}`);
   const body = new THREE.Group(); rig.add(body); body.add(you.obj);
   if (inst) { inst.obj.position.set(0, 0.12, -0.32); body.add(inst.obj); }
-  const pack = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.62, 0.2), M('#2b2f36', 0.6)); pack.position.set(0, 1.12, inst ? -0.5 : -0.2); body.add(pack);
-  // the canopy: nine cells in a shallow arc, in stripes, with its lines
-  const canopy = new THREE.Group(); rig.add(canopy);
-  {
-    const cols = [C.coral, C.paper, C.teal, C.amber, C.coral, C.amber, C.teal, C.paper, C.coral], span = inst ? 10 : 8, cell = span / 9, chord = inst ? 3.6 : 3, R = span * 0.9;
-    cols.forEach((c, i) => {
-      const a = ((i - 4) * cell) / R, m = new THREE.Mesh(new THREE.BoxGeometry(cell * 0.98, 0.42, chord), M(c, 0.7));
-      m.position.set(Math.sin(a) * R, Math.cos(a) * R - R, 0); m.rotation.z = -a; canopy.add(m);
-    });
-    const pts = []; for (let i = 0; i <= 8; i++) { const a = ((i - 4) * cell) / R; for (const z of [-chord * 0.4, chord * 0.4]) pts.push(Math.sin(a) * R, Math.cos(a) * R - R - 0.2, z, 0, -5.8, 0); }
-    const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
-    canopy.add(new THREE.LineSegments(g, new THREE.LineBasicMaterial({ color: '#5a4a3a' })));
-    canopy.position.y = 7.4;
-  }
+  const unkit = [kitUp(you, { tandem: !!inst, colour: C.teal }), inst && kitUp(inst, { colour: C.coral })].filter(Boolean);
+  // the canopy: a ram-air wing with its cells and lines (skyart.js); a bigger one for two on a tandem
+  const canopy = ramAir(inst ? { span: 10, chord: 3.6, lines: 6.4 } : { span: 8.4, chord: 3.1, lines: 5.6 }); canopy.position.y = 1.45; rig.add(canopy);
   canopy.visible = false;
-  const drogue = new THREE.Mesh(new THREE.ConeGeometry(0.7, 0.8, 12, 1, true).translate(0, -0.4, 0), new THREE.MeshStandardMaterial({ color: C.amber, side: THREE.DoubleSide })); drogue.visible = false; group.add(drogue);
+  const drogue = drogueChute(); drogue.visible = false; group.add(drogue);
+  const rush = airRush(); rush.visible = false; group.add(rush);
+  let alti = null, clouds = null;
 
   // ---------- the state ----------
   const S = { phase: 'brief', step: 0, t: 0, pos: new THREE.Vector3(), vel: new THREE.Vector3(), heading: 0, open: 0, pulled: false, ff: 1, view: 0, peak: 0, freefall: 0, flare: 0, result: null };
@@ -99,7 +73,6 @@ export function createSkydive(o) {
       planePos.set(run0.x + Math.sin(runDir) * S.t * 35, EXIT, run0.z + Math.cos(runDir) * S.t * 35); planeHead.a = runDir;
     }
     plane.position.copy(planePos); plane.rotation.set(0, planeHead.a, S.phase === 'brief' ? -0.18 : 0);
-    plane.userData.prop.rotation.z += 1.8;
   }
 
   // ---------- the briefing on the climb (brief.js) ----------
@@ -140,12 +113,14 @@ export function createSkydive(o) {
     const sideX = Math.cos(runDir), sideZ = -Math.sin(runDir);
     S.pos.set(planePos.x + sideX * 1.4, EXIT - 1.5, planePos.z + sideZ * 1.4);
     S.vel.set(Math.sin(runDir) * 35, -2, Math.cos(runDir) * 35);
-    S.heading = runDir; drogue.visible = !!inst;
+    S.heading = runDir; drogue.visible = !!inst; rush.visible = true; body.position.set(0, 0, 0);
+    clouds = cloudBank(new THREE.Vector3(S.pos.x + Math.sin(runDir) * 120, 0, S.pos.z + Math.cos(runDir) * 120), 1 + Math.floor(Math.random() * 999)); group.add(clouds);
+    alti = altimeter(PULL);
     ui.keys([['A D', 'turn'], ['W', 'track'], ['S', 'stop'], ['Space', 'pull'], ['C', 'camera']]);
     ui.call(inst ? `${o.guide.name}: Arch! Arch! Drogue's out.` : 'Arch! Check your altitude.', 2600);
   }
   function pull(auto) {
-    S.pulled = true; S.phase = 'opening'; S.t = 0; drogue.visible = false; canopy.visible = true; sfx('flap');
+    S.pulled = true; S.phase = 'opening'; S.t = 0; drogue.visible = false; rush.visible = false; canopy.visible = true; canopy.userData.setOpen(0); sfx('flap');
     const alt = Math.round(S.pos.y);
     S.pullAlt = alt; S.autoPull = auto;
     ui.call(auto ? (inst ? `${o.guide.name} pulls at ${alt.toLocaleString()} m.` : `The automatic opener fires at ${alt.toLocaleString()} m.`) : `You pull at ${alt.toLocaleString()} m.`, 2600);
@@ -166,6 +141,11 @@ export function createSkydive(o) {
     [[L, -1], [R, 1]].forEach(([j, s]) => { j.shoulder.rotation.set(-0.2, 0, s * 1.35); j.elbow.rotation.set(-1.2, 0, 0); j.hip.rotation.set(-0.25, 0, s * 0.25); j.knee.rotation.set(1.35, 0, 0); });
     r.rig.neck.rotation.set(-0.5, 0, 0);
   }
+  function doorPose(r) {
+    const { L, R } = r.rig;
+    [[L, -1], [R, 1]].forEach(([j, s]) => { j.shoulder.rotation.set(s < 0 ? -2.2 : -0.9, 0, s * 0.3); j.elbow.rotation.set(-0.5, 0, 0); j.hip.rotation.set(-1.15, 0, s * 0.08); j.knee.rotation.set(1.6, 0, 0); });
+    r.rig.neck.rotation.set(-0.15, 0, 0);
+  }
   function hangPose(r, brake) {
     const { L, R } = r.rig;
     [[L, -1], [R, 1]].forEach(([j, s]) => { j.shoulder.rotation.set(-2.7 + brake * 1.6, 0, s * 0.25); j.elbow.rotation.set(-0.2 - brake * 0.6, 0, 0); j.hip.rotation.set(-0.15, 0, 0); j.knee.rotation.set(0.25, 0, 0); });
@@ -183,7 +163,7 @@ export function createSkydive(o) {
     if (tk.includes('enter') && S.phase === 'brief') card.next();
     if (tk.includes('f') && (S.phase === 'canopy')) { S.ff = S.ff === 1 ? 4 : 1; toast(S.ff > 1 ? 'Canopy ride sped up (F again for real time).' : 'Real time.', 1600); }
     const step = dt * (S.phase === 'canopy' && S.pos.y - groundAt(S.pos.x, S.pos.z, S.pos.y) > 120 ? S.ff : 1);
-    S.t += step;
+    S.t += step; plane.userData.spin(dt);
     if (S.phase === 'brief' || S.phase === 'door') {
       placePlane(S.t); plane.visible = true; rig.visible = false;
       if ((engineT -= dt) <= 0) { sfx('jet'); engineT = 2.4; }
@@ -191,10 +171,15 @@ export function createSkydive(o) {
       // on the door, you (and your instructor behind you) stand in the doorway, facing out
       if (S.phase === 'door') {
         const sx = Math.cos(runDir), sz = -Math.sin(runDir);
-        rig.visible = true; const fx = Math.sin(runDir), fz = Math.cos(runDir); rig.position.set(planePos.x + sx * 0.7 - fx * 1.4, planePos.y - 0.9, planePos.z + sz * 0.7 - fz * 1.4); rig.rotation.set(0, runDir + Math.PI / 2, 0);
-        body.rotation.set(0, 0, 0); hangPose(you, 0.6); if (inst) hangPose(inst, 0.6);
+        // crouched in the door, the way jumpers wait for the green light: feet on the sill, a hand on the frame
+        rig.visible = true; const fx = Math.sin(runDir), fz = Math.cos(runDir); rig.position.set(planePos.x + sx * 0.98 - fx * 0.9, planePos.y - 0.84, planePos.z + sz * 0.98 - fz * 0.9); rig.rotation.set(0, runDir + Math.PI / 2, 0);
+        body.rotation.set(0.22, 0, 0); body.position.set(0, -0.32, 0); doorPose(you); if (inst) doorPose(inst);
       }
       return;
+    }
+    if (S.phase === 'landed') { // the canopy sighs down in front of you, cells emptying
+      const k = Math.min(1, S.t / 2.2); canopy.rotation.set(-0.06 + k * 1.35, 0, 0); canopy.position.set(0, 1.45 - k * 1.2, k * 1.2);
+      canopy.scale.set(1 + k * 0.1, 1 - k * 0.55, 1); hangPose(you, Math.max(0, 1 - k * 2)); if (inst) hangPose(inst, Math.max(0, 1 - k * 2)); return;
     }
     // the plane flies on and away
     placePlane(S.t + 999); plane.position.addScaledVector(new THREE.Vector3(Math.sin(runDir), 0, Math.cos(runDir)), 35 * S.t); if (S.t > 20) plane.visible = false;
@@ -218,11 +203,12 @@ export function createSkydive(o) {
       if (inst && alt < PULL && !S.pulled) pull(true);
       if (!inst && alt < AAD && !S.pulled) pull(true);
       if (inst && alt < 1700 && !S.waved) { S.waved = true; ui.call(`${o.guide.name}: Wave off... and pull!`, 2000); }
-      drogue.position.copy(S.pos).add(new THREE.Vector3(0, 4, 0));
+      drogue.position.copy(S.pos).add(new THREE.Vector3(0, 5.2, 0)); drogue.rotation.set(0, S.t * 0.6, 0);
+      rush.userData.update(S.pos, -S.vel.y, dt);
     } else {
       // opening: three seconds from freefall to flying
       if (S.phase === 'opening') { S.open = Math.min(1, S.t / 3); if (S.open >= 1) { S.phase = 'canopy'; S.t = 0; ui.call(`${o.guide.name}: Good canopy! Find the windsock, find the target.`, 3000); } }
-      canopy.scale.set(0.2 + 0.8 * S.open, 0.4 + 0.6 * S.open, 0.2 + 0.8 * S.open);
+      canopy.userData.setOpen(S.open);
       const brake = down('s') || down('arrowdown') ? 1 : 0, speed = down('w') || down('arrowup') ? 1 : 0;
       S.heading -= yaw * (0.5 + 0.2 * speed) * step;
       fwd.set(Math.sin(S.heading), 0, Math.cos(S.heading));
@@ -235,14 +221,14 @@ export function createSkydive(o) {
       S.pos.addScaledVector(S.vel, step);
       body.rotation.set(0, 0, 0); hangPose(you, brake); if (inst) hangPose(inst, brake);
       rig.rotation.set(0, S.heading, -yaw * 0.25 * (S.phase === 'canopy' ? 1 : 0));
-      canopy.rotation.set(-0.08 + brake * 0.12, 0, yaw * 0.15);
+      canopy.rotation.set(-0.06 + brake * 0.1 - S.flare * 0.12, 0, yaw * 0.12);
       if (S.phase === 'canopy' && alt <= 0.05) { land(Math.max(0, -S.vel.y)); return; }
       if (S.phase === 'canopy' && alt < 30 && !S.toldFlare) { S.toldFlare = true; ui.call(o.solo ? 'Flare at 3 m: hold S.' : `${o.guide.name}: Legs up for the slide... flare at 3 m, hold S!`, 2600); }
     }
     rig.position.copy(S.pos);
     S.peak = Math.max(S.peak, Math.hypot(S.vel.x, S.vel.y, S.vel.z));
     const alt = Math.max(0, S.pos.y - groundAt(S.pos.x, S.pos.z, S.pos.y));
-    ui.board([{ name: 'Altitude', cols: [`${Math.round(alt).toLocaleString()} m`] }, { name: S.phase === 'freefall' ? 'Fall' : 'Down', cols: [`${Math.round(-S.vel.y * 3.6)} km/h`] }], ['', '']);
+    alti?.set(alt, Math.max(0, -S.vel.y * 3.6), S.phase === 'freefall' ? 'falling' : 'down');
     ui.meter(Math.min(1, alt / EXIT), PULL / EXIT);
   }
 
@@ -253,8 +239,7 @@ export function createSkydive(o) {
     sfx(soft === 'hard' ? 'thud' : 'land'); if (d < 15 && soft !== 'hard') sfx('cheer');
     const pts = Math.max(0, Math.round(100 - d * 1.2 - (soft === 'hard' ? 40 : soft === 'firm' ? 15 : 0) - (roof ? 50 : 0)));
     S.result = { distance: Math.round(d), landing: wall ? 'wall' : roof ? 'roof' : soft, pullAlt: S.pullAlt, autoPull: !!S.autoPull, freefall: Math.round(S.freefall), peak: Math.round(S.peak * 3.6), points: pts, solo: !!o.solo };
-    S.phase = 'landed'; S.t = 0;
-    canopy.visible = false;
+    S.phase = 'landed'; S.t = 0; S.landHead = S.heading;
     ui.call(wall ? `Into the side of a building. ${o.guide.name} radios for help.` : roof ? `On a roof, ${d < 999 ? Math.round(d) : 'far'} m from the target. ${o.guide.name} sighs.` : d < 15 ? `In the target! ${Math.round(d)} m, a ${soft} landing.` : `${Math.round(d)} m from the target, a ${soft} landing.`, 4000);
     setTimeout(() => finish(S.result), 3500);
   }
@@ -262,7 +247,7 @@ export function createSkydive(o) {
   let ended = false;
   function finish(result) {
     if (ended) return; ended = true;
-    keys.on = false; ui.show(false); ui.meter(null); card.remove(); pad.remove?.(); recMode(false);
+    keys.on = false; ui.show(false); ui.meter(null); card.remove(); pad.remove?.(); recMode(false); alti?.remove(); unkit.forEach((f) => f());
     you.dispose?.(); inst?.dispose?.();
     group.removeFromParent();
     o.onEnd?.(result, { x: S.phase === 'landed' ? S.pos.x : T.x, z: S.phase === 'landed' ? S.pos.z : T.z });
@@ -272,29 +257,34 @@ export function createSkydive(o) {
   // the camera, and where the player stands meanwhile (main.js puts you there while a game is on)
   function pose() {
     if (ended) return null;
+    you.obj.visible = S.view !== 1 || S.phase === 'brief' || S.phase === 'door' || S.phase === 'landed';
     const P = S.phase === 'brief' || S.phase === 'door' ? planePos : S.pos;
     const h = S.phase === 'brief' ? planeHead.a : S.phase === 'door' ? runDir : S.heading;
-    const fx = Math.sin(h), fz = Math.cos(h);
+    const fx = Math.sin(h), fz = Math.cos(h), far = innerWidth < innerHeight ? 1.75 : 1; // a portrait phone sees less across: stand back
     if (S.phase === 'brief') { // a slow orbit round the plane, the city far below
       const a = S.t * 0.12; cam.from.set(P.x + Math.sin(a) * 28, P.y + 7, P.z + Math.cos(a) * 28); cam.at.copy(P);
     } else if (S.phase === 'door') { // in the door, looking out and down
       const sx = Math.cos(runDir), sz = -Math.sin(runDir);
-      cam.from.set(P.x + sx * 5 - fx * 8, P.y + 1.2, P.z + sz * 5 - fz * 8); cam.at.set(P.x + sx * 1.2 - fx * 1.4, P.y - 1.6, P.z + sz * 1.2 - fz * 1.4);
+      cam.from.set(P.x + sx * 4.2 * far + fx * 1.4, P.y + 0.7 * far, P.z + sz * 4.2 * far + fz * 1.4); cam.at.set(P.x + sx * 0.8 - fx * 1.2, P.y - 0.9, P.z + sz * 0.8 - fz * 1.2);
     } else if (S.view === 1) { // through your eyes
-      const up = S.phase === 'freefall' ? 0 : 1.6;
-      cam.from.set(P.x + fx * 0.4, P.y + up, P.z + fz * 0.4); cam.at.set(P.x + fx * 30, P.y + up - (S.phase === 'freefall' ? 60 : 12), P.z + fz * 30);
+      const up = S.phase === 'freefall' ? 0.15 : 1.6, ahead = S.phase === 'freefall' ? 1.8 : 0.2; // lying flat in freefall your head is ahead of you
+      cam.from.set(P.x + fx * ahead, P.y + up, P.z + fz * ahead); cam.at.set(P.x + fx * 30, P.y + up - (S.phase === 'freefall' ? 60 : 12), P.z + fz * 30);
     } else if (S.view === 2) { // from the target, looking up
       cam.from.set(T.x + 10, 2, T.z + 10); cam.at.set(P.x, P.y + 3, P.z);
     } else if (S.phase === 'freefall') {
-      cam.from.set(P.x - fx * 6, P.y + 3.2, P.z - fz * 6); cam.at.set(P.x + fx * 2, P.y - 1, P.z + fz * 2);
+      // close behind and above, the city rushing up; a shake that grows with the speed
+      const sh = Math.min(1, -S.vel.y / 55) * 0.06, j = () => (Math.random() - 0.5) * sh;
+      cam.from.set(P.x - fx * 4.2 * far + j(), P.y + 2.6 * far + j(), P.z - fz * 4.2 * far + j()); cam.at.set(P.x + fx * 1.5, P.y - 1.4, P.z + fz * 1.5);
     } else if (S.phase === 'landed') {
-      const a = S.t * 0.3; cam.from.set(P.x + Math.sin(a) * 8, P.y + 3, P.z + Math.cos(a) * 8); cam.at.set(P.x, P.y + 1, P.z);
-    } else { // behind and a little below the canopy: you, the wing above, the city ahead
-      cam.from.set(P.x - fx * 11, P.y + 2.5, P.z - fz * 11); cam.at.set(P.x + fx * 4, P.y + 1.5, P.z + fz * 4);
+      // from where you flew in (open air, so nothing stands in the way), drifting round a little
+      const hh = (S.landHead ?? h) + Math.PI + Math.sin(S.t * 0.4) * 0.5; cam.from.set(P.x + Math.sin(hh) * 8, P.y + 6, P.z + Math.cos(hh) * 8); cam.at.set(P.x, P.y + 1, P.z);
+    } else { // behind and a little to the side: you, the whole wing above, the city ahead
+      const sx = Math.cos(h) * 2.5, sz = -Math.sin(h) * 2.5;
+      cam.from.set(P.x - fx * 10 * far + sx, P.y + 3, P.z - fz * 10 * far + sz); cam.at.set(P.x + fx * 3, P.y + 3.2, P.z + fz * 3);
     }
     // in the plane you are not over the street yet: where you stand stays where you booked (o.start)
     const at = (S.phase === 'brief' || S.phase === 'door') && o.start ? o.start : P;
-    return { x: at.x, z: at.z, yaw: h, hide: true, cam: { from: cam.from, at: cam.at }, speed: 0 };
+    return { x: at.x, z: at.z, yaw: h, hide: true, cam: { from: cam.from, at: cam.at, lock: true }, speed: 0 };
   }
   return { update, pose, get phase() { return S.phase; }, state: () => ({ phase: S.phase, alt: Math.round(S.pos.y), vel: S.vel.toArray().map((v) => +v.toFixed(1)), heading: +S.heading.toFixed(2), open: S.open, result: S.result }), _press: pressSpace, _keys: keys, finish };
 }
