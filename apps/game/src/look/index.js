@@ -273,6 +273,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       if (active?.id?.startsWith('dock:')) return mobility.use(active.id, player);
       if (mobility?.mode === 'bike' && !interiors?.active) { mobility.unmount(); return true; } // E hops off the bike
       if (active?.id?.startsWith('hawk:')) return slife.buy(active.id);
+      if (active?.id?.startsWith('beach:')) return !!outdoors?.use(active.id); // the beach's sellers and horses (recreation/beachlife.js)
       if (active?.id === 'pet') return pets.act('pet');
       if (active?.id?.startsWith('gate:')) return gates.open(active.id);
       if (active?.id?.startsWith('pknock:')) return gates.knockPlayer(active.id.slice(7));
@@ -646,7 +647,7 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   try { buildShopSigns({ world, scene: group, props, doors, places: PLACES }); } catch (err) { console.warn('shop signs skipped', err); }
   // the parks greenrey laid out on the open green land (parkland.js): benches to sit on, the parks on the map, things to do
   // the Outdoors app (recreation/): skydiving over the open city first, landing in the district's largest park
-  if (!off.has('recreation')) { try { outdoors = createRecreation({ scene, world, openWorld, parks: greenrey?.parks, lamps: props.lamps, avatar, toast: hud.toast, getPlayer: () => lastPlayer, canStart: () => !interiors?.active && !sports?.playing, standAt: (x, z) => { const q = (openWorld?.active && Math.hypot(x, z) > world.radius ? null : world.nearestReachable?.(x, z)) || { x, z }; pendingMove = { mode: 'stand', x: q.x, z: q.z }; } }); } catch (err) { console.warn('recreation skipped', err); } }
+  if (!off.has('recreation')) { try { outdoors = createRecreation({ scene, world, openWorld, parks: greenrey?.parks, lamps: props.lamps, interact: props.interact, low: quality === 'low', avatar, toast: hud.toast, getPlayer: () => lastPlayer, canStart: () => !interiors?.active && !sports?.playing, standAt: (x, z) => { const q = (openWorld?.active && Math.hypot(x, z) > world.radius ? null : world.nearestReachable?.(x, z)) || { x, z }; pendingMove = { mode: 'stand', x: q.x, z: q.z }; } }); } catch (err) { console.warn('recreation skipped', err); } }
   // the neighbourhood's own animals, by the estates and the parks; your pet makes friends with them (critters.js)
   try { critters = createCritters({ scene: group, world, getPet: petView, toast: hud.toast, spots: (greenrey?.parks?.pois || []).map((q) => ({ x: q.x, z: q.z })) }); } catch (err) { console.warn('critters skipped', err); }
   if (greenrey?.parks) {

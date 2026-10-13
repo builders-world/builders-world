@@ -7,6 +7,7 @@ import { createSkydive } from './skydive.js';
 import { createArchery } from './archery.js';
 import { createClimbing } from './climbing.js';
 import { createSurf } from './surf.js';
+import { createBeachLife } from './beachlife.js';
 import { nameFor } from '../knowledge.js';
 import { walletEngine, effortsMark, fmt } from '../wallet.js';
 import { sfx } from '../audio.js';
@@ -217,14 +218,19 @@ export function createRecreation(o) {
     toBeach(b); setTimeout(start, 5500);
   }
 
+  // the beaches themselves, set up with their people when you are near one (beachlife.js)
+  let beach = null;
+  try { beach = createBeachLife({ scene: o.scene, world: o.world, openWorld: o.openWorld, beaches: beachList, interact: o.interact, getPlayer: o.getPlayer, avatar: o.avatar, toast, standAt: o.standAt, low: o.low }); } catch (err) { console.warn('beach life skipped', err); }
+
   addEventListener('bw:outdoors', open);
   return {
-    update: (dt) => jump?.update(dt),
-    pose: () => jump?.pose() || null,
-    get playing() { return jump?.phase || null; },
+    update: (dt) => { jump?.update(dt); if (!jump) beach?.update(dt); },
+    pose: () => jump?.pose() || beach?.pose() || null,
+    use: (id) => !!beach?.use(id), get beach() { return beach; },
+    get playing() { return jump?.phase || (beach?.riding ? 'riding' : null); },
     get jump() { return jump; },
     get isOpen() { return panel.classList.contains('on'); },
     open, close, book, target, guide, beaches: beachList, toBeach,
-    dispose() { removeEventListener('bw:outdoors', open); jump?.finish({ aborted: true }); panel.remove(); style.remove(); },
+    dispose() { removeEventListener('bw:outdoors', open); jump?.finish({ aborted: true }); beach?.dispose(); panel.remove(); style.remove(); },
   };
 }
