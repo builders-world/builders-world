@@ -79,6 +79,9 @@ renderer.setPixelRatio(BASE_PR);
 renderer.setSize(innerWidth, innerHeight, false);
 
 const scene = new THREE.Scene();
+// the scene itself never moves; left to recompute its own matrix it forces every one of its 12,000 objects to recompute
+// theirs every frame (three.js passes the change down), moving or not
+scene.matrixAutoUpdate = false;
 // near plane at 0.3 m: more depth precision across the district, still close enough for first person
 const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.3, 4000);
 
@@ -111,7 +114,7 @@ composer.addPass(new OutputPass());
 // 60 frames a second (Elvis, 10 October 2026): the resolution follows the frame time. Over 18 ms on
 // average and it steps down; comfortably under 14 ms for a while and it steps back up. Pixels are what
 // cost most here, so this keeps the frame rate on any machine at the best sharpness it can afford.
-const governor = { scale: 1, sum: 0, n: 0, good: 0, last: performance.now(), min: TIERS[quality].govMin };
+const governor = { scale: 1, detail: 1, sum: 0, n: 0, good: 0, last: performance.now(), min: TIERS[quality].govMin };
 function govern() {
   const now = performance.now(), dt = now - governor.last; governor.last = now;
   if (dt > 250 || document.hidden) return; // a stall or a background tab says nothing about the GPU
@@ -130,9 +133,16 @@ function govern() {
   } else gfx.downs = 0;
   // most tiers aim for 60; Ultra aims never to drop under 30, and keeps every pixel while it is above it
   const slow = TIERS[quality].fps30 ? 34.5 : 18.5, fast = TIERS[quality].fps30 ? 26 : 14;
-  if (avg > slow) { next = Math.max(governor.min, governor.scale - (avg > slow * 1.4 ? 0.15 : 0.08)); governor.good = 0; }
-  else if (avg < fast) { if (++governor.good >= 3) { next = Math.min(1, governor.scale + 0.05); governor.good = 0; } }
-  else governor.good = 0;
+  // what you look at stays sharp (Elvis, 13 October 2026): when frames run long, the far detail goes first (how far the
+  // city's finer detail, people and small things reach, down to 60%), and only then the resolution; on the way back up
+  // the resolution returns first
+  if (avg > slow) {
+    if (aoPass.enabled) { aoPass.enabled = false; governor.aoOff = true; governor.good = 0; return; } // the contact shading in corners first: subtle, and a whole extra pass over the screen
+    if (governor.detail > 0.6 + 1e-3) { governor.detail = Math.max(0.6, governor.detail - (avg > slow * 1.4 ? 0.2 : 0.1)); street?.setDetail?.(governor.detail); governor.good = 0; return; }
+    next = Math.max(governor.min, governor.scale - (avg > slow * 1.4 ? 0.15 : 0.08)); governor.good = 0;
+  } else if (avg < fast) {
+    if (++governor.good >= 3) { governor.good = 0; if (governor.scale < 1) next = Math.min(1, governor.scale + 0.05); else if (governor.detail < 1) { governor.detail = Math.min(1, governor.detail + 0.1); street?.setDetail?.(governor.detail); } else if (governor.aoOff && TIERS[quality].ao) { aoPass.enabled = true; governor.aoOff = false; } }
+  } else governor.good = 0;
   if (Math.abs(next - governor.scale) > 0.001) {
     governor.scale = next;
     renderer.setPixelRatio(BASE_PR * next); composer.setPixelRatio(BASE_PR * next); composer.setSize(innerWidth, innerHeight); street?.setSize(innerWidth, innerHeight);
@@ -146,7 +156,7 @@ function applyGraphics(name) {
   const t = TIERS[name]; if (!t) return;
   quality = name;
   BASE_PR = Math.min(devicePixelRatio, t.pr);
-  governor.min = t.govMin; governor.scale = 1; governor.good = 0;
+  governor.min = t.govMin; governor.scale = 1; governor.detail = 1; governor.aoOff = false; governor.good = 0; street?.setDetail?.(1);
   [composer.renderTarget1, composer.renderTarget2].forEach((rt) => {
     let dirty = false;
     if (rt.samples !== t.msaa) { rt.samples = t.msaa; dirty = true; }
@@ -867,15 +877,14 @@ async function main() {
       focus.z - Math.cos(cam.yaw) * cp * cam.dist
     );
     if (!cam.aerial) {
-      // keep the camera out of buildings
-      const steps = 28;
+      // keep the camera out of buildings: 14 checks along the line, then 4 more inside the step that hit (the same
+      // precision as 28 even steps, at a third of the checks: each one asks the buildings round about)
+      const steps = 14, blocked = (u) => { const y = focus.y + (desired.y - focus.y) * u; return y < 0.6 || C.solidAt(focus.x + (desired.x - focus.x) * u, y, focus.z + (desired.z - focus.z) * u); };
       let free = 1;
       for (let i = 1; i <= steps; i++) {
-        const u = i / steps;
-        const x = focus.x + (desired.x - focus.x) * u;
-        const y = focus.y + (desired.y - focus.y) * u;
-        const z = focus.z + (desired.z - focus.z) * u;
-        if (y < 0.6 || C.solidAt(x, y, z)) { free = Math.max(0.12, (i - 2) / steps); break; }
+        if (!blocked(i / steps)) continue;
+        let hit = i / steps; for (let k = 1; k < 4; k++) { const u = (i - 1 + k / 4) / steps; if (blocked(u)) { hit = u; break; } }
+        free = Math.max(0.12, hit - 2 / 28); break;
       }
       desired.lerpVectors(focus, desired, free);
       if (desired.y < 0.8) desired.y = 0.8;
@@ -992,12 +1001,15 @@ async function main() {
 
     chrome.update(camera, player, !cam.aerial);
     street?.update(dt, t, player, cam.yaw, shared.uArrival.value);
-    street?.renderReflection();
     // vivid by day, calmer under the lamps at night; and toward grey near the edge of the area, as the world thins out
     { const rr = cam.aerial || world.open ? 0 : Math.hypot(player.x, player.z), u = Math.min(1, Math.max(0, (rr - world.radius * 0.85) / (world.radius * 0.19))); grade.uniforms.uSat.value = (0.94 + 0.18 * shared.uDay.value) * (1 - 0.72 * u * u * (3 - 2 * u)); }
     // the sky travels with the camera and reaches as far as it sees: over the open city you climb far past where its dome
     // used to end
     if (sky && world.open) { sky.position.copy(camera.position); sky.scale.setScalar(Math.max(1, (camera.far * 0.9) / 900)); sky.traverse((o) => { o.renderOrder = -10; }); }
+    // every matrix once a frame, here, after everything has moved; the renders after it (the wet street's mirror, the picture,
+    // the portraits) do not each walk the whole scene again to work them out
+    scene.matrixWorldAutoUpdate = true; scene.updateMatrixWorld(); scene.matrixWorldAutoUpdate = false;
+    street?.renderReflection();
     if (q.get('post') === '0') renderer.render(scene, camera); else composer.render();
     street?.renderPortraits?.(dt);
     if (q.get('govern') !== '0') govern();
@@ -1008,7 +1020,7 @@ async function main() {
 
   window.__bw = {
     get world() { return world; }, camera, cam, player, avatar, renderer, scene, via,
-    get theme() { return themeName; }, setTheme, get look() { return street; }, get quality() { return quality; }, graphics: { info: gfx.info, get choice() { return gfx.choice; }, get tier() { return quality; }, auto: () => autoTier(gfx.info) }, composer, weather: weatherFeed, get kit() { return kit; }, goto, setAerial, cycleView, setTravel, get travel() { return travel.on; }, idle, get online() { return online; }, audio, get view() { return (riding ? 'ride:' : 'foot:') + (riding ? viewOf('ride') : viewOf('foot')).id; }, get walkTarget() { return walkTarget; }, get walkPath() { return walkPath; }, walkTo, get groundY() { return groundY; }, get resScale() { return governor.scale; },
+    get theme() { return themeName; }, setTheme, get look() { return street; }, get quality() { return quality; }, graphics: { info: gfx.info, get choice() { return gfx.choice; }, get tier() { return quality; }, auto: () => autoTier(gfx.info) }, composer, weather: weatherFeed, get kit() { return kit; }, goto, setAerial, cycleView, setTravel, get travel() { return travel.on; }, idle, get online() { return online; }, audio, get view() { return (riding ? 'ride:' : 'foot:') + (riding ? viewOf('ride') : viewOf('foot')).id; }, get walkTarget() { return walkTarget; }, get walkPath() { return walkPath; }, walkTo, get groundY() { return groundY; }, get resScale() { return governor.scale; }, get detail() { return governor.detail; },
     ready: true,
   };
 }

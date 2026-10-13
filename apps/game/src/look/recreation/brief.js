@@ -44,3 +44,17 @@ export function recMode(on) {
   if (!modeCss) { modeCss = document.createElement('style'); modeCss.textContent = 'body.bw-rec #lk-touch, body.bw-rec #lk-me, body.bw-rec #lk-prompt { display: none !important; } @media (pointer: coarse) { body.bw-rec #lk-skeys { display: none !important; } }'; document.head.appendChild(modeCss); }
   document.body.classList.toggle('bw-rec', on);
 }
+
+// when an activity ends: take its group out of the scene and give back the GPU memory its meshes held (geometry,
+// materials and their textures). People are skipped: their parts share geometry with everyone in the city, and each
+// activity frees its people itself (dispose)
+export function release(group) {
+  if (!group) return;
+  group.removeFromParent();
+  const skip = (o) => { let x = o; while (x && x !== group) { if (x.userData?.isPerson || x.userData?.rigged || x.userData?.isPlayer) return true; x = x.parent; } return false; };
+  group.traverse((o) => {
+    if (!(o.isMesh || o.isLine || o.isPoints || o.isSprite) || skip(o)) return;
+    o.geometry?.dispose?.();
+    [].concat(o.material || []).forEach((m) => { if (!m) return; for (const k in m) { const v = m[k]; if (v && v.isTexture) v.dispose(); } m.dispose(); });
+  });
+}

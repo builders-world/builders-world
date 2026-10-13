@@ -52,14 +52,19 @@ function bakeLod(root) {
 /** A person's clothes or body changed (style.js dress): bake their far-off mesh again when it is next needed. */
 export function staleLod(root) { const L = root?.userData?.lodMesh; if (L) { L.removeFromParent(); L.geometry.dispose(); root.userData.lodMesh = null; } }
 
+const cullFr = new THREE.Frustum(), cullM = new THREE.Matrix4(), cullS = new THREE.Sphere();
 export function cullPeople(camera, dist = 60, lodDist = Math.min(32, dist * 0.55)) {
   if (typeof window !== 'undefined') window.__bwCull = cullPeople;
   const cx = camera.position.x, cz = camera.position.z, d2 = dist * dist, l2 = lodDist * lodDist;
+  // out of view and not close: put away like the far ones (not drawn, not posed, no shadow). Within 15 m everyone
+  // stays, and the view is taken a little wide, so turning round never finds a crowd popping in at your elbow
+  camera.updateMatrixWorld(); cullFr.setFromProjectionMatrix(cullM.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
   for (const root of PEOPLE) {
     if (!root.parent) { PEOPLE.delete(root); continue; }
     const e = root.matrixWorld.elements, dx = e[12] - cx, dz = e[14] - cz, dd = dx * dx + dz * dz;
     // (you are never culled: a cinematic camera far from your body, the taxi ride to the airport, used to leave you hidden)
-    const state = root.userData.noLod ? 'near' : dd > d2 ? 'far' : dd > l2 && root.userData.rigged ? 'lod' : 'near';
+    const unseen = dd > 225 && !cullFr.intersectsSphere(cullS.set(cullS.center.set(e[12], e[13] + 0.9, e[14]), 5));
+    const state = root.userData.noLod ? 'near' : dd > d2 || unseen ? 'far' : dd > l2 && root.userData.rigged ? 'lod' : 'near';
     if (state === (root.userData.cull || 'near') && !(state === 'lod' && !root.userData.lodMesh)) continue;
     // leaving the close-to state: remember what each part showed (a rig hides the avatar's own box legs and arms for
     // good; showing everything again on the way back put a frozen second pair over the moving ones)
@@ -67,7 +72,7 @@ export function cullPeople(camera, dist = 60, lodDist = Math.min(32, dist * 0.55
     root.userData.cull = state; root.userData.far = state === 'far';
     let lod = root.userData.lodMesh;
     if (state === 'lod' && !lod) lod = root.userData.lodMesh = bakeLod(root);
-    root.children.forEach((c) => { if (c.userData.lod) return; c.visible = state === 'near' && (c.userData.vis ?? true); c.matrixWorldAutoUpdate = state === 'near'; });
+    root.children.forEach((c) => { if (c.userData.lod) return; c.visible = state === 'near' && (c.userData.vis ?? true); c.matrixWorldAutoUpdate = state === 'near'; c.traverse((x) => { x.matrixAutoUpdate = state === 'near'; }); });
     if (lod) lod.visible = state === 'lod';
   }
   void tmpV;

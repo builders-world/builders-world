@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { createAvatarModel } from '../../onboarding/avatar.js';
-import { rigAvatar } from '../anim.js';
+import { rigAvatar, staleLod, PEOPLE } from '../anim.js';
 import { prepareLook, dress, lookFor } from '../style.js';
 import { signTexture } from '../props.js';
 import { C, FONT } from '../uikit.js';
@@ -16,7 +16,7 @@ export function person(look, seed) {
   prepareLook(av.root);
   const rig = rigAvatar(av.root);
   dress(av.root, look || lookFor(seed), rig);
-  return { av, rig, obj: av.root, dispose: av.dispose };
+  return { av, rig, obj: av.root, dispose: () => { rig?.dispose?.(); av.dispose?.(); staleLod(av.root); PEOPLE.delete(av.root); } }; // the rig's own joints and a far stand-in too, not just the body
 }
 
 // a copy of you for a game or an activity: your wardrobe look if you have chosen one, else the body you arrived with
@@ -26,7 +26,8 @@ export function playerPerson(avatar, seed = 'you') {
   if (body?.userData.look) return person(body.userData.look, seed);
   const av = createAvatarModel(body?.userData.modelOptions || { color: '#e2b13c', style: 'jacket' });
   prepareLook(av.root);
-  return { av, rig: rigAvatar(av.root), obj: av.root, dispose: av.dispose };
+  const rig = rigAvatar(av.root);
+  return { av, rig, obj: av.root, dispose: () => { rig?.dispose?.(); av.dispose?.(); staleLod(av.root); PEOPLE.delete(av.root); } };
 }
 
 export function signBoard(title, sub, bg = '#22336a', w = 4.2) {

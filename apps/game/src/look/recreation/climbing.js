@@ -11,7 +11,7 @@ import * as THREE from 'three';
 import { person, playerPerson, gameKeys, sportsUI } from '../sports/common.js';
 import { sfx } from '../audio.js';
 import { C, FONT } from '../uikit.js';
-import { briefCard, recMode } from './brief.js';
+import { briefCard, recMode, release } from './brief.js';
 
 const H = 4.5, W = 8, LEAN = 0.35; // the overhang's lean back from vertical, radians (about 20 degrees)
 const PROBLEMS = [
@@ -233,7 +233,7 @@ export function createClimbing(o) {
   function finish(r) {
     if (ended) return; ended = true;
     keys.on = false; ui.show(false); ui.meter(null); card.remove(); picker.remove(); pad.remove(); recMode(false);
-    me.dispose?.(); coach.dispose?.(); group.removeFromParent();
+    me.dispose?.(); coach.dispose?.(); release(group);
     o.onEnd?.(r);
   }
   keys.on = true;

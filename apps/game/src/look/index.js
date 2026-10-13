@@ -669,14 +669,15 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   function markShadows() {
     const on = gfx.shadows > 0;
     scene.traverse((o) => {
-      if (!o.isMesh || o.userData.noShadow) return;
+      if (!o.isMesh || o.userData.noShadow || o.userData.shadowSelf) return; // (the city's chunks decide their own: openworld.js)
       const m = Array.isArray(o.material) ? o.material[0] : o.material;
       const lit = m && (m.isMeshStandardMaterial || m.isMeshLambertMaterial || m.isMeshPhongMaterial) && !m.transparent;
       o.receiveShadow = on && !!lit;
       const flat = FLAT.test(o.geometry?.type || '') || o === world.ground;
       if (!flat && o.geometry && !o.geometry.boundingBox) o.geometry.computeBoundingBox();
       const bb = o.geometry?.boundingBox;
-      o.castShadow = on && !!lit && !flat && !!bb && bb.max.y - bb.min.y > 0.08;
+      // only things with some height throw a shadow worth its cost: under 25 cm (cans, kerb stones, shoes) it is a few pixels
+      o.castShadow = on && !!lit && !flat && !!bb && (bb.max.y - bb.min.y) * (o.scale?.y || 1) > 0.25;
     });
   }
   function sharpen() {
@@ -726,9 +727,18 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   }
   setGraphics(gfx);
   if (new URLSearchParams(location.search).get('stream') === '0') setStreaming(false);
+  if (new URLSearchParams(location.search).get('aware') === '0') openWorld?.setViewAware?.(false); // to compare: the city round you at one detail all round
 
-  let cullT = 0, smallT = 1;
+  // a container that stands where it was put (no move, turn or scale) does not recompute its matrix each frame: when it
+  // does, three.js makes everything inside it recompute too. If anything ever moves it, it goes back to updating itself
+  const settle = (c) => { if (c.isCamera || c.isLight) return; const still = c.position.x === 0 && c.position.y === 0 && c.position.z === 0 && c.quaternion.w === 1 && c.scale.x === 1 && c.scale.y === 1 && c.scale.z === 1; if (still && c.matrixAutoUpdate) { c.updateMatrix(); c.matrixAutoUpdate = false; c.userData.settled = true; } else if (!still && c.userData.settled) { c.matrixAutoUpdate = true; c.userData.settled = false; } };
+  let cullT = 0, smallT = 1, detailK = 1; const shadowAim = new THREE.Vector3();
+  // the frame-rate governor's first step (main.js): people and small things, and the city's finer detail, reach less far
+  function setDetail(k) { detailK = k; openWorld?.setDetail?.(k); }
   // the groups whose pieces stay put (or move as whole pieces) and are safe to size-cull
+  // groups built once that never move (measured: nothing in them moved while walking about): the frame does not work out
+  // their matrices again; the people, cars, trains, animals and anything that turns are not in it
+  const STILL = new Set(['greenrey', 'shopfronts', 'district-dressing', 'estate-signs', 'shop-signs', 'landmarks', 'roadsigns', 'edge-signs', 'place-fronts', 'civic', 'rides', 'food-trucks', 'parks', 'flyover']);
   const SMALL_GROUPS = new Set(['district-dressing', 'place-fronts', 'landmarks', 'parks', 'recreation', 'food', 'sports', 'greenrey', 'litter', 'mobility', 'civic']);
   let lastPlayer = null;
   function update(dt, t, player, yaw, arrival) {
@@ -745,8 +755,11 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
       const d = sunRig.position.clone().sub(shadowFocus).normalize();
       const right = new THREE.Vector3().crossVectors(THREE.Object3D.DEFAULT_UP, d).normalize(), up = new THREE.Vector3().crossVectors(d, right);
       const texel = (2 * gfx.shadowR) / gfx.shadows;
-      const a = player.x * right.x + player.z * right.z, b = player.x * up.x + player.z * up.z;
-      const p = new THREE.Vector3(player.x, 0, player.z);
+      // centred ahead of you, where you are looking: shadows behind you are not seen, so the map's detail goes in front
+      camera.getWorldDirection(shadowAim); const fl = Math.hypot(shadowAim.x, shadowAim.z) || 1, ahead = gfx.shadowR * 0.55 * Math.min(1, fl * 1.4);
+      const fxp = player.x + (shadowAim.x / fl) * ahead, fzp = player.z + (shadowAim.z / fl) * ahead;
+      const a = fxp * right.x + fzp * right.z, b = fxp * up.x + fzp * up.z;
+      const p = new THREE.Vector3(fxp, 0, fzp);
       p.addScaledVector(right, Math.round(a / texel) * texel - a).addScaledVector(up, Math.round(b / texel) * texel - b);
       sunRig.position.sub(shadowFocus).add(p);
       shadowFocus.copy(p);
@@ -761,15 +774,17 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
     // small static things (benches, signs, stalls, docks) join the size cull as they are built, then leave the
     // render while they would be only a few pixels
     smallT -= dt;
-    if (smallT <= 0) { smallT = 4; for (const c of group.children) if (SMALL_GROUPS.has(c.name) || c === props.root) streamSmall(c, { isPerson: (o) => PEOPLE.has(o) }); }
+    if (smallT <= 0) { smallT = 4; for (const c of group.children) if (STILL.has(c.name) && c.visible) { c.updateMatrixWorld(true); c.traverse((o) => { if (o !== c) o.matrixAutoUpdate = false; }); } // the still groups: their matrices refreshed every few seconds (new pieces join as they are built), not every frame
+      for (const c of group.children) if (SMALL_GROUPS.has(c.name) || c === props.root) streamSmall(c, { isPerson: (o) => PEOPLE.has(o) }); }
     cullT -= dt;
     if (cullT <= 0) {
       cullT = 0.2;
       // indoors too: the people in the room by the camera (the airport's hall is 136 m long, so they are seen further, and
       // always in full), everyone outside put away; a person left culled from an earlier visit is brought back
-      if (!interiors?.active) { cullPeople(camera, gfx.people); cullDetail(camera, gfx.detail); cullSmall(camera); } else cullPeople(camera, Math.max(gfx.people, 110), Infinity);
-      scene.children.forEach((c) => { c.matrixWorldAutoUpdate = c.visible; });
-      group.children.forEach((c) => { c.matrixWorldAutoUpdate = c.visible; });
+      if (!interiors?.active) { cullPeople(camera, gfx.people * detailK, Math.min(24, gfx.people * detailK * 0.45)); cullDetail(camera, gfx.detail * detailK); cullSmall(camera); } else cullPeople(camera, Math.max(gfx.people, 110), Infinity);
+      scene.children.forEach((c) => { c.matrixWorldAutoUpdate = c.visible; settle(c); });
+      group.children.forEach((c) => { c.matrixWorldAutoUpdate = c.visible && !STILL.has(c.name); settle(c); });
+      settle(group);
     }
     if (night && !interiors?.active) environment(dt);
     interiors?.update(dt, t);
@@ -1186,6 +1201,6 @@ export function createLook({ renderer, scene, camera, world, reduced, quality, s
   // fewer draw calls: the static scenery's meshes that share a material, merged (batch.js); nothing on screen changes
   // (?batch=0 turns it off, to compare)
   if (new URLSearchParams(location.search).get('batch') !== '0') try { const r = batchScenery(group, ['landmarks', 'place-fronts', 'shop-signs', 'food-trucks', 'edge-signs', 'civic', 'parkland', 'recreation', 'parks', 'shopfronts']); world.batched = r; } catch (err) { console.warn('batching skipped', err); }
-  return { feed, get food() { return food; }, get greenrey() { return greenrey; }, update, renderReflection, setSize, setGraphics, sport: () => sports?.pose() || outdoors?.pose() || null, get sports() { return sports; }, get outdoors() { return outdoors; }, get graphics() { return gfx; }, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get cycling() { return cycling; }, get officials() { return officials; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || !!homeAct || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, openWorld, cityTraffic, cityPeople, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, renderPortraits, get profile() { return profile; }, get critters() { return critters; }, get railway() { return railway; }, streamStats, smallStats, setStreaming, get tallRoom() { return (interiors?.room?.H || 0) > 12; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
+  return { feed, setDetail, get detail() { return detailK; }, get food() { return food; }, get greenrey() { return greenrey; }, update, renderReflection, setSize, setGraphics, sport: () => sports?.pose() || outdoors?.pose() || null, get sports() { return sports; }, get outdoors() { return outdoors; }, get graphics() { return gfx; }, dispose, hud, props, bodies, chat, civic, lives, get parks() { return parks; }, get rec() { return rec; }, get litter() { return litter; }, pockets: () => world.pocketReport?.(), seats: () => seats, standUp, seatAction, get benchSeated() { return !!benchSeat; }, get passes() { return passes; }, get gates() { return gates; }, get profiler() { return profiler; }, get pets() { return pets; }, get cycling() { return cycling; }, get officials() { return officials; }, get spotify() { return spotify; }, get traffic() { return traffic; }, get landmarks() { return landmarks; }, get flyover() { return flyover; }, get streetLife() { return slife; }, get mobility() { return mobility; }, setOnline: (o) => { onlineRef = o; gates?.setOnline(o); }, get canWalkOff() { return !!benchSeat || !!homeAct || (!!interiors?.seated && !interiors.computerOpen); }, skyline: sky2, openWorld, cityTraffic, cityPeople, get life() { return life; }, quality, viewYaw: props.viewYaw, get env() { return live; }, dressing, ride, rides: () => rides, takeMove, collider: () => (interiors?.active ? interiors : null), get inside() { return !!interiors?.active; }, renderPortraits, get profile() { return profile; }, get critters() { return critters; }, get railway() { return railway; }, streamStats, smallStats, setStreaming, get tallRoom() { return (interiors?.room?.H || 0) > 12; }, get seated() { return !!interiors?.seated; }, stats: () => ({ lights: lights?.lights.length ?? 0, rain: tier.rain, reflect: !!reflection }) };
 }
 

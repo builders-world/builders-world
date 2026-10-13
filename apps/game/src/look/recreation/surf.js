@@ -11,7 +11,7 @@ import * as THREE from 'three';
 import { person, playerPerson, gameKeys, sportsUI } from '../sports/common.js';
 import { sfx } from '../audio.js';
 import { C, FONT } from '../uikit.js';
-import { briefCard, recMode } from './brief.js';
+import { briefCard, recMode, release } from './brief.js';
 
 const SPEED = 6, HEIGHT = 1.2, BREAK = 45, WIDTH = 160, OUT = 150, WAVES = 5;
 const STEPS = [
@@ -207,7 +207,7 @@ export function createSurf(o) {
   function finish(r) {
     if (ended) return; ended = true;
     keys.on = false; ui.show(false); ui.meter(null); card.remove(); pad.remove(); recMode(false);
-    me.dispose?.(); coach.dispose?.(); geo.dispose(); group.removeFromParent();
+    me.dispose?.(); coach.dispose?.(); geo.dispose(); release(group);
     o.onEnd?.(r);
   }
   keys.on = true; pad.classList.add('on');

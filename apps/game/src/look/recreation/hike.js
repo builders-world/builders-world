@@ -9,7 +9,7 @@ import * as THREE from 'three';
 import { person, playerPerson, gameKeys, sportsUI } from '../sports/common.js';
 import { sfx } from '../audio.js';
 import { C, FONT } from '../uikit.js';
-import { briefCard, recMode } from './brief.js';
+import { briefCard, recMode, release } from './brief.js';
 
 // what the guide points out, by city: [share of the way up, line]
 const LINES = {
@@ -102,7 +102,7 @@ export function createHike(o) {
   function finish(result) {
     if (ended) return; ended = true;
     keys.on = false; ui.show(false); ui.meter(null); card.remove(); pad.remove(); recMode(false);
-    you.dispose?.(); guide.dispose?.(); group.removeFromParent();
+    you.dispose?.(); guide.dispose?.(); release(group);
     o.onEnd?.(result);
   }
   keys.on = true;
