@@ -9,7 +9,7 @@
 // 5 m/s down in full flight, slower on brakes, faster and steeper in a turn; a flare in the last few metres trades the
 // forward speed for a soft touchdown. Everything moves relative to the air, and the air moves with the wind.
 import * as THREE from 'three';
-import { person, gameKeys, sportsUI } from '../sports/common.js';
+import { person, playerPerson, gameKeys, sportsUI } from '../sports/common.js';
 import { sfx } from '../audio.js';
 import { C, FONT } from '../uikit.js';
 import { briefCard, recMode } from './brief.js';
@@ -66,7 +66,7 @@ export function createSkydive(o) {
 
   // ---------- the jumpers: you (and on a tandem, the instructor on your back), the canopy, a drogue ----------
   const rig = new THREE.Group(); group.add(rig);
-  const you = person(o.look, 'you-skydive'), inst = o.solo ? null : person(o.guide.look, `guide-${o.guide.name}`);
+  const you = playerPerson(o.avatar, 'you-skydive'), inst = o.solo ? null : person(o.guide.look, `guide-${o.guide.name}`);
   const body = new THREE.Group(); rig.add(body); body.add(you.obj);
   if (inst) { inst.obj.position.set(0, 0.12, -0.32); body.add(inst.obj); }
   const pack = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.62, 0.2), M('#2b2f36', 0.6)); pack.position.set(0, 1.12, inst ? -0.5 : -0.2); body.add(pack);

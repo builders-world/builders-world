@@ -275,7 +275,9 @@ async function main() {
 
   // ---- avatar: the shared provisional avatar, until the final design arrives ----
   const avatar = new THREE.Group();
-  const body = createAvatarModel(resident ? arrivalProfile.avatar : { color: '#e2b13c', style: 'jacket' }).root;
+  const bodyOptions = resident ? arrivalProfile.avatar : { color: '#e2b13c', style: 'jacket' };
+  const body = createAvatarModel(bodyOptions).root;
+  body.userData.modelOptions = bodyOptions; // so a copy of you (an activity, a game) can be made the same way (sports/common.js playerPerson)
   prepareLook(body);
   const rig = rigAvatar(body); // jointed legs and arms: walk, run, jump
   body.userData.rig = rig;

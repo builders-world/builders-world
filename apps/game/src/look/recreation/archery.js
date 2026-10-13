@@ -8,7 +8,7 @@
 // (Shift) steadies it for a few seconds. Scoring is World Archery's: 10 in the gold to 1 in the outer white, X for the
 // inner ten, M for a miss.
 import * as THREE from 'three';
-import { person, gameKeys, sportsUI } from '../sports/common.js';
+import { person, playerPerson, gameKeys, sportsUI } from '../sports/common.js';
 import { sfx } from '../audio.js';
 import { C, FONT } from '../uikit.js';
 import { briefCard, recMode } from './brief.js';
@@ -58,7 +58,7 @@ export function createArchery(o) {
   const flagYaw = Math.atan2(wind.x, wind.z) - Math.PI / 2;
 
   // ---------- you with the bow, and the coach ----------
-  const me = person(o.look, 'you-archery'); me.obj.position.copy(L); me.obj.rotation.y = heading; group.add(me.obj);
+  const me = playerPerson(o.avatar, 'you-archery'); me.obj.position.copy(L); me.obj.rotation.y = heading; group.add(me.obj);
   const coach = person(o.coach.look, `coach-${o.coach.name}`); coach.obj.position.copy(L).addScaledVector(f, -1.4).addScaledVector(right, -1.8); coach.obj.rotation.y = heading + 0.5; group.add(coach.obj);
   const bow = new THREE.Group(); bow.position.set(0.2, 1.4, 0.6); me.obj.add(bow);
   {

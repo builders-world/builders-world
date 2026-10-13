@@ -19,6 +19,16 @@ export function person(look, seed) {
   return { av, rig, obj: av.root, dispose: av.dispose };
 }
 
+// a copy of you for a game or an activity: your wardrobe look if you have chosen one, else the body you arrived with
+export const playerBody = (avatar) => { let b = null; avatar?.traverse?.((o) => { if (!b && o.userData?.isPlayer) b = o; }); return b; };
+export function playerPerson(avatar, seed = 'you') {
+  const body = playerBody(avatar);
+  if (body?.userData.look) return person(body.userData.look, seed);
+  const av = createAvatarModel(body?.userData.modelOptions || { color: '#e2b13c', style: 'jacket' });
+  prepareLook(av.root);
+  return { av, rig: rigAvatar(av.root), obj: av.root, dispose: av.dispose };
+}
+
 export function signBoard(title, sub, bg = '#22336a', w = 4.2) {
   const g = new THREE.Group();
   const post = mat(0x263832);
