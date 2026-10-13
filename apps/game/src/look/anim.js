@@ -32,8 +32,11 @@ function avgColour(tex) {
 function bakeLod(root, attach = true) {
   // every part's own matrix worked out from where it is now: a person put away out of sight stops updating theirs (cull),
   // and one put away before it was ever drawn still has the identity there, which baked a head as a 2 m ball on the ground
-  root.traverse((o) => o.updateMatrix());
+  // and their world matrices too: a part put away out of sight keeps the one it had then (matrixWorldAutoUpdate off), which
+  // even a forced update leaves alone; a rider who had since gone 100 m baked every part 100 m off. Freed for the bake
+  const frozen = []; root.traverse((o) => { o.updateMatrix(); if (!o.matrixWorldAutoUpdate) { frozen.push(o); o.matrixWorldAutoUpdate = true; } });
   root.updateMatrixWorld(true);
+  frozen.forEach((o) => { o.matrixWorldAutoUpdate = false; });
   const inv = new THREE.Matrix4().copy(root.matrixWorld).invert(), m = new THREE.Matrix4(), col = new THREE.Color(), geos = [];
   const shown = (o) => { for (let a = o; a && a !== root; a = a.parent) { const v = a.parent === root ? (a.userData.vis ?? a.visible) : a.visible; if (!v) return false; } return true; };
   root.traverse((o) => {
