@@ -8,14 +8,16 @@ import { createArchery } from './archery.js';
 import { createClimbing } from './climbing.js';
 import { createSurf } from './surf.js';
 import { createBeachLife } from './beachlife.js';
+import { createParamotor } from './paramotor.js';
+import { createBungee } from './bungee.js';
 import { nameFor } from '../knowledge.js';
 import { walletEngine, effortsMark, fmt } from '../wallet.js';
 import { sfx } from '../audio.js';
 import { C, FONT } from '../uikit.js';
 import { regionOf } from '../areas.js';
 
-const FEE = { tandem: 1500, solo: 800, arch18: 400, arch30: 500, boulder: 300, surf: 600 };
-const SOON = ['Hiking', 'Mountain biking', 'Paragliding', 'Bungee'];
+const FEE = { tandem: 1500, solo: 800, arch18: 400, arch30: 500, boulder: 300, surf: 600, paramotor: 2500, bungee: 1200 };
+const SOON = ['Hiking', 'Mountain biking'];
 const COACH_LOOK = { body: 'f', skin: '#6b4226', hair: 'braids', top: 'tee', topColor: '#2a9d94', bottom: 'trousers', bottomColor: '#2b2f36', shoes: 'sneakers', shoeColor: '#f4f1ea', acc: [] };
 const LOOK = { body: 'm', skin: '#4a2e1c', hair: 'low', top: 'jacket', topColor: '#d9583f', bottom: 'trousers', bottomColor: '#2b2f36', shoes: 'sneakers', shoeColor: '#1d2028', acc: [] };
 const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch { /* private window */ } } };
@@ -79,6 +81,9 @@ export function createRecreation(o) {
     }
     return null;
   }
+  const pw = nameFor('paramotor-pilot', 'f'), bw = nameFor('bungee-master', 'm');
+  const pilot = { name: pw?.full || 'Captain Funke', first: pw?.first || 'Funke', look: { ...COACH_LOOK, top: 'jacket', topColor: '#e46f4f' } };
+  const master = { name: bw?.full || 'Kunle', first: bw?.first || 'Kunle', look: { ...LOOK, top: 'tee', topColor: '#f2b631' } };
   const sw = nameFor('surf-instructor', 'm');
   const surfCoach = { name: sw?.full || 'Coach Seun', first: sw?.first || 'Seun', look: { ...LOOK, top: 'tee', topColor: '#2a9d94', bottom: 'shorts', bottomColor: '#22336a' } };
   const cw = nameFor('archery-coach', 'f');
@@ -109,6 +114,10 @@ export function createRecreation(o) {
         <button class="go" data-k="arch30" ${lessons() ? '' : 'disabled'}>${effortsMark(12)}${fmt(FEE.arch30)}</button></div>
       <div class="act"><div class="t"><b>Bouldering</b><small>${climbCoach.name} runs a wall in the park: four problems, V0 to V3, mats below.</small></div>
         <button class="go" data-k="boulder">${effortsMark(12)}${fmt(FEE.boulder)}</button></div>
+      <div class="act"><div class="t"><b>Tandem paramotor</b><small>${can ? `${pilot.name} flies you over ${city} for about four minutes, ${beachList()[0] ? `off ${beachList()[0].label}` : `off ${target.name}`}. You hold the bars.` : 'Over the open cities only.'}</small></div>
+        <button class="go" data-k="paramotor" ${can ? '' : 'disabled'}>${effortsMark(12)}${fmt(FEE.paramotor)}</button></div>
+      <div class="act"><div class="t"><b>Bungee</b><small>${master.name} runs a crane in ${target.name}: 50 m, an airbag below, the cord catches you 8 m above it.</small></div>
+        <button class="go" data-k="bungee">${effortsMark(12)}${fmt(FEE.bungee)}</button></div>
       ${(() => { const b = beachList()[0]; return b ? `<div class="act"><div class="t"><b>Surf lesson</b><small>${surfCoach.name} at ${b.label}: on the sand first, then six waves.</small></div>
         <button class="go" data-k="surf">${effortsMark(12)}${fmt(FEE.surf)}</button></div>` : ''; })()}
       ${(() => { const bs = beachList().slice(0, 3); return bs.length ? `<div class="act"><div class="t"><b>The beach</b><small>Free. ${bs.map((b, i) => `<a href="#" data-beach="${i}" style="color:${C.teal};font-weight:800">${b.label}</a> (${(b.d / 1000).toFixed(1)} km)`).join(' · ')}</small></div></div>` : ''; })()}
@@ -123,15 +132,15 @@ export function createRecreation(o) {
 
   // the city's beaches (the open city's bake: the named ones, else stretches of the coast), nearest first; one per name,
   // the unnamed called after the area they are in ("The beach at Victoria Island")
+  // the city's area nearest a point of the scene (areas.js), by its latitude and longitude
+  function areaAt(x, z) {
+    const c = o.world.center || { lat: 0, lon: 0 }, kx = 111320 * Math.cos((c.lat * Math.PI) / 180), lat = c.lat - z / 110574, lon = c.lon + x / kx;
+    return (regionOf(o.world.place?.city)?.areas || []).map((a) => [a, (a.lat - lat) ** 2 + ((a.lon - lon) * Math.cos((lat * Math.PI) / 180)) ** 2]).sort((p, q) => p[1] - q[1])[0]?.[0]?.area || null;
+  }
   function beachList() {
     const B = o.openWorld?.active ? o.openWorld.beaches?.() || [] : [];
-    const c = o.world.center || { lat: 0, lon: 0 }, kx = 111320 * Math.cos((c.lat * Math.PI) / 180), P = o.getPlayer?.() || { x: 0, z: 0 };
-    const areas = regionOf(o.world.place?.city)?.areas || [];
-    const named = B.map((b) => {
-      const lat = c.lat - b.z / 110574, lon = c.lon + b.x / kx;
-      const near = areas.map((a) => [a, (a.lat - lat) ** 2 + ((a.lon - lon) * Math.cos((lat * Math.PI) / 180)) ** 2]).sort((p, q) => p[1] - q[1])[0]?.[0];
-      return { ...b, label: b.name || `The beach at ${near?.area || o.world.place?.city || 'the coast'}`, d: Math.hypot(b.x - P.x, b.z - P.z) };
-    }).sort((a, b) => a.d - b.d);
+    const P = o.getPlayer?.() || { x: 0, z: 0 };
+    const named = B.map((b) => ({ ...b, label: b.name || `The beach at ${areaAt(b.x, b.z) || o.world.place?.city || 'the coast'}`, d: Math.hypot(b.x - P.x, b.z - P.z) })).sort((a, b) => a.d - b.d);
     const seen = new Set(); return named.filter((b) => !seen.has(b.label) && seen.add(b.label));
   }
   function toBeach(b) {
@@ -146,6 +155,8 @@ export function createRecreation(o) {
     if (kind.startsWith('arch')) { shoot(kind); return; }
     if (kind === 'boulder') { climb(); return; }
     if (kind === 'surf') { surf(); return; }
+    if (kind === 'paramotor') { fly(); return; }
+    if (kind === 'bungee') { bungee(); return; }
     if (o.canStart && !o.canStart()) { toast('Step outside onto the street first.', 2200); return; }
     pickTarget(); // again now: the open city round the district has loaded since the street was built
     const fee = FEE[kind];
@@ -216,6 +227,50 @@ export function createRecreation(o) {
     const P = o.getPlayer?.() || { x: 0, z: 0 };
     if (Math.hypot(P.x - b.x, P.z - b.z) < 250) { close(); start(); return; }
     toBeach(b); setTimeout(start, 5500);
+  }
+
+  // a tandem paramotor: off the nearest beach along the shore if the city has one (quick travel there first), else
+  // across the drop zone's park
+  function fly() {
+    if (o.canStart && !o.canStart()) { toast('Step outside onto the street first.', 2200); return; }
+    if (!o.openWorld?.active) { toast('Paramotor flights are over the open cities only.', 2400); return; }
+    const b = beachList()[0];
+    pickTarget();
+    // on the hard sand 80 m along the shore from the beach's umbrellas and bars (beachlife.js lays out 55 m either way), rolling away from them
+    const site = b ? { x: b.x - b.sea.x * 6 - b.sea.z * 80, z: b.z - b.sea.z * 6 + b.sea.x * 80, dir: { x: -b.sea.z, z: b.sea.x } } : { x: target.x, z: target.z, dir: { x: 0, z: 1 } };
+    if (!walletEngine().spend(FEE.paramotor, 'Tandem paramotor flight')) { toast('Not enough Efforts for the flight. Push some commits and come back.', 2600); return; }
+    const start = () => {
+      jump = createParamotor({ scene: o.scene, world: o.world, openWorld: o.openWorld, site, pilot, avatar: o.avatar, toast, areaAt,
+        onEnd: (r, at) => {
+          jump = null; o.standAt?.(at.x, at.z);
+          if (!r || r.aborted) { walletEngine().earn?.(FEE.paramotor, 'Paramotor refunded'); toast(`${pilot.first} folds the wing away. Fee refunded.`, 2400); return; }
+          dispatchEvent(new CustomEvent('bw:me', { detail: { played: 0.3 } }));
+          toast(`Paramotor: ${r.minutes} minutes, ${r.km} km, up to ${r.peak} m.${r.areas.length ? ` Over ${r.areas.slice(0, 4).join(', ')}.` : ''}`, 6000);
+        } });
+      toast(`${pilot.name} has the wing laid out. The briefing first.`, 2600);
+    };
+    const P = o.getPlayer?.() || { x: 0, z: 0 };
+    close();
+    if (!b || Math.hypot(P.x - site.x, P.z - site.z) < 250) { start(); return; }
+    toBeach(b); setTimeout(start, 5500);
+  }
+  // bungee: the crane in the drop zone's park, the bag on the clear spot and the crane back along a clear line
+  function bungee() {
+    if (o.canStart && !o.canStart()) { toast('Step outside onto the street first.', 2200); return; }
+    pickTarget();
+    let dir = null;
+    for (let k = 0; k < 8 && !dir; k++) { const a = (k * Math.PI) / 4, f = { x: Math.sin(a), z: Math.cos(a) }; let ok = true; for (let t = -22; t <= 7 && ok; t += 1.5) for (const s of [-4, 0, 4]) if (o.world.solidAt?.(target.x + f.x * t - f.z * s, 3, target.z + f.z * t + f.x * s)) { ok = false; break; } if (ok) dir = f; }
+    if (!dir) { toast(`${master.first} cannot find room for the crane in ${target.name}.`, 2600); return; }
+    if (!walletEngine().spend(FEE.bungee, 'Bungee jump')) { toast('Not enough Efforts for the jump. Push some commits and come back.', 2600); return; }
+    close();
+    jump = createBungee({ scene: o.scene, world: o.world, at: { x: target.x, z: target.z }, dir, master, avatar: o.avatar, toast,
+      onEnd: (r, at) => {
+        jump = null; o.standAt?.(at.x, at.z);
+        if (!r || r.aborted) { const back = r?.up ? Math.round(FEE.bungee / 2) : FEE.bungee; walletEngine().earn?.(back, 'Bungee refunded'); toast(r?.up ? `You ride the cage back down with ${master.first}. Half the fee back; the crane went up.` : `${master.first} unclips the harness. Fee refunded.`, 3000); return; }
+        dispatchEvent(new CustomEvent('bw:me', { detail: { played: 0.3, skill: 'fitness', n: 1 } }));
+        toast(`Bungee: ${r.drop} m down, ${r.freefall} s of free fall, ${r.g} g at the bottom, ${r.bounces} bounces. You went ${r.went ? `after ${r.went} s on the edge` : 'straight away'}.`, 6000);
+      } });
+    toast(`${master.name} straps you in. The briefing on the way up.`, 2600);
   }
 
   // the beaches themselves, set up with their people when you are near one (beachlife.js)
