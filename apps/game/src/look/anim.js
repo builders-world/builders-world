@@ -30,6 +30,9 @@ function avgColour(tex) {
   AVG.set(tex.uuid, c); return c;
 }
 function bakeLod(root, attach = true) {
+  // every part's own matrix worked out from where it is now: a person put away out of sight stops updating theirs (cull),
+  // and one put away before it was ever drawn still has the identity there, which baked a head as a 2 m ball on the ground
+  root.traverse((o) => o.updateMatrix());
   root.updateMatrixWorld(true);
   const inv = new THREE.Matrix4().copy(root.matrixWorld).invert(), m = new THREE.Matrix4(), col = new THREE.Color(), geos = [];
   const shown = (o) => { for (let a = o; a && a !== root; a = a.parent) { const v = a.parent === root ? (a.userData.vis ?? a.visible) : a.visible; if (!v) return false; } return true; };
@@ -46,6 +49,9 @@ function bakeLod(root, attach = true) {
   });
   if (!geos.length) return null;
   const merged = mergeGeometries(geos, false); geos.forEach((g) => g.dispose());
+  // never below their own feet: a pose set by hand (a crouched skater, a rider's legs) can reach under the ground line,
+  // which from afar reads as someone sunk into the pavement
+  merged.computeBoundingBox(); if (merged.boundingBox.min.y < -0.05) merged.translate(0, -merged.boundingBox.min.y, 0);
   const lod = new THREE.Mesh(merged, LOD_MAT); lod.userData.lod = true; lod.castShadow = true; lod.visible = false; if (attach) root.add(lod);
   return lod;
 }

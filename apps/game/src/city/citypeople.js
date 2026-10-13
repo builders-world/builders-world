@@ -12,7 +12,7 @@ import { profileOf, Y } from './roadnet.js';
 const CELL = 32;
 
 export function createCityPeople({ openWorld, quality = 'high', reduced = false, seeDist = 60 }) {
-  const N = Math.round(({ low: 8, medium: 16, high: 28, ultra: 40 }[quality] ?? 24) * (reduced ? 0.6 : 1));
+  const N = Math.round(({ low: 12, medium: 24, high: 36, ultra: 48 }[quality] ?? 24) * (reduced ? 0.6 : 1)); // (seen further off now: a few more, so the pavements are not thinner)
   // they come back just past where people stop being drawn (seeDist, quality.js), and walk into view from there
   const REACH = seeDist * 1.6;
   const group = new THREE.Group(); group.name = 'city-people'; openWorld.group.add(group);
