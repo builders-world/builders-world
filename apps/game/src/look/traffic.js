@@ -50,7 +50,28 @@ export function vehicleParts(kind) {
 }
 export const trafficMix = () => cityInfo().traffic?.mix || MIX;
 
-export function vehicle(kind, i) {
+// a car's painted body, glass and dark parts (and a taxi's roof box) as one mesh, coloured per vertex: one draw call for
+// what was three to four, and one material shared by every car on the road (Elvis, 13 October 2026: performance). Cached
+// by design and paint, so cars that look alike share it
+const CAR_MAT = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.42, metalness: 0.25 });
+const HEAD_MAT = new THREE.MeshBasicMaterial({ color: 0xfff2c8 });
+const bodyCache = new Map(), lampCache = new Map();
+const tint = (g, hex) => { g = g.index ? g.toNonIndexed() : g.clone(); const c = new THREE.Color(hex), n = g.attributes.position.count, a = new Float32Array(n * 3); for (let k = 0; k < n; k++) c.toArray(a, k * 3); g.setAttribute('color', new THREE.BufferAttribute(a, 3)); return g; };
+function carBody(kind, paint) {
+  const key = `${kind}:${paint}`; if (bodyCache.has(key)) return bodyCache.get(key);
+  const D = DESIGNS[kind], G = geoCache[kind], parts = [tint(G.body, paint), tint(G.glass, 0x24323b), tint(G.dark, 0x161618)];
+  if (D.sign === 'TAXI') parts.push(tint(box(0.66, 0.24, 0.3, 0, 1.52, -0.15), 0xf2c418));
+  const g = mergeGeometries(parts.map((q) => { const { color, position, normal } = q.attributes; const o = new THREE.BufferGeometry(); o.setAttribute('position', position); o.setAttribute('normal', normal); o.setAttribute('color', color); return o; }));
+  bodyCache.set(key, g); return g;
+}
+// both front lamps (or both back) as one mesh
+function lampPair(kind, back) {
+  const key = `${kind}:${back}`; if (lampCache.has(key)) return lampCache.get(key);
+  const D = DESIGNS[kind], y = kind === 'brt' ? 0.9 : 0.72, z = back ? -D.len / 2 - 0.02 : D.len / 2 + 0.02;
+  const g = mergeGeometries([-1, 1].map((s) => box(0.28, 0.14, 0.04, s * (D.w / 2 - 0.25), y, z))); lampCache.set(key, g); return g;
+}
+
+export function vehicle(kind, i, opts = {}) {
   if (kind === 'cycle') { // a bike and its rider, pedalling (the rider is posed each frame)
     const g = new THREE.Group(), bike = bikeModel([0x2a9d94, 0xe46f4f, 0x3a4f7a][i % 3]); g.add(bike);
     const av = createAvatarModel({ color: '#888', style: 'tee' }); prepareLook(av.root); const rig = rigAvatar(av.root); dress(av.root, lookFor(`cyclist-${i}`, { fem: i % 2 === 1, tier: 2 }), rig); av.root.position.y = 0.32; av.root.position.z = -0.08; g.add(av.root);
@@ -62,22 +83,17 @@ export function vehicle(kind, i) {
   const G = geoCache[kind];
   // each city's liveries (cityinfo.js): matatus in Nairobi, trotros in Accra, green and white taxis in Abuja
   const T = cityInfo().traffic, own = T?.paint?.[kind];
-  g.add(new THREE.Mesh(G.body, new THREE.MeshStandardMaterial({ color: own ? own[i % own.length] : D.paint ?? PAINT[i % PAINT.length], roughness: 0.45, metalness: 0.25 })));
-  g.add(new THREE.Mesh(G.glass, new THREE.MeshStandardMaterial({ color: 0x24323b, roughness: 0.15, metalness: 0.4 })));
-  g.add(new THREE.Mesh(G.dark, new THREE.MeshStandardMaterial({ color: 0x161618, roughness: 0.8 })));
-  // lights: white at the front, red at the back (brighter when braking)
+  const paint = opts.paint ?? (own ? own[i % own.length] : D.paint ?? PAINT[i % PAINT.length]);
+  g.add(new THREE.Mesh(carBody(kind, paint), CAR_MAT));
+  // lights: white at the front, red at the back (brighter when braking: the tail's own material)
   const tail = new THREE.MeshBasicMaterial({ color: 0x701010 });
-  [-1, 1].forEach((s) => {
-    const f = new THREE.Mesh(box(0.28, 0.14, 0.04), new THREE.MeshBasicMaterial({ color: 0xfff2c8 })); f.position.set(s * (D.w / 2 - 0.25), kind === 'brt' ? 0.9 : 0.72, D.len / 2 + 0.02); g.add(f);
-    const r = new THREE.Mesh(box(0.28, 0.14, 0.04), tail); r.position.set(s * (D.w / 2 - 0.25), kind === 'brt' ? 0.9 : 0.72, -D.len / 2 - 0.02); g.add(r);
-  });
+  g.add(new THREE.Mesh(lampPair(kind, false), HEAD_MAT), new THREE.Mesh(lampPair(kind, true), tail));
   // roof signs: TAXI on its little box, the danfo's route board, the BRT's number
   if (D.sign) {
     const routes = T?.routes || ROUTES, text = D.sign === 'route' ? routes[i % routes.length] : D.sign === 'BRT' ? (T?.brt || 'BRT  CMS - IKORODU') : 'TAXI';
     const tex = signTexture(text, { bg: D.sign === 'TAXI' ? '#1d1d1d' : D.sign === 'BRT' ? '#14306b' : '#f7efdc', fg: D.sign === 'TAXI' ? '#f2c418' : D.sign === 'BRT' ? '#ffffff' : '#1d1d1d', w: 512, h: 120 });
     const mat = new THREE.MeshBasicMaterial({ map: tex, color: 0xdddddd });
     const w = D.sign === 'TAXI' ? 0.6 : D.sign === 'BRT' ? 2.0 : 1.7, h = D.sign === 'TAXI' ? 0.2 : 0.38, y = D.sign === 'TAXI' ? 1.52 : D.sign === 'BRT' ? 2.55 : 2.42, z = D.sign === 'TAXI' ? -0.15 : D.sign === 'BRT' ? D.len / 2 + 0.03 : 1.1;
-    if (D.sign === 'TAXI') g.add(new THREE.Mesh(box(0.66, 0.24, 0.3, 0, y, z), new THREE.MeshStandardMaterial({ color: 0xf2c418, roughness: 0.5 })));
     [1, -1].forEach((sd) => { if (D.sign === 'BRT' && sd < 0) return; const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat); m.position.set(0, y, z + sd * (D.sign === 'TAXI' ? 0.16 : 0.01)); if (sd < 0) m.rotation.y = Math.PI; g.add(m); });
   }
   g.userData = { kind, D, tail };
