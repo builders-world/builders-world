@@ -8,7 +8,7 @@
 // you, too late and it breaks on you. Riding, you angle along the face (A, D) and stay near the breaking part, the
 // pocket, where it is steepest: go straight in and you outrun it; stay too far up in it and it throws you.
 import * as THREE from 'three';
-import { person, gameKeys, sportsUI } from '../sports/common.js';
+import { person, playerPerson, gameKeys, sportsUI } from '../sports/common.js';
 import { sfx } from '../audio.js';
 import { C, FONT } from '../uikit.js';
 import { briefCard, recMode } from './brief.js';
@@ -85,7 +85,7 @@ export function createSurf(o) {
 
   // ---------- you, your board, the instructor ----------
   const rider = new THREE.Group(); group.add(rider);
-  const me = person(o.look, 'you-surf'); rider.add(me.obj);
+  const me = playerPerson(o.avatar, 'you-surf'); rider.add(me.obj);
   const board = new THREE.Mesh(new THREE.CapsuleGeometry(0.3, 2.0, 4, 10).rotateX(Math.PI / 2).scale(1, 0.15, 1), new THREE.MeshStandardMaterial({ color: '#f2c230', roughness: 0.5 })); rider.add(board);
   const coach = person(o.coach.look, `coach-${o.coach.name}`); group.add(coach.obj);
 

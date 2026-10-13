@@ -151,7 +151,7 @@ export function createRecreation(o) {
     if (!walletEngine().spend(fee, kind === 'solo' ? 'Solo skydive' : 'Tandem skydive')) { toast('Not enough Efforts for this jump. Push some commits and come back.', 2600); return; }
     close();
     const start = o.getPlayer?.() || { x: target.x, z: target.z };
-    jump = createSkydive({ scene: o.scene, world: o.world, openWorld: o.openWorld, target, guide, solo: kind === 'solo', look: o.avatar?.userData.look, toast, start,
+    jump = createSkydive({ scene: o.scene, world: o.world, openWorld: o.openWorld, target, guide, solo: kind === 'solo', avatar: o.avatar, toast, start,
       onEnd: (r, at) => {
         jump = null;
         if (!r || r.aborted) { walletEngine().earn?.(fee, 'Skydive refunded'); o.standAt?.(start.x, start.z); toast(`You ride the plane back down with ${guide.first}. Fee refunded.`, 2600); return; }
@@ -170,7 +170,7 @@ export function createRecreation(o) {
     if (!lane) { toast(`${coach.first} cannot find ${dist} m of clear grass in the parks here.`, 2600); return; }
     if (!walletEngine().spend(FEE[kind], `Archery, ${dist} m`)) { toast('Not enough Efforts for the range. Push some commits and come back.', 2600); return; }
     close();
-    jump = createArchery({ scene: o.scene, world: o.world, line: lane.line, dir: lane.dir, dist, coach, look: o.avatar?.userData.look, toast,
+    jump = createArchery({ scene: o.scene, world: o.world, line: lane.line, dir: lane.dir, dist, coach, avatar: o.avatar, toast,
       onEnd: (r) => {
         jump = null; o.standAt?.(lane.line.x, lane.line.z);
         if (!r || r.aborted) { walletEngine().earn?.(FEE[kind], 'Archery refunded'); toast(`${coach.first} packs the range away. Fee refunded.`, 2400); return; }
@@ -188,7 +188,7 @@ export function createRecreation(o) {
     if (!spot) { toast(`${climbCoach.first} cannot find a clear patch of grass for the wall here.`, 2600); return; }
     if (!walletEngine().spend(FEE.boulder, 'Bouldering')) { toast('Not enough Efforts for the wall. Push some commits and come back.', 2600); return; }
     close();
-    jump = createClimbing({ scene: o.scene, at: spot.at, dir: spot.dir, coach: climbCoach, look: o.avatar?.userData.look, toast,
+    jump = createClimbing({ scene: o.scene, at: spot.at, dir: spot.dir, coach: climbCoach, avatar: o.avatar, toast,
       onEnd: (r) => {
         jump = null; o.standAt?.(spot.at.x, spot.at.z);
         if (!r || r.aborted) { walletEngine().earn?.(FEE.boulder, 'Bouldering refunded'); toast(`${climbCoach.first} takes the wall down. Fee refunded.`, 2400); return; }
@@ -204,7 +204,7 @@ export function createRecreation(o) {
     const b = beachList()[0]; if (!b) { toast('No surf here: the city has no beach on the sea.', 2400); return; }
     if (!walletEngine().spend(FEE.surf, 'Surf lesson')) { toast('Not enough Efforts for the lesson. Push some commits and come back.', 2600); return; }
     const start = () => {
-      jump = createSurf({ scene: o.scene, beach: b, coach: surfCoach, look: o.avatar?.userData.look, toast,
+      jump = createSurf({ scene: o.scene, beach: b, coach: surfCoach, avatar: o.avatar, toast,
         onEnd: (r) => {
           jump = null; o.standAt?.(b.x - b.sea.x * 14, b.z - b.sea.z * 14);
           if (!r || r.aborted) { walletEngine().earn?.(FEE.surf, 'Surf lesson refunded'); toast(`${surfCoach.first} waves you off. Fee refunded.`, 2400); return; }

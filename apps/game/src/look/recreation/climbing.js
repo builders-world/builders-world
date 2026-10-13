@@ -8,7 +8,7 @@
 // Shake out on a jug to recover, chalk up for a few easier moves. If the pump fills, you come off onto the mats. Both
 // hands on the top hold is a send; first try is a flash.
 import * as THREE from 'three';
-import { person, gameKeys, sportsUI } from '../sports/common.js';
+import { person, playerPerson, gameKeys, sportsUI } from '../sports/common.js';
 import { sfx } from '../audio.js';
 import { C, FONT } from '../uikit.js';
 import { briefCard, recMode } from './brief.js';
@@ -91,7 +91,7 @@ export function createClimbing(o) {
   });
 
   // ---------- you and the coach (spotting) ----------
-  const me = person(o.look, 'you-climbing'); group.add(me.obj);
+  const me = playerPerson(o.avatar, 'you-climbing'); group.add(me.obj);
   const coach = person(o.coach.look, `coach-${o.coach.name}`); world(-W / 2 - 0.9, 0, coach.obj.position).addScaledVector(f, -1.6); coach.obj.position.y = 0; coach.obj.rotation.y = heading - 0.6; group.add(coach.obj);
 
   // ---------- the state ----------

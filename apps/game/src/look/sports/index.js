@@ -3,7 +3,7 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { C, FONT } from '../uikit.js';
 import { sfx } from '../audio.js';
 import { findSite } from '../parks.js';
-import { person, box, mat, signBoard, gameKeys } from './common.js';
+import { person, box, mat, signBoard, gameKeys, playerBody } from './common.js';
 import { SPORTS, createRacketMatch } from './racket.js';
 import { HOOP } from './hoopphys.js';
 import { createHoopsMatch } from './hoops.js';
@@ -393,7 +393,7 @@ export function createSports({ world, scene, props, used, toast, avatar, getOnli
     pick.querySelector('[data-no]').onclick = closeChooser;
   }
   function closeChooser() { pick.classList.remove('on'); chooser = null; pickKeys.on = false; }
-  const youRig = () => ({ rig: avatar.userData.rig, look: avatar.userData.look });
+  const youRig = () => { const b = playerBody(avatar); return { rig: b?.userData.rig || avatar.userData.rig, look: b?.userData.look || avatar.userData.look }; };
   const hideIdle = (key, on) => idle.filter((i) => i.key === key).forEach((i) => { i.p.obj.visible = !on; });
   function begin(kind, m) { match = { kind, m }; sfx('whistle'); }
 
