@@ -3,13 +3,13 @@
 Audit date: 2026-10-07  
 Project: Builders World (three.js browser world; Colyseus, LiveKit, Supabase, Vercel, Blender)  
 Codex version: 0.160.0  
-User skill directory: `/Users/elvisobi/.agents/skills`
+User skill directory: `~/.agents/skills`
 
 ## Result
 
-The four packs explicitly approved in the task were audited and copied as 59 skill folders into `/Users/elvisobi/.agents/skills`. After the follow-up approval, eight additional gap-coverage skills were audited and copied. The directory now contains 70 folders: 67 new skills plus the three existing personal skills (`design-taste-frontend`, `ui-ux-pro-max`, and `web-design-guidelines`). No folder-name collision occurred. No repository installer, `install.sh`, `npx` installer, or global package install was run.
+The four packs explicitly approved in the task were audited and copied as 59 skill folders into `~/.agents/skills`. After the follow-up approval, eight additional gap-coverage skills were audited and copied. The directory now contains 70 folders: 67 new skills plus the three existing personal skills (`design-taste-frontend`, `ui-ux-pro-max`, and `web-design-guidelines`). No folder-name collision occurred. No repository installer, `install.sh`, `npx` installer, or global package install was run.
 
-Codex's [documented skill discovery order](https://learn.chatgpt.com/docs/build-skills) includes repository `.agents/skills`, user `~/.agents/skills`, administrator `/etc/codex/skills`, and bundled skills. The personal install location used here is the documented user location, `/Users/elvisobi/.agents/skills`; restart Codex if a newly installed skill does not appear in a later turn.
+Codex's [documented skill discovery order](https://learn.chatgpt.com/docs/build-skills) includes repository `.agents/skills`, user `~/.agents/skills`, administrator `/etc/codex/skills`, and bundled skills. The personal install location used here is the documented user location, `~/.agents/skills`; restart Codex if a newly installed skill does not appear in a later turn.
 
 ## Installed packs
 

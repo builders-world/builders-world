@@ -52,7 +52,7 @@ The PRD's original plan put a flat site first (Phase 1) and the 3D world second.
 - [Collaboration workflow](docs/collaboration/README.md)
 - [Technical decision records](docs/decisions/README.md)
 
-Repository: [builders-world/builders-world](https://github.com/builders-world/builders-world), private and owned by the `builders-world` organization.
+Repository: [builders-world/builders-world](https://github.com/builders-world/builders-world), public and owned by the `builders-world` organization.
 
 ## Folder layout
 
@@ -89,3 +89,18 @@ Apart from `apps/game` and `services/backend`, these are logical areas reserved 
 - Keep credentials out of Git. Document required environment variables in an `.env.example` file with placeholder values when application setup begins.
 
 The game deploys to Vercel (project `buildersworld`) and the backend to Railway (project `yaba-scene`: gateway, jobs, Postgres, Redis). Secrets live only in those providers.
+
+## Licences
+
+Builders World is open source. Different parts of the repository are under different licences:
+
+| What | Licence |
+|---|---|
+| The code: everything not listed below | [Apache 2.0](LICENSE) |
+| The city data built from OpenStreetMap: `apps/game/public/city/`, `apps/game/public/data/` | [ODbL 1.0](apps/game/public/city/LICENSE.md) |
+| The original art: `assets/` | [CC BY 4.0](assets/LICENSE.md) |
+
+The data sources and their credits are in [NOTICE](NOTICE). Real places keep their real names, and their owners
+have not endorsed the game. The companies on the skyline adverts are invented.
+
+By opening a pull request you agree that your contribution is shared under the licence of the folder it changes.

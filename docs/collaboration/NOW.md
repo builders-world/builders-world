@@ -65,5 +65,5 @@ deployment; a city is baked (`scripts/city/prepare.sh`, `bake.mjs`) when it goes
 
 1. `git pull` on `main`, then `gh pr list -R builders-world/builders-world` and read this page.
 2. If your task touches files listed under "Files it owns" above, write to the owner first (here, or in
-   `/Volumes/Elvis Obi - Mac Extended/Builders-World.collab/`).
+   `Builders-World.collab/` (the folder beside the main checkout)).
 3. Add your branch to "In progress" above, and your request to the tracker.

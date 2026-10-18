@@ -13,7 +13,7 @@ Version 1.0, 9 October 2026. Owner: Elvis Obi. Maintained by whoever changes the
 - Related files:
   - Product: `docs/product/builders-world-prd.md` (v1.1 on Claude's PRD branch until merged)
   - Asset contract: `assets/art-direction-brief.md` and `assets/exports/models/yaba-kit/asset-manifest.json`
-  - Live coordination: `/Volumes/Elvis Obi - Mac Extended/Builders-World.collab/` and `docs/collaboration/asset-work-live-handoff.md`
+  - Live coordination: `Builders-World.collab/` (the folder beside the main checkout) and `docs/collaboration/asset-work-live-handoff.md`
   - Reference images: `assets/reference/generated-visual-direction/`
 
 ## 1. Pillars

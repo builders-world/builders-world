@@ -3,20 +3,20 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
 // City lights for the skyline (world bible 7.1): neon edges on the towers and big animated ad screens,
 // like Hong Kong, Shanghai or Times Square, drawn in the game's own illustration style.
-// The adverts are for real Nigerian and pan-African companies, each showing what the company actually
-// does (researched October 2026); the drawings and taglines are ours, not the companies' artwork.
-// Before a public launch, get each company's permission or swap in invented brands.
+// The adverts are for invented companies, the kinds of business a Lagos skyline is full of. The names
+// were checked against real Nigerian and pan-African firms in October 2026; keep new ones invented too,
+// so no screen reads as an endorsement nobody gave.
 
 const INK = '#3b2a20', PAPER = '#f7efdc';
 export const ADS = [
-  { brand: 'Chowdeck', line: 'Food & groceries, delivered', bg: '#1d6b45', fg: PAPER, art: 'rider' },          // on-demand food and grocery delivery
-  { brand: 'Paystack', line: 'Get paid online, fast', bg: '#0f3d6e', fg: PAPER, art: 'checkout' },              // online and in-person payment acceptance
-  { brand: 'Moniepoint', line: 'POS & banking for your shop', bg: '#123b8f', fg: PAPER, art: 'pos' },            // business accounts, POS terminals, working capital
-  { brand: 'PiggyVest', line: 'Save a little, every day', bg: '#0b5ea8', fg: PAPER, art: 'piggy' },              // automated and locked savings
-  { brand: 'Kuda', line: 'Banking with zero fees', bg: '#40196d', fg: PAPER, art: 'phone' },                     // digital bank, no maintenance fees
-  { brand: 'Flutterwave', line: 'Payments across borders', bg: '#f5a623', fg: INK, art: 'globe' },               // payment collection, payouts, cross-border rails
-  { brand: 'Cowrywise', line: 'Invest from ₦100', bg: '#0a2d5e', fg: PAPER, art: 'plant' },                       // savings and mutual-fund investing from small amounts
-  { brand: 'Andela', line: 'Engineers for the world', bg: '#173f3f', fg: PAPER, art: 'laptop' },                 // global marketplace for vetted engineers
+  { brand: 'Chopway', line: 'Food & groceries, delivered', bg: '#1d6b45', fg: PAPER, art: 'rider' },           // on-demand food and grocery delivery
+  { brand: 'Tapsure', line: 'Get paid online, fast', bg: '#0f3d6e', fg: PAPER, art: 'checkout' },               // online and in-person payment acceptance
+  { brand: 'Kiosko', line: 'POS & banking for your shop', bg: '#2b5d3a', fg: PAPER, art: 'pos' },                // business accounts, POS terminals, working capital
+  { brand: 'Ajo Jar', line: 'Save a little, every day', bg: '#8a4b1f', fg: PAPER, art: 'piggy' },                // automated and locked savings
+  { brand: 'Odo Bank', line: 'Banking with zero fees', bg: '#7a2e3b', fg: PAPER, art: 'phone' },                 // digital bank, no maintenance fees ("odo" is zero in Yoruba)
+  { brand: 'Bridgeline', line: 'Payments across borders', bg: '#e9c46a', fg: INK, art: 'globe' },                // payment collection, payouts, cross-border rails
+  { brand: 'Irugbin', line: 'Invest from ₦100', bg: '#0a2d5e', fg: PAPER, art: 'plant' },                         // investing from small amounts ("irugbin" is seed in Yoruba)
+  { brand: "Builders' Guild", line: 'Engineers for the world', bg: '#173f3f', fg: PAPER, art: 'laptop' },        // a marketplace for vetted engineers
 ];
 
 // ---------- the illustrations: chunky shapes with ink outlines, animated by t (seconds) ----------
@@ -56,7 +56,7 @@ function art(g, kind, t, w, h, fg) {
     for (let i = 0; i < 3; i++) { const y = ((t * 120 + i * 60) % 180) - 200; if (y < -60) shape('#f2b33d', circ(0, y, 18)); }
   } else if (kind === 'phone') { // a phone with a card and a big zero
     shape(INK, rect(-70, -120, 140, 230, 24)); shape(PAPER, rect(-56, -100, 112, 190, 12));
-    g.fillStyle = '#40196d'; g.font = `900 ${78 * s}px "Baloo 2", sans-serif`; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('₦0', cx, cy - 20 * s);
+    g.fillStyle = '#7a2e3b'; g.font = `900 ${78 * s}px "Baloo 2", sans-serif`; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('₦0', cx, cy - 20 * s);
     g.font = `800 ${20 * s}px "Baloo 2", sans-serif`; g.fillText('fees', cx, cy + 50 * s);
     const sway = Math.sin(t * 2) * 8;
     shape('#2a9d94', () => g.roundRect(cx + (60 + sway) * s, cy + 30 * s, 110 * s, 70 * s, 10 * s));
@@ -88,8 +88,8 @@ export function drawAd(canvas, ad, t) {
   g.fillStyle = 'rgba(255,255,255,.1)'; g.beginPath(); g.arc(w / 2, h * 0.45, w * 0.36, 0, 7); g.fill();
   art(g, ad.art, t, w, h, ad.fg);
   g.fillStyle = ad.fg; g.textAlign = 'center'; g.textBaseline = 'middle';
-  g.font = `900 ${Math.round(w * 0.15)}px "Baloo 2", "Arial Black", sans-serif`; g.fillText(ad.brand, w / 2, h * 0.8);
-  g.font = `700 ${Math.round(w * 0.065)}px "Baloo 2", sans-serif`; g.globalAlpha = 0.9; g.fillText(ad.line, w / 2, h * 0.9); g.globalAlpha = 1;
+  g.font = `900 ${Math.round(w * 0.15)}px "Baloo 2", "Arial Black", sans-serif`; g.fillText(ad.brand, w / 2, h * 0.8, w * 0.9);
+  g.font = `700 ${Math.round(w * 0.065)}px "Baloo 2", sans-serif`; g.globalAlpha = 0.9; g.fillText(ad.line, w / 2, h * 0.9, w * 0.9); g.globalAlpha = 1;
 }
 
 // Dress a skyline: neon edges and crowns on every tower, ad screens on the tallest ones facing the district.

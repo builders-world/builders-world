@@ -22,7 +22,7 @@ Use the destination expected by the agent you are configuring:
 | Claude Code | `~/.claude/skills` |
 | Other `SKILL.md` agents | The user-level skills directory documented by that agent |
 
-On this Mac, Codex's shared user directory is `/Users/elvisobi/.agents/skills`. Claude's local source directory is `/Users/elvisobi/.claude/skills`.
+On this Mac, Codex's shared user directory is `~/.agents/skills`. Claude's local source directory is `~/.claude/skills`.
 
 ## Install from Claude's local folders
 
