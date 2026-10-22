@@ -43,6 +43,7 @@ whole city streamed round the player, with traffic, people, places to go into an
 |---|---|---|---|
 | #6 `chore/codex-visual-qa` | How Codex reviews, tests and finishes alongside Claude | Docs only; Vercel's preview failed to read git (not the code). Waiting for Elvis | Codex |
 | #10 `fix/codex-phone-hud` | Prevent touch toast and movement-stick overlap | Open; build and 46 tests pass; Elvis asked Claude to merge after review | Codex |
+| #31 `chore/open-source` | Licences (Apache 2.0 code, ODbL city data, CC BY 4.0 art), NOTICE, invented skyline brands, private details out of the docs, so the repo can go public | Open; 46 tests and build pass. Backend test edit needs Ayotomide's review | Claude |
 
 ## In progress (branches not yet in a pull request)
 
@@ -56,14 +57,14 @@ deployment; a city is baked (`scripts/city/prepare.sh`, `bake.mjs`) when it goes
 
 ## Waiting on people
 
-- **Elvis:** try the open cities on a phone; archive or delete `yaba-scene`; decisions in the tracker (default avatar, phase 1
+- **Elvis:** once #31 merges and Ayotomide agrees, switch this repository to public (the old two stay private and archived); try the open cities on a phone; archive or delete `yaba-scene`; decisions in the tracker (default avatar, phase 1
   scope, Red Line overpass, cargo highway, phone apps, laptop browser).
-- **Ayotomide:** point Railway at this repository (root `services/backend`); add https://buildersworld.vercel.app
+- **Ayotomide:** OK the repository going public under Apache 2.0, with his commit email visible (#31); point Railway at this repository (root `services/backend`); add https://buildersworld.vercel.app
   to the gateway's `ALLOWED_ORIGINS`.
 
 ## Before you start a task
 
 1. `git pull` on `main`, then `gh pr list -R builders-world/builders-world` and read this page.
 2. If your task touches files listed under "Files it owns" above, write to the owner first (here, or in
-   `/Volumes/Elvis Obi - Mac Extended/Builders-World.collab/`).
+   `Builders-World.collab/` (the folder beside the main checkout)).
 3. Add your branch to "In progress" above, and your request to the tracker.

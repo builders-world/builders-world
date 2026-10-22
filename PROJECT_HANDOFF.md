@@ -9,7 +9,7 @@ This document gives Claude and the human contributors the context established wi
 ## Read this first
 
 - **Project:** Builders World, a working title. The local folder is now named `Builders-World`; its former name was `Indie World`.
-- **Repository:** <https://github.com/builders-world/builders-world> — private, owned by the `builders-world` organization.
+- **Repository:** <https://github.com/builders-world/builders-world> — public, owned by the `builders-world` organization.
 - **Stage:** product planning and development setup. The local project has a proposed folder structure but no application implementation yet.
 - **First delivery:** a flat website with verified builder profiles, metrics, and league leaderboards. The 3D world is a later phase.
 - **People:** Elvis Obi, Samson Goddy, Czar Ayotomide, and Joshua Ayokhai. Codex and Claude are development assistants working with this team.
@@ -39,9 +39,9 @@ The three other contributors' GitHub usernames, invitation status, organization 
 | --- | --- |
 | GitHub organization | `builders-world` |
 | Repository | `builders-world/builders-world` |
-| Visibility | Private |
+| Visibility | Public |
 | Default branch | `main` |
-| Local folder | `/Volumes/Elvis Obi - Mac Extended/Builders-World` |
+| Local folder | the main checkout, `Builders-World/`, with worktrees beside it in `Builders-World.worktrees/` |
 | Fetch and push remote | `https://github.com/builders-world/builders-world.git` |
 | Initial commit | `c7b224cf74672054550a9b8e360bdfa1bdb7a3ca` |
 | Commit subject | `docs: initialize Builders World project and team brief` |
@@ -160,22 +160,22 @@ No Builders World Vercel project has been linked or deployed here. Team administ
 
 The Supabase CLI was installed through Homebrew, and browser-assisted login completed successfully. The version observed during setup was `2.119.0`. The login flow needed `--output-format text` in that terminal session.
 
-Project listing verified an existing project named **Istos Agent**, reference `zvjbibhjhccwecidwzbi`, in `eu-west-3`, under organization `ovdzsrdtekhabissdxkp`. It was healthy when checked. That is an existing separate project, not a Builders World database allocation.
+Project listing showed one existing project, which belongs to a separate product and is not a Builders World database allocation.
 
-No Builders World Supabase project, local link, schema, migration, authentication configuration, or access policy has been created by Codex. Do not choose the Istos Agent project as the target for Builders World work merely because it is visible in the account.
+No Builders World Supabase project, local link, schema, migration, authentication configuration, or access policy has been created by Codex. Do not choose that existing project as the target for Builders World work merely because it is visible in the account.
 
 ### Blender
 
 Elvis supplied this installation:
 
 ```text
-/Volumes/Elvis Obi - Mac Extended/Apps/Blender.app
+<external drive>/Apps/Blender.app
 ```
 
 The command-line executable is:
 
 ```text
-/Volumes/Elvis Obi - Mac Extended/Apps/Blender.app/Contents/MacOS/Blender
+<external drive>/Apps/Blender.app/Contents/MacOS/Blender
 ```
 
 Version `5.2.2 LTS` was verified. Codex successfully used Blender's Python API in background mode to build a small scene, save a `.blend` file, and render a PNG using Cycles on the CPU. The scene is a blue beveled cube with a ground plane, light, and camera, rendered at 384 × 384 pixels.
@@ -231,7 +231,7 @@ No worktrees or task branches were created while writing this handoff. Untracked
 The root folder was renamed at Elvis's request. Reopen the project in both agent sessions and any editor using the new path:
 
 ```bash
-cd '/Volumes/Elvis Obi - Mac Extended/Builders-World'
+cd Builders-World
 ```
 
 A session whose workspace permissions still name the old folder may need to be reopened against this location. The folder rename does not rename the GitHub repository, change `origin`, or move external applications such as Blender.

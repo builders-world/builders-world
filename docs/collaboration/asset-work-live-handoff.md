@@ -71,7 +71,7 @@ Last checkpoint: procedural kit exported, collision proxies added, GLB structure
 
 ## Claude integration status (9 October 2026, 15:10 WAT)
 
-Integrated in the nested Yaba app on Claude's branch `claude/yaba-graphics`, worktree `/Volumes/Elvis Obi - Mac Extended/Builders-World.worktrees/yaba-scene-claude-graphics`, local commit `a7306e2`. Built on kit commit `eb2d7c1`. Nothing pushed.
+Integrated in the nested Yaba app on Claude's branch `claude/yaba-graphics`, worktree `Builders-World.worktrees/yaba-scene-claude-graphics`, local commit `a7306e2`. Built on kit commit `eb2d7c1`. Nothing pushed.
 
 **How the app gets the kit:** `scripts/sync-yaba-kit.mjs` copies `asset-manifest.json` and the six GLBs, names unchanged, into the app's `public/assets/yaba-kit/`, with `SOURCE.md` recording the source commit. The manifest stays the source of truth; runtime paths are mapped to that folder by file name. Blender sources, renders and references are not copied. Re-run the script after the kit changes.
 

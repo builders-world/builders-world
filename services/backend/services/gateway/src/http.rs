@@ -175,9 +175,9 @@ mod tests {
 
     #[test]
     fn a_trusted_header_is_the_only_source_when_configured() {
-        let mut headers = headers_from("1.1.1.1, 46.151.193.241");
-        headers.insert("x-real-ip", "102.89.69.232".parse().unwrap());
-        assert_eq!(client_ip(&headers, 1, Some("x-real-ip")), "102.89.69.232");
+        let mut headers = headers_from("1.1.1.1, 198.51.100.7");
+        headers.insert("x-real-ip", "192.0.2.44".parse().unwrap());
+        assert_eq!(client_ip(&headers, 1, Some("x-real-ip")), "192.0.2.44");
         // Missing or not an address: one shared bucket, never the spoofable list.
         assert_eq!(client_ip(&headers_from("1.1.1.1"), 1, Some("x-real-ip")), "unknown");
         let mut bad = HeaderMap::new();
