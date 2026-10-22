@@ -1,0 +1,76 @@
+name: Bug report
+description: Something in the game or the backend doesn't work as it should.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this.
+
+        **Security problems don't belong here.** If this could let someone sign in as another player, see private
+        data or change someone else's game, follow SECURITY.md instead.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what you saw instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Go to Lagos, Yaba, at night (?city=Lagos&area=Yaba&hour=21)
+        2. Hire a danfo at the bus stop
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: City and area
+      placeholder: e.g. Nairobi, Westlands
+  - type: dropdown
+    id: area
+    attributes:
+      label: Part of the game
+      options:
+        - Onboarding or arrival
+        - Walking, the camera or controls
+        - Streets, traffic or people
+        - Buildings, interiors or landmarks
+        - Rides, bikes, driving or flights
+        - Phone, map, bag, wallet or wardrobe
+        - Hubs, cafés, Wi-Fi or passes
+        - Sport or chess
+        - Sign-in, other players, chat or presence
+        - Performance (slow, stutters, crashes)
+        - Something else
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device, browser and graphics tier
+      description: The tier is in Settings (Auto, Low, Medium, High, Ultra).
+      placeholder: e.g. Tecno Camon 20, Chrome 141, Auto
+    validations:
+      required: true
+  - type: textarea
+    id: media
+    attributes:
+      label: Screenshot or clip
+      description: Drag images or a short video here. Hide anything personal first.
+  - type: textarea
+    id: console
+    attributes:
+      label: Browser console errors (optional)
+      render: text
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues for this problem.
+          required: true

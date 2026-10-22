@@ -1,6 +1,6 @@
 # Open World Backend
 
-The server side of [Builders World](https://github.com/builders-world/yaba-scene): who is in the world right now, what the
+The server side of [Builders World](../../README.md): who is in the world right now, what the
 street has been given, and what a person has shipped. A Rust workspace in the shape of the Ares backend, on PostgreSQL and Redis.
 
 ## Layout
@@ -33,7 +33,7 @@ cargo test --workspace      # no services needed
 DATABASE_URL=postgres://... REDIS_URL=redis://... cargo test --workspace -- --include-ignored   # the Postgres and Redis tests
 ```
 
-To run the game against it, serve [yaba-scene](https://github.com/builders-world/yaba-scene) with `/api` proxied to `:8080`.
+To run the game against it, run `npm run dev` in [`apps/game`](../../apps/game): Vite proxies `/api` to `:8080`.
 
 Every push is checked with `cargo fmt --check`, `cargo clippy -- -D warnings` and `cargo test`. After changing SQL run
 `tools/sqlx-prepare.sh` and commit `.sqlx/`. Read [docs/conventions.md](docs/conventions.md) before adding code.
