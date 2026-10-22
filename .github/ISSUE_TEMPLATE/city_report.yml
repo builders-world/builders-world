@@ -1,0 +1,32 @@
+name: City or culture
+description: Something about a real place, its people or its language looks or sounds wrong, or could be more true to life.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Local knowledge is what makes the world feel real, so thank you. Greetings, Pidgin and Sheng lines, names, food,
+        street furniture, which side traffic drives on, a missing landmark: all welcome here.
+  - type: input
+    id: where
+    attributes:
+      label: City and area
+      placeholder: e.g. Accra, Osu
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What's wrong or missing?
+      description: What the game shows or says now, and what it's really like.
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: How do you know? (optional)
+      description: You live or grew up there, a public photo, an OpenStreetMap link. Please don't link Google Street View images; we can't use them.
+  - type: textarea
+    id: media
+    attributes:
+      label: Screenshot (optional)

@@ -173,11 +173,11 @@ How the world is built, and why, is written down in the **world bible** (`docs/d
 
 ## Online play (the server)
 
-Sign-in, presence, street bins and the Efforts count come from the Rust gateway in [open-world-backend](https://github.com/builders-world/open-world-backend).
+Sign-in, presence, street bins and the Efforts count come from the Rust gateway in [`services/backend`](../../services/backend).
 
-    # in the backend repo: Postgres and Redis up, then
+    # in services/backend: Postgres and Redis up, then
     cargo run -p gateway        # :8080
-    # here
+    # in apps/game
     npm run dev                 # Vite proxies /api to :8080
 
 Signed out, or without a reachable server, the game plays solo with a demo balance and shows no error.

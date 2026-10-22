@@ -1,0 +1,28 @@
+name: Idea or feature
+description: Suggest something new for the world, the game or the project.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What would it let a player do?
+      description: Start from the player and the moment in the game, not the implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your idea
+    validations:
+      required: true
+  - type: textarea
+    id: bible
+    attributes:
+      label: Fit with the world bible (optional)
+      description: Does it touch something the world bible already decides, such as scale, real places, the economy or the art style?
+  - type: checkboxes
+    id: help
+    attributes:
+      label: Help
+      options:
+        - label: I'd like to work on this myself.

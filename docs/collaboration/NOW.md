@@ -2,15 +2,16 @@
 
 The one page any agent (Claude, Codex) or teammate reads first to know what is live, what is in flight and who is on
 what. **Whoever merges, opens or closes a pull request updates this page in the same change.** Last updated:
-12 October 2026 (evening), by Claude.
+22 October 2026, by Claude.
 
 For the full history see [progress.md](progress.md) (everything done, as tables) and [tracker.md](tracker.md) (every
 request, its status, files and commits).
 
 ## The repository
 
-Everything is in **builders-world/builders-world** (since 12 October 2026). The old repositories (`yaba-scene`,
-`open-world-backend`) are frozen copies: do not work in them.
+Everything is in **builders-world/builders-world** (since 12 October 2026), which is **public and open source since
+22 October 2026** (#31): Apache 2.0 code, ODbL city data, CC BY 4.0 art. The old repositories (`yaba-scene`,
+`open-world-backend`) are private, frozen copies: do not work in them.
 
 | Folder | What | Checks |
 |---|---|---|
@@ -42,8 +43,7 @@ whole city streamed round the player, with traffic, people, places to go into an
 | PR | What | Status | Who |
 |---|---|---|---|
 | #6 `chore/codex-visual-qa` | How Codex reviews, tests and finishes alongside Claude | Docs only; Vercel's preview failed to read git (not the code). Waiting for Elvis | Codex |
-| #10 `fix/codex-phone-hud` | Prevent touch toast and movement-stick overlap | Open; build and 46 tests pass; Elvis asked Claude to merge after review | Codex |
-| #31 `chore/open-source` | Licences (Apache 2.0 code, ODbL city data, CC BY 4.0 art), NOTICE, invented skyline brands, private details out of the docs, so the repo can go public | Open; 46 tests and build pass. Backend test edit needs Ayotomide's review | Claude |
+| `docs/public-readme` | A public README with screenshots of the world, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, issue and pull request templates | Docs only. Waiting for Elvis | Claude |
 
 ## In progress (branches not yet in a pull request)
 
@@ -57,9 +57,11 @@ deployment; a city is baked (`scripts/city/prepare.sh`, `bake.mjs`) when it goes
 
 ## Waiting on people
 
-- **Elvis:** once #31 merges and Ayotomide agrees, switch this repository to public (the old two stay private and archived); try the open cities on a phone; archive or delete `yaba-scene`; decisions in the tracker (default avatar, phase 1
+- **Elvis:** archive `yaba-scene` and `open-world-backend`; switch on branch protection for `main` and private vulnerability
+  reporting (Settings, Code security); try the open cities on a phone; decisions in the tracker (default avatar, phase 1
   scope, Red Line overpass, cargo highway, phone apps, laptop browser).
-- **Ayotomide:** OK the repository going public under Apache 2.0, with his commit email visible (#31); point Railway at this repository (root `services/backend`); add https://buildersworld.vercel.app
+- **Ayotomide:** the repository went public under Apache 2.0 on 22 October with his commit email visible (Elvis's
+  decision, #31); please confirm you're happy with that. Point Railway at this repository (root `services/backend`); add https://buildersworld.vercel.app
   to the gateway's `ALLOWED_ORIGINS`.
 
 ## Before you start a task
