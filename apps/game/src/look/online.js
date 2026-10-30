@@ -50,8 +50,8 @@ export function createOnline({ scene, camera, chat, getPlayer, getHeading, getSp
   const isMe = (p) => !!p && ((id && p.id === id) || (gh() && (p.handle === gh() || p.name === `@${gh()}`)));
   const me = () => { let full = null; try { full = JSON.parse(localStorage.getItem('bw-style') || 'null'); } catch { /* */ } return { name: profile?.name || (gh() ? `@${gh()}` : '') || 'Builder', handle: gh(), look: { ...(profile?.avatar || { color: '#e2b13c', style: 'jacket' }), full } }; };
 
-  // what you chose to share when someone profiles you (Settings, Public profile)
-  const publicCard = () => { let c = {}; try { c = JSON.parse(localStorage.getItem('bw-public') || '{}'); } catch { /* */ } return { ...c, commits: c.showCommits ? walletEngine().commits : null }; };
+  // what you chose to share when someone profiles you (Settings, Public profile); usernames and commits leave this device only when their switch is on
+  const publicCard = () => { let c = {}; try { c = JSON.parse(localStorage.getItem('bw-public') || '{}'); } catch { /* */ } const socials = c.showSocials ? {} : { x: '', linkedin: '', dribbble: '', behance: '' }; return { ...c, ...socials, commits: c.showCommits ? walletEngine().commits : null }; };
   const remote = new Map(); // id -> { obj, rig, tag, from, to, t0, lastSay, lastEmote }
   let rtt = 0.15, pending = { say: '', emote: '' }, busy = false, timer = 0, ok = null, fails = 0, latest = [];
   const seenKnock = new Map(), seenAnswer = new Map(), seenPlay = new Map(), started = Date.now();
