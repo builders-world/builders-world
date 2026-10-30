@@ -33,17 +33,28 @@ runs in the browser, with no download and no game engine: three.js, Vite and a s
 
 ## Contents
 
+- [Status](#status)
 - [A tour of the world](#a-tour-of-the-world)
 - [The cities](#the-cities)
 - [What you can do](#what-you-can-do)
+- [What you need to play](#what-you-need-to-play)
 - [Controls](#controls)
 - [Run it locally](#run-it-locally)
+- [Troubleshooting](#troubleshooting)
 - [How it's built](#how-its-built)
+- [Privacy](#privacy)
 - [What's in this repository](#whats-in-this-repository)
 - [Contributing](#contributing)
 - [Still to come](#still-to-come)
 - [Team](#team)
 - [Licences and credits](#licences-and-credits)
+
+## Status
+
+In early development and changing fast, with no versioned releases yet. The
+[live game](https://buildersworld.vercel.app/) is built from `main` and can be a few days behind it. Sign-in, other
+players, chat, street bins and your commit count come from the server. Your Efforts balance is still kept in your
+browser (see [Still to come](#still-to-come)). Signed out, or with no server, you play alone with a demo balance.
 
 ## A tour of the world
 
@@ -151,6 +162,17 @@ Another 129 cities are on the world map as "coming later". Adding one is a good 
 
 The full feature list is in the [game's README](apps/game/README.md#whats-in-it-today).
 
+## What you need to play
+
+- **A browser with WebGL 2.** The game draws with three.js, which no longer supports WebGL 1. There's nothing to
+  install. The automated browser tests run in Chromium, at a desktop size and a phone size.
+- **A keyboard and mouse, a touch screen or a controller.** Touch controls come on by themselves on touch screens.
+  PlayStation and Xbox controllers, and others with the standard layout, work on desktop and on phones.
+- **No minimum hardware.** The targets are 60 frames a second on a mid-range laptop and 30 on a mid-range Android
+  phone. Graphics start on Auto, which reads your graphics chip, memory and cores and picks a tier. On Auto, phones
+  start on Low, or Medium with 6 GB of memory and 8 cores or more. If the frame rate can't hold, the game draws less
+  far detail and lowers the resolution, and on Auto it then drops a tier.
+
 ## Controls
 
 | Key | Does | Key | Does |
@@ -193,6 +215,48 @@ Some useful switches to add to the address:
 The rest are in the [game's README](apps/game/README.md#useful-switches). To run the server for sign-in and other
 players, see [`services/backend`](services/backend/README.md#quick-start) (Rust, PostgreSQL and Redis).
 
+### Run the tests
+
+The game, from `apps/game`. The browser tests start the dev server themselves.
+
+```sh
+npm test                          # unit tests, including a check of every file in cities/
+npx playwright install chromium   # once per machine
+npm run test:browser              # browser tests, at a desktop size and a phone size
+npm run build
+```
+
+The server, from `services/backend`. The second line also runs the PostgreSQL and Redis tests, so start both first
+(the [quick start](services/backend/README.md#quick-start) shows how):
+
+```sh
+cargo test --workspace      # no services needed
+DATABASE_URL=postgres://... REDIS_URL=redis://... cargo test --workspace -- --include-ignored
+```
+
+The full list of checks for a pull request is in [CONTRIBUTING.md](CONTRIBUTING.md#before-you-open-a-pull-request).
+
+## Troubleshooting
+
+**It's slow or it stutters.** Open the phone (Tab), then Settings, Graphics, and pick a lower Quality, or add
+`?quality=low` to the address. "Show frame rate" in the same place puts a counter on screen, so you can see what each
+setting costs.
+
+**The 3D doesn't start, or the world stays blank.** The game needs WebGL 2. Turn on hardware acceleration in your
+browser's settings, update the browser, or try another one. The onboarding says "3D could not start" when this happens.
+Going straight into the world (`?world=1`), the page stays empty and the error is in the browser console.
+
+**No sign-in, no other players, a demo balance.** The game is playing alone. It does this when you're signed out or it
+can't reach the server, and it shows no error. Locally, run the [server](services/backend/README.md#quick-start). GitHub
+sign-in also needs your own GitHub OAuth app, set up with the variables in
+[`.env.example`](services/backend/.env.example). `?offline=1` plays alone on purpose.
+
+**Signed in, but nobody else is there.** You see the builders in the same area as you who have been online in the last
+12 seconds.
+
+**On a phone.** If the touch controls are missing or in the way, set Settings, Controls, Touch controls to On or Off. If
+it runs slowly, pick Low in Settings, Graphics.
+
 ## How it's built
 
 ```mermaid
@@ -231,6 +295,27 @@ flowchart LR
 - **The [world bible](docs/design/world-bible.md) is the source of truth** for scale, streets, level design, art, game
   logic, UI, writing and performance. The [PRD](docs/product/builders-world-prd.md) decides what the product is; the
   bible decides how it's built.
+
+## Privacy
+
+Signing in is optional. When you sign in with GitHub:
+
+- **The game asks GitHub for no scopes.** It reads your account id, username and name, and nothing else. It can't see
+  your code or private repositories. The GitHub token is used once for that and isn't kept.
+- **The server stores your account and your profile.** That's your GitHub id, username and name (refreshed each time
+  you sign in), and what you choose at arrivals, in the wardrobe and for your public profile, so it follows you to
+  other devices. Your session lasts 30 days. The server keeps only a hash of the session token, and signing out ends
+  it.
+- **Players in the same area see you.** They see your GitHub username and name, your position, look and pet, your
+  in-game home address, the last thing you said or emoted, and, if you turn it on, the track you're playing on
+  Spotify. The game sends this to the server about once a second. Others stop seeing you 12 seconds after you leave,
+  and the server deletes it about a minute later.
+- **Your public profile is yours to fill.** Your role and socials show only if you fill them in, and your socials and
+  commit count only if you switch them on, in Settings, Public profile. Leave a box empty to keep it private.
+- **Funding a street bin is public.** Your GitHub username shows beside the bins you help pay for.
+- **Your wallet stays in your browser,** with your settings.
+
+[SECURITY.md](SECURITY.md) has the details and how to report a problem.
 
 ## What's in this repository
 
