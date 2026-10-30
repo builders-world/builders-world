@@ -253,7 +253,7 @@ impl Report {
             home: text::clean(incoming.home.as_ref(), 80),
             np: now_playing(incoming.np.as_ref()),
             pet: pet(incoming.pet.as_ref()),
-            card: card(incoming.card.as_ref()),
+            card: shared(card(incoming.card.as_ref())),
             say: (!say.is_empty()).then_some(Said { text: say, at: now }),
             emote: (!emote.is_empty()).then_some(Emote { emoji: emote, at: now }),
             knock: knock(incoming.knock.as_ref(), now),
@@ -341,6 +341,15 @@ pub(super) fn card(value: Option<&Value>) -> Card {
         show_commits,
         commits,
     }
+}
+
+/// What other players see of a card. The usernames go out only when the player switched their socials on, whatever the browser
+/// sent. Only presence blanks them: the saved profile is private to its owner and keeps them for the next time the switch is on.
+fn shared(card: Card) -> Card {
+    if card.show_socials {
+        return card;
+    }
+    Card { x_handle: String::new(), linkedin: String::new(), dribbble: String::new(), behance: String::new(), ..card }
 }
 
 pub(super) fn pet(value: Option<&Value>) -> Option<Pet> {
@@ -496,6 +505,25 @@ mod tests {
         assert_eq!(hidden.card.commits, None);
         let shown = report(json!({ "id": "player-0001", "card": { "showCommits": true, "commits": 9_999_999, "showSocials": true, "x": "a b/c" } }));
         assert_eq!((shown.card.commits, shown.card.show_socials, shown.card.x_handle.as_str()), (Some(100_000), true, "abc"));
+    }
+
+    #[test]
+    fn the_shared_card_shows_socials_only_when_asked() {
+        let socials = json!({ "role": "Dev", "x": "ada", "linkedin": "ada-l", "dribbble": "ada_d", "behance": "ada.b" });
+        let handles = |card: &Card| [card.x_handle.clone(), card.linkedin.clone(), card.dribbble.clone(), card.behance.clone()];
+        for switch in [Some(json!(false)), Some(json!("true")), Some(json!(1)), Some(Value::Null), None] {
+            let mut sent = socials.clone();
+            if let Some(switch) = switch {
+                sent["showSocials"] = switch;
+            }
+            let hidden = report(json!({ "id": "player-0001", "card": sent }));
+            assert_eq!(handles(&hidden.card), ["", "", "", ""]);
+            assert_eq!((hidden.card.show_socials, hidden.card.role.as_str()), (false, "Dev"));
+        }
+        let mut sent = socials;
+        sent["showSocials"] = json!(true);
+        let shown = report(json!({ "id": "player-0001", "card": sent }));
+        assert_eq!(handles(&shown.card), ["ada", "ada-l", "ada_d", "ada.b"]);
     }
 
     #[test]

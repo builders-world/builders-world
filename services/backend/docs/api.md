@@ -49,6 +49,8 @@ colours must be `#rrggbb`, and wardrobe, pet and game values must be known ones 
 Answer: `{ "you": "<id>", "online": 2, "players": [ … ] }`. Each player carries the same fields as a report, plus `t`, when they last reported (ms). Players are those
 in the same district who reported in the last 12 seconds, newest first, at most 60. `say`, `emote`, `knock`, `answer` and `play` stay on a player until replaced,
 each with its own `t`, so the game shows each one once.
+A player's `card` carries their `x`, `linkedin`, `dribbble` and `behance` usernames only when `showSocials` is true, and `commits` only when `showCommits` is true;
+otherwise they come back as `""` and `null`.
 
 Limit: 120 reports a minute per person.
 
