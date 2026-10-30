@@ -33,21 +33,12 @@ runs in the browser, with no download and no game engine: three.js, Vite and a s
 
 ## Contents
 
-- [Status](#status)
-- [A tour of the world](#a-tour-of-the-world)
-- [The cities](#the-cities)
-- [What you can do](#what-you-can-do)
-- [What you need to play](#what-you-need-to-play)
-- [Controls](#controls)
-- [Run it locally](#run-it-locally)
-- [Troubleshooting](#troubleshooting)
-- [How it's built](#how-its-built)
-- [Privacy](#privacy)
-- [What's in this repository](#whats-in-this-repository)
-- [Contributing](#contributing)
-- [Still to come](#still-to-come)
-- [Team](#team)
-- [Licences and credits](#licences-and-credits)
+| The world | Playing | Building | Project |
+|:--|:--|:--|:--|
+| [Status](#status) | [What you need to play](#what-you-need-to-play) | [Run it locally](#run-it-locally) | [Contributing](#contributing) |
+| [A tour of the world](#a-tour-of-the-world) | [Controls](#controls) | [Run the tests](#run-the-tests) | [Still to come](#still-to-come) |
+| [The cities](#the-cities) | [Troubleshooting](#troubleshooting) | [How it's built](#how-its-built) | [Team](#team) |
+| [What you can do](#what-you-can-do) | [Privacy](#privacy) | [What's in this repository](#whats-in-this-repository) | [Licences and credits](#licences-and-credits) |
 
 ## Status
 
