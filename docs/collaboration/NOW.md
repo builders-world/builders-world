@@ -44,7 +44,7 @@ whole city streamed round the player, with traffic, people, places to go into an
 | PR | What | Status | Who |
 |---|---|---|---|
 | #6 `chore/codex-visual-qa` | How Codex reviews, tests and finishes alongside Claude | Docs only; Vercel's preview failed to read git (not the code). Waiting for Elvis | Codex |
-| #38 `feat/cloudflare` | The game moves from Vercel to Cloudflare Workers (free plan): static build, a Worker forwarding `/api` to the gateway, `docs/cloudflare.md`. Closes #37 | Preview live at the new address. Sign-in waits on the outside changes below | Claude |
+| #38 `feat/cloudflare` | The game moves from Vercel to Cloudflare Workers (free plan): static build, a Worker forwarding `/api` to the gateway, `docs/cloudflare.md`. Closes #37 | Preview live at the new address, playing solo. Online play waits on a gateway and the outside changes below | Claude |
 | `docs/public-readme` | A public README with screenshots of the world, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, issue and pull request templates | Docs only. Waiting for Elvis | Claude |
 
 ## In progress (branches not yet in a pull request)
@@ -59,8 +59,8 @@ deployment; a city is baked (`scripts/city/prepare.sh`, `bake.mjs`) when it goes
 
 ## Waiting on people
 
-- **Elvis (Cloudflare move, #37):** bring the gateway back on Railway (on 20 November it answered "Application not
-  found"); set the GitHub OAuth app's callback to `https://buildersworld.ledger-trigger.workers.dev/api/auth/oauth/github/callback`;
+- **Elvis (Cloudflare move, #37):** online play is off for now (his decision, 20 November: the gateway answers
+  "Application not found"; the game plays solo). When a gateway answers again: set the GitHub OAuth app's callback to `https://buildersworld.ledger-trigger.workers.dev/api/auth/oauth/github/callback`;
   on the gateway set `GITHUB_REDIRECT_URL` to that address and put `https://buildersworld.ledger-trigger.workers.dev` first in
   `ALLOWED_ORIGINS`; connect Workers Builds. Details in [docs/cloudflare.md](../cloudflare.md).
 - **Elvis:** archive `yaba-scene` and `open-world-backend`; switch on branch protection for `main` and private vulnerability

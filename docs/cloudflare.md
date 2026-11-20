@@ -93,14 +93,42 @@ the session or a JSON body (the browser keeps each answer for 10 minutes, the ga
 address in the built JavaScript (it is already public in `vercel.json`). The Worker would still answer the GitHub callback, one request per sign-in, so the OAuth app's callback
 stays on the game's address. The owner decides; this pull request keeps `/api` on the game's address, as on Vercel.
 
+## The gateway (online play)
+
+**State on 20 November 2026:** `https://gateway-production-6518.up.railway.app` answers every path, `/health`
+included, with Railway's `404 {"status":"error","code":404,"message":"Application not found"}` and
+`x-railway-fallback: true`: no service is bound to that address. The owner's decision the same day: leave the online
+parts off for now. The proxy stays in place, with the same mapping as `vercel.json`, so sign-in, other players, street
+bins and the commit count work again the day a gateway answers at that address, with no change here.
+
+**What players get meanwhile** (checked against a build of `main` with the same `/api` forwarding, at 1440 and 390,
+signed out and with a stored session): the game loads and plays solo with the demo balance (25,000 Efforts) and no
+"online" chip, exactly as the reference does. The browser console shows one line, the failed `/api/bins` (and
+`/api/me` when a session is stored, which the game keeps for later), the same as the reference. The sign-in link opens
+the gateway's "Application not found" answer, as it did on Vercel. If the address stops answering at all, the Worker
+answers `502` instead and the game behaves the same (checked locally with `wrangler dev` against a closed port).
+
+**Pointing the proxy at a new gateway:**
+
+1. Put the new gateway's address (`https://...`, no path, no trailing slash) in `vars.GATEWAY` in
+   `apps/game/wrangler.jsonc`. Keep the file the source: a value changed in the Cloudflare dashboard is replaced by the
+   file's at the next `wrangler deploy`.
+2. Deploy from `apps/game`: `npm run build`, then `npx --yes wrangler@4 deploy` (or merge, once Workers Builds is
+   connected).
+3. On the new gateway, set `PUBLIC_URL` to its own address, `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` from the
+   OAuth app, and `GITHUB_REDIRECT_URL` and `ALLOWED_ORIGINS` as in the next section.
+4. Check: `curl -s "https://buildersworld.ledger-trigger.workers.dev/api/bins?district=Yaba"` answers JSON from the
+   gateway instead of "Application not found". Then a person signs in once (`node scripts/verify/bw.mjs login` in
+   `apps/game`) and `node scripts/verify/api.mjs GET /api/me` answers with their account.
+
+For local development, `API_PROXY=<gateway address> npm run dev` points Vite's own `/api` forwarding at it.
+
 ## Changes outside this repository
 
 Sign-in and the API need these on the new address. Nothing in the repository can make them.
 
-1. **Bring the gateway back.** On 20 November 2026 `https://gateway-production-6518.up.railway.app` answered every path
-   with Railway's `404 Application not found` (`x-railway-fallback: true`): no service is bound to that address. Until
-   the gateway is back on Railway (project `yaba-scene`, service `gateway`), the game plays solo everywhere. If it comes
-   back at another address, change `GATEWAY` in `apps/game/wrangler.jsonc` and the gateway's `PUBLIC_URL`.
+1. **A gateway that answers** at the address in `GATEWAY` (above): today's is not bound to a service on Railway
+   (project `yaba-scene`, service `gateway`). Until one answers, the game plays solo everywhere.
 2. **The GitHub OAuth app** whose client ID is the gateway's `GITHUB_CLIENT_ID` on Railway (Elvis's OAuth app, set up
    for #123): set **Authorization callback URL** to
    `https://buildersworld.ledger-trigger.workers.dev/api/auth/oauth/github/callback`
