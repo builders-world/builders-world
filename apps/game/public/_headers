@@ -1,0 +1,9 @@
+# Response headers for Cloudflare Workers static assets (docs/cloudflare.md). Vite copies this file into dist/.
+# Vite names every file it builds into /assets/ after its content, so a file there never changes: browsers keep it a year.
+# Everything else (index.html, the city and district data, music, the asset kit in /assets/yaba-kit/) keeps Cloudflare's
+# default, which checks with the server every time, so a new deploy shows at once.
+/assets/*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*.css
+  Cache-Control: public, max-age=31536000, immutable

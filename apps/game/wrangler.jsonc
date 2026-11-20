@@ -1,0 +1,20 @@
+// The game on Cloudflare Workers, free plan (docs/cloudflare.md). Deploy from apps/game: npm run build, then
+// npx --yes wrangler@4 deploy. Live at https://buildersworld.ledger-trigger.workers.dev
+{
+  "name": "buildersworld",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-11-01",
+  "workers_dev": true,
+  // Where /api goes: the Rust gateway (services/backend) on Railway. Not a secret: the same address vercel.json had.
+  "vars": { "GATEWAY": "https://gateway-production-6518.up.railway.app" },
+  "assets": {
+    // Vite's build. Every file in it is served as it is, free and without running the Worker.
+    "directory": "./dist",
+    "binding": "ASSETS",
+    // Only /api runs the Worker (the proxy); everything else is a static file.
+    "run_worker_first": ["/api", "/api/*"],
+    // As on Vercel (Vite preset, no fallback rewrite): a path with no file is a 404, never index.html, so a missing
+    // .json fails as a 404 instead of coming back as the page.
+    "not_found_handling": "none"
+  }
+}
