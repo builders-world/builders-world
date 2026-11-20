@@ -121,8 +121,10 @@ Sign-in and the API need these on the new address. Nothing in the repository can
      replaces them could not be checked while the gateway was down.
 4. **Spotify:** nothing today (the feature is off). If `VITE_SPOTIFY_CLIENT_ID` is ever set, add
    `https://buildersworld.ledger-trigger.workers.dev/` to the Spotify app's redirect URIs.
-5. **Vercel:** nothing. Its project `buildersworld` also holds `MONGODB_URI` and `MONGODB_DB`, left from the old
-   `yaba-scene` serverless functions; nothing in `apps/game` reads them, so the Cloudflare build needs no secrets.
+5. **Vercel:** nothing is needed for the game. Its GitHub integration still runs on every pull request and fails
+   ("Account is blocked"); disconnecting the repository from the Vercel project removes that red check. The project also
+   holds `MONGODB_URI` and `MONGODB_DB`, left from the old `yaba-scene` serverless functions; nothing in `apps/game`
+   reads them, so the Cloudflare build needs no secrets.
 
 ## Differences from Vercel
 
