@@ -2,7 +2,7 @@
 
 A living, browser-based world for developers and designers, set in real African cities. You arrive, get a home, and live a builder's life: work from hubs, cafés and studios, meet other builders who are online at the same time, and help improve your neighbourhood. Your real work is your currency. Every commit you push on GitHub turns into **Efforts**, the money you spend in the world.
 
-**Play it:** [buildersworld.vercel.app](https://buildersworld.vercel.app/) (the onboarding), or [go straight into the world](https://buildersworld.vercel.app/?world=1).
+**Play it:** [buildersworld.ledger-trigger.workers.dev](https://buildersworld.ledger-trigger.workers.dev/) (the onboarding), or [go straight into the world](https://buildersworld.ledger-trigger.workers.dev/?world=1).
 
 Built with three.js and Vite. There are no game engines, downloads or plug-ins: everything runs in the browser, and almost everything you see is generated from real map data at load.
 
@@ -182,17 +182,19 @@ Sign-in, presence, street bins and the Efforts count come from the Rust gateway 
 
 Signed out, or without a reachable server, the game plays solo with a demo balance and shows no error.
 
-In production, Vercel forwards `/api` to the gateway (`vercel.json`). The gateway's `ALLOWED_ORIGINS` must include the game's address.
+In production, a small Cloudflare Worker forwards `/api` to the gateway (`worker/index.js`). The gateway's `ALLOWED_ORIGINS` must include the game's address.
 
 ## Deploying
 
-The live site is the `main` branch on Vercel. The game reads `cities/` from the top of the repository, so Vercel builds
-from the repository root with its Root Directory set to `apps/game` (Project Settings, Build and Deployment). Deploy from
-the root:
+The live site is on Cloudflare Workers (free plan): the build in `dist/` as static files, and `worker/index.js` for
+`/api` (`wrangler.jsonc`). From `apps/game`:
 
-    vercel deploy --prod --build-env VITE_API_URL=https://<gateway domain>
+    npm run build
+    npx --yes wrangler@4 deploy
 
-The root `.vercelignore` uploads only `apps/game` and `cities`.
+[docs/cloudflare.md](../../docs/cloudflare.md) has the rest: deploying from GitHub by itself, the free plan's limits, the
+settings outside the repository that sign-in needs, and how to go back. `vercel.json` and the root `.vercelignore` are
+kept only for going back to Vercel.
 
 `railway.json` and `server.mjs` also serve the build on Railway.
 

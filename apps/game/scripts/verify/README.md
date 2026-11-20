@@ -8,7 +8,7 @@ Chromium, play it a little, take screenshots, and call the API as a signed-in pl
 ```sh
 node scripts/verify/bw.mjs shot --serve --city Lagos --area Yaba
 node scripts/verify/bw.mjs shot --serve --city Nairobi --area "City Centre" --device phone --quality low --aerial
-node scripts/verify/bw.mjs shot --base https://buildersworld.vercel.app --city Accra --area Osu --hour 21
+node scripts/verify/bw.mjs shot --base https://buildersworld.ledger-trigger.workers.dev --city Accra --area Osu --hour 21
 ```
 
 It prints PASS or FAIL, the place, the device, the frame rate, any console errors and failed requests, and the path of
@@ -18,7 +18,7 @@ everything. FAIL means a console error, a failed check or a step that broke.
 | Option | |
 |---|---|
 | `--serve` | start this checkout's own dev server on a free port (a clean worktree is tested as it is) |
-| `--base URL` | a running server instead: `http://127.0.0.1:5182`, a Vercel preview, production |
+| `--base URL` | a running server instead: `http://127.0.0.1:5182`, a Cloudflare preview, production |
 | `--city`, `--area` | where to arrive (`--area "City Centre"`; the city's own spelling from `cities/`) |
 | `--device` | `desktop` (1440×900, the default), `laptop`, `phone` (390×844 with touch), `tablet` |
 | `--quality` | `low`, `medium` (default), `high`, `ultra` |

@@ -2,7 +2,7 @@
 
 The one page any agent (Claude, Codex) or teammate reads first to know what is live, what is in flight and who is on
 what. **Whoever merges, opens or closes a pull request updates this page in the same change.** Last updated:
-22 October 2026, by Claude.
+20 November 2026, by Claude.
 
 For the full history see [progress.md](progress.md) (everything done, as tables) and [tracker.md](tracker.md) (every
 request, its status, files and commits).
@@ -15,13 +15,14 @@ Everything is in **builders-world/builders-world** (since 12 October 2026), whic
 
 | Folder | What | Checks |
 |---|---|---|
-| `apps/game` | The game (three.js + Vite). Live at https://buildersworld.vercel.app | `.github/workflows/game.yml` |
+| `apps/game` | The game (three.js + Vite). Live at https://buildersworld.ledger-trigger.workers.dev (Cloudflare Workers, from #38) | `.github/workflows/game.yml` |
 | `services/backend` | The Rust gateway (Railway). Its own rules: `services/backend/CLAUDE.md` | `.github/workflows/backend.yml` |
 | `cities/<country>/<city>` | Every country and city (after PR #2 merges) | `apps/game/tests/cities.test.js` |
 | `docs/` | PRD, world bible, tracker, this page | |
 
-**Deploys:** Vercel builds `main` by itself (root `apps/game`): merging is going live. Every pull request gets a
-preview link (behind the Vercel login). Nobody runs `vercel deploy` by hand.
+**Deploys:** the game is on Cloudflare Workers, free plan ([docs/cloudflare.md](../cloudflare.md)), since
+buildersworld.vercel.app stopped serving (402) in November 2026. Until Workers Builds is connected to this repository,
+`main` goes live by hand: `npm run build` then `npx --yes wrangler@4 deploy` in `apps/game`.
 
 **How to work:** branch from an up-to-date `main` (`feat/`, `fix/`, `chore/`, `docs/`), conventional commits, open a
 pull request, let both checks pass. Elvis merges (or Claude, if Elvis has allowed it). Never push code to `main`.
@@ -43,6 +44,7 @@ whole city streamed round the player, with traffic, people, places to go into an
 | PR | What | Status | Who |
 |---|---|---|---|
 | #6 `chore/codex-visual-qa` | How Codex reviews, tests and finishes alongside Claude | Docs only; Vercel's preview failed to read git (not the code). Waiting for Elvis | Codex |
+| #38 `feat/cloudflare` | The game moves from Vercel to Cloudflare Workers (free plan): static build, a Worker forwarding `/api` to the gateway, `docs/cloudflare.md`. Closes #37 | Preview live at the new address, playing solo. Online play waits on a gateway and the outside changes below | Claude |
 | `docs/public-readme` | A public README with screenshots of the world, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, issue and pull request templates | Docs only. Waiting for Elvis | Claude |
 
 ## In progress (branches not yet in a pull request)
@@ -57,11 +59,15 @@ deployment; a city is baked (`scripts/city/prepare.sh`, `bake.mjs`) when it goes
 
 ## Waiting on people
 
+- **Elvis (Cloudflare move, #37):** online play is off for now (his decision, 20 November: the gateway answers
+  "Application not found"; the game plays solo). When a gateway answers again: set the GitHub OAuth app's callback to `https://buildersworld.ledger-trigger.workers.dev/api/auth/oauth/github/callback`;
+  on the gateway set `GITHUB_REDIRECT_URL` to that address and put `https://buildersworld.ledger-trigger.workers.dev` first in
+  `ALLOWED_ORIGINS`; connect Workers Builds. Details in [docs/cloudflare.md](../cloudflare.md).
 - **Elvis:** archive `yaba-scene` and `open-world-backend`; switch on branch protection for `main` and private vulnerability
   reporting (Settings, Code security); try the open cities on a phone; decisions in the tracker (default avatar, phase 1
   scope, Red Line overpass, cargo highway, phone apps, laptop browser).
 - **Ayotomide:** the repository went public under Apache 2.0 on 22 October with his commit email visible (Elvis's
-  decision, #31); please confirm you're happy with that. Point Railway at this repository (root `services/backend`); add https://buildersworld.vercel.app
+  decision, #31); please confirm you're happy with that. Point Railway at this repository (root `services/backend`); add https://buildersworld.ledger-trigger.workers.dev
   to the gateway's `ALLOWED_ORIGINS`.
 
 ## Before you start a task

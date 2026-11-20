@@ -8,7 +8,7 @@ inside the game.
 
 ## Ways to contribute
 
-- **Play it and report what breaks.** [buildersworld.vercel.app](https://buildersworld.vercel.app). Open a
+- **Play it and report what breaks.** [buildersworld.ledger-trigger.workers.dev](https://buildersworld.ledger-trigger.workers.dev). Open a
   [bug report](https://github.com/builders-world/builders-world/issues/new/choose) with the city, the area, your device
   and browser, and a screenshot if you can.
 - **Tell us about your city.** If you live in one of the live cities and something looks or sounds wrong (a street name,

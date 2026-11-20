@@ -5,7 +5,7 @@ each player has earned. Reports about any of these are very welcome.
 
 ## Supported versions
 
-The game is deployed continuously from `main` to [buildersworld.vercel.app](https://buildersworld.vercel.app), and the
+The game is deployed from `main` to [buildersworld.ledger-trigger.workers.dev](https://buildersworld.ledger-trigger.workers.dev), and the
 backend from `services/backend`. There are no versioned releases, so only `main` and the live deployment receive fixes.
 
 | Version | Supported |
@@ -64,6 +64,6 @@ own streams, and social engineering of the team.
 
 - Sign-in asks GitHub for no scopes, so the game sees only your public profile (username and name). It can't read
   your code or private repositories.
-- Secrets live only in the hosting providers (Vercel and Railway). [`services/backend/.env.example`](services/backend/.env.example)
+- Secrets live only in the hosting provider (Railway; the game on Cloudflare needs none). [`services/backend/.env.example`](services/backend/.env.example)
   lists every variable with no real values.
 - GitHub Actions workflows run only on pull requests and pushes to `main`, and use no repository secrets.

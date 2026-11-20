@@ -10,3 +10,4 @@ artifacts/motion/
 # downloaded map data for the city bakes (scripts/city/)
 .cache/
 
+.wrangler

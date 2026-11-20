@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  <a href="https://buildersworld.vercel.app/"><b>Play it</b></a> ·
-  <a href="https://buildersworld.vercel.app/?world=1">Straight into the world</a> ·
+  <a href="https://buildersworld.ledger-trigger.workers.dev/"><b>Play it</b></a> ·
+  <a href="https://buildersworld.ledger-trigger.workers.dev/?world=1">Straight into the world</a> ·
   <a href="#a-tour-of-the-world">Tour</a> ·
   <a href="#run-it-locally">Run it locally</a> ·
   <a href="CONTRIBUTING.md">Contribute</a>
@@ -43,7 +43,7 @@ runs in the browser, with no download and no game engine: three.js, Vite and a s
 ## Status
 
 In early development and changing fast, with no versioned releases yet. The
-[live game](https://buildersworld.vercel.app/) is built from `main` and can be a few days behind it. Sign-in, other
+[live game](https://buildersworld.ledger-trigger.workers.dev/) is built from `main` and can be a few days behind it. Sign-in, other
 players, chat, street bins and your commit count come from the server. Your Efforts balance is still kept in your
 browser (see [Still to come](#still-to-come)). Signed out, or with no server, you play alone with a demo balance.
 
@@ -255,8 +255,8 @@ flowchart LR
   subgraph Browser
     G["Game<br/>three.js + Vite"]
   end
-  subgraph Vercel
-    S["Static build<br/>and baked city data"]
+  subgraph Cloudflare
+    S["Static build<br/>and baked city data,<br/>/api forwarded"]
   end
   subgraph Railway
     GW["Gateway (Rust)<br/>sign-in, presence,<br/>bins, Efforts"]
@@ -312,7 +312,7 @@ Signing in is optional. When you sign in with GitHub:
 
 | Folder | What it is | Checks |
 |---|---|---|
-| [`apps/game`](apps/game) | The game (three.js + Vite). Deploys to Vercel from `main` | [`game.yml`](.github/workflows/game.yml): unit tests, build, browser tests |
+| [`apps/game`](apps/game) | The game (three.js + Vite). Deploys to Cloudflare Workers ([docs/cloudflare.md](docs/cloudflare.md)) | [`game.yml`](.github/workflows/game.yml): unit tests, build, browser tests |
 | [`services/backend`](services/backend) | The Rust gateway and jobs. Deploys to Railway | [`backend.yml`](.github/workflows/backend.yml): fmt, clippy, tests, sqlx |
 | [`cities`](cities) | One folder per country and city, with each city's knowledge base | checked by the game's tests |
 | [`assets`](assets) | Blender sources, the procedural model kit, reference art | |
