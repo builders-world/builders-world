@@ -8,7 +8,7 @@ Chromium, play it a little, take screenshots, and call the API as a signed-in pl
 ```sh
 node scripts/verify/bw.mjs shot --serve --city Lagos --area Yaba
 node scripts/verify/bw.mjs shot --serve --city Nairobi --area "City Centre" --device phone --quality low --aerial
-node scripts/verify/bw.mjs shot --base https://buildersworld.ledger-trigger.workers.dev --city Accra --area Osu --hour 21
+node scripts/verify/bw.mjs shot --base https://buildersworld.elvisobi.com --city Accra --area Osu --hour 21
 ```
 
 It prints PASS or FAIL, the place, the device, the frame rate, any console errors and failed requests, and the path of

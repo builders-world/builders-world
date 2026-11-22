@@ -1,10 +1,15 @@
 // The game on Cloudflare Workers, free plan (docs/cloudflare.md). Deploy from apps/game: npm run build, then
-// npx --yes wrangler@4 deploy. Live at https://buildersworld.ledger-trigger.workers.dev
+// npx --yes wrangler@4 deploy. Live at https://buildersworld.elvisobi.com
+// (and https://buildersworld.ledger-trigger.workers.dev)
 {
   "name": "buildersworld",
   "main": "worker/index.js",
   "compatibility_date": "2026-11-01",
+  // The first address, still in links already sent. Keep this line: once routes are listed, wrangler turns
+  // workers.dev off unless it is set here.
   "workers_dev": true,
+  // The short address (22 Nov 2026), a custom domain on the elvisobi.com zone. Listed here so a deploy keeps it.
+  "routes": [{ "pattern": "buildersworld.elvisobi.com", "custom_domain": true }],
   // Where /api goes: the Rust gateway (services/backend) on Railway. Not a secret: the same address vercel.json had.
   "vars": { "GATEWAY": "https://gateway-production-6518.up.railway.app" },
   "assets": {
