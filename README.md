@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  <a href="https://buildersworld.ledger-trigger.workers.dev/"><b>Play it</b></a> ·
-  <a href="https://buildersworld.ledger-trigger.workers.dev/?world=1">Straight into the world</a> ·
+  <a href="https://buildersworld.elvisobi.com/"><b>Play it</b></a> ·
+  <a href="https://buildersworld.elvisobi.com/?world=1">Straight into the world</a> ·
   <a href="#a-tour-of-the-world">Tour</a> ·
   <a href="#run-it-locally">Run it locally</a> ·
   <a href="CONTRIBUTING.md">Contribute</a>
@@ -43,7 +43,7 @@ runs in the browser, with no download and no game engine: three.js, Vite and a s
 ## Status
 
 In early development and changing fast, with no versioned releases yet. The
-[live game](https://buildersworld.ledger-trigger.workers.dev/) is built from `main` and can be a few days behind it. Sign-in, other
+[live game](https://buildersworld.elvisobi.com/) is built from `main` and can be a few days behind it. Sign-in, other
 players, chat, street bins and your commit count come from the server. Your Efforts balance is still kept in your
 browser (see [Still to come](#still-to-come)). Signed out, or with no server, you play alone with a demo balance.
 

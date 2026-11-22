@@ -2,7 +2,7 @@
 
 A living, browser-based world for developers and designers, set in real African cities. You arrive, get a home, and live a builder's life: work from hubs, cafés and studios, meet other builders who are online at the same time, and help improve your neighbourhood. Your real work is your currency. Every commit you push on GitHub turns into **Efforts**, the money you spend in the world.
 
-**Play it:** [buildersworld.ledger-trigger.workers.dev](https://buildersworld.ledger-trigger.workers.dev/) (the onboarding), or [go straight into the world](https://buildersworld.ledger-trigger.workers.dev/?world=1).
+**Play it:** [buildersworld.elvisobi.com](https://buildersworld.elvisobi.com/) (the onboarding), or [go straight into the world](https://buildersworld.elvisobi.com/?world=1).
 
 Built with three.js and Vite. There are no game engines, downloads or plug-ins: everything runs in the browser, and almost everything you see is generated from real map data at load.
 

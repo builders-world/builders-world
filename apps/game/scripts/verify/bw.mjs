@@ -22,7 +22,7 @@ import { fileURLToPath } from 'node:url';
 
 const HERE = dirname(fileURLToPath(import.meta.url)), GAME = resolve(HERE, '../..');
 export const SESSION_FILE = join(homedir(), '.config', 'builders-world', 'session.json');
-export const PROD = 'https://buildersworld.ledger-trigger.workers.dev';
+export const PROD = 'https://buildersworld.elvisobi.com';
 
 // ---------- arguments ----------
 export function parseArgs(argv) {

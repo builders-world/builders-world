@@ -15,7 +15,7 @@ Everything is in **builders-world/builders-world** (since 12 October 2026), whic
 
 | Folder | What | Checks |
 |---|---|---|
-| `apps/game` | The game (three.js + Vite). Live at https://buildersworld.ledger-trigger.workers.dev (Cloudflare Workers, from #38) | `.github/workflows/game.yml` |
+| `apps/game` | The game (three.js + Vite). Live at https://buildersworld.elvisobi.com (Cloudflare Workers, from #38) | `.github/workflows/game.yml` |
 | `services/backend` | The Rust gateway (Railway). Its own rules: `services/backend/CLAUDE.md` | `.github/workflows/backend.yml` |
 | `cities/<country>/<city>` | Every country and city (after PR #2 merges) | `apps/game/tests/cities.test.js` |
 | `docs/` | PRD, world bible, tracker, this page | |
@@ -60,15 +60,15 @@ deployment; a city is baked (`scripts/city/prepare.sh`, `bake.mjs`) when it goes
 ## Waiting on people
 
 - **Elvis (Cloudflare move, #37):** online play is off for now (his decision, 20 November: the gateway answers
-  "Application not found"; the game plays solo). When a gateway answers again: set the GitHub OAuth app's callback to `https://buildersworld.ledger-trigger.workers.dev/api/auth/oauth/github/callback`;
-  on the gateway set `GITHUB_REDIRECT_URL` to that address and put `https://buildersworld.ledger-trigger.workers.dev` first in
-  `ALLOWED_ORIGINS`; connect Workers Builds. Details in [docs/cloudflare.md](../cloudflare.md).
+  "Application not found"; the game plays solo). When a gateway answers again: set the GitHub OAuth app's callback to `https://buildersworld.elvisobi.com/api/auth/oauth/github/callback`;
+  on the gateway set `GITHUB_REDIRECT_URL` to that address and put `https://buildersworld.elvisobi.com` first in
+  `ALLOWED_ORIGINS`, then `https://buildersworld.ledger-trigger.workers.dev` (the game answers at both); connect Workers Builds. Details in [docs/cloudflare.md](../cloudflare.md).
 - **Elvis:** archive `yaba-scene` and `open-world-backend`; switch on branch protection for `main` and private vulnerability
   reporting (Settings, Code security); try the open cities on a phone; decisions in the tracker (default avatar, phase 1
   scope, Red Line overpass, cargo highway, phone apps, laptop browser).
 - **Ayotomide:** the repository went public under Apache 2.0 on 22 October with his commit email visible (Elvis's
-  decision, #31); please confirm you're happy with that. Point Railway at this repository (root `services/backend`); add https://buildersworld.ledger-trigger.workers.dev
-  to the gateway's `ALLOWED_ORIGINS`.
+  decision, #31); please confirm you're happy with that. Point Railway at this repository (root `services/backend`); add https://buildersworld.elvisobi.com
+  and https://buildersworld.ledger-trigger.workers.dev to the gateway's `ALLOWED_ORIGINS`.
 
 ## Before you start a task
 

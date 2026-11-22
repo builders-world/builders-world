@@ -5,7 +5,7 @@ each player has earned. Reports about any of these are very welcome.
 
 ## Supported versions
 
-The game is deployed from `main` to [buildersworld.ledger-trigger.workers.dev](https://buildersworld.ledger-trigger.workers.dev), and the
+The game is deployed from `main` to [buildersworld.elvisobi.com](https://buildersworld.elvisobi.com), and the
 backend from `services/backend`. There are no versioned releases, so only `main` and the live deployment receive fixes.
 
 | Version | Supported |

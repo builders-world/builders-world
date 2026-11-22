@@ -1,7 +1,8 @@
 # The game on Cloudflare
 
 The game (`apps/game`) is served by Cloudflare Workers on the free plan, at
-**https://buildersworld.ledger-trigger.workers.dev**. It moved there from Vercel in November 2026 (#37), when
+**https://buildersworld.elvisobi.com** (a custom domain on the elvisobi.com zone, from 22 Nov 2026). The first address,
+https://buildersworld.ledger-trigger.workers.dev, keeps working: links already sent name it. It moved there from Vercel in November 2026 (#37), when
 `buildersworld.vercel.app` stopped serving (every request answers `402`). The backend (the Rust gateway, `services/backend`)
 stays on Railway.
 
@@ -117,7 +118,7 @@ answers `502` instead and the game behaves the same (checked locally with `wrang
    connected).
 3. On the new gateway, set `PUBLIC_URL` to its own address, `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` from the
    OAuth app, and `GITHUB_REDIRECT_URL` and `ALLOWED_ORIGINS` as in the next section.
-4. Check: `curl -s "https://buildersworld.ledger-trigger.workers.dev/api/bins?district=Yaba"` answers JSON from the
+4. Check: `curl -s "https://buildersworld.elvisobi.com/api/bins?district=Yaba"` answers JSON from the
    gateway instead of "Application not found". Then a person signs in once (`node scripts/verify/bw.mjs login` in
    `apps/game`) and `node scripts/verify/api.mjs GET /api/me` answers with their account.
 
@@ -131,14 +132,14 @@ Sign-in and the API need these on the new address. Nothing in the repository can
    (project `yaba-scene`, service `gateway`). Until one answers, the game plays solo everywhere.
 2. **The GitHub OAuth app** whose client ID is the gateway's `GITHUB_CLIENT_ID` on Railway (Elvis's OAuth app, set up
    for #123): set **Authorization callback URL** to
-   `https://buildersworld.ledger-trigger.workers.dev/api/auth/oauth/github/callback`
-   and **Homepage URL** to `https://buildersworld.ledger-trigger.workers.dev`. An OAuth app has one callback URL, and
+   `https://buildersworld.elvisobi.com/api/auth/oauth/github/callback`
+   and **Homepage URL** to `https://buildersworld.elvisobi.com`. An OAuth app has one callback URL, and
    GitHub refuses a sign-in whose `redirect_uri` is on another host, so this must change.
 3. **The gateway's settings on Railway** (service `gateway`, Variables; names from `services/backend/services/gateway/src/config.rs`):
-   - `GITHUB_REDIRECT_URL` = `https://buildersworld.ledger-trigger.workers.dev/api/auth/oauth/github/callback`
+   - `GITHUB_REDIRECT_URL` = `https://buildersworld.elvisobi.com/api/auth/oauth/github/callback`
      (the same address as the OAuth app's callback; the gateway sends GitHub this `redirect_uri`).
-   - `ALLOWED_ORIGINS`: add `https://buildersworld.ledger-trigger.workers.dev`, first in the list (comma-separated,
-     no trailing slash). Sign-in only sends people back to an origin in this list, and the first one is where it sends
+   - `ALLOWED_ORIGINS`: add `https://buildersworld.elvisobi.com` first in the list, then `https://buildersworld.ledger-trigger.workers.dev`
+     (comma-separated, no trailing slash; the game answers at both). Sign-in only sends people back to an origin in this list, and the first one is where it sends
      them when none is given. `https://buildersworld.vercel.app` can come out.
    - `PUBLIC_URL` stays the gateway's own address. With `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` it is what turns
      sign-in on.
@@ -148,7 +149,7 @@ Sign-in and the API need these on the new address. Nothing in the repository can
      bucket. The Worker sends the player's address in `X-Forwarded-For` and `X-Real-IP`; whether Railway keeps or
      replaces them could not be checked while the gateway was down.
 4. **Spotify:** nothing today (the feature is off). If `VITE_SPOTIFY_CLIENT_ID` is ever set, add
-   `https://buildersworld.ledger-trigger.workers.dev/` to the Spotify app's redirect URIs.
+   `https://buildersworld.elvisobi.com/` to the Spotify app's redirect URIs.
 5. **Vercel:** nothing is needed for the game. Its GitHub integration still runs on every pull request and fails
    ("Account is blocked"); disconnecting the repository from the Vercel project removes that red check. The project also
    holds `MONGODB_URI` and `MONGODB_DB`, left from the old `yaba-scene` serverless functions; nothing in `apps/game`
@@ -158,7 +159,7 @@ Sign-in and the API need these on the new address. Nothing in the repository can
 
 | | Vercel | Cloudflare |
 |---|---|---|
-| Address | `buildersworld.vercel.app` | `buildersworld.ledger-trigger.workers.dev` |
+| Address | `buildersworld.vercel.app` | `buildersworld.elvisobi.com` (and `buildersworld.ledger-trigger.workers.dev`) |
 | Vite's hashed `/assets/*.js` and `*.css` | `max-age=0, must-revalidate` (the Vite preset sets no headers) | kept a year, `immutable` (`_headers`). Everything else, including `/assets/yaba-kit/`, is checked every time on both |
 | `/index.html` | served | a `307` redirect to `/`, query kept (Cloudflare's `html_handling` default). Nothing in the game links to it |
 | A path with no file | `404` with Vercel's page | `404` with an empty body |
